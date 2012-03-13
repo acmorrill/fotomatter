@@ -1,0 +1,230 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+/**************************************************
+	RESET
+**************************************************/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+/**************************************************
+	END RESET
+**************************************************/
+
+/**************************************************
+	GLOBAL STYLES
+**************************************************/
+* {
+	color: #FFF;
+}
+input, textarea, select, option {
+	color: #333;
+}
+label {
+	font-weight: bold;
+	display: block;
+	margin: 0;
+	padding: 0 0 6px 0;
+	font-family: 'Lucida Grande', 'Trebuchet MS','Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif;
+}
+/**************************************************
+	END GLOBAL
+**************************************************/
+
+
+
+/**************************************************
+	REUSABLE
+**************************************************/
+.rounded-corners {
+  -moz-border-radius: 10px; /* Firefox */
+  border-radius: 10px; /* CSS3 */
+}
+.inline {
+	display: inline;
+}
+/**************************************************
+	END REUSABLE
+**************************************************/
+
+
+
+html, body {
+	background-color: #222;
+}
+
+#main .top_links {
+	background: #141414;
+	border-bottom: 1px solid #282828;
+	height: 22px;
+}
+#main .below_links {
+	padding: 33px;
+	padding-top: 20px;
+}
+#header .logo {
+	margin-bottom: 25px;
+}
+#middle {
+	min-height: 400px;
+	background: #303030;
+	padding: 12px;
+	-moz-border-radius-topleft: 0px; /* Firefox */
+	border-top-left-radius: 0px; /* CSS3 */
+}
+
+/**************************************************
+	TOP NAV
+**************************************************/
+#top-navigation {
+	
+}
+#top-navigation li {
+	display: inline-block;
+	vertical-align: bottom;
+	margin-right: 4px;
+	background: #454545;
+	padding: 11px;
+	-moz-border-radius-topleft: 5px; /* Firefox */
+	-moz-border-radius-topright: 5px; /* Firefox */
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	text-align: center;
+}
+#top-navigation li a {
+	font-size: 11px;
+	text-transform: uppercase;
+	text-decoration: none;
+	font-weight: bold;
+	margin: 0;
+	font-family: 'Lucida Grande', 'Trebuchet MS','Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif;
+	text-align: center;
+	color: #AAA;
+}
+#top-navigation li a:hover {
+	color: #FFF;
+}
+#top-navigation li.curr {
+	background: #303030;
+}
+#top-navigation li.curr a {
+	color: #FFF;
+}
+
+
+/**************************************************
+	GENERIC LIST TABLE CSS
+**************************************************/
+.table_header {
+	-moz-border-radius-topleft: 5px; /* Firefox */
+	-moz-border-radius-topright: 5px; /* Firefox */
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	background-color: #454545;
+	padding: 15px;
+	padding-left: 25px;
+	padding-right: 25px;
+}
+.table_header .right {
+	float: right;
+}
+table.list {
+	width: 100%;
+}
+table.list td {
+	background: #222;
+	border: 1px solid #121212;
+	padding: 12px;
+	text-align: center;
+	vertical-align: middle;
+}
+table.list td.first { }
+table.list td.curr { background: #191919; }
+table.list th {
+	background-color: #121212;
+	color: #EEE;
+	border-right: 1px solid #222;
+	font-size: 10px;
+	font-weight: bold;
+	padding: 9px 12px 8px 12px;
+	text-align: center;
+	font-family: 'Lucida Grande', 'Trebuchet MS','Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif;
+	text-transform: uppercase;
+}
+table.list td, table.list th {
+}
+table.list th a { text-decoration: none; }
+table.list th.first {
+}
+table.list th.last {
+	border: 0px;
+}
+table.list th.curr {
+	background: #000;
+}
+table.list th.curr a {
+	padding-right: 15px;
+}
+table.list th.curr.desc a {
+	background: url('/ssp/img/table-sort-arrow-up.png') 100% 1px no-repeat;
+}
+table.list th.curr.asc a {
+	background: url('/ssp/img/table-sort-arrow-down.png') 100% 4px no-repeat;
+}
+table.list td.photo_id { width: 58px; }
+table.list td.photo_image { width: 166px; }
+table.list td.photo_title { width: 185px; }
+table.list td.photo_enabled { width: 92px; }
+table.list td.photo_format { width: 120px; }
+/* img/table-sort-arrow-up.png */
+
+
+
+
+
+
+
+
+
+
