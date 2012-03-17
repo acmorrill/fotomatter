@@ -8,30 +8,52 @@ class AdamShell extends Shell {
         $user['User']['active'] = true;
         $this->User->save();
         $this->User->create($user);
+        
+        App::import("Component", "CloudFiles");
+        $this->files = new CloudFilesComponent();
+        
+        $this->SiteSetting = ClassRegistry::init("SiteSetting");
+        $this->SiteSetting->setVal('image-container-name', 'adam-dev-container');
+        
+        $cdn_info = $this->files->cdn_detail_container('adam-dev-container');
+        $this->SiteSetting->setVal("image-container-url", trim($cdn_info['CDN-URI']) . "/");
+        $this->SiteSetting->setVal("image-container-secure_url", trim($cdn_info['CDN-SSL-URI']) . "/");
+        
+        $all_images = $this->files->list_objects();
+        foreach ($all_images as $image) {
+            $this->files->delete_object($image['name']);
+        }
+        
+        //add some photos
+        $photo_data = array();
+		
+        ////////////////////////////////////////////
+        // add some default photos
+        $this->Photo = ClassRegistry::init("Photo");
+        $lastPhoto = $this->Photo->find('first', array(
+                'order' => 'Photo.id DESC'
+        ));
+        if ($lastPhoto) {
+                $x = $lastPhoto['Photo']['id'];
+        } else {
+                $x = 0;
+        }
+        for (; $x < $lastPhoto['Photo']['id'] + 300; $x++) {
+                $photo_data[$x]['display_title'] = 'Title '.$x;
+                $photo_data[$x]['display_subtitle'] = 'Subtitle '.$x;
+                $photo_data[$x]['description'] = 'description '.$x;
+                $photo_data[$x]['alt_text'] = $photo_data[$x]['display_subtitle'];
+                $photo_data[$x]['enabled'] = 1;
+                $photo_data[$x]['photo_format_id'] = rand(1, 5);
+        }
+        $this->Photo->saveAll($photo_data);
     }
     
     public function test_api() {
         App::import("Component", "CloudFiles");
         $this->files = new CloudFilesComponent();
+        
+        debug($this->files->cdn_detail_container('adam-dev-container'));
      
-        debug($this->files->list_objects());
-       
-       // debug($this->files->detail_object('andrew-dev-container'));
-        //debug($this->files->cdn_list_containers());
-        
-        
-       // $this->files->copy_object("MichelleCellPhone", "copytest3.jpg", "test.jpg");
-        
-        //$image = $this->files->get_object('MichelleCellPhone', 'Image12212010113102.jpg');
-        //var_dump($this->files->put_object('EmeraldFlow.jpg', '/home/acmorrill/Downloads/A Tangerine Blue small (1).tif', 'image/jpeg'));
-        
-       // file_put_contents('Image12212010113102.jpg', $image);
-       // debug($this->files->list_objects('MichelleCellPhone'));
-        //debug($this->files->delete_container('adam_test_1'));
-     //  debug($this->files->list_cdn_containers());
-//       debug($this->files->list_containers());
-      
-     //debug($this->files->detail_object('MichelleCellPhone', 'test.jpg'));
-        debug($this->files->list_objects());
     }
 }
