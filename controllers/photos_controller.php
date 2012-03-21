@@ -19,7 +19,7 @@ class PhotosController extends AppController {
 
 	public function admin_index() {
 		$data = $this->paginate('Photo');    
-		$imageContainerUrl = $this->SiteSetting->getVal('image-container-url');
+		$imageContainerUrl = $this->SiteSetting->getImageContainerUrl();
 		$this->set(compact('data', 'imageContainerUrl'));
 	}
 	

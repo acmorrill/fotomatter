@@ -73,10 +73,12 @@ class PhotoCache extends AppModel {
 		// get a cache smaller than width
 		else if ($onlyWidth) {
 			$folder = $width;
+			$height = '';
 		} 
 		// get a cache smaller than height
 		else if ($onlyHeight) {
 			$folder = 'x'.$height;
+			$width = '';
 		} 
 		// get a cache smaller than width and height
 		else if ($bothSet) {
@@ -92,8 +94,11 @@ class PhotoCache extends AppModel {
 				mkdir($cache_path.DS.$folder, 0775);
 			}
 			
-			$imageMagickCommand = 'convert '.escapeshellarg($dummy_image_path).' -resize '.$folder.' '.escapeshellarg($image_path).' ';
-			shell_exec($imageMagickCommand);
+			if ($this->convert($dummy_image_path, $image_path, $width, $height) == false) {
+				$this->major_error('failed to create dummy image cache in get_dummy_image_path', array($dummy_image_path, $image_path, $width, $height));
+			}
+			/*$imageMagickCommand = 'convert '.escapeshellarg($dummy_image_path).' -resize '.$folder.' '.escapeshellarg($image_path).' ';
+			shell_exec($imageMagickCommand);*/
 		}
 		
 		if ($direct_output == false) {
@@ -125,7 +130,7 @@ class PhotoCache extends AppModel {
 			'fields' => array('PhotoCache.cdn-filename')
 		));
 		
-		return $this->SiteSetting->getVal('image-container-url', '').$photo_cache['PhotoCache']['cdn-filename'];
+		return $this->SiteSetting->getImageContainerUrl().$photo_cache['PhotoCache']['cdn-filename'];
 	}
 	
 	public function prepare_new_cachesize($photo_id, $height, $width) {
@@ -189,19 +194,32 @@ class PhotoCache extends AppModel {
 		if (empty($photoCache['Photo']['cdn-filename-forcache']) || empty($photoCache['Photo']['cdn-filename'])) {
 			$this->major_error('Tried to create a cache file for a photo with no image attached', $photoCache);
 			if ( !empty($photoCache['PhotoCache']['max_height']) || !empty($photoCache['PhotoCache']['max_width']) ) {
+				$photoCache['PhotoCache']['status'] = 'failed';
+				$this->save($photoCache);
 				return $this->get_dummy_error_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], true);
-			} else {
-				exit();
-			}
+			} 
+			
+			exit();
 		}
 		
 		if (is_writable(TEMP_IMAGE_PATH)) {
-			$large_image_url = ClassRegistry::init("SiteSetting")->getVal('image-container-url').$photoCache['Photo']['cdn-filename-forcache'];
+			$large_image_url = ClassRegistry::init("SiteSetting")->getImageContainerUrl().$photoCache['Photo']['cdn-filename-forcache'];
 			$cache_image_name = $cache_prefix.$max_height_display.'x'.$max_width_display.'_'.$photoCache['Photo']['cdn-filename'];
 			$new_cache_image_path = TEMP_IMAGE_PATH.DS.$cache_image_name;
 
-			$imageMagickCommand = 'convert '.escapeshellarg($large_image_url).' -resize '.$max_width.'x'.$max_height.' '.escapeshellarg($new_cache_image_path).' ';
-			shell_exec($imageMagickCommand);
+			
+			if ($this->convert($large_image_url, $new_cache_image_path, $max_width, $max_height) == false) {
+				$this->major_error('failed to create new cache file in finish_create_cache', array($large_image_url, $new_cache_image_path, $max_width, $max_height));
+				$photoCache['PhotoCache']['status'] = 'failed';
+				$this->save($photoCache);
+				if ( !empty($photoCache['PhotoCache']['max_height']) || !empty($photoCache['PhotoCache']['max_width']) ) {
+					return $this->get_dummy_error_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], true);
+				} 
+				
+				exit();
+			}
+			/*$imageMagickCommand = 'convert '.escapeshellarg($large_image_url).' -resize '.$max_width.'x'.$max_height.' '.escapeshellarg($new_cache_image_path).' ';
+			shell_exec($imageMagickCommand);*/
 
 			$newcache_size = getimagesize($new_cache_image_path);
 			list($newcache_width, $newcache_height, $newcache_type, $newcache_attr) = $newcache_size;
@@ -293,5 +311,21 @@ class PhotoCache extends AppModel {
 		}
 		
 		return $this->CloudFiles;
+	}
+	
+	public function convert($old_image_url, $new_image_path, $max_width, $max_height) {
+		$imageMagickCommand = 'convert '.escapeshellarg($old_image_url).' -resize '.$max_width.'x'.$max_height.' '.escapeshellarg($new_image_path).' ';
+		$info = array();
+		$info['output'] = array();
+		$info['return_var'] = 0;
+		exec($imageMagickCommand, $info['output'], $info['return_var']);
+		
+		if ($info['return_var'] != 0) {
+			$this->major_error('image magick command failed', $info);
+			
+			return false;
+		}
+		
+		return true;
 	}
 }
