@@ -102,7 +102,7 @@ class Photo extends AppModel {
 					$max_width = 1500; // TODO - read from a global setting
 					$max_height = 1500;
 					
-					$new_image_url = ClassRegistry::init("SiteSetting")->getVal('image-container-url').$file_name;
+					$new_image_url = ClassRegistry::init("SiteSetting")->getImageContainerUrl().$file_name;
 					$cache_image_name = $master_cache_prefix.$file_name;
 					
 					$this->data['Photo']['cdn-filename-forcache'] = $cache_image_name;
@@ -113,8 +113,11 @@ class Photo extends AppModel {
 					// the command line image magick way
 					$image_file_name = $this->random_num();
 					$new_image_temp_path = TEMP_IMAGE_PATH.DS.$image_file_name;
-					$imageMagickCommand = 'convert '.escapeshellarg($new_image_url).' -resize '.$max_width.'x'.$max_height.' '.escapeshellarg($new_image_temp_path).' ';
-					shell_exec($imageMagickCommand);
+					if ($this->PhotoCache->convert($new_image_url, $new_image_temp_path, $max_width, $max_height) == false) {
+						$this->major_error('failed to create mastercache file in photo beforeSave', array($new_image_url, $new_image_temp_path, $max_width, $max_height));
+					}
+					/*$imageMagickCommand = 'convert '.escapeshellarg($new_image_url).' -resize '.$max_width.'x'.$max_height.' '.escapeshellarg($new_image_temp_path).' ';
+					shell_exec($imageMagickCommand);*/
 					
 					
 					if (!file_exists($new_image_temp_path)) {
@@ -191,7 +194,7 @@ class Photo extends AppModel {
 			'fields' => array('Photo.cdn-filename')
 		));
 		
-		return $this->SiteSetting->getVal('image-container-url', '').$photo['Photo']['cdn-filename'];
+		return $this->SiteSetting->getImageContainerUrl().$photo['Photo']['cdn-filename'];
 	}
 	
 	public function get_valid_filename($name) {
