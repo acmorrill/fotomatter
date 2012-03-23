@@ -1,6 +1,6 @@
 <?php
-class GalleriesController extends AppController {
-	var $name = 'Galleries';
+class PhotoGalleriesController extends AppController {
+	var $name = 'PhotoGalleries';
 	var $uses = array();
 
 	public function  beforeFilter() {
@@ -10,7 +10,7 @@ class GalleriesController extends AppController {
 	}
 
 	public function admin_index() {
-
+		
 	}
 	 
 }
