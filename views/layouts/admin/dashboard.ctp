@@ -4,9 +4,7 @@
 	<title><?php __('Admin Dashboard'); ?></title>
 	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
 	<style media="all" type="text/css">@import "/css/admin.css";</style>
-	<script type="text/javascript" src="/js/jquery-1.6.min.js"></script>
-	<script type="text/javascript" src="/js/jquery-ui-1.8.12/js/jquery-ui-1.8.12.custom.min.js"></script>
-	<script type="text/javascript" src="/js/jquery-validation-1.8.0/jquery.validate.min.js"></script>
+	<?php echo $this->Element('admin/global_js'); ?>
 </head>
 <body>
 <div id="main">

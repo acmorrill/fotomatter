@@ -16,7 +16,11 @@ class AppController extends Controller {
      *
      * @access public
      */
-    function beforeFilter(){
+    function beforeFilter() {
+		if (isset($this->params['url']['ajax_autoredirect'])) {
+			$this->Session->write('Auth.redirect', $this->params['url']['ajax_autoredirect']);
+		}
+		
         //Override default fields used by Auth component
         $this->Auth->fields = array('username'=>'email_address','password'=>'password');
         //Set application wide actions which do not require authentication

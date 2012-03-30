@@ -8,6 +8,9 @@ class Photo extends AppModel {
 			'dependent'=> true        
 		)    
 	);
+	public $hasAndBelongsToMany = array(
+		'PhotoGallery'
+	);
 
 	public function beforeDelete() {
 		parent::beforeDelete();

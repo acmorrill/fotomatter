@@ -219,6 +219,7 @@ table.list td.photo_enabled { width: 92px; }
 table.list td.photo_format { width: 120px; }
 /* img/table-sort-arrow-up.png */
 
+table.list .reorder_gallery_grabber { cursor: pointer; }
 
 
 
