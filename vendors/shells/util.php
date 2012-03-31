@@ -1,7 +1,7 @@
 <?php
 
 class UtilShell extends Shell {
-	public $uses = array('User', 'Group', 'Permission', 'Photo', 'SiteSetting');
+	public $uses = array('User', 'Group', 'Permission', 'Photo', 'SiteSetting', 'PhotoGallery', 'PhotoGalleriesPhoto');
 	
 		///////////////////////////////////////////////////////////////
 	/// shell start
@@ -42,6 +42,7 @@ class UtilShell extends Shell {
 		$this->SiteSetting->setVal('image-container-name', 'andrew-dev-container');
 		
 		$this->Photo->deleteAll(array("1=1"), true, true);
+		$this->PhotoGallery->deleteAll(array("1=1"), true, true);
 		
 		
 		App::import("Component", "CloudFiles");
@@ -65,6 +66,7 @@ class UtilShell extends Shell {
 		if ($lastPhoto) {
 			$x = $lastPhoto['Photo']['id'];
 		} else {
+			$lastPhoto['Photo']['id'] = 0;
 			$x = 0;
 		}
 		for (; $x < $lastPhoto['Photo']['id'] + 300; $x++) {
@@ -79,7 +81,43 @@ class UtilShell extends Shell {
 		
 		
 		
-		
+		// add some default galleries and add random photos to them
+		$lastGallery = $this->PhotoGallery->find('first', array(
+			'order' => 'PhotoGallery.id DESC'
+		));
+		if ($lastGallery) {
+			$x = $lastGallery['PhotoGallery']['id'];
+		} else {
+			$x = 0;
+			$lastGallery['PhotoGallery']['id'] = 0;
+		}
+		for (; $x < $lastGallery['PhotoGallery']['id'] + 50; $x++) {
+			$gallery_data['PhotoGallery']['display_name'] = 'Name '.$x;
+			$gallery_data['PhotoGallery']['description'] = 'description '.$x;
+			$this->PhotoGallery->create();
+			$this->PhotoGallery->save($gallery_data);
+			
+			$limit = rand(0, 10);
+			if ($limit > 0) {
+				$randomPhotoIds = $this->Photo->find('list', array(
+					'fields' => 'id',
+					'order' => 'RAND()',
+					'limit' => $limit
+				));
+			} else {
+				$randomPhotoIds = array();
+			}
+				
+			foreach ($randomPhotoIds as $randomPhotoId) {
+				$photo_gallery_photo['PhotoGalleriesPhoto'] = array(
+					'photo_id' => $randomPhotoId,
+					'photo_gallery_id' => $this->PhotoGallery->id
+				);
+				
+				$this->PhotoGalleriesPhoto->create();
+				$this->PhotoGalleriesPhoto->save($photo_gallery_photo);
+			}
+		}
 	}
 	
 	public function list_cloudfiles() {
