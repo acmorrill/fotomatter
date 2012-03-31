@@ -28,11 +28,13 @@ class RackspaceObj extends Object {
      */
     protected function _authenticate() {
         $this->ServerSetting = ClassRegistry::init("ServerSetting");
-        $username = $this->ServerSetting->getVal("rackspace_api_username");
-        if ($username === false) return false;
+        $username = $this->ServerSetting->getVal("rackspace_api_username", false);
 
-        $key = $this->ServerSetting->getVal("rackspace_api_key");
-        if ($key === false) return false;
+        $key = $this->ServerSetting->getVal("rackspace_api_key", false);
+        if ($username == false || $key == false) {
+            $this->ServerSetting->major_error("Rackspace credentials missing.");
+            return false;
+        }
         
         $authUrl = "https://auth.api.rackspacecloud.com/v1.0";
         $authHeaders = array(
@@ -47,6 +49,12 @@ class RackspaceObj extends Object {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         $response = curl_exec($ch);
         curl_close($ch);
+        
+        if (preg_match("/^HTTP\/1.1 401 Unauthorized/", $response)) {
+            $this->ServerSetting->major_error("Rackspace credentials invalid");
+            return false;
+        }
+        
         if (preg_match("/^HTTP\//", $response)) {
             preg_match("/X-Auth-Token: (.*)/", $response, $matches);
             $this->_access_token = $matches[1];
@@ -61,11 +69,8 @@ class RackspaceObj extends Object {
             $this->_storage_token = $matches[1];
         
             preg_match("/X-CDN-Management-Url: (.*)/", $response, $matches);
-            $this->_apiEndPoint['cdn'] = $matches[1];
-            
-        } else {
-            return false;
-        }
+            $this->_apiEndPoint['cdn'] = $matches[1];  
+        } 
         return true;
     }
     
@@ -80,22 +85,6 @@ class RackspaceObj extends Object {
         if ($this->_is_authenticated() === false) {
             return $this->_authenticate();
         }
-        //this function should be called to test authenticatin in a unit test, so therefore we should never arrive here
-        return false;
-    }
-    
-    protected function _make_test_call(){
-        $ch = curl_init();
-        $httpHeaders = array(
-                "X-Auth-Token: 84222853-a8cc-4ad6-8ad4-698394af3f4b"
-        );
-        curl_setopt($ch, CURLOPT_URL, 'https://cdn2.clouddrive.com/v1/MossoCloudFS_1a4d3f59-e6bc-49ce-95fe-5cc0c7db3426/?format=json');
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $httpHeaders);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-
-        $jsonResponse = curl_exec($ch);
-        debug($jsonResponse);
-        
     }
     
     /**
@@ -150,9 +139,7 @@ class RackspaceObj extends Object {
                 }
         }
         $jsonUrl = trim($this->_apiEndPoint[$apiEndpointType]) . $url;
-        if ($apiEndpointType == 'server') {
-            $jsonUrl .= ".json";
-        } elseif (($apiEndpointType == 'storage' || $apiEndpointType == 'cdn') && $method != 'PUT') {
+        if (($apiEndpointType == 'storage' || $apiEndpointType == 'cdn') && $method != 'PUT') {
             $jsonUrl .= "?format=json";
         }
         $httpHeaders = array(
@@ -167,7 +154,7 @@ class RackspaceObj extends Object {
         if ($postData && $method == 'PUT') {
             curl_setopt_array($ch, $postData);
         }
-        if ($postData && $method=='POST') {
+        if ($postData) {
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
                 $httpHeaders[] = "Content-Type: application/json";
         }

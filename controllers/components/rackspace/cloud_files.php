@@ -55,6 +55,7 @@ class CloudFilesComponent extends RackspaceObj {
 		//204 means success
 		//404 means not found
 		//409 means container not empty
+                
 		if (in_array($this->lastResponseStatus, array('204'))) {
 			return true;
 		}
@@ -80,30 +81,36 @@ class CloudFilesComponent extends RackspaceObj {
      */
     public function list_objects($container=false) {
 		if($container === false) {
-			$container_name = $this->_getContainerName();
-			if ($container_name === false) return false;
-			$url = "/".$this->_getContainerName();
-		} else {
-			$url = "/$container";
-		}
+			$container = $this->_getContainerName();
+			if ($container === false) return false;
+		} 
+		$url = "/$container";
+		
 		$response = $this->_makeApiCall('storage',$url,NULL,NULL);
 		return $response;
     }
     
     /**
      * Gets details for a specific object
-	 
+     * @param <string> The name of the object that we want to get details about
+     * @param <string> Specifiy if we are looking in a different container than the default one for the site.  
      */
-    public function detail_object($object_name) {
-		$url = "/".$this->_getContainerName()."/".$object_name;
+    public function detail_object($object_name, $container=false) {
+                if ($container === false) {
+                    $container = $this->_getContainerName();
+                    if ($container === false) return false;
+                }
+		$url = "/".$container."/".$object_name;
 		return $this->_getHeaders('storage', $url, 'HEAD');
     }
     
-    public function get_object($object_name) {
-		$container_name = $this->_getContainerName();
-		if ($container_name === false) return false;
-	
-		$url = "/".$container_name."/".$object_name;
+    public function get_object($object_name, $container=false) {
+               if ($container === false) {
+                    $container = $this->_getContainerName();
+                    if ($container === false) return false;
+                }
+      
+                $url = "/".$container."/".$object_name;
 		$response = $this->_makeApiCall('storage', $url, NULL, 'GET', array(), true);
 		if (in_array($this->lastResponseStatus, array('200'))) {
 			return $response;
@@ -111,11 +118,13 @@ class CloudFilesComponent extends RackspaceObj {
 		return false;
     }
     
-    public function put_object($object_name, $file_path, $mime_type) {
-		$container_name = $this->_getContainerName();
-		if ($container_name === false) return false;
+    public function put_object($object_name, $file_path, $mime_type, $container=false) {
+		if ($container === false) {
+                    $container = $this->_getContainerName();
+                    if ($container === false) return false;
+                }
 	
-		$url = "/".$this->_getContainerName()."/".$object_name;
+		$url = "/".$container."/".$object_name;
 		//the postdata option in this case in extra curl optons needed for the tranfer
 		$file_size = filesize($file_path);
 		$options = array(
@@ -131,6 +140,7 @@ class CloudFilesComponent extends RackspaceObj {
 		);
 		
 		$this->_makeApiCall('storage', $url, $options, 'PUT', $http_headers, true);
+                
 		if (in_array($this->lastResponseStatus, array('201'))) {
 			return true;
 		}
@@ -140,49 +150,26 @@ class CloudFilesComponent extends RackspaceObj {
 		//412 length required
 		//422 checksum error
     }
-	
-	
-    public function put_object_resource($object_name, $img_handle, $file_size, $mime_type) {
-	$url = "/".$this->_getContainerName()."/".$object_name;
-	//the postdata option in this case in extra curl optons needed for the tranfer
-	$options = array(
-	    CURLOPT_INFILE=>$img_handle,
-	    CURLOPT_INFILESIZE=>$file_size,
-	    CURLOPT_CONNECTTIMEOUT=>200
-	);
-	$http_headers = array(
-	    //'ETag: '.md5_file($file_path), // TODO - ask adam if this is ok
-	    "Content-Length: {$file_size}",
-	    "Content-Type: {$mime_type}",
-	    "X-Object-Meta-created-date: ".date("y-m-d H:i:s")
-	);
-	
-	$this->_makeApiCall('storage', $url, $options, 'PUT', $http_headers, true);
-	if (in_array($this->lastResponseStatus, array('201'))) {
-	    return true;
-	}
 
-	$this->log($this->lastResponseStatus, 'put_object_resource');
-	
-	return false;
-	//response codes
-	//201 successful write
-	//412 length required
-	//422 checksum error
-    }
-    
     //if the container souce if different then the destination then specify it with container_source
-    public function copy_object($object_name, $source, $container_source=false) {
-	$url = "/".$this->_getContainerName()."/".$object_name;
-	//the postdata option in this case in extra curl optons needed for the tranfer
-	$options = array(
-	    CURLOPT_CONNECTTIMEOUT=>200
-	);
+    //DEPRECATED
+    /**public function copy_object($object_name, $source, $container_source=false, $container_destination=false) {
+        if ($container_destination === false) {
+            $container_destination = $this->_getContainerName();
+            if ($container_destination === false) return false;
+        }
+	$destination_url = "/".$container_destination."/".$object_name;
+        
 	if ($container_source === false) {
 	    $source_file = $this->_getContainerName() . "/" . $source;
 	} else {
 	    $source_file = $container_source . "/" . $source;
 	}
+        
+        $options = array(
+	    CURLOPT_CONNECTTIMEOUT=>200
+	);
+        
 	$http_headers = array(
 	    "X-Copy-From: $source_file"
 	);
@@ -192,11 +179,16 @@ class CloudFilesComponent extends RackspaceObj {
 	    return true;
 	}
 	return false;
-    }
+    } */
     
-    public function delete_object($object_name) {
-	$url = "/".$this->_getContainerName()."/".$object_name;
+    public function delete_object($object_name, $container=false) {
+        if ($container === false) {
+                    $container = $this->_getContainerName();
+                    if ($container === false) return false;
+                }
+	$url = "/".$container."/".$object_name;
 	$this->_makeApiCall('storage', $url, NULL, 'DELETE');
+       
 	if (in_array($this->lastResponseStatus, array('204'))) {
 	    return true;
 	}
@@ -210,25 +202,22 @@ class CloudFilesComponent extends RackspaceObj {
     
     public function cdn_detail_container($container=false) {
 	if($container === false) {
-	    $url = "/".$this->_getContainerName();
-	} else {
-	    $url = "/$container";
+	    $container = $this->_getContainerName();
 	}
+	$url = "/$container";
+	
 	return $this->_getHeaders('cdn', $url, 'HEAD');
     }
     
-    public function cdn_enable_container($container=false) {
-	if($container === false) {
-	    $url = "/".$this->_getContainerName();
-	} else {
-	    $url = "/$container";
-	}
-	
+    /* Make a container public, probably will not be used as part of the application, but on lunarnexus when a account builds
+     * public function cdn_enable_container($container) {
+        $url = "/$container";
+
 	$this->_makeApiCall('cdn', $url, NULL, 'PUT');
 	if (in_array($this->lastResponseStatus, array('201'))) {
 	    return true;
 	}
 	return false;
-    }
+    } */
 }
 ?>

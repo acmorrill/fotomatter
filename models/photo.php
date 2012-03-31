@@ -140,7 +140,8 @@ class Photo extends AppModel {
 					
 					unlink($new_image_temp_path);
 					
-					/*$handle = fopen($new_image_url, 'rb');
+					/* DEPRECATED
+                                         * $handle = fopen($new_image_url, 'rb');
 					$img = new Imagick();
 					$img->readImageFile($handle);
 					$geo = $img->getImageGeometry();
