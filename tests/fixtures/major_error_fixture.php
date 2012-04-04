@@ -1,5 +1,6 @@
 <?php
 class MajorErrorFixture extends CakeTestFixture {
-    var $name = 'MajorError';
-    var $import = array('model'=>'MajorError', 'records'=>true);
+
+	var $name = "MajorError";
+	var $import = array("model"=>"MajorError", "records"=>"true");
 }
