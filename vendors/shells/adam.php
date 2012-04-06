@@ -56,4 +56,27 @@ class AdamShell extends Shell {
         debug($this->files->cdn_detail_container('adam-dev-container'));
      
     }
+    
+    public function generate_fixtures() {
+        $this->SiteSetting = ClassRegistry::init("SiteSetting");
+        $all_tables = $this->SiteSetting->query("SELECT 
+ table_name AS `default` 
+FROM 
+ information_schema.tables
+WHERE 
+ table_schema = DATABASE()");
+        foreach ($all_tables as $table) {
+            $file_name = Inflector::singularize($table['tables']['default']);
+            $class_name = Inflector::camelize($file_name);
+            $file_name .= '_fixture.php';
+            
+            $output = "<?php\n";
+            $output .= "class ".$class_name."Fixture extends CakeTestFixture {\n";
+            $output .= "\n\t".'var $name = "'.$class_name.'";';
+            $output .= "\n\t".'var $import = array("model"=>"'.$class_name.'", "records"=>"true");';
+            $output .= "\n}";
+            file_put_contents(ROOT.DS.'app'.DS.'tests'.DS.'fixtures'.DS.$file_name, $output);
+            exec("git add ".ROOT.DS.'app'.DS.'tests'.DS.'fixtures'.DS.$file_name);
+        }
+    }
 }
