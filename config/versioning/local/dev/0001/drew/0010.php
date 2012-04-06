@@ -28,6 +28,8 @@ $sqls[] = "ALTER TABLE  `photo_galleries` ADD  `type` ENUM(  'smart',  'standard
 
 $sqls[] = "ALTER TABLE  `photo_galleries` ADD  `weight` INT NOT NULL AFTER  `id`;";
 
+// this is commited
+
 
 
 

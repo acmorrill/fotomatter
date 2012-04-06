@@ -72,7 +72,7 @@
 
 					<td class="gallery_modified"><?php echo date($modified_format, strtotime($curr_gallery['PhotoGallery']['modified'])); ?> </td> 
 					<td class="gallery_created"><?php echo date($created_format, strtotime($curr_gallery['PhotoGallery']['created'])); ?> </td> 
-					<td class="gallery_action last"><a href="/admin/photos/edit/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Edit'); ?></a></td>
+					<td class="gallery_action last"><a href="/admin/photo_galleries/edit_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Edit'); ?></a></td>
 				</tr>
 			<?php endforeach; ?> 
 		</tbody>

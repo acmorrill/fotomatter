@@ -7,12 +7,28 @@ App::import('Lib', 'LazyModel.LazyModel');
  * @package Precious
  */
 class AppModel extends LazyModel {
-	var $actsAs = array(
+	public $actsAs = array(
 		'Containable'
 	);
 	
 	
-	public function major_error($description, $extra_data = null) {
+	/*public function beforeFind($conditions) {
+		if ( !isset($conditions['contain']) ) {
+			$conditions['contain'] = false;
+			$conditions['recursive'] = -1;
+		}
+		
+		return $conditions;
+	}*/
+	
+	
+	/**
+	 *
+	 * @param type $description
+	 * @param type $extra_data
+	 * @param type $severity 
+	 */
+	public function major_error($description, $extra_data = null, $severity = 'normal') {
 		$stackTrace = debug_backtrace(false);
 		
 		$majorError = ClassRegistry::init("MajorError");
@@ -25,13 +41,14 @@ class AppModel extends LazyModel {
 			$location .= " --- Function: ".$stackTrace[1]['function']." --- ";
 		}
 		$data['MajorError']['location'] = $location;
-		$data['MajorError']['line_num'] = isset($stackTrace[1]['line']) ? $stackTrace[1]['line']: '';
+		$data['MajorError']['line_num'] = isset($stackTrace[1]['line']) ? $stackTrace[1]['line']: 1;
 		$data['MajorError']['description'] = $description;
 		if ($extra_data != null) {
 			$data['MajorError']['extra_data'] = print_r($extra_data, true);
 		}
+		$data['MajorError']['severity'] = $severity;
 		
-		@$majorError->save($data);
+		$majorError->save($data);
 	}
 	
 	

@@ -9,6 +9,9 @@ class AppController extends Controller {
      * @access public
      */
     var $components = array('Auth', 'Session');
+	
+	
+	
     /**
      * beforeFilter
      *

@@ -35,7 +35,14 @@ class PhotosController extends AppController {
 			$photo_formats = $this->Photo->PhotoFormat->find('list');
 			$this->set('photoFormats', $photo_formats);
 			
-			$this->data = $this->Photo->findById($id);
+			$this->data = $this->Photo->find('first', array(
+				'conditions' => array(
+					'Photo.id' => $id
+				),
+				'contain' => array(
+					'PhotoFormat'
+				)
+			));
 			//$this->log($this->data, 'photo_edit');
 			if ($id == null) { // adding (default data for when your adding)
 				$this->data['Photo']['enabled'] = 1;
