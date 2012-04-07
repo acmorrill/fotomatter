@@ -41,7 +41,7 @@ class RackspaceObj extends Object {
                 "X-Auth-User: {$username}",
                 "X-Auth-Key: {$key}",
         );
-
+	
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $authUrl);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $authHeaders);
@@ -148,13 +148,12 @@ class RackspaceObj extends Object {
         if (empty($extra_http_headers) === false) {
             $httpHeaders = array_merge($httpHeaders, $extra_http_headers);
         }
-        
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $jsonUrl);
         if ($postData && $method == 'PUT') {
             curl_setopt_array($ch, $postData);
         }
-        if ($postData) {
+        if ($postData && $method=='POST') {
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
                 $httpHeaders[] = "Content-Type: application/json";
         }

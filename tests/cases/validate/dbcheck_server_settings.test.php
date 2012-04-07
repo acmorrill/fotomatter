@@ -14,12 +14,13 @@ class DBCheckServerSettingsTestCase extends CakeTestCase {
      * 7. 
      */
     
+    function start() {
+            parent::start();
+	    require_once(ROOT . "/app/tests/model_helpers/server_setting.test.php");
+	    $this->helper = new ServerSettingTestCaseHelper();
+    }
+	
     public function test_rackspace_creds_exist() {
-        $this->ServerSetting = ClassRegistry::init("ServerSetting");
-        $username = $this->ServerSetting->getVal('rackspace_api_username', false);
-        $this->assertEqual(empty($username), false);
-        
-        $key = $this->ServerSetting->getVal('rackspace_api_key', false);
-        $this->assertEqual(empty($key), false);
+	$this->assertEqual($this->helper->rackspace_creds_exist(), true);
     }
 }

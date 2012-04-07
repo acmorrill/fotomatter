@@ -156,7 +156,7 @@ class CloudFilesTestCase extends CakeTestCase {
     
     public function test_putobjects_return_false() {
         touch(TEMP_IMAGE_PATH . DS . 'test_images' . DS . 'test');
-        $result = $this->CloudFiles->put_object("NA", TEMP_IMAGE_PATH . DS . 'test_images' . DS . 'test', 'image\jpeg', 'invalid-container');
+        $result = $this->CloudFiles->put_object("NA", TEMP_IMAGE_PATH . DS . 'test_images' . DS . 'test', 'image/jpeg', 'invalid-container');
         unlink(TEMP_IMAGE_PATH . DS . 'test_images' . DS . 'test');
         $this->assertEqual($result, false);
     }
@@ -166,6 +166,7 @@ class CloudFilesTestCase extends CakeTestCase {
             $all_files = $this->CloudFiles->list_objects($container['container_name']);
             foreach ($all_files as $file) {
                 $this->assertEqual(in_array($file['name'], $container['files']), true);
+		$this->assertEqual('image/jpeg', $file['content_type']);
             }
         }
     }
@@ -176,11 +177,14 @@ class CloudFilesTestCase extends CakeTestCase {
     }
     
     public function test_delete_objects() {
+	$tmp_images = TEMP_IMAGE_PATH . DS . 'test_images';
         foreach ($this->container_names as $container) {
             foreach ($container['files'] as $file) {
                 $this->CloudFiles->delete_object($file, $container['container_name']);
+		unlink($tmp_images . DS . $file);
             }
         }
+	if (is_dir($tmp_images) === false) rmdir($tmp_images);
     }
     
     public function test_delete_container() {

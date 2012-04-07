@@ -29,7 +29,7 @@ class AdamShell extends Shell {
 		
         ////////////////////////////////////////////
         // add some default photos
-        $this->Photo = ClassRegistry::init("Photo");
+       $this->Photo = ClassRegistry::init("Photo");
         $lastPhoto = $this->Photo->find('first', array(
                 'order' => 'Photo.id DESC'
         ));
@@ -38,7 +38,7 @@ class AdamShell extends Shell {
         } else {
                 $x = 0;
         }
-        for (; $x < $lastPhoto['Photo']['id'] + 300; $x++) {
+        for (; $x < $lastPhoto['Photo']['id'] + 2; $x++) {
                 $photo_data[$x]['display_title'] = 'Title '.$x;
                 $photo_data[$x]['display_subtitle'] = 'Subtitle '.$x;
                 $photo_data[$x]['description'] = 'description '.$x;
@@ -46,14 +46,17 @@ class AdamShell extends Shell {
                 $photo_data[$x]['enabled'] = 1;
                 $photo_data[$x]['photo_format_id'] = rand(1, 5);
         }
-        $this->Photo->saveAll($photo_data);
+        $this->Photo->saveAll($photo_data); 
     }
     
     public function test_api() {
         App::import("Component", "CloudFiles");
         $this->files = new CloudFilesComponent();
+	$test_file = TEMP_IMAGE_PATH . DS . 'test_images' . DS . 'EmeraldFlow.jpg';
+	$this->files->put_object('EmeraldFlow.jpg', $test_file, 'image/jpeg');
+	
         
-        debug($this->files->cdn_detail_container('adam-dev-container'));
+        debug($this->files->list_objects());
      
     }
     
