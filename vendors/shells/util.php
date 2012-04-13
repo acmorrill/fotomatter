@@ -1,7 +1,7 @@
 <?php
 
 class UtilShell extends Shell {
-	public $uses = array('User', 'Group', 'Permission', 'Photo', 'SiteSetting', 'PhotoGallery', 'PhotoGalleriesPhoto');
+	public $uses = array('User', 'Group', 'Permission', 'Photo', 'SiteSetting', 'PhotoGallery', 'PhotoGalleriesPhoto', 'PhotoCache');
 	
 		///////////////////////////////////////////////////////////////
 	/// shell start
@@ -138,7 +138,7 @@ class UtilShell extends Shell {
 	    
 	    foreach($all_objects as $object) {
 		$this->files->delete_object($object['name']);
-	    } 
+	    }
 	    
 	    $local_images = scandir($tmp_images);
 	    $tmp = array();
@@ -158,7 +158,12 @@ class UtilShell extends Shell {
 		}
 	    }
 	    
-	    $this->Photo = ClassRegistry::init("Photo");
+	    
+	    $this->Photo->query("truncate table photos;");
+	    $this->PhotoCache->query("truncate table photo_caches");
+	    
+	   
+	  
 	    foreach($local_images as $image) {
 		$photo_for_db['Photo']['cdn-filename']['tmp_name'] = $tmp_images . DS . $image;
 		$photo_for_db['Photo']['cdn-filename']['name'] = $image;
@@ -175,7 +180,8 @@ class UtilShell extends Shell {
 		debug('photo saved');
 	    }
 	    
-	    $this->PhotoGallery = ClassRegistry::init('PhotoGallery');
+	   
+	    $this->PhotoGallery->query("truncate table photo_galleries");
 	    $lastGallery = $this->PhotoGallery->find('first', array(
 			'order' => 'PhotoGallery.id DESC'
 		));
