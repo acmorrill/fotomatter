@@ -128,6 +128,10 @@ class UtilShell extends Shell {
 	}
 	
 	public function give_me_images() {
+		$this->Photo->query("truncate table photos;");
+	    $this->PhotoCache->query("truncate table photo_caches");
+		$this->PhotoGallery->query("truncate table photo_galleries");
+		
 	    App::import("Component", "CloudFiles");
 	    $this->files = new CloudFilesComponent();
 	    $tmp_images = TEMP_IMAGE_PATH . DS . 'test_images';
@@ -157,14 +161,19 @@ class UtilShell extends Shell {
 		    exec("cd $tmp_images; wget http://c13957077.r77.cf2.rackcdn.com/".$image['name']." > /dev/null 2>&1", $output);
 		}
 	    }
+		
+		$local_images = scandir($tmp_images);
 	    
 	    
-	    $this->Photo->query("truncate table photos;");
-	    $this->PhotoCache->query("truncate table photo_caches");
+
 	    
 	   
 	  
 	    foreach($local_images as $image) {
+		if ($image == '.' || $image=='..') {
+		    continue;
+		}
+			
 		$photo_for_db['Photo']['cdn-filename']['tmp_name'] = $tmp_images . DS . $image;
 		$photo_for_db['Photo']['cdn-filename']['name'] = $image;
 		list($width, $height, $type, $attr) = getimagesize($tmp_images . DS . $image);
@@ -181,7 +190,7 @@ class UtilShell extends Shell {
 	    }
 	    
 	   
-	    $this->PhotoGallery->query("truncate table photo_galleries");
+	    
 	    $lastGallery = $this->PhotoGallery->find('first', array(
 			'order' => 'PhotoGallery.id DESC'
 		));
