@@ -1,7 +1,7 @@
 <?php
 class ServerSettingTestCase extends CakeTestCase {
 	
-    public $fixtures = array('app.server_setting', 'app.major_error');
+    public $fixtures = array('app.server_setting', 'app.major_error', 'app.user');
 
     function start() {
 	parent::start();
@@ -9,6 +9,11 @@ class ServerSettingTestCase extends CakeTestCase {
 	$this->helper = new ServerSettingTestCaseHelper();
 	$this->ServerSetting = ClassRegistry::init("ServerSetting");
     }
+    
+    public function test_check_for_container_name() {
+	$this->assertEqual($this->helper->test_check_for_container_name(), true);
+    }
+    
 
     public function test_rackspace_creds_exist() {
 	$this->assertEqual($this->helper->rackspace_creds_exist(), true);

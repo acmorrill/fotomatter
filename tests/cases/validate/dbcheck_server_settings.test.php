@@ -1,7 +1,8 @@
 <?php
 class DBCheckServerSettingsTestCase extends CakeTestCase {
     
-    var $fixtures = array('app.server_setting');
+    var $fixtures = array('app.server_setting', 'app.major_error', 'app.user', 'app.group', 'app.permission', 'app.groups_permission',
+	'app.groups_user', 'app.site_setting');
     
     /* 
      * Test case... 
@@ -18,6 +19,10 @@ class DBCheckServerSettingsTestCase extends CakeTestCase {
             parent::start();
 	    require_once(ROOT . "/app/tests/model_helpers/server_setting.test.php");
 	    $this->helper = new ServerSettingTestCaseHelper();
+    }
+    
+    public function test_check_for_container_name() {
+	$this->assertEqual($this->helper->test_check_for_container_name(), true);
     }
 	
     public function test_rackspace_creds_exist() {

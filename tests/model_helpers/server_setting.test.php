@@ -6,6 +6,18 @@ class ServerSettingTestCaseHelper extends ModelHelperObj {
 	$this->ServerSetting = ClassRegistry::init("ServerSetting");
     }
     
+    public function test_check_for_container_name() {
+	$this->SiteSetting = ClassRegistry::init("SiteSetting");
+	$image_container_name = $this->SiteSetting->getVal('image-container-name');
+	if (empty($image_container_name)) {
+	    $this->SiteSetting = ClassRegistry::init("SiteSetting");
+	    $this->_record_real_error('Warning: image-container-name does not exist.', $this->SiteSetting->find('all'), 'high');
+	    debug("Warning: image-container-name does not exist.");
+	    return false;
+	}
+	return true;
+    }
+    
     public function rackspace_creds_exist() {
 	$result = true;
 	$username = $this->ServerSetting->getVal('rackspace_api_username', false);

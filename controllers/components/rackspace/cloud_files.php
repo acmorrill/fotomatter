@@ -140,7 +140,6 @@ class CloudFilesComponent extends RackspaceObj {
 		);
 		
 		$this->_makeApiCall('storage', $url, $options, 'PUT', $http_headers, true);
-                
 		if (in_array($this->lastResponseStatus, array('201'))) {
 			return true;
 		}
