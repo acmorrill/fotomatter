@@ -129,5 +129,26 @@ class AppController extends Controller {
         }
         return false;
     }
+	
+	public function element($element_path, $extra_vals = array()) {
+		$this->layout = false;
+		$this->autoRender = false;
+ 
+		/* Set up new view that won't enter the ClassRegistry */
+		$view = new View($this, false);
+		foreach($extra_vals as $key => $extra_val) {
+			$view->set($key, $extra_val);
+		}
+		
+		$view->viewPath = 'elements';
+
+		/* Grab output into variable without the view actually outputting! */
+		return $view->render($element_path);
+	}
+	
+	public function return_json($data) {
+		echo json_encode($data);
+		exit();
+	}
 }
 

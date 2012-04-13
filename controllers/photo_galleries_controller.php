@@ -62,7 +62,7 @@ class PhotoGalleriesController extends AppController {
 				)
 			),
 			'contain' => false,
-			'limit' => 40 // todo - maybe maybe make this a global var cus its used elsewhere as well
+			'limit' => 30 // todo - maybe maybe make this a global var cus its used elsewhere as well
 		));
 		
 		$this->set(compact('not_connected_photos', 'gallery_id'));
@@ -92,24 +92,62 @@ class PhotoGalleriesController extends AppController {
 				'Photo.id >' => $last_photo_id
 			),
 			'contain' => false,
-			'limit' => 40 // todo - maybe maybe make this a global var cus its used elsewhere as well
+			'limit' => 30 // todo - maybe maybe make this a global var cus its used elsewhere as well
 		));
 		
 		
-		$this->autoRender = false;
- 
-		/* Set up new view that won't enter the ClassRegistry */
-		$view = new View($this, false);
-		$view->set(compact('not_connected_photos'));
-		$view->viewPath = 'elements';
-
 		/* Grab output into variable without the view actually outputting! */
 		$returnArr['count'] = count($not_connected_photos);
-		$returnArr['html'] = $view->render('admin/photo/photo_connect_not_in_gallery_photo_cont');
+		$returnArr['html'] = $this->element('admin/photo/photo_connect_not_in_gallery_photo_cont', array(
+			'not_connected_photos' => $not_connected_photos
+		));
 		
 		
-		echo json_encode($returnArr);
-		exit();
+		$this->return_json($returnArr);
+	}
+	
+	public function admin_ajax_movephoto_into_gallery($photo_id, $gallery_id) {
+		$returnArr = array();
+		
+		$the_photo = $this->Photo->find('first', array(
+			'conditions' => array(
+				'Photo.id' => $photo_id
+			),
+			'contain' => false
+		));
+
+		
+		if (!$the_photo) {
+			$this->Photo->major_error('the photo you tried to move did not work');
+			$returnArr['code'] = -1;
+			$returnArr['message'] = 'the photo you tried to move did not work';
+			$this->return_json($returnArr);
+		}
+		
+		if (!$this->PhotoGallery->add_photo_to_gallery($photo_id, $gallery_id)) {
+			$this->Photo->major_error('failed to add a photo to a gallery in admin_ajax_movephoto_into_gallery');
+		}
+		
+//		$returnArr['test'] = array(
+//			'connected_photos' => array($the_photo['Photo'])
+//		);
+//		$this->return_json($returnArr);
+		
+		$html = $this->element('admin/photo/photo_connect_in_gallery_photo_cont', array(
+			'connected_photos' => array($the_photo['Photo'])
+		));
+		
+		if ($html === false) {
+			$this->Photo->major_error('failed to get element in movephoto');
+			$returnArr['code'] = -1;
+			$returnArr['message'] = 'failed to get element in movephoto';
+			$this->return_json($returnArr);
+		}
+		
+		$returnArr['code'] = 1;
+		$returnArr['message'] = 'successfully moved photo into gallery';
+		$returnArr['html'] = $html;
+		$this->return_json($returnArr);
 	}
 	
 	public function admin_edit_gallery_arrange_photos($id) {

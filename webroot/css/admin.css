@@ -57,6 +57,7 @@ table {
 **************************************************/
 * {
 	color: #FFF;
+	font-family: 'Lucida Grande', 'Trebuchet MS','Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif;
 }
 input, textarea, select, option {
 	color: #333;
@@ -75,9 +76,7 @@ label {
 	vertical-align: middle;
 	text-align: center;
 }
-/*.endless_scroll_inner_wrap {
-	height: 100%;
-}*/
+
 /**************************************************
 	END GLOBAL
 **************************************************/
@@ -93,6 +92,15 @@ label {
 }
 .inline {
 	display: inline;
+}
+.right {
+	float: right;
+}
+.left {
+	float: left;
+}
+.clear {
+	clear: both;
 }
 /**************************************************
 	END REUSABLE
@@ -166,7 +174,7 @@ html, body {
 /**************************************************
 	GENERIC LIST TABLE CSS
 **************************************************/
-.table_header {
+.table_header, .table_header_darker {
 	-moz-border-radius-topleft: 5px; /* Firefox */
 	-moz-border-radius-topright: 5px; /* Firefox */
 	border-top-left-radius: 5px;
@@ -176,8 +184,10 @@ html, body {
 	padding-left: 25px;
 	padding-right: 25px;
 }
-.table_header .right {
-	float: right;
+.table_header_darker {
+	background-color: #121212;
+	min-height: 40px;
+	padding: 0px;
 }
 table.list {
 	width: 100%;

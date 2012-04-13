@@ -15,4 +15,8 @@
 			}
 		});
 	});
+	
+	function major_error_recover(message) {
+		alert(message);
+	}
 </script>
