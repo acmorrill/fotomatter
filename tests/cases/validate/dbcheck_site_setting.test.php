@@ -10,6 +10,10 @@ class DBCheckSiteSettingTestCase extends CakeTestCase {
 	    $this->helper = new SiteSettingTestCaseHelper();
 	}
 	
+	function test_check_for_container_name() {
+	    $this->assertEqual($this->helper->test_check_for_container_name(), true);
+	}
+	
         function test_ensure_correct_url() {    
             $this->assertEqual($this->helper->ensure_correct_url(), true);
         }   

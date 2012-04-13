@@ -10,7 +10,7 @@ class CloudFilesTestCase extends CakeTestCase {
         parent::start();
     }
         
-    /*public function test_delete_extra() {
+   /* public function test_delete_extra() {
         $all_containers = $this->CloudFiles->list_containers();
         foreach ($all_containers as $b) {
           
@@ -24,6 +24,14 @@ class CloudFilesTestCase extends CakeTestCase {
             }
         }     
     } */
+    
+    public function test_check_for_container_name() {
+	$this->SiteSetting = ClassRegistry::init("SiteSetting");
+	$image_container_name = $this->SiteSetting->getVal('image-container-name');
+	if (empty($image_container_name)) {
+	    debug("Warning: image-container-name does not exist.");
+	}
+    }
     
     public function test_list_containers() {
         //make sure the api data exists in the database

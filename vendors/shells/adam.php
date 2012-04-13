@@ -52,11 +52,11 @@ class AdamShell extends Shell {
     public function test_api() {
         App::import("Component", "CloudFiles");
         $this->files = new CloudFilesComponent();
-	$test_file = TEMP_IMAGE_PATH . DS . 'test_images' . DS . 'EmeraldFlow.jpg';
-	$this->files->put_object('EmeraldFlow.jpg', $test_file, 'image/jpeg');
+	//$test_file = TEMP_IMAGE_PATH . DS . 'test_images' . DS . 'EmeraldFlow.jpg';
+	//$this->files->put_object('EmeraldFlow.jpg', $test_file, 'image/jpeg');
 	
         
-        debug($this->files->list_objects());
+        debug($this->files->list_containers());
      
     }
     
