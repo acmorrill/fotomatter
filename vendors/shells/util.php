@@ -128,9 +128,9 @@ class UtilShell extends Shell {
 	}
 	
 	public function give_me_images() {
-		$this->Photo->query("truncate table photos;");
+	    $this->Photo->query("truncate table photos;");
 	    $this->PhotoCache->query("truncate table photo_caches");
-		$this->PhotoGallery->query("truncate table photo_galleries");
+	    $this->PhotoGallery->query("truncate table photo_galleries");
 		
 	    App::import("Component", "CloudFiles");
 	    $this->files = new CloudFilesComponent();
