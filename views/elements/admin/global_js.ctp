@@ -2,7 +2,7 @@
 <script type="text/javascript" src="/js/jquery-ui-1.8.12/js/jquery-ui-1.8.12.custom.min.js"></script>
 <script type="text/javascript" src="/js/jquery-validation-1.8.0/jquery.validate.min.js"></script>
 
-
+<LINK href="/js/jquery-ui-1.8.12/css/ui-lightness/jquery-ui-1.8.12.custom.css" rel="stylesheet" type="text/css" />
 
 <script type="text/javascript">
 	/****************************************************************************
@@ -87,7 +87,10 @@
 								duration:duration / 2,
 								complete:function() {
 									$this.animate(origProperties, {
-										duration: duration / 2
+										duration: duration / 2,
+										complete: function() {
+											$this.removeAttr('style');
+										}
 									});
 								}
 							}

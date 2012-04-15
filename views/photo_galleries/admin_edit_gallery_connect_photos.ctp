@@ -165,16 +165,26 @@
 		var photos_to_remove = jQuery('#connect_gallery_photos_cont .in_gallery_photos_cont');
 		photos_to_remove.empty();
 		
-		jQuery.post('/admin/photo_galleries/ajax_removephotos_from_gallery/<?php echo $gallery_id; ?>/', function(data) {
-			if (data.code == 1) {
-				// its all good
+		// remove what will be refreshed shortly -- so they can't add prematurely
+		jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont').empty();
+		
+		jQuery.ajax({
+			 url : '/admin/photo_galleries/ajax_removephotos_from_gallery/<?php echo $gallery_id; ?>/',
+			 success : function (data) {
+				if (data.code == 1) {
+					// its all good
+					
+					jQuery('#connect_gallery_photos_cont .in_gallery_main_cont .empty_help_content').show();
+				} else {
+					jQuery('#connect_gallery_photos_cont .in_gallery_photos_cont').prepend(photos_to_remove);
+					major_error_recover(data.message);
+				}
+			},
+			complete: function(jqXHR, textStatus) {
 				refresh_not_in_gallery_photos();
-				jQuery('#connect_gallery_photos_cont .in_gallery_main_cont .empty_help_content').show();
-			} else {
-				jQuery('#connect_gallery_photos_cont .in_gallery_photos_cont').prepend(photos_to_remove);
-				major_error_recover(data.message);
-			}
-		}, 'json');
+			},
+			dataType: "json"
+		}); 
 	}
 	
 	var cease_fire = false;
@@ -235,7 +245,7 @@ $(function() {
 	});
 	
 	jQuery('#remove_all_gallery_photos').click(function() {
-		remove_all_images_from_gallery();
+		$( "#confirm_empty_gallery" ).dialog('open');
 	});
 
 	/*
@@ -251,8 +261,33 @@ $(function() {
 		}
 	});
 
+	$( "#confirm_empty_gallery" ).dialog({
+		autoOpen: false,
+		resizable: false,
+		height: 200,
+		modal: true,
+		buttons: [
+			{
+				text: "<?php __('Empty Gallery'); ?>",
+				click: function() {
+					console.log ("emptying gallery");
+					remove_all_images_from_gallery();
+				}
+			},
+			{
+				text: "<?php __('Cancel'); ?>",
+				click: function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		]
+	});
 });
 </script>
+
+<div id="confirm_empty_gallery" class="dialog_confirm custom_dialog" title="<?php __('Empty Gallery'); ?>">
+	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span><?php __('Remove all photos from gallery?'); ?></p>
+</div>
 
 <?php //debug($this->data); ?>
 <div id="connect_gallery_photos_cont">

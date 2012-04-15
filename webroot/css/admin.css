@@ -130,6 +130,9 @@ label {
 .empty_help_content a {
 	color: #404040;
 }
+.custom_dialog {
+	display: none;
+}
 /**** END REUSABLE ****************/
 
 
