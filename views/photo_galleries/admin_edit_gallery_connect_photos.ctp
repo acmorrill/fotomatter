@@ -264,13 +264,13 @@ $(function() {
 	$( "#confirm_empty_gallery" ).dialog({
 		autoOpen: false,
 		resizable: false,
-		height: 200,
+		height: 180,
 		modal: true,
 		buttons: [
 			{
 				text: "<?php __('Empty Gallery'); ?>",
 				click: function() {
-					console.log ("emptying gallery");
+					$( this ).dialog( "close" );
 					remove_all_images_from_gallery();
 				}
 			},
@@ -306,7 +306,7 @@ $(function() {
 			<div class="actions" style="float: right;"><img id="refresh_not_in_gallery_photos_button" src="/img/admin/icons/grey_refresh.png" /></div>
 			<h2 style="margin-left: 10px; color: #AAA; background: url('/img/admin/icons/grey_left_arrow.png') center left no-repeat; padding-left: 42px;"><?php __('Website Photos'); ?></h2>
 		</div>
-		<div id="endless_scroll_loading" class="rounded-corners-small"><?php __('Loading'); ?></div>
+		<div id="endless_scroll_loading" class="rounded-corners-small"><span class="default"><?php __('Loading'); ?></span></div>
 		<div class="empty_help_content" style="<?php if (empty($not_connected_photos)): ?>display: block;<?php endif; ?>">
 			<?php __('No photos found <br/> Add photos <a href="/admin/photos">on the photo page</a> or refresh this box'); ?>
 		</div>
