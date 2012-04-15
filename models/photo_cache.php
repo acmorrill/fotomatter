@@ -164,6 +164,23 @@ class PhotoCache extends AppModel {
 			exit();
 		}
 		
+		/*if ($photoCache['PhotoCache']['status'] == 'ready') {
+			$cache_full_path = $this->get_full_path($photoCache['PhotoCache']['id']);
+			
+			header('Content-Description: File Transfer');
+			header("Content-type: $newcache_mime");
+			header('Content-Disposition: attachment; filename='.basename($new_cache_image_path));
+			header('Content-Transfer-Encoding: binary');
+			header('Expires: 0');
+			header('Cache-Control: must-revalidate');
+			header('Pragma: public');
+			header('Content-Length: ' . filesize($cache_full_path));
+			ob_clean();
+			flush();
+			readfile($new_cache_image_path);
+			exit();
+		}*/
+		
 		if ($photoCache['PhotoCache']['status'] != 'queued') {
 			if ( !empty($photoCache['PhotoCache']['max_height']) || !empty($photoCache['PhotoCache']['max_width']) ) {
 				return $this->get_dummy_processing_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], true);

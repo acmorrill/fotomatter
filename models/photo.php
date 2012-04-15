@@ -6,10 +6,13 @@ class Photo extends AppModel {
 	public $hasMany = array(        
 		'PhotoCache' => array(            
 			'dependent'=> true        
-		)    
-	);
-	public $hasAndBelongsToMany = array(
-		'PhotoGallery'
+		),
+		'PhotoGalleriesPhoto' => array(
+			'order' => array(
+				"PhotoGalleriesPhoto.photo_gallery_id" => 'asc'
+			),
+			'dependent' => true
+		)
 	);
 
 	public function beforeDelete() {

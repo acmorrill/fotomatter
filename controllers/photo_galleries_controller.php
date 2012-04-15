@@ -1,7 +1,7 @@
 <?php
 class PhotoGalleriesController extends AppController {
 	var $name = 'PhotoGalleries';
-	var $uses = array('PhotoGallery', 'Photo');
+	var $uses = array('PhotoGallery', 'Photo', 'PhotoGalleriesPhoto');
 	var $helpers = array('Photo');
 
 	public function  beforeFilter() {
@@ -28,7 +28,9 @@ class PhotoGalleriesController extends AppController {
 					'PhotoGallery.id' => $id
 				),
 				'contain' => array(
-					'Photo'
+					'PhotoGalleriesPhoto' => array(
+						'Photo'
+					)
 				)
 			));
  		} else {
@@ -49,11 +51,13 @@ class PhotoGalleriesController extends AppController {
 		$this->data = $this->PhotoGallery->find('first', array(
 			'conditions' => array('PhotoGallery.id' => $gallery_id),
 			'contain' => array(
-				'Photo'
+				'PhotoGalleriesPhoto' => array(
+					'Photo'
+				)
 			)
 		));
 		
-		$photo_ids = Set::extract('/Photo/id', $this->data);
+		$photo_ids = Set::extract('/PhotoGalleriesPhoto/Photo/id', $this->data);
 		
 		$not_connected_photos = $this->Photo->find('all', array(
 			'conditions' => array(
@@ -77,11 +81,13 @@ class PhotoGalleriesController extends AppController {
 		$curr_gallery = $this->PhotoGallery->find('first', array(
 			'conditions' => array('PhotoGallery.id' => $gallery_id),
 			'contain' => array(
-				'Photo'
+				'PhotoGalleriesPhoto' => array(
+					'Photo'
+				)
 			)
 		));
 		
-		$photo_ids = Set::extract('/Photo/id', $curr_gallery);
+		$photo_ids = Set::extract('/PhotoGalleriesPhoto/Photo/id', $curr_gallery);
 		
 		
 		$not_connected_photos = $this->Photo->find('all', array(
@@ -102,6 +108,24 @@ class PhotoGalleriesController extends AppController {
 			'not_connected_photos' => $not_connected_photos
 		));
 		
+		
+		$this->return_json($returnArr);
+	}
+	
+	public function admin_ajax_removephoto_from_gallery($photo_id, $gallery_id) {
+		$returnArr = array();
+		
+		if ($this->PhotoGalleriesPhoto->deleteAll(array(
+			'PhotoGalleriesPhoto.photo_id' => $photo_id,
+			'PhotoGalleriesPhoto.photo_gallery_id' => $gallery_id
+		), true, true)) {
+			$returnArr['code'] = 1;
+			$returnArr['message'] = 'photo removed from gallery';
+		} else {
+			$returnArr['code'] = -1;
+			$returnArr['message'] = 'failed to remove photo from gallery via ajax';
+			$this->Photo->major_error('failed to remove photo from gallery via ajax', compact('photo_id', 'gallery_id'));
+		}
 		
 		$this->return_json($returnArr);
 	}
@@ -128,35 +152,23 @@ class PhotoGalleriesController extends AppController {
 			$this->Photo->major_error('failed to add a photo to a gallery in admin_ajax_movephoto_into_gallery');
 		}
 		
-//		$returnArr['test'] = array(
-//			'connected_photos' => array($the_photo['Photo'])
-//		);
-//		$this->return_json($returnArr);
-		
-		$html = $this->element('admin/photo/photo_connect_in_gallery_photo_cont', array(
-			'connected_photos' => array($the_photo['Photo'])
-		));
-		
-		if ($html === false) {
-			$this->Photo->major_error('failed to get element in movephoto');
-			$returnArr['code'] = -1;
-			$returnArr['message'] = 'failed to get element in movephoto';
-			$this->return_json($returnArr);
-		}
 		
 		$returnArr['code'] = 1;
 		$returnArr['message'] = 'successfully moved photo into gallery';
-		$returnArr['html'] = $html;
 		$this->return_json($returnArr);
 	}
 	
-	public function admin_edit_gallery_arrange_photos($id) {
-		$photo_gallery = $this->PhotoGallery->find('first', array(
-			'conditions' => array('PhotoGallery.id' => $id),
-			'contain' => false,
+	public function admin_edit_gallery_arrange_photos($gallery_id) {
+		$this->data = $this->PhotoGallery->find('first', array(
+			'conditions' => array('PhotoGallery.id' => $gallery_id),
+			'contain' => array(
+				'PhotoGalleriesPhoto' => array(
+					'Photo'
+				)
+			)
 		));
 		
-		$this->set(compact('photo_gallery'));
+		$this->set(compact('gallery_id'));
 	}
 	
 	public function admin_ajax_set_photogallery_order($photoGalleryId, $newOrder) {
@@ -170,8 +182,30 @@ class PhotoGalleriesController extends AppController {
 			$returnArr['message'] = 'failed to change gallery order';
 		}
 		
-		echo json_encode($returnArr);
-		exit();
+		$this->return_json($returnArr);
+	}
+	
+	public function admin_ajax_set_photo_order_in_gallery($photo_gallery_id, $photo_id, $new_order) {
+		$returnArr = array();
+		
+		$PhotoGalleriesPhoto_to_move = $this->PhotoGalleriesPhoto->find('first', array(
+			'conditions' => array(
+				'PhotoGalleriesPhoto.photo_gallery_id' => $photo_gallery_id,
+				'PhotoGalleriesPhoto.photo_id' => $photo_id
+			),
+			'contain' => false
+		));
+		
+		if ($this->PhotoGalleriesPhoto->moveto($PhotoGalleriesPhoto_to_move['PhotoGalleriesPhoto']['id'], $new_order)) {
+			$returnArr['code'] = 1;
+			$returnArr['message'] = '';
+		} else {
+			$returnArr['code'] = -1;
+			$returnArr['message'] = 'failed to arrange photo in a gallery';
+			$this->Photo->major_error('failed to arrange photo in a gallery', compact('photo_gallery_id', 'photo_id', 'new_order'));
+		}
+		
+		$this->return_json($returnArr);
 	}
 	 
 }

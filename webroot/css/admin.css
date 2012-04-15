@@ -48,15 +48,17 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-/**************************************************
-	END RESET
-**************************************************/
+/*** END RESET **********/
+
 
 /**************************************************
 	GLOBAL STYLES
 **************************************************/
 * {
 	color: #FFF;
+	font-family: 'Lucida Grande', 'Trebuchet MS','Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif;
+}
+a, h1, h2, h3, h4, h5, h6 {
 	font-family: 'Lucida Grande', 'Trebuchet MS','Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif;
 }
 input, textarea, select, option {
@@ -76,10 +78,7 @@ label {
 	vertical-align: middle;
 	text-align: center;
 }
-
-/**************************************************
-	END GLOBAL
-**************************************************/
+/***** END GLOBAL *****************/
 
 
 
@@ -89,6 +88,10 @@ label {
 .rounded-corners {
   -moz-border-radius: 10px; /* Firefox */
   border-radius: 10px; /* CSS3 */
+}
+.rounded-corners-small {
+  -moz-border-radius: 7px; /* Firefox */
+  border-radius: 7px; /* CSS3 */
 }
 .inline {
 	display: inline;
@@ -102,12 +105,22 @@ label {
 .clear {
 	clear: both;
 }
+.grey_hr {
+	height: 4px;
+	background-color: #303030;
+	color: #303030;
+	width: 100%;
+	clear: both;
+	margin: 0px;
+	margin-bottom: 3px;
+	margin-top: 3px;
+}
+/**** END REUSABLE ****************/
+
+
 /**************************************************
-	END REUSABLE
+	ADMIN EVERYPAGE STYLES
 **************************************************/
-
-
-
 html, body {
 	background-color: #222;
 }
@@ -119,10 +132,11 @@ html, body {
 }
 #main .below_links {
 	padding: 33px;
-	padding-top: 20px;
 }
 #header .logo {
-	margin-bottom: 25px;
+	position: absolute;
+	top: 19px;
+	right: 100px;
 }
 #middle {
 	min-height: 400px;
@@ -131,6 +145,9 @@ html, body {
 	-moz-border-radius-topleft: 0px; /* Firefox */
 	border-top-left-radius: 0px; /* CSS3 */
 }
+/***** END ADMIN EVERYPAGE STYLES ********************** /
+
+
 
 /**************************************************
 	TOP NAV
@@ -169,6 +186,7 @@ html, body {
 #top-navigation li.curr a {
 	color: #FFF;
 }
+/*** END TOP NAV ****/
 
 
 /**************************************************
@@ -183,11 +201,16 @@ html, body {
 	padding: 15px;
 	padding-left: 25px;
 	padding-right: 25px;
+	overflow: hidden;
 }
 .table_header_darker {
 	background-color: #121212;
 	min-height: 40px;
 	padding: 0px;
+}
+.table_header h2, .table_header_darker h2 {
+	margin: 15px;
+	font-size: 17px;
 }
 table.list {
 	width: 100%;
@@ -240,6 +263,7 @@ table.list td.photo_format { width: 120px; }
 /* img/table-sort-arrow-up.png */
 
 table.list .reorder_gallery_grabber { cursor: pointer; }
+/**** END GENERIC LIST TABLE CSS ****/
 
 
 /**************************************************
@@ -271,8 +295,90 @@ div#sub-nav ul li.spacer {width:21px; margin-right:10px}
 div#sub-nav ul li a:hover, 
 div#sub-nav ul li.selected a, 
 div#sub-nav ul li.title a { color: #fff; }
+/**** GENERIC SUB-NAV ****/
 
 
+/************************************************
+	GALLERY PAGES
+************************************************/
+#connect_gallery_photos_cont {
+	min-height: 200px;
+	clear: both;
+}
+
+#connect_gallery_photos_cont .in_gallery_photos_cont, #connect_gallery_photos_cont .not_in_gallery_photos_cont {
+	background: #222222;
+	height: 500px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+#connect_gallery_photos_cont .in_gallery_photos_cont .order_in_gallery_button { display: none; }
+#connect_gallery_photos_cont .in_gallery_photos_cont.arrange .order_in_gallery_button { display: block; cursor: move; }
+#connect_gallery_photos_cont .in_gallery_photos_cont.arrange .remove_from_gallery_button { display: none; }
+#connect_gallery_photos_cont .in_gallery_main_cont {
+	float: left;
+	width: 39%;
+}
+#connect_gallery_photos_cont .in_gallery_main_cont.arrange {
+	width: 100%;
+}
+
+
+#connect_gallery_photos_cont .not_in_gallery_photos_cont {
+	overflow-y: scroll;
+	text-align: left;
+}
+
+#connect_gallery_photos_cont .not_in_gallery_main_cont {
+	float: right;
+	width: 59%;
+	position: relative;
+}
+
+#connect_gallery_photos_cont .connect_photo_container {
+	width: 100px;
+	height: 100px;
+	display: inline-block;
+	margin: 20px;
+	margin-bottom:0px;
+	background: #303030;
+	position: relative;
+	vertical-align: top;
+}
+
+#connect_gallery_photos_cont .connect_photo_container .abs_image_br , #connect_gallery_photos_cont .connect_photo_container .abs_image_tr, #connect_gallery_photos_cont .connect_photo_container .abs_image_tl {
+	position: absolute;
+	right: -15px;
+	bottom: -15px;
+	cursor: pointer;
+}
+
+#connect_gallery_photos_cont .connect_photo_container .abs_image_tr {
+	right: -15px;
+	top: -15px;
+	bottom: inherit;
+}
+
+#connect_gallery_photos_cont .connect_photo_container .abs_image_tl {
+	left: -15px;
+	top: -15px;
+	bottom: inherit;
+	right: inherit;
+}
+
+
+#endless_scroll_loading {
+	display: none;
+	position: absolute;
+	left: 20px;
+	bottom: 20px;
+	background-color: #121212;
+	padding: 12px;
+	font-size: 22px;
+	z-index: 3;
+}
+/**** END GALLERY PAGES ****/
 
 
 

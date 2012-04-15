@@ -19,7 +19,7 @@
 				
 				// figure the the now position of the dragged element
 				var photoGalleryId = jQuery(ui.item).attr('gallery_id');
-				var newPosition = ui.item[0].sectionRowIndex + 1;// TODO - this must always be set - fail otherwise -- not sure if it will be from jquery ui
+				var newPosition = ui.item.index() + 1;// TODO - this must always be set - fail otherwise -- not sure if it will be from jquery ui
 				
 				jQuery.post('/admin/photo_galleries/ajax_set_photogallery_order/'+photoGalleryId+'/'+newPosition+'/', function(data) {
 					if (data.code != 1) {
@@ -28,7 +28,7 @@
 					jQuery(context).sortable('enable');
 				}, 'json');
 			}
-		}).disableSelection();;
+		}).disableSelection();
 	});
 </script>
 
