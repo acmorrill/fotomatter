@@ -2,8 +2,7 @@
 <html>
 <head>
 	<title><?php __('Photo Management'); ?></title>
-	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
-	<style media="all" type="text/css">@import "/css/admin.css";</style>
+	<?php echo $this->Element('admin/global_includes'); ?>
 	<?php echo $this->Element('admin/global_js'); ?>
 </head>
 <body>

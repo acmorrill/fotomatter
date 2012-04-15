@@ -47,7 +47,7 @@ class PhotoGalleriesController extends AppController {
 		}
 	}
 	
-	public function admin_edit_gallery_connect_photos($gallery_id) {
+	public function admin_edit_gallery_connect_photos($gallery_id, $last_photo_id = 0) {
 		$this->data = $this->PhotoGallery->find('first', array(
 			'conditions' => array('PhotoGallery.id' => $gallery_id),
 			'contain' => array(
@@ -59,68 +59,51 @@ class PhotoGalleriesController extends AppController {
 		
 		$photo_ids = Set::extract('/PhotoGalleriesPhoto/Photo/id', $this->data);
 		
-		$not_connected_photos = $this->Photo->find('all', array(
-			'conditions' => array(
-				'NOT' => array(
-					'Photo.id' => $photo_ids
-				)
+		
+		$conditions = array(
+			'NOT' => array(
+				'Photo.id' => $photo_ids
 			),
+			'Photo.id >' => $last_photo_id
+		);
+		
+		$not_connected_photos = $this->Photo->find('all', array(
+			'conditions' => $conditions,
 			'contain' => false,
 			'limit' => 30 // todo - maybe maybe make this a global var cus its used elsewhere as well
 		));
 		
-		$this->set(compact('not_connected_photos', 'gallery_id'));
+		if ($this->RequestHandler->isAjax()) {
+			$returnArr['count'] = count($not_connected_photos);
+			$returnArr['html'] = $this->element('admin/photo/photo_connect_not_in_gallery_photo_cont', array(
+				'not_connected_photos' => $not_connected_photos
+			));
+
+			$this->return_json($returnArr);
+		} else {
+			$this->set(compact('not_connected_photos', 'gallery_id'));
+		}
 	}
 	
-	// TODO - merge this function with the above somehow
-	public function admin_ajax_get_more_photos_to_connect($gallery_id, $last_photo_id) {
-		$this->layout = false;
-		
-		$returnArr = array();
-		
-		$curr_gallery = $this->PhotoGallery->find('first', array(
-			'conditions' => array('PhotoGallery.id' => $gallery_id),
-			'contain' => array(
-				'PhotoGalleriesPhoto' => array(
-					'Photo'
-				)
-			)
-		));
-		
-		$photo_ids = Set::extract('/PhotoGalleriesPhoto/Photo/id', $curr_gallery);
-		
-		
-		$not_connected_photos = $this->Photo->find('all', array(
-			'conditions' => array(
-				'NOT' => array(
-					'Photo.id' => $photo_ids
-				),
-				'Photo.id >' => $last_photo_id
-			),
-			'contain' => false,
-			'limit' => 30 // todo - maybe maybe make this a global var cus its used elsewhere as well
-		));
-		
-		
-		/* Grab output into variable without the view actually outputting! */
-		$returnArr['count'] = count($not_connected_photos);
-		$returnArr['html'] = $this->element('admin/photo/photo_connect_not_in_gallery_photo_cont', array(
-			'not_connected_photos' => $not_connected_photos
-		));
-		
-		
-		$this->return_json($returnArr);
-	}
 	
-	public function admin_ajax_removephoto_from_gallery($photo_id, $gallery_id) {
+	/**
+	 *
+	 * @param type $gallery_id -- the gallery from which to remove photos
+	 * @param type $photo_id -- the photo to remove (null means remove all photos)
+	 */
+	public function admin_ajax_removephotos_from_gallery($gallery_id, $photo_id = null) {
 		$returnArr = array();
 		
-		if ($this->PhotoGalleriesPhoto->deleteAll(array(
-			'PhotoGalleriesPhoto.photo_id' => $photo_id,
+		$conditions = array(
 			'PhotoGalleriesPhoto.photo_gallery_id' => $gallery_id
-		), true, true)) {
+		);
+		
+		if (!empty($photo_id)) {
+			$conditions['PhotoGalleriesPhoto.photo_id'] = $photo_id;
+		}
+		
+		if ($this->PhotoGalleriesPhoto->deleteAll($conditions, true, true)) {
 			$returnArr['code'] = 1;
-			$returnArr['message'] = 'photo removed from gallery';
 		} else {
 			$returnArr['code'] = -1;
 			$returnArr['message'] = 'failed to remove photo from gallery via ajax';
@@ -195,6 +178,7 @@ class PhotoGalleriesController extends AppController {
 			),
 			'contain' => false
 		));
+		
 		
 		if ($this->PhotoGalleriesPhoto->moveto($PhotoGalleriesPhoto_to_move['PhotoGalleriesPhoto']['id'], $new_order)) {
 			$returnArr['code'] = 1;

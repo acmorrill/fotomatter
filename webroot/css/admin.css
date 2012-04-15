@@ -55,7 +55,7 @@ table {
 	GLOBAL STYLES
 **************************************************/
 * {
-	color: #FFF;
+	color: #D9D9D9;
 	font-family: 'Lucida Grande', 'Trebuchet MS','Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif;
 }
 a, h1, h2, h3, h4, h5, h6 {
@@ -114,6 +114,21 @@ label {
 	margin: 0px;
 	margin-bottom: 3px;
 	margin-top: 3px;
+}
+.empty_help_content {
+	color: #404040;
+	font-size: 50px;
+	position: absolute; 
+	top: 15%;
+	bottom: 10%;
+	left: 10%;
+	right: 10%;
+	display: none;
+	text-align: center;
+	overflow: hidden;
+}
+.empty_help_content a {
+	color: #404040;
 }
 /**** END REUSABLE ****************/
 
@@ -178,13 +193,13 @@ html, body {
 	color: #AAA;
 }
 #top-navigation li a:hover {
-	color: #FFF;
+	color: #D9D9D9;
 }
 #top-navigation li.curr {
 	background: #303030;
 }
 #top-navigation li.curr a {
-	color: #FFF;
+	color: #D9D9D9;
 }
 /*** END TOP NAV ****/
 
@@ -204,13 +219,26 @@ html, body {
 	overflow: hidden;
 }
 .table_header_darker {
-	background-color: #121212;
+	background-color: #171717;
 	min-height: 40px;
 	padding: 0px;
 }
-.table_header h2, .table_header_darker h2 {
+.table_header h2, .table_header_darker h2, .table_header .actions, .table_header_darker .actions {
 	margin: 15px;
 	font-size: 17px;
+	margin-top: 10px;
+	margin-bottom: 14px;
+	height: 25px; 
+	line-height: 29px;
+}
+.table_header .actions, .table_header_darker .actions img {
+	cursor: pointer;
+	opacity:0.6;
+	filter:alpha(opacity=60);
+}
+.table_header .actions, .table_header_darker .actions img:hover {
+	opacity:1;
+	filter:alpha(opacity=100);
 }
 table.list {
 	width: 100%;
@@ -294,7 +322,7 @@ div#sub-nav ul li.title {padding:0 15px; margin-right:0}
 div#sub-nav ul li.spacer {width:21px; margin-right:10px}
 div#sub-nav ul li a:hover, 
 div#sub-nav ul li.selected a, 
-div#sub-nav ul li.title a { color: #fff; }
+div#sub-nav ul li.title a { color: #D9D9D9; }
 /**** GENERIC SUB-NAV ****/
 
 
@@ -319,6 +347,7 @@ div#sub-nav ul li.title a { color: #fff; }
 #connect_gallery_photos_cont .in_gallery_main_cont {
 	float: left;
 	width: 39%;
+	position: relative;
 }
 #connect_gallery_photos_cont .in_gallery_main_cont.arrange {
 	width: 100%;

@@ -5,7 +5,7 @@
 *******************************************************/
 ?>
 <?php foreach ($connected_photos as $the_photo): ?>
-<div class="connect_photo_container" photo_id="<?php if (!isset($hide_data)) echo $the_photo['Photo']['id']; ?>" photo_order="<?php if (!isset($hide_data)) echo $the_photo['photo_order']; ?>">
+<div class="connect_photo_container" photo_id="<?php if (!isset($hide_data)) echo $the_photo['Photo']['id']; ?>">
 	<div class="table">
 		<div class="tr">
 			<img class="abs_image_tr remove_from_gallery_button" src="/img/admin/icons/bw_simple_close_icon.png" />

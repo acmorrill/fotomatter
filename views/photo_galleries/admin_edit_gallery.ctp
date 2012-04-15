@@ -1,5 +1,3 @@
-<h1><?php __('Gallery Edit'); ?></h1>
-
 <?php 
 	$subnav = array(); 
 

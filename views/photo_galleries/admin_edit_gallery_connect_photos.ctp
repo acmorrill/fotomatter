@@ -1,7 +1,5 @@
 <script src="/js/jquery.endless-scroll.js"></script>
 
-<h1><?php __('Gallery Edit'); ?></h1>
-
 <?php 
 	$subnav = array(); 
 
@@ -37,6 +35,12 @@
 		)));
 	?>';
 		
+	function refresh_not_in_gallery_photos() {
+		jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont').empty();
+		cease_fire = false;
+		do_endless_scroll_callback(0);
+	}
+		
 	function add_new_in_gallery_image(photo_id, img_src) {
 		var new_image = jQuery(built_gallery_image_html);
 		
@@ -51,7 +55,6 @@
 	function setup_add_to_gallery_buttons(selector) {
 		jQuery(selector).click(function() {
 			if (disable_gallery_add == true) {
-				console.log ("still came into here");
 				return;
 			}
 			
@@ -70,21 +73,37 @@
 			move_to_cont.append(new_div).scrollTop(move_to_cont.prop("scrollHeight"));
 			to_delete.remove();
 			
-			var in_gallery_photos_cont = jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont');
-			var scrollHeight = in_gallery_photos_cont.prop("scrollHeight");
-			var height = in_gallery_photos_cont.height();
-			if (cease_fire == false && scrollHeight <= height) {
-				do_endless_scroll_callback(1);
-			}
 			
+			// hide the help message for in gallery photos
+			jQuery('#connect_gallery_photos_cont .in_gallery_main_cont .empty_help_content').hide();
+			
+
 			
 			jQuery.post('/admin/photo_galleries/ajax_movephoto_into_gallery/'+photo_id+'/<?php echo $gallery_id; ?>/', function(data) {
 				if (data.code == 1) {
 					// its all good
 					setup_remove_from_gallery_buttons(new_div);
+					
+					// check to see if the website photos needs a help message
+					if (element_is_empty('endless_scroll_div')) {
+						console.log ("showing help content");
+						jQuery('#connect_gallery_photos_cont .not_in_gallery_main_cont .empty_help_content').show();
+					}
+					
+					// check to see if need an endless scroll fire because of lack of images
+					var in_gallery_photos_cont = jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont');
+					var scrollHeight = in_gallery_photos_cont.prop("scrollHeight");
+					var height = in_gallery_photos_cont.height();
+					if (cease_fire == false && scrollHeight <= height) {
+						do_endless_scroll_callback();
+					}
 				} else {
 					new_div.remove();
 					jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont').prepend(to_delete);
+					// check to see if the help message should now be shown
+					if (element_is_empty('in_gallery_photos_cont')) {
+						jQuery('#connect_gallery_photos_cont .in_gallery_main_cont .empty_help_content').show();
+					}
 					major_error_recover(data.message);
 				}
 			}, 'json');
@@ -92,6 +111,7 @@
 	}
 	
 	var disable_gallery_remove = false;
+	var pulsing_refresh_button = false;
 	function setup_remove_from_gallery_buttons(selector) {
 		jQuery(selector).click(function() {
 			if (disable_gallery_remove == true) {
@@ -107,23 +127,59 @@
 			
 			var to_delete = jQuery(this).closest('.connect_photo_container');
 			to_delete.remove();
-			jQuery.post('/admin/photo_galleries/ajax_removephoto_from_gallery/'+photo_id+'/<?php echo $gallery_id; ?>/', function(data) {
+			
+
+			jQuery.post('/admin/photo_galleries/ajax_removephotos_from_gallery/<?php echo $gallery_id; ?>/'+photo_id+'/', function(data) {
 				if (data.code == 1) {
-					// its all good
+					if (pulsing_refresh_button == false) {
+						pulsing_refresh_button = true;
+						jQuery('#refresh_not_in_gallery_photos_button').pulse({
+							opacity: 1
+						}, 1200, 6, 0, function () {
+							pulsing_refresh_button = false;
+						});
+					}
+					
+					// check to see if the help message should now be shown
+					if (element_is_empty('in_gallery_photos_cont')) {
+						jQuery('#connect_gallery_photos_cont .in_gallery_main_cont .empty_help_content').show();
+					}
 				} else {
 					jQuery('#connect_gallery_photos_cont .in_gallery_photos_cont').prepend(to_delete);
 					major_error_recover(data.message);
 				}
 			}, 'json');
-			
-			
-			// TODO - go make it so the filter refresh button will highlight itself
 		});
+	}
+	
+	function remove_all_images_from_gallery() {
+		if (disable_gallery_remove == true) {
+			return;
+		}
+		
+		disable_gallery_remove = true;
+		setTimeout(function() {
+			disable_gallery_remove = false;
+		}, 400);
+	
+		var photos_to_remove = jQuery('#connect_gallery_photos_cont .in_gallery_photos_cont');
+		photos_to_remove.empty();
+		
+		jQuery.post('/admin/photo_galleries/ajax_removephotos_from_gallery/<?php echo $gallery_id; ?>/', function(data) {
+			if (data.code == 1) {
+				// its all good
+				refresh_not_in_gallery_photos();
+				jQuery('#connect_gallery_photos_cont .in_gallery_main_cont .empty_help_content').show();
+			} else {
+				jQuery('#connect_gallery_photos_cont .in_gallery_photos_cont').prepend(photos_to_remove);
+				major_error_recover(data.message);
+			}
+		}, 'json');
 	}
 	
 	var cease_fire = false;
 	var in_callback = false;
-	function do_endless_scroll_callback(i) {
+	function do_endless_scroll_callback(last_photo_id) {
 		if (in_callback == true) {
 			return;
 		}
@@ -131,25 +187,39 @@
 		jQuery('#endless_scroll_loading').show();
 
 		in_callback = true;
-
-		var last_photo_id = jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont .connect_photo_container:last').attr('photo_id');
+		if (last_photo_id == undefined) {
+			last_photo_id = jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont .connect_photo_container:last').attr('photo_id');
+		} 
+		if (last_photo_id == undefined) { 
+			last_photo_id = 0;
+		}
 		jQuery.ajax({
-			 url : '/admin/photo_galleries/ajax_get_more_photos_to_connect/<?php echo $gallery_id; ?>/'+last_photo_id+'/',
+			 url : '/admin/photo_galleries/edit_gallery_connect_photos/<?php echo $gallery_id; ?>/'+last_photo_id+'/',
 			 success : function (photo_divs) {
 				if (photo_divs.count > 0) {
-					var last_div = jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont .connect_photo_container:last');
 					var new_photo_html = jQuery(photo_divs.html);
 					setup_add_to_gallery_buttons(new_photo_html);
-					last_div.after(new_photo_html);
+					var last_div = jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont .connect_photo_container:last');
+					if (last_div.length > 0) {
+						last_div.after(new_photo_html);
+					} else {
+						jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont').prepend(new_photo_html);
+					}
+					
+					jQuery('#connect_gallery_photos_cont .not_in_gallery_main_cont .empty_help_content').hide();
 				} else {
 					cease_fire = true;
 				}
-				in_callback = false;
-				
-				jQuery('#endless_scroll_loading').show();
 			},
 			complete: function(jqXHR, textStatus) {
 				jQuery('#endless_scroll_loading').hide();
+				
+				// check to see if the website photos needs a help message
+				if (element_is_empty('endless_scroll_div')) {
+					jQuery('#connect_gallery_photos_cont .not_in_gallery_main_cont .empty_help_content').show();
+				}
+				
+				in_callback = false;
 			},
 			dataType: "json"
 		}); 
@@ -159,6 +229,14 @@
 $(function() {
 	setup_add_to_gallery_buttons('#connect_gallery_photos_cont .not_in_gallery_photos_cont .add_to_gallery_button');
 	setup_remove_from_gallery_buttons('#connect_gallery_photos_cont .in_gallery_photos_cont .remove_from_gallery_button');
+	
+	jQuery('#refresh_not_in_gallery_photos_button').click(function() {
+		refresh_not_in_gallery_photos();
+	});
+	
+	jQuery('#remove_all_gallery_photos').click(function() {
+		remove_all_images_from_gallery();
+	});
 
 	/*
 	 * SETUP THE ENDLESS SCROLL FOR THE NOT YET IN GALLERY IMAGES
@@ -166,11 +244,10 @@ $(function() {
 	$('#connect_gallery_photos_cont .not_in_gallery_photos_cont').endlessScroll({
 		bottomPixels: 300,
 		loader: '',
-		ceaseFire: function(i) {
-			return cease_fire;
-		},
 		callback: function (i) {
-			do_endless_scroll_callback(i)
+			if (cease_fire == false) {
+				do_endless_scroll_callback();
+			}
 		}
 	});
 
@@ -181,18 +258,23 @@ $(function() {
 <div id="connect_gallery_photos_cont">
 	<div class="in_gallery_main_cont">
 		<div class="table_header_darker">
-			<h2><?php __('Photos in Gallery'); ?></h2>
+			<div class="actions" style="float: right;"><img id="remove_all_gallery_photos" src="/img/admin/icons/grey_delete_all_icon.png" /></div>
+			<h2 style="background: url('/img/admin/icons/FOLDER - DOWNLOADS.png') center left no-repeat; padding-left: 35px;"><?php __('Photos in Gallery'); ?></h2>
 		</div>
-		<div class="in_gallery_photos_cont">
+		<div class="empty_help_content" style="<?php if (empty($this->data['PhotoGalleriesPhoto'])): ?>display: block;<?php endif; ?>"><?php __('Add images to this gallery using the box at right'); ?>&nbsp;►</div>
+		<div id="in_gallery_photos_cont" class="in_gallery_photos_cont">
 			<?php echo $this->Element('/admin/photo/photo_connect_in_gallery_photo_cont', array( 'connected_photos' => $this->data['PhotoGalleriesPhoto'] )); ?>
 		</div>
 	</div>
 	<div class="not_in_gallery_main_cont">
 		<div class="table_header_darker" style="background-color: #292929; color: #AAA;">
+			<div class="actions" style="float: right;"><img id="refresh_not_in_gallery_photos_button" src="/img/admin/icons/grey_refresh.png" /></div>
 			<h2 style="margin-left: 10px; color: #AAA; background: url('/img/admin/icons/grey_left_arrow.png') center left no-repeat; padding-left: 42px;"><?php __('Website Photos'); ?></h2>
-			<div class="/*grey_hr*/"></div>
 		</div>
 		<div id="endless_scroll_loading" class="rounded-corners-small"><?php __('Loading'); ?></div>
+		<div class="empty_help_content" style="<?php if (empty($not_connected_photos)): ?>display: block;<?php endif; ?>">
+			<?php __('No photos found <br/> Add photos <a href="/admin/photos">on the photo page</a> or refresh this box'); ?>
+		</div>
 		<div id="endless_scroll_div" class="not_in_gallery_photos_cont">
 			<?php echo $this->Element('/admin/photo/photo_connect_not_in_gallery_photo_cont', array( 'not_connected_photos' => $not_connected_photos )); ?>
 		</div>
