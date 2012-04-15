@@ -57,6 +57,9 @@
 		<div class="table_header_darker">
 			<h2 style="background: url('/img/admin/icons/gallery_arrange_photos.png') center left no-repeat; padding-left: 35px; height: 25px; line-height: 29px;"><?php __('Arrange Photos in Gallery'); ?></h2>
 		</div>
+		<div class="empty_help_content" style="<?php if (empty($this->data['PhotoGalleriesPhoto'])): ?>display: block;<?php endif; ?>">
+			<?php __('This gallery has no photos to arrange yet<br/> Add photos on the <a href="/admin/photo_galleries/edit_gallery_connect_photos/'.$gallery_id.'/">connect photos page</a>'); ?>
+		</div>
 		<div class="in_gallery_photos_cont arrange">
 			<?php echo $this->Element('/admin/photo/photo_connect_in_gallery_photo_cont', array( 'connected_photos' => $this->data['PhotoGalleriesPhoto'] )); ?>
 		</div>

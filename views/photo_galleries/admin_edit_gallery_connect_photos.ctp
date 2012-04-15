@@ -27,6 +27,7 @@
 
 
 <script type="text/javascript" charset="utf-8">
+	var sync_ajax_out = 3;
 	
 	// to add on the fly an image from the right to teh left side
 	var built_gallery_image_html = '<?php echo preg_replace( "/[\n\r]/", '', $this->element('admin/photo/photo_connect_in_gallery_photo_cont', array(
@@ -52,16 +53,18 @@
 	
 	
 	var disable_gallery_add = false;
+	var gallery_add_limit = 0;
 	function setup_add_to_gallery_buttons(selector) {
 		jQuery(selector).click(function() {
-			if (disable_gallery_add == true) {
+			if (disable_gallery_add == true || gallery_add_limit > sync_ajax_out) {
 				return;
 			}
 			
+			gallery_add_limit++;
 			disable_gallery_add = true;
 			setTimeout(function() {
 				disable_gallery_add = false;
-			}, 400);
+			}, 100);
 			
 			var to_delete = jQuery(this).closest('.connect_photo_container');
 			var photo_id = to_delete.attr('photo_id');
@@ -106,22 +109,26 @@
 					}
 					major_error_recover(data.message);
 				}
+				
+				gallery_add_limit--;
 			}, 'json');
 		});
 	}
 	
 	var disable_gallery_remove = false;
 	var pulsing_refresh_button = false;
+	var gallery_remove_limit = 0;
 	function setup_remove_from_gallery_buttons(selector) {
 		jQuery(selector).click(function() {
-			if (disable_gallery_remove == true) {
+			if (disable_gallery_remove == true || gallery_remove_limit > sync_ajax_out) {
 				return;
 			}
 			
+			gallery_remove_limit++;
 			disable_gallery_remove = true;
 			setTimeout(function() {
 				disable_gallery_remove = false;
-			}, 400);
+			}, 100);
 			
 			var photo_id = jQuery(this).closest('.connect_photo_container').attr('photo_id');
 			
@@ -148,12 +155,14 @@
 					jQuery('#connect_gallery_photos_cont .in_gallery_photos_cont').prepend(to_delete);
 					major_error_recover(data.message);
 				}
+				
+				gallery_remove_limit--;
 			}, 'json');
 		});
 	}
 	
 	function remove_all_images_from_gallery() {
-		if (disable_gallery_remove == true) {
+		if (disable_gallery_remove == true || gallery_remove_limit > 0) {
 			return;
 		}
 		
@@ -240,6 +249,10 @@ $(function() {
 	setup_add_to_gallery_buttons('#connect_gallery_photos_cont .not_in_gallery_photos_cont .add_to_gallery_button');
 	setup_remove_from_gallery_buttons('#connect_gallery_photos_cont .in_gallery_photos_cont .remove_from_gallery_button');
 	
+	jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont').disableSelection();
+	jQuery('#connect_gallery_photos_cont .in_gallery_photos_cont').disableSelection();
+	
+	
 	jQuery('#refresh_not_in_gallery_photos_button').click(function() {
 		refresh_not_in_gallery_photos();
 	});
@@ -270,8 +283,8 @@ $(function() {
 			{
 				text: "<?php __('Empty Gallery'); ?>",
 				click: function() {
-					$( this ).dialog( "close" );
 					remove_all_images_from_gallery();
+					$( this ).dialog( "close" );
 				}
 			},
 			{
