@@ -14,6 +14,8 @@
 				window.location.replace("/admin/users/login?ajax_autoredirect=<?php echo urlencode($_SERVER["REQUEST_URI"]); ?>");
 			} else {
 				alert('An ajax error occured! -- this from global_js'); // TODO - make this more sophisticated
+				console.log (event);
+				console.log (request);
 			}
 		});
 	});

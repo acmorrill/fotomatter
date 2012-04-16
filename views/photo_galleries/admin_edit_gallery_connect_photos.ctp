@@ -27,7 +27,7 @@
 
 
 <script type="text/javascript" charset="utf-8">
-	var sync_ajax_out = 3;
+	var sync_ajax_out = 1;
 	
 	// to add on the fly an image from the right to teh left side
 	var built_gallery_image_html = '<?php echo preg_replace( "/[\n\r]/", '', $this->element('admin/photo/photo_connect_in_gallery_photo_cont', array(
@@ -205,6 +205,27 @@
 		
 		jQuery('#endless_scroll_loading').show();
 
+		// figure named params
+		var checked_value = jQuery('input[name=sort_photo_radio]:checked');
+		var order = checked_value.attr('order');
+		var sort_dir = checked_value.attr('sort_dir');
+		$named = '';
+		if (order != undefined) {
+			$named += 'order:'+order+'/';
+		}
+		if (sort_dir != undefined) {
+			$named += 'sort_dir:'+sort_dir+'/';
+		}
+		
+		
+		// figure out filters to pass
+		var photo_formats = new Array();
+		jQuery('#filter_photo_by_format input:checked').each(function() {
+			photo_formats.push(jQuery(this).val());
+		});
+		var photos_not_in_a_gallery = jQuery('#photos_not_in_a_gallery').is(':checked');
+		var not_in_gallery_icon_size = jQuery('#not_in_gallery_icon_size .selected').attr('size');
+
 		in_callback = true;
 		if (last_photo_id == undefined) {
 			last_photo_id = jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont .connect_photo_container:last').attr('photo_id');
@@ -213,22 +234,28 @@
 			last_photo_id = 0;
 		}
 		jQuery.ajax({
-			 url : '/admin/photo_galleries/edit_gallery_connect_photos/<?php echo $gallery_id; ?>/'+last_photo_id+'/',
-			 success : function (photo_divs) {
-				if (photo_divs.count > 0) {
-					var new_photo_html = jQuery(photo_divs.html);
-					setup_add_to_gallery_buttons(new_photo_html);
-					var last_div = jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont .connect_photo_container:last');
-					if (last_div.length > 0) {
-						last_div.after(new_photo_html);
-					} else {
-						jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont').prepend(new_photo_html);
-					}
-					
-					jQuery('#connect_gallery_photos_cont .not_in_gallery_main_cont .empty_help_content').hide();
+			type : 'post',
+			url : '/admin/photo_galleries/edit_gallery_connect_photos/<?php echo $gallery_id; ?>/'+last_photo_id+'/'+$named,
+			data : { 
+				'photo_formats': photo_formats,
+				'photos_not_in_a_gallery': photos_not_in_a_gallery,
+				'not_in_gallery_icon_size': not_in_gallery_icon_size
+			},
+			success : function (photo_divs) {
+			if (photo_divs.count > 0) {
+				var new_photo_html = jQuery(photo_divs.html);
+				setup_add_to_gallery_buttons(new_photo_html);
+				var last_div = jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont .connect_photo_container:last');
+				if (last_div.length > 0) {
+					last_div.after(new_photo_html);
 				} else {
-					cease_fire = true;
+					jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont').prepend(new_photo_html);
 				}
+
+				jQuery('#connect_gallery_photos_cont .not_in_gallery_main_cont .empty_help_content').hide();
+			} else {
+				cease_fire = true;
+			}
 			},
 			complete: function(jqXHR, textStatus) {
 				jQuery('#endless_scroll_loading').hide();
@@ -295,6 +322,19 @@ $(function() {
 			}
 		]
 	});
+	
+	jQuery("#filter_photo_by_format, #sort_photo_radio").buttonset();
+	jQuery("#photos_not_in_a_gallery").button();
+	jQuery('input[name=sort_photo_radio], #filter_photo_by_format input, #photos_not_in_a_gallery').change(function() {
+		refresh_not_in_gallery_photos();
+	});
+	
+	jQuery('#not_in_gallery_icon_size div').click(function() {
+		jQuery('#not_in_gallery_icon_size div').removeClass('selected');
+		jQuery(this).addClass('selected');
+		refresh_not_in_gallery_photos();
+	});
+	
 });
 </script>
 
@@ -305,26 +345,50 @@ $(function() {
 <?php //debug($this->data); ?>
 <div id="connect_gallery_photos_cont">
 	<div class="in_gallery_main_cont">
-		<div class="table_header_darker">
+		<div class="table_header_darker" style="border-bottom: 1px solid #171717;">
 			<div class="actions" style="float: right;"><img id="remove_all_gallery_photos" src="/img/admin/icons/grey_delete_all_icon.png" /></div>
 			<h2 style="background: url('/img/admin/icons/FOLDER - DOWNLOADS.png') center left no-repeat; padding-left: 35px;"><?php __('Photos in Gallery'); ?></h2>
 		</div>
 		<div class="empty_help_content" style="<?php if (empty($this->data['PhotoGalleriesPhoto'])): ?>display: block;<?php endif; ?>"><?php __('Add images to this gallery using the box at right'); ?>&nbsp;►</div>
 		<div id="in_gallery_photos_cont" class="in_gallery_photos_cont">
-			<?php echo $this->Element('/admin/photo/photo_connect_in_gallery_photo_cont', array( 'connected_photos' => $this->data['PhotoGalleriesPhoto'] )); ?>
+			<?php echo $this->Element('/admin/photo/photo_connect_in_gallery_photo_cont', array( 'connected_photos' => $this->data['PhotoGalleriesPhoto'], 'not_in_gallery_icon_size' => $not_in_gallery_icon_size )); ?>
 		</div>
 	</div>
 	<div class="not_in_gallery_main_cont">
-		<div class="table_header_darker" style="background-color: #292929; color: #AAA;">
+		<div class="table_header_darker" style="background-color: #292929; color: #AAA; border-bottom: 1px solid #171717;">
 			<div class="actions" style="float: right;"><img id="refresh_not_in_gallery_photos_button" src="/img/admin/icons/grey_refresh.png" /></div>
+			<div id="sort_photo_radio" class="custom_ui_radio" style="float: right; margin-top: 13px; margin-right: 10px;">
+				<input type="radio" id="radio1" name="sort_photo_radio" order="modified" sort_dir="desc" <?php if ($order == 'modified' && $sort_dir == 'desc'): ?>checked="checked"<?php endif; ?> /><label for="radio1"><?php __('Newest First'); ?></label>
+				<input type="radio" id="radio2" name="sort_photo_radio" order="modified" sort_dir="asc" <?php if ($order == 'modified' && $sort_dir == 'asc'): ?>checked="checked"<?php endif; ?> /><label for="radio2"><?php __('Oldest First'); ?></label>
+				<input type="radio" id="radio3" name="sort_photo_radio" order="display_title" sort_dir="asc" <?php if ($order == 'display_title'): ?>checked="checked"<?php endif; ?> /><label for="radio3"><?php __('Title A-Z'); ?></label>
+			</div>
 			<h2 style="margin-left: 10px; color: #AAA; background: url('/img/admin/icons/grey_left_arrow.png') center left no-repeat; padding-left: 42px;"><?php __('Website Photos'); ?></h2>
 		</div>
 		<div id="endless_scroll_loading" class="rounded-corners-small"><span class="default"><?php __('Loading'); ?></span></div>
 		<div class="empty_help_content" style="<?php if (empty($not_connected_photos)): ?>display: block;<?php endif; ?>">
-			<?php __('No photos found <br/> Add photos <a href="/admin/photos">on the photo page</a> or refresh this box'); ?>
+			<?php __('No photos found <br/> Add photos <a href="/admin/photos">on the photo page</a>'); ?>
 		</div>
 		<div id="endless_scroll_div" class="not_in_gallery_photos_cont">
-			<?php echo $this->Element('/admin/photo/photo_connect_not_in_gallery_photo_cont', array( 'not_connected_photos' => $not_connected_photos )); ?>
+			<?php echo $this->Element('/admin/photo/photo_connect_not_in_gallery_photo_cont', array( 'not_connected_photos' => $not_connected_photos, 'not_in_gallery_icon_size' => $not_in_gallery_icon_size )); ?>
+		</div>
+		<div class="sort_and_filters" style="background-color: #363636; padding: 15px; border: 1px solid #171717; color: #999999; height: 50px; position: relative;">
+			<div id="not_in_gallery_icon_size" class="box_icon_size">
+				<div id="small_icon" size="small" <?php if($not_in_gallery_icon_size == 'small'): ?>class="selected"<?php endif; ?> >S</div>
+				<div id="medium_icon" size="medium" <?php if($not_in_gallery_icon_size == 'medium'): ?>class="selected"<?php endif; ?> >M</div>
+				<div id="large_icon" size="large" <?php if($not_in_gallery_icon_size == 'large'): ?>class="selected"<?php endif; ?> >L</div>
+			</div>
+			
+			<div class="custom_ui_radio" style="margin-bottom: 7px;">
+				<input type="checkbox" id="photos_not_in_a_gallery" /><label for="photos_not_in_a_gallery"><?php __('Uncategorized Photos'); ?></label>
+			</div>
+				
+			<div id="filter_photo_by_format" class="custom_ui_radio">
+				<input type="checkbox" value="landscape" id="check1" /><label for="check1"><?php __('Landscape'); ?></label>
+				<input type="checkbox" value="portrait" id="check2" /><label for="check2"><?php __('Portrait'); ?></label>
+				<input type="checkbox" value="square" id="check3" /><label for="check3"><?php __('Square'); ?></label>
+				<input type="checkbox" value="panoramic" id="check4" /><label for="check4"><?php __('Panoramic'); ?></label>
+				<input type="checkbox" value="vertical_panoramic" id="check5" /><label for="check5"><?php __('Vertical Panoramic'); ?></label>
+			</div>
 		</div>
 	</div>
 	<div style="clear: both;"></div>

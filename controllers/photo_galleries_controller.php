@@ -1,7 +1,7 @@
 <?php
 class PhotoGalleriesController extends AppController {
 	var $name = 'PhotoGalleries';
-	var $uses = array('PhotoGallery', 'Photo', 'PhotoGalleriesPhoto');
+	var $uses = array('PhotoGallery', 'Photo', 'PhotoGalleriesPhoto', 'PhotoFormat');
 	var $helpers = array('Photo');
 
 	public function  beforeFilter() {
@@ -48,6 +48,8 @@ class PhotoGalleriesController extends AppController {
 	}
 	
 	public function admin_edit_gallery_connect_photos($gallery_id, $last_photo_id = 0) {
+		$limit = 30;
+		
 		$this->data = $this->PhotoGallery->find('first', array(
 			'conditions' => array('PhotoGallery.id' => $gallery_id),
 			'contain' => array(
@@ -59,29 +61,97 @@ class PhotoGalleriesController extends AppController {
 		
 		$photo_ids = Set::extract('/PhotoGalleriesPhoto/Photo/id', $this->data);
 		
+		// get named params for sorting
+		$order = isset($this->params['named']['order']) ? $this->params['named']['order']: 'modified';
+		$sort_dir = isset($this->params['named']['sort_dir']) ? $this->params['named']['sort_dir']: 'desc';
+		
+		// get params for filters
+		$photo_formats = isset($this->params['form']['photo_formats']) ? $this->params['form']['photo_formats']: null;
+		$photos_not_in_a_gallery = isset($this->params['form']['photos_not_in_a_gallery']) ? $this->params['form']['photos_not_in_a_gallery']: false;
+		$not_in_gallery_icon_size = isset($this->params['form']['not_in_gallery_icon_size']) ? $this->params['form']['not_in_gallery_icon_size']: 'medium';
+		
+		if ($not_in_gallery_icon_size == 'small') {
+			$limit = 85;
+		} else if ($not_in_gallery_icon_size == 'medium') {
+			$limit = 35;
+		} else if ($not_in_gallery_icon_size == 'large') {
+			$limit = 25;
+		}
 		
 		$conditions = array(
 			'NOT' => array(
 				'Photo.id' => $photo_ids
-			),
-			'Photo.id >' => $last_photo_id
+			)
 		);
+		/*******************************************
+		 * figure out filter conditions
+		 */
+		if (!empty($photo_formats)) {
+			$format_ids = array();
+			foreach ($photo_formats as $photo_format) {
+				$format = $this->PhotoFormat->find('first', array(
+					'conditions' => array(
+						'PhotoFormat.ref_name' => $photo_format
+					),
+					'contain' => false
+				));
+				$format_ids[] = $format['PhotoFormat']['id'];
+			}
+			$conditions['PhotoFormat.id'] = $format_ids;
+		}
+		if ($photos_not_in_a_gallery === 'true') {
+			$query = 'SELECT photos.id FROM photos
+					  LEFT JOIN photo_galleries_photos ON photos.id = photo_galleries_photos.photo_id
+					  WHERE photo_galleries_photos.photo_id IS NULL;';
+			$photo_ids = $this->Photo->query($query);
+			$photo_ids = Set::extract('/photos/id', $photo_ids);
+			
+			$conditions['Photo.id'] = $photo_ids;
+		}
+		// end filter find conditions
+		
+		
+		/*******************************************
+		 * figure out sort conditions
+		 */
+		if ($last_photo_id > 0) {
+			$last_photo = $this->Photo->find('first', array(
+				'conditions' => array(
+					'Photo.id' => $last_photo_id
+				),
+				'contain' => false
+			));
+			if ($sort_dir == 'asc') {
+				$comp = '>';
+			} else {
+				$comp = '<';
+			}
+			$conditions['Photo.'.$order.' '.$comp] = $last_photo['Photo'][$order];
+		}
+		// end sort find conditions
+		
 		
 		$not_connected_photos = $this->Photo->find('all', array(
 			'conditions' => $conditions,
-			'contain' => false,
-			'limit' => 30 // todo - maybe maybe make this a global var cus its used elsewhere as well
+			'order' => array(
+				$order => $sort_dir
+			),
+			'contain' => array(
+				'PhotoFormat'
+			),
+			'limit' => $limit
+			
 		));
 		
+		$set_vars = compact('not_connected_photos', 'gallery_id', 'last_photo_id', 'order', 'sort_dir', 'not_in_gallery_icon_size');
 		if ($this->RequestHandler->isAjax()) {
 			$returnArr['count'] = count($not_connected_photos);
-			$returnArr['html'] = $this->element('admin/photo/photo_connect_not_in_gallery_photo_cont', array(
-				'not_connected_photos' => $not_connected_photos
-			));
+			$returnArr['html'] = $this->element('admin/photo/photo_connect_not_in_gallery_photo_cont', $set_vars);
+			$returnArr['params'] = $set_vars;
 
 			$this->return_json($returnArr);
 		} else {
-			$this->set(compact('not_connected_photos', 'gallery_id'));
+			$this->set($set_vars);
 		}
 	}
 	
@@ -151,7 +221,9 @@ class PhotoGalleriesController extends AppController {
 			)
 		));
 		
-		$this->set(compact('gallery_id'));
+		$not_in_gallery_icon_size = isset($this->params['form']['not_in_gallery_icon_size']) ? $this->params['form']['not_in_gallery_icon_size']: 'medium';
+		
+		$this->set(compact('gallery_id', 'not_in_gallery_icon_size'));
 	}
 	
 	public function admin_ajax_set_photogallery_order($photoGalleryId, $newOrder) {

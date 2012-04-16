@@ -57,7 +57,7 @@ table {
 * {
 	font-family: 'Lucida Grande', 'Trebuchet MS','Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif;
 }
-a, h1, h2, h3, h4, h5, h6, span.default, label {
+a, h1, h2, h3, h4, h5, h6, span.default, label, table, div {
 	color: #D9D9D9;
 	font-family: 'Lucida Grande', 'Trebuchet MS','Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif;
 }
@@ -130,8 +130,66 @@ label {
 .empty_help_content a {
 	color: #404040;
 }
+.box_icon_size {
+	position: absolute; height: 60px; width: 200px; right: 55px; top: 0px;
+	text-align: right;
+}
+.box_icon_size div {
+	border-top: 3px solid #2B2B2B;
+	border-bottom: 1px solid #2B2B2B;
+	border-right: 1px solid #2B2B2B;
+	border-left: 1px solid #2B2B2B;
+	background: #AAAAAA;
+	display: inline-block;
+	vertical-align: top;
+	cursor: pointer;
+	color: #333333;
+	text-align: center;
+	font-size: 26px;
+	-moz-border-radius-bottomleft: 5px; /* Firefox */
+	border-bottom-left-radius: 5px; /* CSS3 */
+	-moz-border-radius-bottomright: 5px; /* Firefox */
+	border-bottom-right-radius: 5px; /* CSS3 */
+	margin-left: 2px;
+	line-height: 30px;
+}
+.box_icon_size div:hover {
+	background: #E6E6E6;
+}
+.box_icon_size div.selected {
+	background: #2B2B2B;
+	color: #E6E6E6;
+	border-bottom: 1px solid #2B2B2B;
+	border-right: 1px solid #2B2B2B;
+	border-left: 1px solid #2B2B2B;
+}
+.box_icon_size #small_icon {
+	width: 30px; height: 30px;
+	line-height: 30px;
+	font-size: 26px;
+}
+.box_icon_size #medium_icon {
+	width: 32px; height: 32px;
+	line-height: 32px;
+	font-size: 28px;
+}
+.box_icon_size #large_icon {
+	width: 34px; height: 34px;
+	line-height: 34px;
+	font-size: 31px;
+}
 .custom_dialog {
 	display: none;
+}
+.custom_ui_radio .ui-button-text-only .ui-button-text {
+	padding: .1em .5em;
+}
+.custom_ui_radio .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, .custom_ui_radio .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+	border: 1px solid #292929;
+}
+.custom_ui_radio .ui-widget {
+	font-size: inherit;
+	font-family: inherit;
 }
 /**** END REUSABLE ****************/
 
@@ -343,6 +401,9 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 	overflow-x: hidden;
 	overflow-y: auto;
 }
+#connect_gallery_photos_cont .in_gallery_photos_cont {
+	height: 582px;
+}
 
 #connect_gallery_photos_cont .in_gallery_photos_cont .order_in_gallery_button { display: none; }
 #connect_gallery_photos_cont .in_gallery_photos_cont.arrange .order_in_gallery_button { display: block; cursor: move; }
@@ -404,7 +465,7 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 	display: none;
 	position: absolute;
 	left: 20px;
-	bottom: 20px;
+	bottom: 94px;
 	background-color: #121212;
 	padding: 12px;
 	font-size: 22px;
