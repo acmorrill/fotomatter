@@ -379,7 +379,7 @@ $(function() {
 			</div>
 			
 			<div class="custom_ui_radio" style="margin-bottom: 7px;">
-				<input type="checkbox" id="photos_not_in_a_gallery" /><label for="photos_not_in_a_gallery"><?php __('Uncategorized Photos'); ?></label>
+				<input type="checkbox" id="photos_not_in_a_gallery" /><label for="photos_not_in_a_gallery"><?php __('Photos Not In A Gallery'); ?></label>
 			</div>
 				
 			<div id="filter_photo_by_format" class="custom_ui_radio">
