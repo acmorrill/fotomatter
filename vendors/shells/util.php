@@ -132,65 +132,63 @@ class UtilShell extends Shell {
 	    $this->PhotoCache->query("truncate table photo_caches");
 	    $this->PhotoGallery->query("truncate table photo_galleries");
 		
+		//clear current image
+		App::import("Component", "CloudFiles");
+        $this->files = new CloudFilesComponent();
+	    $all_objects = $this->files->list_objects();
+	    foreach($all_objects as $object) {
+			$this->files->delete_object($object['name']);
+	    }
+		
+		//Download any new images form the gallery
 	    App::import("Component", "CloudFiles");
 	    $this->files = new CloudFilesComponent();
-	    $tmp_images = TEMP_IMAGE_PATH . DS . 'test_images';
+	    $tmp_images = TEMP_IMAGE_VAULT . DS . 'test_images';
 	    if (is_dir($tmp_images) === false) mkdir($tmp_images);
-	    
-	    //clear current images
-	    $all_objects = $this->files->list_objects();
-	    
-	    foreach($all_objects as $object) {
-		$this->files->delete_object($object['name']);
-	    }
 	    
 	    $local_images = scandir($tmp_images);
 	    $tmp = array();
 	    foreach ($local_images as $image) {
-		if ($image == '.' || $image=='..') {
-		    continue;
-		}
-		$tmp[$image] = $image;
+			if ($image == '.' || $image=='..') {
+				continue;
+			}
+			$tmp[$image] = $image;
 	    }
 	    $local_images = $tmp;
 	    
 	    $master_test_images = $this->files->list_objects('master-test');
 	    foreach ($master_test_images as $image) {
-		if (empty($local_images[$image['name']])) {
-		    unset($output);
-		    exec("cd $tmp_images; wget http://c13957077.r77.cf2.rackcdn.com/".$image['name']." > /dev/null 2>&1", $output);
-		}
+			if (empty($local_images[$image['name']])) {
+				unset($output);
+				exec("cd $tmp_images; wget http://c13957077.r77.cf2.rackcdn.com/".$image['name']." > /dev/null 2>&1", $output);
+			}
 	    }
 		
+		//I probably saved new images so rescan to be sure
 		$local_images = scandir($tmp_images);
-	    
-	    
-
-	    
-	   
 	  
-	    foreach($local_images as $image) {
-		if ($image == '.' || $image=='..') {
-		    continue;
-		}
-			
-		$photo_for_db['Photo']['cdn-filename']['tmp_name'] = $tmp_images . DS . $image;
-		$photo_for_db['Photo']['cdn-filename']['name'] = $image;
-		list($width, $height, $type, $attr) = getimagesize($tmp_images . DS . $image);
-		$photo_for_db['Photo']['cdn-filename']['type'] = $type;
-		$photo_for_db['Photo']['cdn-filename']['size'] = filesize($photo_for_db['Photo']['cdn-filename']['tmp_name']);
+		//insert images into db
+	    foreach($local_images as $count => $image) {
+			if ($image == '.' || $image=='..') {
+				continue;
+			}
+
+			$photo_for_db['Photo']['cdn-filename']['tmp_name'] = $tmp_images . DS . $image;
+			$photo_for_db['Photo']['cdn-filename']['name'] = $image;
+			list($width, $height, $type, $attr) = getimagesize($tmp_images . DS . $image);
+			$photo_for_db['Photo']['cdn-filename']['type'] = $type;
+			$photo_for_db['Photo']['cdn-filename']['size'] = filesize($photo_for_db['Photo']['cdn-filename']['tmp_name']);
 
 
-		$photo_for_db['Photo']['display_title'] = 'Title' . $image;
-		$photo_for_db['Photo']['display_subtitle'] = 'subtitle' . $image;
-		$photo_for_db['Photo']['alt_text'] = 'alt text ' . $image;
-		$this->Photo->create();
-		$this->Photo->save($photo_for_db);
-		debug('photo saved');
+			$photo_for_db['Photo']['display_title'] = 'Title' . $image;
+			$photo_for_db['Photo']['display_subtitle'] = 'subtitle' . $image;
+			$photo_for_db['Photo']['alt_text'] = 'alt text ' . $image;
+			$this->Photo->create();
+			$this->Photo->save($photo_for_db);
+			$this->out(($count+1).". Image ".$image." has been saved to the database.");
 	    }
-	    
-	   
-	    
+	     
+		//create random galleries and assign photos to them
 	    $lastGallery = $this->PhotoGallery->find('first', array(
 			'order' => 'PhotoGallery.id DESC'
 		));

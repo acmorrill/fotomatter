@@ -12,14 +12,18 @@ if ($result != 0) {
 }
 
 //create unit test directory
-exec("cd ".ROOT.";mkdir unit_test_cache;", $output, $result);
-if ($result != 0 ) {
-	return false;
+if (is_dir(ROOT.DS.'unit_test_cache') === false) {
+	exec("cd ".ROOT.";mkdir unit_test_cache;", $output, $result);
+	if ($result != 0 ) {
+		return false;
+	}
 }
 
-exec("cd ".ROOT.";mkdir image_vault;", $output, $result);
-if ($result != 0) {
-	return false;
+if (is_dir(ROOT.DS.'image_vault') === false) {
+	exec("cd ".ROOT.";mkdir image_vault;", $output, $result);
+	if ($result != 0) {
+		return false;
+	}
 }
 return true;
 };

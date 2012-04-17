@@ -79,11 +79,11 @@ class CloudFilesTestCase extends CakeTestCase {
         
         //download a object
         $test_image = $this->CloudFiles->get_object($this->cellPhoneObjects[0]['name'], 'MichelleCellPhone');
-        file_put_contents(TEMP_IMAGE_PATH . DS . 'test_image', $test_image);
+        file_put_contents(TEMP_IMAGE_UNIT . DS . 'test_image', $test_image);
         
         //upload it to the container
-        $upload_result = $this->CloudFiles->put_object('test-image', TEMP_IMAGE_PATH . DS . 'test_image', 'image\jpeg');
-        unlink(TEMP_IMAGE_PATH . DS . 'test_image');
+        $upload_result = $this->CloudFiles->put_object('test-image', TEMP_IMAGE_UNIT . DS . 'test_image', 'image\jpeg');
+        unlink(TEMP_IMAGE_UNIT . DS . 'test_image');
         $this->assertEqual($upload_result, true);
         
         $object_details = $this->CloudFiles->detail_object('test-image');
@@ -115,10 +115,10 @@ class CloudFilesTestCase extends CakeTestCase {
    
     public function test_list_object_default() {
         $test_image = $this->CloudFiles->get_object($this->cellPhoneObjects[0]['name'], 'MichelleCellPhone');
-        file_put_contents(TEMP_IMAGE_PATH . DS . 'test_image', $test_image);
-        $upload_result = $this->CloudFiles->put_object('test-image', TEMP_IMAGE_PATH . DS . 'test_image', 'image\jpeg');
+        file_put_contents(TEMP_IMAGE_UNIT . DS . 'test_image', $test_image);
+        $upload_result = $this->CloudFiles->put_object('test-image', TEMP_IMAGE_UNIT . DS . 'test_image', 'image\jpeg');
         $this->assertEqual($upload_result, true);
-        unlink(TEMP_IMAGE_PATH . DS . 'test_image');
+        unlink(TEMP_IMAGE_UNIT . DS . 'test_image');
         
         $this->default_list = $this->CloudFiles->list_objects();
         $this->assertEqual(empty($this->default_list), false);
@@ -140,8 +140,8 @@ class CloudFilesTestCase extends CakeTestCase {
     }
     
     public function test_downloadobjects() {
-        $this->assertEqual(is_writable(TEMP_IMAGE_PATH), true);
-        $tmp_images = TEMP_IMAGE_PATH . DS . 'test_images';
+        $this->assertEqual(is_writable(TEMP_IMAGE_UNIT), true);
+        $tmp_images = TEMP_IMAGE_UNIT . DS . 'test_images';
         if (is_dir($tmp_images) === false) mkdir($tmp_images);
         foreach ($this->cellPhoneObjects as $key => $picture) {
             $image = $this->CloudFiles->get_object($picture['name'], 'MichelleCellPhone');
@@ -151,11 +151,11 @@ class CloudFilesTestCase extends CakeTestCase {
     }
     
     public function test_putobjects() {
-        $this->downloaded_files = scandir(TEMP_IMAGE_PATH . DS . 'test_images');
+        $this->downloaded_files = scandir(TEMP_IMAGE_UNIT . DS . 'test_images');
         foreach ($this->downloaded_files as $picture) {
             if ($picture == '.' || $picture == '..') continue;
             $random_container = rand(0,0);
-            $file_path = TEMP_IMAGE_PATH . DS . 'test_images' . DS . $picture;
+            $file_path = TEMP_IMAGE_UNIT . DS . 'test_images' . DS . $picture;
             $result = $this->CloudFiles->put_object($picture, $file_path, 'image/jpeg', $this->container_names[$random_container]['container_name']);
             $this->assertEqual($result, true);
             $this->container_names[$random_container]['files'][] = $picture;
@@ -163,9 +163,9 @@ class CloudFilesTestCase extends CakeTestCase {
     }
     
     public function test_putobjects_return_false() {
-        touch(TEMP_IMAGE_PATH . DS . 'test_images' . DS . 'test');
-        $result = $this->CloudFiles->put_object("NA", TEMP_IMAGE_PATH . DS . 'test_images' . DS . 'test', 'image/jpeg', 'invalid-container');
-        unlink(TEMP_IMAGE_PATH . DS . 'test_images' . DS . 'test');
+        touch(TEMP_IMAGE_UNIT . DS . 'test_images' . DS . 'test');
+        $result = $this->CloudFiles->put_object("NA", TEMP_IMAGE_UNIT . DS . 'test_images' . DS . 'test', 'image/jpeg', 'invalid-container');
+        unlink(TEMP_IMAGE_UNIT . DS . 'test_images' . DS . 'test');
         $this->assertEqual($result, false);
     }
      
@@ -185,14 +185,14 @@ class CloudFilesTestCase extends CakeTestCase {
     }
     
     public function test_delete_objects() {
-	$tmp_images = TEMP_IMAGE_PATH . DS . 'test_images';
-        foreach ($this->container_names as $container) {
-            foreach ($container['files'] as $file) {
-                $this->CloudFiles->delete_object($file, $container['container_name']);
-		unlink($tmp_images . DS . $file);
-            }
-        }
-	if (is_dir($tmp_images) === false) rmdir($tmp_images);
+		$tmp_images = TEMP_IMAGE_UNIT . DS . 'test_images';
+			foreach ($this->container_names as $container) {
+				foreach ($container['files'] as $file) {
+					$this->CloudFiles->delete_object($file, $container['container_name']);
+					unlink($tmp_images . DS . $file);
+				}
+			}
+		if (is_dir($tmp_images)) rmdir($tmp_images);
     }
     
     public function test_delete_container() {

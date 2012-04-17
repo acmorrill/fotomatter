@@ -302,3 +302,7 @@
  *
  */
 	Cache::config('default', array('engine' => 'File'));
+	$debug = Configure::read('debug'); 
+	if (((isset($_GET['xhprof']) && $debug == 2) || $debug == 4) && PHP_SAPI != 'cli') {
+		require_once('xhprof.php');
+	}
