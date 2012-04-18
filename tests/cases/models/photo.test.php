@@ -49,14 +49,18 @@ class PhotoSettingTestCase extends CakeTestCase {
 	public function test_delete_cache() {
 		//make sure that when I resave a photo I invalidate any cache
 		$this->_give_me_images(1);
-		debug('here');
 		$this_photo = $this->Photo->find('first', array(
 			'order'=>'Photo.created DESC'
 		));
 		
 		$this->PhotoCache = ClassRegistry::init("PhotoCache");
 		$this->PhotoCache->prepare_new_cachesize($this_photo['Photo']['id'], 200, 200);
+		if (headers_sent() == false) {
+			print(" ");
+		}
+		ob_start();
 		$this->PhotoCache->finish_create_cache($this->PhotoCache->finish_create_cache($this->PhotoCache->id));
+		ob_end_flush();
 		debug($this->PhotoCache->find('first', array(
 			'order'=>'PhotoCache.created DESC'
 		)));
