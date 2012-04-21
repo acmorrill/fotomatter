@@ -152,11 +152,16 @@ class UtilShell extends Shell {
 		//Download any new images form the gallery
 	    App::import("Component", "CloudFiles");
 	    $this->files = new CloudFilesComponent();
-	    $tmp_images = TEMP_IMAGE_VAULT . DS . 'test_images';
-	    if (is_dir($tmp_images) === false) mkdir($tmp_images);
+	    $tmp_images = TEMP_IMAGE_VAULT;
 	    
 	    $local_images = scandir($tmp_images);
 	    $tmp = array();
+		//insert images into db
+		$limit=false;
+		if (isset($this->args[0])) {
+			$limit=$this->args[0];
+		}
+		
 	    foreach ($local_images as $image) {
 			if ($image == '.' || $image=='..') {
 				continue;
@@ -166,7 +171,11 @@ class UtilShell extends Shell {
 	    $local_images = $tmp;
 	    
 	    $master_test_images = $this->files->list_objects('master-test');
+		$actual_count=0;
 	    foreach ($master_test_images as $image) {
+			if ($actual_count >= $limit && $limit != false) break;
+			$actual_count++;
+			
 			if (empty($local_images[$image['name']])) {
 				unset($output);
 				exec("cd $tmp_images; wget http://c13957077.r77.cf2.rackcdn.com/".$image['name']." > /dev/null 2>&1", $output);
@@ -175,18 +184,12 @@ class UtilShell extends Shell {
 		
 		//I probably saved new images so rescan to be sure
 		$local_images = scandir($tmp_images);
-	  
-		//insert images into db
-		$limit=false;
-		if (isset($this->args[0])) {
-			$limit=$this->args[0];
-		}
 		$actual_count=0;
 	    foreach($local_images as $count => $image) {
 			if ($image == '.' || $image=='..') {
 				continue;
 			}
-			if ($actual_count >= $limit) break;
+			if ($actual_count >= $limit && $limit != false) break;
 			$actual_count++;
 			
 			$photo_for_db['Photo']['cdn-filename']['tmp_name'] = $tmp_images . DS . $image;
@@ -275,4 +278,25 @@ class UtilShell extends Shell {
 			}
 	    }
 	}
+	
+	public function check() {
+		App::import("Component", "CloudFiles");
+	    $this->files = new CloudFilesComponent();
+		debug($this->files->detail_object($this->args[0],'master-test'));
+	}
+	
+	public function delete_stuff() {
+		$to_delete = array(
+			'067Z5930.jpg.2'
+			
+		);
+		App::import("Component", "CloudFiles");
+	    $this->files = new CloudFilesComponent();
+		$all_objects = $this->files->list_objects('master-test');
+
+		foreach ($to_delete as $delete) {
+			debug($this->files->delete_object($delete, 'master-test'));
+		}
+	}
+	
 }

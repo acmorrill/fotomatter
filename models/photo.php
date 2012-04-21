@@ -71,7 +71,6 @@ class Photo extends AppModel {
 			
 			
 			$this->CloudFiles = $this->get_cloud_file();
-			
 			$file_name = $this->get_valid_filename($this->data['Photo']['cdn-filename']['name']);
 			$tmp_location = $this->data['Photo']['cdn-filename']['tmp_name'];
 			$mime_type = $this->data['Photo']['cdn-filename']['type'];
@@ -135,7 +134,6 @@ class Photo extends AppModel {
 					$mastercache_mime = $master_cache_size['mime'];
 					$this->data['Photo']['forcache_pixel_width'] = $mastercache_width;
 					$this->data['Photo']['forcache_pixel_height'] = $mastercache_height;
-					
 					
 					if (!$this->CloudFiles->put_object($cache_image_name, $new_image_temp_path, $mastercache_mime)) {
 						$this->major_error("failed to put master cache image in photo beforeSave", $cache_image_name);
@@ -225,7 +223,6 @@ class Photo extends AppModel {
 			$count++;
 		} while ($name_exists != array());
 		$name = $name_to_try;
-		
 		return $name;
 	}
 	

@@ -22,6 +22,11 @@ class RackspaceObj extends Object {
      *@var apiEndPoint (array) array of endponts(urls used to perform specific api functions)
      */
     protected  $_apiEndPoint;
+	
+	/**
+	 *@var lastResponseStatus  contains last response 
+	 */
+	protected $lastResponseStatus = array();
     
     /**
      * initial authentication to the api
