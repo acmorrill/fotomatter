@@ -32,14 +32,79 @@
 	// to add on the fly an image from the right to teh left side
 	var built_gallery_image_html = '<?php echo preg_replace( "/[\n\r]/", '', $this->element('admin/photo/photo_connect_in_gallery_photo_cont', array(
 			'connected_photos' => array('dummy'),
-			'hide_data' => true
+			'hide_data' => true,
+			'not_in_gallery_icon_size' => 'medium'
 		)));
 	?>';
+		
+	function stop_all_functions () {
+		if (disable_gallery_add == true) {
+			return true;
+		}
+		
+		if (gallery_add_limit > 0) {
+			return true;
+		}
+		
+		if (disable_gallery_remove == true) {
+			return true;
+		}
+		
+		if (gallery_remove_limit > 0) {
+			return true;
+		}
+		
+		if (in_callback == true) { // in the do endless scroll callback
+			return true;
+		}
+		
+		if (refreshing_in_gallery_photos == true) {
+			return true;
+		}
+		
+		if (removing_all_images_from_gallery == true) {
+			return true;
+		}
+		
+		return false;
+	}
 		
 	function refresh_not_in_gallery_photos() {
 		jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont').empty();
 		cease_fire = false;
 		do_endless_scroll_callback(0);
+	}
+	
+	var refreshing_in_gallery_photos = false;
+	function refresh_in_gallery_photos() {
+		jQuery('#in_gallery_photos_cont').empty();
+		refreshing_in_gallery_photos = true;
+		
+		var not_in_gallery_icon_size = jQuery('#not_in_gallery_icon_size .selected').attr('size');
+		
+		
+		jQuery.ajax({
+			type: 'post',
+			url: '/admin/photo_galleries/ajax_get_photos_in_gallery/'+<?php echo $gallery_id; ?>+'/',
+			data: {
+				'not_in_gallery_icon_size' : not_in_gallery_icon_size
+			},
+			success: function(data) {
+				if (data.count > 0) {
+					jQuery('.in_gallery_main_cont .empty_help_content').hide();
+					var new_images = jQuery(data.html);
+					setup_remove_from_gallery_buttons(new_images);
+					jQuery('#in_gallery_photos_cont').html(new_images);
+				} else {
+					jQuery('.in_gallery_main_cont .empty_help_content').show();
+				}
+				built_gallery_image_html = data.image_template_html;
+			},
+			complete: function() {
+				refreshing_in_gallery_photos = false;
+			},
+			dataType: 'json'
+		});
 	}
 		
 	function add_new_in_gallery_image(photo_id, img_src) {
@@ -56,7 +121,7 @@
 	var gallery_add_limit = 0;
 	function setup_add_to_gallery_buttons(selector) {
 		jQuery(selector).click(function() {
-			if (disable_gallery_add == true || gallery_add_limit > sync_ajax_out) {
+			if (disable_gallery_add == true || gallery_add_limit >= sync_ajax_out) {
 				return;
 			}
 			
@@ -80,38 +145,43 @@
 			// hide the help message for in gallery photos
 			jQuery('#connect_gallery_photos_cont .in_gallery_main_cont .empty_help_content').hide();
 			
-
 			
-			jQuery.post('/admin/photo_galleries/ajax_movephoto_into_gallery/'+photo_id+'/<?php echo $gallery_id; ?>/', function(data) {
-				if (data.code == 1) {
-					// its all good
-					setup_remove_from_gallery_buttons(new_div);
-					
-					// check to see if the website photos needs a help message
-					if (element_is_empty('endless_scroll_div')) {
-						console.log ("showing help content");
-						jQuery('#connect_gallery_photos_cont .not_in_gallery_main_cont .empty_help_content').show();
+			jQuery.ajax({
+				type: 'post',
+				url: '/admin/photo_galleries/ajax_movephoto_into_gallery/'+photo_id+'/<?php echo $gallery_id; ?>/',
+				data: {},
+				success: function(data) {
+					if (data.code == 1) {
+						// its all good
+						setup_remove_from_gallery_buttons(new_div);
+
+						// check to see if the website photos needs a help message
+						if (element_is_empty('endless_scroll_div')) {
+							jQuery('#connect_gallery_photos_cont .not_in_gallery_main_cont .empty_help_content').show();
+						}
+
+						// check to see if need an endless scroll fire because of lack of images
+						var in_gallery_photos_cont = jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont');
+						var scrollHeight = in_gallery_photos_cont.prop("scrollHeight");
+						var height = in_gallery_photos_cont.height();
+						if (cease_fire == false && scrollHeight <= height) {
+							do_endless_scroll_callback();
+						}
+					} else {
+						new_div.remove();
+						jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont').prepend(to_delete);
+						// check to see if the help message should now be shown
+						if (element_is_empty('in_gallery_photos_cont')) {
+							jQuery('#connect_gallery_photos_cont .in_gallery_main_cont .empty_help_content').show();
+						}
+						major_error_recover(data.message);
 					}
-					
-					// check to see if need an endless scroll fire because of lack of images
-					var in_gallery_photos_cont = jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont');
-					var scrollHeight = in_gallery_photos_cont.prop("scrollHeight");
-					var height = in_gallery_photos_cont.height();
-					if (cease_fire == false && scrollHeight <= height) {
-						do_endless_scroll_callback();
-					}
-				} else {
-					new_div.remove();
-					jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont').prepend(to_delete);
-					// check to see if the help message should now be shown
-					if (element_is_empty('in_gallery_photos_cont')) {
-						jQuery('#connect_gallery_photos_cont .in_gallery_main_cont .empty_help_content').show();
-					}
-					major_error_recover(data.message);
-				}
-				
-				gallery_add_limit--;
-			}, 'json');
+				},
+				complete: function() {
+					gallery_add_limit--;
+				},
+				dataType: 'json'
+			});
 		});
 	}
 	
@@ -120,7 +190,7 @@
 	var gallery_remove_limit = 0;
 	function setup_remove_from_gallery_buttons(selector) {
 		jQuery(selector).click(function() {
-			if (disable_gallery_remove == true || gallery_remove_limit > sync_ajax_out) {
+			if (disable_gallery_remove == true || gallery_remove_limit >= sync_ajax_out) {
 				return;
 			}
 			
@@ -135,37 +205,45 @@
 			var to_delete = jQuery(this).closest('.connect_photo_container');
 			to_delete.remove();
 			
+			jQuery.ajax({
+				type: 'post',
+				url: '/admin/photo_galleries/ajax_removephotos_from_gallery/<?php echo $gallery_id; ?>/'+photo_id+'/',
+				data: {},
+				success: function(data) {
+					if (data.code == 1) {
+						if (pulsing_refresh_button == false) {
+							pulsing_refresh_button = true;
+							jQuery('#refresh_not_in_gallery_photos_button').pulse({
+								opacity: 1
+							}, 1200, 6, 0, function () {
+								pulsing_refresh_button = false;
+							});
+						}
 
-			jQuery.post('/admin/photo_galleries/ajax_removephotos_from_gallery/<?php echo $gallery_id; ?>/'+photo_id+'/', function(data) {
-				if (data.code == 1) {
-					if (pulsing_refresh_button == false) {
-						pulsing_refresh_button = true;
-						jQuery('#refresh_not_in_gallery_photos_button').pulse({
-							opacity: 1
-						}, 1200, 6, 0, function () {
-							pulsing_refresh_button = false;
-						});
+						// check to see if the help message should now be shown
+						if (element_is_empty('in_gallery_photos_cont')) {
+							jQuery('#connect_gallery_photos_cont .in_gallery_main_cont .empty_help_content').show();
+						}
+					} else {
+						jQuery('#connect_gallery_photos_cont .in_gallery_photos_cont').prepend(to_delete);
+						major_error_recover(data.message);
 					}
-					
-					// check to see if the help message should now be shown
-					if (element_is_empty('in_gallery_photos_cont')) {
-						jQuery('#connect_gallery_photos_cont .in_gallery_main_cont .empty_help_content').show();
-					}
-				} else {
-					jQuery('#connect_gallery_photos_cont .in_gallery_photos_cont').prepend(to_delete);
-					major_error_recover(data.message);
-				}
-				
-				gallery_remove_limit--;
-			}, 'json');
+				},
+				complete: function() {
+					gallery_remove_limit--;
+				},
+				dataType: 'json'
+			});
 		});
 	}
 	
+	var removing_all_images_from_gallery = false;
 	function remove_all_images_from_gallery() {
-		if (disable_gallery_remove == true || gallery_remove_limit > 0) {
+		if (stop_all_functions()) {
 			return;
 		}
-		
+		removing_all_images_from_gallery = true;
+	
 		disable_gallery_remove = true;
 		setTimeout(function() {
 			disable_gallery_remove = false;
@@ -190,6 +268,7 @@
 				}
 			},
 			complete: function(jqXHR, textStatus) {
+				removing_all_images_from_gallery = false;
 				refresh_not_in_gallery_photos();
 			},
 			dataType: "json"
@@ -202,6 +281,9 @@
 		if (in_callback == true) {
 			return;
 		}
+		
+		jQuery("#filter_photo_by_format, #sort_photo_radio").buttonset('disable');
+		jQuery("#photos_not_in_a_gallery").button('disable');
 		
 		jQuery('#endless_scroll_loading').show();
 
@@ -265,6 +347,8 @@
 					jQuery('#connect_gallery_photos_cont .not_in_gallery_main_cont .empty_help_content').show();
 				}
 				
+				jQuery("#filter_photo_by_format, #sort_photo_radio").buttonset('enable');
+				jQuery("#photos_not_in_a_gallery").button('enable');
 				in_callback = false;
 			},
 			dataType: "json"
@@ -276,15 +360,19 @@ $(function() {
 	setup_add_to_gallery_buttons('#connect_gallery_photos_cont .not_in_gallery_photos_cont .add_to_gallery_button');
 	setup_remove_from_gallery_buttons('#connect_gallery_photos_cont .in_gallery_photos_cont .remove_from_gallery_button');
 	
-	jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont').disableSelection();
-	jQuery('#connect_gallery_photos_cont .in_gallery_photos_cont').disableSelection();
-	
-	
 	jQuery('#refresh_not_in_gallery_photos_button').click(function() {
+		if (stop_all_functions()) {
+			return;
+		}
+		
 		refresh_not_in_gallery_photos();
 	});
 	
 	jQuery('#remove_all_gallery_photos').click(function() {
+		if (stop_all_functions()) {
+			return;
+		}
+		
 		$( "#confirm_empty_gallery" ).dialog('open');
 	});
 
@@ -323,18 +411,32 @@ $(function() {
 		]
 	});
 	
+	
 	jQuery("#filter_photo_by_format, #sort_photo_radio").buttonset();
 	jQuery("#photos_not_in_a_gallery").button();
-	jQuery('input[name=sort_photo_radio], #filter_photo_by_format input, #photos_not_in_a_gallery').change(function() {
+	// sort radio -- filter checkboxes -- photo_not_in_gallery checkbox
+	jQuery('input[name=sort_photo_radio], #filter_photo_by_format input, #photos_not_in_a_gallery').change(function(e) {
+		if (stop_all_functions()) {
+			return;
+		}
+		
+		jQuery("#filter_photo_by_format .ui-state-hover, #sort_photo_radio .ui-state-hover, #photos_not_in_a_gallery_cont .ui-state-hover").removeClass('ui-state-hover');
+		
 		refresh_not_in_gallery_photos();
 	});
 	
 	jQuery('#not_in_gallery_icon_size div').click(function() {
+		if (stop_all_functions()) {
+			return;
+		}
+		
 		jQuery('#not_in_gallery_icon_size div').removeClass('selected');
 		jQuery(this).addClass('selected');
 		refresh_not_in_gallery_photos();
+		refresh_in_gallery_photos();
 	});
 	
+	jQuery('#connect_gallery_photos_cont').disableSelection();
 });
 </script>
 
@@ -357,10 +459,11 @@ $(function() {
 	<div class="not_in_gallery_main_cont">
 		<div class="table_header_darker" style="background-color: #292929; color: #AAA; border-bottom: 1px solid #171717;">
 			<div class="actions" style="float: right;"><img id="refresh_not_in_gallery_photos_button" src="/img/admin/icons/grey_refresh.png" /></div>
-			<div id="sort_photo_radio" class="custom_ui_radio" style="float: right; margin-top: 13px; margin-right: 10px;">
-				<input type="radio" id="radio1" name="sort_photo_radio" order="modified" sort_dir="desc" <?php if ($order == 'modified' && $sort_dir == 'desc'): ?>checked="checked"<?php endif; ?> /><label for="radio1"><?php __('Newest First'); ?></label>
-				<input type="radio" id="radio2" name="sort_photo_radio" order="modified" sort_dir="asc" <?php if ($order == 'modified' && $sort_dir == 'asc'): ?>checked="checked"<?php endif; ?> /><label for="radio2"><?php __('Oldest First'); ?></label>
-				<input type="radio" id="radio3" name="sort_photo_radio" order="display_title" sort_dir="asc" <?php if ($order == 'display_title'): ?>checked="checked"<?php endif; ?> /><label for="radio3"><?php __('Title A-Z'); ?></label>
+			<div class="custom_ui_radio" style="float: right; margin-top: 13px; margin-right: 10px;">
+				<div id="sort_photo_radio">
+					<input type="radio" id="radio1" name="sort_photo_radio" order="modified" sort_dir="desc" <?php if ($order == 'modified' && $sort_dir == 'desc'): ?>checked="checked"<?php endif; ?> /><label for="radio1"><?php __('Newest First'); ?></label>
+					<input type="radio" id="radio2" name="sort_photo_radio" order="modified" sort_dir="asc" <?php if ($order == 'modified' && $sort_dir == 'asc'): ?>checked="checked"<?php endif; ?> /><label for="radio2"><?php __('Oldest First'); ?></label>
+				</div>
 			</div>
 			<h2 style="margin-left: 10px; color: #AAA; background: url('/img/admin/icons/grey_left_arrow.png') center left no-repeat; padding-left: 42px;"><?php __('Website Photos'); ?></h2>
 		</div>
@@ -371,23 +474,25 @@ $(function() {
 		<div id="endless_scroll_div" class="not_in_gallery_photos_cont">
 			<?php echo $this->Element('/admin/photo/photo_connect_not_in_gallery_photo_cont', array( 'not_connected_photos' => $not_connected_photos, 'not_in_gallery_icon_size' => $not_in_gallery_icon_size )); ?>
 		</div>
-		<div class="sort_and_filters" style="background-color: #363636; padding: 15px; border: 1px solid #171717; color: #999999; height: 50px; position: relative;">
+		<div class="sort_and_filters" style="background-color: #363636; padding: 15px; border: 1px solid #171717; color: #999999; height: 60px; position: relative;">
 			<div id="not_in_gallery_icon_size" class="box_icon_size">
 				<div id="small_icon" size="small" <?php if($not_in_gallery_icon_size == 'small'): ?>class="selected"<?php endif; ?> >S</div>
 				<div id="medium_icon" size="medium" <?php if($not_in_gallery_icon_size == 'medium'): ?>class="selected"<?php endif; ?> >M</div>
 				<div id="large_icon" size="large" <?php if($not_in_gallery_icon_size == 'large'): ?>class="selected"<?php endif; ?> >L</div>
 			</div>
 			
-			<div class="custom_ui_radio" style="margin-bottom: 7px;">
+			<div id="photos_not_in_a_gallery_cont" class="custom_ui_radio" style="margin-bottom: 7px;">
 				<input type="checkbox" id="photos_not_in_a_gallery" /><label for="photos_not_in_a_gallery"><?php __('Photos Not In A Gallery'); ?></label>
 			</div>
 				
-			<div id="filter_photo_by_format" class="custom_ui_radio">
-				<input type="checkbox" value="landscape" id="check1" /><label for="check1"><?php __('Landscape'); ?></label>
-				<input type="checkbox" value="portrait" id="check2" /><label for="check2"><?php __('Portrait'); ?></label>
-				<input type="checkbox" value="square" id="check3" /><label for="check3"><?php __('Square'); ?></label>
-				<input type="checkbox" value="panoramic" id="check4" /><label for="check4"><?php __('Panoramic'); ?></label>
-				<input type="checkbox" value="vertical_panoramic" id="check5" /><label for="check5"><?php __('Vertical Panoramic'); ?></label>
+			<div class="custom_ui_radio">
+				<div id="filter_photo_by_format">
+					<input type="checkbox" value="landscape" id="check1" /><label for="check1"><?php __('Landscape'); ?></label>
+					<input type="checkbox" value="portrait" id="check2" /><label for="check2"><?php __('Portrait'); ?></label>
+					<input type="checkbox" value="square" id="check3" /><label for="check3"><?php __('Square'); ?></label>
+					<input type="checkbox" value="panoramic" id="check4" /><label for="check4"><?php __('Panoramic'); ?></label>
+					<input type="checkbox" value="vertical_panoramic" id="check5" /><label for="check5"><?php __('Vertical Panoramic'); ?></label>
+				</div>
 			</div>
 		</div>
 	</div>

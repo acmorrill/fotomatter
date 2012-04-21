@@ -10,7 +10,7 @@
 			<div class="tr">
 				<img class="abs_image_br add_to_gallery_button" src="/img/admin/icons/green_simple_plus_button.png" />
 				<div class="image_content_cont td">
-					<img src="<?php echo $this->Photo->get_photo_path($not_connected_photo['Photo']['id'], $height, $width); ?>" alt="click to remove" />
+					<img src="<?php echo $this->Photo->get_photo_path($not_connected_photo['Photo']['id'], $height, $width); ?>" alt="<?php __('click to add'); ?>" />
 				</div>
 			</div>
 		</div>

@@ -310,13 +310,15 @@ class OrderedBehavior extends ModelBehavior {
 		} elseif ($new_weight > $old_weight) {
 			// move all nodes that have weight > old_weight AND <= new_weight up one (-1)
 			$action = array(
-					$Model->alias . '.' . $this->settings[$Model->alias]['field'] => $Model->alias . '.' . $this->settings[$Model->alias]['field'] . ' - 1');
+				$Model->alias . '.' . $this->settings[$Model->alias]['field'] => $Model->alias . '.' . $this->settings[$Model->alias]['field'] . ' - 1'
+			);
 			$conditions[$Model->alias . '.' . $this->settings[$Model->alias]['field'] . ' <='] = $new_weight;
 			$conditions[$Model->alias . '.' . $this->settings[$Model->alias]['field'] . ' >'] = $old_weight;
 		} else { // $new_weight < $old_weight
 			// move all where weight >= new_weight AND < old_weight down one (+1)	
 			$action = array(
-					$Model->alias . '.' . $this->settings[$Model->alias]['field'] => $Model->alias . '.' . $this->settings[$Model->alias]['field'] . ' + 1');
+				$Model->alias . '.' . $this->settings[$Model->alias]['field'] => $Model->alias . '.' . $this->settings[$Model->alias]['field'] . ' + 1'
+			);
 			$conditions[$Model->alias . '.' . $this->settings[$Model->alias]['field'] . ' >='] = $new_weight;
 			$conditions[$Model->alias . '.' . $this->settings[$Model->alias]['field'] . ' <'] = $old_weight;
 		

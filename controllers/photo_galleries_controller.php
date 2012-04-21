@@ -47,6 +47,34 @@ class PhotoGalleriesController extends AppController {
 		}
 	}
 	
+	public function admin_ajax_get_photos_in_gallery($gallery_id) {
+		$photos = $this->PhotoGallery->find('first', array(
+			'conditions' => array(
+				'PhotoGallery.id' => $gallery_id
+			),
+			'contain' => array(
+				'PhotoGalleriesPhoto' => array(
+					'Photo'
+				)
+			)
+		));
+		
+		$not_in_gallery_icon_size = isset($this->params['form']['not_in_gallery_icon_size']) ? $this->params['form']['not_in_gallery_icon_size']: 'medium';
+		
+		$returnArr = array();
+		$returnArr['count'] = count($photos['PhotoGalleriesPhoto']);
+		$returnArr['image_template_html'] = preg_replace( "/[\n\r]/", '', $this->Element('admin/photo/photo_connect_in_gallery_photo_cont', array(
+			'connected_photos' => array('dummy'),
+			'hide_data' => true,
+			'not_in_gallery_icon_size' => $not_in_gallery_icon_size 
+		)));
+		$returnArr['html'] = $this->Element('admin/photo/photo_connect_in_gallery_photo_cont', array( 
+			'connected_photos' => $photos['PhotoGalleriesPhoto'], 
+			'not_in_gallery_icon_size' => $not_in_gallery_icon_size 
+		));
+		$this->return_json($returnArr);
+	}
+	
 	public function admin_edit_gallery_connect_photos($gallery_id, $last_photo_id = 0) {
 		$limit = 30;
 		
@@ -252,6 +280,7 @@ class PhotoGalleriesController extends AppController {
 		));
 		
 		
+		$this->PhotoGalleriesPhoto->id = $PhotoGalleriesPhoto_to_move['PhotoGalleriesPhoto']['id'];
 		if ($this->PhotoGalleriesPhoto->moveto($PhotoGalleriesPhoto_to_move['PhotoGalleriesPhoto']['id'], $new_order)) {
 			$returnArr['code'] = 1;
 			$returnArr['message'] = '';
