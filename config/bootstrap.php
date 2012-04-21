@@ -51,4 +51,6 @@
 
 define("LOCAL_SCHEMA_PATH", ROOT.DS.APP_DIR.DS.'config'.DS.'versioning'.DS.'local'.DS.'schema');   
 define("GLOBAL_SCHEMA_PATH", ROOT.DS.APP_DIR.DS.'config'.DS.'versioning'.DS.'global'.DS.'schema');   
-define("TEMP_IMAGE_PATH", ROOT.DS.'image_tmp');   
+define("TEMP_IMAGE_PATH", ROOT.DS.'image_tmp');
+define("TEMP_IMAGE_VAULT", ROOT.DS.'image_vault');
+define("TEMP_IMAGE_UNIT", ROOT.DS.'unit_test_cache');

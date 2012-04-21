@@ -152,46 +152,46 @@ class CloudFilesComponent extends RackspaceObj {
 
     //if the container souce if different then the destination then specify it with container_source
     //DEPRECATED
-    /**public function copy_object($object_name, $source, $container_source=false, $container_destination=false) {
+    /*public function copy_object($object_name, $source, $container_source=false, $container_destination=false) {
         if ($container_destination === false) {
             $container_destination = $this->_getContainerName();
             if ($container_destination === false) return false;
         }
-	$destination_url = "/".$container_destination."/".$object_name;
-        
-	if ($container_source === false) {
-	    $source_file = $this->_getContainerName() . "/" . $source;
-	} else {
-	    $source_file = $container_source . "/" . $source;
-	}
-        
-        $options = array(
-	    CURLOPT_CONNECTTIMEOUT=>200
-	);
-        
-	$http_headers = array(
-	    "X-Copy-From: $source_file"
-	);
-	
-	$this->_makeApiCall('storage', $url, $options, 'PUT', $http_headers, true);
-	if (in_array($this->lastResponseStatus, array('201'))) {
-	    return true;
-	}
-	return false;
-    } */
-    
-    public function delete_object($object_name, $container=false) {
-        if ($container === false) {
-                    $container = $this->_getContainerName();
-                    if ($container === false) return false;
-                }
-	$url = "/".$container."/".$object_name;
-	$this->_makeApiCall('storage', $url, NULL, 'DELETE');
-       
-	if (in_array($this->lastResponseStatus, array('204'))) {
-	    return true;
-	}
-	return false;
+		$destination_url = "/".$container_destination."/".$object_name;
+
+		if ($container_source === false) {
+			$source_file = $this->_getContainerName() . "/" . $source;
+		} else {
+			$source_file = $container_source . "/" . $source;
+		}
+
+		$options = array(
+			CURLOPT_CONNECTTIMEOUT=>200
+		);
+
+		$http_headers = array(
+			"X-Copy-From: $source_file"
+		);
+
+		$this->_makeApiCall('storage', $destination_url, $options, 'PUT', $http_headers, true);
+		if (in_array($this->lastResponseStatus, array('201'))) {
+			return true;
+		}
+		return false;
+	} */
+
+		public function delete_object($object_name, $container=false) {
+			if ($container === false) {
+						$container = $this->_getContainerName();
+						if ($container === false) return false;
+					}
+		$url = "/".$container."/".$object_name;
+		$this->_makeApiCall('storage', $url, NULL, 'DELETE');
+
+		if (in_array($this->lastResponseStatus, array('204'))) {
+			return true;
+		}
+		return false;
     }
     
     public function cdn_list_containers() {
@@ -209,7 +209,8 @@ class CloudFilesComponent extends RackspaceObj {
     }
     
     /* Make a container public, probably will not be used as part of the application, but on lunarnexus when a account builds
-     * public function cdn_enable_container($container) {
+     */ 
+	public function cdn_enable_container($container) {
         $url = "/$container";
 
 	$this->_makeApiCall('cdn', $url, NULL, 'PUT');
@@ -217,6 +218,6 @@ class CloudFilesComponent extends RackspaceObj {
 	    return true;
 	}
 	return false;
-    } */
+    } 
 }
 ?>

@@ -128,69 +128,87 @@ class UtilShell extends Shell {
 	}
 	
 	public function give_me_images() {
+		if (isset($this->args[0]) && is_numeric($this->args[0]) === false) {
+			$this->hr();
+			$this->out('It looks you are trying to pass a image limit, but the value is not numeric');
+			$this->out("example \n cake util give_me_images 12");
+			$this->hr();
+			exit(1);
+		}
+		
 	    $this->Photo->query("truncate table photos;");
 	    $this->PhotoCache->query("truncate table photo_caches");
 	    $this->PhotoGallery->query("truncate table photo_galleries");
+		$this->PhotoGallery->query("truncate table photo_galleries_photos");
 		
+		//clear current image
+		App::import("Component", "CloudFiles");
+        $this->files = new CloudFilesComponent();
+	    $all_objects = $this->files->list_objects();
+	    foreach($all_objects as $object) {
+			$this->files->delete_object($object['name']);
+	    }
+		
+		//Download any new images form the gallery
 	    App::import("Component", "CloudFiles");
 	    $this->files = new CloudFilesComponent();
-	    $tmp_images = TEMP_IMAGE_PATH . DS . 'test_images';
+	    $tmp_images = TEMP_IMAGE_VAULT . DS . 'test_images';
 	    if (is_dir($tmp_images) === false) mkdir($tmp_images);
-	    
-	    //clear current images
-	    $all_objects = $this->files->list_objects();
-	    
-	    foreach($all_objects as $object) {
-		$this->files->delete_object($object['name']);
-	    }
 	    
 	    $local_images = scandir($tmp_images);
 	    $tmp = array();
 	    foreach ($local_images as $image) {
-		if ($image == '.' || $image=='..') {
-		    continue;
-		}
-		$tmp[$image] = $image;
+			if ($image == '.' || $image=='..') {
+				continue;
+			}
+			$tmp[$image] = $image;
 	    }
 	    $local_images = $tmp;
 	    
 	    $master_test_images = $this->files->list_objects('master-test');
 	    foreach ($master_test_images as $image) {
-		if (empty($local_images[$image['name']])) {
-		    unset($output);
-		    exec("cd $tmp_images; wget http://c13957077.r77.cf2.rackcdn.com/".$image['name']." > /dev/null 2>&1", $output);
-		}
+			if (empty($local_images[$image['name']])) {
+				unset($output);
+				exec("cd $tmp_images; wget http://c13957077.r77.cf2.rackcdn.com/".$image['name']." > /dev/null 2>&1", $output);
+			}
 	    }
 		
+		//I probably saved new images so rescan to be sure
 		$local_images = scandir($tmp_images);
-	    
-	    
-
-	    
-	   
 	  
-	    foreach($local_images as $image) {
-		if ($image == '.' || $image=='..') {
-		    continue;
+		//insert images into db
+		$limit=false;
+		if (isset($this->args[0])) {
+			$limit=$this->args[0];
 		}
+		$actual_count=0;
+	    foreach($local_images as $count => $image) {
+			if ($image == '.' || $image=='..') {
+				continue;
+			}
+			if ($actual_count >= $limit) break;
+			$actual_count++;
 			
-		$photo_for_db['Photo']['cdn-filename']['tmp_name'] = $tmp_images . DS . $image;
-		$photo_for_db['Photo']['cdn-filename']['name'] = $image;
-		list($width, $height, $type, $attr) = getimagesize($tmp_images . DS . $image);
-		$photo_for_db['Photo']['cdn-filename']['type'] = $type;
-		$photo_for_db['Photo']['cdn-filename']['size'] = filesize($photo_for_db['Photo']['cdn-filename']['tmp_name']);
+			$photo_for_db['Photo']['cdn-filename']['tmp_name'] = $tmp_images . DS . $image;
+			$photo_for_db['Photo']['cdn-filename']['name'] = $image;
+			list($width, $height, $type, $attr) = getimagesize($tmp_images . DS . $image);
+			$photo_for_db['Photo']['cdn-filename']['type'] = $type;
+			$photo_for_db['Photo']['cdn-filename']['size'] = filesize($photo_for_db['Photo']['cdn-filename']['tmp_name']);
 
 
-		$photo_for_db['Photo']['display_title'] = 'Title' . $image;
-		$photo_for_db['Photo']['display_subtitle'] = 'subtitle' . $image;
-		$photo_for_db['Photo']['alt_text'] = 'alt text ' . $image;
-		$this->Photo->create();
-		$this->Photo->save($photo_for_db);
-		debug('photo saved');
+			$photo_for_db['Photo']['display_title'] = 'Title' . $image;
+			$photo_for_db['Photo']['display_subtitle'] = 'subtitle' . $image;
+			$photo_for_db['Photo']['alt_text'] = 'alt text ' . $image;
+			$this->Photo->create();
+			$this->Photo->save($photo_for_db);
+			$this->out(($actual_count).". Image ".$image." has been saved to the database.");
 	    }
-	    
-	   
-	    
+		
+		$this->out("Done Inserting Images");
+		$this->hr();
+		$this->out("Creating Galleries");
+	     
+		//create random galleries and assign photos to them
 	    $lastGallery = $this->PhotoGallery->find('first', array(
 			'order' => 'PhotoGallery.id DESC'
 		));
@@ -227,34 +245,34 @@ class UtilShell extends Shell {
 				$this->PhotoGalleriesPhoto->save($photo_gallery_photo);
 			}
 		}
+		$this->out("Done Creating Galleries");
 	}
 	
 	public function upload_folder() {
 	    if (count($this->args) != 2) {
-		$this->error("cake util upload_folder <complete-system-path> <rackspace container");
-		exit(1);
+			$this->error("cake util upload_folder <complete-system-path> <rackspace container");
+			exit(1);
 	    }
 	    App::import("Component", "CloudFiles");
 	    $this->files = new CloudFilesComponent();
 	    
 	    if (is_readable($this->args[0]) === false) {
-		$this->error("You non person you... the folder is not readable");
-		exit(1);
+			$this->error("You non person you... the folder is not readable");
+			exit(1);
 	    }
 	    
 	    $all_images = scandir($this->args[0]);
 	    foreach ($all_images as $image) {
-		if ($image == '.' || $image == '..') {
-		    continue;
-		}
-		
-		list($width, $height, $type, $attr) = getimagesize($this->args[0]."/".$image);
-		$result = $this->files->put_object($image, $this->args[0]."/".$image, $type,$this->args[1]);
-		if ($result === 'false') {
-		    $this->error('I returned false');
-		    exit(1);
-		}
+			if ($image == '.' || $image == '..') {
+				continue;
+			}
+
+			list($width, $height, $type, $attr) = getimagesize($this->args[0]."/".$image);
+			$result = $this->files->put_object($image, $this->args[0]."/".$image, $type,$this->args[1]);
+			if ($result === 'false') {
+				$this->error('I returned false');
+				exit(1);
+			}
 	    }
 	}
-	
 }

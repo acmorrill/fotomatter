@@ -56,9 +56,40 @@ class AdamShell extends Shell {
 	//$this->files->put_object('EmeraldFlow.jpg', $test_file, 'image/jpeg');
 	
         
-        debug($this->files->list_containers());
+       /* $this->files->create_container('unit-test-fail');
+		$this->files->cdn_enable_container('unit-test-fail');
+		debug($this->files->cdn_detail_container('unit-test-fail'));
+		$this->files->put_object('larger_image.jpg', '/home/adam/Pictures/large_image.jpg', "image/jpeg", "unit-test-fail"); */
+		debug($this->files->list_objects('unit-test-fail'));
      
     }
+	
+	/***
+	 * I wrote this to test if copying images from another container could be used to quickly get test images. It proved to be approxiamately 
+	 * the same speed as just uploading the image. This funciton could prove usefule so I decided not to remove it. 
+	 */
+	public function copy_container() {
+		if (count($this->args) != 2) {
+			$this->error("Wrong arg count");
+			exit(1);;
+		}
+		
+		App::import("Component", "CloudFiles");
+		$this->CloudFiles = new CloudFilesComponent();
+		
+		$destination_list = $this->CloudFiles->list_objects($this->args[0]);
+		$this->CloudFiles->create_container($this->args[1]);
+		$start = microtime(true);
+		foreach ($destination_list as $file) {
+			$result = $this->CloudFiles->copy_object($file['name'], $file['name'], $this->args[0], $this->args[1]);
+			if ($result === false) {
+				$this->error("returned false");
+				exit(1);
+			}
+		}
+		$end = microtime(true);
+		$this->out("function ran in ".($end-$start));
+	}
     
     public function generate_fixtures() {
         $this->SiteSetting = ClassRegistry::init("SiteSetting");
