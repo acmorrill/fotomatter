@@ -36,7 +36,8 @@
 				
 				// figure the the now position of the dragged element
 				var photoId = jQuery(ui.item).attr('photo_id');
-				var newPosition = ui.item.index() + 1;// TODO - this must always be set - fail otherwise -- not sure if it will be from jquery ui
+				var new_index = ui.item.index();
+				var newPosition = new_index + 1;
 				
 				jQuery.post('/admin/photo_galleries/ajax_set_photo_order_in_gallery/<?php echo $gallery_id; ?>/'+photoId+'/'+newPosition+'/', function(data) {
 					if (data.code == 1) {

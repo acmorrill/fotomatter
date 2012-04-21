@@ -15,7 +15,7 @@ $width = $icon_sizes['width'];
 			<img class="abs_image_tr remove_from_gallery_button" src="/img/admin/icons/bw_simple_close_icon.png" />
 			<img class="abs_image_tl order_in_gallery_button" src="/img/admin/icons/white_arrange.png" />
 			<div class="image_content_cont td">
-				<img src="<?php if (!isset($hide_data)) echo $this->Photo->get_photo_path($the_photo['Photo']['id'], $height, $width); ?>" alt="click to remove" />
+				<img src="<?php if (!isset($hide_data)) echo $this->Photo->get_photo_path($the_photo['Photo']['id'], $height, $width); ?>" alt="<?php __('click to remove'); ?>" />
 			</div>
 		</div>
 	</div>
