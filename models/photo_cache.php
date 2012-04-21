@@ -164,7 +164,7 @@ class PhotoCache extends AppModel {
 			exit();
 		}
 		
-		/*if ($photoCache['PhotoCache']['status'] == 'ready') {
+		if ($photoCache['PhotoCache']['status'] == 'ready') {
 			$cache_full_path = $this->get_full_path($photoCache['PhotoCache']['id']);
 			
 			header('Content-Description: File Transfer');
@@ -179,7 +179,7 @@ class PhotoCache extends AppModel {
 			flush();
 			readfile($new_cache_image_path);
 			exit();
-		}*/
+		}
 		
 		if ($photoCache['PhotoCache']['status'] != 'queued') {
 			if ( !empty($photoCache['PhotoCache']['max_height']) || !empty($photoCache['PhotoCache']['max_width']) ) {
