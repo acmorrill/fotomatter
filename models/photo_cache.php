@@ -1,4 +1,8 @@
 <?php
+/***
+ * testing notes
+ * Make sure ignore user about works
+ */
 class PhotoCache extends AppModel {
 	public $name = 'PhotoCache';
 	public $belongsTo = array('Photo');
@@ -148,7 +152,7 @@ class PhotoCache extends AppModel {
 		}
 	}
 	
-	public function finish_create_cache($photocache_id) {
+	public function finish_create_cache($photocache_id, $direct_output=true) {
 		// TODO - maybe make the following code atomic
 		
 		$photoCache = $this->find('first', array(
@@ -183,7 +187,7 @@ class PhotoCache extends AppModel {
 		
 		if ($photoCache['PhotoCache']['status'] != 'queued') {
 			if ( !empty($photoCache['PhotoCache']['max_height']) || !empty($photoCache['PhotoCache']['max_width']) ) {
-				return $this->get_dummy_processing_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], true);
+				return $this->get_dummy_processing_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], $direct_output);
 			} else {
 				exit();
 			}
@@ -213,7 +217,7 @@ class PhotoCache extends AppModel {
 			if ( !empty($photoCache['PhotoCache']['max_height']) || !empty($photoCache['PhotoCache']['max_width']) ) {
 				$photoCache['PhotoCache']['status'] = 'failed';
 				$this->save($photoCache);
-				return $this->get_dummy_error_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], true);
+				return $this->get_dummy_error_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], $direct_output);
 			} 
 			
 			exit();
@@ -230,7 +234,7 @@ class PhotoCache extends AppModel {
 				$photoCache['PhotoCache']['status'] = 'failed';
 				$this->save($photoCache);
 				if ( !empty($photoCache['PhotoCache']['max_height']) || !empty($photoCache['PhotoCache']['max_width']) ) {
-					return $this->get_dummy_error_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], true);
+					return $this->get_dummy_error_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], $direct_output);
 				} 
 				
 				exit();
@@ -251,6 +255,19 @@ class PhotoCache extends AppModel {
 			unset($photoCache['PhotoCache']['modified']);
 			unset($photoCache['Photo']);
 
+			if ($direct_output) {
+				header('Content-Description: File Transfer');
+				header("Content-type: $newcache_mime");
+				header('Content-Disposition: attachment; filename='.basename($new_cache_image_path));
+				header('Content-Transfer-Encoding: binary');
+				header('Expires: 0');
+				header('Cache-Control: must-revalidate');
+				header('Pragma: public');
+				header('Content-Length: ' . filesize($new_cache_image_path));
+				ob_clean();
+				flush();
+				readfile($new_cache_image_path);
+			}
 			if (!$this->CloudFiles->put_object($cache_image_name, $new_cache_image_path, $newcache_mime)) {
 				$this->major_error("failed to finish creating cache file", $photoCache);
 				unset($photoCache['PhotoCache']['pixel_width']);
@@ -259,22 +276,9 @@ class PhotoCache extends AppModel {
 				unset($photoCache['PhotoCache']['status']);
 			}
 			$this->save($photoCache);
-
-
-			header('Content-Description: File Transfer');
-			header("Content-type: $newcache_mime");
-			header('Content-Disposition: attachment; filename='.basename($new_cache_image_path));
-			header('Content-Transfer-Encoding: binary');
-			header('Expires: 0');
-			header('Cache-Control: must-revalidate');
-			header('Pragma: public');
-			header('Content-Length: ' . filesize($new_cache_image_path));
-			ob_clean();
-			flush();
-			readfile($new_cache_image_path);
-
 			unlink($new_cache_image_path);
 			exit();
+			
 		} else {
 			$this->major_error("the temp image path is not writable for image cache");
 			return $this->get_dummy_error_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], true);

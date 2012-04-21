@@ -20,7 +20,7 @@ class PhotoSettingTestCase extends CakeTestCase {
 		$this->assertEqual($this->helper->check_for_consistent_values(), true);
     }
 	
-	public function test_large_image_should_fail() {
+/*	public function test_large_image_should_fail() {
 		$url = "http://c14354319.r19.cf2.rackcdn.com/larger_image.jpg";
 		exec("cd ".TEMP_IMAGE_UNIT."; wget $url", $output, $result);
 		$this->assertEqual($result, 0);
@@ -55,16 +55,113 @@ class PhotoSettingTestCase extends CakeTestCase {
 		
 		$this->PhotoCache = ClassRegistry::init("PhotoCache");
 		$this->PhotoCache->prepare_new_cachesize($this_photo['Photo']['id'], 200, 200);
-		if (headers_sent() == false) {
-			print(" ");
-		}
-		ob_start();
-		$this->PhotoCache->finish_create_cache($this->PhotoCache->finish_create_cache($this->PhotoCache->id));
-		ob_end_flush();
-		debug($this->PhotoCache->find('first', array(
-			'order'=>'PhotoCache.created DESC'
-		)));
 		
+		$first_cache = $this->PhotoCache->find('first', array(
+			'order'=>'PhotoCache.created DESC'
+		));
+		
+		//download a image to set as the new images
+		$this->SiteSetting = ClassRegistry::init("SiteSetting");
+		exec("cd ".TEMP_IMAGE_PATH."; wget ".$this->SiteSetting->getImageContainerUrl()."/".$first_cache['Photo']['cdn-filename']);
+		$id_to_check = $first_cache['PhotoCache']['id'];
+		unset($first_cache['PhotoCache']);
+		
+		$image_name = $first_cache['Photo']['cdn-filename'];
+		$first_cache['Photo']['cdn-filename'] = array();
+		$first_cache['Photo']['cdn-filename']['tmp_name'] = TEMP_IMAGE_PATH.DS.$image_name;
+		$first_cache['Photo']['cdn-filename']['name'] = $image_name;
+		$first_cache['Photo']['cdn-filename']['type'] = "image/jpeg";
+		$this->Photo->create();
+		$this->Photo->save($first_cache);
+		$empty_image = $this->PhotoCache->find("first", array(
+			'conditions'=>array(
+				'PhotoCache.id'=>$id_to_check
+			)
+		));
+		$this->assertEqual(empty($empty_image)===false, false);
+	}
+	
+	public function test_delete_image() {
+		$this->_give_me_images(1);
+		$this->Photo->delete($this->Photo->id);
+		
+		//nothing should have went wrong, check for no major errors
+		$this->MajorError = ClassRegistry::init("MajorError");
+		$this->MajorError->setDataSource('test');
+		$mes = $this->MajorError->find('all');
+		$this->assertEqual(empty($mes), true);
+	}
+	
+	public function test_delete_image_rackspace_fail() {
+		$this->_give_me_images(1);
+		$this->ServerSetting = ClassRegistry::init("ServerSetting");
+		$this->ServerSetting->setVal('rackspace_api_username', 'a');
+		
+		Configure::write("debug", 0);
+		unset($this->Photo->CloudFiles);
+	    $this->Photo->delete($this->Photo->id);
+	    Configure::write("debug", 2);
+		
+		//make sure we have a major error
+		$this->MajorError = ClassRegistry::init("MajorError");
+		$this->MajorError->setDataSource('test');
+		$me = $this->MajorError->find('first', array(
+			'conditions'=>array(
+				'MajorError.description'=>'failed to delete object cdn-filename-forcache in photo before delete'
+			)
+		));
+		$this->assertEqual(empty($me), false);
+		
+		$me = $this->MajorError->find('first', array(
+			'conditions'=>array(
+				'MajorError.description'=>'failed to delete object cdn-filename-forcache in photo before delete'
+			)
+		));
+		$this->assertEqual(empty($me), false);
+	}
+	*/
+	public function test_save_rackspace_fail() {
+		$this->MajorError = ClassRegistry::init("MajorError");
+		$this->MajorError->setDataSource('test');
+		$mes = $this->MajorError->find('all');
+		$this->assertEqual(empty($mes), true);
+		
+		//make sure that when I resave a photo I invalidate any cache
+		$this->_give_me_images(1);
+		$this_photo = $this->Photo->find('first', array(
+			'order'=>'Photo.created DESC'
+		));
+		
+		$test_images = $this->CloudFiles->list_objects("master-test");
+		exec("cd ".TEMP_IMAGE_UNIT."; wget http://c13957077.r77.cf2.rackcdn.com/".$test_images[0]['name']);
+		
+		$this_photo['Photo']['cdn-filename'] = array();
+		$this_photo['Photo']['cdn-filename']['tmp_name'] =TEMP_IMAGE_UNIT.DS.$test_images[0]['name'];
+		$this_photo['Photo']['cdn-filename']['name'] = $test_images[0]['name'];
+		$this_photo['Photo']['cdn-filename']['type'] = "image/jpeg";
+		$this->ServerSetting = ClassRegistry::init("ServerSetting");
+		$this->ServerSetting->setVal('rackspace_api_username', 'a');
+		unset($this->Photo->CloudFiles);
+		$this->Photo->create();
+		$this->Photo->save($this_photo);
+		$me = $this->MajorError->find('first', array(
+			'conditions'=>array(
+				'MajorError.description'=>'failed to put an object to cloud files on photo save'
+			)
+		));
+		$this->assertEqual(empty($me), false); 
+	/*	
+		$this->ServerSetting = ClassRegistry::init("ServerSetting");
+		$this->ServerSetting->setVal('rackspace_api_username', 'a');
+		$this->Photo->save($this_photo);
+		debug($this->MajorError->find('all'));
+		debug($this_photo);
+		$me = $this->MajorError->find('first', array(
+			'conditions'=>array(
+				'MajorError.description'=>'failed to create mastercache file in photo beforeSave'
+			)
+		));
+		$this->assertEqual(empty($me), false); */
 	}
 	
 	private function _give_me_images($number_to_process) {
@@ -80,7 +177,7 @@ class PhotoSettingTestCase extends CakeTestCase {
 		foreach ($all_objects as $key => $photo) {
 			$photo_for_db['Photo']['cdn-filename']['tmp_name'] = TEMP_IMAGE_UNIT . DS . $photo['name'];
 			$name = $photo['name'];
-			$photo_for_db['Photo']['cdn-filename']['name'] = $name . ".jpg";
+			$photo_for_db['Photo']['cdn-filename']['name'] = $name;
 			$photo_for_db['Photo']['cdn-filename']['type'] = 'image/jpeg';
 			$photo_for_db['Photo']['cdn-filename']['size'] = filesize($photo_for_db['Photo']['cdn-filename']['tmp_name']);
 
