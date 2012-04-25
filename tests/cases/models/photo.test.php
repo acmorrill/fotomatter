@@ -20,7 +20,7 @@ class PhotoSettingTestCase extends CakeTestCase {
 		$this->assertEqual($this->helper->check_for_consistent_values(), true);
     }
 	
-/*	public function test_large_image_should_fail() {
+	public function test_large_image_should_fail() {
 		$url = "http://c14354319.r19.cf2.rackcdn.com/larger_image.jpg";
 		exec("cd ".TEMP_IMAGE_UNIT."; wget $url", $output, $result);
 		$this->assertEqual($result, 0);
@@ -119,7 +119,7 @@ class PhotoSettingTestCase extends CakeTestCase {
 		));
 		$this->assertEqual(empty($me), false);
 	}
-	*/
+	
 	public function test_save_rackspace_fail() {
 		$this->MajorError = ClassRegistry::init("MajorError");
 		$this->MajorError->setDataSource('test');
@@ -150,18 +150,36 @@ class PhotoSettingTestCase extends CakeTestCase {
 			)
 		));
 		$this->assertEqual(empty($me), false); 
-	/*	
-		$this->ServerSetting = ClassRegistry::init("ServerSetting");
-		$this->ServerSetting->setVal('rackspace_api_username', 'a');
-		$this->Photo->save($this_photo);
-		debug($this->MajorError->find('all'));
-		debug($this_photo);
-		$me = $this->MajorError->find('first', array(
-			'conditions'=>array(
-				'MajorError.description'=>'failed to create mastercache file in photo beforeSave'
-			)
-		));
-		$this->assertEqual(empty($me), false); */
+	}
+	
+	public function test_smaller_than_master() {
+		$this->_give_me_this('larger_than_cache.jpg');
+		debug($this->Photo->findById($this->Photo->id));
+	}
+	
+	private function _give_me_this($image_name) {
+		$image = file_get_contents('http://c13957077.r77.cf2.rackcdn.com/'.$image_name);
+		file_put_contents(TEMP_IMAGE_PATH . DS . $image_name, $image);
+		$this->_insert_this_image(TEMP_IMAGE_PATH.DS.$image_name);
+	}
+	
+	private function _insert_this_image($file_path) {
+		list($width, $height, $type, $attr) = getimagesize($file_path);
+		$path_info = pathinfo($file_path);
+		
+		$photo_for_db = array();
+		$photo_for_db['Photo']['cdn-filename']['tmp_name'] = $file_path;
+		$file_name = $path_info['filename'] . '.' . $path_info['extension'];
+		$photo_for_db['Photo']['cdn-filename']['name'] = $file_name;
+		$photo_for_db['Photo']['cdn-filename']['type'] = $type;
+		$photo_for_db['Photo']['cdn-filename']['size'] = filesize($file_path);
+		
+		$photo_for_db['Photo']['display_title'] = 'Title' . $file_name;
+		$photo_for_db['Photo']['display_subtitle'] = 'subtitle' . $file_name;
+		$photo_for_db['Photo']['alt_text'] = 'alt text ' . $file_name;
+		
+		$this->Photo->create();
+		$this->Photo->save($photo_for_db);
 	}
 	
 	private function _give_me_images($number_to_process) {
@@ -175,19 +193,7 @@ class PhotoSettingTestCase extends CakeTestCase {
 		}
 
 		foreach ($all_objects as $key => $photo) {
-			$photo_for_db['Photo']['cdn-filename']['tmp_name'] = TEMP_IMAGE_UNIT . DS . $photo['name'];
-			$name = $photo['name'];
-			$photo_for_db['Photo']['cdn-filename']['name'] = $name;
-			$photo_for_db['Photo']['cdn-filename']['type'] = 'image/jpeg';
-			$photo_for_db['Photo']['cdn-filename']['size'] = filesize($photo_for_db['Photo']['cdn-filename']['tmp_name']);
-
-
-			$photo_for_db['Photo']['display_title'] = 'Title' . $name;
-			$photo_for_db['Photo']['display_subtitle'] = 'subtitle' . $name;
-			$photo_for_db['Photo']['alt_text'] = 'alt text ' . $name;
-
-			$this->Photo->create();
-			$this->Photo->save($photo_for_db);
+			$this->_insert_this_image(TEMP_IMAGE_UNIT . DS . $photo['name']);
 			if ($key == $number_to_process) break;
 		}
 		

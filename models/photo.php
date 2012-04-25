@@ -126,11 +126,12 @@ class Photo extends AppModel {
 					
 					
 					if (!file_exists($new_image_temp_path)) {
+						//so if the master cache file would be bigger than the image, then the image itself is used for the master cache file
 						copy($new_image_url, $new_image_temp_path);
 					}
-					
 					$master_cache_size = getimagesize($new_image_temp_path);
 					list($mastercache_width, $mastercache_height, $mastercache_type, $mastercache_attr) = $master_cache_size;
+					
 					$mastercache_mime = $master_cache_size['mime'];
 					$this->data['Photo']['forcache_pixel_width'] = $mastercache_width;
 					$this->data['Photo']['forcache_pixel_height'] = $mastercache_height;
