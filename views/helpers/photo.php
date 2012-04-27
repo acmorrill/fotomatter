@@ -1,4 +1,6 @@
 <?php
+
+
 class PhotoHelper extends AppHelper {
 	
 	public function get_photo_path($photo_id, $height = null, $width = null) {
@@ -9,10 +11,9 @@ class PhotoHelper extends AppHelper {
 		if ($width <= 0) {
 			$width = null;
 		}
-		$returnPath = '';
 		$this->Photo = ClassRegistry::init('Photo');
 		$this->PhotoCache = ClassRegistry::init('PhotoCache');
-		$masterCacheSize = 1500; // TODO this should be a global setting
+		$masterCacheSize = LARGE_MASTER_CACHE_SIZE;
 		
 		$heightSet = isset($height);
 		$widthSet = isset($width);
@@ -40,7 +41,7 @@ class PhotoHelper extends AppHelper {
 		
 		// return the full photo path
 		if ($bothEmpty) {
-			$returnPath = $this->Photo->get_full_path($photo_id);
+			return $this->Photo->get_full_path($photo_id);
 		} 
 		// get a cache smaller than width
 		else if ($onlyWidth) {
@@ -67,21 +68,29 @@ class PhotoHelper extends AppHelper {
 			);
 		}
 		
-		
+		$initLocked = $this->Photo->query("SELECT GET_LOCK('finish_create_cache_".$photo_id."', 8)");
+		if ($initLocked['0']['0']["GET_LOCK('finish_create_cache_".$photo_id."', 8)"] == 0 || $initLocked['0']['0']["GET_LOCK('finish_create_cache_".$photo_id."', 8)"] == null) {
+			return $this->PhotoCache->get_dummy_processing_image_path($height, $width);
+		}
 		$photoCache = $this->PhotoCache->find('first', array(
 			'conditions' => $conditions
 		));
 
-		
+		$return_url = '';
 		if ( $photoCache && $photoCache['PhotoCache']['status'] == 'ready' ) {
-			return $this->PhotoCache->get_full_path($photoCache['PhotoCache']['id']);
-		} else if ( $photoCache && ( $photoCache['PhotoCache']['status'] == 'queued' ||  $photoCache['PhotoCache']['status'] == 'processing' ) ) {
+			$return_url = $this->PhotoCache->get_full_path($photoCache['PhotoCache']['id']);
+		} else if ( $photoCache && $photoCache['PhotoCache']['status'] == 'processing' ) {
+			$return_url = $this->PhotoCache->get_dummy_processing_image_path($height, $width);
+		} else if ( $photoCache && $photoCache['PhotoCache']['status'] == 'queued' ) {
 			// TODO - maybe return the prepare path if the status is queued and some time has passed
-			return $this->PhotoCache->get_dummy_processing_image_path($height, $width);
+			// I don't think I need to do the TODO now that I've added locking to the finish create cache and this helper
+			$return_url = $this->PhotoCache->get_existing_cache_create_url($photoCache['PhotoCache']['id']);
 		} else {
-			return $this->PhotoCache->prepare_new_cachesize($photo_id, $height, $width);
+			$return_url = $this->PhotoCache->prepare_new_cachesize($photo_id, $height, $width);
 		}
 		
+		$releaseLock = $this->Photo->query("SELECT RELEASE_LOCK('finish_create_cache_".$photo_id."')");
+		return $return_url;
 	}
 	
 	public function get_admin_photo_icon_size($not_in_gallery_icon_size) {

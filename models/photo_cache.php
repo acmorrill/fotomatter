@@ -1,7 +1,9 @@
 <?php
 /***
  * testing notes
- * Make sure ignore user about works
+ * 1) make sure there are no queed photo caches that are old
+ * 2) make sure there are no processing photo caches that are old
+ * 3) see if there are any failed photo caches
  */
 class PhotoCache extends AppModel {
 	public $name = 'PhotoCache';
@@ -152,9 +154,11 @@ class PhotoCache extends AppModel {
 		}
 	}
 	
-	public function finish_create_cache($photocache_id, $direct_output=true) {
-		// TODO - maybe make the following code atomic
-		
+	public function get_existing_cache_create_url($photo_cache_id) {
+		return '/photo_caches/create_cache/'.$photo_cache_id.'/';
+	}
+	
+	public function finish_create_cache($photocache_id, $direct_output = true) {
 		$photoCache = $this->find('first', array(
 			'conditions' => array(
 				'PhotoCache.id' => $photocache_id
@@ -165,10 +169,11 @@ class PhotoCache extends AppModel {
 		));
 		
 		if (!$photoCache) {
+			$this->major_error('got into finish_create_cache and the photo cache file was invalid');
 			exit();
 		}
-		
-		if ($photoCache['PhotoCache']['status'] == 'ready') {
+
+		/*if ($photoCache['PhotoCache']['status'] == 'ready') {
 			$cache_full_path = $this->get_full_path($photoCache['PhotoCache']['id']);
 			
 			header('Content-Description: File Transfer');
@@ -183,19 +188,32 @@ class PhotoCache extends AppModel {
 			flush();
 			readfile($new_cache_image_path);
 			exit();
-		}
+		}*/
 		
-		if ($photoCache['PhotoCache']['status'] != 'queued') {
+		$photo_id = $photoCache['Photo']['id'];
+		$initLocked = $this->query("SELECT GET_LOCK('finish_create_cache_".$photo_id."', 8)");
+		if ($initLocked['0']['0']["GET_LOCK('finish_create_cache_".$photo_id."', 8)"] == 0 || $initLocked['0']['0']["GET_LOCK('finish_create_cache_".$photo_id."', 8)"] == null) {
 			if ( !empty($photoCache['PhotoCache']['max_height']) || !empty($photoCache['PhotoCache']['max_width']) ) {
 				return $this->get_dummy_processing_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], $direct_output);
 			} else {
 				exit();
 			}
 		}
-		
+
+
+		if ($photoCache['PhotoCache']['status'] != 'queued') {
+			$this->query("SELECT RELEASE_LOCK('finish_create_cache_".$photo_id."')");
+			if ( !empty($photoCache['PhotoCache']['max_height']) || !empty($photoCache['PhotoCache']['max_width']) ) {
+				return $this->get_dummy_processing_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], $direct_output);
+			} else {
+				exit();
+			}
+		}
+
 		$cache_prefix = 'cache_';
 		$photoCache['PhotoCache']['status'] = 'processing';
 		$this->save($photoCache);
+		$releaseLock = $this->query("SELECT RELEASE_LOCK('finish_create_cache_".$photo_id."')");
 		
 		
 		
@@ -222,9 +240,16 @@ class PhotoCache extends AppModel {
 			
 			exit();
 		}
+
 		
 		if (is_writable(TEMP_IMAGE_PATH)) {
 			$large_image_url = ClassRegistry::init("SiteSetting")->getImageContainerUrl().$photoCache['Photo']['cdn-filename-forcache'];
+			// check to see if there is a local master cache to use instead
+			if (USE_CACHE_SPEED && file_exists(LOCAL_MASTER_CACHE.DS.$photoCache['Photo']['cdn-filename-forcache'])) {
+				$this->log('using local master cache', 'finish_create_cache');
+				$large_image_url = LOCAL_MASTER_CACHE.DS.$photoCache['Photo']['cdn-filename-forcache'];
+			}
+			
 			$cache_image_name = $cache_prefix.$max_height_display.'x'.$max_width_display.'_'.$photoCache['Photo']['cdn-filename'];
 			$new_cache_image_path = TEMP_IMAGE_PATH.DS.$cache_image_name;
 
@@ -245,6 +270,20 @@ class PhotoCache extends AppModel {
 			$newcache_size = getimagesize($new_cache_image_path);
 			list($newcache_width, $newcache_height, $newcache_type, $newcache_attr) = $newcache_size;
 			$newcache_mime = $newcache_size['mime'];
+			
+			if ($direct_output) {
+				header('Content-Description: File Transfer');
+				header("Content-type: $newcache_mime");
+				header('Content-Disposition: attachment; filename='.basename($new_cache_image_path));
+				header('Content-Transfer-Encoding: binary');
+				header('Expires: 0');
+				header('Cache-Control: must-revalidate');
+				header('Pragma: public');
+				//header('Content-Length: ' . filesize($new_cache_image_path));
+				ob_clean();
+				flush();
+				readfile($new_cache_image_path);
+			}
 
 			$photoCache['PhotoCache']['pixel_width'] = $newcache_width;
 			$photoCache['PhotoCache']['pixel_height'] = $newcache_height;
@@ -255,19 +294,6 @@ class PhotoCache extends AppModel {
 			unset($photoCache['PhotoCache']['modified']);
 			unset($photoCache['Photo']);
 
-			if ($direct_output) {
-				header('Content-Description: File Transfer');
-				header("Content-type: $newcache_mime");
-				header('Content-Disposition: attachment; filename='.basename($new_cache_image_path));
-				header('Content-Transfer-Encoding: binary');
-				header('Expires: 0');
-				header('Cache-Control: must-revalidate');
-				header('Pragma: public');
-				header('Content-Length: ' . filesize($new_cache_image_path));
-				ob_clean();
-				flush();
-				readfile($new_cache_image_path);
-			}
 			if (!$this->CloudFiles->put_object($cache_image_name, $new_cache_image_path, $newcache_mime)) {
 				$this->major_error("failed to finish creating cache file", $photoCache);
 				unset($photoCache['PhotoCache']['pixel_width']);
@@ -276,6 +302,7 @@ class PhotoCache extends AppModel {
 				unset($photoCache['PhotoCache']['status']);
 			}
 			$this->save($photoCache);
+			
 			unlink($new_cache_image_path);
 			exit();
 			
@@ -335,7 +362,49 @@ class PhotoCache extends AppModel {
 	}
 	
 	public function convert($old_image_url, $new_image_path, $max_width, $max_height) {
-		$imageMagickCommand = 'convert '.escapeshellarg($old_image_url).' -resize '.$max_width.'x'.$max_height.' '.escapeshellarg($new_image_path).' ';
+		$use_speed = USE_CACHE_SPEED;
+		$max_thumb_size = SMALL_MASTER_CACHE_SIZE;
+		$sizeString = '';
+		$resize = '';
+		$jpeg_define = '';
+		$filter = '';
+		$bothEmpty = empty($max_height) && empty($max_width);
+		$onlyWidth = !empty($max_width) && empty($max_height);
+		$onlyHeight = empty($max_width) && !empty($max_height);
+		$bothSet = !empty($max_width) && !empty($max_height);
+		if ($bothEmpty) {
+			return false;
+		} else if ($onlyWidth) {
+			if ($use_speed && $max_width < $max_thumb_size) {
+				$resize = '-thumbnail';
+				$jpeg_define = "-define jpeg:size=".($max_width*2);
+				$filter = '-filter box';
+			} else {
+				$resize = '-resize';
+			}
+			$resize .= ' '.$max_width;
+		} else if ($onlyHeight) {
+			if ($use_speed && $max_height < $max_thumb_size) {
+				$resize = '-thumbnail';
+				$jpeg_define = "-define jpeg:size=x".($max_height*2);
+				$filter = '-filter box';
+			} else {
+				$resize = '-resize';
+			}
+			$resize .= ' x'.$max_height;
+		} else if ($bothSet) {
+			if ($use_speed && $max_height < $max_thumb_size && $max_width < $max_thumb_size) {
+				$resize = '-thumbnail';
+				$jpeg_define = "-define jpeg:size=".($max_width*2)."x".($max_height*2);
+				$filter = '-filter box';
+			} else {
+				$resize = '-resize';
+			}
+			$resize .= ' '.$max_width.'x'.$max_height;
+		}
+		
+		
+		$imageMagickCommand = "convert $jpeg_define $filter $resize ".escapeshellarg($old_image_url).' '.escapeshellarg($new_image_path).' ';
 		$info = array();
 		$info['output'] = array();
 		$info['return_var'] = 0;

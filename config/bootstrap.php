@@ -54,3 +54,8 @@ define("GLOBAL_SCHEMA_PATH", ROOT.DS.APP_DIR.DS.'config'.DS.'versioning'.DS.'glo
 define("TEMP_IMAGE_PATH", ROOT.DS.'image_tmp');
 define("TEMP_IMAGE_VAULT", ROOT.DS.'image_vault');
 define("TEMP_IMAGE_UNIT", ROOT.DS.'unit_test_cache');
+define("LOCAL_MASTER_CACHE", ROOT.DS.'local_master_cache');
+define("LARGE_MASTER_CACHE_SIZE", 300);
+define("SMALL_MASTER_CACHE_SIZE", 250);
+define("USE_CACHE_SPEED", true);
+

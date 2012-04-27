@@ -104,8 +104,8 @@ class Photo extends AppModel {
 				// now create a smaller version of the file (or bigger 1500x1500) for use in creating the cache files later
 				if (is_writable(TEMP_IMAGE_PATH)) {
 					$master_cache_prefix = 'mastercache_';
-					$max_width = 1500; // TODO - read from a global setting
-					$max_height = 1500;
+					$max_width = LARGE_MASTER_CACHE_SIZE;
+					$max_height = LARGE_MASTER_CACHE_SIZE;
 					
 					$new_image_url = ClassRegistry::init("SiteSetting")->getImageContainerUrl().$file_name;
 					$cache_image_name = $master_cache_prefix.$file_name;
@@ -121,13 +121,16 @@ class Photo extends AppModel {
 					if ($this->PhotoCache->convert($new_image_url, $new_image_temp_path, $max_width, $max_height) == false) {
 						$this->major_error('failed to create mastercache file in photo beforeSave', array($new_image_url, $new_image_temp_path, $max_width, $max_height));
 					}
-					/*$imageMagickCommand = 'convert '.escapeshellarg($new_image_url).' -resize '.$max_width.'x'.$max_height.' '.escapeshellarg($new_image_temp_path).' ';
-					shell_exec($imageMagickCommand);*/
 					
 					
 					if (!file_exists($new_image_temp_path)) {
 						copy($new_image_url, $new_image_temp_path);
 					}
+					
+					// write to the local master cache file
+					$local_master_cache_path = LOCAL_MASTER_CACHE.DS.$cache_image_name;
+					copy($new_image_temp_path, $local_master_cache_path);
+					
 					
 					$master_cache_size = getimagesize($new_image_temp_path);
 					list($mastercache_width, $mastercache_height, $mastercache_type, $mastercache_attr) = $master_cache_size;
