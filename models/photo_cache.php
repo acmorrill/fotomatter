@@ -173,7 +173,7 @@ class PhotoCache extends AppModel {
 			exit();
 		}
 
-		/*if ($photoCache['PhotoCache']['status'] == 'ready') {
+		if ($photoCache['PhotoCache']['status'] == 'ready') {
 			$cache_full_path = $this->get_full_path($photoCache['PhotoCache']['id']);
 			
 			header('Content-Description: File Transfer');
@@ -188,7 +188,7 @@ class PhotoCache extends AppModel {
 			flush();
 			readfile($new_cache_image_path);
 			exit();
-		}*/
+		}
 		
 		$photo_id = $photoCache['Photo']['id'];
 		$initLocked = $this->query("SELECT GET_LOCK('finish_create_cache_".$photo_id."', 8)");
