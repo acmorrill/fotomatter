@@ -133,6 +133,17 @@ class UtilShell extends Shell {
 		$this->PhotoCache->deleteAll('1=1', true, true);
 	}
 	
+	public function cdn_detail() {
+		$container_name = false;
+		if (isset($this->args[0])) {
+			$container_name=$this->args[0];
+		}
+		
+		App::import("Component", "CloudFiles");
+		$this->files = new CloudFilesComponent();
+		debug($this->files->cdn_detail_container($container_name));
+	}
+	
 	public function give_me_images() {
 		if (isset($this->args[0]) && is_numeric($this->args[0]) === false) {
 			$this->hr();
@@ -293,7 +304,7 @@ class UtilShell extends Shell {
 	
 	public function delete_stuff() {
 		$to_delete = array(
-			'067Z5930.jpg.2'
+			'thunderbird-icon.png'
 			
 		);
 		App::import("Component", "CloudFiles");
