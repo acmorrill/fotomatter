@@ -74,7 +74,7 @@ while ($row = mysql_fetch_assoc($sql_result)) {
 				<td><?php echo $row['http_accept']; ?></td>
 				<td><?php echo $row['request_uri']; ?></td>
 				<td><?php echo $row['name_space']; ?></td>
-				<td><?php echo "<a href=\"http://xhprof/index.php?run={$row['xhprof_id']}&source={$row['name_space']}\">View Graph</a><br/>"; ?></td>
+				<td><?php echo "<a href=\"/xhprof/index.php?run={$row['xhprof_id']}&source={$row['name_space']}\">View Graph</a><br/>"; ?></td>
 				<td><?php echo $row['nano_seconds']; ?></td>
 				<td style="color:<?php echo $row['color']; ?>"><?php echo $row['diff']; ?></td>
 			</tr>
