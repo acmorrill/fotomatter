@@ -14,6 +14,10 @@ class PhotoSettingTestCase extends CakeTestCase {
 		//init cloudfiles component
 		App::import("Component", "CloudFiles");
 		$this->CloudFiles = new CloudFilesComponent();
+		
+		//init testing component
+		App::import("Component", "Testing");
+		$this->Testing = new TestingComponent();
     }
     
     public function test_check_consistent_values() {
@@ -28,7 +32,7 @@ class PhotoSettingTestCase extends CakeTestCase {
 		
 		$name = "larger_image.jpg";
 		$photo_for_db['Photo']['cdn-filename']['tmp_name'] = TEMP_IMAGE_UNIT . "/larger_image.jpg";
-		$name = $this->_create_random_string(10);
+		$name = $this->Testing->create_random_string(10);
 		$photo_for_db['Photo']['cdn-filename']['name'] = $name . ".jpg";
 		$photo_for_db['Photo']['cdn-filename']['type'] = 'image/jpeg';
 		$photo_for_db['Photo']['cdn-filename']['size'] = filesize(TEMP_IMAGE_UNIT . "/larger_image.jpg");
@@ -43,12 +47,12 @@ class PhotoSettingTestCase extends CakeTestCase {
 	}
     
     public function test_download_files() {
-		$this->_give_me_images(2);
+		$this->Testing->give_me_images(2);
     }
 	
 	public function test_delete_cache() {
 		//make sure that when I resave a photo I invalidate any cache
-		$this->_give_me_images(1);
+		$this->Testing->give_me_images(1);
 		$this_photo = $this->Photo->find('first', array(
 			'order'=>'Photo.created DESC'
 		));
@@ -82,18 +86,19 @@ class PhotoSettingTestCase extends CakeTestCase {
 	}
 	
 	public function test_delete_image() {
-		$this->_give_me_images(1);
+		$this->Testing->give_me_images(1);
 		$this->Photo->delete($this->Photo->id);
 		
 		//nothing should have went wrong, check for no major errors
 		$this->MajorError = ClassRegistry::init("MajorError");
+		
 		$this->MajorError->setDataSource('test');
 		$mes = $this->MajorError->find('all');
 		$this->assertEqual(empty($mes), true);
 	}
 	
 	public function test_delete_image_rackspace_fail() {
-		$this->_give_me_images(1);
+		$this->Testing->give_me_images(1);
 		$this->ServerSetting = ClassRegistry::init("ServerSetting");
 		$this->ServerSetting->setVal('rackspace_api_username', 'a');
 		
@@ -127,7 +132,7 @@ class PhotoSettingTestCase extends CakeTestCase {
 		$this->assertEqual(empty($mes), true);
 		
 		//make sure that when I resave a photo I invalidate any cache
-		$this->_give_me_images(1);
+		$this->Testing->give_me_images(1);
 		$this_photo = $this->Photo->find('first', array(
 			'order'=>'Photo.created DESC'
 		));
@@ -153,64 +158,8 @@ class PhotoSettingTestCase extends CakeTestCase {
 	}
 	
 	public function test_smaller_than_master() {
-		$this->_give_me_this('larger_than_cache.jpg');
-		debug($this->Photo->findById($this->Photo->id));
+		//$this->_give_me_this('larger_than_cache.jpg');
+		//debug($this->Photo->findById($this->Photo->id));
 	}
-	
-	private function _give_me_this($image_name) {
-		$image = file_get_contents('http://c13957077.r77.cf2.rackcdn.com/'.$image_name);
-		file_put_contents(TEMP_IMAGE_PATH . DS . $image_name, $image);
-		$this->_insert_this_image(TEMP_IMAGE_PATH.DS.$image_name);
-	}
-	
-	private function _insert_this_image($file_path) {
-		list($width, $height, $type, $attr) = getimagesize($file_path);
-		$path_info = pathinfo($file_path);
-		
-		$photo_for_db = array();
-		$photo_for_db['Photo']['cdn-filename']['tmp_name'] = $file_path;
-		$file_name = $path_info['filename'] . '.' . $path_info['extension'];
-		$photo_for_db['Photo']['cdn-filename']['name'] = $file_name;
-		$photo_for_db['Photo']['cdn-filename']['type'] = $type;
-		$photo_for_db['Photo']['cdn-filename']['size'] = filesize($file_path);
-		
-		$photo_for_db['Photo']['display_title'] = 'Title' . $file_name;
-		$photo_for_db['Photo']['display_subtitle'] = 'subtitle' . $file_name;
-		$photo_for_db['Photo']['alt_text'] = 'alt text ' . $file_name;
-		
-		$this->Photo->create();
-		$this->Photo->save($photo_for_db);
-	}
-	
-	private function _give_me_images($number_to_process) {
-		$all_objects = $this->CloudFiles->list_objects("MichelleCellPhone");
-		$this->assertEqual(is_writable(TEMP_IMAGE_UNIT), true);
-		
-		foreach ($all_objects as $key => $picture) {
-			$image = $this->CloudFiles->get_object($picture['name'], 'MichelleCellPhone');
-			file_put_contents(TEMP_IMAGE_UNIT.DS.$picture['name'], $image);
-			if($key == $number_to_process) break;
-		}
-
-		foreach ($all_objects as $key => $photo) {
-			$this->_insert_this_image(TEMP_IMAGE_UNIT . DS . $photo['name']);
-			if ($key == $number_to_process) break;
-		}
-		
-		$test_images = scandir(TEMP_IMAGE_UNIT);
-		foreach ($test_images as $image) {
-			if ($image == '.' || $image == '..') continue;
-			$this->assertEqual(unlink(TEMP_IMAGE_UNIT."/".$image), true);
-		}
-	}
-    
-    private function _create_random_string($length) {
-        $lib = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789';
-        $return = '';
-        for ($i=0;$i < $length; $i++) {
-            $return .= $lib[rand(0, strlen($lib)-1)];
-        }
-        return $return; 
-    }
 }
 ?>

@@ -12,6 +12,6 @@ $sqls[] = "CREATE TABLE IF NOT EXISTS `xhprof_profiles` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1";
 
-$sqls[] = "ALTER TABLE  `xhprof_profiles` ADD  `name_space` VARCHAR( 16 ) NOT NULL AFTER  `http_accept`";
+$sqls[] = "ALTER TABLE  `xhprof_profiles` ADD  `name_space` TEXT NOT NULL AFTER  `http_accept`";
 $sqls[] = "ALTER TABLE  `xhprof_profiles` ADD  `request_uri` VARCHAR( 1080 ) NOT NULL AFTER  `http_accept`";
 $sqls[] = "ALTER TABLE  `xhprof_profiles` ADD  `nano_seconds` FLOAT NOT NULL AFTER  `name_space`";
