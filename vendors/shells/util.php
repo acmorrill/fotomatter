@@ -55,10 +55,10 @@ class UtilShell extends Shell {
 			//print_r($all_object);
 		}
 		
-		$this->args[0] = 10;
-		$this->give_me_images();
+		/*$this->args[0] = 10;
+		$this->give_me_images();*/
 		
-		/*$photo_data = array();
+		$photo_data = array();
 		
 		////////////////////////////////////////////
 		// add some default photos
@@ -119,7 +119,7 @@ class UtilShell extends Shell {
 				$this->PhotoGalleriesPhoto->create();
 				$this->PhotoGalleriesPhoto->save($photo_gallery_photo);
 			}
-		}*/
+		}
 	}
 	
 	public function list_cloudfiles() {

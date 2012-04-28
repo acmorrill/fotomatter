@@ -1,4 +1,24 @@
 <?php
+
+/**
+ * TEST NOTES
+ * 
+ * -- make sure if the cdn-filename is set - then all of the following are set
+ *		-- cd-filename-forcache
+ *		-- cd-filename-smaller-forcache
+ *		-- pixel_width
+ *		-- pixel_height
+ *		-- forcache_pixel_width
+ *		-- forcache_pixel_height
+ *		-- smaller_forcache_pixel_width
+ *		-- smaller_forcache_pixel_height
+ * 
+ * 
+ * --- test that convert will not uprez for either master cache or smaller master cache
+ * --- test that if you upload a small original a larger cache file will still work (upres)
+ */
+
+
 class Photo extends AppModel {
 	public $name = 'Photo';
 	public $belongsTo = array('PhotoFormat');
@@ -64,7 +84,24 @@ class Photo extends AppModel {
 				$this->PhotoCache->deleteAll(array(
 					'PhotoCache.photo_id' => $this->data['Photo']['id']
 				), true, true);
+				
+				
+				// delete the local master cache files -- they are now invalidated
+				$old_photo = $this->find('first', array(
+					'conditions' => array(
+						'Photo.id' => $this->data['Photo']['id']
+					),
+					'contain' => false
+				));
+				if (isset($old_photo['Photo']['cdn-filename-forcache'])) {
+					unlink(LOCAL_MASTER_CACHE.DS.$old_photo['Photo']['cdn-filename-forcache']);
+				}
+				if (isset($old_photo['Photo']['cdn-filename-smaller-forcache'])) {
+					unlink(LOCAL_SMALLER_MASTER_CACHE.DS.$old_photo['Photo']['cdn-filename-smaller-forcache']);
+				}
 			}
+			
+			
 			
 			
 			list($width, $height, $type, $attr) = getimagesize($this->data['Photo']['cdn-filename']['tmp_name']);
@@ -103,29 +140,25 @@ class Photo extends AppModel {
 				//////////////////////////////////////////////////////////////////////////////////////////
 				// now create a smaller version of the file (or bigger 1500x1500) for use in creating the cache files later
 				if (is_writable(TEMP_IMAGE_PATH)) {
-					$master_cache_prefix = 'mastercache_';
 					$max_width = LARGE_MASTER_CACHE_SIZE;
 					$max_height = LARGE_MASTER_CACHE_SIZE;
 					
-					$new_image_url = ClassRegistry::init("SiteSetting")->getImageContainerUrl().$file_name;
-					$cache_image_name = $master_cache_prefix.$file_name;
+					$cache_image_name = MASTER_CACHE_PREFIX.$file_name;
 					
 					$this->data['Photo']['cdn-filename-forcache'] = $cache_image_name;
 					
 					
-					
-					// TODO - check to make sure the photo url is pingable here
 					// the command line image magick way
 					$image_file_name = $this->random_num();
 					$new_image_temp_path = TEMP_IMAGE_PATH.DS.$image_file_name;
-					if ($this->PhotoCache->convert($new_image_url, $new_image_temp_path, $max_width, $max_height) == false) {
-						$this->major_error('failed to create mastercache file in photo beforeSave', array($new_image_url, $new_image_temp_path, $max_width, $max_height));
+					if ($this->PhotoCache->convert($tmp_location, $new_image_temp_path, $max_width, $max_height, false) == false) {
+						$this->major_error('failed to create mastercache file in photo beforeSave', array($new_image_temp_path, $max_width, $max_height));
 					}
 					
 					
 					if (!file_exists($new_image_temp_path)) {
 						//so if the master cache file would be bigger than the image, then the image itself is used for the master cache file
-						copy($new_image_url, $new_image_temp_path);
+						copy($tmp_location, $new_image_temp_path);
 					}
 					
 					// write to the local master cache file
@@ -148,40 +181,56 @@ class Photo extends AppModel {
 					}
 					
 					unlink($new_image_temp_path);
-					
-					/* DEPRECATED
-                                         * $handle = fopen($new_image_url, 'rb');
-					$img = new Imagick();
-					$img->readImageFile($handle);
-					$geo = $img->getImageGeometry();
-					if ( $geo['width'] > $max_width || $geo['height'] > $max_height ) {
-						$img->resizeImage($max_width, $max_height, imagick::FILTER_LANCZOS, 0.9, true); // TODO - use a less intesive algorithm
-						$geo = $img->getImageGeometry();
-						$this->data['Photo']['forcache_pixel_width'] = $geo['width'];
-						$this->data['Photo']['forcache_pixel_height'] = $geo['height'];
-						
-						$this->log($img->getImageLength(), 'finish_create_cache');
-						$this->log('blah', 'finish_create_cache');
-						
-						if (!$this->CloudFiles->put_object_resource($cache_image_name, $handle, $img->getImageSize(), $mime_type)) {
-							$this->major_error("failed to put master cache image in photo beforeSave", $cache_image_name);
-							unset($this->data['Photo']['cdn-filename-forcache']);
-							unset($this->data['Photo']['forcache_pixel_width']);
-							unset($this->data['Photo']['forcache_pixel_height']);
-						}
-					} else {
-						$this->data['Photo']['forcache_pixel_width'] = $geo['width'];
-						$this->data['Photo']['forcache_pixel_height'] = $geo['height'];
-						if (!$this->CloudFiles->copy_object($cache_image_name, $file_name)) {
-							$this->major_error("failed to put master cache image in photo beforeSave as copy", $cache_image_name);
-							unset($this->data['Photo']['cdn-filename-forcache']);
-							unset($this->data['Photo']['forcache_pixel_width']);
-							unset($this->data['Photo']['forcache_pixel_height']);
-						}
-					}
-					$img->clear();*/
 				} else {
 					$this->major_error("the temp image path is not writable for photo before save");
+				}
+				
+				//////////////////////////////////////////////////////////////////////////////////////////
+				// now create an even smaller version of the master cache file for use in creating the thumbnail cache files later
+				if (is_writable(TEMP_IMAGE_PATH)) {
+					$max_width = SMALL_MASTER_CACHE_SIZE;
+					$max_height = SMALL_MASTER_CACHE_SIZE;
+					
+					$smaller_cache_image_name = SMALLER_MASTER_CACHE_PREFIX.$file_name;
+					
+					$this->data['Photo']['cdn-filename-smaller-forcache'] = $smaller_cache_image_name;
+					
+					
+					// the command line image magick way
+					$image_file_name = $this->random_num();
+					$new_image_temp_path = TEMP_IMAGE_PATH.DS.$image_file_name;
+					if ($this->PhotoCache->convert($tmp_location, $new_image_temp_path, $max_width, $max_height, false) == false) {
+						$this->major_error('failed to create smaller mastercache file in photo beforeSave', array($new_image_temp_path, $max_width, $max_height));
+					}
+					
+					
+					if (!file_exists($new_image_temp_path)) {
+						//so if the master cache file would be bigger than the image, then the image itself is used for the master cache file
+						copy($tmp_location, $new_image_temp_path);
+					}
+					
+					// write to the smaller local master cache file
+					$local_master_cache_path = LOCAL_SMALLER_MASTER_CACHE.DS.$smaller_cache_image_name;
+					copy($new_image_temp_path, $local_master_cache_path);
+					
+					
+					$master_cache_size = getimagesize($new_image_temp_path);
+					list($mastercache_width, $mastercache_height, $mastercache_type, $mastercache_attr) = $master_cache_size;
+					
+					$mastercache_mime = $master_cache_size['mime'];
+					$this->data['Photo']['smaller_forcache_pixel_width'] = $mastercache_width;
+					$this->data['Photo']['smaller_forcache_pixel_height'] = $mastercache_height;
+					
+					if (!$this->CloudFiles->put_object($smaller_cache_image_name, $new_image_temp_path, $mastercache_mime)) {
+						$this->major_error("failed to put smaller master cache image in photo beforeSave", $smaller_cache_image_name);
+						unset($this->data['Photo']['cdn-filename-smaller-forcache']);
+						unset($this->data['Photo']['smaller_forcache_pixel_width']);
+						unset($this->data['Photo']['smaller_forcache_pixel_height']);
+					}
+					
+					unlink($new_image_temp_path);
+				} else {
+					$this->major_error("the temp image path is not writable for photo before save for smaller master cache file");
 				}
 			} else {
 				$this->major_error("failed to put an object to cloud files on photo save", array($this->data['Photo']['cdn-filename'], $file_name, $tmp_location, $mime_type) );

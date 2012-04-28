@@ -12,6 +12,18 @@ class AppModel extends LazyModel {
 	);
 	
 	
+	public function get_insult() {
+		$insults = array();
+		
+		$insults[] = 'You really suck!';
+		$insults[] = 'Maybe you should just kill yourself';
+		$insults[] = 'A day late and a dollar short';
+		$insults[] = 'A donut short of being a cop';
+		$insults[] = 'Made a career out of a midlife crisis';
+		
+		return $insults[rand(0, count($insults)-1)];
+	}
+	
 	/*public function beforeFind($conditions) {
 		if ( !isset($conditions['contain']) ) {
 			$conditions['contain'] = false;

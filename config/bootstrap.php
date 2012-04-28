@@ -55,7 +55,10 @@ define("TEMP_IMAGE_PATH", ROOT.DS.'image_tmp');
 define("TEMP_IMAGE_VAULT", ROOT.DS.'image_vault');
 define("TEMP_IMAGE_UNIT", ROOT.DS.'unit_test_cache');
 define("LOCAL_MASTER_CACHE", ROOT.DS.'local_master_cache');
-define("LARGE_MASTER_CACHE_SIZE", 300);
+define("LOCAL_SMALLER_MASTER_CACHE", ROOT.DS.'local_smaller_master_cache');
+define("MASTER_CACHE_PREFIX", 'mastercache_');
+define("SMALLER_MASTER_CACHE_PREFIX", 'mastercache_smaller_');
+define("LARGE_MASTER_CACHE_SIZE", 1500);
 define("SMALL_MASTER_CACHE_SIZE", 250);
 define("USE_CACHE_SPEED", true);
 

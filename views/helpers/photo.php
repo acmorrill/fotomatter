@@ -3,20 +3,23 @@
 
 class PhotoHelper extends AppHelper {
 	
-	public function get_photo_path($photo_id, $height = null, $width = null) {
-		// make sure height/width values are valid
-		if ($height <= 0) {
-			$height = null;
-		}
-		if ($width <= 0) {
-			$width = null;
-		}
+	public function get_photo_path($photo_id, $height, $width) {
 		$this->Photo = ClassRegistry::init('Photo');
 		$this->PhotoCache = ClassRegistry::init('PhotoCache');
 		$masterCacheSize = LARGE_MASTER_CACHE_SIZE;
 		
-		$heightSet = isset($height);
-		$widthSet = isset($width);
+		// make sure height/width values are valid
+		if ($height <= 0) {
+			$height = 0;
+		}
+		if ($width <= 0) {
+			$width = 0;
+		}
+		
+		if ($height == 0 && $width == 0) {
+			$this->major_error('Called get photo path like a moron');
+			return $this->PhotoCache->get_dummy_error_image_path($height, $width);
+		}
 		
 		
 		/////////////////////////////////
@@ -27,46 +30,17 @@ class PhotoHelper extends AppHelper {
 		));
 		
 		
-		
 		// check to make sure the photo has a file attached 
-		if ( empty($the_photo['Photo']['cdn-filename-forcache']) || empty($the_photo['Photo']['cdn-filename']) ) {
+		if ( empty($the_photo['Photo']['cdn-filename-forcache']) || empty($the_photo['Photo']['cdn-filename']) || empty($the_photo['Photo']['cdn-filename-smaller-forcache']) ) {
 			return $this->PhotoCache->get_dummy_error_image_path($height, $width);
 		}
 		
 
-		$bothEmpty = empty($height) && empty($width);
-		$onlyWidth = !empty($width) && empty($height);
-		$onlyHeight = empty($width) && !empty($height);
-		$bothSet = !empty($width) && !empty($height);
-		
-		// return the full photo path
-		if ($bothEmpty) {
-			return $this->Photo->get_full_path($photo_id);
-		} 
-		// get a cache smaller than width
-		else if ($onlyWidth) {
-			$conditions = array(
-				'PhotoCache.photo_id' => $photo_id,
-				'PhotoCache.max_width' => $width,
-				'PhotoCache.max_height IS NULL'
-			);
-		} 
-		// get a cache smaller than height
-		else if ($onlyHeight) {
-			$conditions = array(
-				'PhotoCache.photo_id' => $photo_id,
-				'PhotoCache.max_height' => $height,
-				'PhotoCache.max_width IS NULL'
-			);
-		} 
-		// get a cache smaller than width and height
-		else if ($bothSet) {
-			$conditions = array(
-				'PhotoCache.photo_id' => $photo_id,
-				'PhotoCache.max_height' => $height,
-				'PhotoCache.max_width' => $width
-			);
-		}
+		$conditions = array(
+			'PhotoCache.photo_id' => $photo_id,
+			'PhotoCache.max_height' => $height,
+			'PhotoCache.max_width' => $width
+		);
 		
 		$initLocked = $this->Photo->query("SELECT GET_LOCK('finish_create_cache_".$photo_id."', 8)");
 		if ($initLocked['0']['0']["GET_LOCK('finish_create_cache_".$photo_id."', 8)"] == 0 || $initLocked['0']['0']["GET_LOCK('finish_create_cache_".$photo_id."', 8)"] == null) {

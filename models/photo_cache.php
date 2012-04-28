@@ -4,6 +4,8 @@
  * 1) make sure there are no queed photo caches that are old
  * 2) make sure there are no processing photo caches that are old
  * 3) see if there are any failed photo caches
+ * 4) test that if you upload a small original a larger cache file will still work (upres)
+ * 5) photo caches must have a max_width and max_height set if either are set (or both null cus is queued)
  */
 class PhotoCache extends AppModel {
 	public $name = 'PhotoCache';
@@ -216,7 +218,7 @@ class PhotoCache extends AppModel {
 		$releaseLock = $this->query("SELECT RELEASE_LOCK('finish_create_cache_".$photo_id."')");
 		
 		
-		
+		// TODO - these may not be necessary anymore (cus height and width are both requered to be set)
 		$max_height_set = isset($photoCache['PhotoCache']['max_height']);
 		$max_width_set = isset($photoCache['PhotoCache']['max_width']);
 		$max_height = isset($photoCache['PhotoCache']['max_height']) ? $photoCache['PhotoCache']['max_height'] : 0;
@@ -243,12 +245,27 @@ class PhotoCache extends AppModel {
 
 		
 		if (is_writable(TEMP_IMAGE_PATH)) {
-			$large_image_url = ClassRegistry::init("SiteSetting")->getImageContainerUrl().$photoCache['Photo']['cdn-filename-forcache'];
-			// check to see if there is a local master cache to use instead
-			if (USE_CACHE_SPEED && file_exists(LOCAL_MASTER_CACHE.DS.$photoCache['Photo']['cdn-filename-forcache'])) {
-				$this->log('using local master cache', 'finish_create_cache');
+			if ($photoCache['PhotoCache']['max_height'] <= SMALL_MASTER_CACHE_SIZE && $photoCache['PhotoCache']['max_width'] <= SMALL_MASTER_CACHE_SIZE) {
+				if (!file_exists(LOCAL_SMALLER_MASTER_CACHE.DS.$photoCache['Photo']['cdn-filename-smaller-forcache'])) {
+					copy( // from cloud files to local (only happens if not used for a while)
+						ClassRegistry::init("SiteSetting")->getImageContainerUrl().$photoCache['Photo']['cdn-filename-smaller-forcache'], 
+						LOCAL_SMALLER_MASTER_CACHE.DS.$photoCache['Photo']['cdn-filename-smaller-forcache']
+					);
+				} 
+				
+				$large_image_url = LOCAL_SMALLER_MASTER_CACHE.DS.$photoCache['Photo']['cdn-filename-smaller-forcache'];
+			} else {
+				if (!file_exists(LOCAL_MASTER_CACHE.DS.$photoCache['Photo']['cdn-filename-forcache'])) {
+					copy( // from cloud files to local (only happens if not used for a while)
+						ClassRegistry::init("SiteSetting")->getImageContainerUrl().$photoCache['Photo']['cdn-filename-forcache'], 
+						LOCAL_MASTER_CACHE.DS.$photoCache['Photo']['cdn-filename-forcache']
+					);
+				} 
+				
 				$large_image_url = LOCAL_MASTER_CACHE.DS.$photoCache['Photo']['cdn-filename-forcache'];
 			}
+			
+			
 			
 			$cache_image_name = $cache_prefix.$max_height_display.'x'.$max_width_display.'_'.$photoCache['Photo']['cdn-filename'];
 			$new_cache_image_path = TEMP_IMAGE_PATH.DS.$cache_image_name;
@@ -308,46 +325,6 @@ class PhotoCache extends AppModel {
 			$this->major_error("the temp image path is not writable for image cache");
 			return $this->get_dummy_error_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], true);
 		}
-		
-		
-		// the old way
-		/*$handle = fopen($large_image_url, 'rb');
-		
-		
-		$img = new Imagick();
-		$img->readImageFile($handle);
-		$this->log(" ");
-		$this->log($img->getFormat(), 'finish_create_cache');
-		$this->log($img->getImageLength(), 'finish_create_cache');
-		$this->log($max_width, 'finish_create_cache');
-		$this->log($max_height, 'finish_create_cache');
-		$img->resizeImage($max_width, $max_height, imagick::FILTER_LANCZOS, 0.9, true); // TODO - make sure this is a good algorithm
-		$this->log($cache_image_name, 'finish_create_cache');
-		$this->log($img->getImageLength(), 'finish_create_cache');
-		$this->log($img->getFormat(), 'finish_create_cache');
-		$geo = $img->getImageGeometry();
-		$photoCache['PhotoCache']['pixel_width'] = $geo['width'];
-		$photoCache['PhotoCache']['pixel_height'] = $geo['height'];
-		$photoCache['PhotoCache']['cdn-filename'] = $cache_image_name;
-		$photoCache['PhotoCache']['status'] = 'ready';
-		unset($photoCache['PhotoCache']['created']);
-		unset($photoCache['PhotoCache']['modified']);
-		unset($photoCache['Photo']);
-		
-		if (!$this->CloudFiles->put_object_resource($cache_image_name, $handle, $img->getImageLength(), $img->getFormat())) {
-			$this->major_error("failed to finish creating cache file", $photoCache);
-			unset($photoCache['PhotoCache']['pixel_width']);
-			unset($photoCache['PhotoCache']['pixel_height']);
-			unset($photoCache['PhotoCache']['cdn-filename']);
-			unset($photoCache['PhotoCache']['status']);
-		}
-		$this->save($photoCache);
-		$this->log($cache_image_name, 'finish_create_cache');
-		$this->log($img->getImageLength(), 'finish_create_cache');
-		$this->log($img->getFormat(), 'finish_create_cache');
-		
-		$image_blob = $img->getImageBlob();
-		$outputtype = $img->getFormat();*/
 	}
 	
 	private function get_cloud_file() {
@@ -359,7 +336,7 @@ class PhotoCache extends AppModel {
 		return $this->CloudFiles;
 	}
 	
-	public function convert($old_image_url, $new_image_path, $max_width, $max_height) {
+	public function convert($old_image_url, $new_image_path, $max_width, $max_height, $enlarge = true) {
 		/*App::import('Component', 'ImageVersion');
 		$email = new ImageVersionComponent();
 		$email->startup($controller);
@@ -409,8 +386,12 @@ class PhotoCache extends AppModel {
 			$resize .= ' '.$max_width.'x'.$max_height;
 		}
 		
+		$enlarge_str = '\>';
+		if ($enlarge == true) {
+			$enlarge_str = '';
+		}
 		
-		$imageMagickCommand = "convert $jpeg_define $filter $resize ".escapeshellarg($old_image_url).' '.escapeshellarg($new_image_path).' ';
+		$imageMagickCommand = "convert $jpeg_define $filter $resize$enlarge_str ".escapeshellarg($old_image_url).' '.escapeshellarg($new_image_path).' ';
 		$info = array();
 		$info['output'] = array();
 		$info['return_var'] = 0;
