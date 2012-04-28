@@ -133,10 +133,10 @@ class CloudFilesComponent extends RackspaceObj {
 			CURLOPT_CONNECTTIMEOUT=>200
 		);
 		$http_headers = array(
-			'ETag: '.md5_file($file_path),
-			"Content-Length: {$file_size}",
-			"Content-Type: {$mime_type}",
-			"X-Object-Meta-created-date: ".date("y-m-d H:i:s")
+		//	'ETag: '.md5_file($file_path),
+		//	"Content-Length: {$file_size}",
+		//	"Content-Type: {$mime_type}",
+		//	"X-Object-Meta-created-date: ".date("y-m-d H:i:s")
 		);
 		
 		$this->_makeApiCall('storage', $url, $options, 'PUT', $http_headers, true);
