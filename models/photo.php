@@ -59,6 +59,18 @@ class Photo extends AppModel {
 			if (!$this->CloudFiles->delete_object($photo['Photo']['cdn-filename-forcache'])) {
 				$this->major_error("failed to delete object cdn-filename-forcache in photo before delete", $photo['Photo']['cdn-filename-forcache']);
 			}
+			
+			unlink(LOCAL_MASTER_CACHE.DS.$old_photo['Photo']['cdn-filename-forcache']);
+		}
+		
+		if (isset($photo['Photo']['cdn-filename-smaller-forcache'])) {
+			$this->CloudFiles = $this->get_cloud_file();
+			
+			if (!$this->CloudFiles->delete_object($photo['Photo']['cdn-filename-smaller-forcache'])) {
+				$this->major_error("failed to delete object cdn-filename-smaller-forcache in photo before delete", $photo['Photo']['cdn-filename-smaller-forcache']);
+			}
+			
+			unlink(LOCAL_SMALLER_MASTER_CACHE.DS.$old_photo['Photo']['cdn-filename-smaller-forcache']);
 		}
 		
 		return true;
