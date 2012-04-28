@@ -264,8 +264,6 @@ class PhotoCache extends AppModel {
 				
 				exit();
 			}
-			/*$imageMagickCommand = 'convert '.escapeshellarg($large_image_url).' -resize '.$max_width.'x'.$max_height.' '.escapeshellarg($new_cache_image_path).' ';
-			shell_exec($imageMagickCommand);*/
 
 			$newcache_size = getimagesize($new_cache_image_path);
 			list($newcache_width, $newcache_height, $newcache_type, $newcache_attr) = $newcache_size;
@@ -362,6 +360,14 @@ class PhotoCache extends AppModel {
 	}
 	
 	public function convert($old_image_url, $new_image_path, $max_width, $max_height) {
+		/*App::import('Component', 'ImageVersion');
+		$email = new ImageVersionComponent();
+		$email->startup($controller);
+		
+		
+		$smallThumbPath = $this->ImageVersion->version(array('image' => $path, 'absolute_path' => true, 'sharpen' => false,  'quality' => 100,  'size' => array(156, 156)));*/
+		
+		
 		$use_speed = USE_CACHE_SPEED;
 		$max_thumb_size = SMALL_MASTER_CACHE_SIZE;
 		$sizeString = '';
