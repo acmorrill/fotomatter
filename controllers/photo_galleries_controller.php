@@ -14,7 +14,8 @@ class PhotoGalleriesController extends AppController {
 
 	public function admin_index() {
 		$galleries = $this->PhotoGallery->find('all', array(
-			'limit' => 100
+			'limit' => 100,
+			'contain' => false
 		));
 		
 		$this->set(compact('galleries'));
