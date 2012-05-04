@@ -141,7 +141,7 @@ class PhotoCache extends AppModel {
 		return $this->SiteSetting->getImageContainerUrl().$photo_cache['PhotoCache']['cdn-filename'];
 	}
 	
-	public function prepare_new_cachesize($photo_id, $height, $width) {
+	public function prepare_new_cachesize($photo_id, $height, $width, $raw_id = false) {
 		$data['PhotoCache']['photo_id'] = $photo_id;
 		$data['PhotoCache']['max_height'] = $height;
 		$data['PhotoCache']['max_width'] = $width;
@@ -152,7 +152,11 @@ class PhotoCache extends AppModel {
 			$this->major_error('failed to prepare new cache size', $data);
 			return false;
 		} else {
-			return '/photo_caches/create_cache/'.$this->id.'/';
+			if ($raw_id == true) {
+				return $this->id;
+			} else {
+				return '/photo_caches/create_cache/'.$this->id.'/';
+			}
 		}
 	}
 	
@@ -172,10 +176,10 @@ class PhotoCache extends AppModel {
 		
 		if (!$photoCache) {
 			$this->major_error('got into finish_create_cache and the photo cache file was invalid');
-			exit();
+			return;
 		}
 
-		if ($photoCache['PhotoCache']['status'] == 'ready') {
+		if ($direct_output && $photoCache['PhotoCache']['status'] == 'ready') {
 			$cache_full_path = $this->get_full_path($photoCache['PhotoCache']['id']);
 			
 			header('Content-Description: File Transfer');
@@ -189,33 +193,33 @@ class PhotoCache extends AppModel {
 			ob_clean();
 			flush();
 			readfile($new_cache_image_path);
-			exit();
+			return;
 		}
 		
-		$photo_id = $photoCache['Photo']['id'];
-		$initLocked = $this->query("SELECT GET_LOCK('finish_create_cache_".$photo_id."', 8)");
-		if ($initLocked['0']['0']["GET_LOCK('finish_create_cache_".$photo_id."', 8)"] == 0 || $initLocked['0']['0']["GET_LOCK('finish_create_cache_".$photo_id."', 8)"] == null) {
+		$photo_cache_id = $photoCache['PhotoCache']['id'];
+		$initLocked = $this->query("SELECT GET_LOCK('finish_create_cache_".$photo_cache_id."', 8)");
+		if ($initLocked['0']['0']["GET_LOCK('finish_create_cache_".$photo_cache_id."', 8)"] == 0 || $initLocked['0']['0']["GET_LOCK('finish_create_cache_".$photo_cache_id."', 8)"] == null) {
 			if ( !empty($photoCache['PhotoCache']['max_height']) || !empty($photoCache['PhotoCache']['max_width']) ) {
 				return $this->get_dummy_processing_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], $direct_output);
 			} else {
-				exit();
+				return;
 			}
 		}
 
 
 		if ($photoCache['PhotoCache']['status'] != 'queued') {
-			$this->query("SELECT RELEASE_LOCK('finish_create_cache_".$photo_id."')");
+			$this->query("SELECT RELEASE_LOCK('finish_create_cache_".$photo_cache_id."')");
 			if ( !empty($photoCache['PhotoCache']['max_height']) || !empty($photoCache['PhotoCache']['max_width']) ) {
 				return $this->get_dummy_processing_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], $direct_output);
 			} else {
-				exit();
+				return;
 			}
 		}
 
 		$cache_prefix = 'cache_';
 		$photoCache['PhotoCache']['status'] = 'processing';
 		$this->save($photoCache);
-		$releaseLock = $this->query("SELECT RELEASE_LOCK('finish_create_cache_".$photo_id."')");
+		$releaseLock = $this->query("SELECT RELEASE_LOCK('finish_create_cache_".$photo_cache_id."')");
 		
 		
 		// TODO - these may not be necessary anymore (cus height and width are both requered to be set)
@@ -240,7 +244,7 @@ class PhotoCache extends AppModel {
 				return $this->get_dummy_error_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], $direct_output);
 			} 
 			
-			exit();
+			return;
 		}
 
 		
@@ -279,7 +283,7 @@ class PhotoCache extends AppModel {
 					return $this->get_dummy_error_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], $direct_output);
 				} 
 				
-				exit();
+				return;
 			}
 
 			$newcache_size = getimagesize($new_cache_image_path);
@@ -310,17 +314,15 @@ class PhotoCache extends AppModel {
 			unset($photoCache['Photo']);
 
 			if (!$this->CloudFiles->put_object($cache_image_name, $new_cache_image_path, $newcache_mime)) {
-				$this->major_error("failed to finish creating cache file", $photoCache);
+				$this->major_error("failed to finish creating cache file", compact('photoCache', 'cache_image_name', 'new_cache_image_path', 'newcache_mime'));
+				$photoCache['PhotoCache']['status'] = 'failed';
 				unset($photoCache['PhotoCache']['pixel_width']);
 				unset($photoCache['PhotoCache']['pixel_height']);
 				unset($photoCache['PhotoCache']['cdn-filename']);
-				unset($photoCache['PhotoCache']['status']);
 			}
 			$this->save($photoCache);
 			
 			unlink($new_cache_image_path);
-			exit();
-			
 		} else {
 			$this->major_error("the temp image path is not writable for image cache");
 			return $this->get_dummy_error_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], true);

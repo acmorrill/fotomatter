@@ -1,11 +1,5 @@
 <?php //debug($galleries); ?>
 
-<style type="text/css">
-	h1 {
-		font-size: 30px;
-		margin-bottom: 10px;
-	}
-</style>
 
 <script type="text/javascript">
 	jQuery(document).ready(function() {
@@ -44,8 +38,8 @@
 				<?php /* <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?> */ ?>
 				<?php /* <?php echo $this->Paginator->sort(__('Photo ID', true), 'Photo.id'); ?> */ ?>
 				<th class="first"></th> 
-				<th class=""><?php __('display_name'); ?></th> 
-				<th class=""><?php __('description'); ?></th> 
+				<th class=""><?php __('Display Name'); ?></th> 
+				<th class=""><?php __('Description'); ?></th> 
 				<th class=""><?php __('Modified'); ?></th> 
 				<th class=""><?php __('Created'); ?></th>
 				<th class="last"><?php __('Actions'); ?></th>
@@ -54,7 +48,7 @@
 		<tbody>
 			<?php foreach($galleries as $curr_gallery): ?> 
 				<tr gallery_id="<?php echo $curr_gallery['PhotoGallery']['id']; ?>">
-					<td class="gallery_id first"><img class="reorder_gallery_grabber" src="/img/admin/icons/green_move_arrow.png" alt="reorder galleries" /> </td> 
+					<td class="gallery_id first"><div class="reorder_gallery_grabber reorder_grabber" /> </td> 
 					<td class="gallery_name "><?php echo $curr_gallery['PhotoGallery']['display_name']; ?> </td> 
 					<td class="gallery_description"><?php echo $curr_gallery['PhotoGallery']['description']; ?> </td> 
 					<?php 

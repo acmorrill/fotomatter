@@ -78,6 +78,10 @@ label {
 	vertical-align: middle;
 	text-align: center;
 }
+h1 {
+	font-size: 30px;
+	margin-bottom: 10px;
+}
 /***** END GLOBAL *****************/
 
 
@@ -357,7 +361,7 @@ table.list td.photo_enabled { width: 92px; }
 table.list td.photo_format { width: 120px; }
 /* img/table-sort-arrow-up.png */
 
-table.list .reorder_gallery_grabber { cursor: pointer; }
+table.list .reorder_grabber { cursor: move; background: url('/img/admin/icons/green_move_arrow.png') top center no-repeat; width: 53px; height: 54px; display: inline-block; }
 /**** END GENERIC LIST TABLE CSS ****/
 
 

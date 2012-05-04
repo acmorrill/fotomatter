@@ -1,7 +1,7 @@
 <?php
 
 class UtilShell extends Shell {
-	public $uses = array('User', 'Group', 'Permission', 'Photo', 'SiteSetting', 'PhotoGallery', 'PhotoGalleriesPhoto', 'PhotoCache');
+	public $uses = array('User', 'Group', 'Permission', 'Photo', 'SiteSetting', 'PhotoGallery', 'PhotoGalleriesPhoto', 'PhotoCache', 'SitePage');
 	
 		///////////////////////////////////////////////////////////////
 	/// shell start
@@ -55,10 +55,10 @@ class UtilShell extends Shell {
 			//print_r($all_object);
 		}
 		
-		/*$this->args[0] = 10;
-		$this->give_me_images();*/
+		$this->args[0] = 100;
+		$this->give_me_images();
 		
-		$photo_data = array();
+		/*$photo_data = array();
 		
 		////////////////////////////////////////////
 		// add some default photos
@@ -119,6 +119,17 @@ class UtilShell extends Shell {
 				$this->PhotoGalleriesPhoto->create();
 				$this->PhotoGalleriesPhoto->save($photo_gallery_photo);
 			}
+		}*/
+	}
+	
+	public function add_pages() {
+		$this->SitePage->deleteAll('1=1', true, true);
+		
+		for($x = 0; $x < 50; $x++) {
+			$data['SitePage'] = array();
+			$data['SitePage']['title'] = "Page ".str_pad( ($x+1), 3, "0", STR_PAD_LEFT);
+			$this->SitePage->create();
+			$this->SitePage->save($data);
 		}
 	}
 	

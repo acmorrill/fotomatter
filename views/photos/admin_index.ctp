@@ -39,7 +39,7 @@
 			<tr>
 				<td class="photo_id first <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr<?php endif; ?>"><?php echo $curr_photo['Photo']['id']; ?> </td> 
 				<?php /* <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr<?php endif; ?>"><?php echo $curr_photo['Photo']['id']; ?> */ ?>
-				<?php $img_path = $this->Photo->get_photo_path($curr_photo['Photo']['id'], 100, 100); ?>
+				<?php $img_path = $this->Photo->get_photo_path($curr_photo['Photo']['id'], 110, 110); ?>
 				<td class="photo_image"><img src="<?php echo $img_path; ?>" /><?php //echo $curr_photo['Photo']['id']; ?></td> 
 				<td class="photo_title <?php if ($this->Paginator->sortKey('Photo') == 'Photo.display_title'): ?> curr<?php endif; ?>"><?php echo $curr_photo['Photo']['display_title']; ?> </td> 
 				<td class="photo_enabled <?php if ($this->Paginator->sortKey('Photo') == 'Photo.enabled'): ?> curr<?php endif; ?>"><?php echo ($curr_photo['Photo']['enabled'] == 0) ? __('NO', true): __('YES', true); ?> </td> 
