@@ -158,6 +158,7 @@ class UtilShell extends Shell {
 	    $this->PhotoGallery->query("truncate table photo_galleries");
 		$this->PhotoGallery->query("truncate table photo_galleries_photos");
 		$this->PhotoGallery->query("truncate table xhprof_profiles");
+		exec("rm -rf ".LOCAL_MASTER_CACHE."/*; rm -rf ".LOCAL_SMALLER_MASTER_CACHE."/*");
 		
 		//clear current image
 		App::import("Component", "CloudFiles");
