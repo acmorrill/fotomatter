@@ -2,7 +2,7 @@
 
 
 <script type="text/javascript">
-	/*jQuery(document).ready(function() {
+	jQuery(document).ready(function() {
 		jQuery('.list tbody').sortable({
 			items : 'tr',
 			handle : '.reorder_page_grabber',
@@ -12,18 +12,26 @@
 				jQuery(context).sortable('disable');
 				
 				// figure the the now position of the dragged element
-				var photoGalleryId = jQuery(ui.item).attr('page_id');
+				var pageId = jQuery(ui.item).attr('page_id');
 				var newPosition = ui.item.index() + 1;// TODO - this must always be set - fail otherwise -- not sure if it will be from jquery ui
 				
-				jQuery.post('/admin/photo_galleries/ajax_set_photopage_order/'+photoGalleryId+'/'+newPosition+'/', function(data) {
-					if (data.code != 1) {
-						// TODO - maybe revert the draggable back to its start position here
-					}
-					jQuery(context).sortable('enable');
-				}, 'json');
+				jQuery.ajax({
+					type: 'post',
+					url: '/admin/site_pages/ajax_set_page_order/'+pageId+'/'+newPosition+'/',
+					data: {},
+					success: function(data) {
+						if (data.code != 1) {
+							// TODO - maybe revert the draggable back to its start position here
+						}
+					},
+					complete: function() {
+						jQuery(context).sortable('enable');
+					},
+					dataType: 'json'
+				});
 			}
 		}).disableSelection();
-	});*/
+	});
 </script>
 
 
@@ -63,7 +71,10 @@
 					?>
 					<td class="page_modified"><?php echo date($modified_format, strtotime($curr_page['SitePage']['modified'])); ?> </td> 
 					<td class="page_created"><?php echo date($created_format, strtotime($curr_page['SitePage']['created'])); ?> </td> 
-					<td class="page_action last"><a href="/admin/site_pages/edit_page/<?php echo $curr_page['SitePage']['id']; ?>/"><?php __('Edit'); ?></a></td>
+					<td class="page_action last">
+						<a href="/admin/site_pages/edit_page/<?php echo $curr_page['SitePage']['id']; ?>/"><?php __('Edit'); ?></a>
+						<a href="/admin/site_pages/configure_page/<?php echo $curr_page['SitePage']['id']; ?>/"><?php __('Configure'); ?></a>
+					</td>
 				</tr>
 			<?php endforeach; ?> 
 		</tbody>
