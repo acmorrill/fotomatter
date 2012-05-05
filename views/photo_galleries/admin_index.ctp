@@ -66,7 +66,11 @@
 
 					<td class="gallery_modified"><?php echo date($modified_format, strtotime($curr_gallery['PhotoGallery']['modified'])); ?> </td> 
 					<td class="gallery_created"><?php echo date($created_format, strtotime($curr_gallery['PhotoGallery']['created'])); ?> </td> 
-					<td class="gallery_action last"><a href="/admin/photo_galleries/edit_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Edit'); ?></a></td>
+					<td class="gallery_action last">
+						<a href="/admin/photo_galleries/edit_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Edit'); ?></a>
+						<a href="/admin/photo_galleries/edit_gallery_connect_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Connect'); ?></a>
+						<a href="/admin/photo_galleries/edit_gallery_arrange_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Arrange'); ?></a>
+					</td>
 				</tr>
 			<?php endforeach; ?> 
 		</tbody>
