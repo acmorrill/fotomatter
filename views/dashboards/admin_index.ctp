@@ -1,6 +1,6 @@
 <script type="text/javascript">
 	jQuery(document).ready(function() {
-			setTimeout(function () {
+			/*setTimeout(function () {
 				jQuery.ajax({
 					type: 'post',
 					url: '/admin/dashboards/ajax_post_test',
@@ -15,8 +15,8 @@
 					},
 					dataType: 'json'
 				});
-			}, 5000);
-			//show_modal('loading', 20000);
+			}, 5000); */
+			show_modal('loading', 200000);
 		});
 </script>
 This is the dashboard

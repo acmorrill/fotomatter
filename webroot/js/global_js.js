@@ -25,7 +25,7 @@ function smart_reload(message) {
 }
    
 function show_modal(message, time_to_show, after_hide_callback) {
-	var modo_div = jQuery("<div>"+message+"</div>");
+	var modo_div = jQuery("<div><div class='rounded-corners' style='display:inline-block;width:350px;height:100px;background-color:#444444;padding:20px 20px 0 20px'>"+message+"</div></div>");
 	modo_div.addClass('ui-widget-overlay');
 	modo_div.css('z-index', '2001');
 	jQuery('body').append(modo_div);
