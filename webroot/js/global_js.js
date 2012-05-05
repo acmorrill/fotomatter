@@ -8,10 +8,10 @@ var MODO_SHOW_TIME_DEFAULT = 5000;
  ****/
 jQuery(document).ready(function() {
 	jQuery(document).ajaxStart(function(event, request, settings) {
-		jQuery('body').css('cursor', 'progress');
+		jQuery('body, div, img').addClass('cursor-progress');
 	});
 	jQuery(document).ajaxStop(function(event, request, settings) {
-		jQuery('body').css('cursor', 'default');
+		jQuery('body, div, img').removeClass('cursor-progress');	
 	});
 });
 

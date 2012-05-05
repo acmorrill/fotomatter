@@ -97,6 +97,10 @@ h1 {
 /**************************************************
 	REUSABLE
 **************************************************/
+.cursor-progress {
+	cursor:progress !important;
+}
+
 .rounded-corners {
   -moz-border-radius: 10px; /* Firefox */
   border-radius: 10px; /* CSS3 */
