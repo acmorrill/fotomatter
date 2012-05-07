@@ -3,10 +3,9 @@
 
 <script type="text/javascript">
 	jQuery(document).ready(function() {
-		jQuery('.list tbody').sortable({
+		jQuery('.list tbody').sortable(jQuery.extend(verticle_sortable_defaults, {
 			items : 'tr',
 			handle : '.reorder_gallery_grabber',
-			axis : 'y',
 			update : function(event, ui) {
 				var context = this;
 				jQuery(context).sortable('disable');
@@ -15,14 +14,22 @@
 				var photoGalleryId = jQuery(ui.item).attr('gallery_id');
 				var newPosition = ui.item.index() + 1;// TODO - this must always be set - fail otherwise -- not sure if it will be from jquery ui
 				
-				jQuery.post('/admin/photo_galleries/ajax_set_photogallery_order/'+photoGalleryId+'/'+newPosition+'/', function(data) {
-					if (data.code != 1) {
-						// TODO - maybe revert the draggable back to its start position here
-					}
-					jQuery(context).sortable('enable');
-				}, 'json');
+				jQuery.ajax({
+					type: 'post',
+					url: '/admin/photo_galleries/ajax_set_photogallery_order/'+photoGalleryId+'/'+newPosition+'/',
+					data: {},
+					success: function(data) {
+						if (data.code != 1) {
+							// TODO - maybe revert the draggable back to its start position here
+						}
+					},
+					complete: function() {
+						jQuery(context).sortable('enable');
+					},
+					dataType: 'json'
+				});
 			}
-		}).disableSelection();
+		})).disableSelection();
 	});
 </script>
 
