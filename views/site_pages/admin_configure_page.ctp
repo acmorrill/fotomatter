@@ -21,48 +21,6 @@
 <?php echo $session->flash(); ?>
 <br/>
 
-<style type="text/css">
-	#configure_page_cont .avail_page_elements_cont {
-		float: left;
-		width: 200px;
-		min-height: 500px;
-		margin-right: 30px;
-	}
-	#configure_page_cont .page_content_cont {
-		float: left;
-		width: 600px;
-		min-height: 500px;
-	}
-	#configure_page_cont .avail_element_cont {
-		margin: 0px auto;
-		margin-bottom: 30px;
-		text-align: center;
-		/* IE 8 */
-		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
-		/* IE 5-7 */
-		filter: alpha(opacity=80);
-		/* Netscape */
-		-moz-opacity: 0.8;
-		/* Safari 1.x */
-		-khtml-opacity: 0.8;
-		/* Good browsers */
-		opacity: 0.8;
-	}
-	#configure_page_cont .avail_element_cont:hover { 
-		/* IE 8 */
-		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-		/* IE 5-7 */
-		filter: alpha(opacity=100);
-		/* Netscape */
-		-moz-opacity: 1;
-		/* Safari 1.x */
-		-khtml-opacity: 1;
-		/* Good browsers */
-		opacity: 1;
-		cursor: url(/img/admin/icons/green_simple_plus_button.png), url(/img/admin/icons/green_simple_plus_button.png), default;
-	}
-</style>
-
 <script type="text/javascript">
 	function setup_page_element_sortable(selector) {
 		jQuery(selector).sortable(jQuery.extend(verticle_sortable_defaults, {
@@ -128,6 +86,44 @@
 </script>
 
 <style type="text/css">
+	#configure_page_cont .avail_page_elements_cont {
+		float: left;
+		width: 200px;
+		margin-right: 30px;
+	}
+	#configure_page_cont .page_content_cont {
+		float: left;
+		width: 600px;
+		min-height: 500px;
+	}
+	#configure_page_cont .avail_element_cont {
+		margin: 30px auto;
+		text-align: center;
+ 		/* IE 8 */
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+		/* IE 5-7 */
+		filter: alpha(opacity=80);
+		/* Netscape */
+		-moz-opacity: 0.8;
+		/* Safari 1.x */
+		-khtml-opacity: 0.8;
+		/* Good browsers */
+		opacity: 0.8;
+	}
+	#configure_page_cont .avail_element_cont:hover { 
+		/* IE 8 */
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+		/* IE 5-7 */
+		filter: alpha(opacity=100);
+		/* Netscape */
+		-moz-opacity: 1;
+		/* Safari 1.x */
+		-khtml-opacity: 1;
+		/* Good browsers */
+		opacity: 1;
+		cursor: url(/img/admin/icons/HARDWARE.cur), url(/img/admin/icons/HARDWARE.cur), default;
+	}
+	
 	#configure_page_cont .page_content_cont {
 		height: 600px;
 		overflow-y: auto;
@@ -136,23 +132,29 @@
 		margin: 25px;
 		position: relative;
 		padding: 10px;
+		background-color: #303030;
 	}
 	#configure_page_cont .page_content_cont .reorder_page_grabber {
 		cursor: move;
 	}
 </style>
 
-<div id="configure_page_cont" class="outline clear">
-	<div class="avail_page_elements_cont outline">
-		<?php $avail_elements = $this->Page->get_avail_page_elements(); ?>
-		<?php foreach ($avail_elements as $avail_element): ?>
-			<div class="avail_element_cont outline" avail_page_element_id="<?php echo $avail_element['SitePageElement']['id']; ?>">
-				<img src="/img/admin/page_elements/<?php echo $avail_element['SitePageElement']['ref_name']; ?>.jpg" />
-				<div><?php echo $avail_element['SitePageElement']['ref_name']; ?></div>
-			</div>
-		<?php endforeach; ?>
+<div id="configure_page_cont" class="clear">
+	<div class="avail_page_elements_cont">
+		<div class="table_header_darker">
+			<h2 style="background: url('/img/admin/icons/page_element.png') center left no-repeat; padding-left: 35px;"><?php __('Page Elements'); ?></h2>
+		</div>
+		<div class="content-background" style="height: 600px;">
+			<?php $avail_elements = $this->Page->get_avail_page_elements(); ?>
+			<?php foreach ($avail_elements as $avail_element): ?>
+				<div class="avail_element_cont" avail_page_element_id="<?php echo $avail_element['SitePageElement']['id']; ?>">
+					<img src="/img/admin/page_elements/<?php echo $avail_element['SitePageElement']['ref_name']; ?>.jpg" />
+					<div><?php echo $avail_element['SitePageElement']['ref_name']; ?></div>
+				</div>
+			<?php endforeach; ?>
+		</div>
 	</div>
-	<div class="page_content_cont outline">
+	<div class="page_content_cont content-background">
 		<?php echo $this->Element('page_elements/list_admin_page_elements', array(compact(
 			'sitePagesSitePageElements'
 		))); ?>

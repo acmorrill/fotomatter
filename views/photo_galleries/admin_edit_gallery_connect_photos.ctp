@@ -444,7 +444,6 @@ $(function() {
 	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span><?php __('Remove all photos from gallery?'); ?></p>
 </div>
 
-<?php //debug($this->data); ?>
 <div id="connect_gallery_photos_cont">
 	<div class="in_gallery_main_cont">
 		<div class="table_header_darker">
@@ -452,7 +451,7 @@ $(function() {
 			<h2 style="background: url('/img/admin/icons/FOLDER - DOWNLOADS.png') center left no-repeat; padding-left: 35px;"><?php __('Photos in Gallery'); ?></h2>
 		</div>
 		<div class="empty_help_content" style="<?php if (empty($this->data['PhotoGalleriesPhoto'])): ?>display: block;<?php endif; ?>"><?php __('Add images to this gallery using the box at right'); ?>&nbsp;►</div>
-		<div id="in_gallery_photos_cont" class="in_gallery_photos_cont">
+		<div id="in_gallery_photos_cont" class="in_gallery_photos_cont content-background">
 			<?php echo $this->Element('/admin/photo/photo_connect_in_gallery_photo_cont', array( 'connected_photos' => $this->data['PhotoGalleriesPhoto'], 'not_in_gallery_icon_size' => $not_in_gallery_icon_size )); ?>
 		</div>
 	</div>
@@ -471,7 +470,7 @@ $(function() {
 		<div class="empty_help_content" style="<?php if (empty($not_connected_photos)): ?>display: block;<?php endif; ?>">
 			<?php __('No photos found <br/> Add photos <a href="/admin/photos">on the photo page</a>'); ?>
 		</div>
-		<div id="endless_scroll_div" class="not_in_gallery_photos_cont">
+		<div id="endless_scroll_div" class="not_in_gallery_photos_cont content-background">
 			<?php echo $this->Element('/admin/photo/photo_connect_not_in_gallery_photo_cont', array( 'not_connected_photos' => $not_connected_photos, 'not_in_gallery_icon_size' => $not_in_gallery_icon_size )); ?>
 		</div>
 		<div class="sort_and_filters">
