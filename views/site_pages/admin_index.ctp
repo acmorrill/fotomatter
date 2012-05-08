@@ -3,7 +3,7 @@
 
 <script type="text/javascript">
 	jQuery(document).ready(function() {
-		jQuery('.list tbody').sortable({
+		jQuery('.list tbody').sortable(jQuery.extend(verticle_sortable_defaults, {
 			items : 'tr',
 			handle : '.reorder_page_grabber',
 			axis : 'y',
@@ -30,7 +30,7 @@
 					dataType: 'json'
 				});
 			}
-		}).disableSelection();
+		})).disableSelection();
 	});
 </script>
 

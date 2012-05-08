@@ -2,6 +2,11 @@
  *Global constants
  ********************************/
 var MODO_SHOW_TIME_DEFAULT = 5000;
+var verticle_sortable_defaults = {
+	axis : 'y',
+	opacity: .7/*,
+	containment: 'parent'*/
+};
 
 /****
  *Global start up behavio
@@ -49,8 +54,8 @@ function show_modal(message, time_to_show, after_hide_callback, remove_after) {
 }
 
 function major_error_recover(message) {
-		alert('error:'+message);
-	}
+	alert('error:'+message);
+}
 	
 function element_is_empty(element_id) {
 	var child;
