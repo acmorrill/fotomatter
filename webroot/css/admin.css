@@ -100,11 +100,18 @@ h1 {
 .cursor-progress {
 	cursor:progress !important;
 }
+.drop-shadow {
+	-webkit-box-shadow: 0px 0px 7px #333333;
+	-moz-box-shadow: 0px 0px 7px #333333;
+	box-shadow: 0px 0px 7px #333333;
+}
 .rounded-corners {
+	-webkit-border-radius: 10px; /* safari/chrome */
   -moz-border-radius: 10px; /* Firefox */
   border-radius: 10px; /* CSS3 */
 }
 .rounded-corners-small {
+	-webkit-border-radius: 7px; /* safari/chrome */
   -moz-border-radius: 7px; /* Firefox */
   border-radius: 7px; /* CSS3 */
 }
@@ -212,6 +219,12 @@ h1 {
 	opacity: 1 !important;
 	filter: Alpha(Opacity=100) !important;
 }
+.medium_message_box {
+	display:inline-block;
+	height:60px;
+	background-color:#444444;
+	padding:20px 25px 0;
+}
 /**** END REUSABLE ****************/
 
 
@@ -241,6 +254,13 @@ html, body {
 	padding: 12px;
 	-moz-border-radius-topleft: 0px; /* Firefox */
 	border-top-left-radius: 0px; /* CSS3 */
+}
+.message_div {
+	position:absolute;
+	top:40%;
+	left:40%;
+	color:#fff;
+	font-size:35px;
 }
 /***** END ADMIN EVERYPAGE STYLES ********************** /
 

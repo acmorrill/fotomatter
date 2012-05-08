@@ -18,7 +18,10 @@
 				} else {
 					smart_reload('Syncing');
 				}
+			} else if(request.status == 0) {
+				alert('A ajax call was canceled');
 			} else {
+				
 				alert('An ajax error occured! -- this from global_js'); // TODO - make this more sophisticated
 				console.log (event);
 				console.log (request);
@@ -33,5 +36,9 @@
 			}
 		});
 		<?php endif; ?>
+	
+		$.ajaxSetup({
+				
+		});
 	});
 </script>
