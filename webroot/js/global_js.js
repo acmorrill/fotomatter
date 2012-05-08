@@ -24,24 +24,32 @@ jQuery(document).ready(function() {
 		GLOBAL FUNCTIONS
 	****************************************************************************/
 function smart_reload(message) {
-	show_modal(message, 2000, function() {
+	message = '<div style="display:inline-block;vertical-align:middle;margin:5px;margin:0 25px 15px 0">'+message+'</div>';
+	message += '<img src="/img/admin/icons/ajax-loader.gif" />';
+	show_modal(message, 750, function() {
 		window.location.reload();
-	});
+	}, false);
 }
    
-function show_modal(message, time_to_show, after_hide_callback) {
-	var modo_div = jQuery("<div><div class='rounded-corners' style='display:inline-block;width:350px;height:100px;background-color:#444444;padding:20px 20px 0 20px'>"+message+"</div></div>");
+function show_modal(message, time_to_show, after_hide_callback, remove_after) {
+	var modo_div = jQuery("<div></div>");
 	modo_div.addClass('ui-widget-overlay');
-	modo_div.css('z-index', '2001');
+	modo_div.css('z-index', '2001'); 
+	
+	var message_div = jQuery("<div class='message_div rounded-corners medium_message_box drop-shadow'>"+message+"</div>");
+	message_div.css('z-index', '2002'); 
+	
 	jQuery('body').append(modo_div);
+	jQuery('body').append(message_div);
 	
 	if(time_to_show == undefined) time_to_show = MODO_SHOW_TIME_DEFAULT;
+	if (remove_after == undefined) remove_after = true;
 	
 	setTimeout(function() {
-		jQuery('.ui-widget-overlay').remove();
 		if (after_hide_callback != undefined) {
 			after_hide_callback();
 		}
+		if (remove_after) jQuery('.ui-widget-overlay').remove();
 	}, time_to_show);
 }
 
