@@ -1,13 +1,19 @@
-<style type="text/css">
-	h1 {
-		font-size: 30px;
-		margin-bottom: 10px;
-	}
-</style>
+<h1 class='top_heading'><?php __('Photos'); ?></h1>
+<?php 
+	$subnav = array(); 
 
-
-
-<h1><?php __('Photos'); ?></h1>
+	$subnav['title'] = array(
+		'name' => __('Photo List', true),
+		'url' => "/admin/photos",
+		'selected'=>true
+	);
+	$subnav['pages'][] = array(
+		'name' => __('Add Photos', true),
+		'url' => "/admin/photos/mass_upload/"
+	);
+		
+	echo $this->Element('/admin/submenu', array( 'subnav' => $subnav ));
+?>
 <?php if (!empty($data)): ?>
 	<div class="table_header">
 		<label class="inline"><?php __('Page:'); ?></label> <?php echo $this->Paginator->counter(); ?>
