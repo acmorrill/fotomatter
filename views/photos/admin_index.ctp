@@ -66,7 +66,9 @@
 				<?php $created_current_year = date("Y", strtotime($curr_photo['Photo']['created'])) == date('Y'); ?>
 				<td class="photo_modified <?php if ($this->Paginator->sortKey('Photo') == 'Photo.modified'): ?> curr<?php endif; ?>"><?php echo date($modified_format, strtotime($curr_photo['Photo']['modified'])); ?> </td> 
 				<td class="photo_created <?php if ($this->Paginator->sortKey('Photo') == 'Photo.created'): ?> curr<?php endif; ?>"><?php echo date($created_format, strtotime($curr_photo['Photo']['created'])); ?> </td> 
-				<td class="photo_action last"><a href="/admin/photos/edit/<?php echo $curr_photo['Photo']['id']; ?>/"><?php __('Edit'); ?></a></td>
+				<td class="photo_action last">
+					<a href="/admin/photos/edit/<?php echo $curr_photo['Photo']['id']; ?>/"><?php __('Edit'); ?></a>
+				</td>
 			</tr>
 		<?php endforeach; ?> 
 	</table>

@@ -8,8 +8,7 @@ class AppController extends Controller {
      * @var $components array
      * @access public
      */
-    var $components = array('Auth', 'Session', 'RequestHandler');
-	
+    var $components = array('Auth', 'Session', 'RequestHandler', 'HashUtil');
 	
 	
     /**
@@ -39,6 +38,13 @@ class AppController extends Controller {
         $this->Auth->userScope = array('User.active = 1');
         //Pass auth component data over to view files
         $this->set('Auth',$this->Auth->user());
+		
+		if (isset($this->params['form']['global_current_js_locking_hash']) && isset($this->params['form']['global_current_js_locking_hash_namespace']) && $this->RequestHandler->isAjax()) {
+			if ($this->HashUtil->check_this_hash($this->params['form']['global_current_js_locking_hash'], $this->params['form']['global_current_js_locking_hash_namespace']) === false) {
+				header('HTTP/1.0 412 Precondition Failed');
+				exit();
+			}
+		}
     }
     /**
      * beforeRender

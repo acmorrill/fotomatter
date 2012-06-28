@@ -1,18 +1,11 @@
 <?php //debug($galleries); ?>
 
-<style type="text/css">
-	h1 {
-		font-size: 30px;
-		margin-bottom: 10px;
-	}
-</style>
 
 <script type="text/javascript">
 	jQuery(document).ready(function() {
-		jQuery('.list tbody').sortable({
+		jQuery('.list tbody').sortable(jQuery.extend(verticle_sortable_defaults, {
 			items : 'tr',
 			handle : '.reorder_gallery_grabber',
-			axis : 'y',
 			update : function(event, ui) {
 				var context = this;
 				jQuery(context).sortable('disable');
@@ -21,14 +14,22 @@
 				var photoGalleryId = jQuery(ui.item).attr('gallery_id');
 				var newPosition = ui.item.index() + 1;// TODO - this must always be set - fail otherwise -- not sure if it will be from jquery ui
 				
-				jQuery.post('/admin/photo_galleries/ajax_set_photogallery_order/'+photoGalleryId+'/'+newPosition+'/', function(data) {
-					if (data.code != 1) {
-						// TODO - maybe revert the draggable back to its start position here
-					}
-					jQuery(context).sortable('enable');
-				}, 'json');
+				jQuery.ajax({
+					type: 'post',
+					url: '/admin/photo_galleries/ajax_set_photogallery_order/'+photoGalleryId+'/'+newPosition+'/',
+					data: {},
+					success: function(data) {
+						if (data.code != 1) {
+							// TODO - maybe revert the draggable back to its start position here
+						}
+					},
+					complete: function() {
+						jQuery(context).sortable('enable');
+					},
+					dataType: 'json'
+				});
 			}
-		}).disableSelection();
+		})).disableSelection();
 	});
 </script>
 
@@ -44,8 +45,8 @@
 				<?php /* <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?> */ ?>
 				<?php /* <?php echo $this->Paginator->sort(__('Photo ID', true), 'Photo.id'); ?> */ ?>
 				<th class="first"></th> 
-				<th class=""><?php __('display_name'); ?></th> 
-				<th class=""><?php __('description'); ?></th> 
+				<th class=""><?php __('Display Name'); ?></th> 
+				<th class=""><?php __('Description'); ?></th> 
 				<th class=""><?php __('Modified'); ?></th> 
 				<th class=""><?php __('Created'); ?></th>
 				<th class="last"><?php __('Actions'); ?></th>
@@ -54,7 +55,7 @@
 		<tbody>
 			<?php foreach($galleries as $curr_gallery): ?> 
 				<tr gallery_id="<?php echo $curr_gallery['PhotoGallery']['id']; ?>">
-					<td class="gallery_id first"><img class="reorder_gallery_grabber" src="/img/admin/icons/green_move_arrow.png" alt="reorder galleries" /> </td> 
+					<td class="gallery_id first"><div class="reorder_gallery_grabber reorder_grabber" /> </td> 
 					<td class="gallery_name "><?php echo $curr_gallery['PhotoGallery']['display_name']; ?> </td> 
 					<td class="gallery_description"><?php echo $curr_gallery['PhotoGallery']['description']; ?> </td> 
 					<?php 
@@ -72,7 +73,11 @@
 
 					<td class="gallery_modified"><?php echo date($modified_format, strtotime($curr_gallery['PhotoGallery']['modified'])); ?> </td> 
 					<td class="gallery_created"><?php echo date($created_format, strtotime($curr_gallery['PhotoGallery']['created'])); ?> </td> 
-					<td class="gallery_action last"><a href="/admin/photo_galleries/edit_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Edit'); ?></a></td>
+					<td class="gallery_action last">
+						<a href="/admin/photo_galleries/edit_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Edit'); ?></a>
+						<a href="/admin/photo_galleries/edit_gallery_connect_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Connect'); ?></a>
+						<a href="/admin/photo_galleries/edit_gallery_arrange_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Arrange'); ?></a>
+					</td>
 				</tr>
 			<?php endforeach; ?> 
 		</tbody>
