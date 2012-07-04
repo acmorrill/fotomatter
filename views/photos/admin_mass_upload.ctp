@@ -45,13 +45,16 @@
 <div style="clear:both"></div>
 	
 <form id="fileupload" action="/admin/photos/process_mass_photos" method="POST" enctype="multipart/form-data">
-	<div class="table_header_darker">
-		<h2><?php __('Files To Upload'); ?></h2>
+	<div class="generic_full_screen_container">
+		<div class="table_header_darker">
+			<h2><?php __('Files To Upload'); ?></h2>
+		</div>
+		<div class="empty_help_content" style="display:block;">
+			<?php __('Drag and drop your photos here'); ?>
+		</div>
+		<div class="med_height block_element_base"></div>
 	</div>
-	<div class="empty_help_content">
-		<?php __('Drag and drop your photos here'); ?>
-	</div>
-	<div class="in_gallery_photos_cont"></div>
+	
 		
           <?php /* <div>
                 <!-- The fileinput-button span is used to style the file input field as button -->
