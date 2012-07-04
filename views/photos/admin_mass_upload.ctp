@@ -26,6 +26,7 @@
 <!--[if gte IE 8]><script src="/js/jquery-file-upload/js/cors/jquery.xdr-transport.js"></script><![endif]-->
 
 <h1 class='top_heading'><?php __('Add Photos'); ?></h1>
+
 <?php 
 	$subnav = array(); 
 
@@ -41,9 +42,18 @@
 		
 	echo $this->Element('/admin/submenu', array( 'subnav' => $subnav ));
 ?>
+<div style="clear:both"></div>
+	
 <form id="fileupload" action="/admin/photos/process_mass_photos" method="POST" enctype="multipart/form-data">
-	<div class="row fileupload-buttonbar">
-            <div class="span7">
+	<div class="table_header_darker">
+		<h2><?php __('Files To Upload'); ?></h2>
+	</div>
+	<div class="empty_help_content">
+		<?php __('Drag and drop your photos here'); ?>
+	</div>
+	<div class="in_gallery_photos_cont"></div>
+		
+          <?php /* <div>
                 <!-- The fileinput-button span is used to style the file input field as button -->
                 <span class="btn btn-success fileinput-button">
                     <i class="icon-plus icon-white"></i>
@@ -61,9 +71,9 @@
                 <button type="button" class="btn btn-danger delete">
                     <i class="icon-trash icon-white"></i>
                     <span>Delete</span>
-                </button>
+                </button> 
                 <input type="checkbox" class="toggle">
-            </div>
+            </div> 
             <!-- The global progress information -->
             <div class="span5 fileupload-progress fade">
                 <!-- The global progress bar -->
@@ -73,7 +83,7 @@
                 <!-- The extended global progress information -->
                 <div class="progress-extended">&nbsp;</div>
             </div>
-        </div>
+        </div>*/ ?>
         <!-- The loading indicator is shown during file processing -->
         <div class="fileupload-loading"></div>
         <br>

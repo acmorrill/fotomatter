@@ -1,3 +1,8 @@
+/******************
+* Styles for the jQuery File upload plugin. (/js/jquery-file-upload)
+**************************************/
+@import 'upload.css';
+
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
@@ -49,8 +54,6 @@ table {
 	border-spacing: 0;
 }
 /*** END RESET **********/
-
-
 /**************************************************
 	GLOBAL STYLES
 **************************************************/
