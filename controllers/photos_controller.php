@@ -1,7 +1,7 @@
 <?php
 class PhotosController extends AppController {
 	public $name = 'Photos';
-	public $uses = array(/*'OldPhoto', */'Photo', 'SiteSetting', 'PhotoFormat');
+	public $uses = array(/*'OldPhoto', */'Photo', 'SiteSetting', 'PhotoFormat', 'SiteSetting');
 	public $helpers = array('Menu', 'Photo');
 	public $components = array('Upload', "ImageVersion", "Gd", "ImageWizards", "CloudFiles");
 	public $paginate = array(
@@ -23,7 +23,12 @@ class PhotosController extends AppController {
 		$this->set(compact('data', 'imageContainerUrl'));
 	}
 	
+	public function admin_mass_upload1() {
+		//$this->layout = 'ajax';
+	}
+	
 	public function admin_mass_upload() {
+		//$this->layout = 'ajax';
 	}
 	
 	public function admin_process_mass_photos() {
@@ -39,29 +44,23 @@ class PhotosController extends AppController {
 			if ($this->Photo->save($photo_for_db) === false) {
 				$this->Photo->major_error('Photo failed to save on upload');
 			}
+			
+			$photo_from_db = $this->Photo->find('first', array(
+				'conditions'=>array(
+					'Photo.id'=>$this->Photo->id
+				)
+			));
+			$json['name'] = $photo_from_db['Photo']['display_title'];
+			$json['size'] = $upload_data['size'];
+			
+			//get cdn-url
+			$cdn_url = $this->SiteSetting->getVal('image-container-url');
+			$url['url'] = $cdn_url . $photo_from_db['Photo']['cdn-filename-forcache'];
+			$url['thumbnail_url'] = $cdn_url . $photo_from_db['PhotoCache'][1]['cdn-filename'];
+			$result_to_return = array();
+			$result_to_return[] = $url;
+			print(json_encode($result_to_return));	
 		}
-		
-		//TODO - return this response
-	/*	[
-  {
-    "name":"picture1.jpg",
-    "size":902604,
-    "url":"\/\/example.org\/files\/picture1.jpg",
-    "thumbnail_url":"\/\/example.org\/thumbnails\/picture1.jpg",
-    "delete_url":"\/\/example.org\/upload-handler?file=picture1.jpg",
-    "delete_type":"DELETE"
-  },
-  {
-    "name":"picture2.jpg",
-    "size":841946,
-    "url":"\/\/example.org\/files\/picture2.jpg",
-    "thumbnail_url":"\/\/example.org\/thumbnails\/picture2.jpg",
-    "delete_url":"\/\/example.org\/upload-handler?file=picture2.jpg",
-    "delete_type":"DELETE"
-  }
-]
-		*/
-		
 		exit();
 	}
 	

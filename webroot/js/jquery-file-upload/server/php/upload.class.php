@@ -1,6 +1,6 @@
 <?php
 /*
- * jQuery File Upload Plugin PHP Class 5.11
+ * jQuery File Upload Plugin PHP Class 5.11.2
  * https://github.com/blueimp/jQuery-File-Upload
  *
  * Copyright 2010, Sebastian Tschan
@@ -66,11 +66,12 @@ class UploadHandler
     }
 
     protected function getFullUrl() {
+        $https = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
       	return
-    		(isset($_SERVER['HTTPS']) ? 'https://' : 'http://').
-    		(isset($_SERVER['REMOTE_USER']) ? $_SERVER['REMOTE_USER'].'@' : '').
+    		($https ? 'https://' : 'http://').
+    		(!empty($_SERVER['REMOTE_USER']) ? $_SERVER['REMOTE_USER'].'@' : '').
     		(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : ($_SERVER['SERVER_NAME'].
-    		(isset($_SERVER['HTTPS']) && $_SERVER['SERVER_PORT'] === 443 ||
+    		($https && $_SERVER['SERVER_PORT'] === 443 ||
     		$_SERVER['SERVER_PORT'] === 80 ? '' : ':'.$_SERVER['SERVER_PORT']))).
     		substr($_SERVER['SCRIPT_NAME'],0, strrpos($_SERVER['SCRIPT_NAME'], '/'));
     }
@@ -266,7 +267,7 @@ class UploadHandler
             return false;
         }
       	$orientation = intval(@$exif['Orientation']);
-      	if (!in_array($orientation, array(3, 6, 8))) { 
+      	if (!in_array($orientation, array(3, 6, 8))) {
       	    return false;
       	}
       	$image = @imagecreatefromjpeg($file_path);
@@ -289,7 +290,7 @@ class UploadHandler
       	return $success;
     }
 
-    protected function handle_file_upload($uploaded_file, $name, $size, $type, $error, $index) {
+    protected function handle_file_upload($uploaded_file, $name, $size, $type, $error, $index = null) {
         $file = new stdClass();
         $file->name = $this->trim_file_name($name, $type, $index);
         $file->size = intval($size);
