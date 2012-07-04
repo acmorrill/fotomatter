@@ -5,7 +5,8 @@ class SitePagesController extends AppController {
 		'SitePage', 'SitePageElement', 'SitePagesSitePageElement'
 	);
 	public $helpers = array(
-		'Page'
+		'Page',
+		'Photo'
 	);
 	
 	public function  beforeFilter() {

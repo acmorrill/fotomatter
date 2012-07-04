@@ -3,6 +3,12 @@
 
 class PhotoHelper extends AppHelper {
 	
+	public function get_dummy_error_image_path($height, $width) {
+		$this->PhotoCache = ClassRegistry::init('PhotoCache');
+		
+		return $this->PhotoCache->get_dummy_error_image_path($height, $width);
+	}
+	
 	public function get_photo_path($photo_id, $height, $width) {
 		$this->Photo = ClassRegistry::init('Photo');
 		$this->PhotoCache = ClassRegistry::init('PhotoCache');

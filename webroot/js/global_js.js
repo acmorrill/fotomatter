@@ -12,12 +12,30 @@ var verticle_sortable_defaults = {
  *Global start up behavio
  ****/
 jQuery(document).ready(function() {
-	jQuery(document).ajaxStart(function(event, request, settings) {
-		jQuery('body, div, img').addClass('cursor-progress');
-	});
-	jQuery(document).ajaxStop(function(event, request, settings) {
-		jQuery('body, div, img').removeClass('cursor-progress');	
-	});
+    jQuery(document).ajaxStart(function(event, request, settings) {
+            jQuery('body, div, img').addClass('cursor-progress');
+    });
+    jQuery(document).ajaxStop(function(event, request, settings) {
+            jQuery('body, div, img').removeClass('cursor-progress');	
+    });
+        
+	
+	/************************************/
+	/* globally setup any text defaults */
+	/************************************/
+    $(".defaultText").focus(function(srcc) {
+        if ($(this).val() == $(this)[0].title) {
+            $(this).removeClass("defaultTextActive");
+            $(this).val("");
+        }
+    });
+    $(".defaultText").blur(function() {
+        if ($(this).val() == "") {
+            $(this).addClass("defaultTextActive");
+            $(this).val($(this)[0].title);
+        }
+    });
+    $(".defaultText").blur(); 
 });
 
 /****************************************************************************
