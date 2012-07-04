@@ -444,20 +444,19 @@ $(function() {
 	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span><?php __('Remove all photos from gallery?'); ?></p>
 </div>
 
-<?php //debug($this->data); ?>
 <div id="connect_gallery_photos_cont">
 	<div class="in_gallery_main_cont">
-		<div class="table_header_darker" style="border-bottom: 1px solid #171717;">
+		<div class="table_header_darker">
 			<div class="actions" style="float: right;"><img id="remove_all_gallery_photos" src="/img/admin/icons/grey_delete_all_icon.png" /></div>
 			<h2 style="background: url('/img/admin/icons/FOLDER - DOWNLOADS.png') center left no-repeat; padding-left: 35px;"><?php __('Photos in Gallery'); ?></h2>
 		</div>
 		<div class="empty_help_content" style="<?php if (empty($this->data['PhotoGalleriesPhoto'])): ?>display: block;<?php endif; ?>"><?php __('Add images to this gallery using the box at right'); ?>&nbsp;►</div>
-		<div id="in_gallery_photos_cont" class="in_gallery_photos_cont">
+		<div id="in_gallery_photos_cont" class="in_gallery_photos_cont content-background">
 			<?php echo $this->Element('/admin/photo/photo_connect_in_gallery_photo_cont', array( 'connected_photos' => $this->data['PhotoGalleriesPhoto'], 'not_in_gallery_icon_size' => $not_in_gallery_icon_size )); ?>
 		</div>
 	</div>
 	<div class="not_in_gallery_main_cont">
-		<div class="table_header_darker" style="background-color: #292929; color: #AAA; border-bottom: 1px solid #171717;">
+		<div class="table_header_lighter">
 			<div class="actions" style="float: right;"><img id="refresh_not_in_gallery_photos_button" src="/img/admin/icons/grey_refresh.png" /></div>
 			<div class="custom_ui_radio" style="float: right; margin-top: 13px; margin-right: 10px;">
 				<div id="sort_photo_radio">
@@ -465,16 +464,16 @@ $(function() {
 					<input type="radio" id="radio2" name="sort_photo_radio" order="modified" sort_dir="asc" <?php if ($order == 'modified' && $sort_dir == 'asc'): ?>checked="checked"<?php endif; ?> /><label for="radio2"><?php __('Oldest First'); ?></label>
 				</div>
 			</div>
-			<h2 style="margin-left: 10px; color: #AAA; background: url('/img/admin/icons/grey_left_arrow.png') center left no-repeat; padding-left: 42px;"><?php __('Website Photos'); ?></h2>
+			<h2 style="margin-left: 10px; background: url('/img/admin/icons/grey_left_arrow.png') center left no-repeat; padding-left: 42px;"><?php __('Website Photos'); ?></h2>
 		</div>
 		<div id="endless_scroll_loading" class="rounded-corners-small"><span class="default"><?php __('Loading'); ?></span></div>
 		<div class="empty_help_content" style="<?php if (empty($not_connected_photos)): ?>display: block;<?php endif; ?>">
 			<?php __('No photos found <br/> Add photos <a href="/admin/photos">on the photo page</a>'); ?>
 		</div>
-		<div id="endless_scroll_div" class="not_in_gallery_photos_cont">
+		<div id="endless_scroll_div" class="not_in_gallery_photos_cont content-background">
 			<?php echo $this->Element('/admin/photo/photo_connect_not_in_gallery_photo_cont', array( 'not_connected_photos' => $not_connected_photos, 'not_in_gallery_icon_size' => $not_in_gallery_icon_size )); ?>
 		</div>
-		<div class="sort_and_filters" style="background-color: #363636; padding: 15px; border: 1px solid #171717; color: #999999; height: 60px; position: relative;">
+		<div class="sort_and_filters">
 			<div id="not_in_gallery_icon_size" class="box_icon_size">
 				<div id="small_icon" size="small" <?php if($not_in_gallery_icon_size == 'small'): ?>class="selected"<?php endif; ?> >S</div>
 				<div id="medium_icon" size="medium" <?php if($not_in_gallery_icon_size == 'medium'): ?>class="selected"<?php endif; ?> >M</div>

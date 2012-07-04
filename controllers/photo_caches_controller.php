@@ -9,6 +9,7 @@ class PhotoCachesController extends AppController {
 		set_time_limit(0);
 		
 		$this->PhotoCache->finish_create_cache($photocache_id);
+		exit();
 	}
 	
 }

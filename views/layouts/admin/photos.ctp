@@ -15,7 +15,7 @@
 			<?php echo $this->Element('admin/logo'); ?>
 			<?php echo $this->Element('admin/menu', array( 'curr_page' => 'photos' )); ?>
 		</div>
-		<div id="middle" class="rounded-corners">
+		<div id="middle" class="rounded-corners photo_pages">
 			<?php echo $content_for_layout; ?>
 		</div>
 		<div id="footer"></div>

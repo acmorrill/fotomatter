@@ -2,6 +2,7 @@
 class DashboardsController extends AppController {
      var $name = 'Dashboards';
      var $uses = array();
+	 var $components = array('HashUtil');
 
      public function  beforeFilter() {
           parent::beforeFilter();
@@ -10,6 +11,6 @@ class DashboardsController extends AppController {
      }
 
      public function admin_index() {
-		 
+		 $this->HashUtil->set_new_hash('hash_five');
      }
 }
