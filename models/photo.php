@@ -16,6 +16,8 @@
  * 
  * --- test that convert will not uprez for either master cache or smaller master cache
  * --- test that if you upload a small original a larger cache file will still work (upres)
+ * 
+ * -- make sure only .jpeg or .jpg can be uploaded
  */
 
 
@@ -59,6 +61,18 @@ class Photo extends AppModel {
 			if (!$this->CloudFiles->delete_object($photo['Photo']['cdn-filename-forcache'])) {
 				$this->major_error("failed to delete object cdn-filename-forcache in photo before delete", $photo['Photo']['cdn-filename-forcache']);
 			}
+			
+			unlink(LOCAL_MASTER_CACHE.DS.$photo['Photo']['cdn-filename-forcache']);
+		}
+		
+		if (isset($photo['Photo']['cdn-filename-smaller-forcache'])) {
+			$this->CloudFiles = $this->get_cloud_file();
+			
+			if (!$this->CloudFiles->delete_object($photo['Photo']['cdn-filename-smaller-forcache'])) {
+				$this->major_error("failed to delete object cdn-filename-smaller-forcache in photo before delete", $photo['Photo']['cdn-filename-smaller-forcache']);
+			}
+			
+			unlink(LOCAL_SMALLER_MASTER_CACHE.DS.$photo['Photo']['cdn-filename-smaller-forcache']);
 		}
 		
 		return true;
@@ -93,6 +107,8 @@ class Photo extends AppModel {
 					),
 					'contain' => false
 				));
+				
+				// delete the local master cache files
 				if (isset($old_photo['Photo']['cdn-filename-forcache'])) {
 					unlink(LOCAL_MASTER_CACHE.DS.$old_photo['Photo']['cdn-filename-forcache']);
 				}
@@ -137,9 +153,9 @@ class Photo extends AppModel {
 					}
 				}
 				
-				//////////////////////////////////////////////////////////////////////////////////////////
-				// now create a smaller version of the file (or bigger 1500x1500) for use in creating the cache files later
 				if (is_writable(TEMP_IMAGE_PATH)) {
+					//////////////////////////////////////////////////////////////////////////////////////////
+					// now create a smaller version of the file (or bigger 1500x1500) for use in creating the cache files later
 					$max_width = LARGE_MASTER_CACHE_SIZE;
 					$max_height = LARGE_MASTER_CACHE_SIZE;
 					
@@ -174,6 +190,7 @@ class Photo extends AppModel {
 					$this->data['Photo']['forcache_pixel_height'] = $mastercache_height;
 					
 					if (!$this->CloudFiles->put_object($cache_image_name, $new_image_temp_path, $mastercache_mime)) {
+						// TODO - if a put fails - we need to fail gracefully -- ie - inform the user the photo did not upload correctly
 						$this->major_error("failed to put master cache image in photo beforeSave", $cache_image_name);
 						unset($this->data['Photo']['cdn-filename-forcache']);
 						unset($this->data['Photo']['forcache_pixel_width']);
@@ -181,13 +198,9 @@ class Photo extends AppModel {
 					}
 					
 					unlink($new_image_temp_path);
-				} else {
-					$this->major_error("the temp image path is not writable for photo before save");
-				}
 				
-				//////////////////////////////////////////////////////////////////////////////////////////
-				// now create an even smaller version of the master cache file for use in creating the thumbnail cache files later
-				if (is_writable(TEMP_IMAGE_PATH)) {
+					//////////////////////////////////////////////////////////////////////////////////////////
+					// now create an even smaller version of the master cache file for use in creating the thumbnail cache files later
 					$max_width = SMALL_MASTER_CACHE_SIZE;
 					$max_height = SMALL_MASTER_CACHE_SIZE;
 					
@@ -238,6 +251,48 @@ class Photo extends AppModel {
 			}
 		} else {
 			unset($this->data['Photo']['cdn-filename']);
+		}
+		
+		return true;
+	}
+	
+	public function afterSave($created) {
+		//////////////////////////////////////////////////////////////////////////////////////////
+		// now create all the prebuilt cache sizes
+		if (isset($this->data['Photo']['cdn-filename-forcache']) && isset($this->data['Photo']['cdn-filename-smaller-forcache']) && isset($this->id))   {
+			$this->PhotoPrebuildCacheSize = Classregistry::init('PhotoPrebuildCacheSize');
+			$all_cache_sizes = $this->PhotoPrebuildCacheSize->find('all', array(
+				'contain' => false
+			));
+			foreach ($all_cache_sizes as $all_cache_size) {
+				$initLocked = $this->query("SELECT GET_LOCK('start_create_cache_".$this->id."', 8)");
+				if ($initLocked['0']['0']["GET_LOCK('start_create_cache_".$this->id."', 8)"] == 0 || $initLocked['0']['0']["GET_LOCK('start_create_cache_".$this->id."', 8)"] == null) {
+					continue;
+				}
+
+					$conditions = array(
+						'PhotoCache.photo_id' => $this->id,
+						'PhotoCache.max_height' => $all_cache_size['PhotoPrebuildCacheSize']['max_height'],
+						'PhotoCache.max_width' => $all_cache_size['PhotoPrebuildCacheSize']['max_width']
+					);
+					
+					$photoCache = $this->PhotoCache->find('first', array(
+						'conditions' => $conditions,
+						'contain' => false
+					));
+					if (!$photoCache) {
+						$photo_cache_id = $this->PhotoCache->prepare_new_cachesize($this->id, $all_cache_size['PhotoPrebuildCacheSize']['max_height'], $all_cache_size['PhotoPrebuildCacheSize']['max_width'], true);
+					} else {
+						$releaseLock = $this->query("SELECT RELEASE_LOCK('start_create_cache_".$this->id."')");
+						continue;
+					}
+
+				$releaseLock = $this->query("SELECT RELEASE_LOCK('start_create_cache_".$this->id."')");
+
+				ignore_user_abort(true);
+				set_time_limit(0);
+				$this->PhotoCache->finish_create_cache($photo_cache_id, false);
+			}
 		}
 		
 		return true;

@@ -1,13 +1,19 @@
-<style type="text/css">
-	h1 {
-		font-size: 30px;
-		margin-bottom: 10px;
-	}
-</style>
+<h1 class='top_heading'><?php __('Photos'); ?></h1>
+<?php 
+	$subnav = array(); 
 
-
-
-<h1><?php __('Photos'); ?></h1>
+	$subnav['title'] = array(
+		'name' => __('Photo List', true),
+		'url' => "/admin/photos",
+		'selected'=>true
+	);
+	$subnav['pages'][] = array(
+		'name' => __('Add Photos', true),
+		'url' => "/admin/photos/mass_upload/"
+	);
+		
+	echo $this->Element('/admin/submenu', array( 'subnav' => $subnav ));
+?>
 <?php if (!empty($data)): ?>
 	<div class="table_header">
 		<label class="inline"><?php __('Page:'); ?></label> <?php echo $this->Paginator->counter(); ?>
@@ -39,7 +45,7 @@
 			<tr>
 				<td class="photo_id first <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr<?php endif; ?>"><?php echo $curr_photo['Photo']['id']; ?> </td> 
 				<?php /* <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr<?php endif; ?>"><?php echo $curr_photo['Photo']['id']; ?> */ ?>
-				<?php $img_path = $this->Photo->get_photo_path($curr_photo['Photo']['id'], 100, 100); ?>
+				<?php $img_path = $this->Photo->get_photo_path($curr_photo['Photo']['id'], 110, 110); ?>
 				<td class="photo_image"><img src="<?php echo $img_path; ?>" /><?php //echo $curr_photo['Photo']['id']; ?></td> 
 				<td class="photo_title <?php if ($this->Paginator->sortKey('Photo') == 'Photo.display_title'): ?> curr<?php endif; ?>"><?php echo $curr_photo['Photo']['display_title']; ?> </td> 
 				<td class="photo_enabled <?php if ($this->Paginator->sortKey('Photo') == 'Photo.enabled'): ?> curr<?php endif; ?>"><?php echo ($curr_photo['Photo']['enabled'] == 0) ? __('NO', true): __('YES', true); ?> </td> 
@@ -60,7 +66,9 @@
 				<?php $created_current_year = date("Y", strtotime($curr_photo['Photo']['created'])) == date('Y'); ?>
 				<td class="photo_modified <?php if ($this->Paginator->sortKey('Photo') == 'Photo.modified'): ?> curr<?php endif; ?>"><?php echo date($modified_format, strtotime($curr_photo['Photo']['modified'])); ?> </td> 
 				<td class="photo_created <?php if ($this->Paginator->sortKey('Photo') == 'Photo.created'): ?> curr<?php endif; ?>"><?php echo date($created_format, strtotime($curr_photo['Photo']['created'])); ?> </td> 
-				<td class="photo_action last"><a href="/admin/photos/edit/<?php echo $curr_photo['Photo']['id']; ?>/"><?php __('Edit'); ?></a></td>
+				<td class="photo_action last">
+					<a href="/admin/photos/edit/<?php echo $curr_photo['Photo']['id']; ?>/"><?php __('Edit'); ?></a>
+				</td>
 			</tr>
 		<?php endforeach; ?> 
 	</table>

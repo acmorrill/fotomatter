@@ -23,6 +23,48 @@ class PhotosController extends AppController {
 		$this->set(compact('data', 'imageContainerUrl'));
 	}
 	
+	public function admin_mass_upload() {
+	}
+	
+	public function admin_process_mass_photos() {
+		if (isset($this->params['form']['files'])) {
+			$upload_data['name'] = $this->params['form']['files']['name'][0];
+			$upload_data['tmp_name'] = $this->params['form']['files']['tmp_name'][0];
+			$upload_data['type'] = $this->params['form']['files']['type'][0];
+			$upload_data['size'] = $this->params['form']['files']['size'][0];
+			
+			$photo_for_db['Photo']['cdn-filename'] = $upload_data;
+			$photo_for_db['Photo']['display_title'] = $this->params['form']['files']['name'][0];
+			$this->Photo->create();
+			if ($this->Photo->save($photo_for_db) === false) {
+				$this->Photo->major_error('Photo failed to save on upload');
+			}
+		}
+		
+		//TODO - return this response
+	/*	[
+  {
+    "name":"picture1.jpg",
+    "size":902604,
+    "url":"\/\/example.org\/files\/picture1.jpg",
+    "thumbnail_url":"\/\/example.org\/thumbnails\/picture1.jpg",
+    "delete_url":"\/\/example.org\/upload-handler?file=picture1.jpg",
+    "delete_type":"DELETE"
+  },
+  {
+    "name":"picture2.jpg",
+    "size":841946,
+    "url":"\/\/example.org\/files\/picture2.jpg",
+    "thumbnail_url":"\/\/example.org\/thumbnails\/picture2.jpg",
+    "delete_url":"\/\/example.org\/upload-handler?file=picture2.jpg",
+    "delete_type":"DELETE"
+  }
+]
+		*/
+		
+		exit();
+	}
+	
 	public function admin_edit($id) {
 		if ($id != null) { // edit or save mode?
 		   $this->set('mode', 'edit');
