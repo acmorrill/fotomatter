@@ -445,7 +445,7 @@ $(function() {
 </div>
 
 <div id="connect_gallery_photos_cont">
-	<div class="in_gallery_main_cont generic_full_screen_container">
+	<div class="in_gallery_main_cont">
 		<div class="table_header_darker">
 			<div class="actions" style="float: right;"><img id="remove_all_gallery_photos" src="/img/admin/icons/grey_delete_all_icon.png" /></div>
 			<h2 style="background: url('/img/admin/icons/FOLDER - DOWNLOADS.png') center left no-repeat; padding-left: 35px;"><?php __('Photos in Gallery'); ?></h2>
