@@ -57,6 +57,8 @@ class UtilShell extends Shell {
 		
 		$this->args[0] = 20;
 		$this->give_me_images();
+                
+                $this->add_pages();
 		
 		/*$photo_data = array();
 		

@@ -85,59 +85,6 @@
 	});
 </script>
 
-<style type="text/css">
-	#configure_page_cont .avail_page_elements_cont {
-		float: left;
-		width: 200px;
-		margin-right: 30px;
-	}
-	#configure_page_cont .page_content_cont {
-		float: left;
-		width: 600px;
-		min-height: 500px;
-	}
-	#configure_page_cont .avail_element_cont {
-		margin: 30px auto;
-		text-align: center;
- 		/* IE 8 */
-		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
-		/* IE 5-7 */
-		filter: alpha(opacity=80);
-		/* Netscape */
-		-moz-opacity: 0.8;
-		/* Safari 1.x */
-		-khtml-opacity: 0.8;
-		/* Good browsers */
-		opacity: 0.8;
-	}
-	#configure_page_cont .avail_element_cont:hover { 
-		/* IE 8 */
-		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-		/* IE 5-7 */
-		filter: alpha(opacity=100);
-		/* Netscape */
-		-moz-opacity: 1;
-		/* Safari 1.x */
-		-khtml-opacity: 1;
-		/* Good browsers */
-		opacity: 1;
-		cursor: url(/img/admin/icons/HARDWARE.cur), url(/img/admin/icons/HARDWARE.cur), default;
-	}
-	
-	#configure_page_cont .page_content_cont {
-		height: 600px;
-		overflow-y: auto;
-	}
-	#configure_page_cont .page_content_cont .page_element_cont {
-		margin: 25px;
-		position: relative;
-		padding: 10px;
-		background-color: #303030;
-	}
-	#configure_page_cont .page_content_cont .reorder_page_grabber {
-		cursor: move;
-	}
-</style>
 
 <div id="configure_page_cont" class="clear">
 	<div class="avail_page_elements_cont">

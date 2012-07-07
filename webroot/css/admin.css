@@ -112,6 +112,8 @@ h1 {
 /**************************************************
 	start Attribute short cuts
 **************************************************/
+.defaultText { width: 300px; }
+.defaultTextActive { color: #a1a1a1; font-style: italic; }
 .cursor-progress {
 	cursor:progress !important;
 }
@@ -122,13 +124,21 @@ h1 {
 }
 .rounded-corners {
 	-webkit-border-radius: 10px; /* safari/chrome */
-  -moz-border-radius: 10px; /* Firefox */
-  border-radius: 10px; /* CSS3 */
+	-moz-border-radius: 10px; /* Firefox */
+	border-radius: 10px; /* CSS3 */
 }
 .rounded-corners-small {
 	-webkit-border-radius: 7px; /* safari/chrome */
-  -moz-border-radius: 7px; /* Firefox */
-  border-radius: 7px; /* CSS3 */
+	-moz-border-radius: 7px; /* Firefox */
+	border-radius: 7px; /* CSS3 */
+}
+.no-bottom-rounded {
+	-webkit-border-bottom-left-radius: 0px; /* safari/chrome */
+	-webkit-border-bottom-right-radius: 0px; /* safari/chrome */
+	-moz-border-bottom-left-radius: 0px; /* Firefox */
+	-moz-border-bottom-right-radius: 0px; /* Firefox */
+	border-bottom-right-radius: 0px; /* CSS3 */
+	border-bottom-left-radius: 0px; /* CSS3 */
 }
 .clear {
 	clear:both;
@@ -491,8 +501,10 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 }
 
 #connect_gallery_photos_cont .in_gallery_photos_cont, #connect_gallery_photos_cont .not_in_gallery_photos_cont {
+	background: #222222;
 	height: 490px;
-	
+	overflow-x: hidden;
+	overflow-y: auto;
 }
 #connect_gallery_photos_cont .in_gallery_photos_cont {
 	height: 582px;
@@ -502,6 +514,7 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 #connect_gallery_photos_cont .in_gallery_photos_cont.arrange .order_in_gallery_button { display: block; cursor: move; }
 #connect_gallery_photos_cont .in_gallery_photos_cont.arrange .remove_from_gallery_button { display: none; }
 #connect_gallery_photos_cont .in_gallery_main_cont {
+	float: left;
 	width: 39%;
 	float:left;
 	position:relative;
@@ -644,6 +657,58 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 }
 
 /* End photo upload */
+#configure_page_cont .avail_page_elements_cont {
+	float: left;
+	width: 200px;
+	margin-right: 30px;
+}
+#configure_page_cont .page_content_cont {
+	float: left;
+	width: 600px;
+	min-height: 500px;
+}
+#configure_page_cont .avail_element_cont {
+	margin: 30px auto;
+	text-align: center;
+	/* IE 8 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+	/* IE 5-7 */
+	filter: alpha(opacity=80);
+	/* Netscape */
+	-moz-opacity: 0.8;
+	/* Safari 1.x */
+	-khtml-opacity: 0.8;
+	/* Good browsers */
+	opacity: 0.8;
+}
+#configure_page_cont .avail_element_cont:hover { 
+	/* IE 8 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	/* IE 5-7 */
+	filter: alpha(opacity=100);
+	/* Netscape */
+	-moz-opacity: 1;
+	/* Safari 1.x */
+	-khtml-opacity: 1;
+	/* Good browsers */
+	opacity: 1;
+	cursor: url(/img/admin/icons/HARDWARE.cur), url(/img/admin/icons/HARDWARE.cur), default;
+}
+
+#configure_page_cont .page_content_cont {
+	height: 600px;
+	overflow-y: auto;
+}
+#configure_page_cont .page_content_cont .page_element_cont {
+	margin: 25px;
+	position: relative;
+	padding: 10px;
+	background-color: #303030;
+	min-height: 60px;
+}
+#configure_page_cont .page_content_cont .reorder_page_grabber {
+	cursor: move;
+}
 /***** End Photo Pages****/
 /***********************************************************************************************************************
 ************************************************************************************************************************
