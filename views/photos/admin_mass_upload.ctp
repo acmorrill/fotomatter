@@ -21,7 +21,6 @@
 
 <!-- The XDomainRequest Transport is included for cross-domain file deletion for IE8+ -->
 <!--[if gte IE 8]><script src="/js/jquery-file-upload/js/cors/jquery.xdr-transport.js"></script><![endif]-->
-<?php $this->Html->Css('/css/upload.css'); ?>
 <h1 class='top_heading'><?php __('Add Photos'); ?></h1>
 
 <?php 
@@ -80,13 +79,36 @@
 					<input type="file" class="upload_files" id="upload_files">
 					
 				</div>
+			</div>
+			
+			<div class="files_ready_to_upload_cont">
+				<div class='upload_table_header'><?php __('New Photos'); ?></div>
+				<div class='table_cont rounded-corners'>
+					<table role="presentation" class="table table-striped">
+						<thead>
+							<tr>
+								<th width='20%'>Photo</th>
+								<th>Name</th>
+								<th>Size</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
+					</table>
+				</div>
+				
+				<?php /*<table role="presentation" class="table table-striped">
+					<tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
+				</table>
+				<div class="empty_help_content upload_start" style="display:block;">
+					<?php __('Drag and drop your photos here. Or choose file here'); ?>
+				</div> */ ?>
+			</div>
+			<div class="generic_photo_category_cont">
 				
 			</div>
-			<div class="empty_help_content upload_start" style="display:block;">
-				<?php __('Drag and drop your photos here. Or choose file here'); ?>
-				
-			</div>
-			<div class="med_height block_element_base"></div>
+			<div style='clear:both'></div>
+			
 		</div>
 			<?php /* <div>
 					<!-- The fileinput-button span is used to style the file input field as button -->
@@ -118,12 +140,12 @@
 					<!-- The extended global progress information -->
 					<div class="progress-extended">&nbsp;</div>
 				</div>
-			</div>*/ ?>
+			</div>
 			<!-- The loading indicator is shown during file processing -->
 			<div class="fileupload-loading"></div>
 			<br>
 			<!-- The table listing the files available for upload/download -->
-			<table role="presentation" class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
+			<table role="presentation" class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>*/ ?>
 	</form>
 	<script id="template-upload" type="text/x-tmpl">
 	{% for (var i=0, file; file=o.files[i]; i++) { %}

@@ -1,7 +1,7 @@
 /******************
 * Styles for the jQuery File upload plugin. (/js/jquery-file-upload)
 **************************************/
-@import 'upload.css';
+
 
 /***********************************************************************************************************************
 ************************************************************************************************************************
@@ -129,6 +129,9 @@ h1 {
 	-webkit-border-radius: 7px; /* safari/chrome */
   -moz-border-radius: 7px; /* Firefox */
   border-radius: 7px; /* CSS3 */
+}
+.clear {
+	clear:both;
 }
 .inline {
 	display: inline;
@@ -607,6 +610,37 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 	z-index:2;
 	height:39px;
 	cursor:pointer;
+}
+
+#photo_mass_upload_outer_wrapper .upload_content .generic_photo_category_cont {
+	border:1px solid white;
+	width:40%;
+	height:300px;
+}
+
+#photo_mass_upload_outer_wrapper .upload_content  .upload_table_header {
+	font-weight:bold;
+	margin:15px 10px;
+}
+
+#photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont {
+	position:relative;
+	float:right;
+	width:59%;
+}
+
+#photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont .table_cont {
+	background-color:#282828;
+	min-height:300px;
+	width:80%;
+	margin:0 0 0 26px;
+}
+
+#photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont table {
+	width:100%;
+	float:right;
+	margin:15px 10px;
+	
 }
 
 /* End photo upload */
