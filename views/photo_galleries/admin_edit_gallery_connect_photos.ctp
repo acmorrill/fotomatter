@@ -33,7 +33,8 @@
 	var built_gallery_image_html = '<?php echo preg_replace( "/[\n\r]/", '', $this->element('admin/photo/photo_connect_in_gallery_photo_cont', array(
 			'connected_photos' => array('dummy'),
 			'hide_data' => true,
-			'not_in_gallery_icon_size' => 'medium'
+			'not_in_gallery_icon_size' => 'medium',
+			'hide_debug' => true
 		)));
 	?>';
 		

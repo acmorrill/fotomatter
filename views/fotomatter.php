@@ -5,13 +5,12 @@ class FotomatterView extends View {
 		$element_result = parent::element($name, $params, $loadHelpers);
 		
 		$debug_data = '';
-		if (Configure::read('debug') > 1) {
+		if (Configure::read('debug') > 1 && !isset($params['hide_debug'])) {
 			$uuid = substr(base64_encode(String::uuid()), 0, 20);
 			$debug_data .= "\n<script type='text/javascript'>\n";
-				$debug_data .= "jQuery(document).ready(function() {";
+				$debug_data .= "jQuery(document).ready(function() {\n";
 					$debug_data .= "var curr_element = jQuery('#".$uuid."');\n";
 					$debug_data .= "var next_element = jQuery('#".$uuid."').next();\n";
-					$debug_data .= "console.log(next_element);\n";
 					
 					$debug_data .= "next_element.mousemove(function() {\n";
 						$debug_data .= "jQuery('.debug_element_path').hide();\n";
