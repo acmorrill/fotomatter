@@ -504,8 +504,10 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 }
 
 #connect_gallery_photos_cont .in_gallery_photos_cont, #connect_gallery_photos_cont .not_in_gallery_photos_cont {
+	background: #222222;
 	height: 490px;
-	
+	overflow-x: hidden;
+	overflow-y: auto;
 }
 #connect_gallery_photos_cont .in_gallery_photos_cont {
 	height: 582px;
@@ -515,8 +517,9 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 #connect_gallery_photos_cont .in_gallery_photos_cont.arrange .order_in_gallery_button { display: block; cursor: move; }
 #connect_gallery_photos_cont .in_gallery_photos_cont.arrange .remove_from_gallery_button { display: none; }
 #connect_gallery_photos_cont .in_gallery_main_cont {
+	float: left;
 	width: 39%;
-	
+	position: relative;
 }
 #connect_gallery_photos_cont .in_gallery_main_cont.arrange {
 	width: 100%;
