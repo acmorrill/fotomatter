@@ -1,5 +1,7 @@
 <?php //debug($config); ?>
 
+
+
 <div class="para_header_image_cont">
 	<input class="defaultText header" type="text" title="Page Element Heading" style="margin-bottom: 10px;" />
 	<div class="para_image_cont">
