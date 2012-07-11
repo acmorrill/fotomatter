@@ -22,6 +22,58 @@
 <br/>
 
 <script type="text/javascript">
+	/*
+	 *	A PROTOTYPE FUNCTION TO BE PASSED IN FROM ELEMENTS
+	 */
+	function element_callbacks(params) {
+		if (params.uuid === undefined) {
+			major_error_recover('The uuid must be defined');
+			return false;
+		}
+		this.uuid = params.uuid;
+		
+		if (params.init === undefined || !jQuery.isFunction(params.init)) {
+			major_error_recover('The init function must be defined');
+			return false;
+		}
+		
+		this.init = params.init;
+		
+		if (params.save !== undefined) {
+			this.save = params.save;
+		} else {
+			this.save = function() {
+				console.log ("the generic save function");
+			}
+		}
+		
+		this.toString = function() {
+			console.log ("this is a method to describe this object");
+		}
+	}
+	
+	var element_callbacks_array = {};
+	function register_page_element_callbacks(callbacks_obj) {
+		if (callbacks_obj instanceof element_callbacks) {
+			element_callbacks_array[callbacks_obj.uuid] = callbacks_obj;
+		} else {
+			major_error_recover('you must pass in an instanceof element_callbacks as the second param');
+		}
+	}
+	
+	function call_element_inits() {
+		for (var i in element_callbacks_array) {
+			if (jQuery.isFunction(element_callbacks_array[i].init)) {
+				element_callbacks_array[i].init(jQuery('#'+i));
+				element_callbacks_array[i].save();
+				element_callbacks_array[i].toString();
+			} else {
+				major_error_recover('failed to call init function for a page element');
+			}
+		}
+	}
+	
+	
 	function setup_page_element_sortable(selector) {
 		jQuery(selector).sortable(jQuery.extend(verticle_sortable_defaults, {
 			items : '.page_element_cont',
@@ -52,43 +104,10 @@
 		})).disableSelection();
 	}
 	
-	function setup_para_header_image() {
-		// setup tiny mce for paragraph edits
-		jQuery('.tinymce textarea').tinymce({
-			// Location of TinyMCE script
-			script_url : '/js/tinymce/jscripts/tiny_mce/tiny_mce.js',
-
-			// General options
-			theme : "advanced",
-			plugins : "autolink,lists,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,advlist", // DREW TODO - shortent this list
-
-			// Theme options
-			theme_advanced_buttons1 : "bold,italic,underline,blockquote,link,unlink,anchor,code",
-			theme_advanced_toolbar_location : "top",
-			theme_advanced_toolbar_align : "left",
-			theme_advanced_statusbar_location : "bottom",
-			theme_advanced_resizing : true
-
-		});
-		
-		jQuery('.para_header_image_cont .para_image_header_image_pos').buttonset();
-		
-		jQuery('.para_header_image_cont .para_image_header_image_pos').change(function() {
-			var container = jQuery(this).closest('.para_header_image_cont');
-
-			if (container.find('.image_cont').hasClass('left')) {
-				container.find('.image_cont').removeClass('left');
-				container.find('.image_cont').addClass('right');
-			} else {
-				container.find('.image_cont').removeClass('right');
-				container.find('.image_cont').addClass('left');
-			}
-			
-			console.log ("the thing was changed");
-		});
-	}
-	
 	jQuery(document).ready(function() {
+		call_element_inits();
+		
+		
 		//admin_ajax_add_page_element
 		
 		jQuery('#configure_page_cont .avail_element_cont').click(function() {
@@ -118,19 +137,6 @@
 		});
 		
 		setup_page_element_sortable('#configure_page_cont .page_content_cont');
-		
-		setup_para_header_image();
-		
-		
-		
-		
-		/////////////////////////////////////////
-		// testing code
-		jQuery('.generic_sort_and_filters .tiny_mce_test').click(function() {
-			var textarea_val = jQuery(this).closest('.page_element_cont').find('.tinymce textarea').val();
-			alert(textarea_val);
-		});
-		
 	});
 </script>
 

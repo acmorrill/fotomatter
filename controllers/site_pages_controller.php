@@ -8,11 +8,17 @@ class SitePagesController extends AppController {
 		'Page',
 		'Photo'
 	);
+	public $components = array(
+		'HashUtil'
+	);
+			
 	
 	public function  beforeFilter() {
 		parent::beforeFilter();
 
 		$this->layout = 'admin/pages';
+		
+		$this->HashUtil->set_new_hash('site_pages');
 	}
 
 	
