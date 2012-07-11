@@ -627,10 +627,13 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 	cursor:pointer;
 }
 
-#photo_mass_upload_outer_wrapper .upload_content .generic_photo_category_cont {
+#photo_mass_upload_outer_wrapper .upload_content .generic_photo_gallery_cont {
 	border:1px solid white;
-	width:40%;
+	background-color:#fff;
+	width:500px;
 	height:300px;
+	float:left;
+	margin-left:-100%;
 }
 
 #photo_mass_upload_outer_wrapper .upload_content  .upload_table_header {
@@ -639,9 +642,24 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 }
 
 #photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont {
+	float:left;
+	width:100%;
+	margin:0 0 0 30px;
+}
+
+#photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont .files_ready_to_upload_inner_cont {
+	margin-left:560px;
 	position:relative;
-	float:right;
-	width:59%;
+}
+
+#photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont .files_ready_to_upload_inner_cont button[type=submit] {
+	margin: 0 0 0 30px;
+}
+
+#photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont .files_ready_to_upload_inner_cont .empty_help_content {
+	top:31%;
+	left:10%;
+	right:32%;
 }
 
 #photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont .table_cont {
@@ -653,8 +671,29 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 
 #photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont table {
 	width:100%;
-	float:right;
-	margin:15px 10px;
+	margin:15px 0px;
+}
+
+#photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont table th {
+	text-align:left;
+	padding:5px 15px;
+	background-color:#1c1c1c;
+}
+
+#photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont table td {
+	padding:5px 15px;
+}
+
+#photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont table tr {
+	border:1px solid #353535;
+}
+
+#photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont table tr.template-upload td.non-image {
+	position:relative;
+	bottom:30px;
+}
+
+#photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont table td, #photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont table th {
 	
 }
 /* End photo upload */
