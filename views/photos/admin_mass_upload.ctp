@@ -41,20 +41,38 @@
 <div style="clear:both"></div>
 <script>
 	$(document).ready(function() {
+		var global_modal;
+		var test;
 		$('#fileupload').fileupload({
 			dataType: 'json',
 			//'fileInput': jQuery('#upload_files'),
 			done: function (e, data) {
-				console.log(e);
-				$.each(data.result, function (index, file) {
-					$('<p/>').text(file.name).appendTo(document.body);
-				});
+				data.filesContainer.remove();
+				if ($("#photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont table tbody tr").length == 0) {
+					$("#photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont .files_ready_to_upload_inner_cont .empty_help_content").show();
+				}
+				
 			},
 			start: function(e) {
-				console.log('upload started');
+				var css = {};
+				css.height = '30%';
+				css.width = '400px'
+				global_modal = $(".upload_in_progress_cont").clone();
+				test = $(".progress", global_modal).progressbar({
+					value:0
+				});
+				$(test).progressbar('option', 'value', 80);
+				message_div_for_upload = show_modal(global_modal.html(), 2500, undefined,false,css);
+				
 			},
 			progressall: function(e, data) {
-				console.log(parseInt(data.loaded / data.total * 100, 10));
+				var progress = parseInt(data.loaded / data.total * 100, 10);
+				$(test).progressbar('option', 'value', 100)
+				$(".progress", global_modal).progressbar('option', 'value', 80);
+			},
+			stop: function() {
+				//remove_modal();
+				show_modal('<?php __('Upload Completed'); ?>', 2500, undefined, true);
 			}
 			
 		});
@@ -75,8 +93,19 @@
 			});
 		
 		$("button").button();
+		
+		
 	});
 </script>
+<div style="display:none" class="upload_in_progress_cont">
+	<div class="upload_in_progress">
+		<div class="upload_in_progress_header"><?php __('Upload Processing'); ?></div>
+		<div class="overall_upload">
+			<div class='label'><?php __('Overall Progress:'); ?></div>
+			<div class="progress"></div>
+		</div>
+	</div>
+</div>
 <div id="photo_mass_upload_outer_wrapper">
 	<form id="fileupload" action="/admin/photos/process_mass_photos" method="POST" enctype="multipart/form-data">
 		<div class="upload_content fileupload-buttonbar">

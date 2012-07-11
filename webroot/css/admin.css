@@ -630,7 +630,7 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 #photo_mass_upload_outer_wrapper .upload_content .generic_photo_gallery_cont {
 	border:1px solid white;
 	background-color:#fff;
-	width:500px;
+	width:300px;
 	height:300px;
 	float:left;
 	margin-left:-100%;
@@ -648,7 +648,7 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 }
 
 #photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont .files_ready_to_upload_inner_cont {
-	margin-left:560px;
+	margin-left:320px;
 	position:relative;
 }
 
@@ -686,6 +686,7 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 
 #photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont table tr {
 	border:1px solid #353535;
+	min-height:100px
 }
 
 #photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont table tr.template-upload td.non-image {
@@ -694,6 +695,26 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 }
 
 #photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont table td, #photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont table th {
+	
+}
+
+.upload_in_progress .upload_in_progress_header {
+	font-size:22px;
+}
+
+.upload_in_progress .overall_upload {
+	margin:10px;
+	font-size:12px;
+}
+
+.upload_in_progress .overall_upload div.label {
+	font-size:14px;
+	float:left;
+	margin:5px 20px 2px 0;
+}
+
+.upload_in_progress .overall_upload div.progress {
+	margin:0 10px;
 	
 }
 /* End photo upload */
