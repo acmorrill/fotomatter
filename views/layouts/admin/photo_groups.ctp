@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title><?php __('Admin Dashboard'); ?></title>
+	<script type="text/javascript" src="/js/jquery-1.7.1.min.js"></script>
 	<?php echo $this->Element('admin/global_includes'); ?>
 	<?php echo $this->Element('admin/global_js'); ?>
 </head>

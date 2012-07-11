@@ -33,7 +33,8 @@
 	var built_gallery_image_html = '<?php echo preg_replace( "/[\n\r]/", '', $this->element('admin/photo/photo_connect_in_gallery_photo_cont', array(
 			'connected_photos' => array('dummy'),
 			'hide_data' => true,
-			'not_in_gallery_icon_size' => 'medium'
+			'not_in_gallery_icon_size' => 'medium',
+			'hide_debug' => true
 		)));
 	?>';
 		
@@ -445,7 +446,7 @@ $(function() {
 </div>
 
 <div id="connect_gallery_photos_cont">
-	<div class="in_gallery_main_cont generic_full_screen_container">
+	<div class="in_gallery_main_cont">
 		<div class="table_header_darker">
 			<div class="actions" style="float: right;"><img id="remove_all_gallery_photos" src="/img/admin/icons/grey_delete_all_icon.png" /></div>
 			<h2 style="background: url('/img/admin/icons/FOLDER - DOWNLOADS.png') center left no-repeat; padding-left: 35px;"><?php __('Photos in Gallery'); ?></h2>
@@ -473,7 +474,7 @@ $(function() {
 		<div id="endless_scroll_div" class="not_in_gallery_photos_cont content-background block_element_base">
 			<?php echo $this->Element('/admin/photo/photo_connect_not_in_gallery_photo_cont', array( 'not_connected_photos' => $not_connected_photos, 'not_in_gallery_icon_size' => $not_in_gallery_icon_size )); ?>
 		</div>
-		<div class="sort_and_filters">
+		<div class="generic_sort_and_filters">
 			<div id="not_in_gallery_icon_size" class="box_icon_size">
 				<div id="small_icon" size="small" <?php if($not_in_gallery_icon_size == 'small'): ?>class="selected"<?php endif; ?> >S</div>
 				<div id="medium_icon" size="medium" <?php if($not_in_gallery_icon_size == 'medium'): ?>class="selected"<?php endif; ?> >M</div>

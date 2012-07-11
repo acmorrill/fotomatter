@@ -24,16 +24,31 @@ jQuery(document).ready(function() {
 	/* globally setup any text defaults */
 	/************************************/
     $(".defaultText").focus(function(srcc) {
-        if ($(this).val() == $(this)[0].title) {
-            $(this).removeClass("defaultTextActive");
-            $(this).val("");
-        }
+		if (jQuery(this).is("textarea")) {
+			if ($(this).text() == $(this).attr('title')) {
+				$(this).removeClass("defaultTextActive");
+				$(this).text("");
+			}
+		} else {
+			if ($(this).val() == $(this).attr('title')) {
+				$(this).removeClass("defaultTextActive");
+				$(this).val("");
+			}
+		}
     });
     $(".defaultText").blur(function() {
-        if ($(this).val() == "") {
-            $(this).addClass("defaultTextActive");
-            $(this).val($(this)[0].title);
-        }
+		if (jQuery(this).is("textarea")) {
+			if ($(this).text() == "") {
+				$(this).addClass("defaultTextActive");
+				$(this).text($(this).attr('title'));
+			}
+		} else {
+			if ($(this).val() == "") {
+				$(this).addClass("defaultTextActive");
+				$(this).val($(this).attr('title'));
+			}
+		}
+		
     });
     $(".defaultText").blur(); 
 });

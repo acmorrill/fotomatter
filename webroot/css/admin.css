@@ -1,7 +1,7 @@
 /******************
 * Styles for the jQuery File upload plugin. (/js/jquery-file-upload)
 **************************************/
-@import 'upload.css';
+
 
 /***********************************************************************************************************************
 ************************************************************************************************************************
@@ -140,6 +140,9 @@ h1 {
 	border-bottom-right-radius: 0px; /* CSS3 */
 	border-bottom-left-radius: 0px; /* CSS3 */
 }
+.clear {
+	clear:both;
+}
 .inline {
 	display: inline;
 }
@@ -181,6 +184,7 @@ h1 {
 /**************************************************
 	Mini Types
 **************************************************/
+.generic_sort_and_filters { background-color: #363636; padding: 15px; border: 1px solid #171717; color: #999999; height: 60px; position: relative; }
 .empty_help_content a {
 	color: #404040;
 }
@@ -261,6 +265,11 @@ h1 {
 	background-color:#444444;
 	padding:20px 25px 0;
 }
+/* tinymce global style */
+.tinymce table#mce_0_toolbar1 {
+	margin: 0 auto;
+}
+/* end tinymce global style */
 /**************************************************
 	ADMIN EVERYPAGE STYLES
 **************************************************/
@@ -472,12 +481,6 @@ div#sub-nav ul li.selected a,
 div#sub-nav ul li.title a { color: #D9D9D9; }
 /**** GENERIC SUB-NAV ****/
 /**generic block page container style ****/
-.generic_full_screen_container {
-	float:left;
-	position:relative;
-	width:100%;
-}
-
 .block_element_base {
 	background: #222222;
 	overflow-x: hidden;
@@ -495,7 +498,7 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 ***************                                                                      ************************************
 *************************************************************************************************************************/
 /************************************************
-	GALLERY PAGES
+	GALLERY SECTION
 ************************************************/
 /*GALLERY GLOBAL*/
 #connect_gallery_photos_cont {
@@ -504,8 +507,10 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 }
 
 #connect_gallery_photos_cont .in_gallery_photos_cont, #connect_gallery_photos_cont .not_in_gallery_photos_cont {
+	background: #222222;
 	height: 490px;
-	
+	overflow-x: hidden;
+	overflow-y: auto;
 }
 #connect_gallery_photos_cont .in_gallery_photos_cont {
 	height: 582px;
@@ -515,8 +520,10 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 #connect_gallery_photos_cont .in_gallery_photos_cont.arrange .order_in_gallery_button { display: block; cursor: move; }
 #connect_gallery_photos_cont .in_gallery_photos_cont.arrange .remove_from_gallery_button { display: none; }
 #connect_gallery_photos_cont .in_gallery_main_cont {
+	float: left;
 	width: 39%;
-	
+	float:left;
+	position:relative;
 }
 #connect_gallery_photos_cont .in_gallery_main_cont.arrange {
 	width: 100%;
@@ -564,7 +571,6 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 	bottom: inherit;
 	right: inherit;
 }
-#connect_gallery_photos_cont .sort_and_filters { background-color: #363636; padding: 15px; border: 1px solid #171717; color: #999999; height: 60px; position: relative; }
 
 #endless_scroll_loading {
 	display: none;
@@ -577,11 +583,10 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 	z-index: 3;
 }
 /* end GALLERY GLOBAL*/
-/**** END GALLERY PAGES ****/
-
-
-
-/***** Photo pages *******/
+/**** END GALLERY SECTION ****/
+/************************************************
+	START PHOTO SECTION
+************************************************/
 /*Photo global*/
 .photo_pages h1.top_heading {
 	font-size:30px
@@ -599,6 +604,70 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 	background-color:#cecece;
 	font-weight:bold;
 }
+/*End Photo Global*/
+/*Start photo upload*/
+#photo_mass_upload_outer_wrapper .upload_content {
+	position:relative;
+}
+
+#photo_mass_upload_outer_wrapper .upload_content .table_header_darker h2 {
+	width:30%;
+	display:inline-block;
+	float:left;
+}
+
+#photo_mass_upload_outer_wrapper .upload_content .upload_files_cont {
+	float:right;
+	position:relative;
+	margin:10px 10px;
+}
+
+#photo_mass_upload_outer_wrapper .upload_content .upload_files_cont input[type=file] {
+	opacity:.0;
+	position:absolute;
+	top:0;
+	right:0;
+	z-index:2;
+	height:39px;
+	cursor:pointer;
+}
+
+#photo_mass_upload_outer_wrapper .upload_content .generic_photo_category_cont {
+	border:1px solid white;
+	width:40%;
+	height:300px;
+}
+
+#photo_mass_upload_outer_wrapper .upload_content  .upload_table_header {
+	font-weight:bold;
+	margin:15px 10px;
+}
+
+#photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont {
+	position:relative;
+	float:right;
+	width:59%;
+}
+
+#photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont .table_cont {
+	background-color:#282828;
+	min-height:300px;
+	width:80%;
+	margin:0 0 0 26px;
+}
+
+#photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont table {
+	width:100%;
+	float:right;
+	margin:15px 10px;
+	
+}
+/* End photo upload */
+/***** END PHOTO SECTION****/
+/************************************************
+	START PAGES SECTION
+************************************************/
+/* start configure page */
 #configure_page_cont .avail_page_elements_cont {
 	float: left;
 	width: 200px;
@@ -606,7 +675,7 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 }
 #configure_page_cont .page_content_cont {
 	float: left;
-	width: 600px;
+	width: 763px;
 	min-height: 500px;
 }
 #configure_page_cont .avail_element_cont {
@@ -644,15 +713,18 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 #configure_page_cont .page_content_cont .page_element_cont {
 	margin: 25px;
 	position: relative;
-	padding: 10px;
-	background-color: #303030;
-	min-height: 60px;
+	min-height: 50px;
 }
 #configure_page_cont .page_content_cont .reorder_page_grabber {
 	cursor: move;
 }
-/*End Photo Global
-/***** End Photo Pages****/
+#configure_page_cont .page_content_cont .page_element_top_section {
+	padding: 10px;
+	background-color: #303030;
+	min-height: 60px;
+}
+/* end configure page */
+/***** END PAGES SECTION****/
 /***********************************************************************************************************************
 ************************************************************************************************************************
 ***************                END Page Styles		                              ***********************************

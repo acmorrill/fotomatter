@@ -52,6 +52,42 @@
 		})).disableSelection();
 	}
 	
+	function setup_para_header_image() {
+		// setup tiny mce for paragraph edits
+		jQuery('.tinymce textarea').tinymce({
+			// Location of TinyMCE script
+			script_url : '/js/tinymce/jscripts/tiny_mce/tiny_mce.js',
+
+			// General options
+			theme : "advanced",
+			plugins : "autolink,lists,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,advlist", // DREW TODO - shortent this list
+
+			// Theme options
+			theme_advanced_buttons1 : "bold,italic,underline,blockquote,link,unlink,anchor,code",
+			theme_advanced_toolbar_location : "top",
+			theme_advanced_toolbar_align : "left",
+			theme_advanced_statusbar_location : "bottom",
+			theme_advanced_resizing : true
+
+		});
+		
+		jQuery('.para_header_image_cont .para_image_header_image_pos').buttonset();
+		
+		jQuery('.para_header_image_cont .para_image_header_image_pos').change(function() {
+			var container = jQuery(this).closest('.para_header_image_cont');
+
+			if (container.find('.image_cont').hasClass('left')) {
+				container.find('.image_cont').removeClass('left');
+				container.find('.image_cont').addClass('right');
+			} else {
+				container.find('.image_cont').removeClass('right');
+				container.find('.image_cont').addClass('left');
+			}
+			
+			console.log ("the thing was changed");
+		});
+	}
+	
 	jQuery(document).ready(function() {
 		//admin_ajax_add_page_element
 		
@@ -63,7 +99,7 @@
 				url: '/admin/site_pages/ajax_add_page_element/<?php echo $page_id; ?>/'+element_id+'/',
 				data: {},
 				success: function(data) {
-					console.log (data);
+					//console.log (data);
 					if (data.code == 1) {
 						// its all good
 						var new_element = jQuery(data.element_html);
@@ -82,6 +118,19 @@
 		});
 		
 		setup_page_element_sortable('#configure_page_cont .page_content_cont');
+		
+		setup_para_header_image();
+		
+		
+		
+		
+		/////////////////////////////////////////
+		// testing code
+		jQuery('.generic_sort_and_filters .tiny_mce_test').click(function() {
+			var textarea_val = jQuery(this).closest('.page_element_cont').find('.tinymce textarea').val();
+			alert(textarea_val);
+		});
+		
 	});
 </script>
 
