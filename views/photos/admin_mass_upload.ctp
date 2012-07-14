@@ -40,6 +40,21 @@
 ?>
 <div style="clear:both"></div>
 <script>
+	function init_global_progress() {
+		$(".upload_in_progress_cont").css('z-index', '2002');
+		$(".upload_in_progress_cont").show();
+		modo_div = jQuery("<div></div>");
+		modo_div.addClass('ui-widget-overlay');
+		modo_div.css('z-index', '2001'); 
+		modo_div.css('height', '200%');
+		
+		jQuery('body').append(modo_div);
+		
+		$(".upload_in_progress_cont .progress").progressbar({
+			value:0
+		});
+	}
+
 	$(document).ready(function() {
 		var global_modal;
 		var test;
@@ -54,24 +69,23 @@
 				
 			},
 			start: function(e) {
-				var css = {};
-				css.height = '30%';
-				css.width = '400px'
-				global_modal = $(".upload_in_progress_cont").clone();
-				test = $(".progress", global_modal).progressbar({
-					value:0
-				});
-				$(test).progressbar('option', 'value', 80);
-				message_div_for_upload = show_modal(global_modal.html(), 2500, undefined,false,css);
-				
+				init_global_progress();				
 			},
 			progressall: function(e, data) {
 				var progress = parseInt(data.loaded / data.total * 100, 10);
-				$(test).progressbar('option', 'value', 100)
-				$(".progress", global_modal).progressbar('option', 'value', 80);
+				$(".upload_in_progress_cont .progress").progressbar({
+					value:(progress * .95)	
+				});
+			},
+			progress: function(e, data) {
+				console.log(data);
 			},
 			stop: function() {
-				//remove_modal();
+				$(".upload_in_progress_cont .progress").progressbar({
+					value:100	
+				});
+				$(".upload_in_progress_cont").hide();
+				$(".ui-widget-overlay").remove();
 				show_modal('<?php __('Upload Completed'); ?>', 2500, undefined, true);
 			}
 			
@@ -97,7 +111,7 @@
 		
 	});
 </script>
-<div style="display:none" class="upload_in_progress_cont">
+<div style="display:none" class="upload_in_progress_cont message_div rounded-corners medium_message_box drop-shadow">
 	<div class="upload_in_progress">
 		<div class="upload_in_progress_header"><?php __('Upload Processing'); ?></div>
 		<div class="overall_upload">

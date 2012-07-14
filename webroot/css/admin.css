@@ -630,7 +630,7 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 #photo_mass_upload_outer_wrapper .upload_content .generic_photo_gallery_cont {
 	border:1px solid white;
 	background-color:#fff;
-	width:300px;
+	width:27%;
 	height:300px;
 	float:left;
 	margin-left:-100%;
@@ -648,7 +648,7 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 }
 
 #photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont .files_ready_to_upload_inner_cont {
-	margin-left:320px;
+	margin-left:30%;
 	position:relative;
 }
 
@@ -696,6 +696,11 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 
 #photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont table td, #photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont table th {
 	
+}
+
+.upload_in_progress_cont {
+	width:30%;
+	height:30%;
 }
 
 .upload_in_progress .upload_in_progress_header {
