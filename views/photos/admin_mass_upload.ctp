@@ -63,16 +63,13 @@
 		$('#fileupload').fileupload({
 			dataType: 'json',
 			//'fileInput': jQuery('#upload_files'),
-			limitMultiFileUploads: 2,
-			always: function (e, data) {
-				$(".ui-widget-overlay").remove();
-				console.log(data); 
-				//$("#photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont table tbody tr").remove();
-				//$("#photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont .files_ready_to_upload_inner_cont .empty_help_content").show();
-
-				/*console.log('upload done');
+			sequentialUploads: true,
+			
+			
+			done: function (e, data) {
+				console.log('upload done');
 				uploaded_complete = parseInt($(".upload_in_progress_cont .count_uploaded_cont .uploaded_complete").html()) + 1;
-				//$(".upload_in_progress_cont .count_uploaded_cont .uploaded_complete").html(uploaded_complete);
+				$(".upload_in_progress_cont .count_uploaded_cont .uploaded_complete").html(uploaded_complete);
 				
 				fileupload_count_percentage = ((uploaded_complete / parseInt($(".upload_in_progress_cont .count_uploaded_cont .total_to_upload").html())) * 100) * .5;
 				var progress_to_display = fileupload_count_percentage + fileupload_data_percentage;
@@ -80,7 +77,7 @@
 				$(".upload_in_progress_cont .progress").progressbar({
 						value: progress_to_display	
 				});
-				*/				
+								
 			},
 			send: function(e, data) {
 				console.log('starting upload');	
@@ -115,7 +112,6 @@
 				$(".ui-widget-overlay").remove();
 				show_modal('<?php __('Upload Completed'); ?>', 2500, undefined, true);
 			}
-			/*downloadTemplateId: undefined */
 			
 		});
 		$("#fileupload").bind('fileuploadadd', function(e, data) {
@@ -139,7 +135,12 @@
 			});
 		
 		$("button").button();
+		
+		$('div').fotoalert('here');
+		
+		
 	});
+	
 </script>
 <div style="display:none" class="upload_in_progress_cont message_div rounded-corners medium_message_box drop-shadow">
 	<div class="upload_in_progress">

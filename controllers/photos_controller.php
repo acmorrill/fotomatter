@@ -29,6 +29,7 @@ class PhotosController extends AppController {
 	
 	public function admin_process_mass_photos() {
 		if (isset($this->params['form']['files'])) {
+			$this->log($this->params['form']['files'], 'upload-file');
 			$upload_data['name'] = $this->params['form']['files']['name'][0];
 			$upload_data['tmp_name'] = $this->params['form']['files']['tmp_name'][0];
 			$upload_data['type'] = $this->params['form']['files']['type'][0];
@@ -46,13 +47,8 @@ class PhotosController extends AppController {
 					'Photo.id'=>$this->Photo->id
 				)
 			));
-			$this->log($photo_from_db, 'upload');
 			$json['name'] = $photo_from_db['Photo']['display_title'];
 			$json['size'] = $upload_data['size'];
-			
-
-			
-			
 			$this->return_json(true);
 		}
 	}
