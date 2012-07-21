@@ -184,6 +184,7 @@ h1 {
 /**************************************************
 	Mini Types
 **************************************************/
+.generic_sort_and_filters { background-color: #363636; padding: 15px; border: 1px solid #171717; color: #999999; height: 60px; position: relative; }
 .empty_help_content a {
 	color: #404040;
 }
@@ -264,6 +265,11 @@ h1 {
 	background-color:#444444;
 	padding:20px 25px 0;
 }
+/* tinymce global style */
+.tinymce table#mce_0_toolbar1 {
+	margin: 0 auto;
+}
+/* end tinymce global style */
 /**************************************************
 	ADMIN EVERYPAGE STYLES
 **************************************************/
@@ -565,7 +571,6 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 	bottom: inherit;
 	right: inherit;
 }
-#connect_gallery_photos_cont .sort_and_filters { background-color: #363636; padding: 15px; border: 1px solid #171717; color: #999999; height: 60px; position: relative; }
 
 #endless_scroll_loading {
 	display: none;
@@ -745,7 +750,7 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 }
 #configure_page_cont .page_content_cont {
 	float: left;
-	width: 600px;
+	width: 763px;
 	min-height: 500px;
 }
 #configure_page_cont .avail_element_cont {
@@ -783,12 +788,15 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 #configure_page_cont .page_content_cont .page_element_cont {
 	margin: 25px;
 	position: relative;
-	padding: 10px;
-	background-color: #303030;
-	min-height: 60px;
+	min-height: 50px;
 }
 #configure_page_cont .page_content_cont .reorder_page_grabber {
 	cursor: move;
+}
+#configure_page_cont .page_content_cont .page_element_top_section {
+	padding: 10px;
+	background-color: #303030;
+	min-height: 60px;
 }
 /* end configure page */
 /***** END PAGES SECTION****/

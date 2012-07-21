@@ -8,6 +8,10 @@ class SitePagesController extends AppController {
 		'Page',
 		'Photo'
 	);
+	public $components = array(
+		'HashUtil'
+	);
+			
 	
 	public function  beforeFilter() {
 		parent::beforeFilter();
@@ -17,6 +21,8 @@ class SitePagesController extends AppController {
 
 	
 	public function admin_index() {
+		$this->HashUtil->set_new_hash('site_pages');
+		
 		$site_pages = $this->SitePage->find('all', array(
 			'limit' => 100,
 			'contain' => false
@@ -24,6 +30,37 @@ class SitePagesController extends AppController {
 		
 		$this->set(compact('site_pages'));
 	} 
+
+	public function admin_save_page_elements() {
+		$returnArr = array();
+		$returnArr['code'] = 1;
+		
+		$page_data = $this->params['form']['element_data'];
+		
+		$parsed_page_data = array();
+		foreach ($page_data as $site_pages_site_page_element_id => $element_data) {
+			$curr_output = array();
+			parse_str($element_data, $curr_output);
+			$parsed_page_data[$site_pages_site_page_element_id] = $curr_output;
+		}
+		
+		foreach ($parsed_page_data as $site_pages_site_page_element_id => $parsed_element_data) {
+			$SitePagesSitePageElement_data['SitePagesSitePageElement']['id'] = $site_pages_site_page_element_id;
+			$SitePagesSitePageElement_data['SitePagesSitePageElement']['config'] = $parsed_element_data;
+			
+			$this->log($SitePagesSitePageElement_data, 'SitePagesSitePageElement_data');
+			
+			if (!$this->SitePagesSitePageElement->save($SitePagesSitePageElement_data)) {
+				$returnArr['code'] = -1;
+				$returnArr['message'] = 'failed to save SitePagesSitePageElement config data';
+				$this->SitePagesSitePageElement->major_error('failed to save SitePagesSitePageElement config data', compact('parsed_page_data'));
+				break;
+			} 
+		}
+		
+		
+		$this->return_json($returnArr);
+	}
 	
 	public function admin_ajax_add_page_element($page_id, $page_element_id) {
 		$this->layout = false;
