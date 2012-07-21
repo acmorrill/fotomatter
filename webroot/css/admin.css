@@ -180,6 +180,27 @@ h1 {
 	text-align: center;
 	overflow: hidden;
 }
+
+.abs_image_br , .abs_image_tr, .abs_image_tl {
+	position: absolute;
+	right: -15px;
+	bottom: -15px;
+	cursor: pointer;
+}
+
+.abs_image_tr {
+	right: -15px;
+	top: -15px;
+	bottom: inherit;
+}
+
+.abs_image_tl {
+	left: -15px;
+	top: -15px;
+	bottom: inherit;
+	right: inherit;
+}
+
 /***End Attribute shortcuts***********/
 /**************************************************
 	Mini Types
@@ -562,26 +583,6 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 	vertical-align: top;
 }
 
-#connect_gallery_photos_cont .connect_photo_container .abs_image_br , #connect_gallery_photos_cont .connect_photo_container .abs_image_tr, #connect_gallery_photos_cont .connect_photo_container .abs_image_tl, #configure_page_cont .abs_image_tr {
-	position: absolute;
-	right: -15px;
-	bottom: -15px;
-	cursor: pointer;
-}
-
-#connect_gallery_photos_cont .connect_photo_container .abs_image_tr, #configure_page_cont .abs_image_tr {
-	right: -15px;
-	top: -15px;
-	bottom: inherit;
-}
-
-#connect_gallery_photos_cont .connect_photo_container .abs_image_tl {
-	left: -15px;
-	top: -15px;
-	bottom: inherit;
-	right: inherit;
-}
-
 #endless_scroll_loading {
 	display: none;
 	position: absolute;
@@ -807,6 +808,17 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 	padding: 10px;
 	background-color: #303030;
 	min-height: 60px;
+}
+#configure_page_cont .para_image_cont .image_cont {
+	margin: 22px; margin-top: 0px;
+}
+
+#configure_page_cont .para_image_cont .left {
+	margin-right: 28px;
+	background-color: black;
+}
+#configure_page_cont .para_image_cont .right {
+	margin-left: 28px;
 }
 /* end configure page */
 /***** END PAGES SECTION****/
