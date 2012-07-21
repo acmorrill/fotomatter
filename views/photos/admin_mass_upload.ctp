@@ -22,7 +22,7 @@
 <!-- The XDomainRequest Transport is included for cross-domain file deletion for IE8+ -->
 <!--[if gte IE 8]><script src="/js/jquery-file-upload/js/cors/jquery.xdr-transport.js"></script><![endif]-->
 <h1 class='top_heading'><?php __('Add Photos'); ?></h1>
-
+<?php echo $this->Html->script('/js/foto_matter_plugins/jQuery.foto.background.js'); ?>
 <?php 
 	$subnav = array(); 
 
@@ -64,7 +64,6 @@
 			dataType: 'json',
 			//'fileInput': jQuery('#upload_files'),
 			sequentialUploads: true,
-			
 			
 			done: function (e, data) {
 				console.log('upload done');
@@ -110,21 +109,23 @@
 				$(".upload_in_progress_cont .count_uploaded_cont .uploaded_complete").html('0');
 				$(".upload_in_progress_cont").hide();
 				$(".ui-widget-overlay").remove();
-				show_modal('<?php __('Upload Completed'); ?>', 2500, undefined, true);
+				$('div.upload_complete').foto_background_alert();
 			}
-			
 		});
+		var max_size = 5 * 1024 * 1024;
 		$("#fileupload").bind('fileuploadadd', function(e, data) {
+			if (data.files[0].size > max_size) {
+				$.foto('alert', '<?php __('The file you have choosen is to large.'); ?>');
+			}
 			$("#photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont .files_ready_to_upload_inner_cont .empty_help_content").hide();
 		});
 		
-		$("#fileupload").bind('fileuploaddone', function(e, data) {
-			
+		$("#photo_mass_upload_outer_wrapper .files_ready_to_upload_cont button.start").click(function(e) {
+			if ($("#upload_mass_upload_outer_wrapper .files_ready_to_upload_cont table tbody tr").length == 0) {
+			      $.foto('alert', '<?php __('No photos have been choosen. Click on the green add files button to get started.'); ?>');
+			      e.preventDefault();
+			}
 		});
-		
-		/*$("#fileupload table tr.template-upload td button.cancel").click(function() {
-			console.log($(this));
-		}); */
 		
 		$(".upload_files_cont").hover(
 			function() {
@@ -135,22 +136,23 @@
 			});
 		
 		$("button").button();
-		
-		$('div').fotoalert('here');
-		
-		
 	});
 	
 </script>
+<div style="display:none" class='upload_complete'>
+	<?php __('Upload Complete'); ?>
+</div>
 <div style="display:none" class="upload_in_progress_cont message_div rounded-corners medium_message_box drop-shadow">
 	<div class="upload_in_progress">
-		<div class="upload_in_progress_header"><?php __('Upload Processing'); ?></div>
-		<div class="overall_upload">
-			<div class='label'><?php __('Overall Progress:'); ?></div>
-			<div class="progress"></div>
-		</div>
-		<div class='count_uploaded_cont'>
-			<span class='uploaded_complete'>0</span>/<span class='total_to_upload'>10</span>
+		<div style='position:relative'>
+			<div class="upload_in_progress_header"><?php __('Upload Processing'); ?></div>
+			<div class="overall_upload">
+				<div class='label'><?php __('Overall Progress:'); ?></div>
+				<div class="progress"></div>
+			</div>
+			<div class='count_uploaded_cont'>
+				<span class='uploaded_complete'>0</span>/<span class='total_to_upload'>10</span>
+			</div>
 		</div>
 	</div>
 </div>
@@ -159,18 +161,19 @@
 		<div class="upload_content fileupload-buttonbar">
 			<div class="table_header_darker">
 				<h2><?php __('Upload New Photos'); ?></h2>
-				<div class="upload_files_cont custom_ui_radio">
-					<button>
-						<span>Upload here</span>
-					</button>
-					<input type="file" class="upload_files" id="upload_files" multiple />
-					
-				</div>
 			</div>
 			<div class="files_ready_to_upload_cont">
 				<div class='files_ready_to_upload_inner_cont custom_ui_radio'>
-					<div class='upload_table_header'><?php __('New Photos'); ?></div>
 					<div class="row fileupload-buttonbar">
+						
+						<div class="upload_files_cont custom_ui_radio">
+							
+							<button>
+								<span class='icon'></span>
+								<span><?php __('Add Files'); ?></span>
+							</button>
+							<input type="file" class="upload_files" id="upload_files" multiple />
+						</div>
 						<button type="submit" class="btn btn-primary start">
 							<i class="icon-upload icon-white"></i>
 							<span>Start upload</span>

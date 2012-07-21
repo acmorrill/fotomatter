@@ -217,18 +217,3 @@ jQuery.fn.pulse = function( properties, duration, numTimes, interval, complete_c
 		}
 	});
 };
-
-(function($) {
-	var methods = {
-		init: function(options) {
-			console.log(options);
-		}
-	}
-	
-	$.fn.fotoalert = function( method ) {
-		cons
-		
-	};
-
-})(jQuery);
-
