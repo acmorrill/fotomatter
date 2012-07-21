@@ -1,3 +1,6 @@
+<script src="/js/jquery-file-upload/js/jquery.iframe-transport.js"></script>
+<script src="/js/jquery-file-upload/js/jquery.fileupload.js"></script>
+
 <?php 
 	$subnav = array(); 
 
@@ -39,13 +42,15 @@
 		
 		this.init = params.init;
 		
-		if (params.save !== undefined) {
-			this.save = params.save;
-		} else {
-			this.save = function() {
-				console.log ("the generic save function");
-			}
-		}
+		
+//		if (params.save !== undefined) {
+//			this.save = params.save;
+//		} else {
+//			this.save = function() {
+//				console.log (jQuery('#'+this.uuid).serialize());
+//				console.log ("the generic save function");
+//			}
+//		}
 		
 		this.toString = function() {
 			console.log ("this is a method to describe this object");
@@ -65,12 +70,44 @@
 		for (var i in element_callbacks_array) {
 			if (jQuery.isFunction(element_callbacks_array[i].init)) {
 				element_callbacks_array[i].init(jQuery('#'+i));
-				element_callbacks_array[i].save();
 				element_callbacks_array[i].toString();
 			} else {
 				major_error_recover('failed to call init function for a page element');
 			}
 		}
+	}
+	
+	function save_page_elements() {
+		var page_element_data_to_save = {};
+		page_element_data_to_save['element_data'] = {};
+		
+		for (var i in element_callbacks_array) {
+			var element_form = jQuery('#'+element_callbacks_array[i].uuid);
+			var site_pages_site_page_element_id = element_form.closest('.page_element_cont').attr('site_pages_site_page_element_id');
+
+			if (element_form[0].nodeName.toLowerCase() !== 'form') {
+				major_error_recover('Page element is not surrounded by a form element');
+				return false;
+			}
+			
+			page_element_data_to_save['element_data'][site_pages_site_page_element_id] = element_form.serialize();
+		}
+		
+		jQuery.ajax({
+			type: 'post',
+			url: '/admin/site_pages/save_page_elements/',
+			data: page_element_data_to_save,
+			success: function(data) {
+				console.log (data);
+			},
+			complete: function() {
+				console.log ("came into save page complete");
+			},
+			error: function() {
+				console.log ("came into save page error");
+			},
+			dataType: 'json'
+		});
 	}
 	
 	
@@ -107,6 +144,10 @@
 	jQuery(document).ready(function() {
 		call_element_inits();
 		
+		// setup autosave
+		setInterval(function() {
+			save_page_elements();
+		}, 5000); // 300000 - 5 mins
 		
 		//admin_ajax_add_page_element
 		

@@ -34,6 +34,12 @@
 			});
 			
 			
+			// setup the image file upload
+			$('.image_upload', page_element_cont).fileupload({
+				url: '/admin/photos/process_mass_photos/'
+			});
+			
+			
 			/////////////////////////////////////////
 			// testing code
 			jQuery('.generic_sort_and_filters .tiny_mce_test', page_element_cont).click(function() {
@@ -47,13 +53,16 @@
 <form id="<?php echo $uuid; ?>">
 	<div class="para_header_image_cont">
 		<div class="page_element_top_section rounded-corners-small no-bottom-rounded">
-			<input class="defaultText header" type="text" title="Page Element Heading" style="margin-bottom: 10px; width: 260px;" />
+			<input name="para_image_header_text" class="defaultText header" type="text" title="Page Element Heading" style="margin-bottom: 10px; width: 260px;" />
 			<div class="para_image_cont">
 				<div class="image_cont left">
 					<img src="<?php echo $this->Photo->get_dummy_error_image_path(100, 100); ?>" />
+					<div class="image_upload">
+						<input type="file" />
+					</div>
 				</div>
 				<div class="paragraph tinymce">
-					<textarea class="" title="The default paragraph text" style="width: 75%; height: 124px;"></textarea>
+					<textarea name="para_image_paragraph_text" class="" title="The default paragraph text" style="width: 75%; height: 124px;"></textarea>
 				</div>
 			</div>
 		</div>
@@ -66,9 +75,9 @@
 			<div class="custom_ui_radio">
 				<div class="para_image_header_image_pos">
 					<?php $uuid = substr(base64_encode(String::uuid()), 0, 25); ?>
-					<input type="radio" id="<?php echo $uuid; ?>" name="para_image_header_image_pos" checked="checked" /><label for="<?php echo $uuid; ?>"><?php __('Image On Left'); ?></label>
+					<input value="left" type="radio" id="<?php echo $uuid; ?>" name="para_image_header_image_pos" checked="checked" /><label for="<?php echo $uuid; ?>"><?php __('Image On Left'); ?></label>
 					<?php $uuid = substr(base64_encode(String::uuid()), 0, 25); ?>
-					<input type="radio" id="<?php echo $uuid; ?>" name="para_image_header_image_pos" /><label for="<?php echo $uuid; ?>"><?php __('Image On Right'); ?></label>
+					<input value="right" type="radio" id="<?php echo $uuid; ?>" name="para_image_header_image_pos" /><label for="<?php echo $uuid; ?>"><?php __('Image On Right'); ?></label>
 				</div>
 			</div>
 

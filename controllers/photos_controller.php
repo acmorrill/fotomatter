@@ -23,10 +23,6 @@ class PhotosController extends AppController {
 		$this->set(compact('data', 'imageContainerUrl'));
 	}
 	
-	public function admin_mass_upload1() {
-		//$this->layout = 'ajax';
-	}
-	
 	public function admin_mass_upload() {
 		//$this->layout = 'ajax';
 	}
@@ -53,15 +49,11 @@ class PhotosController extends AppController {
 			$json['name'] = $photo_from_db['Photo']['display_title'];
 			$json['size'] = $upload_data['size'];
 			
-			//get cdn-url
-			$cdn_url = $this->SiteSetting->getVal('image-container-url');
-			$url['url'] = $cdn_url . $photo_from_db['Photo']['cdn-filename-forcache'];
-			$url['thumbnail_url'] = $cdn_url . $photo_from_db['PhotoCache'][1]['cdn-filename'];
-			$result_to_return = array();
-			$result_to_return[] = $url;
-			print(json_encode($result_to_return));	
+
+			
+			
+			$this->return_json(true);
 		}
-		exit();
 	}
 	
 	public function admin_edit($id) {
