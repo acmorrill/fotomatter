@@ -58,40 +58,72 @@
 	$(document).ready(function() {
 		var global_modal;
 		var test;
+		var fileupload_data_percentage= 0;
+		var fileupload_count_percentage = 0;
 		$('#fileupload').fileupload({
 			dataType: 'json',
 			//'fileInput': jQuery('#upload_files'),
-			done: function (e, data) {
-				data.filesContainer.remove();
-				if ($("#photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont table tbody tr").length == 0) {
-					$("#photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont .files_ready_to_upload_inner_cont .empty_help_content").show();
-				}
+			limitMultiFileUploads: 2,
+			always: function (e, data) {
+				$(".ui-widget-overlay").remove();
+				console.log(data); 
+				//$("#photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont table tbody tr").remove();
+				//$("#photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont .files_ready_to_upload_inner_cont .empty_help_content").show();
+
+				/*console.log('upload done');
+				uploaded_complete = parseInt($(".upload_in_progress_cont .count_uploaded_cont .uploaded_complete").html()) + 1;
+				//$(".upload_in_progress_cont .count_uploaded_cont .uploaded_complete").html(uploaded_complete);
 				
+				fileupload_count_percentage = ((uploaded_complete / parseInt($(".upload_in_progress_cont .count_uploaded_cont .total_to_upload").html())) * 100) * .5;
+				var progress_to_display = fileupload_count_percentage + fileupload_data_percentage;
+				console.log(progress_to_display);
+				$(".upload_in_progress_cont .progress").progressbar({
+						value: progress_to_display	
+				});
+				*/				
 			},
-			start: function(e) {
+			send: function(e, data) {
+				console.log('starting upload');	
+			},
+			start: function(e, data) {
+				$(".upload_in_progress_cont .count_uploaded_cont .total_to_upload").html($('#fileupload table tbody tr').length); //-1 to account for header
 				init_global_progress();				
 			},
 			progressall: function(e, data) {
 				var progress = parseInt(data.loaded / data.total * 100, 10);
+				progress = progress * .5;
+				fileupload_data_percentage = progress;
+				
+				var progress_to_display = progress + fileupload_count_percentage;
 				$(".upload_in_progress_cont .progress").progressbar({
-					value:(progress * .95)	
+					value: progress_to_display	
 				});
 			},
 			progress: function(e, data) {
-				console.log(data);
 			},
-			stop: function() {
+			stop: function(e, data) {
+				$("#photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont table tbody tr").remove();
+				$("#photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont .files_ready_to_upload_inner_cont .empty_help_content").show();
+				
 				$(".upload_in_progress_cont .progress").progressbar({
 					value:100	
 				});
+				fileupload_progress_percentage = 0;
+				fileupload_count_percentage = 0;
+				$(".upload_in_progress_cont .count_uploaded_cont .uploaded_complete").html('0');
 				$(".upload_in_progress_cont").hide();
 				$(".ui-widget-overlay").remove();
 				show_modal('<?php __('Upload Completed'); ?>', 2500, undefined, true);
 			}
+			/*downloadTemplateId: undefined */
 			
 		});
 		$("#fileupload").bind('fileuploadadd', function(e, data) {
 			$("#photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont .files_ready_to_upload_inner_cont .empty_help_content").hide();
+		});
+		
+		$("#fileupload").bind('fileuploaddone', function(e, data) {
+			
 		});
 		
 		/*$("#fileupload table tr.template-upload td button.cancel").click(function() {
@@ -107,8 +139,6 @@
 			});
 		
 		$("button").button();
-		
-		
 	});
 </script>
 <div style="display:none" class="upload_in_progress_cont message_div rounded-corners medium_message_box drop-shadow">
@@ -117,6 +147,9 @@
 		<div class="overall_upload">
 			<div class='label'><?php __('Overall Progress:'); ?></div>
 			<div class="progress"></div>
+		</div>
+		<div class='count_uploaded_cont'>
+			<span class='uploaded_complete'>0</span>/<span class='total_to_upload'>10</span>
 		</div>
 	</div>
 </div>
@@ -218,7 +251,7 @@
 			<td class="name non-image"><span>{%=file.name%}</span></td>
 			<td class="size non-image"><span>{%=o.formatFileSize(file.size)%}</span></td>
 			{% if (file.error) { %}
-				<td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
+				<td class="error non-image" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
 			{% } else if (o.files.valid && !i) { %}
 				<td class="cancel non-image cancel_action">{% if (!o.options.autoUpload) { %}
 					<button class="btn btn-warning cancel-upload">
@@ -237,26 +270,19 @@
 		<tr class="template-download fade">
 			{% if (file.error) { %}
 				<td></td>
-				<td class="name"><span>{%=file.name%}</span></td>
-				<td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-				<td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
+				<td class="name non-image"><span>{%=file.name%}</span></td>
+				<td class="size non-image"><span>{%=o.formatFileSize(file.size)%}</span></td>
+				<td class="error non-image" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
 			{% } else { %}
 				<td class="preview">{% if (file.thumbnail_url) { %}
 					<a href="{%=file.url%}" title="{%=file.name%}" rel="gallery" download="{%=file.name%}"><img src="{%=file.thumbnail_url%}"></a>
 				{% } %}</td>
-				<td class="name">
+				<td class="name non-image">
 					<a href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
 				</td>
 				<td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
 				<td colspan="2"></td>
 			{% } %}
-			<td class="delete">
-				<button class="btn btn-danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
-					<i class="icon-trash icon-white"></i>
-					<span>{%=locale.fileupload.destroy%}</span>
-				</button>
-				<input type="checkbox" name="delete" value="1">
-			</td>
 		</tr>
 	{% } %}
 	</script>

@@ -700,11 +700,14 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 
 .upload_in_progress_cont {
 	width:30%;
-	height:30%;
+	height:22%;
+	top:30%;
+	left:32%;
 }
 
 .upload_in_progress .upload_in_progress_header {
 	font-size:22px;
+	margin:12px 2px 2px 2px;
 }
 
 .upload_in_progress .overall_upload {
@@ -721,6 +724,13 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 .upload_in_progress .overall_upload div.progress {
 	margin:0 10px;
 	
+}
+
+.upload_in_progress_cont .count_uploaded_cont {
+	font-size:20px;
+	position:absolute;
+	top:46%;
+	left:56%;
 }
 /* End photo upload */
 /***** END PHOTO SECTION****/

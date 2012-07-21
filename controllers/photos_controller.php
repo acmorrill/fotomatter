@@ -50,6 +50,7 @@ class PhotosController extends AppController {
 					'Photo.id'=>$this->Photo->id
 				)
 			));
+			$this->log($photo_from_db, 'upload');
 			$json['name'] = $photo_from_db['Photo']['display_title'];
 			$json['size'] = $upload_data['size'];
 			
