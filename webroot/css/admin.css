@@ -795,20 +795,31 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 	cursor: move;
 }
 #configure_page_cont .page_content_cont .page_element_top_section {
-	padding: 10px;
+	padding: 18px;
 	background-color: #303030;
 	min-height: 60px;
+}
+#configure_page_cont .page_content_cont .page_element_bottom_section .custom_ui_radio {
+	margin-bottom: 7px;
 }
 #configure_page_cont .para_image_cont .image_cont {
 	margin: 22px; margin-top: 0px;
 }
 
 #configure_page_cont .para_image_cont .left {
-	margin-right: 28px;
-	background-color: black;
+	margin-right: 32px;
 }
 #configure_page_cont .para_image_cont .right {
-	margin-left: 28px;
+	margin-left: 32px;
+}
+#configure_page_cont .para_header_image_cont .image_size_text {
+	padding: 5px;
+	font-size: 12px;
+	text-align: center;
+}
+#configure_page_cont .para_header_image_cont .image_upload {
+	text-align: center;
+	margin-bottom: 4px;
 }
 /* end configure page */
 /***** END PAGES SECTION****/

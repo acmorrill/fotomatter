@@ -167,7 +167,7 @@ class SitePagesController extends AppController {
 		} else {
 			$returnArr['code'] = -1;
 			$returnArr['message'] = 'failed to arrange page element in page';
-			$this->SitePage->major_error('failed to arrange page element in page', compact('page_id', 'page_element_id', 'order'));
+			$this->SitePage->major_error('failed to arrange page element in page', compact('site_pages_site_page_element_id', 'order'));
 		}
 		
 		$this->return_json($returnArr);
