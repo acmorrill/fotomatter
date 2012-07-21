@@ -28,6 +28,9 @@ class PhotosController extends AppController {
 	}
 	
 	public function admin_process_mass_photos() {
+		$returnArr = array();
+		$returnArr['code'] = 1;
+		
 		if (isset($this->params['form']['files'])) {
 			$upload_data['name'] = $this->params['form']['files']['name'][0];
 			$upload_data['tmp_name'] = $this->params['form']['files']['tmp_name'][0];
@@ -38,22 +41,25 @@ class PhotosController extends AppController {
 			$photo_for_db['Photo']['display_title'] = $this->params['form']['files']['name'][0];
 			$this->Photo->create();
 			if ($this->Photo->save($photo_for_db) === false) {
-				$this->Photo->major_error('Photo failed to save on upload');
+				$this->Photo->major_error('Photo failed to save in admin_process_mass_photos');
+				$returnArr['code'] = -1;
+				$returnArr['message'] = 'admin_process_mass_photos';
+				$this->return_json($returnArr);
 			}
+			$returnArr['new_photo_id'] = $this->Photo->id;
 			
-			$photo_from_db = $this->Photo->find('first', array(
-				'conditions'=>array(
-					'Photo.id'=>$this->Photo->id
-				)
-			));
-			$json['name'] = $photo_from_db['Photo']['display_title'];
-			$json['size'] = $upload_data['size'];
-			
-
-			
-			
-			$this->return_json(true);
+			$cache_file_height = isset($this->params['form']['height']) ? $this->params['form']['height'] : null ;
+			$cache_file_width = isset($this->params['form']['width']) ? $this->params['form']['width'] : null ;
+			if (isset($cache_file_width) && isset($cache_file_height)) {
+				$returnArr['new_photo_path'] = $this->Photo->get_photo_path($this->Photo->id, $cache_file_height, $cache_file_width);
+			}
+		} else {
+			$this->Photo->major_error('file params not set in admin_process_mass_photos');
+			$returnArr['code'] = -1;
+			$returnArr['message'] = 'file params not set in admin_process_mass_photos';
 		}
+		
+		$this->return_json($returnArr);
 	}
 	
 	public function admin_edit($id) {

@@ -1,3 +1,8 @@
+<?php 
+	$cache_image_width = 100;
+	$cache_image_height = 100;
+?>
+
 <script type="text/javascript">
 	register_page_element_callbacks(new element_callbacks({
 		uuid: '<?php echo $uuid; ?>',
@@ -36,7 +41,30 @@
 			
 			// setup the image file upload
 			$('.image_upload', page_element_cont).fileupload({
-				url: '/admin/photos/process_mass_photos/'
+				url: '/admin/photos/process_mass_photos/',
+				formData: function() {
+					return [
+						{
+							name: 'height',
+							value: <?php echo $cache_image_height; ?>
+						},
+						{
+							name: 'width',
+							value: <?php echo $cache_image_width; ?>
+						}
+					];
+				},
+				done: function(e, data) {
+					console.log (data);
+					if (data.code == 1) {
+						jQuery('.image_cont img', page_element_cont).attr('src', data.new_photo_path);
+					} else {
+						major_error_recover('The image failed to upload');
+					}
+				},
+				fail: function(e, data) {
+					major_error_recover('The image failed to upload');
+				}
 			});
 			
 			
@@ -56,6 +84,7 @@
 			<input name="para_image_header_text" class="defaultText header" type="text" title="Page Element Heading" style="margin-bottom: 10px; width: 260px;" />
 			<div class="para_image_cont">
 				<div class="image_cont left">
+					<input name="para_header_image_photo_id" type="hidden"
 					<img src="<?php echo $this->Photo->get_dummy_error_image_path(100, 100); ?>" />
 					<div class="image_upload">
 						<input type="file" />
