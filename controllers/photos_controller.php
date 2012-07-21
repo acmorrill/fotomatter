@@ -32,6 +32,7 @@ class PhotosController extends AppController {
 		$returnArr['code'] = 1;
 		
 		if (isset($this->params['form']['files'])) {
+			$this->log($this->params['form']['files'], 'upload-file');
 			$upload_data['name'] = $this->params['form']['files']['name'][0];
 			$upload_data['tmp_name'] = $this->params['form']['files']['tmp_name'][0];
 			$upload_data['type'] = $this->params['form']['files']['type'][0];
@@ -47,7 +48,6 @@ class PhotosController extends AppController {
 				$this->return_json($returnArr);
 			}
 			$returnArr['new_photo_id'] = $this->Photo->id;
-			
 			$cache_file_height = isset($this->params['form']['height']) ? $this->params['form']['height'] : null ;
 			$cache_file_width = isset($this->params['form']['width']) ? $this->params['form']['width'] : null ;
 			if (isset($cache_file_width) && isset($cache_file_height)) {
