@@ -14,15 +14,14 @@
                     
                     return this.each(function() {
                         //check data store to see if we have already initialized
-                        if ($(this).data('foto_background_alert')) {
+                        if ($(this).data('foto_background_alert') != undefined) {
                             major_error_recover("Tried to use background alert while twice on the same element. Please try again.");
                             return false;
                         }
                         
                         //store copy of the div before init
                         var data_store = {};
-                        data_store.div_pre_init_state = $(this);
-                        $(this).data('foto_background_alert', data_store);
+                        data_store.shown_state = true;
                         
                         //prepare the outer div
                         var outer_div = jQuery("<div></div>");
@@ -37,11 +36,24 @@
                         //prepare x button
                         var the_x_div = jQuery("<div></div>");
                         the_x_div.addClass('x_button');
+                        the_x_div.addClass('abs_image_tr');
                         outer_div.append(the_x_div);
                         
+                        var this_literal = $(this);
+                        the_x_div.click(function() {
+                            this_literal.foto_background_alert('destroy');
+                        });
+                        
+                        $('body').bind('keyup', function(e) {
+                            if (e.keyCode == 27) {
+                                this_literal.foto_background_alert('destroy');
+                            }
+                        });
+                        
                         //append content
-                        $(this).show();
-                        outer_div.append($(this));
+                        var div_passed = $(this).hide().clone().show();
+                        data_store.outer_div = outer_div;
+                        outer_div.append(div_passed);
                         $('body').append(outer_div);
                         
                         //create the overlay div
@@ -49,9 +61,25 @@
                         modal_div.addClass('ui-widget-overlay');
                         modal_div.css('z-index', '2001');
                         modal_div.css('height', '200%');
+                        data_store.modal_div = modal_div;
                         modal_div.addClass('foto-background-alert-modal');
-                        $('body').append(modal_div);  
+                        $('body').append(modal_div);
+                        
+                         $(this).data('foto_background_alert', data_store);
+                         return true;
                     });
+                },
+                destroy: function() {
+                    if ($(this).data('foto_background_alert') == undefined) {
+                         major_error_recover("Tried to destroy a unintialized background element.");
+                        return false;
+                    }
+                    var data_store = $(this).data('foto_background_alert');
+                    data_store.modal_div.remove();
+                    data_store.outer_div.remove();
+                    $(this).data('foto_background_alert', undefined);
+                    $('body').unbind('keyup');
+                    return true;
                 }
             }
             
