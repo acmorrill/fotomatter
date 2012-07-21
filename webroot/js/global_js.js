@@ -129,6 +129,33 @@ function element_is_empty(element_id) {
 	return !hasChildElements;
 }
 
+function position_of_element_among_siblings(children_selector, child) {
+	var children = jQuery(children_selector);
+	
+	var final_position = 1;
+	var found_position = false;
+	children.each(function() {
+		if (jQuery(this)[0] === child[0]) {
+			found_position = true;
+			return false;
+		}
+		final_position++;
+	});
+	
+	if (found_position === true) {
+		return final_position;
+	} else {
+		return false;
+	}
+}
+
+function ucwords (str) {
+    return (str + '').replace(/^([a-z])|\s+([a-z])/g, function ($1) {
+        return $1.toUpperCase();
+    });
+}
+
+
 jQuery.fn.pulse = function( properties, duration, numTimes, interval, complete_callback) {  
 
 	if (duration === undefined || duration < 0) duration = 500;

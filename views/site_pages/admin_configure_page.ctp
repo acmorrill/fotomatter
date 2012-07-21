@@ -28,6 +28,8 @@
 	/*
 	 *	A PROTOTYPE FUNCTION TO BE PASSED IN FROM ELEMENTS
 	 */
+	var save_page_elements_timeout;
+	var save_timeout_count = 2500;
 	function element_callbacks(params) {
 		if (params.uuid === undefined) {
 			major_error_recover('The uuid must be defined');
@@ -42,6 +44,49 @@
 		
 		this.init = params.init;
 		
+		this.global_init = function() {
+			var page_element_cont = jQuery('#'+this.uuid);
+			
+			// setup tiny mce for paragraph edits
+			jQuery('.tinymce textarea', page_element_cont).tinymce({
+				// Location of TinyMCE script
+				script_url : '/js/tinymce/jscripts/tiny_mce/tiny_mce.js',
+
+				// General options
+				theme : "advanced",
+				plugins : "autolink,lists,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,advlist", // DREW TODO - shortent this list
+
+				// Theme options
+				theme_advanced_buttons1 : "bold,italic,underline,blockquote,link,unlink,anchor,code",
+				theme_advanced_toolbar_location : "top",
+				theme_advanced_toolbar_align : "left",
+				theme_advanced_statusbar_location : "bottom",
+				theme_advanced_resizing : true,
+				
+				onchange_callback : function() {
+					save_page_elements();
+				},
+				setup : function(ed) {
+					ed.onKeyUp.add(function(ed, e) {
+						clearTimeout(save_page_elements_timeout);
+						save_page_elements_timeout = setTimeout(function() {
+							save_page_elements();
+						}, save_timeout_count);
+					});
+				}
+				
+			});
+			
+			
+			jQuery('input', page_element_cont).change(function() {
+				save_page_elements();
+			}).keyup(function() {
+				clearTimeout(save_page_elements_timeout);
+				save_page_elements_timeout = setTimeout(function() {
+					save_page_elements();
+				}, save_timeout_count);
+			});
+		}
 		
 //		if (params.save !== undefined) {
 //			this.save = params.save;
@@ -53,7 +98,7 @@
 //		}
 		
 		this.toString = function() {
-			console.log ("this is a method to describe this object");
+			//console.log ("this is a method to describe this object");
 		}
 	}
 	
@@ -70,6 +115,7 @@
 		for (var i in element_callbacks_array) {
 			if (jQuery.isFunction(element_callbacks_array[i].init)) {
 				element_callbacks_array[i].init(jQuery('#'+i));
+				element_callbacks_array[i].global_init();
 				element_callbacks_array[i].toString();
 			} else {
 				major_error_recover('failed to call init function for a page element');
@@ -78,6 +124,8 @@
 	}
 	
 	function save_page_elements() {
+		console.log ("came into save page elements");
+		
 		var page_element_data_to_save = {};
 		page_element_data_to_save['element_data'] = {};
 		
@@ -98,15 +146,63 @@
 			url: '/admin/site_pages/save_page_elements/',
 			data: page_element_data_to_save,
 			success: function(data) {
-				console.log (data);
+//				console.log (data);
 			},
 			complete: function() {
-				console.log ("came into save page complete");
+//				console.log ("came into save page complete");
 			},
 			error: function() {
-				console.log ("came into save page error");
+//				console.log ("came into save page error");
 			},
 			dataType: 'json'
+		});
+	}
+	
+	function setup_page_element_delete(selector) {
+		var page_element_cont = jQuery(selector);
+		
+		jQuery('.page_element_delete', page_element_cont).click(function() {
+			
+			$( "#confirm_empty_gallery" ).dialog({
+				autoOpen: false,
+				resizable: false,
+				height: 180,
+				modal: true,
+				buttons: [
+					{
+						text: "<?php __('Empty Gallery'); ?>",
+						click: function() {
+							remove_all_images_from_gallery();
+							$( this ).dialog( "close" );
+						}
+					},
+					{
+						text: "<?php __('Cancel'); ?>",
+						click: function() {
+							$( this ).dialog( "close" );
+						}
+					}
+				]
+			});
+			
+			
+			
+			jQuery.ajax({
+				type: 'post',
+				url: '/admin/site_pages/ajax_remove_page_element/',
+				data: {},
+				success: function(data) {
+					jQuery(this).closest('.page_element_cont').remove();
+				},
+				complete: function() {
+					
+				},
+				error: function() {
+					
+				},
+				dataType: 'json'
+			});
+			
 		});
 	}
 	
@@ -121,7 +217,7 @@
 				
 				// figure the the now position of the dragged element
 				var site_pages_site_page_element_id = jQuery(ui.item).attr('site_pages_site_page_element_id'); 
-				var newPosition = ui.item.index() + 1; // TODO - this must always be set - fail otherwise -- not sure if it will be from jquery ui
+				var newPosition = position_of_element_among_siblings(jQuery('.page_element_cont', this), jQuery(ui.item));
 				
 				jQuery.ajax({
 					type: 'post',
@@ -147,7 +243,7 @@
 		// setup autosave
 		setInterval(function() {
 			save_page_elements();
-		}, 5000); // 300000 - 5 mins
+		}, 300000); // 300000 - 5 mins
 		
 		//admin_ajax_add_page_element
 		
@@ -178,9 +274,13 @@
 		});
 		
 		setup_page_element_sortable('#configure_page_cont .page_content_cont');
+		setup_page_element_delete('#configure_page_cont .page_content_cont');
 	});
 </script>
 
+<div id="confirm_delete_page_element" class="dialog_confirm custom_dialog" title="<?php __('Remove Page Element'); ?>">
+	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span><?php __('Permenently delete page element?'); ?></p>
+</div>
 
 <div id="configure_page_cont" class="clear">
 	<div class="avail_page_elements_cont">
