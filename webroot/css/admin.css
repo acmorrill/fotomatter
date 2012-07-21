@@ -304,6 +304,16 @@ html, body {
 	color:#fff;
 	font-size:35px;
 }
+.foto_background_alert .x_button {
+	background: url('/img/admin/icons/bw_simple_close_icon.png') no-repeat 0px;
+	height:40px;
+	width:40px;
+	display:inline-block;
+	position:absolute;
+	top:-15px;
+	right:-15px;
+	cursor:pointer;
+}
 /***** End Mini Types *****/
 /***********************************************************************************************************************
 ************************************************************************************************************************

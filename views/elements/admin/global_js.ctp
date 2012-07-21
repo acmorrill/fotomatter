@@ -42,4 +42,41 @@
 				
 		});
 	});
+	
+(function($) {
+	var methods = {
+		alert: function(message, args) {
+			var settings = $.extend( {
+				'type' : 'alert',
+				'message': ''
+			}, args);
+			
+			var alert_div = $("<div class='gen_alert "+settings.type+"'>"+message+"</div>")
+			
+			$(alert_div).dialog({
+				title: "<?php __('Alert'); ?>",
+				buttons: {
+					'<?php __('Ok'); ?>': function() {
+						if (typeof settings.do_this_after == 'function') {
+							settings.do_this_after();
+						}
+						$(this).dialog('close');
+					}
+				},
+				minWidth: 300,
+				minHeight: 200,
+				modal: true
+			});
+		}
+	}
+	
+	$.foto = function( function_name, args) {
+		if (methods[function_name]) {
+			return methods[function_name].apply(this, Array.prototype.slice.call(arguments, 1));
+		}
+		return false;
+	};
+})(jQuery);
+
+
 </script>
