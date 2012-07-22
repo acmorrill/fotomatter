@@ -162,46 +162,40 @@
 		var page_element_cont = jQuery(selector);
 		
 		jQuery('.page_element_delete', page_element_cont).click(function() {
-			
-			$( "#confirm_empty_gallery" ).dialog({
-				autoOpen: false,
-				resizable: false,
-				height: 180,
-				modal: true,
-				buttons: [
-					{
-						text: "<?php __('Empty Gallery'); ?>",
-						click: function() {
-							remove_all_images_from_gallery();
-							$( this ).dialog( "close" );
-						}
-					},
-					{
-						text: "<?php __('Cancel'); ?>",
-						click: function() {
-							$( this ).dialog( "close" );
-						}
-					}
-				]
+			var context = this;
+
+			jQuery.foto('confirm', {
+				'button_title' : '<?php __('Delete'); ?>',
+				'onConfirm' : function() {
+					var site_pages_site_page_element_id = jQuery(context).closest('.page_element_cont').attr('site_pages_site_page_element_id');
+					
+					jQuery.ajax({
+						type: 'post',
+						url: '/admin/site_pages/ajax_remove_page_element/'+site_pages_site_page_element_id+'/',
+						data: {},
+						success: function(data) {
+							if (data.code == 1) {
+								jQuery(context).closest('.page_element_cont').remove();
+							} else {
+								major_error_recover('Failed to remove page element');
+							}
+						},
+						complete: function() {
+							// DREW TODO - take care of this case
+						},
+						error: function() {
+							// DREW TODO - take care of the error case
+						},
+						dataType: 'json'
+					});
+				},
+				'type' : 'alert',
+				'message': '<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span><?php __('Permanently delete page element?'); ?></p>',
+				'minWidth': 400,
+				'minHeight': 160
+				
 			});
 			
-			
-			
-			jQuery.ajax({
-				type: 'post',
-				url: '/admin/site_pages/ajax_remove_page_element/',
-				data: {},
-				success: function(data) {
-					jQuery(this).closest('.page_element_cont').remove();
-				},
-				complete: function() {
-					
-				},
-				error: function() {
-					
-				},
-				dataType: 'json'
-			});
 			
 		});
 	}

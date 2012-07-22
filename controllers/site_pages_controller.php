@@ -172,4 +172,18 @@ class SitePagesController extends AppController {
 		
 		$this->return_json($returnArr);
 	}
+	
+	public function admin_ajax_remove_page_element($site_pages_site_page_element_id) {
+		$returnArr = array();
+		
+		if ($this->SitePagesSitePageElement->delete($site_pages_site_page_element_id)) {
+			$returnArr['code'] = 1;
+		} else {
+			$returnArr['code'] = -1;
+			$returnArr['message'] = 'failed to delete page element in page';
+			$this->SitePage->major_error('failed to delete page element in page', compact('site_pages_site_page_element_id'));
+		}
+		
+		$this->return_json($returnArr);
+	}
 }

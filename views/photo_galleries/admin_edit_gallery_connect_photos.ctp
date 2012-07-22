@@ -374,7 +374,15 @@ $(function() {
 			return;
 		}
 		
-		$( "#confirm_empty_gallery" ).dialog('open');
+		jQuery.foto('confirm', {
+			'title' : '<?php __('Empty Gallery'); ?>',
+			'button_title' : '<?php __('Empty Gallery'); ?>',
+			'onConfirm' : function() {
+				remove_all_images_from_gallery();
+			},
+			'type' : 'alert',
+			'message': '<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span><?php __('Remove all photos from gallery?'); ?></p>'
+		});
 	});
 
 	/*
@@ -390,29 +398,7 @@ $(function() {
 		}
 	});
 
-	$( "#confirm_empty_gallery" ).dialog({
-		autoOpen: false,
-		resizable: false,
-		height: 180,
-		modal: true,
-		buttons: [
-			{
-				text: "<?php __('Empty Gallery'); ?>",
-				click: function() {
-					remove_all_images_from_gallery();
-					$( this ).dialog( "close" );
-				}
-			},
-			{
-				text: "<?php __('Cancel'); ?>",
-				click: function() {
-					$( this ).dialog( "close" );
-				}
-			}
-		]
-	});
-	
-	
+
 	jQuery("#filter_photo_by_format, #sort_photo_radio").buttonset();
 	jQuery("#photos_not_in_a_gallery").button();
 	// sort radio -- filter checkboxes -- photo_not_in_gallery checkbox
@@ -440,10 +426,6 @@ $(function() {
 	jQuery('#connect_gallery_photos_cont').disableSelection();
 });
 </script>
-
-<div id="confirm_empty_gallery" class="dialog_confirm custom_dialog" title="<?php __('Empty Gallery'); ?>">
-	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span><?php __('Remove all photos from gallery?'); ?></p>
-</div>
 
 <div id="connect_gallery_photos_cont">
 	<div class="in_gallery_main_cont">

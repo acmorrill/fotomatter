@@ -48,7 +48,9 @@
 		alert: function(message, args) {
 			var settings = $.extend( {
 				'type' : 'alert',
-				'message': ''
+				'onOk' : function() {
+					
+				}
 			}, args);
 			
 			var alert_div = $("<div class='gen_alert "+settings.type+"'>"+message+"</div>")
@@ -57,18 +59,66 @@
 				title: "<?php __('Alert'); ?>",
 				buttons: {
 					'<?php __('Ok'); ?>': function() {
-						if (typeof settings.do_this_after == 'function') {
-							settings.do_this_after();
+						if (typeof settings.onOk == 'function') {
+							settings.onOk();
 						}
 						$(this).dialog('close');
 					}
 				},
+				close: function() {
+					alert_div.remove();
+				},
 				minWidth: 300,
 				minHeight: 200,
-				modal: true
+				modal: true,
+				resizable: false
+			});
+		},
+		confirm: function(args) {
+			var settings = $.extend( {
+				'title' : '<?php __('Confirm'); ?>',
+				'button_title' : '<?php __('Confirm'); ?>',
+				'onConfirm' : function() {
+					
+				},
+				'type' : 'alert',
+				'message': '<?php __('Are you sure?'); ?>',
+				'minWidth': 300,
+				'minHeight': 200
+			}, args);
+			
+			var confirm_div = $("<div class='gen_confirm "+settings.type+"'>"+settings.message+"</div>")
+			
+			$(confirm_div).dialog({
+				title: settings.title,
+				buttons: [
+					{
+						text: settings.button_title,
+						click: function() {
+							if (typeof settings.onConfirm == 'function') {
+								settings.onConfirm();
+							}
+							$( this ).dialog( "close" );
+						}
+					},
+					{
+						text: "<?php __('Cancel'); ?>",
+						click: function() {
+							$( this ).dialog( "close" );
+						}
+					}
+				],
+				close: function() {
+					confirm_div.remove();
+				},
+				minWidth: settings.minWidth,
+				minHeight: settings.minHeight,
+				modal: true,
+				resizable: false
 			});
 		}
 	}
+	
 	
 	$.foto = function( function_name, args) {
 		if (methods[function_name]) {
