@@ -167,9 +167,7 @@
 					<div class="row fileupload-buttonbar">
 						
 						<div class="upload_files_cont custom_ui_radio">
-							
 							<button>
-								<span class='icon'></span>
 								<span><?php __('Add Files'); ?></span>
 							</button>
 							<input type="file" class="upload_files" id="upload_files" multiple />
