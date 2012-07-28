@@ -28,9 +28,9 @@ class PhotosController extends AppController {
 	}
 	
 	public function admin_process_mass_photos() {
-		$returnArr = array();
-		$returnArr['code'] = 1;
-		
+		$returnArr['code'] = -1;
+		$returnArr['message'] = 'this is not changed';
+	
 		if (isset($this->params['form']['files'])) {
 			$this->log($this->params['form']['files'], 'upload-file');
 			$upload_data['name'] = $this->params['form']['files']['name'][0];
@@ -48,6 +48,7 @@ class PhotosController extends AppController {
 				$this->return_json($returnArr);
 			}
 			$returnArr['new_photo_id'] = $this->Photo->id;
+			$returnArr['code'] = 1;
 			$cache_file_height = isset($this->params['form']['height']) ? $this->params['form']['height'] : null ;
 			$cache_file_width = isset($this->params['form']['width']) ? $this->params['form']['width'] : null ;
 			if (isset($cache_file_width) && isset($cache_file_height)) {
@@ -58,7 +59,6 @@ class PhotosController extends AppController {
 			$returnArr['code'] = -1;
 			$returnArr['message'] = 'file params not set in admin_process_mass_photos';
 		}
-		
 		$this->return_json($returnArr);
 	}
 	
