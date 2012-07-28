@@ -41,14 +41,7 @@
  *
  */
 
-/**
- * As of 1.3, additional rules for the inflector are added below
- *
- * Inflector::rules('singular', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
- * Inflector::rules('plural', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
- *
- */
-
+define("PATH_TO_THEMES", ROOT.DS.APP_DIR.DS.'themes');
 define("LOCAL_SCHEMA_PATH", ROOT.DS.APP_DIR.DS.'config'.DS.'versioning'.DS.'local'.DS.'schema');   
 define("GLOBAL_SCHEMA_PATH", ROOT.DS.APP_DIR.DS.'config'.DS.'versioning'.DS.'global'.DS.'schema');   
 define("TEMP_IMAGE_PATH", ROOT.DS.'image_tmp');
@@ -63,4 +56,39 @@ define("SMALL_MASTER_CACHE_SIZE", 250);
 define('MAX_UPLOAD_SIZE_MEGS', 50);
 define('FREE_MAX_RES', 2000);
 define("USE_CACHE_SPEED", true);
+
+
+App::import('Model', 'SiteSetting');
+$SiteSetting = new SiteSetting();
+$curr_theme = $SiteSetting->getVal('current_theme', 'default');
+define("CURRENT_THEME_PATH", PATH_TO_THEMES.DS.$curr_theme);
+define("DEFAULT_THEME_PATH", PATH_TO_THEMES.DS.'default');
+
+//die(VIEWS);
+//die(PATH_TO_THEMES.DS.$curr_theme.DS.'views'.DS);
+//die(PATH_TO_THEMES.DS.'default'.DS.'views');
+
+App::build(array(
+//	'plugins' => array('/full/path/to/plugins/', '/next/full/path/to/plugins/'),
+//	'models' =>  array('/full/path/to/models/', '/next/full/path/to/models/'),
+	'views' => array(CURRENT_THEME_PATH.DS."views".DS, DEFAULT_THEME_PATH.DS.'views'.DS),
+//	'controllers' => array('/full/path/to/controllers/', '/next/full/path/to/controllers/'),
+//	'datasources' => array('/full/path/to/datasources/', '/next/full/path/to/datasources/'),
+//	'behaviors' => array('/full/path/to/behaviors/', '/next/full/path/to/behaviors/'),
+//	'components' => array('/full/path/to/components/', '/next/full/path/to/components/'),
+	'helpers' => array(CURRENT_THEME_PATH.DS."helpers".DS, DEFAULT_THEME_PATH.DS.'helpers'.DS),
+//	'vendors' => array('/full/path/to/vendors/', '/next/full/path/to/vendors/'),
+//	'shells' => array('/full/path/to/shells/', '/next/full/path/to/shells/'),
+//	'locales' => array('/full/path/to/locale/', '/next/full/path/to/locale/')
+));
+
+
+/**
+ * As of 1.3, additional rules for the inflector are added below
+ *
+ * Inflector::rules('singular', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
+ * Inflector::rules('plural', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
+ *
+ */
+
 

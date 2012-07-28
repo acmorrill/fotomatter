@@ -10,7 +10,7 @@ class AppController extends Controller {
      * @var $components array
      * @access public
      */
-    var $components = array('Auth', 'Session', 'RequestHandler', 'HashUtil');
+    var $components = array('Auth', 'Session', 'RequestHandler', 'HashUtil', 'ThemeRenderer');
 	
 	
     /**
@@ -158,5 +158,7 @@ class AppController extends Controller {
 		echo json_encode($data);
 		exit();
 	}
+	
+	
 }
 
