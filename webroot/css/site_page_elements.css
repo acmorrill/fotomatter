@@ -32,6 +32,14 @@
 #configure_page_cont .avail_page_elements_cont .image_icon:hover {
 	background: url('/img/admin/icons/page_element_icons/image_icon_hover.jpg');
 }
+#configure_page_cont .image_element_image_cont .page_element_top_section {
+	text-align: center;
+}
+
+#configure_page_cont .image_element_image_cont .page_element_top_section .image_element_image_upload {
+	display: inline-block;
+}
+
 
 
 

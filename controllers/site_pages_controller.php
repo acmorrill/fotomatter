@@ -8,15 +8,14 @@ class SitePagesController extends AppController {
 		'Page',
 		'Photo'
 	);
-	public $components = array(
-		'HashUtil'
-	);
 			
 	
 	public function  beforeFilter() {
 		parent::beforeFilter();
 
 		$this->layout = 'admin/pages';
+		
+		$this->Auth->allow('landing_page', 'htaccess');
 	}
 
 	
@@ -185,5 +184,39 @@ class SitePagesController extends AppController {
 		}
 		
 		$this->return_json($returnArr);
+	}
+	
+	public function landing_page() {
+		$this->render('/elements/test');
+	}
+	
+	public function htaccess() {
+		header("Content-Type: text/plain");
+		$INFO=$MISS=array();
+		foreach($_SERVER as $v=>$r) {
+			if(substr($v,0,9)=='HTTP_INFO') {
+				if(!empty($r)) {
+					$INFO[substr($v,10)]=$r;
+				} else {
+					$MISS[substr($v,10)]=$r;
+				}
+			}
+		}
+
+		/* thanks Mike! */
+		ksort($INFO);
+		ksort($MISS);
+		ksort($_SERVER);
+
+		echo "Received These Variables:\n";
+		print_r($INFO);
+
+		echo "Missed These Variables:\n";
+		print_r($MISS);
+
+		echo "ALL Variables:\n";
+		print_r($_SERVER);
+		
+		exit();
 	}
 }
