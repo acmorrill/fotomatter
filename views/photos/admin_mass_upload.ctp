@@ -1,11 +1,11 @@
 
 <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included --
 <!-- The Templates plugin is included to render the upload/download listings -->
-<script src="http://blueimp.github.com/JavaScript-Templates/tmpl.min.js"></script>
+<script src="/js/jquery-file-upload/tmpl.min.js"></script>
 <!-- The Load Image plugin is included for the preview images and image resizing functionality -->
-<script src="http://blueimp.github.com/JavaScript-Load-Image/load-image.min.js"></script>
+<script src="/js/jquery-file-upload/load-image.min.js"></script>
 <!-- The Canvas to Blob plugin is included for image resizing functionality -->
-<script src="http://blueimp.github.com/JavaScript-Canvas-to-Blob/canvas-to-blob.min.js"></script>
+<script src="/js/jquery-file-upload/canvas-to-blob.min.js"></script>
 
 <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
 <script src="/js/jquery-file-upload/js/jquery.iframe-transport.js"></script>
@@ -40,6 +40,8 @@
 ?>
 <div style="clear:both"></div>
 <script>
+	var MAX_FREE_RES = <?php echo MAX_FREE_RES; ?>;
+	
 	function init_global_progress() {
 		$(".upload_in_progress_cont").css('z-index', '2002');
 		$(".upload_in_progress_cont").show();
@@ -54,6 +56,11 @@
 			value:0
 		});
 	}
+	
+	function fail(data) {
+		var error_to_add = $("<li>"+data.files[0].fileName+"</li>");
+		$('div.upload_complete .error_cont ul').append(error_to_add);
+	}
 
 	$(document).ready(function() {
 		var global_modal;
@@ -66,20 +73,29 @@
 			sequentialUploads: true,
 			
 			done: function (e, data) {
-				console.log('upload done');
+				//console.log('upload done');
 				uploaded_complete = parseInt($(".upload_in_progress_cont .count_uploaded_cont .uploaded_complete").html()) + 1;
 				$(".upload_in_progress_cont .count_uploaded_cont .uploaded_complete").html(uploaded_complete);
 				
 				fileupload_count_percentage = ((uploaded_complete / parseInt($(".upload_in_progress_cont .count_uploaded_cont .total_to_upload").html())) * 100) * .5;
 				var progress_to_display = fileupload_count_percentage + fileupload_data_percentage;
-				console.log(progress_to_display);
+				///console.log(progress_to_display);
 				$(".upload_in_progress_cont .progress").progressbar({
 						value: progress_to_display	
 				});
-								
+				
+				if (data.result.code == -1) {
+					fail(data);
+				}				
 			},
-			send: function(e, data) {
-				console.log('starting upload');	
+			fail: function(e, data) {
+				data.context.each(function() {
+					$(this).remove();
+				});
+				
+				if (data.jqXHR != undefined) {
+					fail(data);
+				}
 			},
 			start: function(e, data) {
 				$(".upload_in_progress_cont .count_uploaded_cont .total_to_upload").html($('#fileupload table tbody tr').length); //-1 to account for header
@@ -109,19 +125,33 @@
 				$(".upload_in_progress_cont .count_uploaded_cont .uploaded_complete").html('0');
 				$(".upload_in_progress_cont").hide();
 				$(".ui-widget-overlay").remove();
+				
+				if($('div.upload_complete .error_cont ul li').length > 0) {
+					$('div.upload_complete .error_cont').show();
+				}
 				$('div.upload_complete').foto_background_alert();
-			}
+			},
+			process: [
+				{
+					action: 'load',
+					fileTypes: /^image\/(gif|jpeg|png)$/,
+				},
+				{
+					action: 'resize',
+					maxWidth: MAX_FREE_RES,
+					maxHeight: MAX_FREE_RES
+				},
+				{
+					action: 'save'
+				}
+			]
 		});
-		var max_size = 5 * 1024 * 1024;
 		$("#fileupload").bind('fileuploadadd', function(e, data) {
-			if (data.files[0].size > max_size) {
-				$.foto('alert', '<?php __('The file you have choosen is to large.'); ?>');
-			}
 			$("#photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont .files_ready_to_upload_inner_cont .empty_help_content").hide();
 		});
 		
 		$("#photo_mass_upload_outer_wrapper .files_ready_to_upload_cont button.start").click(function(e) {
-			if ($("#upload_mass_upload_outer_wrapper .files_ready_to_upload_cont table tbody tr").length == 0) {
+			if ($("#photo_mass_upload_outer_wrapper .files_ready_to_upload_cont table tbody tr").length == 0) {
 			      $.foto('alert', '<?php __('No photos have been choosen. Click on the green add files button to get started.'); ?>');
 			      e.preventDefault();
 			}
@@ -139,8 +169,13 @@
 	});
 	
 </script>
+<div id="preview"></div>
 <div style="display:none" class='upload_complete'>
 	<?php __('Upload Complete'); ?>
+	<div style="display:none;" class="error_cont rounded-corners">
+		<p><?php __('The following images did not upload successfully:'); ?></p>
+		<ul></ul>
+	</div>
 </div>
 <div style="display:none" class="upload_in_progress_cont message_div rounded-corners medium_message_box drop-shadow">
 	<div class="upload_in_progress">
@@ -249,13 +284,13 @@
 	<script id="template-upload" type="text/x-tmpl">
 	{% for (var i=0, file; file=o.files[i]; i++) { %}
 		<tr class="template-upload fade rounded-corners">
-			<td class="preview"><span class="fade"></span></td>
-			<td class="name non-image"><span>{%=file.name%}</span></td>
-			<td class="size non-image"><span>{%=o.formatFileSize(file.size)%}</span></td>
+			<td class="preview center-middle"><span class="fade"></span></td>
+			<td class="name middle"><span class="non-image">{%=file.name%}</span></td>
+			<td class="size middle"><span class="non-image">{%=o.formatFileSize(file.size)%}</span></td>
 			{% if (file.error) { %}
 				<td class="error non-image" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
 			{% } else if (o.files.valid && !i) { %}
-				<td class="cancel non-image cancel_action">{% if (!o.options.autoUpload) { %}
+				<td class="cancel non-image cancel_action center-middle">{% if (!o.options.autoUpload) { %}
 					<button class="btn btn-warning cancel-upload">
 						<i class="icon-ban-circle icon-white"></i>
 						<span>{%=locale.fileupload.remove%}</span>

@@ -15,7 +15,7 @@
                     return this.each(function() {
                         //check data store to see if we have already initialized
                         if ($(this).data('foto_background_alert') != undefined) {
-                            major_error_recover("Tried to use background alert while twice on the same element. Please try again.");
+                            major_error_recover("Tried to use background alert twice while on the same element. Please try again.");
                             return false;
                         }
                         
@@ -70,16 +70,18 @@
                     });
                 },
                 destroy: function() {
-                    if ($(this).data('foto_background_alert') == undefined) {
-                         major_error_recover("Tried to destroy a unintialized background element.");
-                        return false;
-                    }
-                    var data_store = $(this).data('foto_background_alert');
-                    data_store.modal_div.remove();
-                    data_store.outer_div.remove();
-                    $(this).data('foto_background_alert', undefined);
-                    $('body').unbind('keyup');
-                    return true;
+					return this.each(function() {
+						if ($(this).data('foto_background_alert') == false) {
+							major_error_recover("Tried to destroy a unintialized background element.");
+							return false;
+						}
+						var data_store = $(this).data('foto_background_alert');
+						data_store.modal_div.remove();
+						data_store.outer_div.remove();
+						$(this).removeData('foto_background_alert');
+						$('body').unbind('keyup');
+						return true;
+					});
                 }
             }
             
