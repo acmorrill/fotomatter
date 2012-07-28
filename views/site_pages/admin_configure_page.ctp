@@ -285,8 +285,8 @@
 			<?php $avail_elements = $this->Page->get_avail_page_elements(); ?>
 			<?php foreach ($avail_elements as $avail_element): ?>
 				<div class="avail_element_cont" avail_page_element_id="<?php echo $avail_element['SitePageElement']['id']; ?>">
-					<img src="/img/admin/page_elements/<?php echo $avail_element['SitePageElement']['ref_name']; ?>.jpg" />
-					<div><?php echo $avail_element['SitePageElement']['ref_name']; ?></div>
+					<div class="icon_div <?php echo $avail_element['SitePageElement']['ref_name']; ?>_icon"></div>
+					<?php /*<div><?php echo $avail_element['SitePageElement']['ref_name']; ?></div>*/ ?>
 				</div>
 			<?php endforeach; ?>
 		</div>
