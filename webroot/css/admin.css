@@ -350,9 +350,14 @@ html, body {
 	cursor:pointer;
 }
 
-.gallery-chooser table tr.selected, .gallery-chooser table tr.selected:hover {
+.gallery-chooser table tr.selected {
 	background-color:#667680;
-	color:#333;
+	color:#000;
+	
+}
+
+.gallery-chooser table tr.selected:hover {
+	background-color:#7A8D99;
 }
 
 .gallery-chooser table tr:hover *,  .gallery-chooser table tr.selected *{

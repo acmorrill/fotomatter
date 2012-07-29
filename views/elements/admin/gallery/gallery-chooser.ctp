@@ -4,8 +4,10 @@
 		$(".gallery-chooser table tr").click(function() {
 				if ($(this).hasClass('selected')) {
 					$(this).removeClass('selected');
+					$("input[gallery_id="+$(this).attr("gallery_id")+"]").val(0);
 				} else {
 					$(this).addClass('selected');
+					$("input[gallery_id="+$(this).attr("gallery_id")+"]").val(1);
 				}
 		});
 	});
@@ -14,7 +16,8 @@
 	<table class="list">
 		<tbody>
 			<?php foreach ($all_gallery_choices as $gallery): ?>
-			<tr>
+			<input gallery_id="<?php echo $gallery['PhotoGallery']['id']; ?>" type="hidden" name="data[GalleryPhoto][<?php echo $gallery['PhotoGallery']['id']; ?>]" value="0" />
+			<tr gallery_id="<?php echo $gallery['PhotoGallery']['id']; ?>">
 				<td class="photo"><div><img style="width:40px;height:40px;" src="/img/photo_default/photo_processing.jpg" /></div></td>
 				<td class="name"><?php echo $gallery['PhotoGallery']['display_name']; ?></td>
 			</tr>
