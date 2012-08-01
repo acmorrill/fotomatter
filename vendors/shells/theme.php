@@ -102,7 +102,7 @@ class ThemeShell extends Shell {
 		}
 	}
 	
-	public function change_to_theme() {
+	public function change_theme() {
 		if (!isset($this->args[0])) {
 			$this->hr();
 			$this->out('You have to pass a theme to change to');
