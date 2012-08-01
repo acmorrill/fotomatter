@@ -1,8 +1,8 @@
 <?php
 class PhotosController extends AppController {
 	public $name = 'Photos';
-	public $uses = array(/*'OldPhoto', */'Photo', 'SiteSetting', 'PhotoFormat', 'SiteSetting');
-	public $helpers = array('Menu', 'Photo');
+	public $uses = array(/*'OldPhoto', */'Photo', 'SiteSetting', 'PhotoFormat', 'SiteSetting', 'PhotoGalleriesPhoto');
+	public $helpers = array('Menu', 'Photo', 'Gallery');
 	public $components = array('Upload', "ImageVersion", "Gd", "ImageWizards", "CloudFiles");
 	public $paginate = array(
 		'limit' => 20,        
@@ -30,9 +30,16 @@ class PhotosController extends AppController {
 	public function admin_process_mass_photos() {
 		$returnArr['code'] = -1;
 		$returnArr['message'] = 'this is not changed';
+		if ($this->data['GalleryPhoto']) {
+			$galleries_to_save = array();
+			foreach ($this->data['GalleryPhoto'] as $id => $to_use) {
+				if ($to_use) {
+					$galleries_to_save[] = $id;
+				}
+			}
+		}
 	
 		if (isset($this->params['form']['files'])) {
-			$this->log($this->params['form']['files'], 'upload-file');
 			$upload_data['name'] = $this->params['form']['files']['name'][0];
 			$upload_data['tmp_name'] = $this->params['form']['files']['tmp_name'][0];
 			$upload_data['type'] = $this->params['form']['files']['type'][0];
@@ -40,6 +47,7 @@ class PhotosController extends AppController {
 			
 			$photo_for_db['Photo']['cdn-filename'] = $upload_data;
 			$photo_for_db['Photo']['display_title'] = $this->params['form']['files']['name'][0];
+			
 			$this->Photo->create();
 			if ($this->Photo->save($photo_for_db) === false) {
 				$this->Photo->major_error('Photo failed to save in admin_process_mass_photos');
@@ -47,6 +55,20 @@ class PhotosController extends AppController {
 				$returnArr['message'] = 'admin_process_mass_photos';
 				$this->return_json($returnArr);
 			}
+			if (isset($galleries_to_save)) {
+				foreach ($galleries_to_save as $gallery) {
+					$gallery_photo['PhotoGalleriesPhoto']['photo_id'] = $this->Photo->id;
+					$gallery_photo['PhotoGalleriesPhoto']['photo_gallery_id'] = $gallery;
+					$this->PhotoGalleriesPhoto->create();
+					if ($this->PhotoGalleriesPhoto->save($gallery_photo) === false) {
+						$this->PhotoGalleriesPhoto->major_error('PhotoGalleriesphoto failed to save on photo upload.');
+						$returnArr['code'] = -1;
+						$returnArr['message'] = 'PhotoGalleriesphoto failed to save on photo upload.';
+						$this->return_json($returnArr);
+					}
+				}	
+			}
+			
 			$returnArr['new_photo_id'] = $this->Photo->id;
 			$returnArr['code'] = 1;
 			$cache_file_height = isset($this->params['form']['height']) ? $this->params['form']['height'] : null ;

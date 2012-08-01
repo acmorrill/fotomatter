@@ -83,13 +83,13 @@ class Photo extends AppModel {
 		parent::beforeSave($options);
 		
 		$cacheTempLocation = '';
-		$fiveMegabytes = 5242880;
+		$maxmegabytes = MAX_UPLOAD_SIZE_MEGS * 1024 * 1024;
 		
 		////////////////////////////////////////////////////////////////////////////////////////////
 		// if a file was uploaded then upload it to cloud files and then delete any previous file
 		if (!empty($this->data['Photo']['cdn-filename']['tmp_name'])) {
-			// fail if the file is greater than 5 megs
-			if (isset($this->data['Photo']['cdn-filename']['size']) && $this->data['Photo']['cdn-filename']['size'] > $fiveMegabytes) {
+			// fail if the file is greater than max upload size
+			if (isset($this->data['Photo']['cdn-filename']['size']) && $this->data['Photo']['cdn-filename']['size'] > $maxmegabytes) {
 				return false;
 			}
 			
@@ -118,9 +118,26 @@ class Photo extends AppModel {
 			}
 			
 			
-			
-			
 			list($width, $height, $type, $attr) = getimagesize($this->data['Photo']['cdn-filename']['tmp_name']);
+			if ($width > FREE_MAX_RES || $height > FREE_MAX_RES) {
+				if (is_writable(TEMP_IMAGE_PATH) == false) {
+					$this->major_error("the temp image path is not writable for photo before save for smaller master cache file");
+				}
+				
+				// the command line image magick way
+				$image_file_name = $this->random_num();
+				$new_image_temp_path = TEMP_IMAGE_PATH.DS.$image_file_name;
+				if ($this->PhotoCache->convert($this->data['Photo']['cdn-filename']['tmp_name'], $new_image_temp_path, FREE_MAX_RES, FREE_MAX_RES, false) == false) {
+					$this->major_error('failed to create mastercache file in photo beforeSave', array($new_image_temp_path, FREE_MAX_RES, FREE_MAX_RES));
+				}
+
+				if (!file_exists($new_image_temp_path)) {
+					//so if the master cache file would be bigger than the image, then the image itself is used for the master cache file
+					copy($tmp_location, $new_image_temp_path);
+				}
+				$this->data['Photo']['cdn-filename']['tmp_name']=$new_image_temp_path;
+				list($width, $height, $type, $attr) = getimagesize($this->data['Photo']['cdn-filename']['tmp_name']);
+			}
 			
 			
 			$this->CloudFiles = $this->get_cloud_file();

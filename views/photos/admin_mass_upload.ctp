@@ -40,7 +40,6 @@
 ?>
 <div style="clear:both"></div>
 <script>
-	var MAX_FREE_RES = <?php echo MAX_FREE_RES; ?>;
 	
 	function init_global_progress() {
 		$(".upload_in_progress_cont").css('z-index', '2002');
@@ -129,22 +128,8 @@
 				if($('div.upload_complete .error_cont ul li').length > 0) {
 					$('div.upload_complete .error_cont').show();
 				}
-				$('div.upload_complete').foto_background_alert();
-			},
-			process: [
-				{
-					action: 'load',
-					fileTypes: /^image\/(gif|jpeg|png)$/,
-				},
-				{
-					action: 'resize',
-					maxWidth: MAX_FREE_RES,
-					maxHeight: MAX_FREE_RES
-				},
-				{
-					action: 'save'
-				}
-			]
+				$('div.upload_complete').foto_background_alert(); 
+			}
 		});
 		$("#fileupload").bind('fileuploadadd', function(e, data) {
 			$("#photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont .files_ready_to_upload_inner_cont .empty_help_content").hide();
@@ -238,7 +223,9 @@
 				</div> */ ?>
 			</div>
 			<div class="generic_photo_gallery_cont">
-				Test this is  atest
+				<div class="gallery-upload-chooser-cont">
+					<?php echo $this->element('admin/gallery/gallery-chooser'); ?>
+				</div>
 			</div>
 			
 			<div style='clear:left'></div>
