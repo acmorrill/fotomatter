@@ -58,9 +58,23 @@ define("USE_CACHE_SPEED", true);
 
 
 App::import('Model', 'SiteSetting');
+App::import('Model', 'Theme');
 $SiteSetting = new SiteSetting();
+$Theme = new Theme();
 $curr_theme = $SiteSetting->getVal('current_theme', 'default');
-define("CURRENT_THEME_PATH", PATH_TO_THEMES.DS.$curr_theme);
+$the_theme = $Theme->get_theme($curr_theme);
+if (!empty($the_theme)) {
+	if ($the_theme['Theme']['theme_id'] == 0) {
+		define("CURRENT_THEME_PATH", PATH_TO_THEMES.DS.$curr_theme);
+		define("PARENT_THEME_PATH", PATH_TO_THEMES.DS.$curr_theme);
+	} else {
+		define("CURRENT_THEME_PATH", PATH_TO_THEMES.DS.$the_theme['ParentTheme']['ref_name'].DS.'subthemes'.DS.$curr_theme);
+		define("PARENT_THEME_PATH", PATH_TO_THEMES.DS.$the_theme['ParentTheme']['ref_name']);
+	}
+} else {
+	define("CURRENT_THEME_PATH", PATH_TO_THEMES.DS.'default');
+	define("PARENT_THEME_PATH", PATH_TO_THEMES.DS.'default');
+}
 define("DEFAULT_THEME_PATH", PATH_TO_THEMES.DS.'default');
 
 //die(VIEWS);
@@ -70,12 +84,12 @@ define("DEFAULT_THEME_PATH", PATH_TO_THEMES.DS.'default');
 App::build(array(
 //	'plugins' => array('/full/path/to/plugins/', '/next/full/path/to/plugins/'),
 //	'models' =>  array('/full/path/to/models/', '/next/full/path/to/models/'),
-	'views' => array(CURRENT_THEME_PATH.DS."views".DS, DEFAULT_THEME_PATH.DS.'views'.DS),
+	'views' => array(CURRENT_THEME_PATH.DS."views".DS, PARENT_THEME_PATH.DS."views".DS, DEFAULT_THEME_PATH.DS.'views'.DS),
 //	'controllers' => array('/full/path/to/controllers/', '/next/full/path/to/controllers/'),
 //	'datasources' => array('/full/path/to/datasources/', '/next/full/path/to/datasources/'),
 //	'behaviors' => array('/full/path/to/behaviors/', '/next/full/path/to/behaviors/'),
 //	'components' => array('/full/path/to/components/', '/next/full/path/to/components/'),
-	'helpers' => array(CURRENT_THEME_PATH.DS."helpers".DS, DEFAULT_THEME_PATH.DS.'helpers'.DS),
+	'helpers' => array(CURRENT_THEME_PATH.DS."helpers".DS, PARENT_THEME_PATH.DS."helpers".DS, DEFAULT_THEME_PATH.DS.'helpers'.DS),
 //	'vendors' => array('/full/path/to/vendors/', '/next/full/path/to/vendors/'),
 //	'shells' => array('/full/path/to/shells/', '/next/full/path/to/shells/'),
 //	'locales' => array('/full/path/to/locale/', '/next/full/path/to/locale/')
