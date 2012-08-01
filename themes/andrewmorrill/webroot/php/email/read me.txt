@@ -1,0 +1,25 @@
+Created by: Saurdo - www.saurdo.com & www.scriptnation.net
+Demo: http://saurdo.com/test/ajax/email/
+Date created: 10/19/06
+Date of Read me creation: 11/07/06
+License: GNU GENERAL PUBLIC LICENSE
+Contact: me@saurdo.com
+
+Not much to say here! Simply upload the files as is and it should work from the get-go! For implementation into a design just simply copy the HTML and stick it anywhere in the page! You can view the e-mail addresses that have been entered by going to the file.txt in the same directory as your write.php file. You can protect people from viewing it with their web browser by CHMODing the read writes to zero.
+
+Features:
+* Dynamically submits e-mails
+* Checks if e-mails are in the correct format
+* stores in an easy to read text document
+* parses the e-mail address for better storage
+* Sleek and simple design
+* Easy to edit and easy to implement
+* Shows message if someone has already entered an e-mail
+
+To edit the confirm and failure messages:
+1. open the email.js file in a regular text editor a specialized javascript editor. I like to use notepad++.
+2. Find "function Failed()" and "function Rcvd()"
+3. Edit the text after "innerHTML =" you must leave the single quotation marks in! If you want to use a single quotation mark in your message simply put a backslash before the mark. (I.E 'This isn\'t the wrong thing to do')
+4. Save it and upload it!
+
+Thanks for downloading! If you have any questions feel free to e-mail me at me@saurdo.com
