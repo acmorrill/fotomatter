@@ -132,6 +132,11 @@ h1 {
 	-moz-border-radius: 7px; /* Firefox */
 	border-radius: 7px; /* CSS3 */
 }
+.rounded-corners-tiny {
+	-webkit-border-radius: 3px; /* safari/chrome */
+	-moz-border-radius: 3px; /* Firefox */
+	border-radius: 3px; /* CSS3 */
+}
 .no-bottom-rounded {
 	-webkit-border-bottom-left-radius: 0px; /* safari/chrome */
 	-webkit-border-bottom-right-radius: 0px; /* safari/chrome */
@@ -334,8 +339,8 @@ html, body {
 	cursor:pointer;
 }
 /*gallery chooser*/
-.gallery-chooser {
-	height:300px;
+.gallery-chooser-cont .gallery-chooser {
+	height:250px;
 	overflow:auto;
 }
 
@@ -387,7 +392,35 @@ html, body {
 	width:70%;
 }
 
+.gallery-chooser-cont .heading .title {
+	font-size:18px;
+	padding:5px 0;
+}
+
+.gallery-chooser-cont .heading p {
+	padding:5px 3px;
+	font-size:12px;
+}
+
 /* end gallery chooser */
+/* tag chooser */
+.outer-tag-chooser-cont .header .title {
+	font-size:18px;
+	padding:5px 0;
+	margin:5px 0;
+}
+
+.outer-tag-chooser-cont .header p {
+	font-size:12px;
+	padding:0 5px;
+}
+
+.outer-tag-chooser-cont div.tagsinput {
+	margin:10px 5px;
+}
+
+
+/* end tag chooser */
 /***** End Mini Types *****/
 /***********************************************************************************************************************
 ************************************************************************************************************************
@@ -748,7 +781,7 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 
 #photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont .table_cont {
 	background-color:#282828;
-	min-height:300px;
+	min-height:435px;
 	width:80%;
 	margin:0 0 0 26px;
 }

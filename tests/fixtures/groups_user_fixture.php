@@ -2,5 +2,5 @@
 class GroupsUserFixture extends CakeTestFixture {
 
 	var $name = "GroupsUser";
-	var $import = array("table"=>"groups_users", "records"=>"true");
+	var $import = array("model"=>"GroupsUser", "records"=>"true");
 }
