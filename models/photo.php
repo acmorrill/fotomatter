@@ -36,6 +36,7 @@ class Photo extends AppModel {
 			'dependent' => true
 		)
 	);
+	public $hasAndBelongsToMany = array('Tag');
 
 	public function beforeDelete() {
 		parent::beforeDelete();
@@ -95,7 +96,7 @@ class Photo extends AppModel {
 			
 			// all the photo cache is now invalidated - so delete them if there were any
 			if (isset($this->data['Photo']['id'])) {
-				$thisCache->deleteAll(array(
+				$this->PhotoCache->deleteAll(array(
 					'PhotoCache.photo_id' => $this->data['Photo']['id']
 				), true, true);
 				
