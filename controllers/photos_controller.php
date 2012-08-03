@@ -30,6 +30,12 @@ class PhotosController extends AppController {
 	public function admin_process_mass_photos() {
 		$returnArr['code'] = -1;
 		$returnArr['message'] = 'this is not changed';
+		$this->log($this->data, 'photos');
+		if (isset($this->data['Tag'])) {
+			$this->loadModel('Tag');
+			$tag_result = $this->Tag->process_new_save($this->data['Tag']);
+		}
+		
 		if ($this->data['GalleryPhoto']) {
 			$galleries_to_save = array();
 			foreach ($this->data['GalleryPhoto'] as $id => $to_use) {
@@ -47,6 +53,9 @@ class PhotosController extends AppController {
 			
 			$photo_for_db['Photo']['cdn-filename'] = $upload_data;
 			$photo_for_db['Photo']['display_title'] = $this->params['form']['files']['name'][0];
+			if (empty($tag_result) === false) {
+				$photo_for_db['Tag'] = $tag_result;
+			}
 			
 			$this->Photo->create();
 			if ($this->Photo->save($photo_for_db) === false) {
@@ -68,7 +77,6 @@ class PhotosController extends AppController {
 					}
 				}	
 			}
-			
 			$returnArr['new_photo_id'] = $this->Photo->id;
 			$returnArr['code'] = 1;
 			$cache_file_height = isset($this->params['form']['height']) ? $this->params['form']['height'] : null ;

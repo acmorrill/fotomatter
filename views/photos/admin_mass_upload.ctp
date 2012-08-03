@@ -1,4 +1,3 @@
-
 <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included --
 <!-- The Templates plugin is included to render the upload/download listings -->
 <script src="/js/jquery-file-upload/tmpl.min.js"></script>
@@ -18,7 +17,6 @@
 <!-- The localization script -->
 <script src="/js/jquery-file-upload/js/locale.js"></script>
 <!-- The main application script -->
-
 <!-- The XDomainRequest Transport is included for cross-domain file deletion for IE8+ -->
 <!--[if gte IE 8]><script src="/js/jquery-file-upload/js/cors/jquery.xdr-transport.js"></script><![endif]-->
 <h1 class='top_heading'><?php __('Add Photos'); ?></h1>
@@ -97,7 +95,8 @@
 				}
 			},
 			start: function(e, data) {
-				$(".upload_in_progress_cont .count_uploaded_cont .total_to_upload").html($('#fileupload table tbody tr').length); //-1 to account for header
+				$(".upload_in_progress_cont .count_uploaded_cont .total_to_upload").html($('#fileupload .files_ready_to_upload_cont table tbody tr').length); //-1 to account for header
+				console.log($(".upload_in_progress_cont .count_uploaded_cont .total_to_upload").html());
 				init_global_progress();				
 			},
 			progressall: function(e, data) {
@@ -171,7 +170,7 @@
 				<div class="progress"></div>
 			</div>
 			<div class='count_uploaded_cont'>
-				<span class='uploaded_complete'>0</span>/<span class='total_to_upload'>10</span>
+				<span class='uploaded_complete'>0</span>/<span class='total_to_upload'>0</span>
 			</div>
 		</div>
 	</div>
@@ -179,7 +178,7 @@
 <div id="photo_mass_upload_outer_wrapper">
 	<form id="fileupload" action="/admin/photos/process_mass_photos" method="POST" enctype="multipart/form-data">
 		<div class="upload_content fileupload-buttonbar">
-			<div class="table_header_darker">
+			<div class="table_header_darker rounded-corners">
 				<h2><?php __('Upload New Photos'); ?></h2>
 			</div>
 			<div class="files_ready_to_upload_cont">
@@ -225,6 +224,9 @@
 			<div class="generic_photo_gallery_cont">
 				<div class="gallery-upload-chooser-cont">
 					<?php echo $this->element('admin/gallery/gallery-chooser'); ?>
+				</div>
+				<div class="tag-upload-chooser">
+					<?php echo $this->element("admin/tag/tag-chooser"); ?>
 				</div>
 			</div>
 			
