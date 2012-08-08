@@ -189,34 +189,4 @@ class SitePagesController extends AppController {
 	public function landing_page() {
 		$this->render('/elements/test');
 	}
-	
-	public function htaccess() {
-		header("Content-Type: text/plain");
-		$INFO=$MISS=array();
-		foreach($_SERVER as $v=>$r) {
-			if(substr($v,0,9)=='HTTP_INFO') {
-				if(!empty($r)) {
-					$INFO[substr($v,10)]=$r;
-				} else {
-					$MISS[substr($v,10)]=$r;
-				}
-			}
-		}
-
-		/* thanks Mike! */
-		ksort($INFO);
-		ksort($MISS);
-		ksort($_SERVER);
-
-		echo "Received These Variables:\n";
-		print_r($INFO);
-
-		echo "Missed These Variables:\n";
-		print_r($MISS);
-
-		echo "ALL Variables:\n";
-		print_r($_SERVER);
-		
-		exit();
-	}
 }

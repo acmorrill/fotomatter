@@ -76,17 +76,21 @@ class Theme extends AppModel {
 		));
 		unlink(ROOT.DS.'current_theme_webroot');
 		unlink(ROOT.DS.'parent_theme_webroot');
+		unlink(ROOT.DS.'default_theme_webroot');
 		if (!empty($new_theme)) {
 			if ($new_theme['Theme']['theme_id'] == 0) {
 				exec('ln -s '.ROOT.DS.'app/themes/'.$theme_name.'/webroot '.ROOT.DS.'current_theme_webroot');
 				exec('ln -s '.ROOT.DS.'app/themes/'.$theme_name.'/webroot '.ROOT.DS.'parent_theme_webroot');
+				exec('ln -s '.ROOT.DS.'app/themes/default/webroot '.ROOT.DS.'default_theme_webroot');
 			} else {
 				exec('ln -s '.PATH_TO_THEMES.DS.$new_theme['ParentTheme']['ref_name'].DS.'subthemes'.DS.$theme_name.' '.ROOT.DS.'current_theme_webroot');
 				exec('ln -s '.PATH_TO_THEMES.DS.$new_theme['ParentTheme']['ref_name'].' '.ROOT.DS.'parent_theme_webroot');
+				exec('ln -s '.PATH_TO_THEMES.DS.'default '.ROOT.DS.'default_theme_webroot');
 			}
 		} else {
 			exec('ln -s '.ROOT.DS.'app/themes/default/webroot '.ROOT.DS.'current_theme_webroot');
 			exec('ln -s '.ROOT.DS.'app/themes/default/webroot '.ROOT.DS.'parent_theme_webroot');
+			exec('ln -s '.ROOT.DS.'app/themes/default/webroot '.ROOT.DS.'default_theme_webroot');
 		}
 	}
 	
