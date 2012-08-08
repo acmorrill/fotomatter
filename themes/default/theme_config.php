@@ -6,8 +6,12 @@ $theme_config = array(
 		'SitePages' => array(
 			'landing_page' => 'landing'
 		),
-		'Themes' => array(
-			'choose_gallery' => 'gallery_landing'
+		'PhotoGalleries' => array(
+			'choose_gallery' => 'gallery_landing',
+			'view_gallery' => 'gallery'
+		),
+		'Photos' => array(
+			'view_photo' => 'view_photo'
 		)
 	) 
 );

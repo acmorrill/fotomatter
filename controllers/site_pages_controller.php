@@ -186,7 +186,5 @@ class SitePagesController extends AppController {
 		$this->return_json($returnArr);
 	}
 	
-	public function landing_page() {
-		$this->render('/elements/test');
-	}
+	public function landing_page() {}
 }
