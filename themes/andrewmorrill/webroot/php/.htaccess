@@ -1,4 +1,0 @@
-AuthType Basic
-AuthName "Restricted Area"
-AuthUserFile "/home/celestj7/.htpasswds/public_html/php/passwd"
-require valid-user

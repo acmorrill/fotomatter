@@ -1,2 +1,0 @@
-AuthName "Restricted Area"
-AuthUserFile "/home/celestj7/.htpasswds/public_html/stylesheets/passwd"
