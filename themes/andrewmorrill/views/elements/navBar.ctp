@@ -35,7 +35,7 @@ END;
 
 	// gallery
 	if ($page == "gallery") {
-		print ("\t\t\t<a onmouseover=\"moveRedBarPos(2);\" href=\"/themes/choose_gallery\"><span onmouseover=\"moveRedBarPos(2);\" class=\"highlight\">image galleries</span></a><br />\n");
+		print ("\t\t\t<a onmouseover=\"moveRedBarPos(2);\" href=\"/photo_galleries/choose_gallery\"><span onmouseover=\"moveRedBarPos(2);\" class=\"highlight\">image galleries</span></a><br />\n");
 		print <<<END
 			<script type="text/javascript">
 				<!--
@@ -44,7 +44,7 @@ END;
 			</script>\n
 END;
 	} else {
-		print ("\t\t\t<a onmouseover=\"moveRedBarPos(2);\" href=\"/themes/choose_gallery\">image galleries</a><br />\n");
+		print ("\t\t\t<a onmouseover=\"moveRedBarPos(2);\" href=\"/photo_galleries/choose_gallery\">image galleries</a><br />\n");
 	}
 	
 	// printInfo

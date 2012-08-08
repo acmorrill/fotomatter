@@ -16,11 +16,12 @@ class ThemeRendererComponent extends Object {
 			
 			$this->controller->theme_config = $theme_config;
 			$this->controller->set(compact('theme_config'));
+			
+			$this->controller->render('/elements/empty_theme_page');
 		}
 	}
 	
-	public function beforeRender(&$controller) {}
-	
+
 	public function shutdown(&$controller) {}
 	
 	public function beforeRedirect(&$controller, $url, $status=null, $exit) {}
@@ -30,27 +31,30 @@ class ThemeRendererComponent extends Object {
 	 * --- then merge the configs and set view vars 
 	 */
 	private function _process_theme_config() {
-		$default_theme_config = array();
-		require_once(DEFAULT_THEME_PATH.DS.'theme_config.php');
-		if (isset($theme_config)) {
-			$default_theme_config = $theme_config;
-			unset($theme_config);
-		}
-		
-		$curr_theme_config_file_path = CURRENT_THEME_PATH.DS.'theme_config.php';
-		$current_theme_config = array();
-		if (file_exists($curr_theme_config_file_path)) {
-			require_once($curr_theme_config_file_path);
+		if (!isset($this->merged_theme_config)) {
+			$default_theme_config = array();
+			require_once(DEFAULT_THEME_PATH.DS.'theme_config.php');
 			if (isset($theme_config)) {
-				$current_theme_config = $theme_config;
+				$default_theme_config = $theme_config;
 				unset($theme_config);
 			}
+
+			$curr_theme_config_file_path = CURRENT_THEME_PATH.DS.'theme_config.php';
+			$current_theme_config = array();
+			if (file_exists($curr_theme_config_file_path)) {
+				require_once($curr_theme_config_file_path);
+				if (isset($theme_config)) {
+					$current_theme_config = $theme_config;
+					unset($theme_config);
+				}
+			}
+
+			// merge with global theme settings
+			$this->merged_theme_config = $this->_merge_arrays($default_theme_config, $current_theme_config);
 		}
 		
-		// merge with global theme settings
-		$merged_theme_config = $this->_merge_arrays($default_theme_config, $current_theme_config);
 		
-		return $merged_theme_config;
+		return $this->merged_theme_config;
 	}
 	
 	private function _merge_arrays($Arr1, $Arr2) {

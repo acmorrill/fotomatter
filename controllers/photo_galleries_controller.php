@@ -9,8 +9,12 @@ class PhotoGalleriesController extends AppController {
 
 		$this->layout = 'admin/galleries';
 		
-		//$this->Auth->allow('test');
+		$this->Auth->allow('choose_gallery', 'view_gallery');
 	}
+	
+	public function choose_gallery() {}
+	
+	public function view_gallery() {}
 
 	public function admin_index() {
 		$galleries = $this->PhotoGallery->find('all', array(

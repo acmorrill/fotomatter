@@ -15,7 +15,11 @@ class PhotosController extends AppController {
 		parent::beforeFilter();
 
 		$this->layout = 'admin/photos';
+		
+		$this->Auth->allow('view_photo');
 	}
+	
+	public function view_photo() {}
 
 	public function admin_index() {
 		$data = $this->paginate('Photo');    
