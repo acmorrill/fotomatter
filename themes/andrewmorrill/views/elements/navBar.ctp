@@ -14,9 +14,9 @@ echo $this->Element('dimension');
 
 	// home
 	if ($page == "home") {
-		print ("\t\t\t<a href=\"index.php\"><span onmouseover=\"moveRedBarPos(0);\" class=\"highlight\">home</span></a><br />\n");
+		print ("\t\t\t<a href=\"/site_pages/landing_page\"><span onmouseover=\"moveRedBarPos(0);\" class=\"highlight\">home</span></a><br />\n");
 	} else {
-		print ("\t\t\t<a onmouseover=\"moveRedBarPos(0);\" href=\"index.php\">home</a><br />\n");
+		print ("\t\t\t<a onmouseover=\"moveRedBarPos(0);\" href=\"/site_pages/landing_page\">home</a><br />\n");
 	}
 
 	// bio
@@ -35,7 +35,7 @@ END;
 
 	// gallery
 	if ($page == "gallery") {
-		print ("\t\t\t<a onmouseover=\"moveRedBarPos(2);\" href=\"galleryStart.php\"><span onmouseover=\"moveRedBarPos(2);\" class=\"highlight\">image galleries</span></a><br />\n");
+		print ("\t\t\t<a onmouseover=\"moveRedBarPos(2);\" href=\"/themes/choose_gallery\"><span onmouseover=\"moveRedBarPos(2);\" class=\"highlight\">image galleries</span></a><br />\n");
 		print <<<END
 			<script type="text/javascript">
 				<!--
@@ -44,7 +44,7 @@ END;
 			</script>\n
 END;
 	} else {
-		print ("\t\t\t<a onmouseover=\"moveRedBarPos(2);\" href=\"galleryStart.php\">image galleries</a><br />\n");
+		print ("\t\t\t<a onmouseover=\"moveRedBarPos(2);\" href=\"/themes/choose_gallery\">image galleries</a><br />\n");
 	}
 	
 	// printInfo
