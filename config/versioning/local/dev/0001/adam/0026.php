@@ -17,5 +17,5 @@ $sqls[] =  'CREATE TABLE IF NOT EXISTS `photos_tags` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;';
 
-$sqls[] = 'ALTER TABLE  `photoapp_adam`.`tags` ADD UNIQUE  `name_unique` (  `name` )';
+$sqls[] = 'ALTER TABLE  `tags` ADD UNIQUE  `name_unique` (  `name` )';
 
