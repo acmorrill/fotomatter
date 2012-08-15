@@ -8,9 +8,10 @@
 					window.location = '/admin/site_pages/add_custom_page';
 					break;
 				case 'external':
-					console.log ("it was external");
+					window.location = '/admin/site_pages/add_external_page';
 					break;
 				default:
+					// DREW TODO - handle smart pages here (or above)
 					break;
 			}
 		});

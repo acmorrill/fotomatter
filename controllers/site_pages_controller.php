@@ -125,7 +125,24 @@ class SitePagesController extends AppController {
 		}
 	}
 	
-	public function admin_edit_page($id = null) {
+	public function admin_add_external_page() {
+		$new_page = array();
+		$new_page['SitePage']['title'] = 'External Page';
+		$new_page['SitePage']['type'] = 'external';
+		$new_page['SitePage']['external_link'] = 'www.externalsite.com';
+		
+		$this->SitePage->create();
+		if (!$this->SitePage->save($new_page)) {
+			$this->Session->setFlash('Failed to create new external page');
+			$this->SitePage->major_error('Failed to create new external page in (admin_add_external_page) in site_pages_controller.php', compact('new_page'));
+			$this->redirect('/admin/site_pages');
+		} else {
+			//$this->Session->setFlash('New page created');
+			$this->redirect('/admin/site_pages/edit_page/'.$this->SitePage->id);
+		}
+	}
+	
+	public function admin_edit_page($id) {
 		if ( empty($this->data) ) {
 			if (isset($id)) {
 				$this->data = $this->SitePage->find('first', array(
