@@ -22,7 +22,7 @@
 					$subnav = array(); 
 
 					$subnav['title'] = array(
-						'name' => $this->data['PhotoGallery']['display_name'],
+						'name' => 'Gallery Name',
 						'url' => "/admin/photo_galleries/edit_gallery/{$this->data['PhotoGallery']['id']}/"
 					);
 					$subnav['pages'][] = array(

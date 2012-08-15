@@ -109,14 +109,32 @@ class SitePagesController extends AppController {
 		$this->return_json($returnArr);
 	}
 	
-	public function admin_edit_page($id) {
+	public function admin_add_custom_page() {
+		$new_page = array();
+		$new_page['SitePage']['title'] = 'Page Title';
+		$new_page['SitePage']['type'] = 'custom';
+		
+		$this->SitePage->create();
+		if (!$this->SitePage->save($new_page)) {
+			$this->Session->setFlash('Failed to create new page');
+			$this->SitePage->major_error('Failed to create new custom page in (add_custom_page) in site_pages_controller.php', compact('new_page'));
+			$this->redirect('/admin/site_pages');
+		} else {
+			//$this->Session->setFlash('New page created');
+			$this->redirect('/admin/site_pages/edit_page/'.$this->SitePage->id);
+		}
+	}
+	
+	public function admin_edit_page($id = null) {
 		if ( empty($this->data) ) {
-			$this->data = $this->SitePage->find('first', array(
-				'conditions' => array(
-					'SitePage.id' => $id
-				),
-				'contain' => false
-			));
+			if (isset($id)) {
+				$this->data = $this->SitePage->find('first', array(
+					'conditions' => array(
+						'SitePage.id' => $id
+					),
+					'contain' => false
+				));
+			}
  		} else {
 			// set or unset the id (depending on if its an edit or add)
 			$this->data['SitePage']['id'] = $id;

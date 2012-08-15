@@ -5,7 +5,7 @@
 		</li>
 		<li class="spacer">&nbsp;</li>
 		<?php $count = 1; foreach ($subnav['pages'] as $subnav_page): ?>
-			<li class="<?php if ($count === 1): ?> first<?php endif; ?> <?php if (trim($this->here, '/') == trim($subnav_page['url'], '/')): ?> selected<?php endif; ?>">
+			<li class="<?php if ($count === 1): ?> first<?php endif; ?> <?php if ($this->Util->startsWith(trim($subnav_page['url'], '/'), trim($this->here, '/'))): ?> selected<?php endif; ?>">
 				<?php //echo $subnav_page['url']; ?>
 				<a href="<?php echo $subnav_page['url']; ?>"><?php echo $subnav_page['name']; ?></a>	
 			</li>
