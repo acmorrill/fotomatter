@@ -17,6 +17,30 @@
 			<?php echo $this->Element('admin/menu', array( 'curr_page' => 'pages' )); ?>
 		</div>
 		<div id="middle" class="rounded-corners">
+			<?php 
+				if (isset($this->data['SitePage']['id'])) {
+					$subnav = array(); 
+
+					$subnav['title'] = array(
+						'name' => "Page: {$this->data['SitePage']['id']}",
+						'url' => "/admin/site_pages/edit_page/{$this->data['SitePage']['id']}/"
+					);
+					$subnav['pages'][] = array(
+						'name' => __('Page Settings', true),
+						'url' => "/admin/site_pages/edit_page/{$this->data['SitePage']['id']}/",
+						'selected' => true
+					);
+						
+					if (isset($this->data['SitePage']['type']) && $this->data['SitePage']['type'] == 'custom') {
+						$subnav['pages'][] = array(
+							'name' => __('Configure Page', true),
+							'url' => "/admin/site_pages/configure_page/{$this->data['SitePage']['id']}/"
+						);
+					}
+
+					echo $this->Element('/admin/submenu', array( 'subnav' => $subnav ));
+				}
+			?>
 			<?php echo $content_for_layout; ?>
 		</div>
 		<div id="footer"></div>

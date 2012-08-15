@@ -35,7 +35,11 @@
 </script>
 
 
-<h1><?php __('Pages'); ?></h1>
+<?php echo $this->Session->flash(); ?>
+<div class="right">
+	<?php echo $this->Element('admin/pages/add_page'); ?>
+</div>
+<div class="clear"></div>
 <?php if (!empty($site_pages)): ?>
 	<div class="table_header">
 		<label class="inline"><?php __('Pages:'); ?></label> 
@@ -73,7 +77,9 @@
 					<td class="page_created"><?php echo date($created_format, strtotime($curr_page['SitePage']['created'])); ?> </td> 
 					<td class="page_action last">
 						<a href="/admin/site_pages/edit_page/<?php echo $curr_page['SitePage']['id']; ?>/"><?php __('Edit'); ?></a>
-						<a href="/admin/site_pages/configure_page/<?php echo $curr_page['SitePage']['id']; ?>/"><?php __('Configure'); ?></a>
+						<?php if (isset($curr_page['SitePage']['type']) && $curr_page['SitePage']['type'] == 'custom'): ?>
+							<a href="/admin/site_pages/configure_page/<?php echo $curr_page['SitePage']['id']; ?>/"><?php __('Configure'); ?></a>
+						<?php endif; ?>
 					</td>
 				</tr>
 			<?php endforeach; ?> 
