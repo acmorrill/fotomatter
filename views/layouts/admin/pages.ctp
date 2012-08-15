@@ -30,10 +30,13 @@
 						'url' => "/admin/site_pages/edit_page/{$this->data['SitePage']['id']}/",
 						'selected' => true
 					);
-					$subnav['pages'][] = array(
-						'name' => __('Configure Page', true),
-						'url' => "/admin/site_pages/configure_page/{$this->data['SitePage']['id']}/"
-					);
+						
+					if (isset($this->data['SitePage']['type']) && $this->data['SitePage']['type'] == 'custom') {
+						$subnav['pages'][] = array(
+							'name' => __('Configure Page', true),
+							'url' => "/admin/site_pages/configure_page/{$this->data['SitePage']['id']}/"
+						);
+					}
 
 					echo $this->Element('/admin/submenu', array( 'subnav' => $subnav ));
 				}
