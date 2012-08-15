@@ -72,12 +72,12 @@ class AppModel extends LazyModel {
 		return rand(0, pow(10, $n));
 	}
 	
-	protected function startsWith($haystack, $needle) {
+	public function startsWith($haystack, $needle) {
 		$length = strlen($needle);
 		return (substr($haystack, 0, $length) === $needle);
 	}
 
-	protected function endsWith($haystack, $needle) {
+	public function endsWith($haystack, $needle) {
 		$length = strlen($needle);
 		$start  = $length * -1; //negative
 		return (substr($haystack, $start) === $needle);

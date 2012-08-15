@@ -35,7 +35,11 @@
 </script>
 
 
-<h1><?php __('Pages'); ?></h1>
+<?php echo $this->Session->flash(); ?>
+<div class="right">
+	<?php echo $this->Element('admin/pages/add_page'); ?>
+</div>
+<div class="clear"></div>
 <?php if (!empty($site_pages)): ?>
 	<div class="table_header">
 		<label class="inline"><?php __('Pages:'); ?></label> 

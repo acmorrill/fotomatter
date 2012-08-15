@@ -1,27 +1,6 @@
 <script src="/js/jquery-file-upload/js/jquery.iframe-transport.js"></script>
 <script src="/js/jquery-file-upload/js/jquery.fileupload.js"></script>
-
-<?php 
-	$subnav = array(); 
-
-	$subnav['title'] = array(
-		'name' => $this->data['SitePage']['title'],
-		'url' => "/admin/site_pages/edit_page/{$this->data['SitePage']['id']}/"
-	);
-	$subnav['pages'][] = array(
-		'name' => __('Page Settings', true),
-		'url' => "/admin/site_pages/edit_page/{$this->data['SitePage']['id']}/"
-	);
-	$subnav['pages'][] = array(
-		'name' => __('Configure Page', true),
-		'url' => "/admin/site_pages/configure_page/{$this->data['SitePage']['id']}/",
-		'selected' => true
-	);
-		
-	echo $this->Element('/admin/submenu', array( 'subnav' => $subnav ));
-?>
-
-<?php echo $session->flash(); ?>
+<?php echo $this->Session->flash(); ?>
 <br/>
 
 <script type="text/javascript">

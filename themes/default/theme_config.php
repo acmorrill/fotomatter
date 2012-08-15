@@ -13,5 +13,10 @@ $theme_config = array(
 		'Photos' => array(
 			'view_photo' => 'view_photo'
 		)
-	) 
+	),
+	'admin_config' => array(
+		'main_menu' => array(
+			'levels' => 1
+		)
+	)
 );

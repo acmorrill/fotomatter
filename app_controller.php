@@ -12,6 +12,11 @@ class AppController extends Controller {
      */
     var $components = array('Auth', 'Session', 'RequestHandler', 'HashUtil', 'ThemeRenderer');
 	
+	public $helpers = array(
+		'Session',
+		'Form',
+		'Util'
+	);
 	
     /**
      * beforeFilter
