@@ -1,7 +1,12 @@
-<div id="configure_main_menu_cont" style="width: 400px; float: left; padding: 20px; min-height: 500px; margin: 20px; margin-top: 0px; margin-left: 0px;">
+<div id="configure_main_menu_cont" style="width: 462px; float: left; padding: 20px; min-height: 500px; margin: 20px; margin-top: 0px; margin-left: 0px;">
 	<?php // class="content-background" ?>
 	<?php // echo $this->Element('admin/theme_center/main_menu/list_main_menu_items'); ?>
-	<?php echo $this->Element('admin/sub_submenu', array( 'Single Level Menu' => 'admin/theme_center/main_menu/list_main_menu_items' )); ?>
+	<?php echo $this->Element('admin/sub_submenu', array( 
+		'tabs' => array(
+			'Single Level Menu' => 'admin/theme_center/main_menu/single_level_menu_listing',
+			'Two Level Menu' => 'admin/theme_center/main_menu/two_level_menu_listing'
+		)
+	)); ?>
 	
 	
 	<div class="clear"></div>
