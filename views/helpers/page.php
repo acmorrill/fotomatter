@@ -27,4 +27,14 @@ class PageHelper extends AppHelper {
 		return $sitePagesSitePageElements;
 	}
 	
+	public function get_all_pages() {
+		$this->SitePage = ClassRegistry::init('SitePage');
+		
+		$all_pages = $this->SitePage->find('all', array(
+			'contain' => false
+		));
+		
+		return $all_pages;
+	}
+	
 }

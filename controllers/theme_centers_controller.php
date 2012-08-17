@@ -2,6 +2,10 @@
 class ThemeCentersController extends AppController {
     public $name = 'ThemeCenters';
 	public $uses = array();
+	public $helpers = array(
+		'Page',
+		'Gallery'
+	);
 	
 	
 	public function  beforeFilter() {
