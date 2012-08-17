@@ -22,7 +22,7 @@
     });
 </script>
 <div class='outer-tag-chooser-cont'>
-    <div class='header'>
+    <div class='basic_page_heading header'>
         <div class='title'><?php __('Tags'); ?></div>
         <p><?php __('Specifty a few key words that describe your new photos. Photos can also be tagged once they are uploaded.'); ?></p>
     </div>

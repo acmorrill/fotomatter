@@ -13,7 +13,7 @@
 	});
 </script>
 <div class='gallery-chooser-cont'>
-	<div class='heading'>
+	<div class='basic_page_heading heading'>
 		<div class='title'><?php __('Galleries'); ?></div>
 		<p><?php __('Choose which galleries your photos should start out in.'); ?></p>
 	</div>

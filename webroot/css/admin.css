@@ -295,6 +295,13 @@ h1 {
 .tinymce table#mce_0_toolbar1 {
 	margin: 0 auto;
 }
+.basic_page_heading .title {
+	font-size:18px;
+}
+.basic_page_heading p {
+	font-size:12px;
+}
+
 /* end tinymce global style */
 /**************************************************
 	ADMIN EVERYPAGE STYLES
@@ -393,25 +400,21 @@ html, body {
 }
 
 .gallery-chooser-cont .heading .title {
-	font-size:18px;
 	padding:5px 0;
 }
 
 .gallery-chooser-cont .heading p {
 	padding:5px 3px;
-	font-size:12px;
 }
 
 /* end gallery chooser */
 /* tag chooser */
 .outer-tag-chooser-cont .header .title {
-	font-size:18px;
 	padding:5px 0;
 	margin:5px 0;
 }
 
 .outer-tag-chooser-cont .header p {
-	font-size:12px;
 	padding:0 5px;
 }
 
