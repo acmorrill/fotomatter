@@ -15,7 +15,22 @@ class SitePagesController extends AppController {
 
 		$this->layout = 'admin/pages';
 		
-		$this->Auth->allow('landing_page', 'htaccess');
+		$this->Auth->allow('landing_page', 'custom_page', 'htaccess');
+	}
+	
+	public function landing_page() {}
+	public function custom_page($site_page_id) {
+		$site_page = $this->SitePage->find('first', array(
+			'conditions' => array(
+				'SitePage.id' => $site_page_id
+			),
+			'contain' => false
+		));
+		
+//		print($site_page_id);
+//		die();
+		
+		$this->set(compact('site_page', 'site_page_id'));
 	}
 
 	
@@ -221,5 +236,5 @@ class SitePagesController extends AppController {
 		$this->return_json($returnArr);
 	}
 	
-	public function landing_page() {}
+	
 }

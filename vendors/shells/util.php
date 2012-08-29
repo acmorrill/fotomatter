@@ -1,7 +1,7 @@
 <?php
 
 class UtilShell extends Shell {
-	public $uses = array('User', 'Group', 'Permission', 'Photo', 'SiteSetting', 'PhotoGallery', 'PhotoGalleriesPhoto', 'PhotoCache', 'SitePage', 'SitePageElement', 'SitePagesSitePageElement');
+	public $uses = array('User', 'Group', 'Permission', 'Photo', 'SiteSetting', 'PhotoGallery', 'PhotoGalleriesPhoto', 'PhotoCache', 'SitePage', 'SitePageElement', 'SitePagesSitePageElement', 'SiteOneLevelMenu');
 	
 		///////////////////////////////////////////////////////////////
 	/// shell start
@@ -122,6 +122,44 @@ class UtilShell extends Shell {
 				$this->PhotoGalleriesPhoto->save($photo_gallery_photo);
 			}
 		}*/
+	}
+	
+	public function add_menu_items() {
+		// delete whole menu
+		$this->SiteOneLevelMenu->deleteAll('1=1', true, true);
+		
+		
+		// add the default menu items - DREW TODO
+		//$home['SiteOneLevelMenu']['external_id']
+		//$this->SiteOneLevelMenu
+		
+		
+		$belongsTo = $this->SiteOneLevelMenu->belongsTo;
+		
+		$pos_models = array();
+		foreach ($belongsTo as $model_name => $item) {
+			$pos_models[] = $model_name;
+		}
+		
+		$total_menu_items = 10;
+		for($x = 0; $x < $total_menu_items; $x++) {
+			$random_model = $pos_models[rand(0, count($pos_models)-1)];
+			
+			$random_model_row = $this->$random_model->find('first', array(
+				'contain' => false,
+				'limit' => 1,
+				'order' => 'rand()'
+			));
+			
+			//debug($random_model_row[$random_model]['id']);
+			
+			$new_menu_item = array();
+			$new_menu_item['SiteOneLevelMenu']['external_id'] = $random_model_row[$random_model]['id'];
+			$new_menu_item['SiteOneLevelMenu']['external_model'] = $random_model;
+			$this->SiteOneLevelMenu->create();
+			$this->SiteOneLevelMenu->save($new_menu_item);
+		}
+		
 	}
 	
 	public function add_pages() {
