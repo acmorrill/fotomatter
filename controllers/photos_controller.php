@@ -34,7 +34,6 @@ class PhotosController extends AppController {
 	public function admin_process_mass_photos() {
 		$returnArr['code'] = -1;
 		$returnArr['message'] = 'this is not changed';
-		$this->log($this->data, 'photos');
 		if (isset($this->data['Tag'])) {
 			$this->loadModel('Tag');
 			$tag_result = $this->Tag->process_new_save($this->data['Tag']);
