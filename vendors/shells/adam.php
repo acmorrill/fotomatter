@@ -16,37 +16,14 @@ class AdamShell extends Shell {
         $this->SiteSetting->setVal('image-container-name', 'adam-dev-container');
         
         $cdn_info = $this->files->cdn_detail_container('adam-dev-container');
-        $this->SiteSetting->setVal("image-container-url", trim($cdn_info['CDN-URI']) . "/");
-        $this->SiteSetting->setVal("image-container-secure_url", trim($cdn_info['CDN-SSL-URI']) . "/");
+      
+        $this->SiteSetting->setVal("image-container-url", trim($cdn_info['Cdn-Uri']) . "/");
+        $this->SiteSetting->setVal("image-container-secure_url", trim($cdn_info['Cdn-Ssl-Uri']) . "/");
         
         $all_images = $this->files->list_objects();
         foreach ($all_images as $image) {
             $this->files->delete_object($image['name']);
         }
-        
-        //add some photos
-        $photo_data = array();
-		
-        ////////////////////////////////////////////
-        // add some default photos
-       $this->Photo = ClassRegistry::init("Photo");
-        $lastPhoto = $this->Photo->find('first', array(
-                'order' => 'Photo.id DESC'
-        ));
-        if ($lastPhoto) {
-                $x = $lastPhoto['Photo']['id'];
-        } else {
-                $x = 0;
-        }
-        for (; $x < $lastPhoto['Photo']['id'] + 2; $x++) {
-                $photo_data[$x]['display_title'] = 'Title '.$x;
-                $photo_data[$x]['display_subtitle'] = 'Subtitle '.$x;
-                $photo_data[$x]['description'] = 'description '.$x;
-                $photo_data[$x]['alt_text'] = $photo_data[$x]['display_subtitle'];
-                $photo_data[$x]['enabled'] = 1;
-                $photo_data[$x]['photo_format_id'] = rand(1, 5);
-        }
-        $this->Photo->saveAll($photo_data); 
     }
     
     public function test_api() {

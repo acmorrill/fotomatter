@@ -42,6 +42,11 @@
 				
 		});
 	});
+        
+var window_loaded = false;
+$(window).load(function() {
+   window_loaded = true; 
+});
 	
 (function($) {
 	var methods = {
