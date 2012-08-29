@@ -17,6 +17,8 @@ class ThemeRendererComponent extends Object {
 			$this->controller->theme_config = $theme_config;
 			$this->controller->set(compact('theme_config'));
 			
+			
+			// DREW TODO - start here tomorrow
 			$this->controller->render('/elements/empty_theme_page');
 		}
 	}

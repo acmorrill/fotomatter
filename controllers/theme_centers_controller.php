@@ -4,7 +4,8 @@ class ThemeCentersController extends AppController {
 	public $uses = array();
 	public $helpers = array(
 		'Page',
-		'Gallery'
+		'Gallery',
+		'ThemeMenu'
 	);
 	
 	
