@@ -1,5 +1,8 @@
 <div>
-	this is the list of menu items
+	<div class="single_level_menu_items_cont menu_items_cont" style="padding: 20px;">
+		<?php $single_menu_items = $this->ThemeMenu->get_single_menu_items(); ?>
+		<?php debug($single_menu_items); ?>
+	</div>
 
 	<div class="generic_sort_and_filters" style="position: absolute; bottom: -91px; left: 0px; right: 0px; height: auto;">
 		<script type="text/javascript">

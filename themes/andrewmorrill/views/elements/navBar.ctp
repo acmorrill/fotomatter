@@ -20,7 +20,7 @@ echo $this->Element('dimension');
 	}
 
 	// bio
-	if ($page == "bio") {
+	if ($page == "custom_1") {
 		print ("\t\t\t<span onmouseover=\"moveRedBarPos(1);\" class=\"highlight\">about</span><br />\n");
 		print <<<END
 			<script type="text/javascript">
