@@ -13,11 +13,15 @@
 	});
 </script>
 <div class='gallery-chooser-cont'>
-	<div class='basic_page_heading heading'>
-		<div class='title'><?php __('Galleries'); ?></div>
-		<p><?php __('Choose which galleries your photos should start out in.'); ?></p>
-	</div>
-	
+    <div class='basic_page_heading heading'>
+            <div class='title'><?php __('Galleries'); ?></div>
+            <p><?php __('Choose which galleries your photos should start out in.'); ?></p>
+    </div>
+    <?php if (empty($all_gallery_choices)): ?>
+        <div class="no_galleries_added rounded-corners">
+        <p><?php __('You have not added any galleries yet.'); ?></p>
+        </div>
+    <?php else: ?>
 	<div class = "gallery-chooser">
 		<table class="list">
 			<tbody>
@@ -31,4 +35,5 @@
 			</tbody>
 		</table>
 	</div>
+    <?php endif; ?>
 </div>

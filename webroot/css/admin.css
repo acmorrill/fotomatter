@@ -321,8 +321,9 @@ html, body {
 #header .logo {
 	position: absolute;
 	top: 19px;
-	right: 100px;
+	right: 5%;
 }
+
 #middle {
 	min-height: 400px;
 	background: #303030;
@@ -349,6 +350,21 @@ html, body {
 .gallery-chooser-cont .gallery-chooser {
 	height:250px;
 	overflow:auto;
+}
+
+.gallery-chooser-cont .no_galleries_added {
+        height:248px;
+        background-color:#282828;
+        color:#404040;
+        text-align:center;
+        margin:5px 0;
+}
+
+.gallery-chooser-cont .no_galleries_added p {
+     position:relative;
+     top:34px;
+     font-size:35px;
+     padding:0 15px;
 }
 
 .gallery-chooser table {
@@ -774,14 +790,14 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 
 #photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont .files_ready_to_upload_inner_cont .empty_help_content {
 	top:31%;
-	left:10%;
-	right:32%;
+	left:8%;
+	right:13%;
 }
 
 #photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont .table_cont {
 	background-color:#282828;
-	min-height:435px;
-	width:80%;
+	min-height:446px;
+	width:88%;
 	margin:0 0 0 26px;
 }
 
