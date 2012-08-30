@@ -77,6 +77,12 @@ class AppController extends Controller {
         }
         $this->set(compact('permittedControllers'));
     }
+	
+	public function renderEmpty() {
+		$this->render('/elements/empty_theme_page');
+	}
+	
+	
     /**
      * isAuthorized
      *
