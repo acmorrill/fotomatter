@@ -18,7 +18,9 @@ class SitePagesController extends AppController {
 		$this->Auth->allow('landing_page', 'custom_page', 'htaccess');
 	}
 	
-	public function landing_page() {}
+	public function landing_page() {
+		$this->renderEmpty();
+	}
 	public function custom_page($site_page_id) {
 		$site_page = $this->SitePage->find('first', array(
 			'conditions' => array(
@@ -29,8 +31,10 @@ class SitePagesController extends AppController {
 		
 //		print($site_page_id);
 //		die();
-		
+
 		$this->set(compact('site_page', 'site_page_id'));
+		
+		$this->renderEmpty();
 	}
 
 	
