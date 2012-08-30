@@ -30,7 +30,7 @@ echo $this->Element('dimension');
 			</script>\n
 END;
 	} else {
-		print ("\t\t\t<a onmouseover=\"moveRedBarPos(1);\" href=\"bio.php\">about</a><br />\n");
+		print ("\t\t\t<a onmouseover=\"moveRedBarPos(1);\" href=\"/site_pages/custom_page/2/\">about</a><br />\n");
 	}
 
 	// gallery
@@ -58,7 +58,7 @@ END;
 			</script>\n
 END;
 	} else {
-		print ("\t\t\t<a onmouseover=\"moveRedBarPos(3);\" href=\"printInfo.php\">print info</a><br />\n");
+		print ("\t\t\t<a onmouseover=\"moveRedBarPos(3);\" href=\"/printInfo.php\">print info</a><br />\n");
 	}
 	
 	// news
@@ -72,7 +72,7 @@ END;
 			</script>\n
 END;
 	} else {
-		print ("\t\t\t<a onmouseover=\"moveRedBarPos(4);\" href=\"news.php\">news</a><br />\n");
+		print ("\t\t\t<a onmouseover=\"moveRedBarPos(4);\" href=\"/news.php\">news</a><br />\n");
 	}
 	
 	// blog
@@ -110,7 +110,7 @@ END;
 					</script>\n
 END;
 			} else {
-				print ("\t\t\t<b><a onmouseover=\"moveRedBarPos(7);\" href=\"shoppingcart.php\"><img style=\"position: relative; top: 6px;\" src=\"/images/misc/Shoppingcart_16x16.png\"> cart ($cartSize)</a></b><br />\n");
+				print ("\t\t\t<b><a onmouseover=\"moveRedBarPos(7);\" href=\"/shoppingcart.php\"><img style=\"position: relative; top: 6px;\" src=\"/images/misc/Shoppingcart_16x16.png\"> cart ($cartSize)</a></b><br />\n");
 			}
 		}
 	}

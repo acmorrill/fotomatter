@@ -11,9 +11,9 @@
 		<?php echo $this->Element('newsLetter'); ?>
 		<a name="bio"></a>
 		<div class="standardContent">
-			<?php debug($theme_config); ?>
-			<?php //debug($site_page); ?>
-			<?php debug($site_page_id); ?>
+			some freaking content
+			
+			<?php debug($site_page); ?>
 			
 			<?php /*<div class="contentBackgroundInside">		
 			<h2><b>Biography</b></h2>
@@ -57,6 +57,6 @@ Large format is the perfect fit for my style of photography because it is conduc
 			<a href="#largeFormat">Why Large Format?</a>
 		</p>
 
-		<?php echo $this->Element('navBar', array( 'page' => 'bio' )); ?>
+		<?php echo $this->Element('navBar', array( 'page' => 'custom_1' )); ?>
 	</body>
 </html>

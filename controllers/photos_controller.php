@@ -19,7 +19,9 @@ class PhotosController extends AppController {
 		$this->Auth->allow('view_photo');
 	}
 	
-	public function view_photo() {}
+	public function view_photo() {
+		$this->renderEmpty();
+	}
 
 	public function admin_index() {
 		$data = $this->paginate('Photo');    
