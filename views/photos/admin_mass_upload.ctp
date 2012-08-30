@@ -187,9 +187,6 @@
 <div id="photo_mass_upload_outer_wrapper">
 	<form id="fileupload" action="/admin/photos/process_mass_photos" method="POST" enctype="multipart/form-data">
 		<div class="upload_content fileupload-buttonbar">
-			<div class="table_header_darker rounded-corners">
-				<h2><?php __('Upload New Photos'); ?></h2>
-			</div>
 			<div class="files_ready_to_upload_cont">
 				<div class='files_ready_to_upload_inner_cont custom_ui_radio'>
 					<div class="row fileupload-buttonbar">
@@ -205,7 +202,7 @@
 							<span>Start upload</span>
 						</button>
 					</div>
-					<div class='table_cont rounded-corners'>
+					<div class='table_cont'>
 						<table role="presentation" class="table table-striped">
 							<thead>
 								<tr>
