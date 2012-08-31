@@ -64,7 +64,7 @@
                     $('div.upload_complete .error_cont ul').append(error_to_add);
                 }
 	}
-
+       
 	$(document).ready(function() {
 		var global_modal;
 		var test;
@@ -150,6 +150,8 @@
 			      e.preventDefault();
 			}
 		});
+                
+                
 		
 		$(".upload_files_cont").hover(
 			function() {
@@ -159,7 +161,10 @@
 				$(this).find('button').removeClass('ui-state-hover');
 			});
 		
-		$("button").button();
+                $("#photo_mass_upload_outer_wrapper .upload_content .upload_files_cont button").click(function(e) {
+                    e.preventDefault();
+                    $("#photo_mass_upload_outer_wrapper .upload_content .upload_files_cont input[type=file]").trigger("click");
+                });
 	});
 </script>
 <div id="preview"></div>
@@ -202,6 +207,9 @@
 							<span>Start upload</span>
 						</button>
 					</div>
+                                        <script type="text/javascript">
+                                            $("button").button();
+                                        </script>
 					<div class='table_cont'>
 						<table role="presentation" class="table table-striped">
 							<thead>
