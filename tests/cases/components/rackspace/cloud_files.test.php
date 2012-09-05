@@ -211,7 +211,7 @@ class CloudFilesTestCase extends CakeTestCase {
         $this->assertEqual(empty($ce['cdn_streaming_uri']), false);
         $this->assertEqual(empty($ce['cdn_uri']), false);
         $this->assertEqual(empty($ce['cdn_ssl_uri']), false);
-        $this->assertEqual(empty($ce['cdn_enabled']), false);
+        $this->assertEqual(empty($ce['cdn_enabled']), true);
         $this->assertEqual(empty($ce['ttl']), false);
         $this->assertEqual(empty($ce['name']), false);
     }
