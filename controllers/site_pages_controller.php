@@ -26,13 +26,15 @@ class SitePagesController extends AppController {
 			'conditions' => array(
 				'SitePage.id' => $site_page_id
 			),
-			'contain' => false
+			'contain' => array(
+				'SitePagesSitePageElement' => array(
+					'SitePageElement'
+				)
+			)
 		));
 		
-//		print($site_page_id);
-//		die();
 
-		$this->set(compact('site_page', 'site_page_id'));
+		$this->set(compact('site_page_id'));
 		
 		$this->renderEmpty();
 	}
