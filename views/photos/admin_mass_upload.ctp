@@ -65,6 +65,7 @@
                 }
 	}
        
+        //TODO Adam Fix formatting. 
 	$(document).ready(function() {
 		var global_modal;
 		var test;
