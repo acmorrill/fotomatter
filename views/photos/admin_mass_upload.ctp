@@ -137,7 +137,12 @@
 				$('div.upload_complete').foto_background_alert(); 
 			}
 		});
-		$("#fileupload").bind('fileuploadadd', function(e, data) {
+               
+		$("#fileupload").bind('fileuploadadd', function(e, upload_data) {
+                      console.log('before');
+                      console.log(upload_data.isAdjusted);
+                      console.log('after');
+                        
 			$("#photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont .files_ready_to_upload_inner_cont .empty_help_content").hide();
 		});
                 
@@ -167,6 +172,7 @@
                     $("#photo_mass_upload_outer_wrapper .upload_content .upload_files_cont input[type=file]").trigger("click");
                 });
 	});
+        var this_data;
 </script>
 <div id="preview"></div>
 <div style="display:none" class='upload_complete'>
