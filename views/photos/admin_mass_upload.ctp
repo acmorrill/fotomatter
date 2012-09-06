@@ -137,12 +137,14 @@
 				$('div.upload_complete').foto_background_alert(); 
 			}
 		});
-               
+            
+			
+		function test() {
+			this.blah = true;
+			var goo = false;
+		}
+			
 		$("#fileupload").bind('fileuploadadd', function(e, upload_data) {
-                      console.log('before');
-                      console.log(upload_data.isAdjusted);
-                      console.log('after');
-                        
 			$("#photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont .files_ready_to_upload_inner_cont .empty_help_content").hide();
 		});
                 

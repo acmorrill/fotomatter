@@ -11,11 +11,13 @@
 		<?php echo $this->Element('newsLetter'); ?>
 		<a name="bio"></a>
 		<div class="standardContent">
-			<?php 
-				echo $this->Element('render_page_elements', array(
-					'site_page_id' => $site_page_id 
-				)); 
-			?>
+			<div class="contentBackgroundInside">
+				<?php 
+					echo $this->Element('render_page_elements', array(
+						'site_page_id' => $site_page_id 
+					)); 
+				?>
+			</div>
 			
 			<?php /*<div class="contentBackgroundInside">		
 			<h2><b>Biography</b></h2>
