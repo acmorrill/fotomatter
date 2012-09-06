@@ -1,8 +1,9 @@
 <?php
 class DBCheckServerSettingsTestCase extends CakeTestCase {
     
-    var $fixtures = array('app.server_setting', 'app.major_error', 'app.user', 'app.group', 'app.permission', 'app.groups_permission',
-	'app.groups_user', 'app.site_setting');
+    public $fixtures = array('app.photo', 'app.tag', 'app.photos_tag', 'app.major_error', 'app.site_setting',
+        'app.server_setting', 'app.photo_format', 'photo_cache', 'photo_galleries_photo'
+    );
     
     /* 
      * Test case... 

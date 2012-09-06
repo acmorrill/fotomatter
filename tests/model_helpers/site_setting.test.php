@@ -24,9 +24,10 @@ class SiteSettingTestCaseHelper extends ModelHelperObj {
 	$container_details = $this->CloudFiles->cdn_detail_container();
 	$current_db_url = $this->SiteSetting->getImageContainerUrl();
 	$current_db_url = rtrim($current_db_url, "/ ");
-	preg_match("/^[A-Z0-9\.\/\:]+/i", $container_details['CDN-URI'], $matches);
-	$container_details['CDN-URI'] = $matches[0];
-	if ($current_db_url == $container_details['CDN-URI']) {
+	preg_match("/^[A-Z0-9\-\.\/\:]+/i", $container_details['Cdn-Uri'], $matches);
+	$container_details['Cdn-Uri'] = $matches[0];
+      
+	if ($current_db_url == $container_details['Cdn-Uri']) {
 	    return true;
 	}
 	$this->_record_real_error('Warning: the cdn-uri does not match what the url should be for image-container-name', null, 'high');
@@ -40,9 +41,10 @@ class SiteSettingTestCaseHelper extends ModelHelperObj {
 	$container_details = $this->CloudFiles->cdn_detail_container();
 	$current_db_url = $this->SiteSetting->getImageContainerSecureUrl();
 	$current_db_url = rtrim($current_db_url, "/ ");
-	preg_match("/^[A-Z0-9\.\/\:]+/i", $container_details['CDN-SSL-URI'], $matches);
-	$container_details['CDN-SSL-URI'] = $matches[0];
-	if ($current_db_url == $container_details['CDN-SSL-URI']) {
+	preg_match("/^[A-Z0-9\-\.\/\:]+/i", $container_details['Cdn-Ssl-Uri'], $matches);
+	$container_details['Cdn-Ssl-Uri'] = $matches[0];
+	
+        if ($current_db_url == $container_details['Cdn-Ssl-Uri']) {
 	    return true;
 	}
 	$this->_record_real_error('Warning: the cdn-ssl-uri does not match what the secure url should be for image-container-name', null, 'high');

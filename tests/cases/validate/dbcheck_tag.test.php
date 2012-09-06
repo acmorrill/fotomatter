@@ -1,9 +1,9 @@
 <?php
 class DBCheckTagTestCase extends CakeTestCase {
 	
-    public $fixtures = array('app.photo', 'app.photo_gallery', 'app.photo_galleries_photo', 'app.major_error', 'app.user', 
-	'app.group', 'app.permission', 'app.groups_permission', 'app.groups_user', 'app.site_setting', 'app.server_setting', 'app.photo_format',
-	    'app.photo_cache');
+    public $fixtures = array('app.photo', 'app.tag', 'app.photos_tag', 'app.major_error', 'app.site_setting',
+        'app.server_setting', 'app.photo_format', 'photo_cache', 'photo_galleries_photo'
+    );
 
     function start() {
 	parent::start();
