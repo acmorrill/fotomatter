@@ -75,8 +75,6 @@
 			dataType: 'json',
 			//'fileInput': jQuery('#upload_files'),
 			sequentialUploads: true,
-			acceptFileTypes: /(\.|\/)(jpe?g)$/i,
-                        previewSourceFileTypes: /(\.|\/)(jpe?g)$/i,
 			done: function (e, data) {
 				//console.log('upload done');
 				uploaded_complete = parseInt($(".upload_in_progress_cont .count_uploaded_cont .uploaded_complete").html()) + 1;
