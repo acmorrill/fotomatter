@@ -3,7 +3,7 @@ class DBCheckPhotoSettingTestCase extends CakeTestCase {
 	
     public $fixtures = array('app.photo', 'app.photo_gallery', 'app.photo_galleries_photo', 'app.major_error', 'app.user', 
 	'app.group', 'app.permission', 'app.groups_permission', 'app.groups_user', 'app.site_setting', 'app.server_setting', 'app.photo_format',
-	    'app.photo_cache');
+	    'app.photo_cache','app.tag','photos_tag');
 
     function start() {
 	parent::start();

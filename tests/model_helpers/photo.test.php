@@ -61,6 +61,7 @@ class PhotoTestCaseHelper {
 			$error_found = true;
 		    }
 		    
+                    //major error happening for this check for some reason
 		    if (isset($photo_objects[$photo['Photo']['cdn-filename']]) === false) {
 			$this->MajorError->major_error("Missing photo in cloud files for cdn-filename", $photo);
 			$error_found = true;
