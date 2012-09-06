@@ -76,6 +76,7 @@
 			//'fileInput': jQuery('#upload_files'),
 			sequentialUploads: true,
 			acceptFileTypes: /(\.|\/)(jpe?g)$/i,
+                        previewSourceFileTypes: /(\.|\/)(jpe?g)$/i,
 			done: function (e, data) {
 				//console.log('upload done');
 				uploaded_complete = parseInt($(".upload_in_progress_cont .count_uploaded_cont .uploaded_complete").html()) + 1;
@@ -138,11 +139,8 @@
 			}
 		});
                
-		$("#fileupload").bind('fileuploadadd', function(e, upload_data) {
-                      console.log('before');
-                      console.log(upload_data.isAdjusted);
-                      console.log('after');
-                        
+		$("#fileupload").bind('fileuploadadd', function(e, a) {
+                        //console.log($(this));
 			$("#photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont .files_ready_to_upload_inner_cont .empty_help_content").hide();
 		});
                 
@@ -207,7 +205,7 @@
 							<button>
 								<span><?php __('Add Files'); ?></span>
 							</button>
-							<input type="file" class="upload_files" id="upload_files" multiple />
+							<input type="file" class="upload_files" id="upload_files" accept="image/jpeg" multiple />
 						</div>
 						<button type="submit" class="btn btn-primary start">
 							<i class="icon-upload icon-white"></i>
