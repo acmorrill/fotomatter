@@ -138,16 +138,12 @@
 				$('div.upload_complete').foto_background_alert(); 
 			}
 		});
-               
-		$("#fileupload").bind('fileuploadadd', function(e, a) {
-                        //console.log($(this));
+
+			
+		$("#fileupload").bind('fileuploadadd', function(e, upload_data) {
 			$("#photo_mass_upload_outer_wrapper .upload_content .files_ready_to_upload_cont .files_ready_to_upload_inner_cont .empty_help_content").hide();
 		});
                 
-                $('#fileupload').bind("fileuploadalways", function(e, data) {
-                   console.log('upload done'); 
-                });
-		
 		$("#photo_mass_upload_outer_wrapper .files_ready_to_upload_cont button.start").click(function(e) {
 			if ($("#photo_mass_upload_outer_wrapper .files_ready_to_upload_cont table tbody tr").length == 0) {
 			      $.foto('alert', '<?php __('No photos have been choosen. Click on the green add files button to get started.'); ?>');
@@ -155,8 +151,6 @@
 			}
 		});
                 
-                
-		
 		$(".upload_files_cont").hover(
 			function() {
 				$(this).find('button').addClass('ui-state-hover');
