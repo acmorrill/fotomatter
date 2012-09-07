@@ -1,16 +1,15 @@
 <?php
+require_once(ROOT . '/app/tests/fototestcase.php');
 class RackspaceTestCase extends CakeTestCase {
-	
-        var $fixtures = array("app.server_setting", "app.major_error");
     
 	function start() {
-		//can't instantiate rackspace obj directly as its not a component
+                //can't instantiate rackspace obj directly as its not a component
 		App::Import("Component", "CloudFiles");
 		$this->CloudFiles = new CloudFilesComponent();
                 parent::start();
 	}
         
-        public function test_credentials_missing() {
+        public function test_credentials_missing() { 
             $this->ServerSetting = ClassRegistry::init("ServerSetting");
             $this->ServerSetting->deleteAll(array(
                 'ServerSetting.name'=>array('rackspace_api_username', 'rackspace_api_key')
