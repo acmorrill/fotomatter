@@ -53,6 +53,7 @@ class RackspaceObj extends Object {
         curl_setopt($ch, CURLOPT_HEADER, TRUE);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         $response = curl_exec($ch);
+       
         curl_close($ch);
         
         if (preg_match("/^HTTP\/1.1 401 Unauthorized/", $response)) {
