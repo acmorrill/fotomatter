@@ -79,3 +79,4 @@ class OldPhoto extends AppModel {
           $this->save($this->data);
      }
 }
+*/
