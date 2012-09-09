@@ -1,6 +1,7 @@
 <?php
 App::import('Model', 'Article');
-class CloudFilesTestCase extends CakeTestCase {
+require_once(ROOT . '/app/tests/fototestcase.php');
+class CloudFilesTestCase extends fototestcase {
     
     var $fixtures = array('app.server_setting', 'app.site_setting', 'app.major_error');
     
