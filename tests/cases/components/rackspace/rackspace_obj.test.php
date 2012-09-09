@@ -1,6 +1,6 @@
 <?php
 require_once(ROOT . '/app/tests/fototestcase.php');
-class RackspaceTestCase extends CakeTestCase {
+class RackspaceTestCase extends fototestcase {
     
 	function start() {
                 //can't instantiate rackspace obj directly as its not a component
