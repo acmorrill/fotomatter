@@ -59,7 +59,7 @@
 				<img class="image_element_actual_image" src="<?php echo $this->Photo->get_dummy_error_image_path($image_element_cache_image_height, $image_element_cache_image_width); ?>" />
 			<?php endif; ?>
 			<br/><div class="image_element_image_upload image_upload" style="width: <?php echo $image_element_cache_image_width - 4; ?>px; overflow: hidden; padding-left: 158px; margin-top: 8px;">
-				<input type="file" />
+				<input type="file" accept="image/jpeg" />
 			</div>
 			<?php /*<div class="image_size_text">
 				<?php $image_element_image_size =  isset($config['image_element_image_size']) ? $config['image_element_image_size'] : 'medium' ; ?>

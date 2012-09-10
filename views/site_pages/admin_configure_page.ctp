@@ -92,14 +92,18 @@
 	
 	function call_element_inits() {
 		for (var i in element_callbacks_array) {
-			if (jQuery.isFunction(element_callbacks_array[i].init)) {
-				element_callbacks_array[i].init(jQuery('#'+i));
-				element_callbacks_array[i].global_init();
-				element_callbacks_array[i].toString();
-			} else {
-				major_error_recover('failed to call init function for a page element');
-			}
+			call_element_init(i);
 		}
+	}
+	
+	function call_element_init(uuid) {
+		if (jQuery.isFunction(element_callbacks_array[uuid].init)) {
+			element_callbacks_array[uuid].init(jQuery('#'+uuid));
+			element_callbacks_array[uuid].global_init();
+			element_callbacks_array[uuid].toString();
+		} else {
+			major_error_recover('failed to call init function for a page element');
+		}		
 	}
 	
 	function save_page_elements() {
@@ -112,7 +116,11 @@
 			var element_form = jQuery('#'+element_callbacks_array[i].uuid);
 			var site_pages_site_page_element_id = element_form.closest('.page_element_cont').attr('site_pages_site_page_element_id');
 
-			if (element_form[0].nodeName.toLowerCase() !== 'form') {
+			if (element_form == undefined) { 
+				major_error_recover('Page element could not be found');
+				return false;
+			}
+			if (element_form[0].nodeName.toLowerCase() !== 'form') { 
 				major_error_recover('Page element is not surrounded by a form element');
 				return false;
 			}
@@ -140,12 +148,19 @@
 	function setup_page_element_delete(selector) {
 		var page_element_cont = jQuery(selector);
 		
+		console.log (element_callbacks_array);
+		
 		jQuery('.page_element_delete', page_element_cont).click(function() {
 			var context = this;
 
 			jQuery.foto('confirm', {
 				'button_title' : '<?php __('Delete'); ?>',
 				'onConfirm' : function() {
+					// remove element from save array
+					var element_form = jQuery(context).closest('.page_element_cont').find('form');
+					var uuid = element_form.attr('id');
+					delete element_callbacks_array[uuid];
+					
 					var site_pages_site_page_element_id = jQuery(context).closest('.page_element_cont').attr('site_pages_site_page_element_id');
 					
 					jQuery.ajax({
@@ -233,8 +248,15 @@
 						// its all good
 						var new_element = jQuery(data.element_html);
 						setup_page_element_sortable(new_element);
-						var page_content_cont = jQuery('#configure_page_cont .page_content_cont')
+						setup_page_element_delete(new_element);
+						var page_content_cont = jQuery('#configure_page_cont .page_content_cont');
 						page_content_cont.append(new_element).scrollTop(page_content_cont.prop("scrollHeight"));
+						
+						
+						
+						// call init on new page element
+						var new_uuid = jQuery(new_element).find('form').attr('id');
+						call_element_init(new_uuid);
 					} else {
 						major_error_recover(data.message);
 					}
