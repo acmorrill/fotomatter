@@ -13,7 +13,7 @@
 				// figure the the now position of the dragged element
 				var photoId = jQuery(ui.item).attr('photo_id');
 				var new_index = ui.item.index();
-				var newPosition = new_index + 1;
+				var newPosition = new_index + 1; // DREW TODO - change this to use - var newPosition = position_of_element_among_siblings(jQuery('.page_element_cont', this), jQuery(ui.item));
 				
 				jQuery.post('/admin/photo_galleries/ajax_set_photo_order_in_gallery/<?php echo $gallery_id; ?>/'+photoId+'/'+newPosition+'/', function(data) {
 					if (data.code == 1) {

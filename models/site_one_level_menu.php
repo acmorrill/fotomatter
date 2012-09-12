@@ -15,5 +15,12 @@ class SiteOneLevelMenu extends AppModel {
 		)
 	);
 	
+	public $validate = array(
+		'external_model' => array(
+			'valid_options' => array(
+				'rule' => array('inList', array('SitePage', 'PhotoGallery'))
+			)
+		)
+	);
 	
 }
