@@ -89,7 +89,7 @@
 					<?php $para_header_image_photo_id =  isset($config['para_header_image_photo_id']) ? $config['para_header_image_photo_id'] : -1 ; ?>
 					<input class="para_header_image_photo_id" name="para_header_image_photo_id" type="hidden" value="<?php echo $para_header_image_photo_id; ?>" />
 					<div class="image_upload" style="width: <?php echo $cache_image_width - 4; ?>px; overflow: hidden; padding-left: 4px;">
-						<input type="file" />
+						<input type="file" accept="image/jpeg" />
 					</div>
 					<?php if ($para_header_image_photo_id != -1): ?>
 						<img src="<?php echo $this->Photo->get_photo_path($para_header_image_photo_id, $cache_image_height, $cache_image_width); ?>" />
