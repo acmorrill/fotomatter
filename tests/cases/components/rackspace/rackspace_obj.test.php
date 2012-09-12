@@ -2,6 +2,10 @@
 require_once(ROOT . '/app/tests/fototestcase.php');
 class RackspaceTestCase extends fototestcase {
     
+        public $reload_tables_after_method = true;
+        
+        public $include_these_tables = array('server_settings', 'major_errors');
+        
 	function start() {
                 //can't instantiate rackspace obj directly as its not a component
 		App::Import("Component", "CloudFiles");

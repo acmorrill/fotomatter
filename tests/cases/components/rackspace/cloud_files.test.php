@@ -1,14 +1,13 @@
 <?php
-App::import('Model', 'Article');
 require_once(ROOT . '/app/tests/fototestcase.php');
 class CloudFilesTestCase extends fototestcase {
     
-    var $fixtures = array('app.server_setting', 'app.site_setting', 'app.major_error');
+    public $include_these_tables = array('server_settings', 'major_errors', 'site_setting');
     
     public function start() {
+        parent::start();
         App::import("Component", "CloudFiles");
         $this->CloudFiles = new CloudFilesComponent();
-        parent::start();
     }
         
    /* public function test_delete_extra() {
@@ -28,6 +27,7 @@ class CloudFilesTestCase extends fototestcase {
     
     public function test_check_for_container_name() {
 	$this->SiteSetting = ClassRegistry::init("SiteSetting");
+        debug($this->SiteSetting->getDataSource()); die();
 	$image_container_name = $this->SiteSetting->getVal('image-container-name');
 	if (empty($image_container_name)) {
 	    debug("Warning: image-container-name does not exist.");
