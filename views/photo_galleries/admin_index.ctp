@@ -13,6 +13,7 @@
 				// figure the the now position of the dragged element
 				var photoGalleryId = jQuery(ui.item).attr('gallery_id');
 				var newPosition = ui.item.index() + 1;// TODO - this must always be set - fail otherwise -- not sure if it will be from jquery ui
+				// DREW TODO - change the above to use - var newPosition = position_of_element_among_siblings(jQuery('.page_element_cont', this), jQuery(ui.item));
 				
 				jQuery.ajax({
 					type: 'post',

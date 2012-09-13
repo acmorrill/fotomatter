@@ -1,18 +1,66 @@
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+		
+		// DREW TODO - START HERE - make the below a function so new items can be initialized
+		jQuery('.list tbody').sortable(jQuery.extend(verticle_sortable_defaults, {
+			items : 'tr',
+			handle : '.reorder_single_level_menu_grabber',
+			update : function(event, ui) {
+				var context = this;
+				jQuery(context).sortable('disable');
+				
+				// figure the the new position of the dragged element
+				var siteOneLevelMenuId = jQuery(ui.item).attr('site_one_level_menu_id');
+				var newPosition = position_of_element_among_siblings(jQuery('.single_level_menu_items_cont .list tbody tr'), jQuery(ui.item));
+				
+				jQuery.ajax({
+					type: 'post',
+					url: '/admin/site_menus/ajax_set_site_single_level_order/'+siteOneLevelMenuId+'/'+newPosition+'/',
+					data: {},
+					success: function(data) {
+						if (data.code != 1) {
+							// DREW TODO - maybe revert the draggable back to its start position here
+						}
+					},
+					complete: function() {
+						jQuery(context).sortable('enable');
+					},
+					dataType: 'json'
+				});
+			}
+		})).disableSelection();
+		
+		// DREW TODO - START HERE - make the below a function so new items can be initialized
+		jQuery('.single_level_menu_items_cont .delete_one_level_menu_item').click(function() {
+			var tr_to_remove = jQuery(this).closest('tr');
+			var site_one_level_menu_id_to_delete = tr_to_remove.attr('site_one_level_menu_id');
+			
+			jQuery.ajax({
+				type: 'post',
+				url: '/admin/site_menus/ajax_delete_one_level_menu_item/'+site_one_level_menu_id_to_delete+'/',
+				data: {},
+				success: function(data) {
+					if (data.code == 1) {
+						tr_to_remove.remove();
+					} else {
+						major_error_recover('Failed to delete the menu item');
+					}
+				},
+				complete: function() {
+					
+				},
+				dataType: 'json'
+			});	
+		});
+	});
+</script>
+
 <div>
 	<div class="single_level_menu_items_cont menu_items_cont" style="padding: 20px;">
 		<?php $single_menu_items = $this->ThemeMenu->get_single_menu_items(); ?>
-		<?php //debug($single_menu_items); ?>
-		
 		<table class="list">
 			<tbody>
-				<?php foreach($single_menu_items as $menu_item_key => $single_menu_item): ?> 
-					<?php $menu_item_data = $this->ThemeMenu->get_menu_item_data($single_menu_item); ?>
-					<tr site_one_level_menu_id="<?php echo $single_menu_item['SiteOneLevelMenu']['id']; ?>">
-						<td class="gallery_id first"><div class="reorder_gallery_grabber reorder_grabber" /> </td> 
-						<td><?php echo $menu_item_data['name']; ?></td>
-						<td>delete</td>
-					</tr>
-				<?php endforeach; ?>
+				<?php echo $this->Element('admin/theme_center/main_menu/single_level_menu_item', array('single_menu_items' => $single_menu_items)); ?>
 			</tbody>
 		</table>
 	</div>
@@ -22,10 +70,26 @@
 			jQuery(document).ready(function() { 
 				jQuery('#single_menu_page_add_button').click(function() { 
 					var select_box = jQuery(this).parent().find('#single_menu_page_add_list');
+					var site_page_id = select_box.val();
+					
+					jQuery.ajax({
+						type: 'post',
+						url: '/admin/site_menus/add_one_level_menu_item/SitePage/'+site_page_id+'/',
+						data: {},
+						success: function(data) {
+							console.log (data);
+							if (data.code == 1) {
+								var new_menu_item = jQuery(data.new_menu_item_html);
+								jQuery('.single_level_menu_items_cont .list tbody').append(new_menu_item);
+							} else {
+								major_error_recover('Failed to add the menu item');
+							}
+						},
+						complete: function() {
 
-					// TODO next - use site_menus controller to add pages to menu
-
-					console.log (select_box.val());
+						},
+						dataType: 'json'
+					});	
 				});
 				
 				
