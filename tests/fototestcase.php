@@ -15,16 +15,21 @@ class fototestcase extends CakeTestCase {
     
     public $include_these_tables = array();
     
-    public function before() {
+    public $tables_loaded = false;
+    
+    public function __construct() {
+        ClassRegistry::flush();
+        //parent::before($method);debug(ClassReg)
         @$test_db =& ConnectionManager::getDataSource('test');
         
         ConnectionManager::create('test_suite', $test_db->config);
         $test_db->cacheSources = false;
-        ClassRegistry::config(array('ds' => 'test_suite')); 
+        ClassRegistry::config(array('ds' => 'test_suite'));
+        $this->reload_start();
     }
     
     public function start() {
-        if ($this->reload_tables_after_method === false) {
+         if ($this->reload_tables_after_method === false) {
             $this->reload_start();
         }
     }
@@ -48,6 +53,11 @@ class fototestcase extends CakeTestCase {
     }
     
     public function reload_start() {
+        if($this->tables_loaded) {
+            return true;
+        }
+        $this->tables_loaded = true;
+        
         if (empty($this->include_these_tables) == false && empty($this->exclude_these_tables) == false) {
             debug("used include tables and exclude tables at the same time.");
             die();
@@ -108,6 +118,7 @@ class fototestcase extends CakeTestCase {
     }
     
     public function reload_end() {
+        $this->tables_loaded = false;
         @$test_db =& ConnectionManager::getDataSource('test');
         $resource = $this->connect($test_db->config);
         
