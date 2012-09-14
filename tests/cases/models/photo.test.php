@@ -1,10 +1,37 @@
 <?php
-class PhotoSettingTestCase extends CakeTestCase {
+require_once(ROOT . '/app/tests/fototestcase.php');
+class PhotoSettingTestCase extends fototestcase {
 	
-    public $fixtures = array('app.photo', 'app.photo_gallery', 'app.photo_galleries_photo', 'app.major_error', 'app.user', 
-	'app.group', 'app.permission', 'app.groups_permission', 'app.groups_user', 'app.site_setting', 'app.server_setting', 'app.photo_format',
-	    'app.photo_cache');
+   public $exclude_these_tables = array("db_local_updates", "db_local_update_items", 'groups', 'groups_permissions', 'groups_users', 'hashes', 'site_one_level_menus');
+   //line 44 - save should fail
+   /*
+    * Array
+(
+    [Photo] => Array
+        (
+            [enabled] => 1
+            [photo_format_id] => 1
+            [cdn-filename] => fullsize_0001_N8EXO1DDVU.jpg
+            [display_title] => TitleN8EXO1DDVU
+            [display_subtitle] => subtitleN8EXO1DDVU
+            [alt_text] => alt text N8EXO1DDVU
+            [modified] => 2012-09-12 22:46:33
+            [created] => 2012-09-12 22:46:33
+            [pixel_width] => 2000
+            [pixel_height] => 1333
+            [tag_attributes] => width="2000" height="1333"
+            [cdn-filename-forcache] => mastercache_fullsize_0001_N8EXO1DDVU.jpg
+            [forcache_pixel_width] => 1500
+            [forcache_pixel_height] => 1000
+            [cdn-filename-smaller-forcache] => mastercache_smaller_fullsize_0001_N8EXO1DDVU.jpg
+            [smaller_forcache_pixel_width] => 250
+            [smaller_forcache_pixel_height] => 167
+        )
 
+)
+
+    */
+   
     function start() {
 		parent::start();
 		require_once(ROOT . "/app/tests/model_helpers/photo.test.php");
@@ -42,7 +69,10 @@ class PhotoSettingTestCase extends CakeTestCase {
 		$photo_for_db['Photo']['display_subtitle'] = 'subtitle' . $name;
 		$photo_for_db['Photo']['alt_text'] = 'alt text ' . $name;
 		$this->Photo->create();
-		$this->assertEqual($this->Photo->save($photo_for_db), false);
+                
+                $result_from_save = $this->Photo->save($photo_for_db);
+                debug($result_from_save);
+		$this->assertEqual($result_from_save, false);
 		$this->assertEqual(unlink(TEMP_IMAGE_UNIT . "/larger_image.jpg"), true);
 	}
     
