@@ -1,8 +1,10 @@
 <?php
-class UserTestCase extends CakeTestCase {
+require_once(ROOT . '/app/tests/fototestcase.php');
+class UserTestCase extends fototestcase {
 	
-	public $fixtures = array('app.user', 'app.group', 'app.permission', 'app.groups_permission', 'app.groups_user');
+        public $include_these_tables = array('users');
         
+    
         function start() {
             parent::start();
             $this->User = ClassRegistry::init("User");

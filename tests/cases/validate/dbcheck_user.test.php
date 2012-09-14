@@ -1,8 +1,8 @@
 <?php
-class DBCheckUserTestCase extends CakeTestCase {
+require_once(ROOT . '/app/tests/fototestcase.php');
+class DBCheckUserTestCase extends fototestcase {
 	
-    
-        public $fixtures = array('app.user', "app.group_permission");
+        public $include_these_tables = array('users');
     
         function start() {
             parent::start();

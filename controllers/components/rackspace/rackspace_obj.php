@@ -46,7 +46,7 @@ class RackspaceObj extends Object {
                 "X-Auth-User: {$username}",
                 "X-Auth-Key: {$key}",
         );
-	
+       
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $authUrl);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $authHeaders);
@@ -55,7 +55,6 @@ class RackspaceObj extends Object {
         $response = curl_exec($ch);
        
         curl_close($ch);
-        
         if (preg_match("/^HTTP\/1.1 401 Unauthorized/", $response)) {
             $this->ServerSetting->major_error("Rackspace credentials invalid");
             return false;
@@ -77,6 +76,7 @@ class RackspaceObj extends Object {
             preg_match("/X-CDN-Management-Url: (.*)/", $response, $matches);
             $this->_apiEndPoint['cdn'] = $matches[1];  
         } 
+        
         return true;
     }
     
@@ -100,7 +100,7 @@ class RackspaceObj extends Object {
         // Authenticate if necessary
         if (!$this->_is_authenticated()) {
                 if (!$this->_authenticate()) {
-                        return NULL;
+                        return false;
                 }
         }
         $jsonUrl = trim($this->_apiEndPoint[$apiEndpointType]) . $url;
@@ -141,7 +141,7 @@ class RackspaceObj extends Object {
         // Authenticate if necessary
         if (!$this->_is_authenticated()) {
                 if (!$this->_authenticate()) {
-                        return NULL;
+                        return false;
                 }
         }
         $jsonUrl = trim($this->_apiEndPoint[$apiEndpointType]) . $url;

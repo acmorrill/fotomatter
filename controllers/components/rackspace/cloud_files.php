@@ -186,7 +186,10 @@ class CloudFilesComponent extends RackspaceObj {
 						if ($container === false) return false;
 					}
 		$url = "/".$container."/".$object_name;
-		$this->_makeApiCall('storage', $url, NULL, 'DELETE');
+		$api_call_result = $this->_makeApiCall('storage', $url, NULL, 'DELETE');
+                if ($api_call_result === false) {
+                    return false;
+                }
 
 		if (in_array($this->lastResponseStatus, array('204'))) {
 			return true;

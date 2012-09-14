@@ -1,9 +1,8 @@
 <?php
-class DBCheckPhotoSettingTestCase extends CakeTestCase {
+require_once(ROOT . '/app/tests/fototestcase.php');
+class DBCheckPhotoTestCase extends fototestcase {
 	
-    public $fixtures = array('app.photo', 'app.tag', 'app.photos_tag', 'app.major_error', 'app.site_setting',
-        'app.server_setting', 'app.photo_format', 'photo_cache', 'photo_galleries_photo'
-    );
+    public $include_these_tables = array('photos');
 
     function start() {
 	parent::start();
@@ -14,6 +13,10 @@ class DBCheckPhotoSettingTestCase extends CakeTestCase {
     
     public function test_check_consistent_values() {
 	$this->assertEqual($this->helper->check_for_consistent_values(), true);
+    }
+    
+     public function test_image_container_name() {
+                $this->assertEqual($this->helper->check_for_container_name(), true);
     }
     
     private function _create_random_string($length) {

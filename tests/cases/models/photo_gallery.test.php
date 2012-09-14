@@ -1,10 +1,9 @@
 <?php
-class PhotoGalleryTestCase extends CakeTestCase {
-	
-    public $fixtures = array('app.photo', 'app.photo_gallery', 'app.photo_galleries_photo', 'app.major_error', 'app.user', 
-	'app.group', 'app.permission', 'app.groups_permission', 'app.groups_user', 'app.site_setting', 'app.server_setting', 'app.photo_format',
-	    'app.photo_cache');
-	
+require_once(ROOT . '/app/tests/fototestcase.php');
+class PhotoGalleryTestCase extends fototestcase {
+    
+      public $exclude_these_tables = array("db_local_updates", "db_local_update_items", 'groups', 'groups_permissions', 'groups_users', 'hashes', 'site_one_level_menus');
+    
 	 function start() {
 		parent::start();
 		require_once(ROOT . "/app/tests/model_helpers/photo_gallery.test.php");
