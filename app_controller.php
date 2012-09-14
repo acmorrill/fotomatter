@@ -15,7 +15,8 @@ class AppController extends Controller {
 	public $helpers = array(
 		'Session',
 		'Form',
-		'Util'
+		'Util',
+		'ThemeMenu'
 	);
 	
     /**
