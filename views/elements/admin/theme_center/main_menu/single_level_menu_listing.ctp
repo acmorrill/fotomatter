@@ -1,9 +1,7 @@
 <script type="text/javascript">
-	jQuery(document).ready(function() {
-		
-		// DREW TODO - START HERE - make the below a function so new items can be initialized
-		jQuery('.list tbody').sortable(jQuery.extend(verticle_sortable_defaults, {
-			items : 'tr',
+	function setup_one_level_menu_sortable(selector) {
+		jQuery(selector).sortable(jQuery.extend(verticle_sortable_defaults, {
+			items : 'tr.sortable_menu_item',
 			handle : '.reorder_single_level_menu_grabber',
 			update : function(event, ui) {
 				var context = this;
@@ -29,9 +27,10 @@
 				});
 			}
 		})).disableSelection();
-		
-		// DREW TODO - START HERE - make the below a function so new items can be initialized
-		jQuery('.single_level_menu_items_cont .delete_one_level_menu_item').click(function() {
+	}
+	
+	function setup_one_level_menu_item_delete(selector) {
+		jQuery(selector).click(function() {
 			var tr_to_remove = jQuery(this).closest('tr');
 			var site_one_level_menu_id_to_delete = tr_to_remove.attr('site_one_level_menu_id');
 			
@@ -52,20 +51,29 @@
 				dataType: 'json'
 			});	
 		});
+	}
+	
+	
+	jQuery(document).ready(function() {
+		setup_one_level_menu_sortable('.list tbody');
+
+		setup_one_level_menu_item_delete('.single_level_menu_items_cont .delete_one_level_menu_item');
+
 	});
 </script>
 
 <div>
 	<div class="single_level_menu_items_cont menu_items_cont" style="padding: 20px;">
 		<?php $single_menu_items = $this->ThemeMenu->get_single_menu_items(); ?>
+		<?php $do_not_sort_items = array($single_menu_items[0]['SiteOneLevelMenu']['id']); ?>
 		<table class="list">
 			<tbody>
-				<?php echo $this->Element('admin/theme_center/main_menu/single_level_menu_item', array('single_menu_items' => $single_menu_items)); ?>
+				<?php echo $this->Element('admin/theme_center/main_menu/single_level_menu_item', array('single_menu_items' => $single_menu_items, 'do_not_sort_items' => $do_not_sort_items)); ?>
 			</tbody>
 		</table>
 	</div>
 
-	<div class="generic_sort_and_filters" style="position: absolute; bottom: -91px; left: 0px; right: 0px; height: auto;">
+	<div class="generic_sort_and_filters" style="position: absolute; bottom: -121px; left: 0px; right: 0px; height: auto;">
 		<script type="text/javascript">
 			jQuery(document).ready(function() { 
 				jQuery('#single_menu_page_add_button').click(function() { 
@@ -77,12 +85,17 @@
 						url: '/admin/site_menus/add_one_level_menu_item/SitePage/'+site_page_id+'/',
 						data: {},
 						success: function(data) {
-							console.log (data);
 							if (data.code == 1) {
 								var new_menu_item = jQuery(data.new_menu_item_html);
-								jQuery('.single_level_menu_items_cont .list tbody').append(new_menu_item);
+								setup_one_level_menu_item_delete(new_menu_item);
+								move_to_cont = jQuery('.single_level_menu_items_cont .list tbody');
+								move_to_cont.append(new_menu_item);
+								
+								// move scoll to new menu item
+								var menu_cont = jQuery(move_to_cont).closest('.content-background');
+								menu_cont.scrollTop(menu_cont.prop("scrollHeight"));
 							} else {
-								major_error_recover('Failed to add the menu item');
+								major_error_recover('Failed to add the page menu item');
 							}
 						},
 						complete: function() {
@@ -95,10 +108,32 @@
 				
 				jQuery('#single_menu_gallery_add_button').click(function() { 
 					var select_box = jQuery(this).parent().find('#single_menu_gallery_add_list');
+					var photo_gallery_id = select_box.val();
+					
+					jQuery.ajax({
+						type: 'post',
+						url: '/admin/site_menus/add_one_level_menu_item/PhotoGallery/'+photo_gallery_id+'/',
+						data: {},
+						success: function(data) {
+							console.log (data);
+							if (data.code == 1) {
+								var new_menu_item = jQuery(data.new_menu_item_html);
+								setup_one_level_menu_item_delete(new_menu_item);
+								var move_to_cont = jQuery('.single_level_menu_items_cont .list tbody');
+								move_to_cont.append(new_menu_item);
+								
+								// move scoll to new menu item
+								var menu_cont = jQuery(move_to_cont).closest('.content-background');
+								menu_cont.scrollTop(menu_cont.prop("scrollHeight"));
+							} else {
+								major_error_recover('Failed to add the gallery menu item');
+							}
+						},
+						complete: function() {
 
-					// TODO next - use site_menus controller to add galleries to menu
-
-					console.log (select_box.val());
+						},
+						dataType: 'json'
+					});	
 				});
 			});
 		</script>
