@@ -30,7 +30,7 @@ class fototestcase extends CakeTestCase {
     
     public function start() {
          if ($this->reload_tables_after_method === false) {
-            $this->reload_start();
+             $this->reload_start();
         }
     }
     
@@ -40,7 +40,7 @@ class fototestcase extends CakeTestCase {
         }
     }
     
-    public function startTest() {
+    public function startTest($method) {
         if ($this->reload_tables_after_method) {
             $this->reload_start();
         }

@@ -1,7 +1,8 @@
 <?php
-class SiteSettingTestCase extends CakeTestCase {
+require_once(ROOT . '/app/tests/fototestcase.php');
+class SiteSettingTestCase extends fototestcase {
 	
-	public $fixtures = array('app.site_setting', 'app.server_setting', 'app.major_error');
+        public $include_these_tables = array('site_settings', 'server_settings', 'major_errors');
         
         function start() {
             parent::start();

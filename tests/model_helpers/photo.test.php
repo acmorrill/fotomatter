@@ -5,6 +5,15 @@ class PhotoTestCaseHelper {
 	$this->Photo = ClassRegistry::init("Photo");
     }
     
+    function check_for_container_name() {
+        $this->SiteSetting = ClassRegistry::init("SiteSetting");
+        $container_name = $this->SiteSetting->getVal('image-container-name', false);
+        if ($container_name === false) {
+            return false;
+        }
+        return true;
+    }
+    
     function check_for_consistent_values() {
 	//init major error model and connect it to default data source, major errors need to go to the real db
 	$photos_to_check_at_once = 50;

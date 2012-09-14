@@ -1,9 +1,8 @@
 <?php
-class DBCheckTagTestCase extends CakeTestCase {
-	
-    public $fixtures = array('app.photo', 'app.tag', 'app.photos_tag', 'app.major_error', 'app.site_setting',
-        'app.server_setting', 'app.photo_format', 'photo_cache', 'photo_galleries_photo'
-    );
+require_once(ROOT . '/app/tests/fototestcase.php');
+class DBCheckTagTestCase extends fototestcase {
+
+    public $include_these_tables = array('tags');
 
     function start() {
 	parent::start();

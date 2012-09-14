@@ -1,9 +1,8 @@
 <?php
-class PhotoGalleriesPhotoTestCase extends CakeTestCase {
+require_once(ROOT . '/app/tests/fototestcase.php');
+class PhotoGalleriesPhotoTestCase extends fototestcase {
 	
-	public $fixtures = array('app.photo', 'app.photo_gallery', 'app.photo_galleries_photo', 'app.major_error', 'app.user', 
-	'app.group', 'app.permission', 'app.groups_permission', 'app.groups_user', 'app.site_setting', 'app.server_setting', 'app.photo_format',
-	    'app.photo_cache');
+	public $include_these_tables = array('photo_galleries_photos', 'tags');
 	
 	 function start() {
 		parent::start();

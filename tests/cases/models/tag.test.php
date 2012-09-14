@@ -1,9 +1,8 @@
 <?php
-class TagSettingTestCase extends CakeTestCase {
+require_once(ROOT . '/app/tests/fototestcase.php');
+class TagSettingTestCase extends fototestcase {
 	
-    public $fixtures = array('app.tag', 'app.photo', 'app.photo_gallery', 'app.photo_galleries_photo', 'app.major_error', 'app.user', 
-	'app.group', 'app.permission', 'app.groups_permission', 'app.groups_user', 'app.site_setting', 'app.server_setting', 'app.photo_format',
-	    'app.photo_cache', 'app.tag', 'app.photos_tag', 'app.photo_prebuild_cache_size');
+    public $include_these_tables = array('photos','tags');
     
     function start() {
 		parent::start();
@@ -36,16 +35,32 @@ class TagSettingTestCase extends CakeTestCase {
         $this->Photo->save($first_photo);
         
         
-        debug($first_photo = $this->Photo->find('first', array(
-            
-        )));
-        
-        
-        
-        
-        
-        
+        $first_photo = $this->Photo->find('first');
+        $this->assertEqual($number_of_tags == count($first_photo['Tag']), true);
     }
+    
+    function test_new_save_did_not_exist() {
+        $new_tags = array('Bob', 'fred', 'phone');
+        $tag_result = $this->Tag->process_new_save($new_tags);
+        $this->assertEqual(empty($tag_result), false);
+        
+        $tags = $this->Tag->find('all', array(
+            'conditions'=>array(
+                'Tag.name'=>$new_tags
+            )
+        ));
+        $this->assertEqual(count($tags), 3);
+        
+        $tag_result = $this->Tag->process_new_save($new_tags);
+        $this->assertEqual(empty($tag_result), false);
+        $tags = $this->Tag->find('all', array(
+            'conditions'=>array(
+                'Tag.name'=>$new_tags
+            )
+        ));
+        $this->assertEqual(count($tags), 3);
+    }
+    
 
     
 }

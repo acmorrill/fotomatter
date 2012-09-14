@@ -59,7 +59,7 @@ class AppModel extends LazyModel {
 			$data['MajorError']['extra_data'] = print_r($extra_data, true);
 		}
 		$data['MajorError']['severity'] = $severity;
-		
+		$majorError->create();
 		$majorError->save($data);
 	}
 	

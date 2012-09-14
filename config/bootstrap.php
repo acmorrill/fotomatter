@@ -24,7 +24,7 @@
 /**
  * The settings below can be used to set additional paths to models, views and controllers.
  * This is related to Ticket #470 (https://trac.cakephp.org/ticket/470)
- *
+ i*
  * App::build(array(
  *     'plugins' => array('/full/path/to/plugins/', '/next/full/path/to/plugins/'),
  *     'models' =>  array('/full/path/to/models/', '/next/full/path/to/models/'),
@@ -53,7 +53,7 @@ define("MASTER_CACHE_PREFIX", 'mastercache_');
 define("SMALLER_MASTER_CACHE_PREFIX", 'mastercache_smaller_');
 define("LARGE_MASTER_CACHE_SIZE", 1500);
 define("SMALL_MASTER_CACHE_SIZE", 250);
-define('MAX_UPLOAD_SIZE_MEGS', 50);
+define('MAX_UPLOAD_SIZE_MEGS', 5);
 define('FREE_MAX_RES', 2000);
 define("USE_CACHE_SPEED", true);
 

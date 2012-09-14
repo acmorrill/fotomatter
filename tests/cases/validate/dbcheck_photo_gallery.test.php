@@ -1,9 +1,8 @@
 <?php
-class DBCheckPhotoGalleryTestCase extends CakeTestCase {
+require_once(ROOT . '/app/tests/fototestcase.php');
+class DBCheckPhotoGalleryTestCase extends fototestcase {
     
-    public $fixtures = array('app.photo', 'app.tag', 'app.photos_tag', 'app.major_error', 'app.site_setting',
-        'app.server_setting', 'app.photo_format', 'photo_cache', 'photo_galleries_photo'
-    );
+    public $include_these_tables = array('photo_galleries');
 	
 	 function start() {
         parent::start();

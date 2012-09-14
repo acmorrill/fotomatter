@@ -3,37 +3,10 @@ require_once(ROOT . '/app/tests/fototestcase.php');
 class PhotoSettingTestCase extends fototestcase {
 	
    public $exclude_these_tables = array("db_local_updates", "db_local_update_items", 'groups', 'groups_permissions', 'groups_users', 'hashes', 'site_one_level_menus');
-   //line 44 - save should fail
-   /*
-    * Array
-(
-    [Photo] => Array
-        (
-            [enabled] => 1
-            [photo_format_id] => 1
-            [cdn-filename] => fullsize_0001_N8EXO1DDVU.jpg
-            [display_title] => TitleN8EXO1DDVU
-            [display_subtitle] => subtitleN8EXO1DDVU
-            [alt_text] => alt text N8EXO1DDVU
-            [modified] => 2012-09-12 22:46:33
-            [created] => 2012-09-12 22:46:33
-            [pixel_width] => 2000
-            [pixel_height] => 1333
-            [tag_attributes] => width="2000" height="1333"
-            [cdn-filename-forcache] => mastercache_fullsize_0001_N8EXO1DDVU.jpg
-            [forcache_pixel_width] => 1500
-            [forcache_pixel_height] => 1000
-            [cdn-filename-smaller-forcache] => mastercache_smaller_fullsize_0001_N8EXO1DDVU.jpg
-            [smaller_forcache_pixel_width] => 250
-            [smaller_forcache_pixel_height] => 167
-        )
-
-)
-
-    */
+ 
    
     function start() {
-		parent::start();
+            parent::start();
 		require_once(ROOT . "/app/tests/model_helpers/photo.test.php");
 		$this->helper = new PhotoTestCaseHelper();
 		$this->Photo = ClassRegistry::init("Photo");
@@ -47,6 +20,15 @@ class PhotoSettingTestCase extends fototestcase {
 		$this->Testing = new TestingComponent();
     }
     
+    public function test_image_container_name() {
+                $result = $this->helper->check_for_container_name();
+                $this->assertEqual($result, true);
+                if ($result === false) {
+                    debug("image container name not set.. cannot continue");
+                    $this->endTest();
+                    die();
+                }
+    }
     public function test_check_consistent_values() {
 		$this->assertEqual($this->helper->check_for_consistent_values(), true);
     }
@@ -71,7 +53,6 @@ class PhotoSettingTestCase extends fototestcase {
 		$this->Photo->create();
                 
                 $result_from_save = $this->Photo->save($photo_for_db);
-                debug($result_from_save);
 		$this->assertEqual($result_from_save, false);
 		$this->assertEqual(unlink(TEMP_IMAGE_UNIT . "/larger_image.jpg"), true);
 	}
@@ -124,6 +105,7 @@ class PhotoSettingTestCase extends fototestcase {
 		
 		$this->MajorError->setDataSource('test');
 		$mes = $this->MajorError->find('all');
+                debug($mes);
 		$this->assertEqual(empty($mes), true);
 	}
 	
@@ -131,28 +113,14 @@ class PhotoSettingTestCase extends fototestcase {
 		$this->Testing->give_me_images(1);
 		$this->ServerSetting = ClassRegistry::init("ServerSetting");
 		$this->ServerSetting->setVal('rackspace_api_username', 'a');
-		
+                		
 		Configure::write("debug", 0);
 		unset($this->Photo->CloudFiles);
-	    $this->Photo->delete($this->Photo->id);
-	    Configure::write("debug", 2);
-		
-		//make sure we have a major error
-		$this->MajorError = ClassRegistry::init("MajorError");
-		$this->MajorError->setDataSource('test');
-		$me = $this->MajorError->find('first', array(
-			'conditions'=>array(
-				'MajorError.description'=>'failed to delete object cdn-filename-forcache in photo before delete'
-			)
-		));
-		$this->assertEqual(empty($me), false);
-		
-		$me = $this->MajorError->find('first', array(
-			'conditions'=>array(
-				'MajorError.description'=>'failed to delete object cdn-filename-forcache in photo before delete'
-			)
-		));
-		$this->assertEqual(empty($me), false);
+                $this->Photo->delete($this->Photo->id);
+                Configure::write("debug", 2);
+                
+                $count = $this->ServerSetting->query("select count(*) as count from major_errors");
+                $this->assertEqual($count[0][0]['count'], 6);
 	}
 	
 	public function test_save_rackspace_fail() {
