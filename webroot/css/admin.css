@@ -972,8 +972,12 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 
 /*-------------------------------*/
 /* start configure main menu */
-.configure_main_menu_cont {
+#configure_main_menu_cont {
 	
+}
+#configure_main_menu_cont .not_sortable_menu_item .reorder_grabber {
+	opacity:0.5;
+	filter:alpha(opacity=50);
 }
 
 /* end configure main menu */
