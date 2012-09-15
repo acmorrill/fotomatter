@@ -105,7 +105,6 @@ class PhotoSettingTestCase extends fototestcase {
 		
 		$this->MajorError->setDataSource('test');
 		$mes = $this->MajorError->find('all');
-                debug($mes);
 		$this->assertEqual(empty($mes), true);
 	}
 	
