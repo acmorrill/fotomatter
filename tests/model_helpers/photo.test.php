@@ -5,6 +5,7 @@ class PhotoTestCaseHelper {
 	$this->Photo = ClassRegistry::init("Photo");
     }
     
+    
     function check_for_container_name() {
         $this->SiteSetting = ClassRegistry::init("SiteSetting");
         $container_name = $this->SiteSetting->getVal('image-container-name', false);
