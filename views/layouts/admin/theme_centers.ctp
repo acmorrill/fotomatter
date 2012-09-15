@@ -28,6 +28,10 @@
 					'name' => __('Main Menu', true),
 					'url' => "/admin/theme_centers/main_menu/"
 				);
+				$subnav['pages'][] = array(
+					'name' => __('Configure Logo', true),
+					'url' => "/admin/theme_centers/configure_logo/"
+				);
 
 				echo $this->Element('/admin/submenu', array( 'subnav' => $subnav ));
 			?>

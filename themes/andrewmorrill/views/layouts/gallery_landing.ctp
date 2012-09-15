@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <?php 
 //	if(!isset($_SESSION)) { 
 //		session_start();	
@@ -8,8 +9,7 @@
 		<title>Picture Gallery -- Celestial Light Photography</title>
 		<meta name="keywords" content="Andrew Morrill, online gallery, fine art, utah photography, utah photography, National Park, Utah, California, LDS temples, temple photography">
 		<meta name="description" content="The online gallery of Utah based photographer Andrew Morrill.">
-		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-		<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css" />
+		<?php echo $this->Element('theme_global_includes'); ?>
 		<link rel="stylesheet" type="text/css" href="/stylesheets/contentReadableBackground.css" />
 	<script type="text/javascript">
 		function setImage( id, path ) {

@@ -11,8 +11,6 @@
 		$firstTimeVisit = true;
 	}
 ?>
-		<script src="/js/jquery-1.7.1.min.js"></script>
-		<script src="/js/jquery-ui-1.8.18.custom/js/jquery-ui-1.8.18.custom.min"></script>
 		<script src="/javascript/easing.js"></script>
 		<script src="/email/prototype.js" type="text/javascript"></script>
 		<script src="/email/email.js" type="text/javascript"></script>

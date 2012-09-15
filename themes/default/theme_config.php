@@ -18,6 +18,12 @@ $theme_config = array(
 	'admin_config' => array(
 		'main_menu' => array(
 			'levels' => 1
+		),
+		'logo_config' => array(
+			'available_space' => array(
+				'width' => 400,
+				'height' => 200
+			)
 		)
 	)
 );

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <?php
 	/*if(!isset($_SESSION)) { 
 		session_start();	
@@ -10,10 +11,8 @@
 		<title>Photography by Andrew Morrill</title>
 		<meta name="keywords" content="Andrew Morrill, photography, fine art, utah photography, utah photographer, National Park, Utah, California">
 		<meta name="description" content="Large format landscape photography by Utah based photographer Andrew Morrill.">
-		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-		<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css" />
+		<?php echo $this->Element('theme_global_includes'); ?>
 		<link rel="stylesheet" type="text/css" href="/stylesheets/introBackground.css" />
-		<script src="/js/jquery-1.7.1.min.js"></script>
 		<script src="/javascript/preloadImages.js"></script>
 		<script src="/javascript/slideShow.js"></script>
 		<script src="/javascript/blendtrans.js"></script>

@@ -96,14 +96,36 @@ img, div, a { behavior: url(../iepngfix.htc) }
 
 
 /* ===================== Nav Bar ========================================== */
-#nav {
+#main_nav {
 	position: absolute;
 	text-align: right;
-	left: 715px;
+	left: 695px;
 	top: 338px; 
 	line-height: 18px;
+	width: 128px;
 }
-#nav a {
+#main_nav ul {
+	margin: 0px;
+	padding: 0px;
+}
+#main_nav ul li {
+	display: inline-block;
+	vertical-align: middle;
+	position: relative;
+	text-transform: lowercase;
+}
+#main_nav ul li.hover span.extra {
+	position: absolute;
+	top: 0px;
+	right: -19px;
+	width: 5px;
+	height: 19px;
+	background: transparent url('/images/smallRedBar.gif') center right no-repeat;
+}
+#main_nav .main_menu_item {
+	margin-right: 19px;
+}
+#main_nav a {
 	color: #1F2020;
 	text-decoration: none;
 }
@@ -127,7 +149,7 @@ img, div, a { behavior: url(../iepngfix.htc) }
 	left: 480px;
 }
 
-span.highlight {
+.highlight {
 	color: #F2162E;
 }
 

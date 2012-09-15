@@ -1,10 +1,10 @@
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>About Andrew Morrill -- Celestial Light Photography</title>
 		<meta name="keywords" content="Andrew Morrill, photography, fine art, utah photography, utah photographer, National Park, Utah, California, Large Format">
 		<meta name="description" content="Large format landscape photography by Utah based photographer Andrew Morrill.">
-		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-		<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css" />
+		<?php echo $this->Element('theme_global_includes'); ?>
 	</head>
 	<body>
 		<?php echo $this->Element('nameTitle'); ?>

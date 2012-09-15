@@ -1,4 +1,10 @@
 <?php $uuid = $this->Util->uuid(); ?>
+<?php 
+	$_width = 650;
+	if (isset($width)) {
+		$_width = $width;
+	}
+?>
 
 <style type="text/css">
 	.sub_submenu_cont {
@@ -29,7 +35,7 @@
 		background: #2b2b2b;
 	}
 	.sub_submenu_cont .sub_submenu_right_cont {
-		width: 650px;
+		width: <?php echo $_width; ?>px;
 	}
 	.sub_submenu_cont .sub_submenu_right_cont .sub_submenu_tab_cont {
 		display: none;
