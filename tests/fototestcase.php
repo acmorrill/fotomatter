@@ -29,9 +29,9 @@ class fototestcase extends CakeTestCase {
     }
     
     public function start() {
-         if ($this->reload_tables_after_method === false) {
+        // if ($this->reload_tables_after_method === false) {
              $this->reload_start();
-        }
+       // }
     }
     
     public function end() {
