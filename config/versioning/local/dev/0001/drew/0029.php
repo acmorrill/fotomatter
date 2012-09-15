@@ -34,7 +34,13 @@ $functions[] = function() {
 	$image_galleries_item['SiteOneLevelMenu']['external_id'] = 0;
 	$image_galleries_item['SiteOneLevelMenu']['external_model'] = 'SitePage';
 	$SiteOneLevelMenu->create();
-	if (!$SiteOneLevelMenu->save($image_galleries_item) || !$SiteOneLevelMenu->moveto($SiteOneLevelMenu->id, 2)) {
+	if (!$SiteOneLevelMenu->save($image_galleries_item)) {
+		return false;
+	}
+	$total_menu_items = $SiteOneLevelMenu->find('count', array(
+		'contain' => false
+	));
+	if ($total_menu_items > 2 && !$SiteOneLevelMenu->moveto($SiteOneLevelMenu->id, 2)) {
 		return false;
 	}
 	
