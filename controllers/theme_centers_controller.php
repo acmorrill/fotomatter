@@ -25,4 +25,8 @@ class ThemeCentersController extends AppController {
 		
 	}
 	
+	public function admin_configure_logo() {
+		
+	}
+	
 }

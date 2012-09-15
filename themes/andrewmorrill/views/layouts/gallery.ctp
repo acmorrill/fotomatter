@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <?php
 //	if(!isset($_SESSION)) { 
 //		session_start();	
@@ -19,7 +20,7 @@
 <html>
 	<head>
 		<title><?php echo $currGallery['displayTitle']; ?> -- Celestial Light Photography</title>
-		<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css" />
+		<?php echo $this->Element('theme_global_includes'); ?>
 		<link rel="stylesheet" type="text/css" href="/stylesheets/contentReadableBackground.css" />
 		<script src="/js/jquery-1.7.1.min.js"></script>
 <?php

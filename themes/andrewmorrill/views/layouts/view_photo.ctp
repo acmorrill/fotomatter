@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <?php //include './include.php'; //this is for the comments script?>
 <?php 
 	//require_once("php/errorHandling.php");
@@ -64,7 +65,7 @@
 <html>
 	<head>
 		<title><?php print($currImage['displayTitle']." - ".$currImage['displaySubtitle']." - ".$currGallery['displayTitle']);?></title>
-		<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css" />
+		<?php echo $this->Element('theme_global_includes'); ?>
 		<script type="text/javascript">
 		<!--
 			function pressSubmitButton() {
@@ -95,7 +96,6 @@ END;
 			}
 		-->
 		</script>
-		<script src="/js/jquery-1.7.1.min.js"></script>
 		<script type="text/javascript" src="/javascript/animatedcollapse.js">
 			/***********************************************
 			* Animated Collapsible DIV v2.2- (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
