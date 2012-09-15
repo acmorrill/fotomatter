@@ -9,13 +9,21 @@ $sqls[] = "ALTER TABLE  `site_one_level_menus` ADD  `ref_name` CHAR( 30 ) NOT NU
 $functions[] = function() {
 	$SiteOneLevelMenu = ClassRegistry::init('SiteOneLevelMenu');
 	
+	
+	
 	// add home menu item
 	$home_menu_item['SiteOneLevelMenu']['is_system'] = 1;
 	$home_menu_item['SiteOneLevelMenu']['ref_name'] = 'home';
 	$home_menu_item['SiteOneLevelMenu']['external_id'] = 0;
 	$home_menu_item['SiteOneLevelMenu']['external_model'] = 'SitePage';
 	$SiteOneLevelMenu->create();
-	if (!$SiteOneLevelMenu->save($home_menu_item) || !$SiteOneLevelMenu->moveto($SiteOneLevelMenu->id, 1)) {
+	if (!$SiteOneLevelMenu->save($home_menu_item)) {
+		return false;
+	}
+	$total_menu_items = $SiteOneLevelMenu->find('count', array(
+		'contain' => false
+	));
+	if ($total_menu_items > 1 && !$SiteOneLevelMenu->moveto($SiteOneLevelMenu->id, 1)) {
 		return false;
 	}
 	
