@@ -2,7 +2,8 @@
 class AdminsController extends AppController {
      var $name = 'Admins';
      var $uses = array();
-     public $helpers = array('Menu');
+     
+	public $helpers = array('Menu');
 
      public function  beforeFilter() {
           parent::beforeFilter();
