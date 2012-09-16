@@ -1,8 +1,6 @@
 <?php
 require_once(ROOT . '/app/tests/fototestcase.php');
 class SiteSettingTestCase extends fototestcase {
-	
-        public $include_these_tables = array('site_settings', 'server_settings', 'major_errors');
         
         function start() {
             parent::start();

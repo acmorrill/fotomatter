@@ -1,5 +1,5 @@
 <?php
-class fototestcase extends CakeTestCase {
+abstract class fototestcase extends CakeTestCase {
     
     public $tables = array();
     

@@ -2,8 +2,6 @@
 require_once(ROOT . '/app/tests/fototestcase.php');
 class DBCheckPhotoTestCase extends fototestcase {
 	
-    public $include_these_tables = array('photos');
-
     function start() {
 	parent::start();
 	require_once(ROOT . "/app/tests/model_helpers/photo.test.php");

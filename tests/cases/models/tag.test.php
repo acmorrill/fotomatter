@@ -2,8 +2,6 @@
 require_once(ROOT . '/app/tests/fototestcase.php');
 class TagSettingTestCase extends fototestcase {
 	
-    public $include_these_tables = array('photos','tags');
-    
     function start() {
 		parent::start();
                 require_once(ROOT . "/app/tests/model_helpers/tag.test.php");
