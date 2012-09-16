@@ -16,7 +16,8 @@ class AppController extends Controller {
 		'Session',
 		'Form',
 		'Util',
-		'ThemeMenu'
+		'ThemeMenu',
+		'ThemeLogo'
 	);
 	
     /**

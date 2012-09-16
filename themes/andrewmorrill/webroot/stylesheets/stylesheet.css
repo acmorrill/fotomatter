@@ -124,6 +124,7 @@ img, div, a { behavior: url(../iepngfix.htc) }
 }
 #main_nav .main_menu_item {
 	margin-right: 19px;
+	width: 109px;
 }
 #main_nav a {
 	color: #1F2020;
