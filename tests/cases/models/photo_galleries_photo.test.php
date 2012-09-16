@@ -2,8 +2,6 @@
 require_once(ROOT . '/app/tests/fototestcase.php');
 class PhotoGalleriesPhotoTestCase extends fototestcase {
 	
-	public $include_these_tables = array('photo_galleries_photos', 'tags');
-	
 	 function start() {
 		parent::start();
 		require_once(ROOT . "/app/tests/model_helpers/photo_galleries_photo.test.php");
