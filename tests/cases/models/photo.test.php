@@ -154,9 +154,22 @@ class PhotoSettingTestCase extends fototestcase {
 		$this->assertEqual(empty($me), false); 
 	}
 	
-	public function test_smaller_than_master() {
-		//$this->_give_me_this('larger_than_cache.jpg');
-		//debug($this->Photo->findById($this->Photo->id));
-	}
+	public function test_image_path_not_writeable() {
+            $this->MajorError= ClassRegistry::init("MajorError");
+            $this->MajorError->query("truncate table major_errors");
+            
+            //get permissions for temp path
+            $file_permis = fileperms(TEMP_IMAGE_PATH);
+            chmod(TEMP_IMAGE_PATH, 222);
+            
+            //add one file
+            $this->Testing->give_me_images(1);
+            
+            //make sure I have a major errors
+            $major_error_count = $this->MajorError->query("select count(*) as count from major_errors");
+            $this->assertEqual($major_error_count[0][0]['count'] == 1, true);
+            
+            chmod(TEMP_IMAGE_PATH, $file_permis);
+        }
 }
 ?>
