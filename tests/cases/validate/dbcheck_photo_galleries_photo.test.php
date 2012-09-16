@@ -1,8 +1,6 @@
 <?php
 require_once(ROOT . '/app/tests/fototestcase.php');
 class DBCheckPhotoGalleryPhotoTestCase extends fototestcase {
-    
-    public $include_these_tables = array('photos', 'photo_galleries_photos');
 	
 	 function start() {
 		parent::start();

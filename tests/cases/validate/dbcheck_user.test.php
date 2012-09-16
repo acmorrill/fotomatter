@@ -2,8 +2,6 @@
 require_once(ROOT . '/app/tests/fototestcase.php');
 class DBCheckUserTestCase extends fototestcase {
 	
-        public $include_these_tables = array('users');
-    
         function start() {
             parent::start();
             $this->User = ClassRegistry::init("User");
