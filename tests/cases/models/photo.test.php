@@ -1,10 +1,7 @@
 <?php
 require_once(ROOT . '/app/tests/fototestcase.php');
 class PhotoSettingTestCase extends fototestcase {
-	
-   public $exclude_these_tables = array("db_local_updates", "db_local_update_items", 'groups', 'groups_permissions', 'groups_users', 'hashes', 'site_one_level_menus');
  
-   
     function start() {
             parent::start();
 		require_once(ROOT . "/app/tests/model_helpers/photo.test.php");
@@ -154,22 +151,27 @@ class PhotoSettingTestCase extends fototestcase {
 		$this->assertEqual(empty($me), false); 
 	}
 	
-	public function test_image_path_not_writeable() {
-            $this->MajorError= ClassRegistry::init("MajorError");
-            $this->MajorError->query("truncate table major_errors");
-            
-            //get permissions for temp path
-            $file_permis = fileperms(TEMP_IMAGE_PATH);
-            chmod(TEMP_IMAGE_PATH, 222);
-            
-            //add one file
-            $this->Testing->give_me_images(1);
-            
-            //make sure I have a major errors
-            $major_error_count = $this->MajorError->query("select count(*) as count from major_errors");
-            $this->assertEqual($major_error_count[0][0]['count'] == 1, true);
-            
-            chmod(TEMP_IMAGE_PATH, $file_permis);
-        }
+	public function test_res_larger_than_max() {
+		/*$url = "http://c14354319.r19.cf2.rackcdn.com/large_res.jpg";
+		exec("cd ".TEMP_IMAGE_UNIT."; wget $url", $output, $result);
+		$this->assertEqual($result, 0);
+		if ($result != 0) return;
+		
+		$name = "large_res.jpg";
+		$photo_for_db['Photo']['cdn-filename']['tmp_name'] = TEMP_IMAGE_UNIT . "/$name";
+		$name = $this->Testing->create_random_string(10);
+		$photo_for_db['Photo']['cdn-filename']['name'] = $name . ".jpg";
+		$photo_for_db['Photo']['cdn-filename']['type'] = 'image/jpeg';
+		$photo_for_db['Photo']['cdn-filename']['size'] = filesize(TEMP_IMAGE_UNIT . "/larger_image.jpg");
+
+
+		$photo_for_db['Photo']['display_title'] = 'Title' . $name;
+		$photo_for_db['Photo']['display_subtitle'] = 'subtitle' . $name;
+		$photo_for_db['Photo']['alt_text'] = 'alt text ' . $name;
+		$this->Photo->create();
+                
+                $result_from_save = $this->Photo->save($photo_for_db); */
+		
+	}
 }
 ?>

@@ -1,9 +1,7 @@
 <?php
 require_once(ROOT . '/app/tests/fototestcase.php');
 class DBCheckServerSettingsTestCase extends fototestcase {
-    
-    public $include_these_tables = array('server_settings');
-    
+
     /* 
      * Test case... 
      * 1. For everyphoto if there is a cdn filename, there should be a cdn_filename for cache, pixel width, pixel height, for cache height, for cache width

@@ -2,8 +2,8 @@
 require_once(ROOT . '/app/tests/fototestcase.php');
 class DBCheckSiteSettingTestCase extends fototestcase {
 	
-        public $include_these_tables = array('site_settings', 'server_settings', 'major_errors');
-    
+	//settings: firstname lastname company_name
+	
         function start() {
             parent::start();
             $this->SiteSetting = ClassRegistry::init("SiteSetting");
