@@ -204,6 +204,7 @@ class PhotoSettingTestCase extends fototestcase {
 	    $this->Testing->give_me_images(1);
 	    
 	    $image_url = $this->Photo->get_photo_path(1, 400, 200);
+	    //file_get_contents($_SERVER['HTTP_HOST'] . )
 	    debug($image_url); 
 	    
 	}
