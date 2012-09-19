@@ -284,13 +284,13 @@
 	<script id="template-upload" type="text/x-tmpl">
 	{% for (var i=0, file; file=o.files[i]; i++) { %}
 		<tr class="template-upload fade rounded-corners">
-			<td class="preview center-middle"><span class="fade"></span></td>
+			<td class="preview middle"><span class="fade"></span></td>
 			<td class="name middle"><span class="non-image">{%=file.name%}</span></td>
 			<td class="size middle"><span class="non-image">{%=o.formatFileSize(file.size)%}</span></td>
 			{% if (file.error) { %}
 				<td class="error non-image" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
 			{% } else if (o.files.valid && !i) { %}
-				<td class="cancel non-image cancel_action center-middle">{% if (!o.options.autoUpload) { %}
+				<td class="cancel non-image cancel_action middle">{% if (!o.options.autoUpload) { %}
 					<button class="btn btn-warning cancel-upload">
 						<i class="icon-ban-circle icon-white"></i>
 						<span>{%=locale.fileupload.remove%}</span>
