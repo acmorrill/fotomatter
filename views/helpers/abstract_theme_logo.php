@@ -23,6 +23,57 @@ abstract class AbstractThemeLogoHelper extends AppHelper {
 		}
 	}
 	
+	public function get_logo_cache_size_path($height, $width) {
+		$bothEmpty = empty($height) && empty($width);
+		$onlyWidth = !empty($width) && empty($height);
+		$onlyHeight = empty($width) && !empty($height);
+		$bothSet = !empty($width) && !empty($height);
+		
+		// return the full photo path
+		if ($bothEmpty) {
+			return $dummy_image_url_path;
+		} 
+		// get a cache smaller than width
+		else if ($onlyWidth) {
+			$folder = $width;
+			$height = '';
+		} 
+		// get a cache smaller than height
+		else if ($onlyHeight) {
+			$folder = 'x'.$height;
+			$width = '';
+		} 
+		// get a cache smaller than width and height
+		else if ($bothSet) {
+			$folder = $width.'x'.$height;
+		}
+		
+		
+		
+		//$image_name, $dummy_image_path, $dummy_image_url_path, $cache_path, $url_cache_path
+		$theme_name = $this->_get_theme_name();
+		$theme_logo_base_path = $this->get_base_logo_path();
+		$theme_logo_folder_cache_path = SITE_LOGO_CACHES_PATH.DS.$theme_name;
+		$image_path = $theme_logo_folder_cache_path.DS.$folder.'_'.$theme_name.'.png';
+		$url_image_path = SITE_LOGO_CACHES_WEB_PATH.DS.$theme_name.DS.$folder.'_'.$theme_name.'.png';
+		
+		
+		if (!file_exists($image_path)) {
+			if (!is_dir($theme_logo_folder_cache_path)) {
+				mkdir($theme_logo_folder_cache_path, 0775, true);
+			}
+			chmod($theme_logo_folder_cache_path, 0775);
+			
+			$this->PhotoCache = ClassRegistry::init('PhotoCache');
+			if ($this->PhotoCache->convert($theme_logo_base_path, $image_path, $width, $height) == false) {
+				$this->PhotoCache->major_error('failed to create logo cache file for theme logo', compact('theme_name', 'theme_logo_base_path', 'image_path', 'url_image_path'));
+			}
+			chmod($image_path, 0777);
+		}
+		
+		return $url_image_path;
+	}
+	
 	
 	public function get_base_logo_web_path() {
 		// base logo file path
@@ -44,25 +95,32 @@ abstract class AbstractThemeLogoHelper extends AppHelper {
 	}
 	
 	
-	public function delete_theme_base_logo() {
-		$base_logo_file_path = $this->_get_logo_path();
+	public function delete_theme_base_logo($theme_name = null) {
+		if (!isset($theme_name)) {
+			$theme_name = $this->_get_theme_name();
+		}
 		
-		if (unlink($base_logo_file_path)) {
-			// delete cache files associated with this logo
-			$logo_cache_folder = SITE_LOGO_CACHES_PATH.DS.$this->_get_theme_name().DS;
-			if (file_exists($logo_cache_folder)) {
-				if (!unlink($logo_cache_folder)) {
-					$this->MajorError = ClassRegistry::init('MajorError');
-					$this->MajorError->major_error('Failed to delete theme cache files');
-					return false;	
+		$base_logo_file_path = $this->_get_logo_path($theme_name);
+		
+		if (file_exists($base_logo_file_path)) {
+			if (unlink($base_logo_file_path)) {
+				// delete cache files associated with this logo
+				$logo_cache_folder = SITE_LOGO_CACHES_PATH.DS.$theme_name.DS;
+				$this->MajorError = ClassRegistry::init('MajorError');
+				if (file_exists($logo_cache_folder)) {
+					if (!$this->MajorError->recursive_remove_directory($logo_cache_folder)) {
+						$this->MajorError = ClassRegistry::init('MajorError');
+						$this->MajorError->major_error('Failed to delete theme cache files', compact('theme_name'));
+						return false;	
+					}
 				}
+
+				return true;
+			} else {
+				$this->MajorError = ClassRegistry::init('MajorError');
+				$this->MajorError->major_error('Failed to delete theme base logo', compact('theme_name'));
+				return false;
 			}
-			
-			return true;
-		} else {
-			$this->MajorError = ClassRegistry::init('MajorError');
-			$this->MajorError->major_error('Failed to delete theme base logo');
-			return false;
 		}
 		
 		return true;
@@ -70,7 +128,46 @@ abstract class AbstractThemeLogoHelper extends AppHelper {
 	
 	
 	public function delete_all_theme_base_logos() {
-		// DREW TODO - finish this function
+		$this->Theme = ClassRegistry::init('Theme');
+		
+		$all_themes = $this->Theme->find('all', array(
+			'contain' => false
+		));
+		
+		// add in the default theme if its not there
+		$all_themes[] = array(
+			'Theme' => array(
+				'ref_name' => 'default'
+			)
+		);
+		
+		foreach ($all_themes as $theme) {
+			if (!$this->delete_theme_base_logo($theme['Theme']['ref_name'])) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	public function clear_expired_logo_files() {
+		$logo_caches_dir = SITE_LOGO_CACHES_PATH;
+		exec("find $logo_caches_dir -name '*.png' -depth -type f -atime +14 -delete", $output, $return_var);
+		
+		if ($return_var != 0) {
+			$this->MajorError = ClassRegistry::init('MajorError');
+			$this->MajorError->major_error('Failed to expire logo cache files', compact('logo_caches_dir'));
+		}
+		
+		
+		$logo_base_dir = SITE_LOGO_THEME_BASE_PATH;
+		exec("find $logo_base_dir -name '*.png' -depth -type f -atime +14 -delete", $output, $return_var);
+		if ($return_var != 0) {
+			$this->MajorError = ClassRegistry::init('MajorError');
+			$this->MajorError->major_error('Failed to expire logo base files', compact('logo_base_dir'));
+		}
+		
+		return true;
 	}
 
 	
@@ -92,7 +189,11 @@ abstract class AbstractThemeLogoHelper extends AppHelper {
 		return $this->SiteSetting->getVal('company_name', 'Really Amazing Photography');
 	}
 	
-	protected function _get_logo_path() {
-		return SITE_LOGO_THEME_BASE_PATH.DS.$this->_get_theme_name().'.png';
+	protected function _get_logo_path($theme_name = null) {
+		if (!isset($theme_name)) {
+			$theme_name = $this->_get_theme_name();
+		}
+		
+		return SITE_LOGO_THEME_BASE_PATH.DS.$theme_name.'.png';
 	}
 }
