@@ -2,8 +2,6 @@
 require_once(ROOT . '/app/tests/fototestcase.php');
 class ServerSettingTestCase extends fototestcase {
     
-    public $include_these_tables = array('server_settings', 'major_errors', 'users');
-
     function start() {
 	parent::start();
 	require_once(ROOT . "/app/tests/model_helpers/server_setting.test.php");

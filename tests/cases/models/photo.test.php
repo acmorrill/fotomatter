@@ -17,7 +17,7 @@ class PhotoSettingTestCase extends fototestcase {
 		$this->Testing = new TestingComponent();
     }
     
-    public function test_image_container_name() {
+  /*  public function test_image_container_name() {
                 $result = $this->helper->check_for_container_name();
                 $this->assertEqual($result, true);
                 if ($result === false) {
@@ -94,7 +94,10 @@ class PhotoSettingTestCase extends fototestcase {
 	}
 	
 	public function test_delete_image() {
+		$this->Photo->query("truncate table major_errors");
+		
 		$this->Testing->give_me_images(1);
+		
 		$this->Photo->delete($this->Photo->id);
 		
 		//nothing should have went wrong, check for no major errors
@@ -106,6 +109,8 @@ class PhotoSettingTestCase extends fototestcase {
 	}
 	
 	public function test_delete_image_rackspace_fail() {
+		$this->Photo->query("truncate table major_errors");
+	    
 		$this->Testing->give_me_images(1);
 		$this->ServerSetting = ClassRegistry::init("ServerSetting");
 		$this->ServerSetting->setVal('rackspace_api_username', 'a');
@@ -120,6 +125,8 @@ class PhotoSettingTestCase extends fototestcase {
 	}
 	
 	public function test_save_rackspace_fail() {
+		$this->Photo->query("truncate table major_errors");
+	    
 		$this->MajorError = ClassRegistry::init("MajorError");
 		$this->MajorError->setDataSource('test');
 		$mes = $this->MajorError->find('all');
@@ -150,19 +157,23 @@ class PhotoSettingTestCase extends fototestcase {
 		));
 		$this->assertEqual(empty($me), false); 
 	}
-	
+  
 	public function test_res_larger_than_max() {
-		/*$url = "http://c14354319.r19.cf2.rackcdn.com/large_res.jpg";
+		$this->_clear_errors_for_test();
+		
+		$url = "http://c14354319.r19.cf2.rackcdn.com/large_res.jpg";
 		exec("cd ".TEMP_IMAGE_UNIT."; wget $url", $output, $result);
 		$this->assertEqual($result, 0);
 		if ($result != 0) return;
 		
 		$name = "large_res.jpg";
+		
+		while ( @filesize(TEMP_IMAGE_UNIT . "/$name") != 491788 ) usleep(500000);
+		
 		$photo_for_db['Photo']['cdn-filename']['tmp_name'] = TEMP_IMAGE_UNIT . "/$name";
-		$name = $this->Testing->create_random_string(10);
-		$photo_for_db['Photo']['cdn-filename']['name'] = $name . ".jpg";
+		$photo_for_db['Photo']['cdn-filename']['name'] = $name;
 		$photo_for_db['Photo']['cdn-filename']['type'] = 'image/jpeg';
-		$photo_for_db['Photo']['cdn-filename']['size'] = filesize(TEMP_IMAGE_UNIT . "/larger_image.jpg");
+		$photo_for_db['Photo']['cdn-filename']['size'] = filesize(TEMP_IMAGE_UNIT . "/$name");
 
 
 		$photo_for_db['Photo']['display_title'] = 'Title' . $name;
@@ -170,8 +181,32 @@ class PhotoSettingTestCase extends fototestcase {
 		$photo_for_db['Photo']['alt_text'] = 'alt text ' . $name;
 		$this->Photo->create();
                 
-                $result_from_save = $this->Photo->save($photo_for_db); */
+                $result_from_save = $this->Photo->save($photo_for_db);
+		$this->assertEqual($result_from_save['Photo']['pixel_width'], 2000);
+		$this->assertEqual($result_from_save['Photo']['pixel_height'], 1250);
 		
+		//make sure we have no major errors
+		$this->_ensure_no_errors();
+		
+		//get file and ensure that it has the same dimensions listed
+		$cloud_url = ClassRegistry::init("SiteSetting")->getVal('image-container-url', false);
+		$image_sizes = getimagesize($cloud_url . $result_from_save['Photo']['cdn-filename']);
+		$this->assertEqual($image_sizes[0], 2000);
+		$this->assertEqual($image_sizes[1], 1250);
+		
+		//get rid of test file
+		unlink(TEMP_IMAGE_UNIT . "/large_res.jpg");
+	} */
+	
+	public function test_get_photo_path() {
+	    $this->_clear_errors_for_test();
+	    
+	    $this->Testing->give_me_images(1);
+	    
+	    $image_url = $this->Photo->get_photo_path(1, 400, 200);
+	    //file_get_contents($_SERVER['HTTP_HOST'] . )
+	    debug($image_url); 
+	    
 	}
 }
 ?>

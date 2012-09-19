@@ -22,5 +22,9 @@ class DBCheckSiteSettingTestCase extends fototestcase {
 	function test_ensure_correct_secure_url() {
 	    $this->assertEqual($this->helper->ensure_correct_secure_url(), true);
 	}
+	
+	function test_check_for_setting() {
+		$this->assertEqual($this->helper->check_for_start_settings(), true);
+	}
 }
 ?>
