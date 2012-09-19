@@ -12,7 +12,6 @@ class SiteSettingTestCaseHelper extends ModelHelperObj {
 	if (empty($image_container_name)) {
 	    $this->SiteSetting = ClassRegistry::init("SiteSetting");
 	    $this->_record_real_error('Warning: image-container-name does not exist.', $this->SiteSetting->find('all'), 'high');
-	    debug("Warning: image-container-name does not exist.");
 	    return false;
 	}
 	return true;
@@ -31,8 +30,29 @@ class SiteSettingTestCaseHelper extends ModelHelperObj {
 	    return true;
 	}
 	$this->_record_real_error('Warning: the cdn-uri does not match what the url should be for image-container-name', null, 'high');
-	debug('Warning: the cdn-uri does not match the save image-container-name');
 	return false;
+    }
+    
+    public function check_for_start_settings() {
+	$first_name = $this->SiteSetting->getVal('firstname', false);
+	if ($first_name === false) {
+	    $this->_record_real_error("Warning: first name of user does not exist.");
+	    return false;
+	}
+	
+	$last_name = $this->SiteSetting->getVal('lastname', false);
+	if ($last_name === false) {
+	    $this->_record_real_error("Warning: last name of user doe snot exist.");
+	    return false;
+	}
+	
+	$company_name = $this->SiteSetting->getVal('company_name', false);
+	if ($company_name === false) {
+	    $this->_record_real_error("Warning company name does not exist");
+	    return false;
+	}
+	
+	return true;
     }
     
     public function ensure_correct_secure_url() {
