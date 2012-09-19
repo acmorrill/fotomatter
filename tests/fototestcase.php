@@ -138,4 +138,13 @@ abstract class fototestcase extends CakeTestCase {
         return $res;
     }
     
+    protected function _ensure_no_errors() {
+        $this->MajorError = ClassRegistry::init("MajorError");
+        $this->assertEqual($this->MajorError->find('count'), 0);
+    }
+    
+    protected function _clear_errors_for_test() {
+        ClassRegistry::init("MajorError")->query("truncate table major_errors");
+    }
+    
 }

@@ -38,7 +38,11 @@ class SiteSettingTestCase extends fototestcase {
 	
         function test_ensure_correct_url() {    
              $this->assertEqual($this->helper->ensure_correct_url(), true);
-        }   
+        }
+	
+	function test_check_for_setting() {
+		$this->assertEqual($this->helper->check_for_start_settings(), true);
+	}
 	
 	function test_get_image_url_secure() {
             $current_url = $this->SiteSetting->query("select value from site_settings as SiteSetting where name = 'image-container-secure_url'");
