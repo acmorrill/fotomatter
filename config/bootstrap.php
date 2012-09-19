@@ -46,8 +46,11 @@ define("LOCAL_SCHEMA_PATH", ROOT.DS.APP_DIR.DS.'config'.DS.'versioning'.DS.'loca
 define("GLOBAL_SCHEMA_PATH", ROOT.DS.APP_DIR.DS.'config'.DS.'versioning'.DS.'global'.DS.'schema');   
 define("SITE_LOGO_PATH", ROOT.DS.'site_logo');
 define("SITE_LOGO_THEME_BASE_PATH", SITE_LOGO_PATH.DS.'base');
+define("SITE_LOGO_THEME_BASE_WEB_PATH", DS.'base');
 define("SITE_LOGO_UPLOAD_PATH", SITE_LOGO_PATH.DS.'uploaded');
+define("SITE_LOGO_UPLOAD_WEB_PATH", DS.'uploaded');
 define("SITE_LOGO_CACHES_PATH", SITE_LOGO_PATH.DS.'caches');
+define("SITE_LOGO_CACHES_WEB_PATH", DS.'caches');
 define("TEMP_IMAGE_PATH", ROOT.DS.'image_tmp');
 define("TEMP_IMAGE_VAULT", ROOT.DS.'image_vault');
 define("TEMP_IMAGE_UNIT", ROOT.DS.'unit_test_cache');

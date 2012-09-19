@@ -3,11 +3,6 @@ require_once(ROOT.DS.'app'.DS.'views'.DS.'helpers'.DS.'abstract_theme_logo.php')
 
 class ThemeLogoHelper extends AbstractThemeLogoHelper {
 	
-	public function get_logo_cache_size_path($height, $width) {
-		return 'blah';
-	}
-	
-
 	protected function _create_theme_base_logo($base_logo_file_path) {
 		$firstname = $this->_get_logo_firstname();
 		$lastname = $this->_get_logo_lastname();
