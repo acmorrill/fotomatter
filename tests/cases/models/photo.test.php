@@ -17,7 +17,7 @@ class PhotoSettingTestCase extends fototestcase {
 		$this->Testing = new TestingComponent();
     }
     
-  /*  public function test_image_container_name() {
+   /* public function test_image_container_name() {
                 $result = $this->helper->check_for_container_name();
                 $this->assertEqual($result, true);
                 if ($result === false) {
@@ -196,17 +196,74 @@ class PhotoSettingTestCase extends fototestcase {
 		
 		//get rid of test file
 		unlink(TEMP_IMAGE_UNIT . "/large_res.jpg");
-	} */
+	} 
 	
 	public function test_get_photo_path() {
 	    $this->_clear_errors_for_test();
 	    
 	    $this->Testing->give_me_images(1);
 	    
-	    $image_url = $this->Photo->get_photo_path(1, 110, 110);
-	    //file_get_contents($_SERVER['HTTP_HOST'] . )
-	    debug($image_url); 
+	    $image_url = $this->Photo->get_photo_path($this->Photo->id, 200, 200);
+	    $image_path = 'http://'.$_SERVER['HTTP_HOST'] . $image_url;
+	   
+	    //image should be in queue
+	    $this->PhotoCache = ClassRegistry::init("PhotoCache");
+	    $photo_cache = $this->PhotoCache->find('first', array(
+		'conditions'=>array(
+		    'PhotoCache.photo_id'=>$this->Photo->id
+		),
+		'order'=>'PhotoCache.id DESC'
+	    ));
+	    $this->assertEqual($photo_cache['PhotoCache']['status'], 'queued');
 	    
+	    $this->PhotoCache->finish_create_cache($photo_cache['PhotoCache']['id'], false);
+	    
+	    //image should now be ready
+	    $this->PhotoCache = ClassRegistry::init("PhotoCache");
+	    $photo_cache = $this->PhotoCache->find('first', array(
+		'conditions'=>array(
+		    'PhotoCache.photo_id'=>$this->Photo->id
+		),
+		'order'=>'PhotoCache.id DESC'
+	    ));
+	    $this->assertEqual($photo_cache['PhotoCache']['status'], 'ready');
+	}
+	
+	public function test_called_like_a_moron() {
+	    $this->_clear_errors_for_test();
+	    
+	    $this->Testing->give_me_images(1);
+	    
+	    $image_url = $this->Photo->get_photo_path($this->Photo->id, 0, 0);
+	    $this->MajorError = ClassRegistry::init("MajorError");
+	    $this->assertEqual($this->MajorError->find('count'), 1);
+	}
+	
+	public function test_get_dummy_error_image_path() {
+	    $this->_clear_errors_for_test();
+	    $image_path = ROOT . '/app/webroot' . $this->Photo->get_dummy_error_image_path(200, 200);
+	    $this->assertEqual(is_file($image_path), true);
+	    $this->_ensure_no_errors();
+	} */
+	
+	public function test_default_images_dont_increase_with_second_save() {
+	    $this->_clear_errors_for_test();
+	    
+	    $this->Testing->give_me_images(1);
+	    ClassRegistry::flush();
+	    $this->PhotoCache = ClassRegistry::init("PhotoCache");
+	    $cache_count = $this->PhotoCache->find('count');
+	    
+	    $photo_to_save = $this->Photo->find('first', array(
+		'order'=>'Photo.id DESC'
+	    ));
+	    $this->Photo->create();
+	    $this->Photo->save($photo_to_save); 
+	    
+	    $new_cache_count = $this->PhotoCache->find('count');
+	    $this->assertEqual($cache_count, $new_cache_count);
+	    debug(ClassRegistry::init("MajorError")->query("select * from major_errors"));
+	    $this->_ensure_no_errors();
 	}
 }
 ?>

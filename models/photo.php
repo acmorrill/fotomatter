@@ -83,14 +83,19 @@ class Photo extends AppModel {
 	public function beforeSave($options = array()) {
 		parent::beforeSave($options);
 		
+		
 		$cacheTempLocation = '';
 		$maxmegabytes = MAX_UPLOAD_SIZE_MEGS * 1024 * 1024;
 		
 		////////////////////////////////////////////////////////////////////////////////////////////
 		// if a file was uploaded then upload it to cloud files and then delete any previous file
-		if (!empty($this->data['Photo']['cdn-filename']['tmp_name'])) {
+		
+	//	$data_from_array 
+		if (is_array($this->data['Photo']['cdn-filename']) && !empty($this->data['Photo']['cdn-filename']['tmp_name'])) {
+			
 			// fail if the file is greater than max upload size
 			if (isset($this->data['Photo']['cdn-filename']['size']) && $this->data['Photo']['cdn-filename']['size'] > $maxmegabytes) {
+				$this->log("1", 'photo');
 				return false;
 			}
 			
@@ -121,6 +126,7 @@ class Photo extends AppModel {
 			
 			list($width, $height, $type, $attr) = getimagesize($this->data['Photo']['cdn-filename']['tmp_name']);
 			if ($width > FREE_MAX_RES || $height > FREE_MAX_RES) {
+				$this->log("2", 'photo');
 				if (is_writable(TEMP_IMAGE_PATH) == false) {
 					$this->major_error("the temp image path is not writable for photo before save for smaller master cache file");
 				}
@@ -146,7 +152,7 @@ class Photo extends AppModel {
 			$tmp_location = $this->data['Photo']['cdn-filename']['tmp_name'];
 			$mime_type = $this->data['Photo']['cdn-filename']['type'];
 
-			
+			$this->log("made it here", 'photo');
 			if ($this->CloudFiles->put_object($file_name, $tmp_location, $mime_type)) {
 				// file successfully uploaded - so now automatically set the photo format
 				$this->data['Photo']['photo_format_id'] = $this->PhotoFormat->get_photo_format_id($height, $width);
@@ -268,6 +274,7 @@ class Photo extends AppModel {
 				unset($this->data['Photo']['cdn-filename']);
 			}
 		} else {
+		
 			unset($this->data['Photo']['cdn-filename']);
 		}
 		
@@ -275,6 +282,8 @@ class Photo extends AppModel {
 	}
 	
 	public function afterSave($created) {
+		$this->log($this->data, 'aftersave_foto');
+		
 		//////////////////////////////////////////////////////////////////////////////////////////
 		// now create all the prebuilt cache sizes
 		if (isset($this->data['Photo']['cdn-filename-forcache']) && isset($this->data['Photo']['cdn-filename-smaller-forcache']) && isset($this->id))   {

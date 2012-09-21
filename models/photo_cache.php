@@ -180,14 +180,14 @@ class PhotoCache extends AppModel {
 		if ($direct_output && $photoCache['PhotoCache']['status'] == 'ready') {
 			$cache_full_path = $this->get_full_path($photoCache['PhotoCache']['id']);
 			
-			header('Content-Description: File Transfer');
+			//header('Content-Description: File Transfer');
 			header("Content-type: $newcache_mime");
-			header('Content-Disposition: attachment; filename='.basename($new_cache_image_path));
+			//header('Content-Disposition: attachment; filename='.basename($new_cache_image_path));
 			header('Content-Transfer-Encoding: binary');
-			header('Expires: 0');
+			//header('Expires: 0');
 			header('Cache-Control: must-revalidate');
 			header('Pragma: public');
-			header('Content-Length: ' . filesize($cache_full_path));
+			//header('Content-Length: ' . filesize($new_cache_image_path));
 			ob_clean();
 			flush();
 			readfile($new_cache_image_path);
@@ -289,11 +289,11 @@ class PhotoCache extends AppModel {
 			$newcache_mime = $newcache_size['mime'];
 			
 			if ($direct_output) {
-				header('Content-Description: File Transfer');
+				//header('Content-Description: File Transfer');
 				header("Content-type: $newcache_mime");
-				header('Content-Disposition: attachment; filename='.basename($new_cache_image_path));
+				//header('Content-Disposition: attachment; filename='.basename($new_cache_image_path));
 				header('Content-Transfer-Encoding: binary');
-				header('Expires: 0');
+				//header('Expires: 0');
 				header('Cache-Control: must-revalidate');
 				header('Pragma: public');
 				//header('Content-Length: ' . filesize($new_cache_image_path));
