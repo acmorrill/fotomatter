@@ -65,7 +65,6 @@ define('FREE_MAX_RES', 2000);
 define("USE_CACHE_SPEED", true);
 define("GLOBAL_TTF_FONT_PATH", ROOT.DS.APP_DIR.DS.'webroot'.DS.'fonts');
 
-
 App::import('Model', 'SiteSetting');
 App::import('Model', 'Theme');
 $SiteSetting = new SiteSetting();
