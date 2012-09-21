@@ -4,10 +4,11 @@
 	<?php echo $this->Element('admin/sub_submenu', array( 
 		'tabs' => array(
 			'Choose Logo' => 'admin/theme_center/configure_logo/logo_upload',
-			'Logo Dimensions in Theme' => 'admin/theme_center/configure_logo/theme_logo_position',
-			'Logo Position in Theme' => 'admin/theme_center/configure_logo/theme_logo_size'
+			'Logo Dimensions in Theme' => 'admin/theme_center/configure_logo/theme_logo_size',
+			'Logo Position in Theme' => 'admin/theme_center/configure_logo/theme_logo_position'
 		),
-		'width' => 770
+		'width' => 770,
+		'lighter' => true
 	)); ?>
 	
 	

@@ -1,7 +1,7 @@
 <?php
 class ThemeCentersController extends AppController {
     public $name = 'ThemeCenters';
-	public $uses = array();
+	public $uses = array('ThemeGlobalSetting');
 	public $helpers = array(
 		'Page',
 		'Gallery',
@@ -27,6 +27,28 @@ class ThemeCentersController extends AppController {
 	
 	public function admin_configure_logo() {
 		
+	}
+	
+	public function admin_ajax_get_logo_webpath_and_save_dimension($height, $width) {
+		App::import('Helper', 'ThemeLogo'); 
+        $ThemeLogo = new ThemeLogoHelper();
+		
+		$returnArr = array();
+		
+		$logo_path = $ThemeLogo->get_logo_cache_size_path($height, $width);
+		if ($logo_path !== false) {
+			$this->ThemeGlobalSetting->setVal('logo_current_height', $height);
+			$this->ThemeGlobalSetting->setVal('logo_current_width', $width);
+			
+			$returnArr['code'] = 1;
+			$returnArr['logo_path'] = $logo_path;
+		} else {
+			$this->major_error('failed to get the logo cache size via ajax');
+			$returnArr['code'] = -1;
+		}
+		
+		
+		$this->return_json($returnArr);
 	}
 	
 }

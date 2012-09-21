@@ -74,11 +74,12 @@ input, textarea, select, option {
 }
 label {
 	font-weight: bold;
-	display: block;
 	margin: 0;
 	padding: 0 0 6px 0;
 	font-family: 'Lucida Grande', 'Trebuchet MS','Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif;
+	margin-right: 4px;
 }
+label:after { content: ": " }
 .table { display: table; width: 100%; height: 100%; }
 .tr { display: table-row; }
 .td { 
@@ -210,7 +211,6 @@ h1 {
 /**************************************************
 	Mini Types
 **************************************************/
-.generic_sort_and_filters { background-color: #363636; padding: 15px; border: 1px solid #171717; color: #999999; height: 60px; position: relative; }
 .empty_help_content a {
 	color: #404040;
 }
@@ -282,7 +282,7 @@ h1 {
 	filter: Alpha(Opacity=100) !important;
 }
 .content-background {
-	background-color: #222 !important;
+	background-color: #222;
 	border-top: 1px solid #222;
 }
 .medium_message_box {
@@ -622,6 +622,9 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 	overflow-x: hidden;
 	overflow-y: auto;
 }
+.generic_sort_and_filters {  padding: 15px; border: 1px solid #171717; color: #999999; height: 60px; position: relative; }
+.generic_sort_and_filters.lighter { color: white; width: 100%; height: 100%; outline: 0px; border: 0px; padding: 0px; }
+.generic_sort_and_filters, .generic_sort_and_filters.lighter, .lighter-content-background { background-color: #363636; padding: 20px; }
 /*****end generic block styles ****/
 /***********************************************************************************************************************
 ************************************************************************************************************************

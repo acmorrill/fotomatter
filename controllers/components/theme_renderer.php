@@ -9,13 +9,13 @@ class ThemeRendererComponent extends Object {
 		$this->controller = $controller;
 		
 		$theme_config = $this->_process_theme_config();
+		$this->controller->set(compact('theme_config'));
 		
 		// check to see if current action needs to have theme rendering done to it
 		if (isset($theme_config['theme_controller_action_layouts'][$this->controller->name][$this->controller->action])) {
 			$this->controller->layout = $theme_config['theme_controller_action_layouts'][$this->controller->name][$this->controller->action];
 			
 			$this->controller->theme_config = $theme_config;
-			$this->controller->set(compact('theme_config'));
 		}
 	}
 	
@@ -25,10 +25,10 @@ class ThemeRendererComponent extends Object {
 	public function beforeRedirect(&$controller, $url, $status=null, $exit) {}
 	
 	/**
-	 * function read the default theme config and the current theme config - 
+	 * public function read the default theme config and the current theme config - 
 	 * --- then merge the configs and set view vars 
 	 */
-	private function _process_theme_config() {
+	public function _process_theme_config() {
 		if (!isset($this->merged_theme_config)) {
 			$default_theme_config = array();
 			require_once(DEFAULT_THEME_PATH.DS.'theme_config.php');
@@ -50,8 +50,7 @@ class ThemeRendererComponent extends Object {
 			// merge with global theme settings
 			$this->merged_theme_config = $this->_merge_arrays($default_theme_config, $current_theme_config);
 		}
-		
-		
+
 		return $this->merged_theme_config;
 	}
 	
