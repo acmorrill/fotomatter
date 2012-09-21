@@ -56,6 +56,13 @@ class PhotosController extends AppController {
 			$upload_data['type'] = $this->params['form']['files']['type'][0];
 			$upload_data['size'] = $this->params['form']['files']['size'][0];
 			
+			if ($this->params['form']['files']['error'][0]) {
+				$this->Photo->major_error('Photo failed to upload, probably due to apache limits', 'high', $this->params['form']);
+				$returnArr['code'] = -1;
+				$returnArr['message'] = 'admin_process_mass_photos';
+				$this->return_json($returnArr);
+			}
+			
 			$photo_for_db['Photo']['cdn-filename'] = $upload_data;
 			$photo_for_db['Photo']['display_title'] = $this->params['form']['files']['name'][0];
 			if (empty($tag_result) === false) {
