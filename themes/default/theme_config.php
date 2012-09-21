@@ -23,6 +23,10 @@ $theme_config = array(
 			'available_space' => array(
 				'width' => 400,
 				'height' => 200
+			),
+			'default_space' => array(
+				'width' => 300,
+				'height' => 150
 			)
 		)
 	)

@@ -17,7 +17,8 @@ class AppController extends Controller {
 		'Form',
 		'Util',
 		'ThemeMenu',
-		'ThemeLogo'
+		'ThemeLogo',
+		'Theme'
 	);
 	
     /**
@@ -170,6 +171,11 @@ class AppController extends Controller {
 	public function return_json($data) {
 		echo json_encode($data);
 		exit();
+	}
+	
+	public function major_error($description, $extra_data = null, $severity = 'normal') {
+		$this->MajorError = ClassRegistry::init("MajorError");
+		$this->MajorError->major_error($description, $extra_data = null, $severity = 'normal');
 	}
 	
 	
