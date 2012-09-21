@@ -105,8 +105,6 @@ class PhotoCache extends AppModel {
 			if ($this->convert($dummy_image_path, $image_path, $width, $height) == false) {
 				$this->major_error('failed to create dummy image cache in get_dummy_image_path', array($dummy_image_path, $image_path, $width, $height));
 			}
-			/*$imageMagickCommand = 'convert '.escapeshellarg($dummy_image_path).' -resize '.$folder.' '.escapeshellarg($image_path).' ';
-			shell_exec($imageMagickCommand);*/
 		}
 		
 		if ($direct_output == false) {
