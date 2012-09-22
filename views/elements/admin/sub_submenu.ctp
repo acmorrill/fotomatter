@@ -10,8 +10,13 @@
 	.sub_submenu_cont {
 		
 	}
-	.sub_submenu_cont .sub_submenu_left_cont, .sub_submenu_cont .sub_submenu_right_cont {
+	.sub_submenu_cont .sub_submenu_left_cont, .sub_submenu_cont .sub_submenu_right_cont, .sub_submenu_cont .sub_submenu_far_right_cont {
 		float: left;
+	}
+	.sub_submenu_cont .sub_submenu_far_right_cont {
+		width: 230px;
+		min-height: 100px;
+		margin-left: 20px;
 	}
 	.sub_submenu_cont .sub_submenu_left_cont {
 		width: 50px;
@@ -82,6 +87,11 @@
 			</div>
 		<?php $count++; endforeach; ?>
 	</div>
+	<?php if (isset($right_side_content)): ?>
+		<div class="sub_submenu_far_right_cont">
+			<?php echo $this->Element($right_side_content); ?>
+		</div>
+	<?php endif; ?>
 </div>
 <div class="clear"></div>
 

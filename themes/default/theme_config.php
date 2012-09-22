@@ -24,6 +24,10 @@ $theme_config = array(
 				'width' => 400,
 				'height' => 200
 			),
+			'available_space_screenshot' => array(
+				'absolute_path' => 	'',
+				'web_path' => ''
+			),
 			'default_space' => array(
 				'width' => 300,
 				'height' => 150

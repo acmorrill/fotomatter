@@ -29,7 +29,7 @@ class ThemeCentersController extends AppController {
 		
 	}
 	
-	public function admin_ajax_get_logo_webpath_and_save_dimension($height, $width) {
+	public function admin_ajax_get_logo_webpath_and_save_dimension($height, $width, $top, $left) {
 		App::import('Helper', 'ThemeLogo'); 
         $ThemeLogo = new ThemeLogoHelper();
 		
@@ -39,6 +39,8 @@ class ThemeCentersController extends AppController {
 		if ($logo_path !== false) {
 			$this->ThemeGlobalSetting->setVal('logo_current_height', $height);
 			$this->ThemeGlobalSetting->setVal('logo_current_width', $width);
+			$this->ThemeGlobalSetting->setVal('logo_current_top', $top);
+			$this->ThemeGlobalSetting->setVal('logo_current_left', $left);
 			
 			$returnArr['code'] = 1;
 			$returnArr['logo_path'] = $logo_path;
