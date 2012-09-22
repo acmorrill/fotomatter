@@ -1,0 +1,1 @@
+<a target="_blank" href="/"><?php __('View Logo On Your Site'); ?></a>

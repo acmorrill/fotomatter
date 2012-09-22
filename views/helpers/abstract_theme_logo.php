@@ -23,7 +23,7 @@ abstract class AbstractThemeLogoHelper extends AppHelper {
 		}
 	}
 	
-	public function get_logo_cache_size_path($height, $width) {
+	public function get_logo_cache_size_path($height, $width, $abs_path = false) {
 		$bothEmpty = empty($height) && empty($width);
 		$onlyWidth = !empty($width) && empty($height);
 		$onlyHeight = empty($width) && !empty($height);
@@ -71,7 +71,11 @@ abstract class AbstractThemeLogoHelper extends AppHelper {
 			chmod($image_path, 0777);
 		}
 		
-		return $url_image_path;
+		if ($abs_path) {
+			return $image_path;
+		} else {
+			return $url_image_path;
+		}
 	}
 	
 	
