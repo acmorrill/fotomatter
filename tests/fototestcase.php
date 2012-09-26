@@ -147,4 +147,13 @@ abstract class fototestcase extends CakeTestCase {
         ClassRegistry::init("MajorError")->query("truncate table major_errors");
     }
     
+    protected function _run_validate_functions($helper_object) {
+        $all_class_functions = get_class_methods($helper_object);
+        foreach ($all_class_functions as $function) {
+           if (strpos($function, 'validate_') === 0) {
+               $helper_object->$function();
+           }
+        }
+    }
+    
 }

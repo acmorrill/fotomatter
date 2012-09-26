@@ -17,7 +17,7 @@ class PhotoSettingTestCase extends fototestcase {
 		$this->Testing = new TestingComponent();
     }
     
-   /* public function test_image_container_name() {
+    public function test_image_container_name() {
                 $result = $this->helper->check_for_container_name();
                 $this->assertEqual($result, true);
                 if ($result === false) {
@@ -244,7 +244,7 @@ class PhotoSettingTestCase extends fototestcase {
 	    $image_path = ROOT . '/app/webroot' . $this->Photo->get_dummy_error_image_path(200, 200);
 	    $this->assertEqual(is_file($image_path), true);
 	    $this->_ensure_no_errors();
-	} */
+	} 
 	
 	public function test_default_images_dont_increase_with_second_save() {
 	    $this->_clear_errors_for_test();
@@ -262,8 +262,111 @@ class PhotoSettingTestCase extends fototestcase {
 	    
 	    $new_cache_count = $this->PhotoCache->find('count');
 	    $this->assertEqual($cache_count, $new_cache_count);
-	    debug(ClassRegistry::init("MajorError")->query("select * from major_errors"));
 	    $this->_ensure_no_errors();
-	}
+	} 
+    
+        public function test_no_image_attached_to_photo_requested_cache() {
+            $this->_clear_errors_for_test();
+            
+            $photo_for_db = array();
+
+            $file_name = 'testimage';
+            $photo_for_db['Photo']['cdn-filename'] = $file_name . '.jpg';
+            $photo_for_db['Photo']['display_title'] = 'Title' . $file_name;
+            $photo_for_db['Photo']['display_subtitle'] = 'subtitle' . $file_name;
+            $photo_for_db['Photo']['alt_text'] = 'alt text ' . $file_name;
+            
+            $this->Photo->create();
+            $this->Photo->save($photo_for_db);
+            
+            $dummy_image_path = $this->Photo->get_dummy_error_image_path(200,200);
+            $would_be_cache = $this->Photo->get_photo_path($this->Photo->id, 200, 200);
+            $this->assertEqual($dummy_image_path, $would_be_cache);
+        }
+    
+        public function test_grab_cache_when_ready() {
+            $this->_clear_errors_for_test();
+            $this->Testing->give_me_images(1);
+            
+            $newest_photo = $this->Photo->find('first', array(
+                'order'=>'Photo.id DESC'
+            ));
+            $image_cache = $this->Photo->get_photo_path($newest_photo['Photo']['id'], 220, 220);
+            
+            $this->PhotoCache = ClassRegistry::init("PhotoCache");
+            $last_cache = $this->PhotoCache->find("first", array(
+                'order'=>"PhotoCache.id DESC"
+            ));
+            $this->PhotoCache->finish_create_cache($last_cache['PhotoCache']['id'], false);
+            sleep(2); //really is no reason for this, just to simulate the passage of time between a first and second image request
+            
+            $last_cache = $this->PhotoCache->find("first", array(
+                'order'=>"PhotoCache.id DESC"
+            ));
+            
+            $second_image_cache = $this->Photo->get_photo_path($newest_photo['Photo']['id'], 220, 220);
+            $image_arguments = getimagesize($second_image_cache);
+            $this->assertEqual($last_cache['PhotoCache']['pixel_height'], $image_arguments[1]);
+            $this->assertEqual($last_cache['PhotoCache']['pixel_width'], $image_arguments[0]);
+            $this->assertEqual($last_cache['PhotoCache']['status'], 'ready');
+            
+           $this->_ensure_no_errors();
+        }  
+    
+        public function test_grab_cache_two_times_without_finish_create_cache() {
+            $this->_clear_errors_for_test();
+            $this->Testing->give_me_images(1);
+            
+            $newest_photo = $this->Photo->find('first', array(
+                'order'=>"Photo.id DESC"
+            ));
+            
+            //called the first time
+            $this->Photo->get_photo_path($newest_photo['Photo']['id'], 220, 220);
+            
+            //called second time without calling finish_create_cache, so maybe it happens in the same request
+            $this->Photo->get_photo_path($newest_photo['Photo']['id'], 220, 220);
+            
+            //now finish cache
+            $this->PhotoCache = ClassRegistry::init("PhotoCache");
+            $last_cache = $this->PhotoCache->find("first", array(
+                'order'=>"PhotoCache.id DESC"
+            ));
+            $this->PhotoCache->finish_create_cache($last_cache['PhotoCache']['id'], false);
+            
+            
+            $url = $this->Photo->get_photo_path($newest_photo['Photo']['id'], 220, 220);
+
+            //ensure that it works
+            $image_args = getimagesize($url);
+            
+            
+            $last_cache = $this->PhotoCache->find("first", array(
+                'order'=>"PhotoCache.id DESC"
+            ));
+            $this->assertEqual($last_cache['PhotoCache']['pixel_height'], $image_args[1]);
+            $this->assertEqual($last_cache['PhotoCache']['pixel_width'], $image_args[0]);
+            $this->assertEqual($image_args['mime'], 'image/jpeg');
+            $this->assertEqual($last_cache['PhotoCache']['status'], 'ready');
+            $this->_ensure_no_errors();
+                        
+        } 
+        
+        public function test_get_full_path() {
+            $this->_clear_errors_for_test();
+            $this->Testing->give_me_images(1);
+            $newest_photo = $this->Photo->find('first', array(
+                'order'=>"Photo.id DESC"
+            ));
+            
+            $url = $this->Photo->get_full_path($newest_photo['Photo']['id']);
+            $image_args = getimagesize($url);
+            $this->assertEqual($image_args['mime'], 'image/jpeg');
+            $this->assertEqual($image_args[0], $newest_photo['Photo']['pixel_width']);
+            $this->assertEqual($image_args[1], $newest_photo['Photo']['pixel_height']);
+                        
+            $this->_ensure_no_errors();
+        }
+        
 }
 ?>
