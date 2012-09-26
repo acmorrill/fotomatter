@@ -5,14 +5,19 @@ abstract class AbstractThemeLogoHelper extends AppHelper {
 	abstract protected function _create_theme_base_logo($base_logo_file_path);
 	
 
-	public function get_base_logo_path() {
+	public function get_base_logo_path($use_theme_logo = true) {
 		// base logo file path
-		$base_logo_file_path = $this->_get_logo_path();
+		if ($use_theme_logo) {
+			$base_logo_file_path = $this->_get_logo_path();
+		} else {
+			$base_logo_file_path = UPLOADED_LOGO_PATH;
+		}
 		
 		// check to see if the logo is already created
+		// DREW TODO - clean up the code below a bit
 		if (file_exists($base_logo_file_path)) {
 			return $base_logo_file_path;
-		} else {
+		} else if ($use_theme_logo) {
 			if ($this->_create_theme_base_logo($base_logo_file_path)) {
 				return $base_logo_file_path;
 			} else {
@@ -20,10 +25,12 @@ abstract class AbstractThemeLogoHelper extends AppHelper {
 				$this->MajorError->major_error('Failed to create a theme base logo', compact('base_logo_file_path'));
 				return false;
 			}
+		} else {
+			return $base_logo_file_path;
 		}
 	}
 	
-	public function get_logo_cache_size_path($height, $width, $abs_path = false) {
+	public function get_logo_cache_size_path($height, $width, $abs_path = false, $use_theme_logo = true) {
 		$bothEmpty = empty($height) && empty($width);
 		$onlyWidth = !empty($width) && empty($height);
 		$onlyHeight = empty($width) && !empty($height);
@@ -49,10 +56,12 @@ abstract class AbstractThemeLogoHelper extends AppHelper {
 		}
 		
 		
-		
-		//$image_name, $dummy_image_path, $dummy_image_url_path, $cache_path, $url_cache_path
-		$theme_name = $this->_get_theme_name();
-		$theme_logo_base_path = $this->get_base_logo_path();
+		if ($use_theme_logo) {
+			$theme_name = $this->_get_theme_name();
+		} else {
+			$theme_name = 'uploaded';
+		}
+		$theme_logo_base_path = $this->get_base_logo_path($use_theme_logo);
 		$theme_logo_folder_cache_path = SITE_LOGO_CACHES_PATH.DS.$theme_name;
 		$image_path = $theme_logo_folder_cache_path.DS.$folder.'_'.$theme_name.'.png';
 		$url_image_path = SITE_LOGO_CACHES_WEB_PATH.DS.$theme_name.DS.$folder.'_'.$theme_name.'.png';
@@ -65,6 +74,7 @@ abstract class AbstractThemeLogoHelper extends AppHelper {
 			chmod($theme_logo_folder_cache_path, 0775);
 			
 			$this->PhotoCache = ClassRegistry::init('PhotoCache');
+			// DREW TODO - maybe make sure that this convert uses high quality and has smoothing/sharpening
 			if ($this->PhotoCache->convert($theme_logo_base_path, $image_path, $width, $height) == false) {
 				$this->PhotoCache->major_error('failed to create logo cache file for theme logo', compact('theme_name', 'theme_logo_base_path', 'image_path', 'url_image_path'));
 			}

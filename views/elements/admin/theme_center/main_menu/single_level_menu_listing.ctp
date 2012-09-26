@@ -115,7 +115,6 @@
 						url: '/admin/site_menus/add_one_level_menu_item/PhotoGallery/'+photo_gallery_id+'/',
 						data: {},
 						success: function(data) {
-							console.log (data);
 							if (data.code == 1) {
 								var new_menu_item = jQuery(data.new_menu_item_html);
 								setup_one_level_menu_item_delete(new_menu_item);
