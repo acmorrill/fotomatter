@@ -1,5 +1,6 @@
 <?php
 
+// config for theme: default
 
 $theme_config = array(
 	'theme_controller_action_layouts' => array(
@@ -26,7 +27,13 @@ $theme_config = array(
 			),
 			'available_space_screenshot' => array(
 				'absolute_path' => 	'',
-				'web_path' => ''
+				'web_path' => '',
+				'padding' => array(
+					'left' => 0,
+					'top' => 0,
+					'right' => 0,
+					'bottom' => 0
+				)
 			),
 			'default_space' => array(
 				'width' => 300,

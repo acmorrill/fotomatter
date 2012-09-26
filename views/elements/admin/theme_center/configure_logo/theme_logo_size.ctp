@@ -2,16 +2,19 @@
 	
 	<?php //debug($theme_config); ?>
 	<?php 
-		$logo_max_width = isset($theme_config['admin_config']['logo_config']['available_space']['width']) ? $theme_config['admin_config']['logo_config']['available_space']['width'] : 400;
-		$logo_max_height = isset($theme_config['admin_config']['logo_config']['available_space']['height']) ? $theme_config['admin_config']['logo_config']['available_space']['height'] : 200;
+		$logo_max_width = $logo_context_width = isset($theme_config['admin_config']['logo_config']['available_space']['width']) ? $theme_config['admin_config']['logo_config']['available_space']['width'] : 400;
+		$logo_max_height = $logo_context_height = isset($theme_config['admin_config']['logo_config']['available_space']['height']) ? $theme_config['admin_config']['logo_config']['available_space']['height'] : 200;
 		
 		$avail_space_screenshot_web_path = '';
+		$padding = isset($theme_config['admin_config']['logo_config']['available_space_screenshot']['padding']) ? $theme_config['admin_config']['logo_config']['available_space_screenshot']['padding'] : '0px';
 		if (!empty($theme_config['admin_config']['logo_config']['available_space_screenshot'])) {
 			$avail_space_screenshot_web_path = $theme_config['admin_config']['logo_config']['available_space_screenshot']['web_path'];
 			$avail_space_screenshot_path = $theme_config['admin_config']['logo_config']['available_space_screenshot']['absolute_path'];
 			$avail_space_screenshot_size = getimagesize($avail_space_screenshot_path);
-			$logo_max_width = $avail_space_screenshot_size[0];
-			$logo_max_height = $avail_space_screenshot_size[1];
+			$logo_context_width = $avail_space_screenshot_size[0];
+			$logo_context_height = $avail_space_screenshot_size[1];
+			$logo_max_width = $avail_space_screenshot_size[0] - $padding['left'] - $padding['right'];
+			$logo_max_height = $avail_space_screenshot_size[1] - $padding['top'] - $padding['bottom'];
 		}
 		
 		
@@ -23,12 +26,12 @@
 		$use_logo_width = min($logo_current_width, $logo_max_width);
 		$use_logo_height = min($logo_current_height, $logo_max_height);
 		
-		
-		$start_logo_path = $this->ThemeLogo->get_logo_cache_size_path($use_logo_height, $use_logo_width, true);
+		$use_theme_logo = $this->Theme->get_theme_setting('use_theme_logo', true);
+		$start_logo_path = $this->ThemeLogo->get_logo_cache_size_path($use_logo_height, $use_logo_width, true, $use_theme_logo);
 		$image_size = getimagesize($start_logo_path);
 		$use_logo_width = $image_size[0];
 		$use_logo_height = $image_size[1];
-		$start_logo_web_path = $this->ThemeLogo->get_logo_cache_size_path($use_logo_height, $use_logo_width);
+		$start_logo_web_path = $this->ThemeLogo->get_logo_cache_size_path($use_logo_height, $use_logo_width, false, $use_theme_logo);
 		
 		$logo_current_top = $this->Theme->get_theme_setting('logo_current_top', 0);
 		$logo_current_left = $this->Theme->get_theme_setting('logo_current_left', 0);
@@ -45,10 +48,18 @@
 	<?php // DREW TODO - put the below into admin.css ?>
 	<style type="text/css">
 		.logo_size_change_palette {
-			border: 5px solid white;
+			outline: 3px solid #00AEFF;
 			position: relative;
 			margin-bottom: 15px;
-			background: #222;
+			position: absolute;
+		}
+		.logo_context_bg_darken {
+			background-color: black; opacity:0.35; filter:alpha(opacity=35); position: absolute; top: 0px; left: 0px;
+		}
+		.logo_context_image_cont {
+			background-color: #222;
+			border: 1px solid transparent;
+			position: relative;
 		}
 		.logo_size_change_palette img {}
 		.palette_top_legend, .palette_right_legend {
@@ -64,7 +75,7 @@
 		}
 		.palette_top_legend {
 			width: 100%;
-			top: -30px;
+			top: -34px;
 		}
 		.palette_right_legend {
 			writing-mode:tb-rl;
@@ -144,9 +155,12 @@
 		<div class="palette_right_legend">
 			<?php __('Theme Max Height'); ?>
 		</div>
-		<div class="logo_size_change_palette" style="width: <?php echo $logo_max_width; ?>px; height: <?php echo $logo_max_height; ?>px; <?php if (!empty($avail_space_screenshot_web_path)): ?>background: url('<?php echo $avail_space_screenshot_web_path; ?>') top left no-repeat;<?php endif; ?>">
-			<div id="logo_size_change_palette" style="width: <?php echo $use_logo_width; ?>px; height: <?php echo $use_logo_height; ?>px; top: <?php echo $logo_current_top; ?>px; left: <?php echo $logo_current_left; ?>px; outline: 1px solid #333; display: inline-block; cursor: move;">
-				<img class="logo_size_image" src="<?php echo $start_logo_web_path; ?>" />
+		<div class="logo_context_image_cont" style="<?php if (!empty($avail_space_screenshot_web_path)): ?> background: url('<?php echo $avail_space_screenshot_web_path; ?>') top left no-repeat; <?php endif; ?> width: <?php echo $logo_context_width; ?>px; height: <?php echo $logo_context_height; ?>px;">
+			<div class="logo_context_bg_darken" style="width: <?php echo $logo_context_width; ?>px; height: <?php echo $logo_context_height; ?>px;"></div>
+			<div class="logo_size_change_palette" style="left: <?php echo $padding['left']; ?>px; top: <?php echo $padding['top']; ?>px; width: <?php echo $logo_max_width; ?>px; height: <?php echo $logo_max_height; ?>px; <?php if (!empty($avail_space_screenshot_web_path)): ?> background: url('<?php echo $avail_space_screenshot_web_path; ?>') -<?php echo $padding['left']; ?>px -<?php echo $padding['top']; ?>px no-repeat; <?php endif; ?>">
+				<div id="logo_size_change_palette" style="width: <?php echo $use_logo_width; ?>px; height: <?php echo $use_logo_height; ?>px; top: <?php echo $logo_current_top; ?>px; left: <?php echo $logo_current_left; ?>px; outline: 1px solid #333; display: inline-block; cursor: move;">
+					<img class="logo_size_image" src="<?php echo $start_logo_web_path; ?>" />
+				</div>
 			</div>
 		</div>
 	</div>
