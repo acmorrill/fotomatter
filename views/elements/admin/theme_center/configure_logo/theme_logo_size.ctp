@@ -125,10 +125,6 @@
 		
 		
 		jQuery(document).ready(function() {
-			jQuery('#current_logo_width, #current_logo_height').change(function() {
-				reload_size_change_logo();
-			});
-			
 			jQuery('#logo_size_change_palette').resizable({
 				aspectRatio: true,
 				containment: "parent",

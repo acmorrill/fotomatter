@@ -35,7 +35,8 @@ class ThemeCentersController extends AppController {
 		
 		$returnArr = array();
 		
-		$logo_path = $ThemeLogo->get_logo_cache_size_path($height, $width);
+		$use_theme_logo = $this->ThemeGlobalSetting->getVal('use_theme_logo', true);
+		$logo_path = $ThemeLogo->get_logo_cache_size_path($height, $width, false, $use_theme_logo);
 		if ($logo_path !== false) {
 			$this->ThemeGlobalSetting->setVal('logo_current_height', $height);
 			$this->ThemeGlobalSetting->setVal('logo_current_width', $width);
