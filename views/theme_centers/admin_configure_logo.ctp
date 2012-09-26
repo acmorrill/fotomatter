@@ -59,6 +59,7 @@
 			width: 150px;
 			height: 80px;
 			display: inline-block;
+			vertical-align: middle;
 			text-align: center;
 			border: 1px solid black;
 			background: #333;
@@ -72,8 +73,8 @@
 		<?php $theme_logo_cache_path = $this->ThemeLogo->get_logo_cache_size_path(80, 150); ?>
 		<?php $theme_uploaded_logo_cache_path = $this->ThemeLogo->get_logo_cache_size_path(80, 150, false, false); ?>
 		<form id="choose_logo_form" method="POST" action="/admin/theme_centers/set_use_theme_logo/">
-			<input type="radio" name="change_logo_choice" value="theme_logo" <?php if ($use_theme_logo): ?>checked="checked"<?php endif; ?> /><span><?php __('Theme Logo'); ?><span class="cache_sample_image_cont"><img src="<?php echo $theme_logo_cache_path; ?>" /></span></span><br/>
-			<input type="radio" name="change_logo_choice" value="custom_logo" <?php if (!$use_theme_logo): ?>checked="checked"<?php endif; ?> /><span><?php __('Previously Uploaded Logo'); ?><span class="cache_sample_image_cont"><img src="<?php echo $theme_uploaded_logo_cache_path; ?>" /></span></span>
+			<input type="radio" name="change_logo_choice" value="theme_logo" <?php if ($use_theme_logo): ?>checked="checked"<?php endif; ?> /><span class="cache_sample_image_cont"><img src="<?php echo $theme_logo_cache_path; ?>" /></span>
+			<input type="radio" name="change_logo_choice" value="custom_logo" <?php if (!$use_theme_logo): ?>checked="checked"<?php endif; ?> /><span class="cache_sample_image_cont"><img src="<?php echo $theme_uploaded_logo_cache_path; ?>" /></span>
 		</form>
 		<form id="upload_logo_file_form" method="POST" action="/admin/theme_centers/upload_logo_file/" enctype="multipart/form-data">
 			<input style="display: none;" id="hidden_logo_file_chooser" name="hidden_logo_file_chooser" type="file" accept="image/png" />
