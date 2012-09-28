@@ -75,9 +75,13 @@ class ThemeCentersController extends AppController {
 				}
 				
 				if(move_uploaded_file($upload_data['tmp_name'], UPLOADED_LOGO_PATH)) {
+					chmod(UPLOADED_LOGO_PATH, 0776);
+					
 					// clear all uploaded cache files
 					$logo_caches_dir = SITE_LOGO_CACHES_PATH;
-					exec("find $logo_caches_dir -name '*_uploaded.png' -depth -type f -delete", $output, $return_var);
+					$exec_command = "find $logo_caches_dir -name '*_uploaded.png' -depth -type f -delete";
+					exec($exec_command, $output, $return_var);
+					$this->log($exec_command, 'delete_cache');
 					if ($return_var != 0) {
 						$this->major_error('Failed to delete logo uploaded cache files', compact('logo_caches_dir'));
 					}
@@ -97,7 +101,6 @@ class ThemeCentersController extends AppController {
 		}
 		
 		$this->redirect('/admin/theme_centers/configure_logo/');
-		exit();
 	}
 	
 	public function admin_set_use_theme_logo() {

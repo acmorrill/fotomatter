@@ -78,7 +78,7 @@ abstract class AbstractThemeLogoHelper extends AppHelper {
 			if ($this->PhotoCache->convert($theme_logo_base_path, $image_path, $width, $height) == false) {
 				$this->PhotoCache->major_error('failed to create logo cache file for theme logo', compact('theme_name', 'theme_logo_base_path', 'image_path', 'url_image_path'));
 			}
-			chmod($image_path, 0777);
+			chmod($image_path, 0776);
 		}
 		
 		if ($abs_path) {
@@ -86,6 +86,10 @@ abstract class AbstractThemeLogoHelper extends AppHelper {
 		} else {
 			return $url_image_path;
 		}
+	}
+	
+	public function has_uploaded_custom_logo() {
+		return file_exists(UPLOADED_LOGO_PATH);
 	}
 	
 	
