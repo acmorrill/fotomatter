@@ -48,6 +48,7 @@ define("SITE_LOGO_PATH", ROOT.DS.'site_logo');
 define("SITE_LOGO_THEME_BASE_PATH", SITE_LOGO_PATH.DS.'base');
 define("SITE_LOGO_THEME_BASE_WEB_PATH", DS.'base');
 define("SITE_LOGO_UPLOAD_PATH", SITE_LOGO_PATH.DS.'uploaded');
+define("UPLOADED_LOGO_PATH", SITE_LOGO_UPLOAD_PATH.DS.'base_uploaded_logo.png');
 define("SITE_LOGO_UPLOAD_WEB_PATH", DS.'uploaded');
 define("SITE_LOGO_CACHES_PATH", SITE_LOGO_PATH.DS.'caches');
 define("SITE_LOGO_CACHES_WEB_PATH", DS.'caches');
