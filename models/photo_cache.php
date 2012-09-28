@@ -271,7 +271,7 @@ class PhotoCache extends AppModel {
 			
 			$cache_image_name = $cache_prefix.$max_height_display.'x'.$max_width_display.'_'.$photoCache['Photo']['cdn-filename'];
 			$new_cache_image_path = TEMP_IMAGE_PATH.DS.$cache_image_name;
-
+                        
 			
 			if ($this->convert($large_image_url, $new_cache_image_path, $max_width, $max_height) == false) {
 				$this->major_error('failed to create new cache file in finish_create_cache', array($large_image_url, $new_cache_image_path, $max_width, $max_height));
@@ -396,6 +396,10 @@ class PhotoCache extends AppModel {
 		$info['output'] = array();
 		$info['return_var'] = 0;
 		exec($imageMagickCommand, $info['output'], $info['return_var']);
+                
+                if (is_file($new_image_path) == false) {
+                    $this->major_error("new image file not created");
+                }
 		
 		if ($info['return_var'] != 0) {
 			$this->major_error('image magick command failed', $info);

@@ -5,14 +5,14 @@
 class TestingComponent extends Object {
 	
 	public function __construct() {
-		App::import("Comonent", "CloudFiles");
+		App::import("Component", "CloudFiles");
 		$this->CloudFiles = new CloudFilesComponent();
 		$this->Photo = ClassRegistry::init("Photo");
 	}
 	
-	private function give_me_this($image_name) {
+	public function give_me_this($image_name, $container_url='http://d7d33ce07e5a4dde758f-907816caf88b83a66c02c54765504ae9.r33.cf2.rackcdn.com') {
 		//master test container
-		$image = file_get_contents('http://c13957077.r77.cf2.rackcdn.com/'.$image_name);
+		$image = file_get_contents($container_url . '/'.$image_name);
 		file_put_contents(TEMP_IMAGE_PATH . DS . $image_name, $image);
 		$this->_insert_this_image(TEMP_IMAGE_PATH.DS.$image_name);
 	}
