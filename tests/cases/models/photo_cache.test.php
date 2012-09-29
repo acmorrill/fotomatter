@@ -40,11 +40,12 @@ class PhotoCacheTestCase extends fototestcase {
             App::import("Component", "CloudFiles");
             $this->CloudFiles = new CloudFilesComponent();
             $all_files = $this->CloudFiles->list_objects();
-            debug($all_files);
-            debug($all_cache_file); 
+         
             foreach ($all_files as $file) {
                 $this->assertEqual($file['name'] == $all_cache_file['PhotoCache']['cdn-filename'], false);
             }
+	    
+	    debug($this->Photo->query("select * from major_errors"));
             
             $this->_ensure_no_errors();
         }
