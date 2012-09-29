@@ -133,8 +133,8 @@ abstract class fototestcase extends CakeTestCase {
     }
     
     private function connect($config) {
-        $res = mysql_connect($config['host'], $config['login'], $config['password']);
-        mysql_select_db($config['database'], $res);
+        $res = mysql_connect($config['host'], $config['login'], $config['password']) or die('problem connecting');
+        mysql_select_db($config['database'], $res) or die('problem selecting db');
         return $res;
     }
     
