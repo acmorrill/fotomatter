@@ -12,7 +12,7 @@ class PhotoCacheTestCase extends fototestcase {
 		$this->Testing = new TestingComponent();
 	}
         
-        /*function test_convert_with_smaller_than_master_cache_limit() {
+        function test_convert_with_smaller_than_master_cache_limit() {
             //upload small image
             //http://d7d33ce07e5a4dde758f-907816caf88b83a66c02c54765504ae9.r33.cf2.rackcdn.com/small_car.gif
             $this->_clear_errors_for_test();
@@ -22,12 +22,13 @@ class PhotoCacheTestCase extends fototestcase {
             $photo = $this->Photo->findById($this->Photo->id);
             
             $this->_ensure_no_errors();
-        } */
-        
+        }
+    
         function test_delete_cached_file() {
             $this->_clear_errors_for_test();
             $this->Testing->give_me_images(1);
-            $this->Photo = ClassRegistry::init("Photo");
+	    $this->Photo = ClassRegistry::init("Photo");
+	  
             $all_cache_file = $this->PhotoCache->find('first', array(
                 'conditions'=>array(
                     'PhotoCache.photo_id'=>$this->Photo->id
@@ -45,10 +46,8 @@ class PhotoCacheTestCase extends fototestcase {
                 $this->assertEqual($file['name'] == $all_cache_file['PhotoCache']['cdn-filename'], false);
             }
 	    
-	    debug($this->Photo->query("select * from major_errors"));
-            
             $this->_ensure_no_errors();
-        }
+        } 
         
    
         
