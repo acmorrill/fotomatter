@@ -3,6 +3,9 @@
 //	if(!isset($_SESSION)) { 
 //		session_start();	
 //	} 
+
+	//debug($curr_gallery);
+
 ?>
 <?php
 	require_once(ROOT.DS.'app'.DS.'themes'.DS.'andrewmorrill'.DS.'views'.DS.'elements'.DS.'constants.ctp');
@@ -19,10 +22,9 @@
 ?>	
 <html>
 	<head>
-		<title><?php echo $currGallery['displayTitle']; ?> -- Celestial Light Photography</title>
+		<title><?php echo $curr_gallery['PhotoGallery']['display_name']; ?> -- Celestial Light Photography</title>
 		<?php echo $this->Element('theme_global_includes'); ?>
 		<link rel="stylesheet" type="text/css" href="/stylesheets/contentReadableBackground.css" />
-		<script src="/js/jquery-1.7.1.min.js"></script>
 <?php
 if(!isset($HTTP_COOKIE_VARS["usersAvailScreenWidth"]) || !isset($HTTP_COOKIE_VARS["usersAvailScreenHeight"])) {
 ?>
@@ -62,83 +64,12 @@ if(!isset($HTTP_COOKIE_VARS["usersAvailScreenWidth"]) || !isset($HTTP_COOKIE_VAR
 		<?php echo $this->Element('newsLetter'); ?>
 		<div class="galleryContent">
 			<br />
-			<h1><?php echo "<b>",$currGallery['displayTitle'],"</b>"; ?></h1>
-			<p><?php echo $currGallery['description']; ?><br /></p>
-			<?php if ($currGallery['title'] && $currGallery['title'] == "temples"): ?>
-				<!-- Google Code for Request Temple Conversion Page -->
-				<script type="text/javascript">
-				<!--
-					/*function trackRequestTemple() {
-						var google_conversion_id = 1040119663;
-						var google_conversion_language = "en";
-						var google_conversion_format = "3";
-						var google_conversion_color = "ffffff";
-						var google_conversion_label = "NAJFCLO9nQEQ7-777wM";
-						var google_conversion_value = 0;
-						if (.05) {
-						  google_conversion_value = .05;
-						}
-						var templeRequest_image = new Image(1,1); 
-						templeRequest_image.src = "http://www.googleadservices.com/pagead/conversion/"+google_conversion_id+"/?value="+google_conversion_value+"&amp;?label="+google_conversion_label+"&amp;guid=ON&amp;script=0"; 
-					}*/
-				//-->
-				</script>
-			
-				<script type="text/javascript">
-					jQuery(document).ready(function() {
-						jQuery("img#templeRequestButton").click(function() {
-							var templeVal = jQuery("#templeInput").val();
-							jQuery.post("templeRequest.php", { temple : templeVal } );
-							jQuery(this).attr('src', '/email/loading.gif');
-							setTimeout("jQuery('#templeInput').val('');", 500);
-							setTimeout("jQuery('#templeInput').attr('title', 'enter another ...').blur();", 510);
-							setTimeout("jQuery('img#templeRequestButton').attr('src', '/images/misc/sendButton.gif');", 510);
-							trackRequestTemple();
-						});
-						
-						jQuery('input#templeInput').each(function(){
-							this.value = jQuery(this).attr('title');
-							jQuery(this).addClass('text-label');
-
-							jQuery(this).focus(function(){
-								if(this.value == jQuery(this).attr('title')) {
-									this.value = '';
-									jQuery(this).removeClass('text-label');
-								}
-			  
-								jQuery(this).unbind('keypress').keypress(function(e) {
-									if(e.keyCode == 9) {
-										e.preventDefault();
-									}
-								});
-								jQuery(this).unbind('keyup').keyup(function(e) {
-									if(e.keyCode == 13) {
-										jQuery("#templeRequestButton").click();
-									} else if (e.keyCode == 9) {
-										e.preventDefault();
-									}
-								});
-							});
-							jQuery(this).blur(function(){
-								if(this.value == '') {
-									this.value = jQuery(this).attr('title');
-									jQuery(this).addClass('text-label');
-								}
-								jQuery(this).unbind('keyup');
-								jQuery(this).unbind('keypress');
-							});
-						});
-					});
-				</script>
-						
-				<div id="whatTemple">
-					<span style="font-size: 13px; font-weight: bold;">What Temple Are You Looking For?</span><br/>
-					<input id="templeInput" title="enter a temple..." type='text' name='temple' size='30' maxlength='60'>
-					<img id='templeRequestButton' src='/images/misc/sendButton.gif'  alt='Send'><br/>
-					<span id="templeAnswer"></span>
-				</div>
-			<?php endif; ?>
+			<h1><?php echo "<b>",$curr_gallery['PhotoGallery']['display_name'],"</b>"; ?></h1>
+			<p><?php echo $curr_gallery['PhotoGallery']['description']; ?><br /></p>
 			<img src="/images/misc/horiz_gradientline.png"><br /><br />
+				<?php echo $this->Element('gallery_image_list', array('photos' => $curr_gallery['PhotoGalleriesPhoto'])); ?>
+			<img src="/images/misc/horiz_gradientline.png">
+			
 <?php 
 	//Include the PS_Pagination class
 	echo $this->Element('ps_pagination');
@@ -201,6 +132,12 @@ if(!isset($HTTP_COOKIE_VARS["usersAvailScreenWidth"]) || !isset($HTTP_COOKIE_VAR
 ?>
 			</table>
 <?php if ($pager->hasEnoughForPages()) echo "<div class=\"paginationDiv\" style=\"margin-bottom: 14px;\">".$pager->renderFullNav()."</div>"; ?>
+			
+			
+			
+			
+			
+			
 			<img src="/images/misc/horiz_gradientline.png">
 			<?php echo $this->Element('footer'); ?>
 		</div>
