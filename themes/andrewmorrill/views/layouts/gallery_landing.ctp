@@ -25,14 +25,23 @@
 			<br /><br />
 			
 			<div class="portfolioLinks">
-				<h2><b>Choose a Gallery</b></h2>
+				<h2><b><?php __('Choose a Gallery'); ?></b></h2>
 				<img id="portfolioThumb" src="/photos/portfolioThumbs/A-Tangerine-Blue.jpg" />
-				<a onmouseover="setImage('portfolioThumb', '/photos/portfolioThumbs/A-Tangerine-Blue.jpg');" href="/photo_galleries/view_gallery?gallery=largeFormatColor">Color Landscapes</a><br />
-				<a onmouseover="setImage('portfolioThumb', '/photos/portfolioThumbs/Celestial-ArrayBW.jpg');" href="/photo_galleries/view_gallery?gallery=largeFormatBW">Black &amp; White Landscapes</a><br />
+				<?php $all_galleries = $this->Gallery->get_all_galleries(); ?>
+				<?php foreach ($all_galleries as $curr_gallery): ?>
+					<?php 
+						$curr_gallery_href = $this->Html->url(array(    
+							'controller' => 'photo_galleries',    
+							'action' => 'view_gallery',    
+							$curr_gallery['PhotoGallery']['id'],
+							'?' => 'gallery=panoramics'
+						));
+					?>
+					<a onmouseover="setImage('portfolioThumb', '/photos/portfolioThumbs/A-Tangerine-Blue.jpg');" href="<?php echo $curr_gallery_href; ?>"><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></a><br />
+				<?php endforeach; ?>
+				<?php /*<a onmouseover="setImage('portfolioThumb', '/photos/portfolioThumbs/Celestial-ArrayBW.jpg');" href="/photo_galleries/view_gallery?gallery=largeFormatBW">Black &amp; White Landscapes</a><br />
 				<a onmouseover="setImage('portfolioThumb', '/photos/portfolioThumbs/Solar-Migrations.jpg');" href="/photo_galleries/view_gallery?gallery=panoramics">Panoramic Landscapes</a><br />
-				<a onmouseover="setImage('portfolioThumb', '/photos/portfolioThumbs/Provo-Temple-Winter.jpg');" href="/photo_galleries/view_gallery?gallery=temples">LDS Temple Pictures</a><br />
-				<!--<a onmouseover="setImage('portfolioThumb', 'photos/portfolioThumbs/Winter-Berries.jpg');" href="/photo_galleries/view_gallery?gallery=digitalIdeas">Other</a><br />-->
-				<!--<a onmouseover="setImage('portfolioThumb', 'photos/portfolioThumbs/Passing-Rain.jpg');" href="/photo_galleries/view_gallery?gallery=noPano">All Images</a><br />-->
+				<a onmouseover="setImage('portfolioThumb', '/photos/portfolioThumbs/Provo-Temple-Winter.jpg');" href="/photo_galleries/view_gallery?gallery=temples">LDS Temple Pictures</a><br />*/ ?>
 				<br/><br/><br/>
 			</div>
 			<br />
@@ -43,14 +52,23 @@
 		<p id="sideBlurb"><b>To purchase a print, navigate to an image and add to cart.</b><br /><br/>Before viewing images, consider checking out the <a href="viewingTips.php">viewing tips page</a>.<br />
 		</p>
 		
-		<div id="navChain">
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/site_pages/landing_page">home</a> > image galleries
-			<img style="padding-top: 8px;" src="/images/misc/horiz_gradientline.png">
-		</div>	
 		
-		<?php
-			echo $this->Element('navBar', array( 'page' => 'gallery' ));
+		
+		
+		<?php 
+			// DREW TODO - change this to use cakephp html helper getCrumbs
+			echo $this->Element('nav_chain', array( 
+				'avail_pages' => array(
+					array(
+						'text' => 'image galleries',
+						'url' => '/photo_galleries/choose_gallery'
+					)
+				)
+			)); 
 		?>
+		
+		
+		<?php echo $this->Element('navBar', array( 'page' => 'gallery' )); ?>
 <?php
 //			include("php/googleAnalytics.php");
 ?>		
