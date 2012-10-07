@@ -53,6 +53,7 @@ class PhotoSettingTestCase extends fototestcase {
 		$this->assertEqual($result_from_save, false);
 		$this->assertEqual(unlink(TEMP_IMAGE_UNIT . "/larger_image.jpg"), true);
 	}
+       
     
     public function test_download_files() {
 		$this->Testing->give_me_images(2);
@@ -123,7 +124,7 @@ class PhotoSettingTestCase extends fototestcase {
                 $count = $this->ServerSetting->query("select count(*) as count from major_errors");
                 $this->assertEqual($count[0][0]['count'], 6);
 	}
-	
+	/*
 	public function test_save_rackspace_fail() {
 		$this->Photo->query("truncate table major_errors");
 	    
@@ -367,6 +368,8 @@ class PhotoSettingTestCase extends fototestcase {
                         
             $this->_ensure_no_errors();
         }
+         
+         */
         
 }
 ?>
