@@ -2,7 +2,7 @@
 class PhotoGalleriesController extends AppController {
 	var $name = 'PhotoGalleries';
 	var $uses = array('PhotoGallery', 'Photo', 'PhotoGalleriesPhoto', 'PhotoFormat');
-	var $helpers = array('Photo');
+	var $helpers = array('Photo', 'Gallery');
 
 	public function  beforeFilter() {
 		parent::beforeFilter();
@@ -16,7 +16,29 @@ class PhotoGalleriesController extends AppController {
 		$this->renderEmpty();
 	}
 	
-	public function view_gallery() {
+	public function view_gallery($gallery_id = null) {
+		$conditions = array();
+		if (isset($gallery_id)) {
+			$conditions = array(
+				'PhotoGallery.id' => $gallery_id
+			);
+		}
+		
+		// find the gallery
+		$curr_gallery = $this->PhotoGallery->find('first', array(
+			'conditions' => $conditions,
+			'limit' => 1,
+			'contain' => array(
+				'PhotoGalleriesPhoto' => array(
+					'Photo' => array(
+						'PhotoFormat'
+					)
+				)
+			)
+		));
+
+		$this->set(compact('curr_gallery'));
+		
 		$this->renderEmpty();
 	}
 
