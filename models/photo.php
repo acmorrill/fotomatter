@@ -123,7 +123,6 @@ class Photo extends AppModel {
 				}
 			}
 			
-			
 			list($width, $height, $type, $attr) = getimagesize($this->data['Photo']['cdn-filename']['tmp_name']);
 			if ($width > FREE_MAX_RES || $height > FREE_MAX_RES) {
 				$this->log("2", 'photo');
