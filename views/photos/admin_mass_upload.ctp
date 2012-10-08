@@ -55,14 +55,17 @@
 	}
 	
 	function fail(data) {
-                var error_to_add;
-                if (data.files[0].fileName == undefined) {
-                    $('div.upload_complete .error_cont p').html('<?php __('Error! It seems that you are no longer logged in. Please log in and try to upload your photos again.'); ?>');
-                    $('div.upload_complete .error_cont').show();
-                } else {
-                    var error_to_add = $("<li>"+data.files[0].fileName+"</li>");
-                    $('div.upload_complete .error_cont ul').append(error_to_add);
-                }
+		var error_to_add;
+		
+		//console.log (data.files[0]);
+		
+		if (data.files[0].fileName == undefined) {
+			$('div.upload_complete .error_cont p').html('<?php __('Error! It seems that you are no longer logged in. Please log in and try to upload your photos again.'); ?>');
+			$('div.upload_complete .error_cont').show();
+		} else {
+			var error_to_add = $("<li>"+data.files[0].fileName+"</li>");
+			$('div.upload_complete .error_cont ul').append(error_to_add);
+		}
 	}
        
         //TODO Adam Fix formatting. 

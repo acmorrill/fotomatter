@@ -16,7 +16,7 @@
 	require_once(ROOT.DS.'app'.DS.'themes'.DS.'andrewmorrill'.DS.'views'.DS.'elements'.DS.'databaseConnect.ctp');
 	//echo $this->Element('databaseConnect');
 				
-	$gallery = $_GET["gallery"];
+	$gallery = $curr_gallery['PhotoGallery']['display_name']; //$_GET["gallery"];
 
 	$currGallery = mysql_fetch_array(mysql_query("SELECT * FROM galleries WHERE title = '$gallery'"));
 ?>	
@@ -66,10 +66,16 @@ if(!isset($HTTP_COOKIE_VARS["usersAvailScreenWidth"]) || !isset($HTTP_COOKIE_VAR
 			<br />
 			<h1><?php echo "<b>",$curr_gallery['PhotoGallery']['display_name'],"</b>"; ?></h1>
 			<p><?php echo $curr_gallery['PhotoGallery']['description']; ?><br /></p>
-			<img src="/images/misc/horiz_gradientline.png"><br /><br />
-				<?php echo $this->Element('gallery_image_list', array('photos' => $curr_gallery['PhotoGalleriesPhoto'])); ?>
 			<img src="/images/misc/horiz_gradientline.png">
+				<?php if (count($photos) > 0): ?>
+					<?php echo $this->Element('gallery/pagination_links', array('extra_css' => 'margin-top: 10px; margin-bottom: 10px;')); ?>
+					<?php echo $this->Element('gallery/gallery_image_lists/2_column', array('gallery_id' => $curr_gallery['PhotoGallery']['id'], 'photos' => $photos, 'top_message' => __('click on a thumbnail image to enlarge . . .', true), 'image_max_size' => 185)); ?>
+					<?php echo $this->Element('gallery/pagination_links', array('extra_css' => 'margin-top: 10px; margin-bottom: 10px;')); ?>
+				<?php else: ?>
+					<h4 style="font-weight: bold; font-style: italic; margin: 10px;"><?php __('This gallery does not have any images yet'); ?></h4>
+				<?php endif; ?>
 			
+<?php /*
 <?php 
 	//Include the PS_Pagination class
 	echo $this->Element('ps_pagination');
@@ -133,7 +139,7 @@ if(!isset($HTTP_COOKIE_VARS["usersAvailScreenWidth"]) || !isset($HTTP_COOKIE_VAR
 			</table>
 <?php if ($pager->hasEnoughForPages()) echo "<div class=\"paginationDiv\" style=\"margin-bottom: 14px;\">".$pager->renderFullNav()."</div>"; ?>
 			
-			
+ */ ?>
 			
 			
 			
@@ -143,7 +149,7 @@ if(!isset($HTTP_COOKIE_VARS["usersAvailScreenWidth"]) || !isset($HTTP_COOKIE_VAR
 		</div>
 		
 		<div id="navChain" class="lowercase">
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/site_pages/landing_page">home</a>&nbsp;>&nbsp;<a href="/photo_galleries/choose_gallery">image galleries</a>&nbsp;>&nbsp;<?php print ("$currGallery[displayTitle]\n"); ?>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/site_pages/landing_page">home</a>&nbsp;>&nbsp;<a href="/photo_galleries/choose_gallery">image galleries</a>&nbsp;>&nbsp;<?php print ("{$curr_gallery['PhotoGallery']['display_name']}\n"); ?>
 			<img style="padding-top: 8px;" src="/images/misc/horiz_gradientline.png">
 		</div>
 		

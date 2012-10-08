@@ -1,7 +1,7 @@
 <?php
 class PhotosController extends AppController {
 	public $name = 'Photos';
-	public $uses = array(/*'OldPhoto', */'Photo', 'SiteSetting', 'PhotoFormat', 'SiteSetting', 'PhotoGalleriesPhoto');
+	public $uses = array(/*'OldPhoto', */'Photo', 'SiteSetting', 'PhotoFormat', 'SiteSetting', 'PhotoGalleriesPhoto', 'PhotoGallery');
 	public $helpers = array('Menu', 'Photo', 'Gallery');
 	public $components = array('Upload', "ImageVersion", "Gd", "ImageWizards", "CloudFiles");
 	public $paginate = array(
@@ -19,7 +19,34 @@ class PhotosController extends AppController {
 		$this->Auth->allow('view_photo');
 	}
 	
-	public function view_photo() {
+	public function view_photo($photo_id = null) {
+		$conditions = array();
+		if (isset($photo_id)) {
+			$conditions = array(
+				'Photo.id' => $photo_id
+			);
+		}
+		
+		// find the photo
+		$curr_photo = $this->Photo->find('first', array(
+			'conditions' => $conditions,
+			'contain' => array(
+				'PhotoFormat'
+			)
+		));
+		
+		// what gallery are we currently in
+		$gallery_id = isset($this->params['named']['gid']) ? $this->params['named']['gid'] : '' ;
+		$conditions = array();
+		if (isset($gallery_id)) {
+			$conditions['PhotoGallery.id'] = $gallery_id;
+		}
+		$curr_gallery = $this->PhotoGallery->find('first', array(
+			'conditions' => $conditions
+		));
+		
+		
+		$this->set(compact('curr_photo', 'curr_gallery'));
 		$this->renderEmpty();
 	}
 
