@@ -433,9 +433,12 @@ class OrderedBehavior extends ModelBehavior {
 				}
 			}
 		}
+		debug($value);
+		
 		return $Model->find('neighbors',array(
 			'value' => $value,
-			'field' => $this->settings[$Model->alias]['field']
+			'field' => $this->settings[$Model->alias]['field'],
+			'contain' => false
 		));
 	}
 	

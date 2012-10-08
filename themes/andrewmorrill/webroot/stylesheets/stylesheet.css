@@ -267,6 +267,31 @@ div#zoomWidget img {
 }
 
 /* ===================== Photo Page ========================================== */
+#mainImage {
+	border: 10px solid white;
+	cursor: pointer;
+	display: inline-block;
+	vertical-align: middle;
+	position: relative;
+}
+#mainImage img {
+	display: inline-block;
+	vertical-align: middle;
+}
+#mainImage .photo_page_nav {
+	position: absolute;
+	top: 436px;
+	z-index: 200;
+}
+#mainImage .photo_page_nav.is_pano {
+	top: 197px;
+}
+#mainImage .photo_page_nav.prev_image {
+	left: -47px;
+}
+#mainImage .photo_page_nav.next_image {
+	right: -47px;
+}
 h1#imageHoverText {
 	position: absolute;
 	left: 0px;
@@ -423,6 +448,11 @@ div.dropDownBoxContent {
 	margin-right: 25px;
 	font-size: 15px;
 }
+.paginationDiv span {
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: 4px;
+}
 
 #navChain {
 	position: absolute;
@@ -494,6 +524,35 @@ div.portfolioLinks a {
 div.portfolioLinks a:hover {
 	color: #d12e19;
 }
+
+#gallery_list_table.two_column_gallery_list .gallery_list_top_message td {
+	text-align: left;
+	vertical-align: bottom;
+}
+#gallery_list_table .gallery_list_top_message td h4 {
+	font-size: 14px;
+	font-weight: bold;
+	font-style: italic;
+}
+#gallery_list_table {
+	width: 100%;
+	text-align: center;
+	margin: 0 auto;
+}
+#gallery_list_table.two_column_gallery_list td {
+	vertical-align: middle;
+	text-align: center;
+}
+#gallery_list_table.two_column_gallery_list td .gallery_image_actual_image {
+	display: inline-block; vertical-align: middle;
+}
+#gallery_list_table.two_column_gallery_list td .gallery_image_a_link {
+	border: 4px solid white; display: inline-block; vertical-align: middle;
+}
+#gallery_list_table.two_column_gallery_list td .gallery_image_outer_cont {
+	border: 1px solid #D0D0D0; display: inline-block; vertical-align: middle;
+}
+
 
 /* ===================== News Page ========================================== */
 .news {
