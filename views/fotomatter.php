@@ -5,7 +5,7 @@ class FotomatterView extends View {
 		$element_result = parent::element($name, $params, $loadHelpers);
 		
 		$debug_data = '';
-		if (Configure::read('debug') > 1 && !isset($params['hide_debug'])) {
+		if (false && Configure::read('debug') > 1 && !isset($params['hide_debug'])) {
 			$uuid = substr(base64_encode(String::uuid()), 0, 20);
 			$debug_data .= "\n<script type='text/javascript'>\n";
 				$debug_data .= "jQuery(document).ready(function() {\n";

@@ -33,8 +33,7 @@
 						$curr_gallery_href = $this->Html->url(array(    
 							'controller' => 'photo_galleries',    
 							'action' => 'view_gallery',    
-							$curr_gallery['PhotoGallery']['id'],
-							'?' => 'gallery=panoramics'
+							$curr_gallery['PhotoGallery']['id']
 						));
 					?>
 					<a onmouseover="setImage('portfolioThumb', '/photos/portfolioThumbs/A-Tangerine-Blue.jpg');" href="<?php echo $curr_gallery_href; ?>"><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></a><br />

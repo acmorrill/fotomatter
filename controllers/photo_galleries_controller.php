@@ -1,8 +1,13 @@
 <?php
 class PhotoGalleriesController extends AppController {
-	var $name = 'PhotoGalleries';
-	var $uses = array('PhotoGallery', 'Photo', 'PhotoGalleriesPhoto', 'PhotoFormat');
-	var $helpers = array('Photo', 'Gallery');
+	public $name = 'PhotoGalleries';
+	public $uses = array('PhotoGallery', 'Photo', 'PhotoGalleriesPhoto', 'PhotoFormat');
+	public $helpers = array('Photo', 'Gallery', 'Paginator');
+	public $paginate = array(
+		'limit' => array(
+			''
+		)
+	);
 
 	public function  beforeFilter() {
 		parent::beforeFilter();
@@ -28,16 +33,27 @@ class PhotoGalleriesController extends AppController {
 		$curr_gallery = $this->PhotoGallery->find('first', array(
 			'conditions' => $conditions,
 			'limit' => 1,
-			'contain' => array(
-				'PhotoGalleriesPhoto' => array(
+			'contain' => false
+		));
+		
+		$this->paginate = array(
+			'PhotoGalleriesPhoto' => array(
+				'conditions' => array(
+					'PhotoGalleriesPhoto.photo_gallery_id' => $gallery_id
+				),
+				'limit' => 8, // DREW TODO - maybe make this number (the number of photos per gallery page) a global option in the admin
+				'contain' => array(
 					'Photo' => array(
 						'PhotoFormat'
 					)
-				)
+				),
+				'order' => 'PhotoGalleriesPhoto.photo_order'
 			)
-		));
+		);
+		$photos = $this->paginate('PhotoGalleriesPhoto');    
 
-		$this->set(compact('curr_gallery'));
+		
+		$this->set(compact('curr_gallery', 'photos'));
 		
 		$this->renderEmpty();
 	}
