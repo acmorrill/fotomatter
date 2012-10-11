@@ -130,6 +130,8 @@ class PhotoCacheTestCase extends fototestcase {
            $this->_ensure_no_errors();
         }
         */
+        
+        //TODO .. make sure up resing and down resing happens as necessary
         function test_random_size_images() {
             //upload small image
             //http://d7d33ce07e5a4dde758f-907816caf88b83a66c02c54765504ae9.r33.cf2.rackcdn.com/small_car.gif
@@ -137,9 +139,9 @@ class PhotoCacheTestCase extends fototestcase {
                 //'small_car.jpg',
                 //'200car.jpg',
                // '1000car.jpg',
-                '1500car.jpg',
+               // '1500car.jpg',
                // '2200car.jpg',
-               // '5000girl.jpg'
+                '5000girl.jpg'
             );
             
             foreach ($files as $file) {
