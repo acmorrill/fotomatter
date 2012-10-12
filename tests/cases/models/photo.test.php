@@ -16,7 +16,7 @@ class PhotoSettingTestCase extends fototestcase {
 		App::import("Component", "Testing");
 		$this->Testing = new TestingComponent();
     }
-    
+    /*
     public function test_image_container_name() {
                 $result = $this->helper->check_for_container_name();
                 $this->assertEqual($result, true);
@@ -26,9 +26,13 @@ class PhotoSettingTestCase extends fototestcase {
                     die();
                 }
     }
+    
+   
     public function test_check_consistent_values() {
 		$this->assertEqual($this->helper->check_for_consistent_values(), true);
     }
+    
+     
 	
 	public function test_large_image_should_fail() {
 		$url = "http://c14354319.r19.cf2.rackcdn.com/larger_image.jpg";
@@ -54,11 +58,11 @@ class PhotoSettingTestCase extends fototestcase {
 		$this->assertEqual(unlink(TEMP_IMAGE_UNIT . "/larger_image.jpg"), true);
 	}
        
-    
+   
     public function test_download_files() {
 		$this->Testing->give_me_images(2);
     }
-	
+	*/
 	public function test_delete_cache() {
 		//make sure that when I resave a photo I invalidate any cache
 		$this->Testing->give_me_images(1);
@@ -72,6 +76,8 @@ class PhotoSettingTestCase extends fototestcase {
 		$first_cache = $this->PhotoCache->find('first', array(
 			'order'=>'PhotoCache.created DESC'
 		));
+                
+                
 		
 		//download a image to set as the new images
 		$this->SiteSetting = ClassRegistry::init("SiteSetting");
@@ -85,7 +91,9 @@ class PhotoSettingTestCase extends fototestcase {
 		$first_cache['Photo']['cdn-filename']['name'] = $image_name;
 		$first_cache['Photo']['cdn-filename']['type'] = "image/jpeg";
 		$this->Photo->create();
+                
 		$this->Photo->save($first_cache);
+                
 		$empty_image = $this->PhotoCache->find("first", array(
 			'conditions'=>array(
 				'PhotoCache.id'=>$id_to_check
@@ -124,7 +132,7 @@ class PhotoSettingTestCase extends fototestcase {
                 $count = $this->ServerSetting->query("select count(*) as count from major_errors");
                 $this->assertEqual($count[0][0]['count'], 6);
 	}
-	/*
+	
 	public function test_save_rackspace_fail() {
 		$this->Photo->query("truncate table major_errors");
 	    
@@ -368,8 +376,5 @@ class PhotoSettingTestCase extends fototestcase {
                         
             $this->_ensure_no_errors();
         }
-         
-         */
-        
 }
 ?>

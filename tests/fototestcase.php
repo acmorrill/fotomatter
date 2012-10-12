@@ -140,7 +140,12 @@ abstract class fototestcase extends CakeTestCase {
     
     protected function _ensure_no_errors() {
         $this->MajorError = ClassRegistry::init("MajorError");
-        $this->assertEqual($this->MajorError->find('count'), 0);
+        $m_e_count = $this->MajorError->find('count');
+        $this->assertEqual($m_e_count, 0);
+        
+        if ($m_e_count > 0) {
+            debug($this->MajorError->find('all'));
+        }
     }
     
     protected function _clear_errors_for_test() {
