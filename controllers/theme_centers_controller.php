@@ -1,7 +1,7 @@
 <?php
 class ThemeCentersController extends AppController {
     public $name = 'ThemeCenters';
-	public $uses = array('ThemeGlobalSetting');
+	public $uses = array('ThemeGlobalSetting', 'SiteSetting', 'ThemeHiddenSetting');
 	public $helpers = array(
 		'Page',
 		'Gallery',
@@ -29,6 +29,10 @@ class ThemeCentersController extends AppController {
 		
 	}
 	
+	public function admin_configure_background() {
+		
+	}
+	
 	public function admin_ajax_get_logo_webpath_and_save_dimension($height, $width, $top, $left) {
 		App::import('Helper', 'ThemeLogo'); 
         $ThemeLogo = new ThemeLogoHelper();
@@ -53,6 +57,132 @@ class ThemeCentersController extends AppController {
 		
 		$this->return_json($returnArr);
 	}
+	
+	public function admin_ajax_create_merged_bg_and_save_bg_config() {
+		// DREW TODO - put in major error checks into this function
+		// DREW TODO - make sure the default background color for the theme is also passed and used in this function
+		
+		$returnArr = array();
+		$returnArr['code'] = 1;
+		$returnArr['form'] = $this->params['form'];
+		
+		$overlay_abs_path = $this->params['form']['overlay_abs_path'];
+		$current_background_abs_path = $this->params['form']['current_background_abs_path'];
+		$final_background_width = $this->params['form']['final_background_width'];
+		$final_background_height = $this->params['form']['final_background_height'];
+		$final_background_left = $this->params['form']['final_background_left'];
+		$final_background_top = $this->params['form']['final_background_top'];
+		$using_custom_background_image = ($this->params['form']['using_custom_background_image'] == 'true') ? true : false ;
+		
+		$palette_background_size = getimagesize($overlay_abs_path);
+		list($orig_palette_background_width, $orig_palette_background_height, $palette_background_size_type, $palette_background_size_attr) = $palette_background_size;
+		
+		$current_background_size = getimagesize($current_background_abs_path);
+		list($orig_background_width, $orig_background_height, $current_background_size_type, $current_background_size_attr) = $current_background_size;
+		
+		
+		$imgOverlay = imagecreatefrompng($overlay_abs_path);
+		$imgAvatar = $this->_resize_image($current_background_abs_path, $final_background_width, $final_background_height);
+
+		
+		$dst_x = -$final_background_left;
+		$dst_y = -$final_background_top;
+		$src_x = 0;
+		$src_y = 0;
+		$dst_w = imagesx($imgAvatar);
+		$dst_h = imagesy($imgAvatar);
+		$src_w = imagesx($imgAvatar);
+		$src_h = imagesy($imgAvatar);
+
+		$o_width = imagesx($imgOverlay);
+		$o_height = imagesy($imgOverlay);
+
+		$imgBanner = imagecreatetruecolor($o_width, $o_height);
+		$backgroundColor = imagecolorallocate($imgBanner, 255, 255, 255); // DREW TODO use the color from the theme
+		imagefill($imgBanner, 0, 0, $backgroundColor);
+		
+		
+		$this->log('dst_x: '.$dst_x, 'sizes');
+		$this->log('dst_y: '.$dst_y, 'sizes');
+		$this->log('src_x: '.$src_x, 'sizes');
+		$this->log('src_y: '.$src_y, 'sizes');
+		$this->log('dst_w: '.$dst_w, 'sizes');
+		$this->log('dst_h: '.$dst_h, 'sizes');
+		$this->log('src_w: '.$src_w, 'sizes');
+		$this->log('src_h: '.$src_h, 'sizes');
+		
+		
+		imagecopyresampled($imgBanner, $imgAvatar, $dst_x, $dst_y, $src_x, $src_x, $dst_w, $dst_h, $src_w, $src_h);
+		imagecopyresampled($imgBanner, $imgOverlay, 0, 0, 0, 0, $o_width, $o_height, $o_width, $o_height);
+
+		$theme_name = $this->SiteSetting->getVal('current_theme', false);
+		
+		$dest_save_path = SITE_THEME_MERGED_FINAL_IMAGES.DS.$theme_name.'.jpg';
+		if (file_exists($dest_save_path)) {
+			unlink($dest_save_path);
+		}
+
+		// sharpen the bg image before output -- DREW TODO - maybe try and make the sharpening better
+		$matrix = array(
+            array(-1, -1, -1),
+            array(-1, 16, -1),
+            array(-1, -1, -1),
+        );
+        $divisor = array_sum(array_map('array_sum', $matrix));
+        $offset = 0; 
+        imageconvolution($imgBanner, $matrix, $divisor, $offset);
+		
+		imagejpeg($imgBanner, $dest_save_path, 100);
+		
+		if ($using_custom_background_image == true) {
+			$this->ThemeHiddenSetting->setVal('uploaded_bg_overlay_abs_path', $overlay_abs_path);
+			$this->ThemeHiddenSetting->setVal('uploaded_bg_current_background_abs_path', $current_background_abs_path);
+			$this->ThemeHiddenSetting->setVal('uploaded_bg_final_background_width', $final_background_width);
+			$this->ThemeHiddenSetting->setVal('uploaded_bg_final_background_height', $final_background_height);
+			$this->ThemeHiddenSetting->setVal('uploaded_bg_final_background_left', $final_background_left);
+			$this->ThemeHiddenSetting->setVal('uploaded_bg_final_background_top', $final_background_top);
+		} else {
+			$this->ThemeHiddenSetting->setVal('default_bg_overlay_abs_path', $overlay_abs_path);
+			$this->ThemeHiddenSetting->setVal('default_bg_current_background_abs_path', $current_background_abs_path);
+			$this->ThemeHiddenSetting->setVal('default_bg_final_background_width', $final_background_width);
+			$this->ThemeHiddenSetting->setVal('default_bg_final_background_height', $final_background_height);
+			$this->ThemeHiddenSetting->setVal('default_bg_final_background_left', $final_background_left);
+			$this->ThemeHiddenSetting->setVal('default_bg_final_background_top', $final_background_top);
+		}
+		
+		
+		
+		echo json_encode($returnArr);
+		exit();
+	}
+	
+	private function _resize_image($file, $w, $h, $crop=FALSE) {
+		list($width, $height) = getimagesize($file);
+		$r = $width / $height;
+		if ($crop) {
+			if ($width > $height) {
+				$width = ceil($width-($width*($r-$w/$h)));
+			} else {
+				$height = ceil($height-($height*($r-$w/$h)));
+			}
+			$newwidth = $w;
+			$newheight = $h;
+		} else {
+			if ($w/$h > $r) {
+				$newwidth = $h*$r;
+				$newheight = $h;
+			} else {
+				$newheight = $w/$r;
+				$newwidth = $w;
+			}
+		}
+		$src = imagecreatefromjpeg($file);
+		$dst = imagecreatetruecolor($newwidth, $newheight);
+		imagecopyresampled($dst, $src, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
+
+		return $dst;
+	}
+	
 	
 	public function admin_upload_logo_file() {
 		if (isset($this->params['form']['hidden_logo_file_chooser'])) {
