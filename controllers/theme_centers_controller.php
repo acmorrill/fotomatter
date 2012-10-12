@@ -64,7 +64,6 @@ class ThemeCentersController extends AppController {
 		
 		$returnArr = array();
 		$returnArr['code'] = 1;
-		$returnArr['form'] = $this->params['form'];
 		
 		$overlay_abs_path = $this->params['form']['overlay_abs_path'];
 		$current_background_abs_path = $this->params['form']['current_background_abs_path'];
@@ -102,14 +101,14 @@ class ThemeCentersController extends AppController {
 		imagefill($imgBanner, 0, 0, $backgroundColor);
 		
 		
-		$this->log('dst_x: '.$dst_x, 'sizes');
-		$this->log('dst_y: '.$dst_y, 'sizes');
-		$this->log('src_x: '.$src_x, 'sizes');
-		$this->log('src_y: '.$src_y, 'sizes');
-		$this->log('dst_w: '.$dst_w, 'sizes');
-		$this->log('dst_h: '.$dst_h, 'sizes');
-		$this->log('src_w: '.$src_w, 'sizes');
-		$this->log('src_h: '.$src_h, 'sizes');
+//		$this->log('dst_x: '.$dst_x, 'sizes');
+//		$this->log('dst_y: '.$dst_y, 'sizes');
+//		$this->log('src_x: '.$src_x, 'sizes');
+//		$this->log('src_y: '.$src_y, 'sizes');
+//		$this->log('dst_w: '.$dst_w, 'sizes');
+//		$this->log('dst_h: '.$dst_h, 'sizes');
+//		$this->log('src_w: '.$src_w, 'sizes');
+//		$this->log('src_h: '.$src_h, 'sizes');
 		
 		
 		imagecopyresampled($imgBanner, $imgAvatar, $dst_x, $dst_y, $src_x, $src_x, $dst_w, $dst_h, $src_w, $src_h);
@@ -151,6 +150,9 @@ class ThemeCentersController extends AppController {
 		}
 		
 		
+		$returnArr['extra'] = 'this is some extra';
+		
+		$this->log(json_encode($returnArr), 'test');
 		
 		echo json_encode($returnArr);
 		exit();

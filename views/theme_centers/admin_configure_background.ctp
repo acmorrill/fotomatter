@@ -100,16 +100,17 @@
 				'final_background_top': final_background_top,
 				'using_custom_background_image': using_custom_background_image
 			},
-			success: function(data) {
-				console.log ("success");
-				
-				console.log (data);
+			success: function(the_data) {
+				console.log ("came into success");
+				//console.log (data);
 			},
 			complete: function() {
-
+//				console.log ("complete");
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
-
+//				console.log ("error");
+//				console.log (textStatus);
+//				console.log (errorThrown);
 			},
 			dataType: 'json'
 		});
@@ -126,7 +127,6 @@
 			containment: "parent",
 			handles: 'se', // DREW TODO - maybe add more but need to test all of them
 			stop: function() {
-				console.log ("stop resizing");
 				reload_size_change_background();
 			},
 			resize: function(event, ui) {
@@ -140,7 +140,6 @@
 			cursor: 'move',
 			scroll: false,
 			stop: function() {
-				console.log ("stop dragging");
 				reload_size_change_background();
 			},
 			drag: function(event, ui) {
