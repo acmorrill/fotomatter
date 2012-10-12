@@ -1,4 +1,4 @@
-<?php
+.<?php
 /**
  * This file is loaded automatically by the app/webroot/index.php file after the core bootstrap.php
  *
@@ -86,7 +86,7 @@ define("USE_CACHE_SPEED", true);
 define("GLOBAL_TTF_FONT_PATH", ROOT.DS.APP_DIR.DS.'webroot'.DS.'fonts');
 
 
-if (PHP_SAPI !== 'cli') {
+//if (PHP_SAPI !== 'cli') {
     App::import('Model', 'SiteSetting');
     App::import('Model', 'Theme');
     $SiteSetting = new SiteSetting();
@@ -124,7 +124,7 @@ if (PHP_SAPI !== 'cli') {
     //	'shells' => array('/full/path/to/shells/', '/next/full/path/to/shells/'),
     //	'locales' => array('/full/path/to/locale/', '/next/full/path/to/locale/')
     ));
-}
+//}
 
 
 /**
