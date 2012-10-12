@@ -21,5 +21,7 @@ class GdComponent extends Object {
           ImageJpeg($newimage,$add,100); // change here to $add2 if a new image is to be created
           chmod("$add",0666); // change here to $add2 if a new image is to be created
      }
+	 
+	 //public function 
 
 }

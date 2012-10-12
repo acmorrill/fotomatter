@@ -94,6 +94,12 @@ class Theme extends AppModel {
 		}
 	}
 	
+	public function get_theme_uploaded_background_abs_path($theme_name) {
+		return SITE_THEME_UPLOADED_IMAGES.DS.$theme_name;
+	}
+	public function get_theme_uploaded_background_web_path($theme_name) {
+		return SITE_THEME_UPLOADED_IMAGES_WEB_PATH.DS.$theme_name;
+	}
 	
 	public function theme_is_parent($theme_name) {
 		$curr_theme = $this->find('first', array(
