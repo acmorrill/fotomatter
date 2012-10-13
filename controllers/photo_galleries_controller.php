@@ -22,6 +22,8 @@ class PhotoGalleriesController extends AppController {
 	}
 	
 	public function view_gallery($gallery_id = null) {
+		$gallery_listing_config = $this->viewVars['theme_config']['admin_config']['theme_gallery_listing_config'];
+		
 		$conditions = array();
 		if (isset($gallery_id)) {
 			$conditions = array(
@@ -41,7 +43,7 @@ class PhotoGalleriesController extends AppController {
 				'conditions' => array(
 					'PhotoGalleriesPhoto.photo_gallery_id' => $gallery_id
 				),
-				'limit' => 8, // DREW TODO - maybe make this number (the number of photos per gallery page) a global option in the admin
+				'limit' => $gallery_listing_config['default_images_per_page'], // DREW TODO - maybe make this number (the number of photos per gallery page) a global option in the admin
 				'contain' => array(
 					'Photo' => array(
 						'PhotoFormat'

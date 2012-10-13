@@ -1,5 +1,6 @@
 <a name="pagination_start"></a>
 <?php // DREW TODO - make it so that the pagination links go to the above spot on the next page -- ie the likns end in #pagination_start ?>
+<?php // DREW TODO - make it so the pagination is not there at all if there are no pages ?>
 <div class="paginationDiv" style="<?php echo $extra_css; ?>">
 	<?php 
 		$current_page = $this->Paginator->params['paging']['PhotoGalleriesPhoto']['page'];

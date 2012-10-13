@@ -1,0 +1,62 @@
+body {
+	background-image: url(/img/background5a.jpg);
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #E4E4E4;
+	text-align: center;
+	width: 923px;
+	margin-right: auto;
+	margin-left: auto;
+}
+table {
+	text-align: center;
+	margin-top: 9px;
+	vertical-align: top;
+	width: 210px;
+	clear: both;
+}
+#name img {
+	left: 20px;
+	float: left;
+	width: 314px;
+	top: 5px;
+}
+#navbar {
+	float: left;
+	margin-top: 19px;
+	margin-right: 0px;
+	margin-left: 20px;
+	width: 400px;
+}
+#pagenav {
+	font-family: "Times New Roman", Times, serif;
+	font-size: 1.5em;
+	padding: 0px;
+	width: 150px;
+	margin-top: 8px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	margin-right: 90px;
+	float: right;
+}
+#categoryindicator {
+	font-size: 2em;
+}
+#fineprints img {
+	width: 440px;
+	margin-right: 55px;
+}
+#bigimage img {
+	text-align: center;
+	margin-top: 10px;
+	/*width: 506px;*/
+	margin-right: 130px;
+}
+#logo_cont {
+	float: left;
+	position: relative;
+	text-align: left;
+}
+#mainName {
+	position: absolute;
+}
