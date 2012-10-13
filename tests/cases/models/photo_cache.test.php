@@ -12,7 +12,7 @@ class PhotoCacheTestCase extends fototestcase {
 		$this->Testing = new TestingComponent();
 	}
        
-        /*function test_convert_with_smaller_than_master_cache_limit() {
+        function test_convert_with_smaller_than_master_cache_limit() {
             //upload small image
             //http://d7d33ce07e5a4dde758f-907816caf88b83a66c02c54765504ae9.r33.cf2.rackcdn.com/small_car.gif
             $this->_clear_errors_for_test();
@@ -167,6 +167,6 @@ class PhotoCacheTestCase extends fototestcase {
                 
                 $this->_ensure_no_errors();
             }
-        }  */
+        } 
       
 }
