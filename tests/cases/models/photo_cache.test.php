@@ -11,7 +11,7 @@ class PhotoCacheTestCase extends fototestcase {
                 App::import("Component", "Testing");
 		$this->Testing = new TestingComponent();
 	}
-       
+      
         function test_convert_with_smaller_than_master_cache_limit() {
             //upload small image
             //http://d7d33ce07e5a4dde758f-907816caf88b83a66c02c54765504ae9.r33.cf2.rackcdn.com/small_car.gif
@@ -89,7 +89,7 @@ class PhotoCacheTestCase extends fototestcase {
            $this->assertEqual($image_cache['PhotoCache']['pixel_height'], $image_vars[1]);
            $this->_ensure_no_errors();
         } 
-           
+          
         function test_prepare_new_cache_size() {
            $this->_clear_errors_for_test();
            $this->Testing->give_me_images(3);
@@ -104,8 +104,8 @@ class PhotoCacheTestCase extends fototestcase {
                
                if ($delete_local_cache || !$cache_cleared_once) {
                    $cache_cleared_once = true;
-                   exec("rm -f " . LOCAL_MASTER_CACHE);
-                   exec("rm -f " . LOCAL_SMALLER_MASTER_CACHE);
+                   exec("rm -f " . LOCAL_MASTER_CACHE . "/*");
+                   exec("rm -f " . LOCAL_SMALLER_MASTER_CACHE . "/*");
                }
              
                //find randome image to create cache size
@@ -137,7 +137,7 @@ class PhotoCacheTestCase extends fototestcase {
            
            $this->_ensure_no_errors();
         }
-        
+       
         //TODO .. make sure up resing and down resing happens as necessary
         function test_random_size_images() {
             //upload small image
@@ -170,5 +170,7 @@ class PhotoCacheTestCase extends fototestcase {
                 $this->_ensure_no_errors();
             }
         } 
+        
+        
       
 }
