@@ -100,8 +100,10 @@ class PhotoCacheTestCase extends fototestcase {
                $target_height = rand(150, 500);
                $raw_id = rand(0, 1);
                $delete_local_cache = rand(0, 1);
+               $cache_cleared_once = false;
                
-               if ($delete_local_cache) {
+               if ($delete_local_cache || !$cache_cleared_once) {
+                   $cache_cleared_once = true;
                    exec("rm -f " . LOCAL_MASTER_CACHE);
                    exec("rm -f " . LOCAL_SMALLER_MASTER_CACHE);
                }
