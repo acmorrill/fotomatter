@@ -6,7 +6,7 @@
 
 	$avail_space_screenshot_web_path = '';
 	$padding = isset($theme_config['admin_config']['logo_config']['available_space_screenshot']['padding']) ? $theme_config['admin_config']['logo_config']['available_space_screenshot']['padding'] : '0px';
-	if (!empty($theme_config['admin_config']['logo_config']['available_space_screenshot'])) {
+	if (!empty($theme_config['admin_config']['logo_config']['available_space_screenshot']['absolute_path'])) {
 		$avail_space_screenshot_web_path = $theme_config['admin_config']['logo_config']['available_space_screenshot']['web_path'];
 		$avail_space_screenshot_path = $theme_config['admin_config']['logo_config']['available_space_screenshot']['absolute_path'];
 		$avail_space_screenshot_size = getimagesize($avail_space_screenshot_path);
@@ -46,14 +46,15 @@
 
 <style type="text/css">
 	#logo_cont {
-		position: absolute; top: 0px; left: 89px; width: <?php echo $logo_max_width; ?>px; height: <?php echo $logo_max_height; ?>px;
+		width: <?php echo $logo_max_width; ?>px; height: <?php echo $logo_max_height; ?>px;
 	}
 	#mainName {
 		top: <?php echo $logo_current_top; ?>px;
 		left: <?php echo $logo_current_left; ?>px;
-		
 	}
 </style>
+	
+	
 
 <div id="logo_cont" style="<?php if (Configure::read('debug') >= 3): ?>outline: 1px solid invert<?php endif; ?>">
 	<a id="mainName" href="/"><img src="<?php echo $start_logo_web_path; ?>"></a>

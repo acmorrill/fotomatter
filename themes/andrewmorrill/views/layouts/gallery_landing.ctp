@@ -10,6 +10,7 @@
 		<meta name="keywords" content="Andrew Morrill, online gallery, fine art, utah photography, utah photography, National Park, Utah, California, LDS temples, temple photography">
 		<meta name="description" content="The online gallery of Utah based photographer Andrew Morrill.">
 		<?php echo $this->Element('theme_global_includes'); ?>
+		<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css" />
 		<link rel="stylesheet" type="text/css" href="/stylesheets/contentReadableBackground.css" />
 	<script type="text/javascript">
 		function setImage( id, path ) {

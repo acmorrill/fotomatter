@@ -5,7 +5,15 @@
 $theme_config = array(
 	'theme_controller_action_layouts' => array(
 		'SitePages' => array(
-			'landing_page' => 'landing'
+			'landing_page' => 'landing',
+			'custom_page' => 'custom_page'
+		),
+		'PhotoGalleries' => array(
+			'choose_gallery' => 'gallery_landing',
+			'view_gallery' => 'gallery'
+		),
+		'Photos' => array(
+			'view_photo' => 'view_photo'
 		)
 	),
 	'admin_config' => array(

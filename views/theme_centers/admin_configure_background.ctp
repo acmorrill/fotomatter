@@ -1,4 +1,6 @@
 <?php 
+	// DREW TODO - get rid of rounding errors in the javascript logic
+
 	$background_config = $theme_config['admin_config']['theme_background_config'];
 	$theme_has_dynamic_background = $background_config['theme_has_dynamic_background'];
 	

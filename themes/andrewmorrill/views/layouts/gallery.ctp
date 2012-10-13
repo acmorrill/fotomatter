@@ -24,6 +24,7 @@
 	<head>
 		<title><?php echo $curr_gallery['PhotoGallery']['display_name']; ?> -- Celestial Light Photography</title>
 		<?php echo $this->Element('theme_global_includes'); ?>
+		<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css" />
 		<link rel="stylesheet" type="text/css" href="/stylesheets/contentReadableBackground.css" />
 <?php
 if(!isset($HTTP_COOKIE_VARS["usersAvailScreenWidth"]) || !isset($HTTP_COOKIE_VARS["usersAvailScreenHeight"])) {
@@ -72,7 +73,7 @@ if(!isset($HTTP_COOKIE_VARS["usersAvailScreenWidth"]) || !isset($HTTP_COOKIE_VAR
 					<?php echo $this->Element('gallery/gallery_image_lists/2_column', array('gallery_id' => $curr_gallery['PhotoGallery']['id'], 'photos' => $photos, 'top_message' => __('click on a thumbnail image to enlarge . . .', true), 'image_max_size' => 185)); ?>
 					<?php echo $this->Element('gallery/pagination_links', array('extra_css' => 'margin-top: 10px; margin-bottom: 10px;')); ?>
 				<?php else: ?>
-					<h4 style="font-weight: bold; font-style: italic; margin: 10px;"><?php __('This gallery does not have any images yet'); ?></h4>
+					<h4 style="font-weight: bold; font-style: italic; margin: 10px;"><?php __('This gallery does not have any images yet'); ?></h4><?php // DREW TODO - make this seccion look good ?>
 				<?php endif; ?>
 			
 <?php /*

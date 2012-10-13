@@ -35,7 +35,7 @@ $theme_config = array(
 					'bottom' => 0
 				)
 			),
-			'default_space' => array(
+			'default_space' => array( // the bounding size of the logo if no size has been specified (should be smaller than available space
 				'width' => 300,
 				'height' => 150
 			)
@@ -50,6 +50,9 @@ $theme_config = array(
 				'absolute_path' => 	'', // max 1600 width and max 1200 height
 				'web_path' => ''
 			)
+		),
+		'theme_gallery_listing_config' => array(
+			'default_images_per_page' => 8
 		)
 	)
 );

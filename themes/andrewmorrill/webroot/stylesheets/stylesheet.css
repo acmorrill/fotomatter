@@ -143,7 +143,9 @@ img, div, a { behavior: url(../iepngfix.htc) }
 	top: 24px;
 	left: 145px;
 }
-
+#logo_cont {
+	position: absolute; top: 0px; left: 89px;
+}
 #siteTitle {
 	position: absolute;
 	top: 60px;
