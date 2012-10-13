@@ -32,6 +32,10 @@
 					'name' => __('Configure Logo', true),
 					'url' => "/admin/theme_centers/configure_logo/"
 				);
+				$subnav['pages'][] = array(
+					'name' => __('Configure Theme Background', true),
+					'url' => "/admin/theme_centers/configure_background/"
+				);
 
 				echo $this->Element('/admin/submenu', array( 'subnav' => $subnav ));
 			?>

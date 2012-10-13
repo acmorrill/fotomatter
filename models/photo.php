@@ -122,14 +122,6 @@ class Photo extends AppModel {
 					unlink(LOCAL_SMALLER_MASTER_CACHE.DS.$old_photo['Photo']['cdn-filename-smaller-forcache']);
 				}
 			}
-                       /* debug($this->data['Photo']['cdn-filename']['tmp_name']);
-                        if (is_file($this->data['Photo']['cdn-filename']['tmp_name']) === false) {
-                            debug('is not file');
-                        } else {
-                            debug('is a file');
-                        } */
-                        
-                        
 			
 			list($width, $height, $type, $attr) = getimagesize($this->data['Photo']['cdn-filename']['tmp_name']);
 			if ($width > FREE_MAX_RES || $height > FREE_MAX_RES) {
