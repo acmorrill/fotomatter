@@ -26,7 +26,7 @@ class PhotoCacheTestCaseHelper extends ModelHelperObj {
                 }
                 
                 if ($cache['PhotoCache']['status'] != 'queued' && ($cache['PhotoCache']['max_width'] == null || $cache['PhotoCache']['max_height'] == null)) {
-                    $this->_record_real_error("Photo width and height not set.");
+                    $this->_record_real_error("cache max width and height not set.");
                     return false;
                 }
             }
