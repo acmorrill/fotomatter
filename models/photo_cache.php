@@ -1,12 +1,4 @@
 <?php
-/***
- * testing notes
- * 1) make sure there are no queed photo caches that are old
- * 2) make sure there are no processing photo caches that are old
- * 3) see if there are any failed photo caches
- * 4) test that if you upload a small original a larger cache file will still work (upres)
- * 5) photo caches must have a max_width and max_height set if either are set (or both null cus is queued)
- */
 class PhotoCache extends AppModel {
 	public $name = 'PhotoCache';
 	public $belongsTo = array('Photo');
