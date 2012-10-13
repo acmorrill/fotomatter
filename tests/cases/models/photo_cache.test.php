@@ -12,7 +12,7 @@ class PhotoCacheTestCase extends fototestcase {
 		$this->Testing = new TestingComponent();
 	}
        
-        function test_convert_with_smaller_than_master_cache_limit() {
+        /*function test_convert_with_smaller_than_master_cache_limit() {
             //upload small image
             //http://d7d33ce07e5a4dde758f-907816caf88b83a66c02c54765504ae9.r33.cf2.rackcdn.com/small_car.gif
             $this->_clear_errors_for_test();
@@ -151,14 +151,22 @@ class PhotoCacheTestCase extends fototestcase {
             
             $this->SiteSetting = ClassRegistry::init("SiteSetting");
             $container_url = $this->SiteSetting->getImageContainerUrl();
-            foreach ($files as $file) {
+            foreach ($files as $key => $file) {
                 $this->_clear_errors_for_test();
                 $this->Testing->give_me_this($file, 'http://d7d33ce07e5a4dde758f-907816caf88b83a66c02c54765504ae9.r33.cf2.rackcdn.com');
 
                 $this->Photo = ClassRegistry::init("Photo");
                 $photo = $this->Photo->findById($this->Photo->id);
+                
+                if ($key == 4 || $key == 5) {
+                    $large_image_url = $container_url . $photo['Photo']['cdn-filename-forcache'];
+                    $image_size = getimagesize($large_image_url);
+                    $this->assertEqual($image_size[0], 1500);
+                    $this->assertEqual($image_size[0], 1500);
+                }
+                
                 $this->_ensure_no_errors();
             }
-        } 
+        }  */
       
 }

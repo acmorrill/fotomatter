@@ -156,7 +156,7 @@ abstract class fototestcase extends CakeTestCase {
         $all_class_functions = get_class_methods($helper_object);
         foreach ($all_class_functions as $function) {
            if (strpos($function, 'validate_') === 0) {
-               $helper_object->$function();
+               $this->assertEqual($helper_object->$function(), true);
            }
         }
     }
