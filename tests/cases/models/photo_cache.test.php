@@ -11,7 +11,7 @@ class PhotoCacheTestCase extends fototestcase {
                 App::import("Component", "Testing");
 		$this->Testing = new TestingComponent();
 	}
-      /* 
+       
         function test_convert_with_smaller_than_master_cache_limit() {
             //upload small image
             //http://d7d33ce07e5a4dde758f-907816caf88b83a66c02c54765504ae9.r33.cf2.rackcdn.com/small_car.gif
@@ -22,8 +22,8 @@ class PhotoCacheTestCase extends fototestcase {
             $photo = $this->Photo->findById($this->Photo->id);
             $this->_ensure_no_errors();
         }
-    
-        function test_delete_cached_file() {
+  
+       function test_delete_cached_file() {
             $this->_clear_errors_for_test();
             $this->Testing->give_me_images(1);
 	    $this->Photo = ClassRegistry::init("Photo");
@@ -129,19 +129,18 @@ class PhotoCacheTestCase extends fototestcase {
            
            $this->_ensure_no_errors();
         }
-        */
-        
+               
         //TODO .. make sure up resing and down resing happens as necessary
         function test_random_size_images() {
             //upload small image
             //http://d7d33ce07e5a4dde758f-907816caf88b83a66c02c54765504ae9.r33.cf2.rackcdn.com/small_car.gif
             $files = array(
-                //'small_car.jpg',
-                //'200car.jpg',
-               // '1000car.jpg',
-               // '1500car.jpg',
-               // '2200car.jpg',
-                '5000girl.jpg'
+                'small_car.jpg',
+                '200car.jpg',
+                '1000car.jpg',
+                '1500car.jpg',
+                '2200car.jpg',
+                  'walkman.jpg'
             );
             
             foreach ($files as $file) {
@@ -153,6 +152,6 @@ class PhotoCacheTestCase extends fototestcase {
                 $this->_ensure_no_errors();
             }
         }
-         
+     
 
 }
