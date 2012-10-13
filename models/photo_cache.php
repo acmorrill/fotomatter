@@ -135,7 +135,7 @@ class PhotoCache extends AppModel {
 			'contain' => false,
 			'fields' => array('PhotoCache.cdn-filename')
 		));
-		
+               
 		return $this->SiteSetting->getImageContainerUrl().$photo_cache['PhotoCache']['cdn-filename'];
 	}
 	

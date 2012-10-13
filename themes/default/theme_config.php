@@ -39,6 +39,17 @@ $theme_config = array(
 				'width' => 300,
 				'height' => 150
 			)
+		),
+		'theme_background_config' => array(
+			'theme_has_dynamic_background' => true,
+			'overlay_image' => array(
+				'absolute_path' => 	'',
+				'web_path' => ''
+			),
+			'default_bg_image' => array(
+				'absolute_path' => 	'', // max 1600 width and max 1200 height
+				'web_path' => ''
+			)
 		)
 	)
 );

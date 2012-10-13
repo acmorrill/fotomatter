@@ -1,4 +1,4 @@
-.<?php
+<?php
 /**
  * This file is loaded automatically by the app/webroot/index.php file after the core bootstrap.php
  *
@@ -41,9 +41,10 @@
  *
  */
 
+// themes paths 
 define("PATH_TO_THEMES", ROOT.DS.APP_DIR.DS.'themes');
-define("LOCAL_SCHEMA_PATH", ROOT.DS.APP_DIR.DS.'config'.DS.'versioning'.DS.'local'.DS.'schema');   
-define("GLOBAL_SCHEMA_PATH", ROOT.DS.APP_DIR.DS.'config'.DS.'versioning'.DS.'global'.DS.'schema');   
+
+// site logo paths
 define("SITE_LOGO_PATH", ROOT.DS.'site_logo');
 define("SITE_LOGO_THEME_BASE_PATH", SITE_LOGO_PATH.DS.'base');
 define("SITE_LOGO_THEME_BASE_WEB_PATH", DS.'base');
@@ -52,11 +53,27 @@ define("UPLOADED_LOGO_PATH", SITE_LOGO_UPLOAD_PATH.DS.'base_uploaded_logo.png');
 define("SITE_LOGO_UPLOAD_WEB_PATH", DS.'uploaded');
 define("SITE_LOGO_CACHES_PATH", SITE_LOGO_PATH.DS.'caches');
 define("SITE_LOGO_CACHES_WEB_PATH", DS.'caches');
+
+// site background paths
+define("SITE_BACKGROUND_PATH", ROOT.DS.'site_background');
+define("SITE_THEME_UPLOADED_IMAGES", SITE_BACKGROUND_PATH.DS.'theme_uploaded_images');
+define("SITE_THEME_MERGED_FINAL_IMAGES", SITE_BACKGROUND_PATH.DS.'theme_merged_final_images');
+//define("SITE_BACKGROUND_WEB_PATH", DS.'site_background');
+define("SITE_THEME_UPLOADED_IMAGES_WEB_PATH", DS.'theme_uploaded_images');
+define("SITE_THEME_MERGED_FINAL_IMAGES_WEB_PATH", DS.'theme_merged_final_images');
+
+// paths for schema directories
+define("LOCAL_SCHEMA_PATH", ROOT.DS.APP_DIR.DS.'config'.DS.'versioning'.DS.'local'.DS.'schema');   
+define("GLOBAL_SCHEMA_PATH", ROOT.DS.APP_DIR.DS.'config'.DS.'versioning'.DS.'global'.DS.'schema');   
+
+// image and image caching paths
 define("TEMP_IMAGE_PATH", ROOT.DS.'image_tmp');
 define("TEMP_IMAGE_VAULT", ROOT.DS.'image_vault');
 define("TEMP_IMAGE_UNIT", ROOT.DS.'unit_test_cache');
 define("LOCAL_MASTER_CACHE", ROOT.DS.'local_master_cache');
 define("LOCAL_SMALLER_MASTER_CACHE", ROOT.DS.'local_smaller_master_cache');
+
+// photo and caching constants
 define("MASTER_CACHE_PREFIX", 'mastercache_');
 define("SMALLER_MASTER_CACHE_PREFIX", 'mastercache_smaller_');
 define("LARGE_MASTER_CACHE_SIZE", 1500);
@@ -64,6 +81,8 @@ define("SMALL_MASTER_CACHE_SIZE", 250);
 define('MAX_UPLOAD_SIZE_MEGS', 5);
 define('FREE_MAX_RES', 2000);
 define("USE_CACHE_SPEED", true);
+
+// path to fonts
 define("GLOBAL_TTF_FONT_PATH", ROOT.DS.APP_DIR.DS.'webroot'.DS.'fonts');
 
 
