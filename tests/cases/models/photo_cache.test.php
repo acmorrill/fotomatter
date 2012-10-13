@@ -89,16 +89,22 @@ class PhotoCacheTestCase extends fototestcase {
            $this->assertEqual($image_cache['PhotoCache']['pixel_height'], $image_vars[1]);
            $this->_ensure_no_errors();
         } 
-       
+           
         function test_prepare_new_cache_size() {
            $this->_clear_errors_for_test();
            $this->Testing->give_me_images(3);
            
            $this->Photo = ClassRegistry::init("Photo");
-           for ($i = 0; $i < 20; $i++) {
+           for ($i = 0; $i < 5; $i++) {
                $target_width = rand(150, 500);
                $target_height = rand(150, 500);
                $raw_id = rand(0, 1);
+               $delete_local_cache = rand(0, 1);
+               
+               if ($delete_local_cache) {
+                   exec("rm -f " . LOCAL_MASTER_CACHE);
+                   exec("rm -f " . LOCAL_SMALLER_MASTER_CACHE);
+               }
              
                //find randome image to create cache size
                $random_photo = $this->Photo->find('first', array(
@@ -129,7 +135,7 @@ class PhotoCacheTestCase extends fototestcase {
            
            $this->_ensure_no_errors();
         }
-               
+        
         //TODO .. make sure up resing and down resing happens as necessary
         function test_random_size_images() {
             //upload small image
@@ -140,9 +146,11 @@ class PhotoCacheTestCase extends fototestcase {
                 '1000car.jpg',
                 '1500car.jpg',
                 '2200car.jpg',
-                  'walkman.jpg'
+                 'walkman.jpg'
             );
             
+            $this->SiteSetting = ClassRegistry::init("SiteSetting");
+            $container_url = $this->SiteSetting->getImageContainerUrl();
             foreach ($files as $file) {
                 $this->_clear_errors_for_test();
                 $this->Testing->give_me_this($file, 'http://d7d33ce07e5a4dde758f-907816caf88b83a66c02c54765504ae9.r33.cf2.rackcdn.com');
@@ -151,7 +159,6 @@ class PhotoCacheTestCase extends fototestcase {
                 $photo = $this->Photo->findById($this->Photo->id);
                 $this->_ensure_no_errors();
             }
-        }
-     
-
+        } 
+      
 }
