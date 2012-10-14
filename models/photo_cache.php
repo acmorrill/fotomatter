@@ -23,27 +23,27 @@ class PhotoCache extends AppModel {
 	}
 	
 	
-	public function get_dummy_error_image_path($height, $width, $direct_output = false) {
+	public function get_dummy_error_image_path($height, $width, $direct_output = false, $return_tag_attributes = false) {
 		$image_name = 'photo_404.jpg';
 		$dummy_image_path = ROOT.DS.APP_DIR.DS.'webroot/img/photo_default/'.$image_name;
 		$dummy_image_url_path = '/img/photo_default/'.$image_name;
 		$cache_path = ROOT.DS.APP_DIR.DS.'webroot/img/photo_default/caches';
 		$url_cache_path = '/img/photo_default/caches';
 		
-		return $this->get_dummy_image_path($height, $width, $image_name, $dummy_image_path, $dummy_image_url_path, $cache_path, $url_cache_path, $direct_output);
+		return $this->get_dummy_image_path($height, $width, $image_name, $dummy_image_path, $dummy_image_url_path, $cache_path, $url_cache_path, $direct_output, $return_tag_attributes);
 	}
 	
-	public function get_dummy_processing_image_path($height, $width, $direct_output = false) {
+	public function get_dummy_processing_image_path($height, $width, $direct_output = false, $return_tag_attributes = false, $return_tag_attributes = false) {
 		$image_name = 'photo_processing.jpg';
 		$dummy_image_path = ROOT.DS.APP_DIR.DS.'webroot/img/photo_default/'.$image_name;
 		$dummy_image_url_path = '/img/photo_default/'.$image_name;
 		$cache_path = ROOT.DS.APP_DIR.DS.'webroot/img/photo_default/caches';
 		$url_cache_path = '/img/photo_default/caches';
 		
-		return $this->get_dummy_image_path($height, $width, $image_name, $dummy_image_path, $dummy_image_url_path, $cache_path, $url_cache_path, $direct_output);
+		return $this->get_dummy_image_path($height, $width, $image_name, $dummy_image_path, $dummy_image_url_path, $cache_path, $url_cache_path, $direct_output, $return_tag_attributes);
 	}
 	
-	private function get_dummy_image_path($height, $width, $image_name, $dummy_image_path, $dummy_image_url_path, $cache_path, $url_cache_path, $direct_output) { 
+	private function get_dummy_image_path($height, $width, $image_name, $dummy_image_path, $dummy_image_url_path, $cache_path, $url_cache_path, $direct_output, $return_tag_attributes = false) { 
 		$bothEmpty = empty($height) && empty($width);
 		$onlyWidth = !empty($width) && empty($height);
 		$onlyHeight = empty($width) && !empty($height);
@@ -52,7 +52,16 @@ class PhotoCache extends AppModel {
 		// return the full photo path
 		if ($bothEmpty) {
 			if ($direct_output == false) {
-				return $dummy_image_url_path;
+				if ($return_tag_attributes == true) {
+					list($width, $height, $type, $tag_attributes) = getimagesize($dummy_image_path);
+					
+					return array(
+						'url' => $dummy_image_url_path,
+						'tag_attributes' => $tag_attributes
+					);
+				} else {
+					return $dummy_image_url_path;
+				}
 			} else {
 				$image_size = getimagesize($dummy_image_path);
 				//list($image_width, $image_height, $image_type, $image_attr) = $image_size;
@@ -100,7 +109,16 @@ class PhotoCache extends AppModel {
 		}
 		
 		if ($direct_output == false) {
-			return $url_image_path;
+			if ($return_tag_attributes == true) {
+				list($width, $height, $type, $tag_attributes) = getimagesize($image_path);
+
+				return array(
+					'url' => $url_image_path,
+					'tag_attributes' => $tag_attributes
+				);
+			} else {
+				return $url_image_path;
+			}
 		} else {
 			$image_size = getimagesize($image_path);
 			//list($image_width, $image_height, $image_type, $image_attr) = $image_size;
@@ -119,23 +137,33 @@ class PhotoCache extends AppModel {
 		}
 	}
 	
-	public function get_full_path($id) {
+	public function get_full_path($id, $return_tag_attributes = false) {
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
 		
 		$photo_cache = $this->find('first', array(
 			'conditions' => array('PhotoCache.id' => $id),
 			'contain' => false,
-			'fields' => array('PhotoCache.cdn-filename')
+			'fields' => array('PhotoCache.cdn-filename', 'PhotoCache.tag_attributes')
 		));
                
-		return $this->SiteSetting->getImageContainerUrl().$photo_cache['PhotoCache']['cdn-filename'];
+		if ($return_tag_attributes === true) {
+			return array(
+				'url' => $this->SiteSetting->getImageContainerUrl().$photo_cache['PhotoCache']['cdn-filename'],
+				'tag_attributes' => $photo_cache['PhotoCache']['tag_attributes']
+			);
+		} else {
+			return $this->SiteSetting->getImageContainerUrl().$photo_cache['PhotoCache']['cdn-filename'];
+		}
 	}
 	
-	public function prepare_new_cachesize($photo_id, $height, $width, $raw_id = false) {
+	public function prepare_new_cachesize($photo_id, $height, $width, $raw_id = false, $unsharp_amount = null, $return_tag_attributes = false) {
 		$data['PhotoCache']['photo_id'] = $photo_id;
 		$data['PhotoCache']['max_height'] = $height;
 		$data['PhotoCache']['max_width'] = $width;
 		$data['PhotoCache']['status'] = 'queued';
+		if (isset($unsharp_amount)) {
+			$data['PhotoCache']['unsharp_amount'] = $unsharp_amount;
+		}
 		
 		$this->create();
 		if ($this->save($data) == false) {
@@ -145,13 +173,68 @@ class PhotoCache extends AppModel {
 			if ($raw_id == true) {
 				return $this->id;
 			} else {
-				return '/photo_caches/create_cache/'.$this->id.'/';
+				if ($return_tag_attributes === true) {
+					return array(
+						'url' => '/photo_caches/create_cache/'.$this->id.'/',
+						'tag_attributes' => $this->predict_cache_tag_attributes_for_photo_cache($this->id)
+					);
+				} else {
+					return '/photo_caches/create_cache/'.$this->id.'/';
+				}
 			}
 		}
 	}
 	
-	public function get_existing_cache_create_url($photo_cache_id) {
-		return '/photo_caches/create_cache/'.$photo_cache_id.'/';
+	public function predict_cache_tag_attributes_for_photo_cache($photo_cache_id) {
+		$curr_photo_cache = $this->find('first', array(
+			'conditions' => array(
+				'PhotoCache.id' => $photo_cache_id
+			),
+			'contain' => array(
+				'Photo'
+			)
+		));
+		
+		
+		$forcache_pixel_width = $curr_photo_cache['Photo']['forcache_pixel_width'];
+		$forcache_pixel_height = $curr_photo_cache['Photo']['forcache_pixel_height'];
+		$max_cache_width = $curr_photo_cache['PhotoCache']['max_width'];
+		$max_cache_height = $curr_photo_cache['PhotoCache']['max_height'];
+		
+//		debug($forcache_pixel_width);
+//		debug($forcache_pixel_height);
+//		debug($max_cache_width);
+//		debug($max_cache_height);
+		
+		$W_width = $max_cache_width;
+		$W_height = round(($W_width * $forcache_pixel_height) / $forcache_pixel_width);
+		$H_height = $max_cache_height;
+		$H_width = round(($H_height * $forcache_pixel_width) / $forcache_pixel_height);
+		
+		$use_height = ($H_height * $H_width) < ($W_width * $W_height);
+		
+		if ($use_height) {
+			return 'width="'.$H_width.'" height="'.$H_height.'"';
+		} else {
+			return 'width="'.$W_width.'" height="'.$W_height.'"';
+		}
+	}
+	
+	public function get_existing_cache_create_url($photo_cache_id, $return_tag_attributes = false) {
+		if ($return_tag_attributes === true) {
+			$photo_cache = $this->find('first', array(
+				'conditions' => array('PhotoCache.id' => $photo_cache_id),
+				'contain' => false,
+				'fields' => array('PhotoCache.tag_attributes')
+			));
+			
+			return array(
+				'url' => '/photo_caches/create_cache/'.$photo_cache_id.'/',
+				'tag_attributes' => $photo_cache['PhotoCache']['tag_attributes']
+			);
+		} else {
+			return '/photo_caches/create_cache/'.$photo_cache_id.'/';
+		}
 	}
 	
 	public function finish_create_cache($photocache_id, $direct_output = true) {
@@ -264,8 +347,13 @@ class PhotoCache extends AppModel {
 			$cache_image_name = $cache_prefix.$max_height_display.'x'.$max_width_display.'_'.$photoCache['Photo']['cdn-filename'];
 			$new_cache_image_path = TEMP_IMAGE_PATH.DS.$cache_image_name;
                         
+			$unsharp_amount = null;
+			if (isset($photoCache['PhotoCache']['unsharp_amount'])) {
+				$unsharp_amount = $photoCache['PhotoCache']['unsharp_amount'];
+			}
 			
-			if ($this->convert($large_image_url, $new_cache_image_path, $max_width, $max_height) == false) {
+			
+			if ($this->convert($large_image_url, $new_cache_image_path, $max_width, $max_height, true, $unsharp_amount) == false) {
 				$this->major_error('failed to create new cache file in finish_create_cache', array($large_image_url, $new_cache_image_path, $max_width, $max_height));
 				$photoCache['PhotoCache']['status'] = 'failed';
 				$this->save($photoCache);
@@ -304,6 +392,7 @@ class PhotoCache extends AppModel {
 			unset($photoCache['Photo']);
 
 			if (!$this->CloudFiles->put_object($cache_image_name, $new_cache_image_path, $newcache_mime)) {
+				// DREW TODO - this happened once - maybe we should add a mechanism to simply retry again next time (cus it seems to happen randomly)
 				$this->major_error("failed to finish creating cache file", compact('photoCache', 'cache_image_name', 'new_cache_image_path', 'newcache_mime'));
 				$photoCache['PhotoCache']['status'] = 'failed';
 				unset($photoCache['PhotoCache']['pixel_width']);
@@ -328,7 +417,7 @@ class PhotoCache extends AppModel {
 		return $this->CloudFiles;
 	}
 	
-	public function convert($old_image_url, $new_image_path, $max_width, $max_height, $enlarge = true) {
+	public function convert($old_image_url, $new_image_path, $max_width, $max_height, $enlarge = true, $unsharp_amount = null) {
 		/*App::import('Component', 'ImageVersion');
 		$email = new ImageVersionComponent();
 		$email->startup($controller);
@@ -383,15 +472,20 @@ class PhotoCache extends AppModel {
 			$enlarge_str = '';
 		}
 		
-		$imageMagickCommand = "convert $jpeg_define $filter $resize$enlarge_str ".escapeshellarg($old_image_url).' '.escapeshellarg($new_image_path).' ';
+		$unsharp = '';
+		if (isset($unsharp_amount)) {
+			$unsharp = "-unsharp 0x$unsharp_amount";
+		}
+		
+		$imageMagickCommand = "convert $unsharp $jpeg_define $filter $resize$enlarge_str ".escapeshellarg($old_image_url).' '.escapeshellarg($new_image_path).' ';
 		$info = array();
 		$info['output'] = array();
 		$info['return_var'] = 0;
 		exec($imageMagickCommand, $info['output'], $info['return_var']);
                 
-                if (is_file($new_image_path) == false) {
-                    $this->major_error("new image file not created");
-                }
+		if (is_file($new_image_path) == false) {
+			$this->major_error("new image file not created");
+		}
 		
 		if ($info['return_var'] != 0) {
 			$this->major_error('image magick command failed', $info);

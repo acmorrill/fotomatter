@@ -18,7 +18,7 @@
 		<?php echo $this->Element('nameTitle'); ?>
 		
 		<div id="largePhotoPos" style="width: 892px">
-			<?php $img_src = $this->Photo->get_photo_path($curr_photo['Photo']['id'], 700, 700); ?>
+			<?php $img_src = $this->Photo->get_photo_path($curr_photo['Photo']['id'], 700, 700, .4, true); ?>
 			
 			<script type="text/javascript">
 				jQuery(document).ready(function() {
@@ -28,7 +28,7 @@
 			</script>
 			
 			<div id="mainImage">
-				<img src="<?php echo $img_src; ?>" alt="<?php echo $curr_photo['Photo']['alt_text']; ?>" />
+				<img src="<?php echo $img_src['url']; ?>" <?php echo $img_src['tag_attributes']; ?> alt="<?php echo $curr_photo['Photo']['alt_text']; ?>" />
 				<?php $prev_image_web_path = $this->Photo->get_prev_image_web_path($curr_photo['Photo']['id'], $curr_gallery['PhotoGallery']['id']); ?>
 				<a class="photo_page_nav prev_image arrow <?php if ($is_pano): ?> is_pano<?php endif; ?>" href="<?php echo $prev_image_web_path; ?>">
 					<img onmouseover="this.src='/images/misc/arrowLeftRed.png';" onmouseout="this.src='/images/misc/arrowLeft.png';" src="/images/misc/arrowLeftRed.png" />

@@ -10,10 +10,10 @@ class PhotoHelper extends AppHelper {
 		return $this->PhotoCache->get_dummy_error_image_path($height, $width);
 	}
 	
-	public function get_photo_path($photo_id, $height, $width) {
+	public function get_photo_path($photo_id, $height, $width, $unsharp_amount = null, $return_tag_attributes = false) {
 		$this->Photo = ClassRegistry::init('Photo');
 		
-		return $this->Photo->get_photo_path($photo_id, $height, $width);
+		return $this->Photo->get_photo_path($photo_id, $height, $width, $unsharp_amount, $return_tag_attributes);
 	}
 	
 	public function get_prev_image_web_path($photo_id, $gallery_id) {
@@ -53,6 +53,7 @@ class PhotoHelper extends AppHelper {
 		));
 		
 		if (!isset($prev_gallery_photo['PhotoGalleriesPhoto']['photo_id'])) {
+			// DREW TODO - make it so this code will return the first page for previous but the last page for next
 			return $this->Html->url(array(    
 				'controller' => 'photo_galleries',    
 				'action' => 'view_gallery',    
