@@ -275,6 +275,7 @@ div#zoomWidget img {
 	display: inline-block;
 	vertical-align: middle;
 	position: relative;
+	background-color: #E6E6E6;
 }
 #mainImage img {
 	display: inline-block;
@@ -553,6 +554,7 @@ div.portfolioLinks a:hover {
 }
 #gallery_list_table.two_column_gallery_list td .gallery_image_outer_cont {
 	border: 1px solid #D0D0D0; display: inline-block; vertical-align: middle;
+	background-color: #E6E6E6;
 }
 
 

@@ -8,7 +8,11 @@ $theme_config = array(
 			'landing_page' => 'landing'
 		),
 		'PhotoGalleries' => array(
+			'choose_gallery' => false,
 			'view_gallery' => 'gallery'
+		),
+		'Photos' => array(
+			'view_photo' => 'view_photo'
 		)
 	),
 	'admin_config' => array(

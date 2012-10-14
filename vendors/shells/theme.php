@@ -105,14 +105,25 @@ class ThemeShell extends Shell {
 	public function change_theme() {
 		if (!isset($this->args[0])) {
 			$this->hr();
-			$this->out('You have to pass a theme to change to');
+			$this->out('You have to pass a theme to change to (either the id or the name)');
 			$this->hr();
+			$all_themes = $this->Theme->find('all', array(
+				'contain' => false
+			));
+			foreach ($all_themes as $curr_theme) {
+				$this->out($curr_theme['Theme']['id'].' --- '.$curr_theme['Theme']['ref_name']);
+			}
 			exit(1);
+		} else {
+			$theme_to_change_to = $this->args[0];
+			
+			if (is_numeric($theme_to_change_to)) {
+				$this->Theme->change_to_theme_by_id($theme_to_change_to);
+			} else {
+				$this->Theme->change_to_theme($theme_to_change_to);
+			}
 		}
 		
-		$theme_to_change_to = $this->args[0];
-		
-		$this->Theme->change_to_theme($theme_to_change_to);
 	}
 	
 }
