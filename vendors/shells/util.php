@@ -1,7 +1,7 @@
 <?php
 
 class UtilShell extends Shell {
-	public $uses = array('User', 'Group', 'Permission', 'Photo', 'SiteSetting', 'PhotoGallery', 'PhotoGalleriesPhoto', 'PhotoCache', 'SitePage', 'SitePageElement', 'SitePagesSitePageElement', 'SiteOneLevelMenu');
+	public $uses = array('User', 'Group', 'Permission', 'Photo', 'SiteSetting', 'PhotoGallery', 'PhotoGalleriesPhoto', 'PhotoCache', 'SitePage', 'SitePageElement', 'SitePagesSitePageElement', 'SiteOneLevelMenu', 'SiteTwoLevelMenu', 'SiteTwoLevelMenuContainer', 'SiteTwoLevelMenuContainerItem');
 	
 		///////////////////////////////////////////////////////////////
 	/// shell start
@@ -129,11 +129,6 @@ class UtilShell extends Shell {
 		$this->SiteOneLevelMenu->deleteAll('1=1', true, true);
 		
 		
-		// add the default menu items - DREW TODO
-		//$home['SiteOneLevelMenu']['external_id']
-		//$this->SiteOneLevelMenu
-		
-		
 		$belongsTo = $this->SiteOneLevelMenu->belongsTo;
 		
 		$pos_models = array();
@@ -160,6 +155,76 @@ class UtilShell extends Shell {
 			$this->SiteOneLevelMenu->save($new_menu_item);
 		}
 		
+		
+		$this->SiteTwoLevelMenu->deleteAll('1=1', true, true);
+		$this->SiteTwoLevelMenuContainer->deleteAll('1=1', true, true);
+		$this->SiteTwoLevelMenuContainerItem->deleteAll('1=1', true, true);
+		
+		$belongsTo = $this->SiteTwoLevelMenu->belongsTo;
+		
+		$pos_models = array();
+		foreach ($belongsTo as $model_name => $item) {
+			$pos_models[] = $model_name;
+		}
+		
+		$pos_cont_item_models = array();
+		foreach ($this->SiteTwoLevelMenuContainerItem->belongsTo as $model_name => $item) {
+			$pos_cont_item_models[] = $model_name;
+		}
+		
+		$total_menu_items = 15;
+		for($x = 0; $x < $total_menu_items; $x++) {
+			$random_model = $pos_models[rand(0, count($pos_models)-1)];
+			
+			if ($random_model == 'SiteTwoLevelMenuContainer') {
+				// need to also create some random containers and container items
+				$num_containers = rand(3, 8);
+				for($p = 0; $p < $num_containers; $p++) {
+					$new_container = array();
+					$new_container['SiteTwoLevelMenuContainer']['display_name'] = 'container '.$p;
+					$this->SiteTwoLevelMenuContainer->create();
+					$this->SiteTwoLevelMenuContainer->save($new_container);
+					
+					$new_container_id = $this->SiteTwoLevelMenuContainer->id;
+					
+					// create some random menu items for the two level menu container
+					$total_sub_menu_items = rand(2, 10);
+					for($r = 0; $r < $total_sub_menu_items; $r++) {
+						$random_sub_model = $pos_cont_item_models[rand(0, count($pos_cont_item_models)-1)];
+						
+						$random_sub_model_row = $this->$random_sub_model->find('first', array(
+							'contain' => false,
+							'limit' => 1,
+							'order' => 'rand()'
+						));
+
+
+						$new_sub_menu_item = array();
+						$new_sub_menu_item['SiteTwoLevelMenuContainerItem']['site_two_level_menu_container_id'] = $new_container_id;
+						$new_sub_menu_item['SiteTwoLevelMenuContainerItem']['external_id'] = $random_sub_model_row[$random_sub_model]['id'];
+						$new_sub_menu_item['SiteTwoLevelMenuContainerItem']['external_model'] = $random_sub_model;
+						$this->SiteTwoLevelMenuContainerItem->create();
+						$this->SiteTwoLevelMenuContainerItem->save($new_sub_menu_item);
+					}
+					
+					
+				}
+			}
+			
+			
+			$random_model_row = $this->$random_model->find('first', array(
+				'contain' => false,
+				'limit' => 1,
+				'order' => 'rand()'
+			));
+
+
+			$new_menu_item = array();
+			$new_menu_item['SiteTwoLevelMenu']['external_id'] = $random_model_row[$random_model]['id'];
+			$new_menu_item['SiteTwoLevelMenu']['external_model'] = $random_model;
+			$this->SiteTwoLevelMenu->create();
+			$this->SiteTwoLevelMenu->save($new_menu_item);
+		}
 	}
 	
 	public function add_pages() {
@@ -167,10 +232,10 @@ class UtilShell extends Shell {
 		$this->SitePagesSitePageElement->deleteAll('1=1', true, true);
 		
 		
-		for($x = 0; $x < 50; $x++) {
+		for($r = 0; $r < 50; $r++) {
 			$data = array();
 			$data['SitePage'] = array();
-			$data['SitePage']['title'] = "Page ".str_pad( ($x+1), 3, "0", STR_PAD_LEFT);
+			$data['SitePage']['title'] = "Page ".str_pad( ($r+1), 3, "0", STR_PAD_LEFT);
 			$this->SitePage->create();
 			$this->SitePage->save($data);
 			
@@ -310,7 +375,7 @@ class UtilShell extends Shell {
 			'order' => 'PhotoGallery.id DESC'
 		));
 		if ($lastGallery) {
-			$x = $lastGallery['PhotoGallery']['id'];
+			$r = $lastGallery['PhotoGallery']['id'];
 		} else {
 			$x = 0;
 			$lastGallery['PhotoGallery']['id'] = 0;

@@ -5,6 +5,12 @@ class SitePage extends AppModel {
 	public $hasMany = array(
 		'SitePagesSitePageElement' => array(
 			'dependent' => true
+		),
+		'SiteTwoLevelMenu' => array(
+			'dependent' => true
+		),
+		'SiteTwoLevelMenuContainerItem' => array(
+			'dependent' => true
 		)
 	);
 	public $actsAs = array('Ordered' => array('foreign_key' => false));

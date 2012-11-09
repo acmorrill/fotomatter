@@ -7,6 +7,12 @@ class PhotoGallery extends AppModel {
 				"PhotoGalleriesPhoto.photo_order" => 'asc'
 			),
 			'dependent' => true
+		),
+		'SiteTwoLevelMenu' => array(
+			'dependent' => true
+		),
+		'SiteTwoLevelMenuContainerItem' => array(
+			'dependent' => true
 		)
 	);
 	public $actsAs = array('Ordered' => array('foreign_key' => false));
