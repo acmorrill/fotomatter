@@ -1,7 +1,7 @@
 <?php
 class SiteMenusController extends AppController {
      var $name = 'SiteMenus';
-     var $uses = array('SiteOneLevelMenu');
+     var $uses = array('SiteOneLevelMenu', 'SiteTwoLevelMenu');
 	 var $helpers = array('ThemeMenu');
 	 
 	 public function admin_ajax_set_site_single_level_order($site_one_level_menu_id, $order) {
@@ -19,6 +19,21 @@ class SiteMenusController extends AppController {
 		$this->return_json($returnArr);
 	}
 	
+	public function admin_ajax_set_site_two_level_order($site_two_level_menu_id, $order) {
+		$returnArr = array();
+		
+		$this->SiteTwoLevelMenu->id = $site_two_level_menu_id;
+		if ($this->SiteTwoLevelMenu->moveto($site_two_level_menu_id, $order)) {
+			$returnArr['code'] = 1;
+		} else {
+			$returnArr['code'] = -1;
+			$returnArr['message'] = 'failed to arrange site_two_level_menu item element';
+			$this->SiteTwoLevelMenu->major_error('failed to arrange site_two_level_menu item element');
+		}
+		
+		$this->return_json($returnArr);
+	}
+	
 	public function admin_ajax_delete_one_level_menu_item($site_one_level_menu_id) {
 		$returnArr = array();
 		
@@ -28,6 +43,21 @@ class SiteMenusController extends AppController {
 			$returnArr['code'] = -1;
 			$returnArr['message'] = 'failed to delete site_one_level_menu item element in page';
 			$this->SiteOneLevelMenu->major_error('failed to delete site_one_level_menu item element in page');
+		}
+		
+		
+		$this->return_json($returnArr);
+	}
+	
+	public function admin_ajax_delete_two_level_menu_item($site_two_level_menu_id) {
+		$returnArr = array();
+		
+		if ($this->SiteTwoLevelMenu->delete($site_two_level_menu_id)) {
+			$returnArr['code'] = 1;
+		} else {
+			$returnArr['code'] = -1;
+			$returnArr['message'] = 'failed to delete site_one_level_menu item element in page';
+			$this->SiteTwoLevelMenu->major_error('failed to delete site_one_level_menu item element in page');
 		}
 		
 		
