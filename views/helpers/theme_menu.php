@@ -1,6 +1,16 @@
 <?php
 class ThemeMenuHelper extends AppHelper {
 	
+	public function get_two_level_menu_containers() {
+		$this->SiteTwoLevelMenuContainer = ClassRegistry::init('SiteTwoLevelMenuContainer');
+		
+		$containers = $this->SiteTwoLevelMenuContainer->find('all', array(
+			'contain' => false
+		));
+		
+		return $containers;
+	}
+	
 	public function get_single_menu_items() {
 		$this->SiteOneLevelMenu = ClassRegistry::init('SiteOneLevelMenu');
 		$single_menu_items = $this->SiteOneLevelMenu->find('all', array(
