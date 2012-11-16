@@ -148,8 +148,37 @@ class SiteMenusController extends AppController {
 		$this->return_json($returnArr);
 	}
 	
-	// DREW TODO - finish this function
-	public function add_two_level_menu_container_item($site_two_level_menu_container_id, $external_model, $external_id) {
+	public function admin_add_two_level_menu_container_item($site_two_level_menu_container_id, $external_model, $external_id) {
+		$returnArr = array();
 		
+		$data = array();
+		$data['SiteTwoLevelMenuContainerItem']['ref_name'] = 'custom'; 
+		$data['SiteTwoLevelMenuContainerItem']['site_two_level_menu_container_id'] = $site_two_level_menu_container_id; 
+		$data['SiteTwoLevelMenuContainerItem']['external_id'] = $external_id; 
+		$data['SiteTwoLevelMenuContainerItem']['external_model'] = $external_model; 
+		
+		$this->SiteTwoLevelMenuContainerItem->create();
+		if ($this->SiteTwoLevelMenuContainerItem->save($data)) {
+			$returnArr['code'] = 1;
+			
+			$new_menu_item = $this->SiteTwoLevelMenuContainerItem->find('first', array(
+				'conditions' => array(
+					'SiteTwoLevelMenuContainerItem.id' => $this->SiteTwoLevelMenuContainerItem->id
+				)
+			));
+			
+			App::import('Helper', 'ThemeMenu'); 
+			$this->ThemeMenu = new ThemeMenuHelper();
+			
+			$menu_item_data = $this->ThemeMenu->get_menu_item_data($new_menu_item['SiteTwoLevelMenuContainerItem'], $new_menu_item);
+			
+			$returnArr['new_menu_item_html'] = $this->Element('admin/theme_center/main_menu/two_level_menu_container_item', array('submenu_items' => array($menu_item_data)));
+		} else {
+			$returnArr['code'] = -1;
+			$returnArr['message'] = 'failed to add a two level menu container item to a container';
+			$this->SiteTwoLevelMenuContainerItem->major_error('failed to add a two level menu item to the top level', compact('data'));
+		}
+		
+		$this->return_json($returnArr);
 	}
 }

@@ -81,7 +81,7 @@
 					<?php // style="background: url('/img/admin/icons/FOLDER - DOWNLOADS.png') center left no-repeat; padding-left: 35px;" ?>
 					<h2><?php echo $tab_name; ?></h2>
 				</div>
-				<div class="content-background <?php if (isset($lighter)): ?>lighter-content-background<?php endif; ?> block_element_base" style="height: 300px;">
+				<div class="content-background <?php if (isset($lighter)): ?>lighter-content-background<?php endif; ?> block_element_base" style="height: 450px;">
 					<?php echo $this->Element($tab_element_path); ?>
 				</div>
 			</div>
