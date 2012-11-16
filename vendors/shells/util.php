@@ -200,6 +200,7 @@ class UtilShell extends Shell {
 
 
 					$new_sub_menu_item = array();
+					$new_sub_menu_item['SiteTwoLevelMenuContainerItem']['ref_name'] = 'custom';
 					$new_sub_menu_item['SiteTwoLevelMenuContainerItem']['site_two_level_menu_container_id'] = $new_container_id;
 					$new_sub_menu_item['SiteTwoLevelMenuContainerItem']['external_id'] = $random_sub_model_row[$random_sub_model]['id'];
 					$new_sub_menu_item['SiteTwoLevelMenuContainerItem']['external_model'] = $random_sub_model;

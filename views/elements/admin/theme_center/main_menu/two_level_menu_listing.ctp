@@ -41,6 +41,36 @@
 		});
 	}
 	
+	function setup_two_level_menu_container_item_delete(selector) {
+		jQuery(selector).click(function() {
+			var sub_menu_item = jQuery(this).closest('.sub_menu_item');
+			var two_level_menu_container_item_id_to_delete = sub_menu_item.attr('site_two_level_menu_container_item_id');
+			
+			//console.log (two_level_menu_container_item_id_to_delete);
+			
+			jQuery.ajax({
+				type: 'post',
+				url: '/admin/site_menus/ajax_delete_sub_menu_item/'+two_level_menu_container_item_id_to_delete+'/',
+				data: {},
+				success: function(data) {
+					if (data.code == 1) {
+						// remove the item
+						sub_menu_item.remove();
+					} else {
+						major_error_recover(data.message);
+					}
+				},
+				complete: function() {
+
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+
+				},
+				dataType: 'json'
+			});
+		});
+	}
+	
 	jQuery(document).ready(function() {
 		jQuery('.two_level_menu_items_cont').sortable({
 			handle: '.order_in_two_level_menu_button',
@@ -56,10 +86,8 @@
 				jQuery(context).sortable('disable');
 				
 				// figure the new position of the dragged element
-				var site_two_level_menu_id = jQuery(ui.item).attr('site_two_level_menu_id');
-				var new_index = ui.item.index();
+				var site_two_level_menu_id = jQuery(ui.item).attr('top_level_site_two_level_menu_id');
 				var newPosition = position_of_element_among_siblings(jQuery('.top_level_item', context), jQuery(ui.item));
-				//var newPosition = new_index + 1; // DREW TODO - change this to use - var newPosition = position_of_element_among_siblings(jQuery('.page_element_cont', this), jQuery(ui.item));
 				
 				jQuery.post('/admin/site_menus/ajax_set_site_two_level_order/'+site_two_level_menu_id+'/'+newPosition+'/', function(data) {
 					if (data.code == 1) {
@@ -104,38 +132,9 @@
 			}
 		});
 		
-		jQuery('.two_level_menu_items_cont .container_item .sub_menu_item .delete_sub_menu_item_button').click(function() {
-			var sub_menu_item = jQuery(this).closest('.sub_menu_item');
-			var two_level_menu_container_item_id_to_delete = sub_menu_item.attr('site_two_level_menu_container_item_id');
-			
-			console.log (two_level_menu_container_item_id_to_delete);
-			
-			jQuery.ajax({
-				type: 'post',
-				url: '/admin/site_menus/ajax_delete_sub_menu_item/'+two_level_menu_container_item_id_to_delete+'/',
-				data: {},
-				success: function(data) {
-					if (data.code == 1) {
-						// remove the item
-						sub_menu_item.remove();
-					} else {
-						major_error_recover(data.message);
-					}
-				},
-				complete: function() {
-
-				},
-				error: function(jqXHR, textStatus, errorThrown) {
-
-				},
-				dataType: 'json'
-			});
-		});
-		
+		setup_two_level_menu_container_item_delete('.two_level_menu_items_cont .container_item .sub_menu_item .delete_sub_menu_item_button');
 		
 		setup_two_level_menu_item_delete('.two_level_menu_items_cont .top_level_item .remove_from_two_level_menu_button');
-		
-		
 	});
 </script>
 
@@ -148,7 +147,7 @@
 	</div>
 	
 
-	<div class="generic_sort_and_filters" style="position: absolute; bottom: -91px; left: 0px; right: 0px;">
+	<div class="generic_sort_and_filters" style="position: absolute; top: 100%; left: 0px; right: 0px; height: auto;">
 		<script type="text/javascript">
 			jQuery(document).ready(function() {
 				jQuery('#two_level_menu_page_add_button').click(function() {
@@ -158,9 +157,10 @@
 					var site_page_id = select_box.val();
 					var container_select_box = jQuery(context).parent().find('.add_to_container_list');
 					var container_id = container_select_box.val();
+					var site_two_level_menu_id = container_select_box.find('option:selected').attr('site_two_level_menu_id');
 					
 					if (container_id == 'top_level') {
-						console.log ('doing the top level add');
+//						console.log ('doing the top level add');
 						
 						// do the top level add
 						jQuery.ajax({
@@ -188,7 +188,31 @@
 						});	
 					} else {
 						// do the container add
-						console.log ("container add");
+						jQuery.ajax({
+							type: 'post',
+							url: '/admin/site_menus/add_two_level_menu_container_item/'+container_id+'/SitePage/'+site_page_id+'/',
+							data: {},
+							success: function(data) {
+								if (data.code == 1) {
+									var new_menu_item = jQuery(data.new_menu_item_html);
+									setup_two_level_menu_container_item_delete(new_menu_item);
+//									console.log (site_two_level_menu_id);
+									move_to_cont = jQuery('div[top_level_site_two_level_menu_id="'+site_two_level_menu_id+'"]');
+//									console.log (move_to_cont);
+									move_to_cont.append(new_menu_item);
+
+									// move scoll to new menu item
+									var menu_cont = jQuery(move_to_cont).closest('.content-background');
+									menu_cont.scrollTop(move_to_cont.position().top); // move_to_cont.height() -- DREW TODO - maybe refine this scrollTo
+								} else {
+									major_error_recover('Failed to add the page menu item to a container');
+								}
+							},
+							complete: function() {
+
+							},
+							dataType: 'json'
+						});	
 					}
 				});
 				
@@ -221,7 +245,7 @@
 									var menu_cont = jQuery(move_to_cont).closest('.content-background');
 									menu_cont.scrollTop(menu_cont.prop("scrollHeight"));
 								} else {
-									major_error_recover('Failed to add the page menu item');
+									major_error_recover('Failed to add the gallery menu item');
 								}
 							},
 							complete: function() {
@@ -231,7 +255,31 @@
 						});	
 					} else {
 						// do the container add
-						console.log ("container add");
+						jQuery.ajax({
+							type: 'post',
+							url: '/admin/site_menus/add_two_level_menu_container_item/'+container_id+'/PhotoGallery/'+photo_gallery_id+'/',
+							data: {},
+							success: function(data) {
+								if (data.code == 1) {
+									var new_menu_item = jQuery(data.new_menu_item_html);
+									setup_two_level_menu_container_item_delete(new_menu_item);
+//									console.log (site_two_level_menu_id);
+									move_to_cont = jQuery('div[top_level_site_two_level_menu_id="'+site_two_level_menu_id+'"]');
+//									console.log (move_to_cont);
+									move_to_cont.append(new_menu_item);
+
+									// move scoll to new menu item
+									var menu_cont = jQuery(move_to_cont).closest('.content-background');
+									menu_cont.scrollTop(move_to_cont.position().top); // move_to_cont.height() -- DREW TODO - maybe refine this scrollTo
+								} else {
+									major_error_recover('Failed to add the gallery menu item to a container');
+								}
+							},
+							complete: function() {
+
+							},
+							dataType: 'json'
+						});	
 					}
 				});
 			});
@@ -251,7 +299,7 @@
 			<select class="add_to_container_list">
 				<option value="top_level">Top Level</option>
 				<?php foreach ($all_containers as $all_container): ?>
-					<option value="<?php echo $all_container['SiteTwoLevelMenuContainer']['id']; ?>"><?php echo $all_container['SiteTwoLevelMenuContainer']['display_name']; ?></option>
+					<option value="<?php echo $all_container['SiteTwoLevelMenuContainer']['id']; ?>" site_two_level_menu_id="<?php echo $all_container['SiteTwoLevelMenu']['id']; ?>"><?php echo $all_container['SiteTwoLevelMenuContainer']['display_name']; ?></option>
 				<?php endforeach; ?>
 			</select>
 			<input id="two_level_menu_page_add_button" class="add_button" type="submit" value="<?php __('Go'); ?>" />
@@ -269,7 +317,7 @@
 			<select class="add_to_container_list">
 				<option value="top_level">Top Level</option>
 				<?php foreach ($all_containers as $all_container): ?>
-					<option value="<?php echo $all_container['SiteTwoLevelMenuContainer']['id']; ?>"><?php echo $all_container['SiteTwoLevelMenuContainer']['display_name']; ?></option>
+					<option value="<?php echo $all_container['SiteTwoLevelMenuContainer']['id']; ?>" site_two_level_menu_id="<?php echo $all_container['SiteTwoLevelMenu']['id']; ?>"><?php echo $all_container['SiteTwoLevelMenuContainer']['display_name']; ?></option>
 				<?php endforeach; ?>
 			</select>
 			<input id="two_level_menu_gallery_add_button" class="add_button" type="submit" value="<?php __('Go'); ?>" />
