@@ -1,0 +1,10 @@
+<?php
+$db_configs['local']['host'] = '%host%';
+$db_configs['local']['login'] = '%login%';
+$db_configs['local']['password'] = '%password%';
+$db_configs['local']['database'] = '%database%';
+
+$db_configs['global']['host'] = '%global_host%';
+$db_configs['global']['login'] = '%global_login%';
+$db_configs['global']['password'] = '%global_password%';
+$db_configs['global']['database'] = '%global_database%';
