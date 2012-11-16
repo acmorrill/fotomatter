@@ -1,6 +1,16 @@
 <?php
 class ThemeMenuHelper extends AppHelper {
 	
+	public function get_two_level_menu_containers() {
+		$this->SiteTwoLevelMenuContainer = ClassRegistry::init('SiteTwoLevelMenuContainer');
+		
+		$containers = $this->SiteTwoLevelMenuContainer->find('all', array(
+			'contain' => false
+		));
+		
+		return $containers;
+	}
+	
 	public function get_single_menu_items() {
 		$this->SiteOneLevelMenu = ClassRegistry::init('SiteOneLevelMenu');
 		$single_menu_items = $this->SiteOneLevelMenu->find('all', array(
@@ -12,13 +22,44 @@ class ThemeMenuHelper extends AppHelper {
 		return $single_menu_items;
 	}
 	
+	public function get_two_level_menu_items() {
+		$this->SiteTwoLevelMenu = ClassRegistry::init('SiteTwoLevelMenu');
+		$two_level_menu_items = $this->SiteTwoLevelMenu->find('all', array(
+			'order' => array(
+				'SiteTwoLevelMenu.weight'
+			),
+			'contain' => array(
+				'PhotoGallery',
+				'SitePage',
+				'SiteTwoLevelMenuContainer' => array(
+					'SiteTwoLevelMenuContainerItem' => array(
+						'order' => array(
+							'SiteTwoLevelMenuContainerItem.weight'
+						),
+						'PhotoGallery',
+						'SitePage',
+					),
+				),
+			),
+		));
+		
+		return $two_level_menu_items;
+	}
+
+	/**
+	 * this function is used to interpret the single level menu data
+	 * 
+	 * @param type $menu_item
+	 * @param type $all_menu_item_data
+	 * @return boolean|string 
+	 */
 	public function get_menu_item_data($menu_item, $all_menu_item_data) {
 		$data = array();
 		
 		$start_data;
 		if (isset($menu_item['external_model'])) {
 			$start_data = $menu_item['external_model'];
-			if ($menu_item['is_system'] == 1) {
+			if (isset($menu_item['is_system']) && $menu_item['is_system'] == 1) {
 				$start_data = 'System';
 			}
 		} else {
@@ -27,6 +68,7 @@ class ThemeMenuHelper extends AppHelper {
 		
 		
 		$data['type'] = $start_data;
+		$data['id'] = $menu_item['id'];
 		switch ($start_data) {
 			case 'System': 
 				if ($menu_item['ref_name'] === 'home') {
@@ -49,6 +91,16 @@ class ThemeMenuHelper extends AppHelper {
 				$data['name'] = $all_menu_item_data['SitePage']['title'];
 				$data['display_type'] = __('Page', true);
 				$data['url'] = '/site_pages/custom_page/'.$menu_item['external_id'];
+				break;
+			case 'SiteTwoLevelMenuContainer':
+				$data['name'] = $all_menu_item_data['SiteTwoLevelMenuContainer']['display_name'];
+				$data['display_type'] = __('Menu Container', true);
+				$data['url'] = '';
+				$data['submenu_items'] = array();
+				foreach ($all_menu_item_data['SiteTwoLevelMenuContainer']['SiteTwoLevelMenuContainerItem'] as $sub_menu_item) {
+					$data['submenu_items'][] = $this->get_menu_item_data($sub_menu_item, $sub_menu_item);
+				}
+				
 				break;
 		}
 		

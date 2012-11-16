@@ -656,7 +656,7 @@ div#sub-nav ul li.title a { color: #D9D9D9; }
 }
 
 #connect_gallery_photos_cont .in_gallery_photos_cont .order_in_gallery_button { display: none; }
-#connect_gallery_photos_cont .in_gallery_photos_cont.arrange .order_in_gallery_button { display: block; cursor: move; }
+#connect_gallery_photos_cont .in_gallery_photos_cont.arrange .order_in_gallery_button, .menu_items_cont .abs_image_tl { display: block; cursor: move; }
 #connect_gallery_photos_cont .in_gallery_photos_cont.arrange .remove_from_gallery_button { display: none; }
 #connect_gallery_photos_cont .in_gallery_main_cont {
 	float: left;

@@ -173,50 +173,55 @@ class UtilShell extends Shell {
 		}
 		
 		$total_menu_items = 15;
+		$total_containers = 1;
 		for($x = 0; $x < $total_menu_items; $x++) {
 			$random_model = $pos_models[rand(0, count($pos_models)-1)];
 			
 			if ($random_model == 'SiteTwoLevelMenuContainer') {
 				// need to also create some random containers and container items
-				$num_containers = rand(3, 8);
-				for($p = 0; $p < $num_containers; $p++) {
-					$new_container = array();
-					$new_container['SiteTwoLevelMenuContainer']['display_name'] = 'container '.$p;
-					$this->SiteTwoLevelMenuContainer->create();
-					$this->SiteTwoLevelMenuContainer->save($new_container);
-					
-					$new_container_id = $this->SiteTwoLevelMenuContainer->id;
-					
-					// create some random menu items for the two level menu container
-					$total_sub_menu_items = rand(2, 10);
-					for($r = 0; $r < $total_sub_menu_items; $r++) {
-						$random_sub_model = $pos_cont_item_models[rand(0, count($pos_cont_item_models)-1)];
-						
-						$random_sub_model_row = $this->$random_sub_model->find('first', array(
-							'contain' => false,
-							'limit' => 1,
-							'order' => 'rand()'
-						));
+				$new_container = array();
+				$new_container['SiteTwoLevelMenuContainer']['display_name'] = 'container '.$total_containers;
+				$total_containers++;
+				$this->SiteTwoLevelMenuContainer->create();
+				$this->SiteTwoLevelMenuContainer->save($new_container);
+
+				$new_container_id = $this->SiteTwoLevelMenuContainer->id;
+
+				// create some random menu items for the two level menu container
+				$total_sub_menu_items = rand(2, 10);
+				for($r = 0; $r < $total_sub_menu_items; $r++) {
+					$random_sub_model = $pos_cont_item_models[rand(0, count($pos_cont_item_models)-1)];
+
+					$random_sub_model_row = $this->$random_sub_model->find('first', array(
+						'contain' => false,
+						'limit' => 1,
+						'order' => 'rand()'
+					));
 
 
-						$new_sub_menu_item = array();
-						$new_sub_menu_item['SiteTwoLevelMenuContainerItem']['site_two_level_menu_container_id'] = $new_container_id;
-						$new_sub_menu_item['SiteTwoLevelMenuContainerItem']['external_id'] = $random_sub_model_row[$random_sub_model]['id'];
-						$new_sub_menu_item['SiteTwoLevelMenuContainerItem']['external_model'] = $random_sub_model;
-						$this->SiteTwoLevelMenuContainerItem->create();
-						$this->SiteTwoLevelMenuContainerItem->save($new_sub_menu_item);
-					}
-					
-					
+					$new_sub_menu_item = array();
+					$new_sub_menu_item['SiteTwoLevelMenuContainerItem']['site_two_level_menu_container_id'] = $new_container_id;
+					$new_sub_menu_item['SiteTwoLevelMenuContainerItem']['external_id'] = $random_sub_model_row[$random_sub_model]['id'];
+					$new_sub_menu_item['SiteTwoLevelMenuContainerItem']['external_model'] = $random_sub_model;
+					$this->SiteTwoLevelMenuContainerItem->create();
+					$this->SiteTwoLevelMenuContainerItem->save($new_sub_menu_item);
 				}
+					
+				$random_model_row = $this->SiteTwoLevelMenuContainer->find('first', array(
+					'contain' => false,
+					'conditions' => array(
+						'SiteTwoLevelMenuContainer.id' => $new_container_id
+					)
+				));
+			} else {
+				$random_model_row = $this->$random_model->find('first', array(
+					'contain' => false,
+					'limit' => 1,
+					'order' => 'rand()'
+				));
 			}
 			
 			
-			$random_model_row = $this->$random_model->find('first', array(
-				'contain' => false,
-				'limit' => 1,
-				'order' => 'rand()'
-			));
 
 
 			$new_menu_item = array();
