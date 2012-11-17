@@ -113,8 +113,10 @@ class ThemeMenuHelper extends AppHelper {
 				$data['display_type'] = __('Menu Container', true);
 				$data['url'] = '';
 				$data['submenu_items'] = array();
-				foreach ($all_menu_item_data['SiteTwoLevelMenuContainer']['SiteTwoLevelMenuContainerItem'] as $sub_menu_item) {
-					$data['submenu_items'][] = $this->get_menu_item_data($sub_menu_item, $sub_menu_item);
+				if (isset($all_menu_item_data['SiteTwoLevelMenuContainer']['SiteTwoLevelMenuContainerItem'])) {
+					foreach ($all_menu_item_data['SiteTwoLevelMenuContainer']['SiteTwoLevelMenuContainerItem'] as $sub_menu_item) {
+						$data['submenu_items'][] = $this->get_menu_item_data($sub_menu_item, $sub_menu_item);
+					}
 				}
 				
 				break;
