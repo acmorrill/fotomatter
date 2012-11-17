@@ -1,20 +1,26 @@
 <?php 
 /*
  * DREW TODO - still need to finish a few things in this file
- *  1) make it so you can add a menu container
- *  2) make it so you can add an item to the top level or to a container
+ *  1) make it so you can add a menu container -- done
+ *  2) make it so you can add an item to the top level or to a container -- done
  *  3) make it so the reorder of container items is saved -- done
- *  4) make it so you can delete container items
- * 
+ *  4) make it so you can delete container items - done
+ *  5) make it so you can rename a container
+ *  6) make it so the container name is displayed somewhere
+ *  7) make it so that on container add the container list in the adds is updated
  */
 
 ?>
 
 <script type="text/javascript">
+	function reload_add_container_lists() {
+		// DREW TODO - finish this function
+	}
+	
 	function setup_two_level_menu_item_delete(selector) {
 		jQuery(selector).click(function() {
 			var top_level_item = jQuery(this).closest('.top_level_item');
-			var site_two_level_menu_id_to_delete = top_level_item.attr('site_two_level_menu_id');
+			var site_two_level_menu_id_to_delete = top_level_item.attr('top_level_site_two_level_menu_id');
 		
 			jQuery.ajax({
 				type: 'post',
@@ -25,7 +31,7 @@
 						// remove the div
 						top_level_item.remove();
 					} else {
-						major_error_recover(data.message);
+						major_error_recover(the_data.message);
 					}
 				},
 				complete: function() {
@@ -217,7 +223,7 @@
 				});
 				
 				jQuery('#two_level_menu_gallery_add_button').click(function() {
-					console.log ("in the gallery add function");
+//					console.log ("in the gallery add function");
 				
 					var context = this;
 					
@@ -225,6 +231,8 @@
 					var photo_gallery_id = select_box.val();
 					var container_select_box = jQuery(context).parent().find('.add_to_container_list');
 					var container_id = container_select_box.val();
+					var site_two_level_menu_id = container_select_box.find('option:selected').attr('site_two_level_menu_id');
+					
 					
 					if (container_id == 'top_level') {
 						console.log ('doing the top level add');
@@ -282,11 +290,71 @@
 						});	
 					}
 				});
+				
+				
+				jQuery('#two_level_menu_container_add_button').click(function() {
+					var context = this;
+					var new_name_cont = jQuery(context).parent().find('.new_menu_container_name');
+					if (new_name_cont.hasClass('defaultTextActive')) {
+						$.foto('alert', '<?php __('Choose a name for your new menu container before you can add it.'); ?>');
+						return false;
+					}
+					var new_container_name = new_name_cont.val();
+					
+					jQuery.ajax({
+						type: 'post',
+						url: '/admin/site_menus/add_two_level_menu_container',
+						data: {
+							new_container_name: new_container_name
+						},
+						success: function(the_data) {
+							if (the_data.code == 1) {
+								// its all good - now need to add the new container html
+								var new_menu_item = jQuery(the_data.new_menu_item_html);
+								setup_two_level_menu_item_delete(new_menu_item);
+								move_to_cont = jQuery('.two_level_menu_items_cont');
+								move_to_cont.append(new_menu_item);
+
+								// move scoll to new menu item
+								var menu_cont = jQuery(move_to_cont).closest('.content-background');
+								menu_cont.scrollTop(menu_cont.prop("scrollHeight"));
+								
+								// clear the add menu container input
+								new_name_cont.val('');
+								new_name_cont.focus();
+								new_name_cont.blur();
+							} else {
+								major_error_recover(the_data.message);
+							}
+						},
+						complete: function() {
+							//				console.log ("complete");
+						},
+						error: function(jqXHR, textStatus, errorThrown) {
+							//				console.log ("error");
+							//				console.log (textStatus);
+							//				console.log (errorThrown);
+						},
+						dataType: 'json'
+					});
+					
+					
+				});
+				
+				
 			});
+			
 		</script>
+
+		
+		<div class="custom_ui" style="margin: 5px; margin-bottom: 15px;">
+			<span><?php __('Add Menu Container:'); ?></span>
+			<input class="new_menu_container_name defaultText" title="container_name" type="text" style="width: 136px;" />
+			<input id="two_level_menu_container_add_button" class="add_button" type="submit" value="<?php __('Go'); ?>" />
+		</div>
+		
 		
 		<?php $all_containers = $this->ThemeMenu->get_two_level_menu_containers(); ?>
-		
 		<?php $all_pages = $this->Page->get_all_pages(); ?>
 		<div class="custom_ui" style="margin: 5px; margin-bottom: 15px;">
 			<span><?php __('Add Page:'); ?></span>
