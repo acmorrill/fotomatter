@@ -8,3 +8,5 @@ $db_configs['global']['host'] = '%global_host%';
 $db_configs['global']['login'] = '%global_login%';
 $db_configs['global']['password'] = '%global_password%';
 $db_configs['global']['database'] = '%global_database%';
+
+define('TMP', ROOT . '/tmp/');
