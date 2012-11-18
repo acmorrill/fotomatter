@@ -3,10 +3,26 @@ class ThemeMenuHelper extends AppHelper {
 	
 	public function get_two_level_menu_containers() {
 		$this->SiteTwoLevelMenuContainer = ClassRegistry::init('SiteTwoLevelMenuContainer');
+		$this->SiteTwoLevelMenu = ClassRegistry::init('SiteTwoLevelMenu');
 		
 		$containers = $this->SiteTwoLevelMenuContainer->find('all', array(
 			'contain' => false
 		));
+		
+		foreach ($containers as $key => $container) {
+			$item_data = $this->SiteTwoLevelMenu->find('first', array(
+				'conditions' => array(
+					'SiteTwoLevelMenu.external_id' => $container['SiteTwoLevelMenuContainer']['id'],
+					'SiteTwoLevelMenu.external_model' => 'SiteTwoLevelMenuContainer'
+				),
+				'contain' => false
+			));
+			
+			$containers[$key]['SiteTwoLevelMenu'] = $item_data['SiteTwoLevelMenu'];
+		}
+		
+//		debug($containers);
+		
 		
 		return $containers;
 	}
@@ -97,8 +113,10 @@ class ThemeMenuHelper extends AppHelper {
 				$data['display_type'] = __('Menu Container', true);
 				$data['url'] = '';
 				$data['submenu_items'] = array();
-				foreach ($all_menu_item_data['SiteTwoLevelMenuContainer']['SiteTwoLevelMenuContainerItem'] as $sub_menu_item) {
-					$data['submenu_items'][] = $this->get_menu_item_data($sub_menu_item, $sub_menu_item);
+				if (isset($all_menu_item_data['SiteTwoLevelMenuContainer']['SiteTwoLevelMenuContainerItem'])) {
+					foreach ($all_menu_item_data['SiteTwoLevelMenuContainer']['SiteTwoLevelMenuContainerItem'] as $sub_menu_item) {
+						$data['submenu_items'][] = $this->get_menu_item_data($sub_menu_item, $sub_menu_item);
+					}
 				}
 				
 				break;
