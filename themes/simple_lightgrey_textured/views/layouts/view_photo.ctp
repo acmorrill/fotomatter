@@ -24,7 +24,8 @@
 <div class="container">
 	<?php echo $this->Element('nameTitle'); ?>
   
-	<?php echo $this->Element('temp_menu'); ?>
+	<?php //echo $this->Element('temp_menu'); ?>
+	<?php echo $this->Element('two_level_navbar'); ?>
 	
 	<style type="text/css">
 		/* DREW TODO - move this code into the css for the theme */

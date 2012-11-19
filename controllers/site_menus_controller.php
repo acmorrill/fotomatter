@@ -230,4 +230,47 @@ class SiteMenusController extends AppController {
 		
 		$this->return_json($returnArr);
 	}
+	
+	public function admin_ajax_get_site_two_level_menu_containers() {
+		$returnArr = array();
+		
+		$containers = $this->SiteTwoLevelMenuContainer->get_containers();
+		
+		$hide_top_level = (isset($this->params['form']['hide_top_level']) && $this->params['form']['hide_top_level'] == true) ? true : null ;
+
+		$params = array(
+			'all_containers' => $containers
+		);
+		
+		if ($hide_top_level == true) {
+			$params['hide_top_level'] = true;
+		}
+		
+		$returnArr['code'] = 1;
+		$returnArr['select_html'] = $this->Element('admin/theme_center/main_menu/container_select_box', $params);
+		
+		
+		$this->return_json($returnArr);
+	}
+	
+	public function admin_ajax_rename_site_two_level_menu_container() {
+		$returnArr = array();
+		
+		$new_container_name = isset($this->params['form']['new_container_name']) ? $this->params['form']['new_container_name'] : null ;
+		$container_to_rename_id = isset($this->params['form']['container_to_rename_id']) ? $this->params['form']['container_to_rename_id'] : null ;
+		
+		$data = array();
+		$data['SiteTwoLevelMenuContainer']['id'] = $container_to_rename_id;
+		$data['SiteTwoLevelMenuContainer']['display_name'] = $new_container_name;
+		
+		if ($this->SiteTwoLevelMenuContainer->save($data)) {
+			$returnArr['code'] = 1;
+		} else {
+			$returnArr['code'] = -1;
+			$returnArr['message'] = 'Failed to rename container.';
+			$this->SiteTwoLevelMenuContainer->major_error('Failed to rename container.', compact('data'));
+		}
+		
+		$this->return_json($returnArr);
+	}
 }
