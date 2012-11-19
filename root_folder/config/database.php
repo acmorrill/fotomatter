@@ -106,7 +106,7 @@ class DATABASE_CONFIG {
 	
 	public function __construct() {
 	    $db_configs = array();
-	    require_once("../../db_configs.php");
+	    require_once(ROOT."/db_configs.php");
 	    $this->default['host'] = $db_configs['local']['host'];
 	    $this->default['login'] = $db_configs['local']['login'];
 	    $this->default['password'] = $db_configs['local']['password'];
