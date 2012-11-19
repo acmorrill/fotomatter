@@ -6,11 +6,11 @@
 			$class = 'container_item';
 		}
 	?>
-	<div class="<?php echo $class; ?> top_level_item" top_level_site_two_level_menu_id="<?php echo $menu_item_data['id']; ?>">
+	<div class="<?php echo $class; ?> top_level_item" top_level_site_two_level_menu_id="<?php echo $menu_item_data['id']; ?>" <?php if ($menu_item_data['type'] == 'SiteTwoLevelMenuContainer'): ?>site_two_level_menu_container_id="<?php echo $two_level_menu_item['SiteTwoLevelMenu']['external_id']; ?>"<?php endif; ?>>
 		<img class="abs_image_tl order_in_two_level_menu_button" src="/img/admin/icons/white_arrange.png" />
 		<img class="abs_image_tr remove_from_two_level_menu_button" src="/img/admin/icons/bw_simple_close_icon.png" />
 		<?php if ($class == 'container_item'): ?>
-			<?php /*<h2><?php echo $menu_item_data['name']; ?> (container)</h2>*/ ?>
+			<h2 class="rounded-corners no-bottom-rounded container_name" style="position: absolute; right: 20px; top: -38px; color: white; background-color: #636363; padding: 10px; padding-top: 7px;"><?php echo $menu_item_data['name']; ?> (container)</h2>
 			<?php 
 				echo $this->Element('admin/theme_center/main_menu/two_level_menu_container_item', array(
 					'submenu_items' => $menu_item_data['submenu_items']

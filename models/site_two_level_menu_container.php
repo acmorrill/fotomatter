@@ -12,4 +12,24 @@ class SiteTwoLevelMenuContainer extends AppModel {
 		),
 		'SiteTwoLevelMenu'
 	);
+	
+	public function get_containers() {
+		$containers = $this->find('all', array(
+			'contain' => false
+		));
+		
+		foreach ($containers as $key => $container) {
+			$item_data = $this->SiteTwoLevelMenu->find('first', array(
+				'conditions' => array(
+					'SiteTwoLevelMenu.external_id' => $container['SiteTwoLevelMenuContainer']['id'],
+					'SiteTwoLevelMenu.external_model' => 'SiteTwoLevelMenuContainer'
+				),
+				'contain' => false
+			));
+			
+			$containers[$key]['SiteTwoLevelMenu'] = $item_data['SiteTwoLevelMenu'];
+		}
+		
+		return $containers;
+	}
 }
