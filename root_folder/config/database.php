@@ -71,7 +71,7 @@
  * database.  Uses database default.
  *
  */
-require_once(ROOT."/_SERVER.php");
+require_once(ROOT."/db_configs.php");
 class DATABASE_CONFIG {
 
 	var $default = array(
