@@ -85,8 +85,7 @@ define("USE_CACHE_SPEED", true);
 // path to fonts
 define("GLOBAL_TTF_FONT_PATH", ROOT.DS.APP_DIR.DS.'webroot'.DS.'fonts');
 
-
-//if (PHP_SAPI !== 'cli') {
+if (PHP_SAPI !== 'cli' && $_SERVER['argv'][3] != 'db') {
     App::import('Model', 'SiteSetting');
     App::import('Model', 'Theme');
     $SiteSetting = new SiteSetting();
@@ -124,7 +123,7 @@ define("GLOBAL_TTF_FONT_PATH", ROOT.DS.APP_DIR.DS.'webroot'.DS.'fonts');
     //	'shells' => array('/full/path/to/shells/', '/next/full/path/to/shells/'),
     //	'locales' => array('/full/path/to/locale/', '/next/full/path/to/locale/')
     ));
-//}
+}
 
 
 /**
