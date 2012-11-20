@@ -29,7 +29,8 @@
 <?php //<div id="name"><img src="/img/myname.jpg" alt="charles cramer" width="314" height="51" /></div> ?>
 
 
-<?php echo $this->Element('temp_menu'); ?>
+<?php //echo $this->Element('temp_menu'); ?>
+<?php echo $this->Element('two_level_navbar'); ?>
 
 
 
