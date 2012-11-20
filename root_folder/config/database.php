@@ -71,6 +71,7 @@
  * database.  Uses database default.
  *
  */
+require_once(ROOT."/db_configs.php");
 class DATABASE_CONFIG {
 
 	var $default = array(
@@ -105,8 +106,6 @@ class DATABASE_CONFIG {
 	);
 	
 	public function __construct() {
-	    $db_configs = array();
-	    require_once(ROOT."/db_configs.php");
 	    $this->default['host'] = $db_configs['local']['host'];
 	    $this->default['login'] = $db_configs['local']['login'];
 	    $this->default['password'] = $db_configs['local']['password'];
