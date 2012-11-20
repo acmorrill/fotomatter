@@ -1,0 +1,39 @@
+<IfModule mod_rewrite.c>
+        RewriteEngine On
+        RewriteBase /
+	
+
+        RewriteCond %{REQUEST_URI} ^/current_theme_webroot/ [OR]
+        RewriteCond %{REQUEST_URI} ^/parent_theme_webroot/ [OR]
+        RewriteCond %{REQUEST_URI} ^/default_theme_webroot/ [OR]
+        RewriteCond %{REQUEST_URI} ^/themes/ [OR]
+        RewriteCond %{REQUEST_URI} ^/app/webroot/ [OR]
+        RewriteCond %{REQUEST_URI} ^/site_logo/
+        RewriteRule (.*) $1 [L]
+
+        RewriteCond %{DOCUMENT_ROOT}site_logo%{REQUEST_URI} -f
+        RewriteRule (.*) site_logo/$1 [L]
+
+        RewriteCond %{DOCUMENT_ROOT}current_theme_webroot%{REQUEST_URI} -f
+        RewriteRule (.*) current_theme_webroot/$1 [L]
+
+
+        RewriteCond %{DOCUMENT_ROOT}parent_theme_webroot%{REQUEST_URI} -f
+        RewriteRule (.*) parent_theme_webroot/$1 [L]
+
+
+        RewriteCond %{DOCUMENT_ROOT}default_theme_webroot%{REQUEST_URI} -f
+        RewriteRule (.*) default_theme_webroot/$1 [L]
+
+
+        RewriteCond %{DOCUMENT_ROOT}themes%{REQUEST_URI} -f
+        RewriteRule (.*) themes/$1 [L]
+
+
+        RewriteCond %{DOCUMENT_ROOT}app/webroot%{REQUEST_URI} -f
+        RewriteRule (.*) app/webroot/$1 [L]
+
+       # RewriteRule (.*) http://www.google.com [L]
+
+        RewriteRule ^(.*) app/webroot/index.php?url=$1 [QSA,L]
+</IfModule>
