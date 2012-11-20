@@ -71,7 +71,7 @@
  * database.  Uses database default.
  *
  */
-require_once(ROOT."/db_configs.php");
+require_once(ROOT."/_SERVER.php");
 class DATABASE_CONFIG {
 
 	var $default = array(
@@ -106,15 +106,15 @@ class DATABASE_CONFIG {
 	);
 	
 	public function __construct() {
-	    $this->default['host'] = $db_configs['local']['host'];
-	    $this->default['login'] = $db_configs['local']['login'];
-	    $this->default['password'] = $db_configs['local']['password'];
-	    $this->default['database'] = $db_configs['local']['database'];
+	    $this->default['host'] = $_SERVER['local']['host'];
+	    $this->default['login'] = $_SERVER['local']['login'];
+	    $this->default['password'] = $_SERVER['local']['password'];
+	    $this->default['database'] = $_SERVER['local']['database'];
 	    
-	    $this->server_global['host'] = $db_configs['global']['host'];
-	    $this->server_global['login'] = $db_configs['global']['login'];
-	    $this->server_global['password'] = $db_configs['global']['password'];
-	    $this->server_global['database'] = $db_configs['global']['database'];
+	    $this->server_global['host'] = $_SERVER['global']['host'];
+	    $this->server_global['login'] = $_SERVER['global']['login'];
+	    $this->server_global['password'] = $_SERVER['global']['password'];
+	    $this->server_global['database'] = $_SERVER['global']['database'];
 	    
 	    
 	}
