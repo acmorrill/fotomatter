@@ -1,12 +1,12 @@
 <?php
-$db_configs['local']['host'] = '%host%';
-$db_configs['local']['login'] = '%login%';
-$db_configs['local']['password'] = '%password%';
-$db_configs['local']['database'] = '%database%';
+$_SERVER['local']['host'] = '%host%';
+$_SERVER['local']['login'] = '%login%';
+$_SERVER['local']['password'] = '%password%';
+$_SERVER['local']['database'] = '%database%';
 
-$db_configs['global']['host'] = '%global_host%';
-$db_configs['global']['login'] = '%global_login%';
-$db_configs['global']['password'] = '%global_password%';
-$db_configs['global']['database'] = '%global_database%';
+$_SERVER['global']['host'] = '%global_host%';
+$_SERVER['global']['login'] = '%global_login%';
+$_SERVER['global']['password'] = '%global_password%';
+$_SERVER['global']['database'] = '%global_database%';
 
 define('TMP', ROOT . '/tmp/');
