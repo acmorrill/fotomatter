@@ -9,4 +9,6 @@ $_SERVER['global']['login'] = '%global_login%';
 $_SERVER['global']['password'] = '%global_password%';
 $_SERVER['global']['database'] = '%global_database%';
 
-define('TMP', ROOT . '/tmp/');
+if (PHP_SAPI != 'cli') {
+    define('TMP', ROOT . '/tmp/');
+}
