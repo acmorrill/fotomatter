@@ -6,19 +6,11 @@
 	<?php echo $this->Element('theme_global_includes'); ?>
 
 
+	<script type='text/javascript' src='/js/global.js'></script>
 	<link rel='stylesheet' type='text/css' href='/css/quickmenu_styles.css'/>
-	<script type='text/javascript' src='/js/quickmenu2.js'></script>
+<!--	<script type='text/javascript' src='/js/quickmenu2.js'></script>   DREW TODO  - delete this script from the repo -->
 	<title>Photographs by Joe Smo</title>
-	<script type="text/javascript"></script>
 	<link href="/css/index1.css" rel="stylesheet" type="text/css" />
-	<style type="text/css">
-	<!--
-
-	-->
-	</style>
-	
-	
-	
 </head>
 
 <body>
@@ -30,7 +22,7 @@
 
 
 <?php //echo $this->Element('temp_menu'); ?>
-<?php echo $this->Element('two_level_navbar'); ?>
+<?php echo $this->Element('menu/two_level_navbar'); ?>
 
 
 

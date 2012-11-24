@@ -68,7 +68,7 @@
 		?>
 		
 		
-		<?php echo $this->Element('navBar', array( 'page' => 'gallery' )); ?>
+		<?php echo $this->Element('menu/navBar', array( 'page' => 'gallery' )); ?>
 <?php
 //			include("php/googleAnalytics.php");
 ?>		

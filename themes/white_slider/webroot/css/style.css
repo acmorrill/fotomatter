@@ -1,0 +1,225 @@
+/* 
+    Document   : style
+    Created on : Nov 23, 2012, 10:35:14 PM
+    Author     : acmorrill
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+/**************************************************
+	RESET
+**************************************************/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+/*** END RESET **********/
+
+
+
+/****************************
+* MAIN STYLES
+****************************/
+.container {
+	margin: 0px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 1000px;
+	min-height: 500px;
+/*	outline: 1px solid black;*/
+}
+#logo_cont {
+	float: left;
+/*	outline: 1px solid black;*/
+}
+
+/* main nav */
+#main_nav {
+	float: right;
+	font-family: 'PT Sans', sans-serif;
+	font-size: 14px;
+	text-transform: uppercase;
+	z-index: 100;
+	position: relative;
+	color: black;
+}
+#main_nav a {
+	color: black;
+	text-decoration: none;
+}
+#main_nav ul.top_level li.main_menu_item {
+	display: inline-block;
+	margin-right: 20px;
+}
+#main_nav ul {
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+#main_nav ul.top_level {
+	margin-top: 28px;
+}
+#main_nav ul.top_level li {
+	list-style: none;
+}
+#main_nav ul.top_level li.main_menu_item {
+	float: left;
+	cursor: pointer;
+	position: relative;
+}
+#main_nav ul.top_level li.main_menu_item ul.second_level {
+	display: none;
+	position: absolute;
+	top: 100%;
+	text-align: left;
+	min-width: 120%;
+	padding-top: 10px;
+	margin-left: -11px;
+	margin-top: -1px;
+	z-index: -1000;
+	font-size: 12px;
+}
+#main_nav ul.top_level li.main_menu_item:hover ul.second_level {
+	display: block;
+}
+#main_nav ul.top_level li.main_menu_item ul.second_level li.sub_menu_item {
+	display: block;
+	text-align: left;
+	margin: 7px;
+	margin-top: 0px;
+	padding: 4px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+/* end main nav */
+
+
+/* start image carosel styles */
+#white_slider_listing_container {
+/*	outline: 1px solid black;*/
+	width: 100%;
+	position: relative;
+	height: 500px;
+	overflow: visible;
+}
+#white_slider_scroll_hide {
+	position: absolute;
+	height: 15px;
+	width: 100%;
+	background-color: white;
+	top: 600px;
+	display: none;
+}
+#white_slider_listing_actual_container {
+	position: absolute;
+	height: 515px;
+/*	outline: 1px solid red;*/
+	top: 100px;
+	width: 100%;
+	margin: 0px;
+	white-space: nowrap;
+	vertical-align: top;
+	overflow-x: scroll;
+	overflow-y: hidden;
+}
+#white_slider_listing_actual_container img {
+	vertical-align: top;
+	display: inline-block;
+	border-right: 1px solid white;
+}
+#white_slider_scroll_control {
+	width: 75%;
+	height: 71px;
+	margin: 0px;
+	margin-left: auto;
+	margin-right: auto;
+	white-space: nowrap;
+	vertical-align: top;
+	overflow: visible;
+	overflow-x: scroll;
+	overflow-y: visible;
+	outline: 1px solid blue;
+	margin-top: 24px;
+	position: relative;
+	text-align: center;
+}
+#white_slider_scroll_control_inner {
+	position: relative;
+	display: inline-block;
+	height: 50px;
+	margin: 0px;
+	margin-top: 3px;
+	white-space: nowrap;
+	vertical-align: top;
+	overflow: visible;
+}
+#white_slider_scroll_control_inner img {
+	vertical-align: top;
+	display: inline-block;
+/*	border-right: 1px solid white;*/
+}
+#white_slider_scroll_control_inner .scroll_control_div {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	height: 50px;
+	min-width: 30px;
+	border: 3px solid black;
+	z-index: 50;
+	-webkit-border-radius: 6px; /* safari/chrome */
+	-moz-border-radius: 6px; /* Firefox */
+	border-radius: 6px; /* CSS3 */
+	margin-top: -3px;
+	margin-left: -3px;
+	cursor: move;
+}
+
+/* end image carosel styles */
+
+
+
+
