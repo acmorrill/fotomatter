@@ -25,7 +25,7 @@
 	<?php echo $this->Element('nameTitle'); ?>
   
 	<?php //echo $this->Element('temp_menu'); ?>
-	<?php echo $this->Element('two_level_navbar'); ?>
+	<?php echo $this->Element('menu/two_level_navbar'); ?>
 
 	
 	<style type="text/css">

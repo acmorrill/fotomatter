@@ -49,7 +49,7 @@ class ThemeMenuHelper extends AppHelper {
 	}
 
 	/**
-	 * this function is used to interpret the single level menu data
+	 * this function is used to interpret the single and two level menu data
 	 * 
 	 * @param type $menu_item
 	 * @param type $all_menu_item_data
@@ -87,7 +87,7 @@ class ThemeMenuHelper extends AppHelper {
 			case 'PhotoGallery':
 				$data['name'] = $all_menu_item_data['PhotoGallery']['display_name'];
 				$data['display_type'] = __('Gallery', true);
-				$data['url'] = '/';
+				$data['url'] = '/photo_galleries/view_gallery/'.$all_menu_item_data['PhotoGallery']['id'];
 				break;
 			case 'SitePage':
 				$data['name'] = $all_menu_item_data['SitePage']['title'];

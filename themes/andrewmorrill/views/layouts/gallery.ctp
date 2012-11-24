@@ -157,7 +157,7 @@ if(!isset($HTTP_COOKIE_VARS["usersAvailScreenWidth"]) || !isset($HTTP_COOKIE_VAR
 		<p id="sideBlurb"><b>To purchase a print, navigate to an image and add to cart.</b><br /><br/>Before viewing images, consider checking out the <a href="viewingTips.php">viewing tips page</a>.<br />
 		</p>
 		
-		<?php echo $this->Element('navBar', array( 'page' => 'gallery' )); ?>
+		<?php echo $this->Element('menu/navBar', array( 'page' => 'gallery' )); ?>
 <?php
 			//include("php/googleAnalytics.php");
 ?>		

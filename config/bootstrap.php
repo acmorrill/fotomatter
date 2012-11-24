@@ -85,7 +85,7 @@ define("USE_CACHE_SPEED", true);
 // path to fonts
 define("GLOBAL_TTF_FONT_PATH", ROOT.DS.APP_DIR.DS.'webroot'.DS.'fonts');
 
-if (PHP_SAPI !== 'cli' && $_SERVER['argv'][3] != 'db') {
+if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'db')) {
     App::import('Model', 'SiteSetting');
     App::import('Model', 'Theme');
     $SiteSetting = new SiteSetting();

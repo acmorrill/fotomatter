@@ -1,6 +1,6 @@
 <meta charset='utf-8'>
 <script src="/js/jquery-1.7.1.min.js"></script>
-<script src="/js/jquery-ui-1.8.18.custom/js/jquery-ui-1.8.18.custom.min"></script>
+<script src="/js/jquery-ui-1.8.18.custom/js/jquery-ui-1.8.18.custom.min.js"></script>
 
 <script type="text/javascript">
 	jQuery(document).ready(function() {

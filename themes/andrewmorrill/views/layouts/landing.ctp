@@ -33,7 +33,7 @@
 		</p>
 		
 <?php
-		echo $this->Element('navBar', array( 'page' => 'home' ));
+		echo $this->Element('menu/navBar', array( 'page' => 'home' ));
 ?>
  
 <?php

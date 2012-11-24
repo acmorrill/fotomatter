@@ -30,6 +30,6 @@
 			<a href="#largeFormat">Why Large Format?</a>
 		</p>*/ ?>
 
-		<?php echo $this->Element('navBar', array( 'page' => 'custom_1' )); ?>
+		<?php echo $this->Element('menu/navBar', array( 'page' => 'custom_1' )); ?>
 	</body>
 </html>

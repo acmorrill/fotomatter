@@ -1,14 +1,9 @@
 <div id="main_nav">
-	
 	<ul>
 		<?php $menu_items = $this->ThemeMenu->get_single_menu_items(); ?>
 		<?php $count = 0; foreach ($menu_items as $menu_item): ?>
 			<?php $menu_item_data = $this->ThemeMenu->get_menu_item_data($menu_item['SiteOneLevelMenu'], $menu_item); ?>
-			<?php if (trim($menu_item_data['url'], '/') == trim($this->here, '/')): ?>
-				<li class="main_menu_item hover highlight"><?php echo $menu_item_data['name']; ?><span class="extra"></span></li>
-			<?php else: ?>
-				<li class="main_menu_item"><a href="<?php echo $menu_item_data['url']; ?>"><?php echo $menu_item_data['name']; ?><span class="extra"></span></a></li>
-			<?php endif; ?>
+			<?php echo $this->Element('menu/menu_item', array('menu_item_data' => $menu_item_data, 'li_class' => 'main_menu_item')); ?>
 		<?php $count++; endforeach; ?>
 	</ul>
 </div>
