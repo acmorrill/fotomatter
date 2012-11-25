@@ -43,5 +43,8 @@ $theme_config = array(
 		'theme_background_config' => array(
 			'theme_has_dynamic_background' => false,
 		),
+		'theme_gallery_listing_config' => array(
+			'default_images_per_page' => 15
+		)
 	)
 );

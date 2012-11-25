@@ -3,11 +3,6 @@ class PhotoGalleriesController extends AppController {
 	public $name = 'PhotoGalleries';
 	public $uses = array('PhotoGallery', 'Photo', 'PhotoGalleriesPhoto', 'PhotoFormat');
 	public $helpers = array('Photo', 'Gallery', 'Paginator');
-	public $paginate = array(
-		'limit' => array(
-			''
-		)
-	);
 
 	public function  beforeFilter() {
 		parent::beforeFilter();
