@@ -38,6 +38,7 @@
 	if (!defined('ROOT')) {
 		define('ROOT', dirname(dirname(dirname($_SERVER['SCRIPT_FILENAME']))));
 	}
+	require_once(ROOT."/db_configs.php");
 /**
  * The actual directory name for the "app".
  *
