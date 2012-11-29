@@ -8,7 +8,7 @@
  * PHP versions 4 and 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+a * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
@@ -39,8 +39,8 @@
  *     'locales' => array('/full/path/to/locale/', '/next/full/path/to/locale/')
  * ));
  *
- */
-
+ i*/
+require_once(ROOT."/db_configs.php");
 // themes paths 
 define("PATH_TO_THEMES", ROOT.DS.APP_DIR.DS.'themes');
 
