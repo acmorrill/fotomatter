@@ -189,7 +189,7 @@ table {
 	white-space: nowrap;
 	vertical-align: top;
 	overflow-x: scroll;
-	overflow-y: hidden;
+	overflow-y: visible;
 }
 #white_slider_listing_actual_container img {
 	vertical-align: top;
@@ -206,8 +206,8 @@ table {
 	vertical-align: top;
 	overflow-x: scroll;
 	overflow-y: hidden;
-	outline: 1px solid #EEE;
-	margin-top: 24px;
+/*	outline: 1px solid #EEE;*/
+	margin-top: 14px;
 	position: relative;
 	text-align: center;
 }
@@ -230,6 +230,8 @@ table {
 	white-space: nowrap;
 	vertical-align: top;
 	overflow: visible;
+/*	padding-left: 80px;
+	padding-right: 80px;*/
 }
 #white_slider_scroll_control_inner img {
 	vertical-align: top;
@@ -253,6 +255,55 @@ table {
 }
 .hide {
 	display: none;
+}
+
+#white_slider_scroll_control_cont {
+	position: relative;
+	width: 100%;
+}
+
+.navigation_arrow {
+	border: 25px solid transparent;
+	position: absolute;
+	height: 0;
+	width: 0;
+	top: 616px;
+	/* IE 8 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=6)";
+	/* IE 5-7 */
+	filter: alpha(opacity=6);
+	/* Netscape */
+	-moz-opacity: 0.06;
+	/* Safari 1.x */
+	-khtml-opacity: 0.06;
+	/* Good browsers */
+	opacity: 0.06;
+	cursor: pointer;
+	z-index: 200;
+}
+.navigation_arrow:hover {
+	/* IE 8 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	/* IE 5-7 */
+	filter: alpha(opacity=100);
+	/* Netscape */
+	-moz-opacity: 1;
+	/* Safari 1.x */
+	-khtml-opacity: 1;
+	/* Good browsers */
+	opacity: 1;
+}
+#right_arrow {
+	border-top: 25px solid transparent;
+	border-bottom: 25px solid transparent;
+	border-left: 25px solid #333;
+	right: 10px;
+}
+#left_arrow {
+	border-top: 25px solid transparent;
+	border-bottom: 25px solid transparent; 
+	border-right: 25px solid #333; 
+	left: 10px;
 }
 
 /* end image carosel styles */
