@@ -40,7 +40,6 @@ a * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.o
  * ));
  *
  i*/
-require_once(ROOT."/db_configs.php");
 // themes paths 
 define("PATH_TO_THEMES", ROOT.DS.APP_DIR.DS.'themes');
 
