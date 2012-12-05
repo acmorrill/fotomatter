@@ -1,6 +1,15 @@
 <?php
 class AppController extends Controller {
 	public $view = 'fotomatter';
+
+ 	function redirect($url) {
+//		debug($_SERVER); debug($url); die();
+		$this->log($_SERVER, 'url_redirect');
+		parent::redirect($url);
+		exit();
+		
+
+	}
 	
     /**
      * components

@@ -12,3 +12,5 @@ $_SERVER['global']['database'] = '%global_database%';
 if (PHP_SAPI != 'cli') {
     define('TMP', ROOT . '/tmp/');
 }
+
+$_SERVER['PHP_SELF'] = '/app/webroot/index.php';
