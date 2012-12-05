@@ -50,7 +50,7 @@ class PhotoGalleriesController extends AppController {
 		$photos = $this->paginate('PhotoGalleriesPhoto');    
 
 		
-		$this->set(compact('curr_gallery', 'photos'));
+		$this->set(compact('curr_gallery', 'photos', 'gallery_id'));
 		
 		$this->renderEmpty();
 	}
@@ -116,6 +116,43 @@ class PhotoGalleriesController extends AppController {
 			'connected_photos' => $photos['PhotoGalleriesPhoto'], 
 			'not_in_gallery_icon_size' => $not_in_gallery_icon_size 
 		));
+		$this->return_json($returnArr);
+	}
+	
+	public function ajax_get_gallery_photos_after($gallery_id, $last_photo_id) {
+		$limit = 30;
+
+		$last_photo = $this->PhotoGalleriesPhoto->find('first', array(
+			'conditions' => array(
+				'PhotoGalleriesPhoto.photo_id' => $last_photo_id,
+				'PhotoGalleriesPhoto.photo_gallery_id' => $gallery_id
+			),
+			'contain' => false
+		));
+		
+		$photos_total_count = $this->PhotoGalleriesPhoto->find('count', array(
+			'conditions' => array(
+				'PhotoGalleriesPhoto.photo_gallery_id' => $gallery_id,
+				'PhotoGalleriesPhoto.photo_order >' => $last_photo['PhotoGalleriesPhoto']['photo_order']
+			),
+			'order' => 'PhotoGalleriesPhoto.photo_order',
+			'contain' => false
+		));
+		
+		$photos = $this->PhotoGalleriesPhoto->find('all', array(
+			'conditions' => array(
+				'PhotoGalleriesPhoto.photo_gallery_id' => $gallery_id,
+				'PhotoGalleriesPhoto.photo_order >' => $last_photo['PhotoGalleriesPhoto']['photo_order']
+			),
+			'order' => 'PhotoGalleriesPhoto.photo_order',
+			'limit' => $limit,
+			'contain' => false
+		));
+
+		
+		$returnArr['has_more'] = count($photos) < $photos_total_count;
+		$returnArr['html'] = $this->element('admin/photo/photo_connect_not_in_gallery_photo_cont', $set_vars);
+
 		$this->return_json($returnArr);
 	}
 	

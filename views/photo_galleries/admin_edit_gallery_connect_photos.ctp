@@ -298,20 +298,20 @@
 				'not_in_gallery_icon_size': not_in_gallery_icon_size
 			},
 			success : function (photo_divs) {
-			if (photo_divs.count > 0) {
-				var new_photo_html = jQuery(photo_divs.html);
-				setup_add_to_gallery_buttons(new_photo_html);
-				var last_div = jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont .connect_photo_container:last');
-				if (last_div.length > 0) {
-					last_div.after(new_photo_html);
-				} else {
-					jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont').prepend(new_photo_html);
-				}
+				if (photo_divs.count > 0) {
+					var new_photo_html = jQuery(photo_divs.html);
+					setup_add_to_gallery_buttons(new_photo_html);
+					var last_div = jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont .connect_photo_container:last');
+					if (last_div.length > 0) {
+						last_div.after(new_photo_html);
+					} else {
+						jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont').prepend(new_photo_html);
+					}
 
-				jQuery('#connect_gallery_photos_cont .not_in_gallery_main_cont .empty_help_content').hide();
-			} else {
-				cease_fire = true;
-			}
+					jQuery('#connect_gallery_photos_cont .not_in_gallery_main_cont .empty_help_content').hide();
+				} else {
+					cease_fire = true;
+				}
 			},
 			complete: function(jqXHR, textStatus) {
 				jQuery('#endless_scroll_loading').hide();

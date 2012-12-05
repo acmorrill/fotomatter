@@ -191,10 +191,33 @@ table {
 	overflow-x: scroll;
 	overflow-y: visible;
 }
+#white_slider_listing_actual_container .endless_loading {
+/*	display: none;*/
+	position: absolute;
+	top: 0px; right: 0px;
+	outline: 1px solid red;
+	color: red;
+}
 #white_slider_listing_actual_container img {
 	vertical-align: top;
 	display: inline-block;
 	border-right: 1px solid white;
+}
+#white_slider_listing_actual_container img.blank, #white_slider_scroll_control_inner img.blank {
+	/* IE 8 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=3)";
+
+	/* IE 5-7 */
+	filter: alpha(opacity=3);
+
+	/* Netscape */
+	-moz-opacity: 0.03;
+
+	/* Safari 1.x */
+	-khtml-opacity: 0.03;
+
+	/* Good browsers */
+	opacity: 0.03;
 }
 #white_slider_scroll_control {
 	width: 75%;
@@ -230,6 +253,7 @@ table {
 	white-space: nowrap;
 	vertical-align: top;
 	overflow: visible;
+	cursor: pointer;
 /*	padding-left: 80px;
 	padding-right: 80px;*/
 }

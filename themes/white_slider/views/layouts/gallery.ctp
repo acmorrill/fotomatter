@@ -5,6 +5,7 @@
 	<?php echo $this->Element('theme_global_includes'); ?>
 	
 	<script src="/js/scrollto/jquery.scrollTo.min.js"></script>
+	<script src="/js/jquery.endless-scroll_horizontal.js"></script>
 	
 	<link rel="stylesheet" type="text/css" href="/css/style.css" />
 	<link href='http://fonts.googleapis.com/css?family=PT+Sans:400italic,400' rel='stylesheet' type='text/css' />
@@ -13,11 +14,14 @@
 
 <body>
 	<?php if (count($photos) > 0): ?>
+<!--		<div class="endless_loading">Loading</div> maybe use this later-->
 		<div id="white_slider_listing_actual_container"><img class="blank" src="/images/large_blank.png" width="1600" height="500" /><!--
-			--><?php foreach($photos as $photo): ?><!--
-				--><?php $img_src = $this->Photo->get_photo_path($photo['Photo']['id'], 500, 2000, .4, true); ?><!--
-				--><img src="<?php echo $img_src['url']; ?>" <?php echo $img_src['tag_attributes']; ?> /><!--
-			--><?php endforeach; ?><img class="blank" src="/images/large_blank.png" width="1600" height="500" /></div>
+			--><?php echo $this->Element('gallery/gallery_image_lists/simple_list', array(
+				'photos' => $photos,
+				'height' => '500',
+				'width' => '2000',
+				'sharpness' => '.4'
+			)); ?><img class="blank" src="/images/large_blank.png" width="1600" height="500" /></div>
 		<div id="white_slider_scroll_hide" class=""></div>
 		<div id="left_arrow" class="navigation_arrow">
 
@@ -27,7 +31,7 @@
 		</div>
 		<div id="entire_slider_hider"></div>
 	<?php else: ?>
-		<h4 style="font-weight: bold; font-style: italic; margin: 10px;"><?php __('This gallery does not have any images yet'); ?></h4><?php // DREW TODO - make this seccion look good ?>
+		<h4 style="font-weight: bold; font-style: italic; margin: 10px;"><?php __('This gallery does not have any images yet'); ?></h4><?php // DREW TODO - make this section look good ?>
 	<?php endif; ?>
 		
 	<div class="container">
@@ -40,15 +44,64 @@
 		<?php echo $this->Element('menu/two_level_navbar'); ?>
 
 
-		<style type="text/css">
-
-		</style>
-		
 		
 		<div style="clear: both"></div>
 		<div id="white_slider_listing_container"></div>
 		
 		<script type="text/javascript">
+			function endless_scroll_callback() {
+				console.log ("came into the endless scroll");
+				
+				if (in_callback == true) {
+					return;
+				}
+
+				// DREW START HERE TOMORROW
+
+				in_callback = true;
+				if (last_photo_id == undefined) {
+					last_photo_id = jQuery('#white_slider_listing_actual_container img:not(.blank):last').attr('photo_id');
+				} 
+				if (last_photo_id == undefined) { 
+					last_photo_id = 0;
+				}
+				jQuery.ajax({
+					type : 'post',
+					url : '/admin/photo_galleries/ajax_get_gallery_photos_after/<?php echo $gallery_id; ?>/'+last_photo_id+'/',
+					data : {},
+					success : function (photo_divs) {
+						if (photo_divs.has_more == true) {
+							var new_photo_html = jQuery(photo_divs.html);
+							setup_add_to_gallery_buttons(new_photo_html);
+							var last_div = jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont .connect_photo_container:last');
+							if (last_div.length > 0) {
+								last_div.after(new_photo_html);
+							} else {
+								jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont').prepend(new_photo_html);
+							}
+
+							jQuery('#connect_gallery_photos_cont .not_in_gallery_main_cont .empty_help_content').hide();
+						} else {
+							cease_fire = true;
+						}
+					},
+					complete: function(jqXHR, textStatus) {
+						jQuery('#endless_scroll_loading').hide();
+
+						// check to see if the website photos needs a help message
+						if (element_is_empty('endless_scroll_div')) {
+							jQuery('#connect_gallery_photos_cont .not_in_gallery_main_cont .empty_help_content').show();
+						}
+
+						jQuery("#filter_photo_by_format, #sort_photo_radio").buttonset('enable');
+						jQuery("#photos_not_in_a_gallery").button('enable');
+						in_callback = false;
+					},
+					dataType: "json"
+				}); 
+				
+			}
+			
 			function move_to_next_prev_image(direction) {
 				if (direction != 'left' && direction != 'right') {
 					direction = 'right';
@@ -281,8 +334,19 @@
 //						}
 //				}
 //			}
+
 			
 			jQuery(document).ready(function() {
+				jQuery('#white_slider_listing_actual_container').endlessScroll_horizontal({
+					bottomPixels: 2000,
+					loader: '',
+					insertAfter: '',
+					callback: function (i) {
+						endless_scroll_callback();
+					}
+				});
+				
+				
 				jQuery('#left_arrow').click(function() {
 					move_to_next_prev_image('left');
 				});
@@ -339,6 +403,16 @@
 						loaded_images++;
 						update_progress_bar();
 					};
+				});
+				
+				jQuery('#white_slider_scroll_control_inner img:not(.blank)').click(function(){
+					var control = jQuery('#white_slider_scroll_control_inner .scroll_control_div');
+					var image_center = jQuery(this).position().left + ( jQuery(this).width() / 2);
+					var new_left = image_center - (control.width() / 2);
+					control.css('left', new_left);
+					
+					calculate_slider_scroll_position();
+					calculate_control_container_scroll();
 				});
 			});
 			
