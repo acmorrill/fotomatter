@@ -29,6 +29,7 @@
 		<div id="right_arrow" class="navigation_arrow">
 
 		</div>
+		<!--DREW TODO  make the below div cover the entire content-->
 		<div id="entire_slider_hider"></div>
 	<?php else: ?>
 		<h4 style="font-weight: bold; font-style: italic; margin: 10px;"><?php __('This gallery does not have any images yet'); ?></h4><?php // DREW TODO - make this section look good ?>
@@ -55,8 +56,6 @@
 				if (in_callback == true) {
 					return;
 				}
-
-				// DREW START HERE TOMORROW
 
 				in_callback = true;
 				if (last_photo_id == undefined) {
@@ -440,12 +439,12 @@
 			<div id="white_slider_scroll_control">
 				<div id="white_slider_scroll_control_inner">
 					<div class="scroll_control_div"></div>
-					<img class="blank" src="/images/blank.png" width="160" height="50" />
-					<?php foreach($photos as $photo): ?><!--
-						--><?php $img_src = $this->Photo->get_photo_path($photo['Photo']['id'], 50, 300, .4, true); ?><!--
-						--><img src="<?php echo $img_src['url']; ?>" <?php echo $img_src['tag_attributes']; ?> /><!--
-					--><?php endforeach; ?>
-					<img class="blank" src="/images/blank.png" width="160" height="50" />
+					<img class="blank" src="/images/blank.png" width="160" height="50" /><?php echo $this->Element('gallery/gallery_image_lists/simple_list', array(
+						'photos' => $photos,
+						'height' => '50',
+						'width' => '160',
+						'sharpness' => '.4'
+					)); ?><img class="blank" src="/images/blank.png" width="160" height="50" />
 				</div>
 			</div>
 		</div>
