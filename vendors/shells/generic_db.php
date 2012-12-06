@@ -77,6 +77,8 @@ class GenericDbShell extends Shell {
 	}
 	
 	protected function _update($is_global) {
+		$datasource = ConnectionManager::getDataSource('default');
+		$datasource->cacheSources = false;
 		Configure::write('Cache.disable', true);
 		$this->_connect_db();
 		
@@ -135,7 +137,7 @@ class GenericDbShell extends Shell {
 		$all_updates = array();
 		$schemaDirectories = scandir($scripts_folders_path);
 		foreach ($schemaDirectories as $schemaDirectory) {
-			if ($schemaDirectory === '.' || $schemaDirectory === '..') continue;
+			if ($schemaDirectory === '.' || $schemaDirectory === '..' || $schemaDirectory === 'empty') continue;
 			
 			// skip updates before the install schema
 			if ($schemaDirectory < $current_schema) continue;
@@ -151,7 +153,7 @@ class GenericDbShell extends Shell {
 				$dirContents = scandir($pathToSchemaFolder);
 
 				foreach ($dirContents as $dirContent) {
-					if ($dirContent === '.' || $dirContent === '..') continue;
+					if ($dirContent === '.' || $dirContent === '..' || $dirContent === 'empty') continue;
 
 					// get the contents of each dev directory inside the schema
 					$dev_dir = $pathToSchemaFolder.DS.$dirContent;
@@ -159,7 +161,7 @@ class GenericDbShell extends Shell {
 						$devUpdateFiles = scandir($dev_dir);
 
 						foreach ($devUpdateFiles as $devUpdateFile) {
-							if ($devUpdateFile === '.' || $devUpdateFile === '..') continue;
+							if ($devUpdateFile === '.' || $devUpdateFile === '..' || $devUpdateFile === 'empty') continue;
 
 							$filePathInfo = pathinfo($dev_dir.DS.$devUpdateFile);
 							$fullFilePath = $dev_dir.DS.$devUpdateFile;
@@ -243,6 +245,11 @@ class GenericDbShell extends Shell {
 			
 			// go through each update
 			foreach ($all_updates as $all_update) {
+//				$this->SiteOneLevelMenu = ClassRegistry::init('SiteOneLevelMenu');
+//				$this->SiteOneLevelMenu->getDatasource()->disconnect(); 
+//				$this->SiteOneLevelMenu->getDatasource()->connect();
+				
+				
 				// am I on the update that ran last?
 				$update_last_run = $lastDbUpdate != array() && $all_update['file_full_path'] == $lastDbUpdate['Db'.$schema_name.'Update']['full_file_path'];
 				
