@@ -151,7 +151,20 @@ class PhotoGalleriesController extends AppController {
 
 		
 		$returnArr['has_more'] = count($photos) < $photos_total_count;
-		$returnArr['html'] = $this->element('admin/photo/photo_connect_not_in_gallery_photo_cont', $set_vars);
+		$returnArr['large_html'] = $this->element('gallery/gallery_image_lists/simple_list', array(
+			'photos' => $photos,
+			'height' => '500',
+			'width' => '2000',
+			'sharpness' => '.4'
+		));
+		$returnArr['small_html'] = $this->element('gallery/gallery_image_lists/simple_list', array(
+			'photos' => $photos,
+			'height' => '50',
+			'width' => '200',
+			'sharpness' => '.4'
+		));
+		
+		$this->log($returnArr, 'photos_after');
 
 		$this->return_json($returnArr);
 	}
