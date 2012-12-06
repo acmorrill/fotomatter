@@ -9,7 +9,7 @@ class PhotoGalleriesController extends AppController {
 
 		$this->layout = 'admin/galleries';
 		
-		$this->Auth->allow('choose_gallery', 'view_gallery');
+		$this->Auth->allow('choose_gallery', 'view_gallery', 'ajax_get_gallery_photos_after');
 	}
 	
 	public function choose_gallery() {
@@ -146,7 +146,9 @@ class PhotoGalleriesController extends AppController {
 			),
 			'order' => 'PhotoGalleriesPhoto.photo_order',
 			'limit' => $limit,
-			'contain' => false
+			'contain' => array(
+				'Photo'
+			)
 		));
 
 		
@@ -164,7 +166,7 @@ class PhotoGalleriesController extends AppController {
 			'sharpness' => '.4'
 		));
 		
-		$this->log($returnArr, 'photos_after');
+		$this->log($photos, 'photos_after');
 
 		$this->return_json($returnArr);
 	}

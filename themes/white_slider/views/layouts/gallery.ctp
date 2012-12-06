@@ -75,24 +75,21 @@
 					data : {},
 					success : function (image_list) {
 						console.log (image_list);
-						console.log ("came into this thing sucka 2");
-						if (image_list.has_more == true) {
-							console.log ("came into this thing sucka");
-							
-							var image_list_large_html = jQuery(image_list.large_html);
-							var image_list_small_html = jQuery(image_list.small_html);
-							
-							console.log (image_list_large_html);
-							console.log (image_list_small_html);
-							
-//							var last_div = jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont .connect_photo_container:last');
-//							if (last_div.length > 0) {
-//								last_div.after(new_photo_html);
-//							} else {
-//								jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont').prepend(new_photo_html);
-//							}
+						var image_list_large_html = jQuery(image_list.large_html);
+						var image_list_small_html = jQuery(image_list.small_html);
 
-						} else {
+//							console.log (image_list_large_html);
+//							console.log (image_list_small_html);
+
+
+						var last_large_image = jQuery('#white_slider_listing_actual_container img.blank:last');
+						last_large_image.before(image_list_large_html);
+
+						var last_small_image = jQuery('#white_slider_scroll_control_inner img.blank:last');
+						last_small_image.before(image_list_small_html);
+
+						
+						if (image_list.has_more == false) {
 							cease_fire = true;
 						}
 					},
