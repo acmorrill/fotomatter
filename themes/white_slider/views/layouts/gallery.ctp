@@ -50,7 +50,12 @@
 		<div id="white_slider_listing_container"></div>
 		
 		<script type="text/javascript">
+			var in_callback = false;
+			var cease_fire = false;
+			var last_photo_id = undefined;
 			function endless_scroll_callback() {
+				jQuery('#endless_scroll_loading').show();
+				
 				console.log ("came into the endless scroll");
 				
 				if (in_callback == true) {
@@ -66,39 +71,37 @@
 				}
 				jQuery.ajax({
 					type : 'post',
-					url : '/admin/photo_galleries/ajax_get_gallery_photos_after/<?php echo $gallery_id; ?>/'+last_photo_id+'/',
+					url : '/photo_galleries/ajax_get_gallery_photos_after/<?php echo $gallery_id; ?>/'+last_photo_id+'/',
 					data : {},
-					success : function (photo_divs) {
-						if (photo_divs.has_more == true) {
-							var new_photo_html = jQuery(photo_divs.html);
-							setup_add_to_gallery_buttons(new_photo_html);
-							var last_div = jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont .connect_photo_container:last');
-							if (last_div.length > 0) {
-								last_div.after(new_photo_html);
-							} else {
-								jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont').prepend(new_photo_html);
-							}
+					success : function (image_list) {
+						console.log (image_list);
+						var image_list_large_html = jQuery(image_list.large_html);
+						var image_list_small_html = jQuery(image_list.small_html);
 
-							jQuery('#connect_gallery_photos_cont .not_in_gallery_main_cont .empty_help_content').hide();
-						} else {
+//							console.log (image_list_large_html);
+//							console.log (image_list_small_html);
+
+
+						var last_large_image = jQuery('#white_slider_listing_actual_container img.blank:last');
+						last_large_image.before(image_list_large_html);
+
+						var last_small_image = jQuery('#white_slider_scroll_control_inner img.blank:last');
+						last_small_image.before(image_list_small_html);
+
+						
+						if (image_list.has_more == false) {
 							cease_fire = true;
 						}
 					},
 					complete: function(jqXHR, textStatus) {
+						console.log ("came into complete");
 						jQuery('#endless_scroll_loading').hide();
-
-						// check to see if the website photos needs a help message
-						if (element_is_empty('endless_scroll_div')) {
-							jQuery('#connect_gallery_photos_cont .not_in_gallery_main_cont .empty_help_content').show();
-						}
-
-						jQuery("#filter_photo_by_format, #sort_photo_radio").buttonset('enable');
-						jQuery("#photos_not_in_a_gallery").button('enable');
-						in_callback = false;
+					},
+					error: function () {
+						console.log ("came into the error");
 					},
 					dataType: "json"
 				}); 
-				
 			}
 			
 			function move_to_next_prev_image(direction) {
@@ -442,7 +445,7 @@
 					<img class="blank" src="/images/blank.png" width="160" height="50" /><?php echo $this->Element('gallery/gallery_image_lists/simple_list', array(
 						'photos' => $photos,
 						'height' => '50',
-						'width' => '160',
+						'width' => '200',
 						'sharpness' => '.4'
 					)); ?><img class="blank" src="/images/blank.png" width="160" height="50" />
 				</div>

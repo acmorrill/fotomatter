@@ -36,11 +36,15 @@ class UtilShell extends Shell {
 		}
 	}
 	
-	function defaults() {
+	function andrew_defaults() {
 		$this->SiteSetting->setVal('image-container-url', 'http://c9134086.r86.cf2.rackcdn.com/');
 		$this->SiteSetting->setVal('image-container-secure_url', 'https://c9134086.ssl.cf2.rackcdn.com/');
 		$this->SiteSetting->setVal('image-container-name', 'andrew-dev-container');
 		
+		$this->defaults();
+	}
+	
+	function defaults() {
 		$this->Photo->deleteAll(array("1=1"), true, true);
 		$this->PhotoGallery->deleteAll(array("1=1"), true, true);
 		
@@ -58,7 +62,7 @@ class UtilShell extends Shell {
 		$this->args[0] = 20;
 		$this->give_me_images();
                 
-                $this->add_pages();
+		$this->add_pages();
 		
 		/*$photo_data = array();
 		

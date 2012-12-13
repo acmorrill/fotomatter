@@ -152,7 +152,7 @@ class ThemeCentersController extends AppController {
 		
 		$returnArr['extra'] = 'this is some extra';
 		
-		$this->log(json_encode($returnArr), 'test');
+//		$this->log(json_encode($returnArr), 'test');
 		
 		echo json_encode($returnArr);
 		exit();
@@ -213,7 +213,7 @@ class ThemeCentersController extends AppController {
 					$logo_caches_dir = SITE_LOGO_CACHES_PATH;
 					$exec_command = "find $logo_caches_dir -name '*_uploaded.png' -depth -type f -delete";
 					exec($exec_command, $output, $return_var);
-					$this->log($exec_command, 'delete_cache');
+//					$this->log($exec_command, 'delete_cache');
 					if ($return_var != 0) {
 						$this->major_error('Failed to delete logo uploaded cache files', compact('logo_caches_dir'));
 					}
