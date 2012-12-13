@@ -18,7 +18,7 @@
 				
 	$gallery = $curr_gallery['PhotoGallery']['display_name']; //$_GET["gallery"];
 
-	$currGallery = mysql_fetch_array(mysql_query("SELECT * FROM galleries WHERE title = '$gallery'"));
+//	$currGallery = mysql_fetch_array(mysql_query("SELECT * FROM galleries WHERE title = '$gallery'"));
 ?>	
 <html>
 	<head>
