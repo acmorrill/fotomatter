@@ -63,6 +63,9 @@ table {
 /****************************
 * MAIN STYLES
 ****************************/
+body {
+/*	overflow-x: hidden;*/
+}
 .container {
 	margin: 0px;
 	margin-left: auto;
@@ -86,6 +89,8 @@ table {
 	z-index: 100;
 	position: relative;
 	color: black;
+/*	outline: 1px solid black;*/
+	width: 599px;
 }
 #main_nav a {
 	color: black;
@@ -93,7 +98,9 @@ table {
 }
 #main_nav ul.top_level li.main_menu_item {
 	display: inline-block;
-	margin-right: 20px;
+	margin-right: 10px;
+	margin-left: 10px;
+	line-height: 20px;
 }
 #main_nav ul {
 	margin: 0px;
@@ -102,14 +109,23 @@ table {
 }
 #main_nav ul.top_level {
 	margin-top: 28px;
+	display: inline-block;
+	white-space: nowrap;
 }
 #main_nav ul.top_level li {
 	list-style: none;
 }
 #main_nav ul.top_level li.main_menu_item {
-	float: left;
+	position: relative;
+	display: inline-block;
+	vertical-align: top;
+	
+/*	float: left;*/
 	cursor: pointer;
 	position: relative;
+	height: 33px;
+}
+#main_nav ul.top_level li.main_menu_item:hover {
 }
 #main_nav ul.top_level li.main_menu_item ul.second_level {
 	display: none;
@@ -117,13 +133,24 @@ table {
 	top: 100%;
 	text-align: left;
 	min-width: 120%;
-	padding-top: 10px;
+	padding-top: 7px;
 	margin-left: -11px;
-	margin-top: -1px;
+	margin-top: -5px;
 	z-index: -1000;
-	font-size: 12px;
+	font-size: 13px;
+	line-height: 14px;
+	background-color: #333;
+	color: white;
+	padding-top: 13px;
+	padding-bottom: 7px;
+	text-decoration: none;
+}
+#main_nav ul.top_level li.main_menu_item ul.second_level a {
+	color: white;
+	text-decoration: none;
 }
 #main_nav ul.top_level li.main_menu_item:hover ul.second_level {
+	text-decoration: none;
 	display: block;
 }
 #main_nav ul.top_level li.main_menu_item ul.second_level li.sub_menu_item {
@@ -131,13 +158,22 @@ table {
 	text-align: left;
 	margin: 7px;
 	margin-top: 0px;
-	padding: 4px;
+	padding: 6px;
 	padding-top: 5px;
 	padding-bottom: 5px;
+	text-align: center;
+	text-decoration: none;
+}
+#main_nav ul.top_level li.main_menu_item ul.second_level li.sub_menu_item:hover {
+/*	font-size: 14px;*/
+	font-weight: bold;
 }
 
 /* end main nav */
 
+.container {
+	overflow-x: hidden;
+}
 
 /* start image carosel styles */
 #image_slider_progressbar {
@@ -163,6 +199,22 @@ table {
 /*	outline: 1px solid black;*/
 	background-color: #FFF;
 	z-index: 1000;
+}
+#white_slider_listing_actual_container_loading {
+	width: 44px;
+	height: 498px;
+	background-color: white;
+	position: fixed;
+	top: 100px;
+	right: 0px;
+	z-index: 1000;
+	font-family: 'PT Sans', sans-serif;
+	font-size: 45px;
+	line-height: 70px;
+	padding-left: 15px;
+	border: 1px solid #D9D9D9;
+	color: #333;
+	display: none;
 }
 #white_slider_listing_container {
 /*	outline: 1px solid black;*/
@@ -205,19 +257,19 @@ table {
 }
 #white_slider_listing_actual_container img.blank, #white_slider_scroll_control_inner img.blank {
 	/* IE 8 */
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=3)";
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=5)";
 
 	/* IE 5-7 */
-	filter: alpha(opacity=3);
+	filter: alpha(opacity=5);
 
 	/* Netscape */
-	-moz-opacity: 0.03;
+	-moz-opacity: 0.05;
 
 	/* Safari 1.x */
-	-khtml-opacity: 0.03;
+	-khtml-opacity: 0.05;
 
 	/* Good browsers */
-	opacity: 0.03;
+	opacity: 0.05;
 }
 #white_slider_scroll_control {
 	width: 75%;
@@ -293,15 +345,15 @@ table {
 	width: 0;
 	top: 616px;
 	/* IE 8 */
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=6)";
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=10)";
 	/* IE 5-7 */
-	filter: alpha(opacity=6);
+	filter: alpha(opacity=10);
 	/* Netscape */
-	-moz-opacity: 0.06;
+	-moz-opacity: 0.10;
 	/* Safari 1.x */
-	-khtml-opacity: 0.06;
+	-khtml-opacity: 0.10;
 	/* Good browsers */
-	opacity: 0.06;
+	opacity: 0.10;
 	cursor: pointer;
 	z-index: 200;
 }
