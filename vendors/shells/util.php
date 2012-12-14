@@ -45,8 +45,15 @@ class UtilShell extends Shell {
 	}
 	
 	function defaults() {
+		$this->MajorError->deleteAll(array("1=1"), true, true);
+		
+		
+		$this->out('-------- Deleting Photos ------------');
 		$this->Photo->deleteAll(array("1=1"), true, true);
+		$this->out('-------- Photos Deleted ------------');
+		$this->out('-------- Deleting Photo Galleries ------------');
 		$this->PhotoGallery->deleteAll(array("1=1"), true, true);
+		$this->out('-------- Photo Galleries Deleted ------------');
 		
 		
 		App::import("Component", "CloudFiles");
@@ -54,15 +61,23 @@ class UtilShell extends Shell {
 		
 		$all_objects = $this->files->list_objects();
 		
+		$this->out('-------- Deleting Cloud Files Objects ------------');
 		foreach ($all_objects as $all_object) {
 			$this->files->delete_object($all_object['name']);
 			//print_r($all_object);
 		}
+		$this->out('-------- Cloud Files Objects Deleted ------------');
 		
 		$this->args[0] = 20;
 		$this->give_me_images();
-                
+        
+		$this->out('-------- Adding Pages ------------');
 		$this->add_pages();
+		$this->out('-------- Pages Added ------------');
+		
+		$this->out('-------- Adding Menu Items ------------');
+		$this->add_menu_items();
+		$this->out('-------- Menu Items Added ------------');
 		
 		/*$photo_data = array();
 		
@@ -238,8 +253,12 @@ class UtilShell extends Shell {
 	}
 	
 	public function add_pages() {
-		$this->SitePage->deleteAll('1=1', true, true);
-		$this->SitePagesSitePageElement->deleteAll('1=1', true, true);
+		@$this->SiteOneLevelMenu->deleteAll('1=1', true, true);
+		@$this->SiteTwoLevelMenu->deleteAll('1=1', true, true);
+		@$this->SiteTwoLevelMenuContainer->deleteAll('1=1', true, true);
+		@$this->SiteTwoLevelMenuContainerItem->deleteAll('1=1', true, true);
+		@$this->SitePage->deleteAll('1=1', true, true);
+		@$this->SitePagesSitePageElement->deleteAll('1=1', true, true);
 		
 		
 		for($r = 0; $r < 50; $r++) {

@@ -15,6 +15,7 @@
 <body>
 	<?php if (count($photos) > 0): ?>
 <!--		<div class="endless_loading">Loading</div> maybe use this later-->
+		<div id="white_slider_listing_actual_container_loading"><?php echo nl2br(str_replace(' ', "\n", __('L O A D I N G', true))); ?></div>
 		<div id="white_slider_listing_actual_container"><img class="blank" src="/images/large_blank.png" width="1600" height="500" /><!--
 			--><?php echo $this->Element('gallery/gallery_image_lists/simple_list', array(
 				'photos' => $photos,
@@ -54,13 +55,10 @@
 			var cease_fire = false;
 			var last_photo_id = undefined;
 			function endless_scroll_callback() {
-				jQuery('#endless_scroll_loading').show();
-				
-				console.log ("came into the endless scroll");
-				
 				if (in_callback == true) {
 					return;
 				}
+				jQuery('#white_slider_listing_actual_container_loading').stop().fadeIn();
 
 				in_callback = true;
 				if (last_photo_id == undefined) {
@@ -74,7 +72,7 @@
 					url : '/photo_galleries/ajax_get_gallery_photos_after/<?php echo $gallery_id; ?>/'+last_photo_id+'/',
 					data : {},
 					success : function (image_list) {
-						console.log (image_list);
+//						console.log (image_list);
 						var image_list_large_html = jQuery(image_list.large_html);
 						var image_list_small_html = jQuery(image_list.small_html);
 
@@ -94,11 +92,11 @@
 						}
 					},
 					complete: function(jqXHR, textStatus) {
-						console.log ("came into complete");
-						jQuery('#endless_scroll_loading').hide();
+//						console.log ("came into complete");
+						jQuery('#white_slider_listing_actual_container_loading').stop().fadeOut();
 					},
 					error: function () {
-						console.log ("came into the error");
+//						console.log ("came into the error");
 					},
 					dataType: "json"
 				}); 
@@ -159,10 +157,14 @@
 					}
 				}
 
+
 				
 				// center the next image
 				if (next_image != undefined && next_image.length > 0 && !next_image.hasClass('blank')) {
 					var center_of_next_image = jQuery('#white_slider_listing_actual_container').scrollLeft() + next_image.offset().left + (next_image.width() / 2);
+//					console.log (next_image);
+//					console.log (center_of_next_image);
+//					console.log (middle_of_screen);
 					var new_scroll_left = Math.round(center_of_next_image - middle_of_screen);
 					jQuery('#white_slider_listing_actual_container').scrollLeft(new_scroll_left);
 					calculate_scroll_control_div_width_and_pos();
@@ -226,6 +228,8 @@
 //				console.log (percentage);
 				
 				var slider_scroll = Math.round(slider_width * (percentage/100) );
+				
+//				console.log (slider_scroll);
 				
 				slider.scrollLeft(slider_scroll);
 			}
