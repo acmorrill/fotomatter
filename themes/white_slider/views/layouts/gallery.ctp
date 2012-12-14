@@ -75,6 +75,7 @@
 //						console.log (image_list);
 						var image_list_large_html = jQuery(image_list.large_html);
 						var image_list_small_html = jQuery(image_list.small_html);
+						setup_image_clicks(image_list_small_html);
 
 //							console.log (image_list_large_html);
 //							console.log (image_list_small_html);
@@ -342,6 +343,18 @@
 //			}
 
 			
+			function setup_image_clicks(selector) {
+				jQuery(selector).click(function(){
+					var control = jQuery('#white_slider_scroll_control_inner .scroll_control_div');
+					var image_center = jQuery(this).position().left + ( jQuery(this).width() / 2);
+					var new_left = image_center - (control.width() / 2);
+					control.css('left', new_left);
+					
+					calculate_slider_scroll_position();
+					calculate_control_container_scroll();
+				});
+			}
+			
 			jQuery(document).ready(function() {
 				jQuery('#white_slider_listing_actual_container').endlessScroll_horizontal({
 					bottomPixels: 2000,
@@ -411,15 +424,7 @@
 					};
 				});
 				
-				jQuery('#white_slider_scroll_control_inner img:not(.blank)').click(function(){
-					var control = jQuery('#white_slider_scroll_control_inner .scroll_control_div');
-					var image_center = jQuery(this).position().left + ( jQuery(this).width() / 2);
-					var new_left = image_center - (control.width() / 2);
-					control.css('left', new_left);
-					
-					calculate_slider_scroll_position();
-					calculate_control_container_scroll();
-				});
+				setup_image_clicks('#white_slider_scroll_control_inner img:not(.blank)');
 			});
 			
 			jQuery(window).load(function() {
