@@ -42,7 +42,8 @@ class PhotosController extends AppController {
 			$conditions['PhotoGallery.id'] = $gallery_id;
 		}
 		$curr_gallery = $this->PhotoGallery->find('first', array(
-			'conditions' => $conditions
+			'conditions' => $conditions,
+			'contain'=>false
 		));
 		
 		
