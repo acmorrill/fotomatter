@@ -25,6 +25,10 @@
 					'url' => "/admin/theme_centers"
 				);
 				$subnav['pages'][] = array(
+					'name' => __('Choose Theme', true),
+					'url' => "/admin/theme_centers/choose_theme/"
+				);
+				$subnav['pages'][] = array(
 					'name' => __('Main Menu', true),
 					'url' => "/admin/theme_centers/main_menu/"
 				);

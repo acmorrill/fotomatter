@@ -28,7 +28,8 @@ class AppController extends Controller {
 		'ThemeMenu',
 		'ThemeLogo',
 		'Theme',
-		'Photo'
+		'Photo',
+		'Gallery'
 	);
 	
     /**

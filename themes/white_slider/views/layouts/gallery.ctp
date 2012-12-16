@@ -13,6 +13,20 @@
 </head>
 
 <body>
+	<?php 
+		if (!isset($photos)) {
+			// treat the landing page as the first gallery
+			$curr_gallery = $this->Gallery->get_first_gallery(); 
+			if (isset($curr_gallery['PhotoGallery']['id'])) {
+				$gallery_id = $curr_gallery['PhotoGallery']['id'];
+			} else {
+				$gallery_id = 0;
+			}
+			$photos = $this->Gallery->get_gallery_photos($gallery_id, 15);
+		}
+	?>
+	
+	
 	<?php if (count($photos) > 0): ?>
 <!--		<div class="endless_loading">Loading</div> maybe use this later-->
 		<div id="white_slider_listing_actual_container_loading"><?php echo nl2br(str_replace(' ', "\n", __('L O A D I N G', true))); ?></div>
@@ -94,7 +108,7 @@
 					},
 					complete: function(jqXHR, textStatus) {
 //						console.log ("came into complete");
-						jQuery('#white_slider_listing_actual_container_loading').stop().fadeOut();
+						jQuery('#white_slider_listing_actual_container_loading').stop().fadeOut(2000);
 					},
 					error: function () {
 //						console.log ("came into the error");
