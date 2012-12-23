@@ -77,6 +77,7 @@ class GenericDbShell extends Shell {
 	}
 	
 	protected function _update($is_global) {
+		ClassRegistry::init("SiteSetting");
 		$datasource = ConnectionManager::getDataSource('default');
 		$datasource->cacheSources = false;
 		Configure::write('Cache.disable', true);
@@ -420,7 +421,6 @@ class GenericDbShell extends Shell {
 							}
 						}
 					}
-					
 
 					mysql_query($sql, $connection);
 					if (mysql_error($connection)) {
