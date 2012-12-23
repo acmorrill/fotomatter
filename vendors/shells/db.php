@@ -37,6 +37,7 @@ class DbShell extends GenericDbShell {
 	// shell main functions
 	////////////////////////////////////////////////////////////////
 	public function reset() {
+	    
 		Configure::write('Cache.disable', true);
 		$this->_connect_db();
 		
