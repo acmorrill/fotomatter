@@ -12,6 +12,8 @@
 	
 </head>
 
+	
+<!--	DREW TODO - GET THIS THEME WORKING IN DIFFERENT ZOOM AMOUNTS OF BROWSERS-->
 <body>
 	<?php 
 		if (!isset($photos)) {

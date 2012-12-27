@@ -204,7 +204,7 @@ abstract class AbstractThemeLogoHelper extends AppHelper {
 	protected function _get_logo_companyname() {
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
 		
-		return $this->SiteSetting->getVal('company_name', 'Really Amazing Photography');
+		return $this->SiteSetting->getVal('company_name', 'Celestial Light Photography');
 	}
 	
 	protected function _get_logo_path($theme_name = null) {
