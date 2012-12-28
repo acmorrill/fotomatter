@@ -3,7 +3,7 @@
 	<head>
 		<title><?php print($curr_photo['Photo']['display_title']." - ".$curr_photo['Photo']['display_subtitle']." - ".$curr_gallery['PhotoGallery']['display_name']);?></title>
 		<?php echo $this->Element('theme_global_includes'); ?>
-		<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css" />
+		<link rel="stylesheet" type="text/css" href="/css/stylesheet.css" />
 
 		<?php $is_pano = $curr_photo['PhotoFormat']['ref_name'] == "panoramic"; ?>
 		
