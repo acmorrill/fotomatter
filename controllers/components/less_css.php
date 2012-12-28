@@ -6,26 +6,19 @@ class LessCssComponent extends Object {
 	}
 	
 	public function recompile_css() {
-		// get lessphp
+		// get less css
 		App::import('Vendor', 'LessPhp', array('file' => 'lessphp'.DS.'lessc.inc.php'));
 		$this->LessPhp = new lessc();
 		
 		
-//		///////////////////////////////////////////
+		///////////////////////////////////////////
 		// recompile admin css
 		$webroot_css_path = WEBROOT_ABS.DS.'css';
 		$less_css_root_path = LESSCSS_ROOT;
-		$dir = new DirectoryIterator($less_css_root_path);
-		foreach ($dir as $fileinfo) {
-			if ($fileinfo->getExtension() == 'less') {
-				$less_file_full_path = $less_css_root_path.DS.$fileinfo->getFilename();
-				$new_css_full_path = $webroot_css_path.DS.$fileinfo->getBasename('.less').'.css';
-				
-				$this->LessPhp->checkedCompile($less_file_full_path, $new_css_full_path);
-			}
-		}
+		$this->compile_less_fromdir_todir($less_css_root_path, $webroot_css_path);
 		
 		
+		///////////////////////////////////////////
 		// recompile theme css
 		$top_level_themes_dir = scandir(PATH_TO_THEMES);
 		foreach ($top_level_themes_dir as $curr_top_level_dir) {
@@ -38,15 +31,7 @@ class LessCssComponent extends Object {
 			$theme_webroot_css_path = PATH_TO_THEMES.DS.$curr_top_level_dir.DS.'webroot'.DS.'css';
 			$theme_less_css_root_path = PATH_TO_THEMES.DS.$curr_top_level_dir.DS.'lesscss';
 			if (is_dir($theme_webroot_css_path) && is_dir($theme_less_css_root_path)) {
-				$dir = new DirectoryIterator($theme_less_css_root_path);
-				foreach ($dir as $fileinfo) {
-					if ($fileinfo->getExtension() == 'less') {
-						$theme_less_file_full_path = $theme_less_css_root_path.DS.$fileinfo->getFilename();
-						$theme_new_css_full_path = $theme_webroot_css_path.DS.$fileinfo->getBasename('.less').'.css';
-
-						$this->LessPhp->checkedCompile($theme_less_file_full_path, $theme_new_css_full_path);
-					}
-				}
+				$this->compile_less_fromdir_todir($theme_less_css_root_path, $theme_webroot_css_path);
 			}
 			
 			
@@ -64,18 +49,21 @@ class LessCssComponent extends Object {
 					$sub_theme_webroot_css_path = $sub_theme_dir.DS.'webroot'.DS.'css';
 					$sub_theme_less_css_root_path = $sub_theme_dir.DS.'lesscss';
 					if (is_dir($sub_theme_webroot_css_path) && is_dir($sub_theme_less_css_root_path)) {
-						$dir = new DirectoryIterator($sub_theme_less_css_root_path);
-						foreach ($dir as $fileinfo) {
-							if ($fileinfo->getExtension() == 'less') {
-								$sub_theme_less_file_full_path = $sub_theme_less_css_root_path.DS.$fileinfo->getFilename();
-								$sub_theme_new_css_full_path = $sub_theme_webroot_css_path.DS.$fileinfo->getBasename('.less').'.css';
-
-								$this->LessPhp->checkedCompile($sub_theme_less_file_full_path, $sub_theme_new_css_full_path);
-							}
-						}
+						$this->compile_less_fromdir_todir($sub_theme_less_css_root_path, $sub_theme_webroot_css_path);
 					}
-			
 				}
+			}
+		}
+	}
+	
+	private function compile_less_fromdir_todir($less_css_dir, $css_dir) {
+		$dir = new DirectoryIterator($less_css_dir);
+		foreach ($dir as $fileinfo) {
+			if ($fileinfo->getExtension() == 'less') {
+				$less_file_full_path = $less_css_dir.DS.$fileinfo->getFilename();
+				$new_css_full_path = $css_dir.DS.$fileinfo->getBasename('.less').'.css';
+				
+				$this->LessPhp->checkedCompile($less_file_full_path, $new_css_full_path);
 			}
 		}
 	}
