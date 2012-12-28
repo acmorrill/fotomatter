@@ -66,7 +66,9 @@ class LessCssComponent extends Object {
 //					$this->LessPhp->checkedCompile($less_file_full_path, $new_css_full_path);
 					$this->LessPhp->compileFile($less_file_full_path, $new_css_full_path); // just compile everytime for now
 				} catch (Exception $e) {
-					debug("failed to compile lesscss: ".$e->getMessage());
+					$exception_message = $e->getMessage();
+					$this->controller->major_error('Failed to recompile less css', compact('less_file_full_path', 'new_css_full_path', 'exception_message'));
+					debug("failed to compile lesscss: ".$exception_message);
 				}
 			}
 		}
