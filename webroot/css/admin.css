@@ -399,7 +399,7 @@ body {
 }
 #middle {
   min-height: 400px;
-  background: #303030;
+  background-color: #303030;
   padding: 12px;
   -moz-border-radius-topleft: 0px;
   border-top-left-radius: 0px;
@@ -511,7 +511,7 @@ body {
   margin: 0;
   font-family: 'Lucida Grande', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Sans Regular', Verdana, sans-serif;
   text-align: center;
-  color: #AAA;
+  color: #AAAAAA;
 }
 #top-navigation li a:hover {
   color: #D9D9D9;
@@ -544,7 +544,7 @@ body {
 }
 .table_header_lighter {
   background-color: #292929;
-  color: #AAA;
+  color: #AAAAAA;
   border-bottom: 1px solid #171717;
 }
 .table_header h2,
@@ -561,7 +561,7 @@ body {
   line-height: 29px;
 }
 .table_header_lighter h2 {
-  color: #AAA;
+  color: #AAAAAA;
 }
 .table_header .actions,
 .table_header_darker .actions img,
@@ -646,7 +646,7 @@ div#sub-nav {
 }
 div#sub-nav ul li a,
 div.dp-popup a.disabled {
-  color: #aaa;
+  color: #AAAAAA;
 }
 div#sub-nav ul li.title {
   background: #121212 url(/ssp/img/bg_subnav_title.gif) no-repeat scroll 0 0;

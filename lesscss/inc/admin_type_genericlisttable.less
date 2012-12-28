@@ -6,7 +6,7 @@
 	-moz-border-radius-topright: 5px; /* Firefox */
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
-	background-color: #454545;
+	background-color: @midtone_background;
 	padding: 15px;
 	padding-left: 25px;
 	padding-right: 25px;
@@ -20,7 +20,7 @@
 }
 .table_header_lighter {
 	background-color: #292929; 
-	color: #AAA; 
+	color: @subdued_text; 
 	border-bottom: 1px solid #171717;
 }
 .table_header h2, .table_header_darker h2, .table_header_lighter h2, .table_header .actions, .table_header_darker .actions, .table_header_lighter .actions {
@@ -32,7 +32,7 @@
 	line-height: 29px;
 }
 .table_header_lighter h2 {
-	color: #AAA;
+	color: @subdued_text;
 }
 .table_header .actions, .table_header_darker .actions img, .table_header_lighter .actions img {
 	cursor: pointer;
@@ -48,7 +48,7 @@ table.list {
 }
 table.list td {
 	background: #222;
-	border: 1px solid #121212;
+	border: 1px solid @darkest-background;
 	padding: 12px;
 	text-align: center;
 	vertical-align: middle;
@@ -56,7 +56,7 @@ table.list td {
 table.list td.first { }
 table.list td.curr { background: #191919; }
 table.list th {
-	background-color: #121212;
+	background-color: @darkest-background;
 	color: #EEE;
 	border-right: 1px solid #222;
 	font-size: 10px;

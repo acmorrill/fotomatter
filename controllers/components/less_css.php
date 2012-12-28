@@ -62,8 +62,12 @@ class LessCssComponent extends Object {
 			if ($fileinfo->getExtension() == 'less') {
 				$less_file_full_path = $less_css_dir.DS.$fileinfo->getFilename();
 				$new_css_full_path = $css_dir.DS.$fileinfo->getBasename('.less').'.css';
-				
-				$this->LessPhp->checkedCompile($less_file_full_path, $new_css_full_path);
+				try {
+//					$this->LessPhp->checkedCompile($less_file_full_path, $new_css_full_path);
+					$this->LessPhp->compileFile($less_file_full_path, $new_css_full_path); // just compile everytime for now
+				} catch (Exception $e) {
+					debug("failed to compile lesscss: ".$e->getMessage());
+				}
 			}
 		}
 	}
