@@ -19,7 +19,7 @@ class AppController extends Controller {
      * @var $components array
      * @access public
      */
-    var $components = array('Auth', 'Session', 'RequestHandler', 'HashUtil', 'ThemeRenderer');
+    var $components = array('Auth', 'Session', 'RequestHandler', 'HashUtil', 'ThemeRenderer', 'LessCss');
 	
 	public $helpers = array(
 		'Session',
@@ -40,6 +40,13 @@ class AppController extends Controller {
      * @access public
      */
     function beforeFilter() {
+		// recompile less css if a get param is set
+		if (isset($this->params['url']['lesscss'])) {
+			$this->LessCss->recompile_css();
+		}
+		
+		
+		
 		if (isset($this->params['url']['ajax_autoredirect'])) {
 			$this->Session->write('Auth.redirect', $this->params['url']['ajax_autoredirect']);
 		}
