@@ -1,7 +1,7 @@
 <?php
 class ThemeCentersController extends AppController {
     public $name = 'ThemeCenters';
-	public $uses = array('ThemeGlobalSetting', 'SiteSetting', 'ThemeHiddenSetting', 'Theme');
+	public $uses = array('ThemeGlobalSetting', 'SiteSetting', 'ThemeHiddenSetting', 'Theme', 'ThemeUserSetting');
 	public $helpers = array(
 		'Page',
 		'Gallery',
@@ -19,6 +19,40 @@ class ThemeCentersController extends AppController {
 	
 	public function admin_index() {
 		
+	}
+	
+	public function admin_ajax_save_theme_settings() {
+		$returnArr = array();
+		
+		$setting_name = isset($this->params['form']['setting_name']) ? $this->params['form']['setting_name'] : null;
+		$setting_value = isset($this->params['form']['setting_value']) ? $this->params['form']['setting_value'] : null;
+		$theme_id = isset($this->params['form']['theme_id']) ? $this->params['form']['theme_id'] : null;
+		$current_theme_id = $this->Theme->get_current_theme_id();
+		if (!isset($setting_name) || !isset($setting_value) || !isset($theme_id) || $theme_id != $current_theme_id) {
+			$returnArr['code'] = -1;
+			$returnArr['message'] = 'invalid params';
+			$this->return_json($returnArr);
+		}
+		
+		
+		if ($this->ThemeUserSetting->setVal($setting_name, $setting_value, $theme_id)) {
+			$returnArr['code'] = 1;
+		} else {
+			$returnArr['code'] = -1;
+			$this->Theme->major_error('failed to save theme user setting', compact('setting_name', 'setting_value', 'theme_id'));
+			$returnArr['message'] = 'failed to save theme user setting';
+		}
+		
+		
+		$this->return_json($returnArr);
+	}
+	
+	public function admin_theme_settings() {
+		$avail_settings_list = $this->viewVars['theme_config']['admin_config']['theme_avail_custom_settings']['settings'];
+		
+		$theme_id = $this->Theme->get_current_theme_id();
+		
+		$this->set(compact('avail_settings_list', 'theme_id'));
 	}
 	
 	public function admin_main_menu() {

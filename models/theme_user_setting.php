@@ -1,6 +1,6 @@
 <?php
-class ThemeHiddenSetting extends AppModel {
-	public $name = 'ThemeHiddenSetting';
+class ThemeUserSetting extends AppModel {
+	public $name = 'ThemeUserSetting';
 	public $belongsTo = array('Theme');
 	
 	
@@ -15,13 +15,13 @@ class ThemeHiddenSetting extends AppModel {
 		
 		$toSet = $this->find('first', array(
 			'conditions' => array(
-				'ThemeHiddenSetting.theme_id' => $theme_id,
-				'ThemeHiddenSetting.name' => $name
+				'ThemeUserSetting.theme_id' => $theme_id,
+				'ThemeUserSetting.name' => $name
 			),
-			'fields' => array('ThemeHiddenSetting.id', 'ThemeHiddenSetting.name', 'ThemeHiddenSetting.value')
+			'fields' => array('ThemeUserSetting.id', 'ThemeUserSetting.name', 'ThemeUserSetting.value')
 		));
 
-		return isset($toSet['ThemeHiddenSetting']['value']) ? $toSet['ThemeHiddenSetting']['value'] : $default;
+		return isset($toSet['ThemeUserSetting']['value']) ? $toSet['ThemeUserSetting']['value'] : $default;
 	}
 
 	public function setVal($name, $value, $theme_id = null) {
@@ -36,7 +36,7 @@ class ThemeHiddenSetting extends AppModel {
 		
 		
 		$toSet = array(
-			'ThemeHiddenSetting' => array(
+			'ThemeUserSetting' => array(
 				'theme_id' => $theme_id,
 				'name' => $name,
 				'value' => $value
@@ -45,14 +45,15 @@ class ThemeHiddenSetting extends AppModel {
 
 		$exists = $this->find('first', array(
 			'conditions' => array(
-				'ThemeHiddenSetting.theme_id' => $theme_id,
-				'ThemeHiddenSetting.name' => $name
+				'ThemeUserSetting.theme_id' => $theme_id,
+				'ThemeUserSetting.name' => $name
 			),
 			'contain' => false
 		));
 		
-		if (!empty($exists['ThemeHiddenSetting']['id'])) {
-			$toSet['ThemeHiddenSetting']['id'] = $exists['ThemeHiddenSetting']['id'];
+
+		if (!empty($exists['ThemeUserSetting']['id'])) {
+			$toSet['ThemeUserSetting']['id'] = $exists['ThemeUserSetting']['id'];
 		}
 
 		$this->create();
