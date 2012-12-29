@@ -50,6 +50,94 @@ $theme_config = array(
 				'absolute_path' => 	PATH_TO_THEMES.DS.'andrewmorrill/webroot/Passing-Rain.jpg', // max 1600 width and max 1200 height
 				'web_path' => '/Passing-Rain.jpg'
 			)
+		),
+		'theme_avail_custom_settings' => array(
+			'settings' => array(
+				'setting_one' => array(
+					'type' => 'on_off',
+					'display_name' => 'On Off Test',
+					'description' => 'On Off Test',
+					'help_message' => 'On Off Test',
+					'possible_values' => array(
+						'on' => array( 'display' => 'On' ),
+						'off' => array( 'display' => 'Off' ),
+					),
+				),
+				'setting_two' => array(
+					'type' => 'dropdown',
+					'display_name' => 'Drop Down Test',
+					'description' => 'Drop Down Test',
+					'help_message' => 'Drop Down Test',
+					'possible_values' => array(
+						'option1' => array( 'display' => 'Option 1' ),
+						'option2' => array( 'display' => 'Option 2' ),
+						'option3' => array( 'display' => 'Option 3' ),
+						'option4' => array( 'display' => 'Option 4' ),
+					),
+				),
+				'setting_three' => array(
+					'type' => 'numeric_dropdown',
+					'display_name' => 'Numeric Dropdown Test',
+					'description' => 'Numeric Dropdown Test',
+					'help_message' => 'Numeric Dropdown Test',
+					'possible_values' => array(
+						'min' => 20,
+						'max' => 100,
+					),
+				),
+				'setting_four' => array(
+					'type' => 'radio',
+					'display_name' => 'Radio Test',
+					'description' => 'Radio Test',
+					'help_message' => 'Radio Test',
+					'possible_values' => array(
+						'option1' => array( 'display' => 'Option 1' ),
+						'option2' => array( 'display' => 'Option 2' ),
+						'option3' => array( 'display' => 'Option 3' ),
+						'option4' => array( 'display' => 'Option 4' ),
+					),
+				),
+				'setting_five' => array(
+					'type' => 'color_radio',
+					'display_name' => 'Color Radio Test',
+					'description' => 'Color Radio Test',
+					'help_message' => 'Color Radio Test',
+					'possible_values' => array(
+						'#53B97D',
+						'#FFF400',
+						'#FF9F00',
+						'#B7001C',
+						'#B70086',
+					),
+				),
+				'setting_six' => array(
+					'type' => 'checkboxes',
+					'display_name' => 'Checkboxes Test',
+					'description' => 'Checkboxes Test',
+					'help_message' => 'Checkboxes Test',
+					'possible_values' => array(
+						'option1' => array( 'display' => 'Option 1' ),
+						'option2' => array( 'display' => 'Option 2' ),
+						'option3' => array( 'display' => 'Option 3' ),
+						'option4' => array( 'display' => 'Option 4' ),
+						'option5' => array( 'display' => 'Option 5' ),
+					),
+				),
+				'setting_seven' => array(
+					'type' => 'text_input',
+					'display_name' => 'Text Input Test',
+					'description' => 'Text Input Test',
+					'help_message' => 'Text Input Test',
+					'possible_values' => '/[\s\S]/', // can be regex
+				),
+				'setting_eight' => array(
+					'type' => 'textarea',
+					'display_name' => 'Text Area Test',
+					'description' => 'Text Area Test',
+					'help_message' => 'Text Area Test',
+					'possible_values' => '/[\s\S]/', // can be regex
+				),
+			)
 		)
 	)
 	
