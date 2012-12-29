@@ -1,4 +1,16 @@
-2) get the autoloader finished for theme 3
-3) finish the photo data for the theme 3 photos
-4) Do the theme switcher
-5) 
+1) figure out how to do theme settings
+	1) type of theme settings
+		on or off
+		dropdown
+		radio buttons
+		checkboxes
+		text input
+
+	2) fields
+		id
+		name (name of the setting)
+		description (a description of the setting)
+		help message (a help popup for the setting)
+		type (yesno|dropdown|radio|checkboxes|text_input)
+		possible_values ( (yes|no) | (value1|value2|value3) | (value1|value2|value3) | (value1|value2|value3) | '')
+		selection ( yes | value2 | value3 | value1 | blah )
