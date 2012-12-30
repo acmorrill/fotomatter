@@ -23,6 +23,7 @@ class ThemeCentersController extends AppController {
 	
 	public function admin_ajax_save_theme_settings() {
 		$returnArr = array();
+		$returnArr['code'] = 1;
 		
 		$setting_name = isset($this->params['form']['setting_name']) ? $this->params['form']['setting_name'] : null;
 		$setting_value = isset($this->params['form']['setting_value']) ? $this->params['form']['setting_value'] : null;
@@ -35,9 +36,7 @@ class ThemeCentersController extends AppController {
 		}
 		
 		
-		if ($this->ThemeUserSetting->setVal($setting_name, $setting_value, $theme_id)) {
-			$returnArr['code'] = 1;
-		} else {
+		if (!$this->ThemeUserSetting->setVal($setting_name, $setting_value, $theme_id)) {
 			$returnArr['code'] = -1;
 			$this->Theme->major_error('failed to save theme user setting', compact('setting_name', 'setting_value', 'theme_id'));
 			$returnArr['message'] = 'failed to save theme user setting';
@@ -51,6 +50,23 @@ class ThemeCentersController extends AppController {
 		$avail_settings_list = $this->viewVars['theme_config']['admin_config']['theme_avail_custom_settings']['settings'];
 		
 		$theme_id = $this->Theme->get_current_theme_id();
+		
+		
+		$theme_user_settings = $this->ThemeUserSetting->find('all', array(
+			'conditions' => array(
+				'ThemeUserSetting.theme_id' => $theme_id
+			),
+			'contain' => false
+		));
+		$settings_by_name = Set::combine($theme_user_settings, '{n}.ThemeUserSetting.name', '{n}.ThemeUserSetting.value');
+		
+		foreach ($avail_settings_list as $key => $curr_setting) {
+			if (isset($settings_by_name[$key])) {
+				$avail_settings_list[$key]['current_value'] = $settings_by_name[$key];
+			} else {
+				$avail_settings_list[$key]['current_value'] = $curr_setting['default_value'];
+			}
+		}
 		
 		$this->set(compact('avail_settings_list', 'theme_id'));
 	}

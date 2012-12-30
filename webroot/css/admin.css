@@ -1,4 +1,9 @@
 @import url("site_page_elements.css");
+.rounded-corners-small {
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  border-radius: 7px;
+}
 html,
 body,
 div,
@@ -196,11 +201,6 @@ h1 {
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
-}
-.rounded-corners-small {
-  -webkit-border-radius: 7px;
-  -moz-border-radius: 7px;
-  border-radius: 7px;
 }
 .rounded-corners-tiny {
   -webkit-border-radius: 3px;
@@ -775,13 +775,16 @@ div#sub-nav ul li.title a {
   vertical-align: top;
 }
 #endless_scroll_loading {
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  border-radius: 7px;
   display: none;
   position: absolute;
-  left: 20px;
-  bottom: 107px;
   background-color: #121212;
   padding: 12px;
   font-size: 22px;
+  left: 20px;
+  bottom: 107px;
   z-index: 3;
 }
 .photo_pages h1.top_heading {
@@ -997,4 +1000,76 @@ div#sub-nav ul li.title a {
 #configure_main_menu_cont .not_sortable_menu_item .reorder_grabber {
   opacity: 0.5;
   filter: alpha(opacity=50);
+}
+.two_level_menu_items_cont {
+  position: relative;
+}
+.two_level_menu_items_cont .top_level_item {
+  min-height: 60px;
+  margin: 20px;
+  position: relative;
+  border: 1px solid transparent;
+  margin-top: 43px;
+}
+.two_level_menu_items_cont .top_level_item h2 {
+  margin: 10px;
+}
+.two_level_menu_items_cont .top_level_item .sub_menu_item {
+  background-color: #454545;
+  margin: 10px;
+  min-height: 40px;
+  cursor: move;
+  position: relative;
+}
+.two_level_menu_items_cont .single_item {
+  background-color: #454545;
+}
+.two_level_menu_items_cont .container_item {
+  background-color: #636363;
+}
+#theme_centers_list_container {
+  position: relative;
+}
+#theme_centers_list_container .theme_setting_container {
+  vertical-align: top;
+  margin-bottom: 30px;
+}
+#theme_centers_list_container .theme_setting_container label {
+  text-align: right;
+  margin-right: 12px;
+  vertical-align: top;
+  display: inline-block;
+  min-width: 230px;
+}
+#theme_centers_list_container .theme_setting_container .theme_setting_inputs_container {
+  margin-top: -3px;
+  min-width: 80px;
+  vertical-align: top;
+  display: inline-block;
+}
+#theme_centers_list_container .theme_setting_container .theme_setting_inputs_container span.color_chooser {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  outline: 1px solid #808080;
+}
+#theme_centers_list_container .theme_setting_container .theme_setting_description {
+  display: inline-block;
+  vertical-align: top;
+  width: 500px;
+  font-style: italic;
+  margin-left: 80px;
+}
+#theme_centers_list_container .saving_theme_setting {
+  display: none;
+  position: absolute;
+  background-color: #121212;
+  padding: 12px;
+  font-size: 22px;
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  border-radius: 7px;
+  position: fixed;
+  right: 48px;
+  bottom: 25px;
 }
