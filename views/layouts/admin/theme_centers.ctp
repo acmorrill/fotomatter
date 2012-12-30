@@ -29,7 +29,7 @@
 					'url' => "/admin/theme_centers/choose_theme/"
 				);
 				$subnav['pages'][] = array(
-					'name' => __('Theme Settings', true),
+					'name' => __('Current Theme Settings', true),
 					'url' => "/admin/theme_centers/theme_settings/"
 				);
 				$subnav['pages'][] = array(
