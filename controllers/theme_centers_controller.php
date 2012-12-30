@@ -51,23 +51,6 @@ class ThemeCentersController extends AppController {
 		
 		$theme_id = $this->Theme->get_current_theme_id();
 		
-		
-		$theme_user_settings = $this->ThemeUserSetting->find('all', array(
-			'conditions' => array(
-				'ThemeUserSetting.theme_id' => $theme_id
-			),
-			'contain' => false
-		));
-		$settings_by_name = Set::combine($theme_user_settings, '{n}.ThemeUserSetting.name', '{n}.ThemeUserSetting.value');
-		
-		foreach ($avail_settings_list as $key => $curr_setting) {
-			if (isset($settings_by_name[$key])) {
-				$avail_settings_list[$key]['current_value'] = $settings_by_name[$key];
-			} else {
-				$avail_settings_list[$key]['current_value'] = $curr_setting['default_value'];
-			}
-		}
-		
 		$this->set(compact('avail_settings_list', 'theme_id'));
 	}
 	
