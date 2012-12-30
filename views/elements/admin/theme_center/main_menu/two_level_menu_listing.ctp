@@ -462,32 +462,3 @@
 		</div>
 	</div>
 </div>
-
-<style type="text/css">
-	.two_level_menu_items_cont {
-		position: relative;
-	}
-	.two_level_menu_items_cont .top_level_item {
-		min-height: 60px;
-		margin: 20px;
-		position: relative;
-		border: 1px solid transparent;
-		margin-top: 43px;
-	}
-	.two_level_menu_items_cont .top_level_item h2 {
-		margin: 10px;
-	}
-	.two_level_menu_items_cont .single_item {
-		background-color: #454545;
-	} 
-	.two_level_menu_items_cont .container_item {
-		background-color: #636363;
-	} 
-	.two_level_menu_items_cont .top_level_item .sub_menu_item {
-		background-color: #454545;
-		margin: 10px;
-		min-height: 40px;
-		cursor: move;
-		position: relative;
-	}
-</style>
