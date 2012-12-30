@@ -1039,7 +1039,7 @@ div#sub-nav ul li.title a {
   margin-right: 12px;
   vertical-align: top;
   display: inline-block;
-  min-width: 230px;
+  min-width: 240px;
 }
 #theme_centers_list_container .theme_setting_container .theme_setting_inputs_container {
   margin-top: -3px;
@@ -1072,4 +1072,13 @@ div#sub-nav ul li.title a {
   position: fixed;
   right: 48px;
   bottom: 25px;
+}
+#theme_centers_list_container h2.group_list_name {
+  margin-left: 257px;
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 32px;
+  border-bottom: 1px solid white;
+  line-height: 46px;
+  width: 791px;
 }

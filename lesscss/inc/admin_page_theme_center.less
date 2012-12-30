@@ -22,7 +22,7 @@
 }
 
 
-
+@label_width: 240px;
 /////////////////////////////////////////////////
 // Theme settings styles
 #theme_centers_list_container {
@@ -35,7 +35,7 @@
 			margin-right: 12px;
 			vertical-align: top;
 			display: inline-block;
-			min-width: 230px;
+			min-width: @label_width;
 		}
 		.theme_setting_inputs_container {
 			margin-top: -3px;
@@ -58,5 +58,14 @@
 		position: fixed;
 		right: 48px;
 		bottom: 25px;
+	}
+	h2.group_list_name {
+		margin-left: (@label_width + 17);
+		font-size: 32px;
+		font-weight: bold;
+		margin-bottom: 32px;
+		border-bottom: 1px solid white;
+		line-height: 46px;
+		width: 791px;
 	}
 }

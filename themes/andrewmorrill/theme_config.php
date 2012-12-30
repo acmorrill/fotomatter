@@ -53,6 +53,10 @@ $theme_config = array(
 		),
 		'theme_avail_custom_settings' => array(
 			'settings' => array(
+				'setting_zero' => array(
+					'type' => 'group_name',
+					'display_name' => 'Group 1',
+				),
 				'setting_one' => array(
 					'type' => 'on_off',
 					'display_name' => 'On Off Test',
@@ -76,6 +80,10 @@ $theme_config = array(
 						'option4' => array( 'display' => 'Option 4' ),
 					),
 					'default_value' => 'option2',
+				),
+				'setting_twopoint5' => array(
+					'type' => 'group_name',
+					'display_name' => 'Group 2',
 				),
 				'setting_three' => array(
 					'type' => 'numeric_dropdown',
@@ -114,6 +122,10 @@ $theme_config = array(
 						'#B70086',
 					),
 					'default_value' => '#B7001C',
+				),
+				'setting_fivepoint5' => array(
+					'type' => 'group_name',
+					'display_name' => 'Group 3',
 				),
 				'setting_six' => array(
 					'type' => 'checkboxes',
