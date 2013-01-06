@@ -3,8 +3,8 @@
 <?php // DREW TODO - make it so the pagination is not there at all if there are no pages ?>
 <div class="paginationDiv" style="<?php echo $extra_css; ?>">
 	<?php 
-		$current_page = $this->Paginator->params['paging']['PhotoGalleriesPhoto']['page'];
-		$total_pages = $this->Paginator->params['paging']['PhotoGalleriesPhoto']['pageCount'];
+		$current_page = isset($this->Paginator->params['paging']['PhotoGalleriesPhoto']['page']) ? $this->Paginator->params['paging']['PhotoGalleriesPhoto']['page'] : $this->Paginator->params['paging']['Photo']['page'];
+		$total_pages = isset($this->Paginator->params['paging']['PhotoGalleriesPhoto']['pageCount']) ? $this->Paginator->params['paging']['PhotoGalleriesPhoto']['pageCount'] : $this->Paginator->params['paging']['Photo']['pageCount'];
 	?>
 	<?php 
 		if ($current_page - 3 >= 1) {

@@ -34,8 +34,11 @@
 	});
 </script>
 
-
-<h1><?php __('Galleries'); ?></h1>
+<?php echo $this->Session->flash(); ?>
+<div class="right">
+	<?php echo $this->Element('admin/gallery/add_gallery'); ?>
+</div>
+<div class="clear"></div>
 <?php if (!empty($galleries)): ?>
 	<div class="table_header">
 		<label class="inline"><?php __('Gallery:'); ?></label> 
