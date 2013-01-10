@@ -302,7 +302,14 @@
  *	));
  *
  */
-	Cache::config('default', array('engine' => 'File'));
+	
+        Cache::config('default', array(
+ 		'engine' => 'Apc', //[required]
+ 		'duration'=> 3600, //[optional]
+ 		'probability'=> 100, //[optional]
+  		'prefix' => Inflector::slug(APP_DIR) . '_', //[optional]  prefix every cache file with this string
+ 	));
+//        Cache::config('default', array('engine' => 'File'));
 	$debug = Configure::read('debug'); 
 	if (((isset($_GET['xhprof']) && $debug == 2) || $debug == 4) && PHP_SAPI != 'cli') {
 		require_once('xhprof.php');
