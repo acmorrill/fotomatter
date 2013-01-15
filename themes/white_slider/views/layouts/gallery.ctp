@@ -28,7 +28,6 @@
 		}
 	?>
 	
-	
 	<?php if (count($photos) > 0): ?>
 <!--		<div class="endless_loading">Loading</div> maybe use this later-->
 		<div id="white_slider_listing_actual_container_loading"><?php echo nl2br(str_replace(' ', "\n", __('L O A D I N G', true))); ?></div>

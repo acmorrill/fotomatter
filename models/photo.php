@@ -83,13 +83,17 @@ class Photo extends AppModel {
 	public function beforeSave($options = array()) {
 		parent::beforeSave($options);
 		
+
+		if (!isset($this->data['Photo']['date_taken'])) {
+			$this->data['Photo']['date_taken'] = date('Y-m-d');
+		}
+		
 		
 		$cacheTempLocation = '';
 		$maxmegabytes = MAX_UPLOAD_SIZE_MEGS * 1024 * 1024;
 		
 		////////////////////////////////////////////////////////////////////////////////////////////
 		// if a file was uploaded then upload it to cloud files and then delete any previous file
-		
 	//	$data_from_array 
 		if (is_array($this->data['Photo']['cdn-filename']) && !empty($this->data['Photo']['cdn-filename']['tmp_name'])) {
 			
@@ -151,7 +155,6 @@ class Photo extends AppModel {
 			$tmp_location = $this->data['Photo']['cdn-filename']['tmp_name'];
 			$mime_type = $this->data['Photo']['cdn-filename']['type'];
 
-			$this->log("made it here", 'photo');
 			if ($this->CloudFiles->put_object($file_name, $tmp_location, $mime_type)) {
 				// file successfully uploaded - so now automatically set the photo format
 				$this->data['Photo']['photo_format_id'] = $this->PhotoFormat->get_photo_format_id($height, $width);
@@ -281,8 +284,6 @@ class Photo extends AppModel {
 	}
 	
 	public function afterSave($created) {
-		$this->log($this->data, 'aftersave_foto');
-		
 		//////////////////////////////////////////////////////////////////////////////////////////
 		// now create all the prebuilt cache sizes
 		if (isset($this->data['Photo']['cdn-filename-forcache']) && isset($this->data['Photo']['cdn-filename-smaller-forcache']) && isset($this->id))   {
@@ -325,7 +326,7 @@ class Photo extends AppModel {
 	}
 
 	
-		public function get_dummy_error_image_path($height, $width) {
+	public function get_dummy_error_image_path($height, $width) {
 		$this->PhotoCache = ClassRegistry::init('PhotoCache');
 		
 		return $this->PhotoCache->get_dummy_error_image_path($height, $width);

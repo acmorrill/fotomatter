@@ -1,7 +1,7 @@
 <?php
 class PhotoGalleriesController extends AppController {
 	public $name = 'PhotoGalleries';
-	public $uses = array('PhotoGallery', 'Photo', 'PhotoGalleriesPhoto', 'PhotoFormat');
+	public $uses = array('PhotoGallery', 'Photo', 'PhotoGalleriesPhoto', 'PhotoFormat', 'Tag', 'PhotosTag');
 	public $helpers = array('Photo', 'Gallery', 'Paginator');
 
 	public function  beforeFilter() {
@@ -10,6 +10,38 @@ class PhotoGalleriesController extends AppController {
 		$this->layout = 'admin/galleries';
 		
 		$this->Auth->allow('choose_gallery', 'view_gallery', 'ajax_get_gallery_photos_after');
+	}
+	
+	public function admin_add_standard_gallery() {
+		$new_gallery = array();
+		$new_gallery['PhotoGallery']['type'] = 'standard';
+		$new_gallery['PhotoGallery']['display_name'] = 'Gallery Name';
+		
+		$this->PhotoGallery->create();
+		if (!$this->PhotoGallery->save($new_gallery)) {
+			$this->Session->setFlash('Failed to create new standard gallery');
+			$this->PhotoGallery->major_error('Failed to create new standard gallery in (add_standard_gallery) in photo_galleries_controller.php', compact('new_gallery'));
+			$this->redirect('/admin/photo_galleries');
+		} else {
+			//$this->Session->setFlash('New page created');
+			$this->redirect('/admin/photo_galleries/edit_gallery/'.$this->PhotoGallery->id);
+		}
+	}
+	
+	public function admin_add_smart_gallery() {
+		$new_gallery = array();
+		$new_gallery['PhotoGallery']['type'] = 'smart';
+		$new_gallery['PhotoGallery']['display_name'] = 'Gallery Name';
+		
+		$this->PhotoGallery->create();
+		if (!$this->PhotoGallery->save($new_gallery)) {
+			$this->Session->setFlash('Failed to create new smart gallery');
+			$this->PhotoGallery->major_error('Failed to create new smart gallery in (add_smart_gallery) in photo_galleries_controller.php', compact('new_gallery'));
+			$this->redirect('/admin/photo_galleries');
+		} else {
+			//$this->Session->setFlash('New page created');
+			$this->redirect('/admin/photo_galleries/edit_gallery/'.$this->PhotoGallery->id);
+		}
 	}
 	
 	public function choose_gallery() {
@@ -32,25 +64,48 @@ class PhotoGalleriesController extends AppController {
 			'limit' => 1,
 			'contain' => false
 		));
-		
-		$this->paginate = array(
-			'PhotoGalleriesPhoto' => array(
-				'conditions' => array(
-					'PhotoGalleriesPhoto.photo_gallery_id' => $gallery_id
-				),
-				'limit' => $gallery_listing_config['default_images_per_page'], // DREW TODO - maybe make this number (the number of photos per gallery page) a global option in the admin
-				'contain' => array(
-					'Photo' => array(
-						'PhotoFormat'
-					)
-				),
-				'order' => 'PhotoGalleriesPhoto.photo_order'
-			)
-		);
-		$photos = $this->paginate('PhotoGalleriesPhoto');    
 
+		$photos = array();
+		if ($curr_gallery['PhotoGallery']['type'] == 'smart') {
+			$smart_settings = $curr_gallery['PhotoGallery']['smart_settings'];
+			
+			$found_photo_ids = $this->PhotoGallery->get_smart_gallery_photo_ids($smart_settings);
+			
+			// do the final find with pagination
+			$this->paginate = array(
+				'Photo' => array(
+					'conditions' => array(
+						'Photo.id' => $found_photo_ids
+					),
+					'limit' => $gallery_listing_config['default_images_per_page'], // DREW TODO - maybe make this number (the number of photos per gallery page) a global option in the admin
+					'contain' => array(
+						'PhotoFormat' // DREW TODO - improve this call for foto format for performance
+					),
+					'order' => "Photo.{$smart_settings['order_by']} {$smart_settings['order_direction']}"
+				)
+			);
+			$photos = $this->paginate('Photo');      
+			
+		} else {
+			$this->paginate = array(
+				'PhotoGalleriesPhoto' => array(
+					'conditions' => array(
+						'PhotoGalleriesPhoto.photo_gallery_id' => $gallery_id
+					),
+					'limit' => $gallery_listing_config['default_images_per_page'], // DREW TODO - maybe make this number (the number of photos per gallery page) a global option in the admin
+					'contain' => array(
+						'Photo' => array(
+							'PhotoFormat' // DREW TODO - improve this call for foto format for performance
+						)
+					),
+					'order' => 'PhotoGalleriesPhoto.photo_order'
+				)
+			);
+			$photos = $this->paginate('PhotoGalleriesPhoto');    
+		}
 		
-		$this->set(compact('curr_gallery', 'photos', 'gallery_id'));
+		
+		$this->set(compact('curr_gallery', 'photos', 'gallery_id', 'smart_settings'));
 		
 		$this->renderEmpty();
 	}
@@ -62,6 +117,46 @@ class PhotoGalleriesController extends AppController {
 		));
 		
 		$this->set(compact('galleries'));
+	}
+	
+	public function admin_edit_smart_gallery($id) {
+		if ( !empty($this->data) ) {
+			// get settings to save
+			$smart_settings = $this->data['smart_settings'];
+			$save_settings['tags'] = isset($smart_settings['tags']) ? $smart_settings['tags'] : array();
+			$save_settings['date_added_from'] = (isset($smart_settings['date_added_from']) && $smart_settings['date_added_from'] != $smart_settings['date_added_from_default']) ? date( 'm/d/Y', strtotime($smart_settings['date_added_from'])) : null;
+			$save_settings['date_added_to'] = (isset($smart_settings['date_added_to']) && $smart_settings['date_added_to'] != $smart_settings['date_added_to_default']) ? date( 'm/d/Y', strtotime($smart_settings['date_added_to'])) : null;
+			$save_settings['date_taken_from'] = (isset($smart_settings['date_taken_from']) && $smart_settings['date_taken_from'] != $smart_settings['date_taken_from_default']) ? date( 'm/d/Y', strtotime($smart_settings['date_taken_from'])) : null;
+			$save_settings['date_taken_to'] = (isset($smart_settings['date_taken_to']) && $smart_settings['date_taken_to'] != $smart_settings['date_taken_to_default']) ? date( 'm/d/Y', strtotime($smart_settings['date_taken_to'])) : null;
+			$save_settings['photo_format'] = isset($smart_settings['photo_format']) ? $smart_settings['photo_format'] : array();
+			$save_settings['order_by'] = isset($smart_settings['order_by']) ? $smart_settings['order_by'] : 'date_added';
+			$save_settings['order_direction'] = isset($smart_settings['order_direction']) ? $smart_settings['order_direction'] : 'desc';
+			
+			
+			$smart_gallery['PhotoGallery']['id'] = $id;
+			$smart_gallery['PhotoGallery']['smart_settings'] = serialize($save_settings);
+			if (!$this->PhotoGallery->save($smart_gallery)) {
+				$this->Session->setFlash('Failed to save smart settings.');
+				$this->PhotoGallery->major_error('Failed to save smart settings.', compact('smart_gallery'));
+			}
+		}
+		
+		$this->data = $this->PhotoGallery->find('first', array(
+			'conditions' => array(
+				'PhotoGallery.id' => $id
+			),
+			'contain' => false
+		));
+		
+		
+		$tags = $this->Tag->find('all', array(
+			'order' => array(
+				'Tag.name'
+			),
+			'contain' => false
+		));
+		
+		$this->set(compact('tags', 'id'));
 	}
 	
 	public function admin_edit_gallery($id) {
@@ -120,6 +215,10 @@ class PhotoGalleriesController extends AppController {
 	}
 	
 	public function ajax_get_gallery_photos_after($gallery_id, $last_photo_id, $limit) {
+		// DREW TODO - make this function use smart gallery finding code
+		// START HERE TOMORROW
+		// $found_photo_ids = $this->PhotoGallery->get_smart_gallery_photo_ids($smart_settings);
+		
 		if (empty($limit)) {
 			$limit = 30;
 		}
@@ -169,7 +268,6 @@ class PhotoGalleriesController extends AppController {
 			'sharpness' => '.4'
 		));
 		
-		$this->log($photos, 'photos_after');
 
 		$this->return_json($returnArr);
 	}

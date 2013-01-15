@@ -33,7 +33,7 @@ class PhotoCache extends AppModel {
 		return $this->get_dummy_image_path($height, $width, $image_name, $dummy_image_path, $dummy_image_url_path, $cache_path, $url_cache_path, $direct_output, $return_tag_attributes);
 	}
 	
-	public function get_dummy_processing_image_path($height, $width, $direct_output = false, $return_tag_attributes = false, $return_tag_attributes = false) {
+	public function get_dummy_processing_image_path($height, $width, $direct_output = false, $return_tag_attributes = false) {
 		$image_name = 'photo_processing.jpg';
 		$dummy_image_path = ROOT.DS.APP_DIR.DS.'webroot/img/photo_default/'.$image_name;
 		$dummy_image_url_path = '/img/photo_default/'.$image_name;
@@ -57,7 +57,9 @@ class PhotoCache extends AppModel {
 					
 					return array(
 						'url' => $dummy_image_url_path,
-						'tag_attributes' => $tag_attributes
+						'tag_attributes' => $tag_attributes,
+						'width' => $width,
+						'height' => $height,
 					);
 				} else {
 					return $dummy_image_url_path;
@@ -114,7 +116,9 @@ class PhotoCache extends AppModel {
 
 				return array(
 					'url' => $url_image_path,
-					'tag_attributes' => $tag_attributes
+					'tag_attributes' => $tag_attributes,
+					'width' => $width,
+					'height' => $height,
 				);
 			} else {
 				return $url_image_path;
@@ -143,13 +147,15 @@ class PhotoCache extends AppModel {
 		$photo_cache = $this->find('first', array(
 			'conditions' => array('PhotoCache.id' => $id),
 			'contain' => false,
-			'fields' => array('PhotoCache.cdn-filename', 'PhotoCache.tag_attributes')
+			'fields' => array('PhotoCache.cdn-filename', 'PhotoCache.tag_attributes', 'PhotoCache.pixel_width', 'PhotoCache.pixel_height')
 		));
                
 		if ($return_tag_attributes === true) {
 			return array(
 				'url' => $this->SiteSetting->getImageContainerUrl().$photo_cache['PhotoCache']['cdn-filename'],
-				'tag_attributes' => $photo_cache['PhotoCache']['tag_attributes']
+				'tag_attributes' => $photo_cache['PhotoCache']['tag_attributes'],
+				'width' => $photo_cache['PhotoCache']['pixel_width'],
+				'height' => $photo_cache['PhotoCache']['pixel_height'],
 			);
 		} else {
 			return $this->SiteSetting->getImageContainerUrl().$photo_cache['PhotoCache']['cdn-filename'];
@@ -174,9 +180,12 @@ class PhotoCache extends AppModel {
 				return $this->id;
 			} else {
 				if ($return_tag_attributes === true) {
+					$calculated_data = $this->predict_cache_tag_attributes_for_photo_cache($this->id);
 					return array(
 						'url' => '/photo_caches/create_cache/'.$this->id.'/',
-						'tag_attributes' => $this->predict_cache_tag_attributes_for_photo_cache($this->id)
+						'tag_attributes' => $calculated_data['tag_attributes'],
+						'width' => $calculated_data['width'],
+						'height' => $calculated_data['height'],
 					);
 				} else {
 					return '/photo_caches/create_cache/'.$this->id.'/';
@@ -214,23 +223,28 @@ class PhotoCache extends AppModel {
 		$use_height = ($H_height * $H_width) < ($W_width * $W_height);
 		
 		if ($use_height) {
-			return 'width="'.$H_width.'" height="'.$H_height.'"';
+			return array(
+				'tag_attributes' =>	'width="'.$H_width.'" height="'.$H_height.'"',
+				'width' => $H_width,
+				'height' => $H_height,
+			);
 		} else {
-			return 'width="'.$W_width.'" height="'.$W_height.'"';
+			return array(
+				'tag_attributes' =>	'width="'.$W_width.'" height="'.$W_height.'"',
+				'width' => $W_width,
+				'height' => $W_height,
+			);
 		}
 	}
 	
 	public function get_existing_cache_create_url($photo_cache_id, $return_tag_attributes = false) {
 		if ($return_tag_attributes === true) {
-			$photo_cache = $this->find('first', array(
-				'conditions' => array('PhotoCache.id' => $photo_cache_id),
-				'contain' => false,
-				'fields' => array('PhotoCache.tag_attributes')
-			));
-			
+			$calculated_data = $this->predict_cache_tag_attributes_for_photo_cache($photo_cache_id);
 			return array(
 				'url' => '/photo_caches/create_cache/'.$photo_cache_id.'/',
-				'tag_attributes' => $photo_cache['PhotoCache']['tag_attributes']
+				'tag_attributes' => $calculated_data['tag_attributes'],
+				'width' => $calculated_data['width'],
+				'height' => $calculated_data['height'],
 			);
 		} else {
 			return '/photo_caches/create_cache/'.$photo_cache_id.'/';
