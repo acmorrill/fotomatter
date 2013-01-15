@@ -80,6 +80,9 @@ class UtilShell extends Shell {
 		$this->add_menu_items();
 		$this->out('-------- Menu Items Added ------------');
 		
+		$this->out('-------- Adding Tags ------------');
+		$this->add_tags();
+		$this->out('-------- Tags Added ------------');
 		/*$photo_data = array();
 		
 		////////////////////////////////////////////
@@ -142,6 +145,43 @@ class UtilShell extends Shell {
 				$this->PhotoGalleriesPhoto->save($photo_gallery_photo);
 			}
 		}*/
+	}
+	
+	public function add_tags() {
+		$this->Tag = ClassRegistry::init('Tag');
+		$this->Tag->deleteAll(array("1=1"), true, true);
+				
+		$tags_to_add = array(
+			'Portrait',
+			'Landscape',
+			'Wedding',
+			'Awesome',
+			'Wide Angle',
+			'Telephoto',
+			'Kids',
+			'Head Shots',
+			'Blue',
+			'Sunset',
+			'Green',
+			'Night',
+			'Moon',
+			'Large Format',
+			'Moab',
+			'California',
+			'Purple',
+			'New York',
+			'Misty',
+			'Subdued',
+			'Monster',
+		);
+		
+		foreach ($tags_to_add as $tag) {
+			$new_tag = array();
+			$new_tag['Tag']['name'] = $tag;
+
+			$this->Tag->create();
+			$this->Tag->save($new_tag);
+		}
 	}
 	
 	public function add_menu_items() {

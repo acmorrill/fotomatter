@@ -1,7 +1,7 @@
 <?php
 class PhotosController extends AppController {
 	public $name = 'Photos';
-	public $uses = array(/*'OldPhoto', */'Photo', 'SiteSetting', 'PhotoFormat', 'SiteSetting', 'PhotoGalleriesPhoto', 'PhotoGallery');
+	public $uses = array(/*'OldPhoto', */'Photo', 'SiteSetting', 'PhotoFormat', 'SiteSetting', 'PhotoGalleriesPhoto', 'PhotoGallery', 'PhotosTag', 'Tag');
 	public $helpers = array('Menu', 'Photo', 'Gallery');
 	public $components = array('Upload', "ImageVersion", "Gd", "ImageWizards", "CloudFiles");
 	public $paginate = array(
@@ -167,6 +167,28 @@ class PhotosController extends AppController {
 			$this->data['Photo']['id'] = $id;
 
 
+			if (isset($this->data['Photo']['tag_ids'])) {
+				//$this->data['Photo']['tag_ids']
+				
+				// add the tags
+				if (!$this->PhotosTag->deleteAll(array(
+					'PhotosTag.photo_id' => $id
+				), false, false)) {
+					$this->PhotosTag->major_error('Failed to remove tags from photo');
+				}
+				
+				foreach ($this->data['Photo']['tag_ids'] as $tag_id) {
+					$new_photo_tag = array();
+					$new_photo_tag['tag_id'] = $tag_id;
+					$new_photo_tag['photo_id'] = $id;
+					$this->PhotosTag->create();
+					if (!$this->PhotosTag->save($new_photo_tag)) {
+						$this->PhotosTag->major_error('Failed to add tag to photo', compact('tag_id'));
+					}
+				}
+			}
+			
+			
 			if ($this->Photo->save($this->data)) {
 				//$this->Photo->replicatePriceCal($this->Photo->id); // this is to calculate the price in the old way for the old website (so when you add you don't have to run priceCal.php)
 				$this->Session->setFlash('Photo saved');
@@ -190,6 +212,22 @@ class PhotosController extends AppController {
 			}
 		}
 		
+		$tags = $this->Tag->find('all', array(
+			'order' => array(
+				'Tag.name'
+			),
+			'contain' => false
+		));
+		
+		$photo_tags = $this->PhotosTag->find('all', array(
+			'conditions' => array(
+				'PhotosTag.photo_id' => $this->data['Photo']['id']
+			),
+			'contain' => false
+		));
+		$photo_tag_ids = Set::extract('/PhotosTag/tag_id', $photo_tags);
+		
+		$this->set(compact('tags', 'photo_tag_ids'));
 	}
 
 	
