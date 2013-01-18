@@ -44,15 +44,16 @@ class PhotoGallery extends AppModel {
 	public function afterFind($results, $primary = false) {
 		parent::afterFind($results, $primary);
 		
-		foreach ($results as $key => $result) {
-			if ( (!empty($result['PhotoGallery']['smart_settings']) || !empty($result['smart_settings'])) && $result['PhotoGallery']['type'] == 'smart') {
-				if ($primary == true) {
-					$results[$key]['PhotoGallery']['smart_settings'] = unserialize($result['PhotoGallery']['smart_settings']);
-				} else {
-					$results[$key]['smart_settings'] = unserialize($result['smart_settings']);
-				}
-			}
-		}
+                // DREW TODO - fix the below code
+//		foreach ($results as $key => $result) {
+//			if ( (!empty($result['PhotoGallery']['smart_settings']) && $result['PhotoGallery']['type'] == 'smart') || ( !empty($result['type']['smart_settings']) && $result['PhotoGallery']['type'] == 'smart' )) {
+//				if ($primary == true) {
+//					$results[$key]['PhotoGallery']['smart_settings'] = unserialize($result['PhotoGallery']['smart_settings']);
+//				} else {
+//					$results[$key]['smart_settings'] = unserialize($result['smart_settings']);
+//				}
+//			}
+//		}
 		
 		return $results;
 	}
