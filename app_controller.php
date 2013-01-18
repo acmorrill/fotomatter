@@ -29,7 +29,8 @@ class AppController extends Controller {
 		'ThemeLogo',
 		'Theme',
 		'Photo',
-		'Gallery'
+		'Gallery',
+		'WhiteAngular' // DREW TODO - make it so themes can define the helpers that get included
 	);
 	
     /**
