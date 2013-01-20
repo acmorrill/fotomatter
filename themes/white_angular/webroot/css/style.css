@@ -340,6 +340,7 @@ h6 {
 #image_slider_outer_container #image_slider_container .float_image_cont {
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 }
 #image_slider_outer_container #image_slider_container .float_image_cont .img_cont {
   position: absolute;

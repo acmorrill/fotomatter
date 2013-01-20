@@ -334,7 +334,7 @@ class Photo extends AppModel {
 	
 	public function get_photo_path($photo_id, $height, $width, $unsharp_amount = null, $return_tag_attributes = false) {
 		if ($height <= 0 || $width <= 0) {
-			$this->major_error('Called get photo path like a moron');
+			$this->major_error('Called get photo path like a moron', compact('width', 'height'));
 			return $this->PhotoCache->get_dummy_error_image_path($height, $width, false, $return_tag_attributes);
 		}
 		
