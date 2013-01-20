@@ -10,4 +10,8 @@ class WhiteAngularHelper extends AppHelper {
 		return ((-318/395)*$y) + (9540/79);
 	}
 	
+	public function test() {
+		echo 'you suck';
+	}
+	
 }
