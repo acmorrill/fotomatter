@@ -37,63 +37,58 @@
 		
 		<script type="text/javascript">
 			var scroll_to_height = 257;
-			function scroll_to_image(image) {
-				// stop any current animation
-				jQuery('#image_slider_container').stop();
-				
-				// set as the current image
-				jQuery('#image_slider_container .float_image_cont').removeClass('current_image');				
-				image.addClass('current_image');
-				
-				// scroll to the current image
-				var image_pos = jQuery(image).position();
-				var top_increase = -(image_pos.top - scroll_to_height);
-				var left_increase = Math.round((153 * top_increase) / -190);
+			function scroll_to_image(image, speed) {
+				if (image.hasClass('actual_image')) {
+					// stop any current animation
+					jQuery('#image_slider_container').stop();
 
+					// set as the current image
+					jQuery('#image_slider_container .float_image_cont').removeClass('current_image');				
+					image.addClass('current_image');
 
-				var top_str = (top_increase > 0) ? '+='+Math.abs(top_increase) : '-='+Math.abs(top_increase) ;
-				var left_str = (left_increase > 0) ? '+='+Math.abs(left_increase) : '-='+Math.abs(left_increase) ;
+					// scroll to the current image
+					var image_pos = jQuery(image).position();
+					var this_image_top = image_pos.top;
+					var container_top = jQuery('#image_slider_container').position().top;
+
+					var top_increase = -(this_image_top - Math.abs(container_top)) + scroll_to_height;
+					var left_increase = Math.round((153 * top_increase) / -190);
+
+					var top_str = (top_increase > 0) ? '+='+Math.abs(top_increase) : '-='+Math.abs(top_increase) ;
+					var left_str = (left_increase > 0) ? '+='+Math.abs(left_increase) : '-='+Math.abs(left_increase) ;
+
+					jQuery('#image_slider_container').stop().animate({
+						top: top_str,
+						left: left_str
+					}, {queue: false, duration: speed});
+				}
 				
-				
-				console.log (top_str);
-				console.log (left_str);
-				
-				jQuery('#image_slider_container').stop().animate({
-					top: top_str,
-					left: left_str
-				}, {queue: false, duration: 1000});
 			}
 			
 			function scroll_to_next_image() {
 				var current_image = jQuery('#image_slider_container .float_image_cont.current_image');
 				var next_image = current_image.prev().prev();
-				
-				console.log (next_image);
-				
-				scroll_to_image(next_image);
+				scroll_to_image(next_image, 300);
 			}
 			
 			function scroll_to_prev_image() {
 				var current_image = jQuery('#image_slider_container .float_image_cont.current_image');
 				var prev_image = current_image.next().next();
-				
-				console.log (prev_image);
-				
-//				scroll_to_image(prev_image);
+				scroll_to_image(prev_image, 300);
 			}
 			
 			
 			jQuery(document).ready(function() {
 				// find the second to last image and scroll to it at the beginning
-				var second_to_last_image = jQuery('#image_slider_container .float_image_cont:last').prev().prev();
-				scroll_to_image(second_to_last_image);
+				var second_to_last_image = jQuery('#image_slider_container .float_image_cont.actual_image:last').prev().prev();
+				scroll_to_image(second_to_last_image, 1000);
 				
 				jQuery('.scroll_up_right').click(function() {
-//					scroll_to_next_image();
+					scroll_to_next_image();
 				});
 				
 				jQuery('.scroll_down_left').click(function() {
-//					scroll_to_prev_image();
+					scroll_to_prev_image();
 				});
 				
 				
@@ -164,36 +159,57 @@
 					$blank_cont_left_add = -121;
 					$cont_left_add = -128;
 					$prev_left = null;
+					
+					
+					// add 4 three blank onto beginning and end
+					array_unshift($photos, '');
+					array_unshift($photos, '');
+					array_unshift($photos, '');
+					array_unshift($photos, '');
+					array_push($photos, '');
+					array_push($photos, '');
+					array_push($photos, '');
+					array_push($photos, '');
+					
+//					debug($photos);
+					
 				?>
 				<?php foreach ($photos as $photo): ?>
 					<?php 
-						$width = null;
-						$height = null;
+						$blank = false;
+						if (empty($photo)) {
+							$blank = true;
+							$width = '720';
+							$height = '500';
+							$img_src['url'] = '/img/blank_image.png';
+							$img_src['width'] = $width;
+							$img_src['height'] = $height;
+							$img_src['tag_attributes'] = "width='$width' height='$height'";
+						} else {
+							$width = null;
+							$height = null;
 
-						switch ($photo['Photo']['PhotoFormat']['ref_name']) {
-							case 'portrait':
-							case 'square':
-								$width = 630;
-								$height = 3000;
-								break;
-							case 'landscape':
-								$width = 720;
-								$height = 3000;
-								break;
-							case 'panoramic':
-								$height = 300;
-								$width = 3000;
-								break;
-							case 'vertical-panoramic':
-								$width = 300;
-								$height = 3000;
-								break;
+							switch ($photo['Photo']['PhotoFormat']['ref_name']) {
+								case 'portrait':
+								case 'square':
+									$width = 630;
+									$height = 3000;
+									break;
+								case 'landscape':
+									$width = 720;
+									$height = 3000;
+									break;
+								case 'panoramic':
+									$height = 300;
+									$width = 3000;
+									break;
+								case 'vertical-panoramic':
+									$width = 300;
+									$height = 3000;
+									break;
+							}
+							$img_src = $this->Photo->get_photo_path($photo['Photo']['id'], $height, $width, .4, true); 
 						}
-
-
-
-
-						$img_src = $this->Photo->get_photo_path($photo['Photo']['id'], $height, $width, .4, true); 
 
 					?>
 						<?php 
@@ -218,7 +234,7 @@
 	//						$using_y = $div_y - 150;
 	//						debug("x: $div_x, y: $div_y");
 						?>
-						<div class="float_image_cont" style="width: 720px; height: 300px; left: <?php echo $left; ?>px;" start_left="<?php echo $left; ?>" img_width="<?php echo $total_width; ?>" img_height="<?php echo $total_height; ?>">
+						<div class="float_image_cont <?php if ($blank == false): ?>actual_image<?php endif; ?>" style="width: 720px; height: 300px; left: <?php echo $left; ?>px;" start_left="<?php echo $left; ?>" img_width="<?php echo $total_width; ?>" img_height="<?php echo $total_height; ?>">
 							<div class="img_cont" style="width: <?php echo $total_width; ?>px; height: <?php echo $total_height; ?>px; margin-left: <?php echo -round($total_width/2); ?>px; margin-top: <?php echo -round($total_height/2); ?>px;">
 								<div class="img_inner_wrap">
 									<img src="<?php echo $img_src['url']; ?>" style="display: block; width: <?php echo $img_src['width']; ?>px; height: <?php echo $img_src['height']; ?>px;" <?php echo $img_src['tag_attributes']; ?> />
