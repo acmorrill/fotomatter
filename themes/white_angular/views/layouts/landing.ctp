@@ -36,41 +36,68 @@
 		?>
 		
 		<script type="text/javascript">
-			var scroll_to_height = 247;
+			var scroll_to_height = 257;
 			function scroll_to_image(image) {
+				// stop any current animation
+				jQuery('#image_slider_container').stop();
+				
+				// set as the current image
+				jQuery('#image_slider_container .float_image_cont').removeClass('current_image');				
+				image.addClass('current_image');
+				
+				// scroll to the current image
 				var image_pos = jQuery(image).position();
 				var top_increase = -(image_pos.top - scroll_to_height);
 				var left_increase = Math.round((153 * top_increase) / -190);
 
 
-//				console.log (top_increase);
-//				console.log (left_increase);
-				
 				var top_str = (top_increase > 0) ? '+='+Math.abs(top_increase) : '-='+Math.abs(top_increase) ;
 				var left_str = (left_increase > 0) ? '+='+Math.abs(left_increase) : '-='+Math.abs(left_increase) ;
+				
 				
 				console.log (top_str);
 				console.log (left_str);
 				
-				jQuery('#image_slider_container').animate({
+				jQuery('#image_slider_container').stop().animate({
 					top: top_str,
 					left: left_str
 				}, {queue: false, duration: 1000});
+			}
+			
+			function scroll_to_next_image() {
+				var current_image = jQuery('#image_slider_container .float_image_cont.current_image');
+				var next_image = current_image.prev().prev();
 				
+				console.log (next_image);
 				
-//				top: '-=190',
-//				left: '+=153'
+				scroll_to_image(next_image);
+			}
+			
+			function scroll_to_prev_image() {
+				var current_image = jQuery('#image_slider_container .float_image_cont.current_image');
+				var prev_image = current_image.next().next();
 				
+				console.log (prev_image);
+				
+//				scroll_to_image(prev_image);
 			}
 			
 			
-			
 			jQuery(document).ready(function() {
+				// find the second to last image and scroll to it at the beginning
+				var second_to_last_image = jQuery('#image_slider_container .float_image_cont:last').prev().prev();
+				scroll_to_image(second_to_last_image);
+				
+				jQuery('.scroll_up_right').click(function() {
+//					scroll_to_next_image();
+				});
+				
+				jQuery('.scroll_down_left').click(function() {
+//					scroll_to_prev_image();
+				});
+				
+				
 				setTimeout(function() {
-					// find the second to last image
-					var second_to_last_image = jQuery('#image_slider_container .float_image_cont:last').prev().prev();
-					scroll_to_image(second_to_last_image);
-					console.log (second_to_last_image);
 					
 					
 					
@@ -122,7 +149,13 @@
 			<div id="slider_info_container">
 				<img class="scroll_up_right" src="/img/scroll_up_right.png" />
 				<div class="top_info_line">&nbsp;</div>
-				<div class="welcome_info_line">&nbsp;</div>
+				<div class="welcome_info_line">
+					<div class="content">
+						<h2><?php __('WELCOME'); ?></h2>
+						<div class="thick_line"></div>
+					</div>
+					<div class="line"></div>
+				</div>
 				<img class="scroll_down_left" src="/img/scroll_down_left.png" />
 			</div>
 			<div id="image_slider_container">

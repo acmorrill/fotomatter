@@ -161,18 +161,7 @@ class PhotoGalleriesController extends AppController {
 	
 	public function admin_edit_gallery($id) {
 		
-		if ( empty($this->data) ) {
-			$this->data = $this->PhotoGallery->find('first', array(
-				'conditions' => array(
-					'PhotoGallery.id' => $id
-				),
-				'contain' => array(
-					'PhotoGalleriesPhoto' => array(
-						'Photo'
-					)
-				)
-			));
- 		} else {
+		if ( !empty($this->data) ) {
 			// set or unset the id (depending on if its an edit or add)
 			$this->data['PhotoGallery']['id'] = $id;
 			
@@ -183,7 +172,18 @@ class PhotoGalleriesController extends AppController {
 			} else {
 				$this->Session->setFlash('Photo gallery saved');
 			}
-		}
+ 		} 
+		
+		$this->data = $this->PhotoGallery->find('first', array(
+			'conditions' => array(
+				'PhotoGallery.id' => $id
+			),
+			'contain' => array(
+				'PhotoGalleriesPhoto' => array(
+					'Photo'
+				)
+			)
+		));
 	}
 	
 	public function admin_ajax_get_photos_in_gallery($gallery_id) {
