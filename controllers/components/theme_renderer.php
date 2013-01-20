@@ -40,6 +40,13 @@ class ThemeRendererComponent extends Object {
 			
 		// check to see if current action needs to have theme rendering done to it
 		if (isset($theme_config['theme_controller_action_layouts'][$this->controller->name][$this->controller->action])) {
+			
+			if (isset($theme_config['theme_include_helpers'])) {
+				foreach ($theme_config['theme_include_helpers'] as $helper_name) {
+					$this->controller->helpers[] = $helper_name;
+				}
+			}
+			
 			if ($theme_config['theme_controller_action_layouts'][$this->controller->name][$this->controller->action] === false) {
 				// DREW TODO - we need to make a php page for 404s maybe
 				header('HTTP/1.0 404 Not Found');
