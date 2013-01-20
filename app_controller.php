@@ -30,7 +30,6 @@ class AppController extends Controller {
 		'Theme',
 		'Photo',
 		'Gallery',
-		'WhiteAngular' // DREW TODO - make it so themes can define the helpers that get included
 	);
 	
     /**
@@ -41,6 +40,9 @@ class AppController extends Controller {
      * @access public
      */
     function beforeFilter() {
+		
+		
+		
 		// recompile less css if a get param is set
 		if (Configure::read('debug') == '2' || isset($this->params['url']['lesscss']) || $this->Session->check('recompile_css')) {
 			if (isset($this->params['url']['lesscss'])) {

@@ -3,6 +3,7 @@
 // config for theme: default
 
 $theme_config = array(
+	'theme_include_helpers' => array(),
 	'theme_controller_action_layouts' => array(
 		'SitePages' => array(
 			'landing_page' => 'landing',

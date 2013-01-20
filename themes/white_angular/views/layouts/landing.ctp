@@ -36,12 +36,27 @@
 		?>
 		
 		<script type="text/javascript">
-			var scroll_to_height = 227;
+			var scroll_to_height = 247;
 			function scroll_to_image(image) {
 				var image_pos = jQuery(image).position();
-				var height_increase = image_pos.top - scroll_to_height;
-				console.log (image_pos.top);
+				var top_increase = -(image_pos.top - scroll_to_height);
+				var left_increase = Math.round((153 * top_increase) / -190);
 
+
+//				console.log (top_increase);
+//				console.log (left_increase);
+				
+				var top_str = (top_increase > 0) ? '+='+Math.abs(top_increase) : '-='+Math.abs(top_increase) ;
+				var left_str = (left_increase > 0) ? '+='+Math.abs(left_increase) : '-='+Math.abs(left_increase) ;
+				
+				console.log (top_str);
+				console.log (left_str);
+				
+				jQuery('#image_slider_container').animate({
+					top: top_str,
+					left: left_str
+				}, {queue: false, duration: 1000});
+				
 				
 //				top: '-=190',
 //				left: '+=153'
@@ -53,8 +68,9 @@
 			jQuery(document).ready(function() {
 				setTimeout(function() {
 					// find the second to last image
-					var second_to_last_image = jQuery('#image_slider_container .float_image_cont:last').prev();
+					var second_to_last_image = jQuery('#image_slider_container .float_image_cont:last').prev().prev();
 					scroll_to_image(second_to_last_image);
+					console.log (second_to_last_image);
 					
 					
 					
