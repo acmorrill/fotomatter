@@ -4,8 +4,89 @@ body {
 	background-color: #dddcdc;
 	color: black;
 	position: relative;
+	overflow: hidden;
 }
 
+
+/// VARIABLES
+@img_slider_zindex: 100;
+@logo_zindex: (@img_slider_zindex + 100);
+@menu_zindex: (@img_slider_zindex + 150);
+@slider_info_zindex: (@img_slider_zindex + 200);
+
+@base_text_color: #000;
+
+
+
+/**************************************************************************************
+** LOGO
+**************************************************************************************/
+#logo_cont {
+	position: absolute;
+	top: 113px;
+	left: 102px;
+	z-index: @logo_zindex;
+	#mainName {
+		width: 324px;
+		height: 26px;
+		background: url('/img/sample_logo.png') no-repeat top left;
+		display: block;
+		img {
+			display: none;
+		}
+	}
+}
+
+/**************************************************************************************
+** MAIN NAV
+**************************************************************************************/
+#main_nav {
+	z-index: @menu_zindex;
+	position: absolute;
+	top: 254px;
+	left: 0px;
+	font-family: 'Signika Negative', sans-serif;
+	color: @base_text_color;
+	font-size: 18px;
+	height: 331px;
+	ul { 
+		overflow: hidden; 
+		height: 250px;
+		li {
+			margin-left: 102px;
+			font-weight: 400;
+			position: relative;
+			line-height: 36px;
+			a {
+				color: @base_text_color;
+				text-decoration: none;
+			}
+			span.extra {
+				position: absolute;
+				width: 400px;
+				height: 7px;
+				left: -420px;
+				top: 15px;
+				background-color: @base_text_color;
+				display: none;
+			}
+			&:hover, &.highlight {
+				font-weight: 700;
+				span.extra {
+					display: block;
+				}
+			}
+		}
+	}
+
+}
+
+
+
+
+/**************************************************************************************
+** DIAGONAL SLIDER CSS
+**************************************************************************************/
 .left_cover_image {
 	position: absolute;
 	width: 988px;
@@ -84,50 +165,86 @@ body {
 	}
 }
 
-#image_slider_container {
+#image_slider_outer_container {
 	position: absolute;
 	top: 0px;
-	left: 400px;
-
-	.float_blank_cont {
-		position: relative;
-		overflow: hidden;
-		height: 9px;
-		.float_blank_inner_cont {
-			position: relative;
-			overflow: hidden;
-			margin-top: -150px;
+	left: 376px;
+	#slider_info_container {
+		position: absolute;
+		outline: 1px solid pink;
+		height: 3000px;
+		width: 3000px;
+		top: 215px;
+		left: 150px;
+		z-index: @slider_info_zindex;
+		.top_info_line {
+			position: absolute;
+			background-color: @base_text_color;
+			width: 3000px;
+			height: 1px;
+			top: 33px;
+			left: 352px;
+		}
+		.welcome_info_line {
+			position: absolute;
+			
+		}
+		.scroll_up_right, .scroll_down_left {
+			position: absolute;
+		}
+		.scroll_up_right {
+			top: 0px;
+			left: 380px;
+		}
+		.scroll_down_left {
+			left: 0px;
+			top: 300px;
 		}
 	}
-
-	.float_image_cont {
-		position: relative;
-		overflow: hidden;
-		.img_cont {
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			/*width: ''; // these are set per image
-			height: '';
-			margin-top: '';
-			margin-left: '';*/
-			.img_inner_wrap {
-				border: 1px solid #808080;
-				img {
-					border: 9px solid #dddcdc;
-				}
+	#image_slider_container {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		.float_blank_cont {
+			position: relative;
+			overflow: hidden;
+			height: 9px;
+			.float_blank_inner_cont {
+				position: relative;
+				overflow: hidden;
+				margin-top: -150px;
 			}
 		}
 
+		.float_image_cont {
+			position: relative;
+			overflow: hidden;
+			.img_cont {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				/*width: ''; // these are set per image
+				height: '';
+				margin-top: '';
+				margin-left: '';*/
+				.img_inner_wrap {
+					border: 1px solid #808080;
+					img {
+						border: 9px solid #dddcdc;
+					}
+				}
+			}
 
 
 
-		/*.internal_div {
-			width: 100%;
-			height: 100%;
-			border: 8px solid black;
-			outline: 1px solid #333;
-		}*/
+
+			/*.internal_div {
+				width: 100%;
+				height: 100%;
+				border: 8px solid black;
+				outline: 1px solid #333;
+			}*/
+		}
 	}
 }
 

@@ -9,4 +9,5 @@ class WhiteAngularHelper extends AppHelper {
 	public function get_image_center_x($y) {
 		return ((-318/395)*$y) + (9540/79);
 	}
+	
 }
