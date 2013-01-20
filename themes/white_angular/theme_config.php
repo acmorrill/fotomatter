@@ -3,6 +3,9 @@
 // config for theme: andrewmorrill
 
 $theme_config = array(
+	'theme_include_helpers' => array(
+		'WhiteAngular'
+	),
 	'theme_controller_action_layouts' => array(
 		'SitePages' => array(
 			'landing_page' => 'landing',
