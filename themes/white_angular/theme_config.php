@@ -13,7 +13,7 @@ $theme_config = array(
 		),
 		'PhotoGalleries' => array(
 			'choose_gallery' => 'landing',
-			'view_gallery' => 'landing'
+			'view_gallery' => 'gallery'
 		),
 		'Photos' => array(
 			'view_photo' => 'landing'
@@ -27,5 +27,4 @@ $theme_config = array(
 			'theme_has_dynamic_background' => false,
 		),
 	)
-	
 );
