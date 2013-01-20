@@ -339,6 +339,23 @@ class UtilShell extends Shell {
 		debug($this->files->list_objects());
 	}
 	
+	
+	public function clear_container() {
+	    App::import("Component", "CloudFiles");
+	    $this->files = new CloudFilesComponent();
+	    
+	    if (isset($this->args[0]) === false) {
+		$this->error('no container name');
+		exit(1);
+	    }
+	    
+	    $all_images = $this->files->list_objects($this->args[0]);
+	    foreach($all_images as $image) {
+		$this->files->delete_object($image['name'], $this->args[0]);
+	    }
+	    return true;
+	}
+	
 	public function clear_image_cache() {
 		$this->PhotoCache->deleteAll('1=1', true, true);
 	}
