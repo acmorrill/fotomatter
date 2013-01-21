@@ -88,21 +88,10 @@
 				}
 			}
 			
-			
-			jQuery(document).ready(function() {
-				// reveal the images when they are loaded
-				jQuery(document).bind('images_loaded', function() {
-					jQuery('#images_loading_tab').hide();
-					
-					jQuery('#image_slider_container .left_cover_image, #image_slider_container .right_cover_image').each(function() {
-						var left = jQuery(this).attr('open_left');
-
-						jQuery(this).animate({
-							left: left
-						}, {queue: false, duration: 500});
-					});
+			function bootstrap() { 
+				jQuery('#image_slider_outer_container').css({
+					opacity: 100
 				});
-				
 				
 				// count how many of the images have loaded
 				jQuery('#image_slider_container .img_cont img').each(function() {
@@ -119,6 +108,41 @@
 						update_progress_bar();
 					};
 				});
+			}
+			
+			jQuery(document).ready(function() {
+				jQuery('#image_slider_outer_container').css({
+					opacity: 0
+				});
+			
+				// reveal the images when they are loaded
+				jQuery(document).bind('images_loaded', function() {
+					jQuery('#images_loading_tab').hide();
+					
+					jQuery('#image_slider_container .left_cover_image, #image_slider_container .right_cover_image').each(function() {
+						var left = jQuery(this).attr('open_left');
+
+						jQuery(this).animate({
+							left: left
+						}, {queue: false, duration: 500});
+					});
+				});
+				
+				
+				var bootstrap_count = 0;
+				$('<img/>').attr('src', '/img/left_block_image.png').load(function() {
+					bootstrap_count++;
+					if (bootstrap_count >= 2) {
+						bootstrap();
+					}
+				});
+				$('<img/>').attr('src', '/img/right_block_image.png').load(function() {
+					bootstrap_count++;
+					if (bootstrap_count >= 2) {
+						bootstrap();
+					}
+				});
+				
 				
 				// find the second to last image and scroll to it at the beginning
 				var second_to_last_image = jQuery('#image_slider_container .float_image_cont.actual_image:last').prev().prev();
