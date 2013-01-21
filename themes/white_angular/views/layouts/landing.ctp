@@ -89,7 +89,7 @@
 			}
 			
 			function bootstrap() { 
-				jQuery('#image_slider_outer_container').css({
+				jQuery('body').css({
 					opacity: 100
 				});
 				
@@ -111,7 +111,7 @@
 			}
 			
 			jQuery(document).ready(function() {
-				jQuery('#image_slider_outer_container').css({
+				jQuery('body').css({
 					opacity: 0
 				});
 			
