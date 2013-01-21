@@ -195,6 +195,26 @@ class UtilShell extends Shell {
 		foreach ($belongsTo as $model_name => $item) {
 			$pos_models[] = $model_name;
 		}
+
+		
+		///////////////////////////////////////////
+		// put in the system menu items
+		$new_menu_item = array();
+		$new_menu_item['SiteOneLevelMenu']['external_id'] = 0;
+		$new_menu_item['SiteOneLevelMenu']['external_model'] = 'SitePage';
+		$new_menu_item['SiteOneLevelMenu']['ref_name'] = 'home';
+		$new_menu_item['SiteOneLevelMenu']['is_system'] = '1';
+		$this->SiteOneLevelMenu->create();
+		$this->SiteOneLevelMenu->save($new_menu_item);
+		
+		$new_menu_item = array();
+		$new_menu_item['SiteOneLevelMenu']['external_id'] = 0;
+		$new_menu_item['SiteOneLevelMenu']['external_model'] = 'SitePage';
+		$new_menu_item['SiteOneLevelMenu']['ref_name'] = 'image_galleries';
+		$new_menu_item['SiteOneLevelMenu']['is_system'] = '1';
+		$this->SiteOneLevelMenu->create();
+		$this->SiteOneLevelMenu->save($new_menu_item);
+		
 		
 		$total_menu_items = 10;
 		for($x = 0; $x < $total_menu_items; $x++) {
