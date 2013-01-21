@@ -12,7 +12,7 @@ $theme_config = array(
 			'custom_page' => 'landing'
 		),
 		'PhotoGalleries' => array(
-			'choose_gallery' => 'landing',
+			'choose_gallery' => 'gallery_landing',
 			'view_gallery' => 'gallery'
 		),
 		'Photos' => array(
