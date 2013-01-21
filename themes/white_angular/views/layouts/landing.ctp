@@ -60,7 +60,7 @@
 					jQuery('#image_slider_container').stop().animate({
 						top: top_str,
 						left: left_str
-					}, {queue: false, duration: speed});
+					}, {queue: false, duration: speed, easing: 'swing'});
 				}
 				
 			}
@@ -132,13 +132,19 @@
 				var bootstrap_count = 0;
 				$('<img/>').attr('src', '/img/left_block_image.png').load(function() {
 					bootstrap_count++;
-					if (bootstrap_count >= 2) {
+					if (bootstrap_count >= 3) {
 						bootstrap();
 					}
 				});
 				$('<img/>').attr('src', '/img/right_block_image.png').load(function() {
 					bootstrap_count++;
-					if (bootstrap_count >= 2) {
+					if (bootstrap_count >= 3) {
+						bootstrap();
+					}
+				});
+				$('<img/>').attr('src', '/img/progress_bg.png').load(function() {
+					bootstrap_count++;
+					if (bootstrap_count >= 3) {
 						bootstrap();
 					}
 				});
