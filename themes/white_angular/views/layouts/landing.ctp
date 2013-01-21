@@ -182,8 +182,21 @@
 					scroll_to_next_image();
 				});
 				
-				jQuery('#image_slider_container .float_image_cont').click(function() {
+				jQuery('#image_slider_container .float_image_cont.actual_image').click(function() {
 					scroll_to_image(jQuery(this), 300);
+				});
+				
+				jQuery('#image_slider_container .float_image_cont.fake_image').click(function() {
+					var photo_id = jQuery(this).attr('photo_id');
+					var real_image = jQuery('#image_slider_container .float_image_cont.actual_image[photo_id='+photo_id+']');
+					var scroll_from = undefined;
+					if (jQuery(this).hasClass('before')) {
+						scroll_from = real_image.prev().prev();
+					} else {
+						scroll_from = real_image.next().next();
+					}
+					scroll_to_image(scroll_from, 0, true);
+					scroll_to_image(real_image, 300);
 				});
 				
 				
@@ -259,17 +272,17 @@
 					/////////////////////////////////////////////////////////
 					// mark start photos as real photos
 					foreach ($photos as $key => $photo) {
-						$photos[$key]['actual_photo'] = true;
+						$photos[$key]['classes'][] = 'actual_image';
 					}
 					
 					/////////////////////////////////////////////////////////
 					// mark first and last real photos for convenience in js
 					reset($photos);
 					$first_key = key($photos);
-					$photos[$first_key]['first'] = true;
+					$photos[$first_key]['classes'][] = 'first';
 					end($photos);
 					$last_key = key($photos);
-					$photos[$last_key]['last'] = true;
+					$photos[$last_key]['classes'][] = 'last';
 
 					
 					/////////////////////////////////////////////////////////
@@ -291,17 +304,17 @@
 						$last_n_pad_photos = array_slice($photos, -$num_to_pad);
 					}
 					foreach ($last_n_pad_photos as &$last_n_pad_photo) {
-						unset($last_n_pad_photo['actual_photo']);
-						unset($last_n_pad_photo['first']);
-						unset($last_n_pad_photo['last']);
+						unset($last_n_pad_photo['classes']);
+						$last_n_pad_photo['classes'][] = 'fake_image';
+						$last_n_pad_photo['classes'][] = 'before';
 					}
 					for ($i = count($last_n_pad_photos) - 1; $i >= 0; $i--) {
 						array_unshift($photos, $last_n_pad_photos[$i]);
 					}
 					foreach ($first_n_pad_photos as &$first_n_pad_photo) {
-						unset($first_n_pad_photo['actual_photo']);
-						unset($first_n_pad_photo['first']);
-						unset($first_n_pad_photo['last']);
+						unset($first_n_pad_photo['classes']);
+						$first_n_pad_photo['classes'][] = 'fake_image';
+						$first_n_pad_photo['classes'][] = 'after';
 					}
 					foreach ($first_n_pad_photos as $first_n_pad_photo) {
 						array_push($photos, $first_n_pad_photo);
@@ -311,14 +324,14 @@
 					
 					//////////////////////////////////////////////////////////////
 					// add 4 blank onto beginning and end
-					array_unshift($photos, array('blank_photo' => true));
-					array_unshift($photos, array('blank_photo' => true));
-					array_unshift($photos, array('blank_photo' => true));
-					array_unshift($photos, array('blank_photo' => true));
-					array_push($photos, array('blank_photo' => true));
-					array_push($photos, array('blank_photo' => true));
-					array_push($photos, array('blank_photo' => true));
-					array_push($photos, array('blank_photo' => true));
+					array_unshift($photos, array('blank_photo' => true, 'classes' => array()));
+					array_unshift($photos, array('blank_photo' => true, 'classes' => array()));
+					array_unshift($photos, array('blank_photo' => true, 'classes' => array()));
+					array_unshift($photos, array('blank_photo' => true, 'classes' => array()));
+					array_push($photos, array('blank_photo' => true, 'classes' => array()));
+					array_push($photos, array('blank_photo' => true, 'classes' => array()));
+					array_push($photos, array('blank_photo' => true, 'classes' => array()));
+					array_push($photos, array('blank_photo' => true, 'classes' => array()));
 					
 					
 					//////////////////////////////////////////////////////////////
@@ -394,7 +407,7 @@
 	//						$using_y = $div_y - 150;
 	//						debug("x: $div_x, y: $div_y");
 						?>
-						<div class="float_image_cont <?php if (isset($photo['actual_photo'])): ?>actual_image<?php endif; ?> <?php if (isset($photo['first'])): ?>first<?php endif; ?> <?php if (isset($photo['last'])): ?>last<?php endif; ?>" style="width: 720px; height: 300px; left: <?php echo $left; ?>px;" start_left="<?php echo $left; ?>" img_width="<?php echo $total_width; ?>" img_height="<?php echo $total_height; ?>">
+						<div photo_id="<?php if (isset($photo['Photo']['id'])) { echo $photo['Photo']['id']; } ?>" class="float_image_cont <?php echo implode(' ', $photo['classes']); ?>" style="width: 720px; height: 300px; left: <?php echo $left; ?>px;" start_left="<?php echo $left; ?>" img_width="<?php echo $total_width; ?>" img_height="<?php echo $total_height; ?>">
 							<div class="img_cont" style="width: <?php echo $total_width; ?>px; height: <?php echo $total_height; ?>px; margin-left: <?php echo -round($total_width/2); ?>px; margin-top: <?php echo -round($total_height/2); ?>px;">
 								<div class="img_inner_wrap">
 									<img src="<?php echo $img_src['url']; ?>" style="display: block; width: <?php echo $img_src['width']; ?>px; height: <?php echo $img_src['height']; ?>px;" <?php echo $img_src['tag_attributes']; ?> />
