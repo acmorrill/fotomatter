@@ -1,11 +1,5 @@
 @import url("../../../lesscss/inc/admin_reset.less");
 
-body {
-	background-color: #dddcdc;
-	color: black;
-	position: relative;
-	overflow: hidden;
-}
 
 
 /// VARIABLES
@@ -24,6 +18,15 @@ h1, h2, h3, h4, h5, h6 {
 	color: @base_text_color;
 }
 
+body {
+	background-color: #dddcdc;
+	color: @base_text_color;
+	font-family: 'Signika Negative', sans-serif;
+	font-size: 18px;
+	font-weight: 300;
+	position: relative;
+	overflow: hidden;
+}
 
 /**************************************************************************************
 ** LOGO
@@ -50,7 +53,7 @@ h1, h2, h3, h4, h5, h6 {
 #main_nav {
 	z-index: @menu_zindex;
 	position: absolute;
-	top: 254px;
+	top: 246px;
 	left: 0px;
 	font-family: 'Signika Negative', sans-serif;
 	color: @base_text_color;
@@ -176,13 +179,13 @@ h1, h2, h3, h4, h5, h6 {
 	position: absolute;
 	top: 0px;
 	left: 433px;
+	.no_select;
 	#slider_info_container {
 		position: absolute;
 		height: 3000px;
 		width: 3000px;
 		top: 215px;
 		left: 150px;
-		z-index: @slider_info_zindex;
 		.content {
 			margin-left: 251px;
 		}
@@ -190,31 +193,68 @@ h1, h2, h3, h4, h5, h6 {
 			background-color: @base_text_color;
 			width: 3000px;
 			height: 1px;
+			z-index: @slider_info_zindex;
 		}
 		.thick_line { height: 7px; }
 		.top_info_line {
 			position: absolute;
-			top: 33px;
-			left: 352px;
+			top: 42px;
+			left: 341px;
 		}
 		.welcome_info_line {
 			position: absolute;
-			left: 100px;
-			top: 318px;
+			left: 99px;
+			top: 304px;
 			height: 500px;
 			width: 300px;
+			z-index: @slider_info_zindex;
+			.content {
+				h2 {
+					margin-bottom: 14px;
+					font-weight: 800;
+				}
+			}
 		}
 		.scroll_up_right, .scroll_down_left {
 			position: absolute;
 			cursor: pointer;
+			z-index: @slider_info_zindex;
 		}
 		.scroll_up_right {
-			top: 0px;
-			left: 380px;
+			top: 9px;
+			left: 364px;
 		}
 		.scroll_down_left {
-			left: 94px;
+			left: 86px;
 			top: 354px;
+		}
+	}
+	#images_loading_tab {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		z-index: 10000;
+		#progress_bar {
+			position: absolute;
+			top: 200px;
+			left: -101px;
+			height: 500px;
+			width: 417px;
+			.percent_text {
+				font-weight: 600;
+				position: absolute;
+				top: -2px;
+				right: -54px;
+			}
+			.ui-progressbar-value {
+				position: absolute;
+				bottom: 0px;
+				left: 0px;
+				background: url('/img/progress_bg.png') bottom left no-repeat;
+				margin-top: -100%;
+				width: 100%;
+				height: 0%;
+			}
 		}
 	}
 	#image_slider_container {

@@ -77,18 +77,59 @@
 				scroll_to_image(prev_image, 300);
 			}
 			
+			var total_images = 0;
+			var loaded_images = 0;
+			function update_progress_bar() {
+				var total_progress = Math.round((loaded_images / total_images) * 100);
+				jQuery("#progress_bar .ui-progressbar-value").height(total_progress+'%');
+				jQuery("#progress_bar .percent_text span").text(total_progress);
+				if (total_progress == 100) {
+					jQuery(document).trigger('images_loaded');
+				}
+			}
+			
 			
 			jQuery(document).ready(function() {
+				// reveal the images when they are loaded
+				jQuery(document).bind('images_loaded', function() {
+					jQuery('#images_loading_tab').hide();
+					
+					jQuery('#image_slider_container .left_cover_image, #image_slider_container .right_cover_image').each(function() {
+						var left = jQuery(this).attr('open_left');
+
+						jQuery(this).animate({
+							left: left
+						}, {queue: false, duration: 500});
+					});
+				});
+				
+				
+				// count how many of the images have loaded
+				jQuery('#image_slider_container .img_cont img').each(function() {
+					total_images++;
+					var tmpImg = new Image() ;
+					tmpImg.src = $(this).attr('src') ;
+					tmpImg.onload = function() {
+						loaded_images++;
+						update_progress_bar();
+					};
+					tmpImg.error = function() {
+						console.log ("error loading image");
+						loaded_images++;
+						update_progress_bar();
+					};
+				});
+				
 				// find the second to last image and scroll to it at the beginning
 				var second_to_last_image = jQuery('#image_slider_container .float_image_cont.actual_image:last').prev().prev();
-				scroll_to_image(second_to_last_image, 1000);
+				scroll_to_image(second_to_last_image, 0);
 				
 				jQuery('.scroll_up_right').click(function() {
-					scroll_to_next_image();
+					scroll_to_prev_image();
 				});
 				
 				jQuery('.scroll_down_left').click(function() {
-					scroll_to_prev_image();
+					scroll_to_next_image();
 				});
 				
 				jQuery('#image_slider_container .float_image_cont').click(function() {
@@ -97,7 +138,6 @@
 				
 				
 				setTimeout(function() {
-					
 					
 					
 					// animate all images position
@@ -222,6 +262,7 @@
 
 							// figure out the position of the left cover
 							$distance_from_middle = 74;
+							$distance_to_close = 210;
 							$cover_width_left = 360 - $distance_from_middle - $cover_width;
 							$cover_width_right = 360 + $distance_from_middle;
 
@@ -244,13 +285,13 @@
 									<img src="<?php echo $img_src['url']; ?>" style="display: block; width: <?php echo $img_src['width']; ?>px; height: <?php echo $img_src['height']; ?>px;" <?php echo $img_src['tag_attributes']; ?> />
 								</div>
 							</div>
-							<div class="left_cover_image" style="left: <?php echo $cover_width_left; ?>px;">
+							<div class="left_cover_image" open_left="<?php echo $cover_width_left; ?>" style="left: <?php echo $cover_width_left + $distance_to_close; ?>px;">
 								<div class="one">&nbsp;</div>
 								<div class="two">&nbsp;</div>
 								<div class="three">&nbsp;</div>
 								<div class="four">&nbsp;</div>
 							</div>
-							<div class="right_cover_image" style="left: <?php echo $cover_width_right; ?>px;">
+							<div class="right_cover_image" open_left="<?php echo $cover_width_right; ?>" style="left: <?php echo $cover_width_right - $distance_to_close; ?>px;">
 								<div class="one">&nbsp;</div>
 								<div class="two">&nbsp;</div>
 								<div class="three">&nbsp;</div>
@@ -267,13 +308,13 @@
 						?>
 						<div class="float_blank_cont" style="left: <?php echo $left; ?>px;">
 							<div class="float_blank_inner_cont" style="width: 720px; height: 300px;">
-								<div class="left_cover_image cover_image" style="left: <?php echo $cover_width_left; ?>px;">
+								<div class="left_cover_image cover_image" open_left="<?php echo $cover_width_left; ?>" style="left: <?php echo $cover_width_left + $distance_to_close; ?>px;">
 									<div class="one">&nbsp;</div>
 									<div class="two">&nbsp;</div>
 									<div class="three">&nbsp;</div>
 									<div class="four">&nbsp;</div>
 								</div>
-								<div class="right_cover_image cover_image" style="left: <?php echo $cover_width_right; ?>px;">
+								<div class="right_cover_image cover_image" open_left="<?php echo $cover_width_right; ?>" style="left: <?php echo $cover_width_right - $distance_to_close; ?>px;">
 									<div class="one">&nbsp;</div>
 									<div class="two">&nbsp;</div>
 									<div class="three">&nbsp;</div>
@@ -282,6 +323,13 @@
 							</div>
 						</div>
 				<?php endforeach; ?>
+			</div>
+			<div id="images_loading_tab">
+				<div id="progress_bar">
+					<div class="percent_text"><span>0</span>%</div>
+					<div class="ui-progressbar-value">
+					</div>
+				</div>
 			</div>
 		</div>
 	</body>

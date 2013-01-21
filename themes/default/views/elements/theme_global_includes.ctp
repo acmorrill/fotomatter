@@ -10,3 +10,9 @@
 		});
 	});
 </script>
+
+
+<?php if (Configure::read('debug') >= 2): ?>
+<!--<script src="/js/live.js"></script>-->
+<?php endif; ?>
+

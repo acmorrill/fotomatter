@@ -437,6 +437,10 @@
 						loaded_images++;
 						update_progress_bar();
 					};
+					tmpImg.error = function() {
+						loaded_images++;
+						update_progress_bar();
+					};
 				});
 				
 				setup_image_clicks('#white_slider_scroll_control_inner img:not(.blank)');
