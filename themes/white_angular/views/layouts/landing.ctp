@@ -49,7 +49,8 @@
 
 					var top_increase = -(this_image_top - Math.abs(container_top)) + scroll_to_height;
 					//var left_increase = (153 * top_increase) / -190;
-					var left_increase = (3734.394736842 * top_increase) / -4635;
+//					var left_increase = (3734.394736842 * top_increase) / -4635;
+					var left_increase = (8749.78674 * top_increase) / -10850;
 
 					var top_str = (top_increase > 0) ? '+='+Math.abs(top_increase) : '-='+Math.abs(top_increase) ;
 					var left_str = (left_increase > 0) ? '+='+Math.abs(left_increase) : '-='+Math.abs(left_increase) ;
@@ -73,12 +74,12 @@
 			
 			function scroll_to_next_image() {
 				var current_image = jQuery('#image_slider_container .float_image_cont.current_image');
-				var next_image = current_image.prev().prev();
+				var next_image = current_image.prev();
 				if (next_image.hasClass('actual_image')) {
 					scroll_to_image(next_image, 300);
 				} else {
 					var first_image = jQuery('#image_slider_container .float_image_cont.first');
-					var before_first_image = first_image.next().next();
+					var before_first_image = first_image.next();
 					scroll_to_image(before_first_image, 0, true);
 					scroll_to_image(first_image, 300);
 				}
@@ -86,12 +87,12 @@
 			
 			function scroll_to_prev_image() {
 				var current_image = jQuery('#image_slider_container .float_image_cont.current_image');
-				var prev_image = current_image.next().next();
+				var prev_image = current_image.next();
 				if (prev_image.hasClass('actual_image')) {
 					scroll_to_image(prev_image, 300);
 				} else {
 					var last_image = jQuery('#image_slider_container .float_image_cont.last');
-					var after_last_image = last_image.prev().prev();
+					var after_last_image = last_image.prev();
 					scroll_to_image(after_last_image, 0, true);
 					scroll_to_image(last_image, 300);
 				}
@@ -171,7 +172,7 @@
 				
 				
 				// find the second to last image and scroll to it at the beginning
-				var second_to_last_image = jQuery('#image_slider_container .float_image_cont.first').prev().prev();
+				var second_to_last_image = jQuery('#image_slider_container .float_image_cont.first').prev();
 				scroll_to_image(second_to_last_image, 0);
 				
 				jQuery('.scroll_up_right').click(function() {
@@ -191,9 +192,9 @@
 					var real_image = jQuery('#image_slider_container .float_image_cont.actual_image[photo_id='+photo_id+']');
 					var scroll_from = undefined;
 					if (jQuery(this).hasClass('before')) {
-						scroll_from = real_image.prev().prev();
+						scroll_from = real_image.prev();
 					} else {
-						scroll_from = real_image.next().next();
+						scroll_from = real_image.next();
 					}
 					scroll_to_image(scroll_from, 0, true);
 					scroll_to_image(real_image, 300);
@@ -269,6 +270,7 @@
 						$photos = $this->Gallery->get_gallery_photos($gallery_id, 200);
 					}
 				
+					
 					/////////////////////////////////////////////////////////
 					// mark start photos as real photos
 					foreach ($photos as $key => $photo) {
@@ -336,9 +338,10 @@
 					
 					//////////////////////////////////////////////////////////////
 					// variables
-					$cover_width = 988; 
-					$blank_cont_left_add = -121;
-					$cont_left_add = -128;
+					$cover_width = 988;
+//					$blank_cont_left_add = -121;
+//					$cont_left_add = -128;
+					$cont_left_add = -250;
 					$prev_left = null;
 					
 					
@@ -389,7 +392,7 @@
 							$total_height = $img_src['height'] + 20;
 
 							// figure out the position of the left cover
-							$distance_from_middle = 74;
+							$distance_from_middle = 68;
 							$distance_to_close = 210;
 							$cover_width_left = 360 - $distance_from_middle - $cover_width;
 							$cover_width_right = 360 + $distance_from_middle;
@@ -407,10 +410,12 @@
 	//						$using_y = $div_y - 150;
 	//						debug("x: $div_x, y: $div_y");
 						?>
-						<div photo_id="<?php if (isset($photo['Photo']['id'])) { echo $photo['Photo']['id']; } ?>" class="float_image_cont <?php echo implode(' ', $photo['classes']); ?>" style="width: 720px; height: 300px; left: <?php echo $left; ?>px;" start_left="<?php echo $left; ?>" img_width="<?php echo $total_width; ?>" img_height="<?php echo $total_height; ?>">
-							<div class="img_cont" style="width: <?php echo $total_width; ?>px; height: <?php echo $total_height; ?>px; margin-left: <?php echo -round($total_width/2); ?>px; margin-top: <?php echo -round($total_height/2); ?>px;">
-								<div class="img_inner_wrap">
-									<img src="<?php echo $img_src['url']; ?>" style="display: block; width: <?php echo $img_src['width']; ?>px; height: <?php echo $img_src['height']; ?>px;" <?php echo $img_src['tag_attributes']; ?> />
+						<div photo_id="<?php if (isset($photo['Photo']['id'])) { echo $photo['Photo']['id']; } ?>" class="float_image_cont <?php echo implode(' ', $photo['classes']); ?>" style="width: 720px; height: 310px; left: <?php echo $left; ?>px;" start_left="<?php echo $left; ?>" img_width="<?php echo $total_width; ?>" img_height="<?php echo $total_height; ?>">
+							<div class="img_outer_cont">
+								<div class="img_cont" style="width: <?php echo $total_width; ?>px; height: <?php echo $total_height; ?>px; margin-left: <?php echo -round($total_width/2); ?>px; margin-top: <?php echo -round($total_height/2); ?>px;">
+									<div class="img_inner_wrap">
+										<img src="<?php echo $img_src['url']; ?>" style="display: block; width: <?php echo $img_src['width']; ?>px; height: <?php echo $img_src['height']; ?>px;" <?php echo $img_src['tag_attributes']; ?> />
+									</div>
 								</div>
 							</div>
 							<div class="left_cover_image" open_left="<?php echo $cover_width_left; ?>" style="left: <?php echo $cover_width_left + $distance_to_close; ?>px;">
@@ -427,14 +432,14 @@
 							</div>
 						</div>
 						<?php
-							$distance_from_middle = 74;
-							$cover_width_left = 360 - $distance_from_middle - $cover_width;
-							$cover_width_right = 360 + $distance_from_middle;
-
-							$left = $prev_left + $blank_cont_left_add;
-							$prev_left = $left;
+//							$distance_from_middle = 74;
+//							$cover_width_left = 360 - $distance_from_middle - $cover_width;
+//							$cover_width_right = 360 + $distance_from_middle;
+//
+//							$left = $prev_left + $blank_cont_left_add;
+//							$prev_left = $left;
 						?>
-						<div class="float_blank_cont" style="left: <?php echo $left; ?>px;">
+						<?php /*<div class="float_blank_cont" style="left: <?php echo $left; ?>px;">
 							<div class="float_blank_inner_cont" style="width: 720px; height: 300px;">
 								<div class="left_cover_image cover_image" open_left="<?php echo $cover_width_left; ?>" style="left: <?php echo $cover_width_left + $distance_to_close; ?>px;">
 									<div class="one">&nbsp;</div>
@@ -449,7 +454,7 @@
 									<div class="four">&nbsp;</div>
 								</div>
 							</div>
-						</div>
+						</div> */ ?>
 				<?php endforeach; ?>
 			</div>
 			<div id="images_loading_tab">

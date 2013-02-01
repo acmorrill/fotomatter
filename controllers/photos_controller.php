@@ -152,6 +152,7 @@ class PhotosController extends AppController {
 					'PhotoFormat'
 				)
 			));
+			
 			//$this->log($this->data, 'photo_edit');
 			if ($id == null) { // adding (default data for when your adding)
 				$this->data['Photo']['enabled'] = 1;

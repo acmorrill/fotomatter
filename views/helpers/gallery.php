@@ -4,8 +4,69 @@ class GalleryHelper extends AppHelper {
 	public function get_all_galleries() {
 		$this->PhotoGallery = ClassRegistry::init("PhotoGallery");
 		return $this->PhotoGallery->find('all', array(
-			'contain'=>false
+			'contain' => false
 		));
+	}
+	
+	public function count_gallery_photos($photo_gallery) {
+		$count = 0;
+		
+		if ($photo_gallery['PhotoGallery']['type'] == 'standard') {
+			$this->PhotoGalleriesPhoto = ClassRegistry::init("PhotoGalleriesPhoto");
+			$count = $this->PhotoGalleriesPhoto->find('count', array(
+				'conditions' => array(
+					'PhotoGalleriesPhoto.photo_gallery_id' => $photo_gallery['PhotoGallery']['id']
+				),
+				'contain' => false
+			));
+		} else if ($photo_gallery['PhotoGallery']['type'] == 'smart') {
+			$this->PhotoGallery = ClassRegistry::init("PhotoGallery");
+			
+			$photo_ids = $this->PhotoGallery->get_smart_gallery_photo_ids($photo_gallery['PhotoGallery']['smart_settings']);
+			
+			$count = count($photo_ids);
+		}
+		
+		return $count;
+	}
+	
+	public function get_gallery_landing_image($gallery_id) { 
+		$this->PhotoGalleriesPhoto = ClassRegistry::init("PhotoGalleriesPhoto");
+		$this->Photo = ClassRegistry::init("Photo");
+		
+		
+		// DREW TODO - make it so the user can choose the gallery landing photo
+		
+		
+		// find the first photo in the gallery
+		$PhotoGalleriesPhoto = $this->PhotoGalleriesPhoto->find('first', array(
+			'conditions' => array(
+				'PhotoGalleriesPhoto.photo_gallery_id' => $gallery_id
+			),
+			'contain' => array(
+				'Photo'
+			),
+			'order' => 'PhotoGalleriesPhoto.photo_order ASC',
+		));
+		
+		
+		
+		// so just find the first photo amount photos
+		if (empty($PhotoGalleriesPhoto)) {
+			$this->Photo = ClassRegistry::init("Photo");
+			$PhotoGalleriesPhoto = $this->Photo->find('first', array(
+				'contain' => false
+			));
+		}
+		
+		
+		// means there are no images on the system
+		if (empty($PhotoGalleriesPhoto)) {
+			// DREW TODO - return a blank image in this case
+		}
+		
+		
+		return $PhotoGalleriesPhoto;
 	}
 	
 	public function get_first_gallery() {

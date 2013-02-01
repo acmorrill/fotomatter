@@ -179,7 +179,7 @@ body {
   height: 250px;
 }
 #main_nav ul li {
-  margin-left: 102px;
+  margin-left: 52px;
   font-weight: 400;
   position: relative;
   line-height: 36px;
@@ -285,7 +285,7 @@ body {
 #image_slider_outer_container {
   position: absolute;
   top: 0px;
-  left: 433px;
+  left: 482px;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -298,7 +298,7 @@ body {
   height: 3000px;
   width: 3000px;
   top: 215px;
-  left: 150px;
+  left: 156px;
 }
 #image_slider_outer_container #slider_info_container .content {
   margin-left: 251px;
@@ -327,9 +327,34 @@ body {
   width: 300px;
   z-index: 300;
 }
-#image_slider_outer_container #slider_info_container .welcome_info_line .content h2 {
+#image_slider_outer_container #slider_info_container .welcome_info_line .content h2,
+#image_slider_outer_container #slider_info_container .welcome_info_line .content h3 {
+  width: 400px;
   margin-bottom: 14px;
   font-weight: 800;
+}
+#image_slider_outer_container #slider_info_container .gallery_info_cont .curr_gallery_info {
+  position: absolute;
+  left: 99px;
+  top: 283px;
+  height: 500px;
+  width: 300px;
+  z-index: 300;
+  display: none;
+}
+#image_slider_outer_container #slider_info_container .gallery_info_cont .curr_gallery_info .content h2,
+#image_slider_outer_container #slider_info_container .gallery_info_cont .curr_gallery_info .content h3 {
+  width: 400px;
+  margin-bottom: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+#image_slider_outer_container #slider_info_container .gallery_info_cont .curr_gallery_info .content h2 {
+  margin-bottom: 6px;
+}
+#image_slider_outer_container #slider_info_container .gallery_info_cont .curr_gallery_info .content h3 {
+  font-weight: 300;
+  font-size: 15px;
 }
 #image_slider_outer_container #slider_info_container .scroll_up_right,
 #image_slider_outer_container #slider_info_container .scroll_down_left {
@@ -353,16 +378,21 @@ body {
 }
 #image_slider_outer_container #images_loading_tab #progress_bar {
   position: absolute;
-  top: 200px;
-  left: -101px;
-  height: 500px;
+  top: 259px;
+  left: -22px;
+  height: 300px;
   width: 417px;
 }
 #image_slider_outer_container #images_loading_tab #progress_bar .percent_text {
-  font-weight: 600;
+  font-weight: 300;
   position: absolute;
-  top: -2px;
-  right: -54px;
+  bottom: 0px;
+  left: 81px;
+  border-bottom: 1px solid #000;
+  text-align: right;
+  width: 105px;
+  padding-bottom: 7px;
+  font-size: 20px;
 }
 #image_slider_outer_container #images_loading_tab #progress_bar .ui-progressbar-value {
   position: absolute;
@@ -390,17 +420,33 @@ body {
 }
 #image_slider_outer_container #image_slider_container .float_image_cont {
   position: relative;
-  overflow: hidden;
   cursor: pointer;
+  overflow: hidden;
 }
-#image_slider_outer_container #image_slider_container .float_image_cont .img_cont {
+#image_slider_outer_container #image_slider_container .float_image_cont .img_outer_cont {
+  overflow: hidden;
+  width: 720px;
+  height: 300px;
+  position: absolute;
+}
+#image_slider_outer_container #image_slider_container .float_image_cont .img_outer_cont .img_cont {
   position: absolute;
   top: 50%;
   left: 50%;
 }
-#image_slider_outer_container #image_slider_container .float_image_cont .img_cont .img_inner_wrap {
-  border: 1px solid #808080;
+#image_slider_outer_container #image_slider_container .float_image_cont .img_outer_cont .img_cont .img_inner_wrap {
+  border: 1px solid transparent;
 }
-#image_slider_outer_container #image_slider_container .float_image_cont .img_cont .img_inner_wrap img {
+#image_slider_outer_container #image_slider_container .float_image_cont .img_outer_cont .img_cont .img_inner_wrap img {
   border: 9px solid #dddcdc;
+}
+#image_slider_outer_container #image_slider_container .float_image_cont.before_open_image {
+  height: 300px !important;
+  margin-bottom: 10px;
+}
+#image_slider_outer_container #image_slider_container .float_image_cont.open_image {
+  margin-bottom: 10px;
+}
+#image_slider_outer_container #image_slider_container .float_image_cont.open_image .img_outer_cont .img_cont .img_inner_wrap {
+  border: 1px solid #808080;
 }

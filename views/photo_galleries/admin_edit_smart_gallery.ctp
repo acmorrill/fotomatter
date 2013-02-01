@@ -78,7 +78,7 @@
 		$start_settings['order_direction'] = isset($this->data['PhotoGallery']['smart_settings']['order_direction']) ? $this->data['PhotoGallery']['smart_settings']['order_direction'] : '';
 	?>
 	
-	
+	<?php //debug($this->data); ?>
 	
 	<form action="/admin/photo_galleries/edit_smart_gallery/<?php echo $id; ?>/" method="post" >
 		<div class="input text">

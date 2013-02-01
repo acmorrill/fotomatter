@@ -78,9 +78,7 @@ class PhotoGalleriesController extends AppController {
 						'Photo.id' => $found_photo_ids
 					),
 					'limit' => $gallery_listing_config['default_images_per_page'], // DREW TODO - maybe make this number (the number of photos per gallery page) a global option in the admin
-					'contain' => array(
-						'PhotoFormat' // DREW TODO - improve this call for foto format for performance
-					),
+					'contain' => false,
 					'order' => "Photo.{$smart_settings['order_by']} {$smart_settings['order_direction']}"
 				)
 			);
@@ -94,15 +92,16 @@ class PhotoGalleriesController extends AppController {
 					),
 					'limit' => $gallery_listing_config['default_images_per_page'], // DREW TODO - maybe make this number (the number of photos per gallery page) a global option in the admin
 					'contain' => array(
-						'Photo' => array(
-							'PhotoFormat' // DREW TODO - improve this call for foto format for performance
-						)
+						'Photo'
 					),
 					'order' => 'PhotoGalleriesPhoto.photo_order'
 				)
 			);
 			$photos = $this->paginate('PhotoGalleriesPhoto');    
 		}
+		
+		// add in photo format using best performance
+		$this->Photo->add_photo_format(&$photos);
 		
 		
 		$this->set(compact('curr_gallery', 'photos', 'gallery_id', 'smart_settings'));
