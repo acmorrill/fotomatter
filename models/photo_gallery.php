@@ -44,19 +44,21 @@ class PhotoGallery extends AppModel {
 	public function afterFind($results, $primary = false) {
 		parent::afterFind($results, $primary);
 		
-                // DREW TODO - fix the below code
-//		foreach ($results as $key => $result) {
-//			if ( (!empty($result['PhotoGallery']['smart_settings']) && $result['PhotoGallery']['type'] == 'smart') || ( !empty($result['type']['smart_settings']) && $result['PhotoGallery']['type'] == 'smart' )) {
-//				if ($primary == true) {
-//					$results[$key]['PhotoGallery']['smart_settings'] = unserialize($result['PhotoGallery']['smart_settings']);
-//				} else {
-//					$results[$key]['smart_settings'] = unserialize($result['smart_settings']);
-//				}
-//			}
-//		}
+		if ($primary === true) {
+			foreach ($results as $key => $result) {
+				if ( !empty($result['PhotoGallery']['smart_settings']) && $result['PhotoGallery']['type'] == 'smart' ) {
+					$results[$key]['PhotoGallery']['smart_settings'] = unserialize($result['PhotoGallery']['smart_settings']);
+				}
+			}
+		} else {
+			if ( !empty($results['smart_settings']) && $results['type'] == 'smart' ) {
+				$results['smart_settings'] = unserialize($results['smart_settings']);
+			}
+		}
 		
 		return $results;
 	}
+	
 	
 	public function get_smart_gallery_photo_ids($smart_settings) {
 		$found_photo_ids = null;
@@ -90,11 +92,13 @@ class PhotoGallery extends AppModel {
 				'contain' => false
 			));
 			$photo_format_ids = Set::extract('/PhotoFormat/id', $photo_formats);
+			$conditions = array();
+			if (!empty($found_photo_ids)) {
+				$conditions['Photo.id'] = $found_photo_ids;
+			}
+			$conditions['Photo.photo_format_id'] = $photo_format_ids;
 			$photos_by_format = $this->Photo->find('all', array(
-				'conditions' => array(
-					'Photo.id' => $found_photo_ids,
-					'Photo.photo_format_id' => $photo_format_ids,
-				),
+				'conditions' => $conditions,
 				'contain' => false
 			));
 			$found_photo_ids = Set::extract('/Photo/id', $photos_by_format);
@@ -103,8 +107,15 @@ class PhotoGallery extends AppModel {
 
 		// find by date added
 		if (isset($smart_settings['date_added_from']) || isset($smart_settings['date_added_to'])) {
+			$this->log($smart_settings['date_added_from'], 'smart_gallery_photo_id');
+			$this->log($smart_settings['date_added_to'], 'smart_gallery_photo_id');
+			$this->log(date('Y-m-d H:i:s', strtotime($smart_settings['date_added_from'])), 'smart_gallery_photo_id');
+			$this->log(date('Y-m-d H:i:s', strtotime($smart_settings['date_added_to'])), 'smart_gallery_photo_id');
+			
 			$conditions = array();
-			$conditions['Photo.id'] = $found_photo_ids;
+			if (!empty($found_photo_ids)) {
+				$conditions['Photo.id'] = $found_photo_ids;
+			}
 			if (isset($smart_settings['date_added_from'])) {
 				$conditions['Photo.created >='] = date('Y-m-d H:i:s', strtotime($smart_settings['date_added_from']));
 			}
@@ -115,6 +126,8 @@ class PhotoGallery extends AppModel {
 				'conditions' => $conditions,
 				'contain' => false
 			));
+			$this->log($conditions, 'smart_gallery_photo_id');
+			$this->log($photos_by_date_added, 'smart_gallery_photo_id');
 			$found_photo_ids = Set::extract('/Photo/id', $photos_by_date_added);
 		}
 
@@ -122,7 +135,9 @@ class PhotoGallery extends AppModel {
 		// find by date taken
 		if (isset($smart_settings['date_taken_from']) || isset($smart_settings['date_taken_to'])) {
 			$conditions = array();
-			$conditions['Photo.id'] = $found_photo_ids;
+			if (!empty($found_photo_ids)) {
+				$conditions['Photo.id'] = $found_photo_ids;
+			}
 			if (isset($smart_settings['date_taken_from'])) {
 				$conditions['Photo.date_taken >='] = date('Y-m-d H:i:s', strtotime($smart_settings['date_taken_from']));
 			}

@@ -23,6 +23,28 @@
 		<?php echo $this->Element('menu/navBar'); ?>
 		
 		<script type="text/javascript">
+			function load_gallery(photo_gallery_id) {
+				var animation_complete = false;
+				jQuery('#image_slider_container .left_cover_image, #image_slider_container .right_cover_image').each(function() {
+					var left = jQuery(this).attr('closed_left');
+
+					jQuery(this).animate({
+						left: left
+					}, {queue: false, duration: 500, complete: function() {
+						if (animation_complete == false) {
+							animation_complete = true;
+							window.location.href = '/photo_galleries/view_gallery/'+photo_gallery_id+'/';
+						}
+					}});
+				});
+			}
+			
+			function show_gallery_info(photo_gallery_id) {
+				jQuery('#slider_info_container .curr_gallery_info').hide();
+				jQuery('#slider_info_container .curr_gallery_info[photo_gallery_id='+photo_gallery_id+']').show();
+			}
+			
+			
 			var scroll_to_height = 257;
 			var image_slider_container = undefined;
 			function scroll_to_image(image, speed, force) {
@@ -49,7 +71,8 @@
 
 					var top_increase = -(this_image_top - Math.abs(container_top)) + scroll_to_height;
 					//var left_increase = (153 * top_increase) / -190;
-					var left_increase = (3734.394736842 * top_increase) / -4635;
+//					var left_increase = (3734.394736842 * top_increase) / -4635;
+					var left_increase = (8749.78674 * top_increase) / -10850;
 
 					var top_str = (top_increase > 0) ? '+='+Math.abs(top_increase) : '-='+Math.abs(top_increase) ;
 					var left_str = (left_increase > 0) ? '+='+Math.abs(left_increase) : '-='+Math.abs(left_increase) ;
@@ -67,18 +90,20 @@
 							left: left_str
 						}, {queue: false, duration: speed, easing: 'swing'});
 					}
+					console.log (image.attr('photo_gallery_id'));
+					show_gallery_info( image.attr('photo_gallery_id') );
 				}
 				
 			}
 			
 			function scroll_to_next_image() {
 				var current_image = jQuery('#image_slider_container .float_image_cont.current_image');
-				var next_image = current_image.prev().prev();
+				var next_image = current_image.prev();
 				if (next_image.hasClass('actual_image')) {
 					scroll_to_image(next_image, 300);
 				} else {
 					var first_image = jQuery('#image_slider_container .float_image_cont.first');
-					var before_first_image = first_image.next().next();
+					var before_first_image = first_image.next();
 					scroll_to_image(before_first_image, 0, true);
 					scroll_to_image(first_image, 300);
 				}
@@ -86,12 +111,12 @@
 			
 			function scroll_to_prev_image() {
 				var current_image = jQuery('#image_slider_container .float_image_cont.current_image');
-				var prev_image = current_image.next().next();
+				var prev_image = current_image.next();
 				if (prev_image.hasClass('actual_image')) {
 					scroll_to_image(prev_image, 300);
 				} else {
 					var last_image = jQuery('#image_slider_container .float_image_cont.last');
-					var after_last_image = last_image.prev().prev();
+					var after_last_image = last_image.prev();
 					scroll_to_image(after_last_image, 0, true);
 					scroll_to_image(last_image, 300);
 				}
@@ -171,8 +196,11 @@
 				
 				
 				// find the second to last image and scroll to it at the beginning
-				var second_to_last_image = jQuery('#image_slider_container .float_image_cont.first').prev().prev();
+				var second_to_last_image = jQuery('#image_slider_container .float_image_cont.first').prev();
 				scroll_to_image(second_to_last_image, 0);
+				
+				
+				
 				
 				jQuery('.scroll_up_right').click(function() {
 					scroll_to_prev_image();
@@ -182,8 +210,8 @@
 					scroll_to_next_image();
 				});
 				
-				jQuery('#image_slider_container .float_image_cont').click(function() {
-					scroll_to_image(jQuery(this), 300);
+				jQuery('#image_slider_container .float_image_cont.actual_image, #image_slider_container .float_image_cont.fake_image').click(function() {
+					load_gallery(jQuery(this).attr('photo_gallery_id'));
 				});
 				
 				
@@ -228,111 +256,126 @@
 //					});
 			});
 		</script>
+
+		<?php 
+			$all_galleries = $this->Gallery->get_all_galleries();
+
+			$photos = array();
+			foreach ($all_galleries as $curr_gallery) {
+				$gallery_landing_photo = $this->Gallery->get_gallery_landing_image($curr_gallery['PhotoGallery']['id']);
+				$gallery_landing_photo['PhotoGallery'] = $curr_gallery['PhotoGallery'];
+				if (!empty($gallery_landing_photo)) {
+					$photos[] = $gallery_landing_photo;
+				}
+			}
+
+			$this->Photo->add_photo_format(&$photos);
+
+			/////////////////////////////////////////////////////////
+			// mark start photos as real photos
+			foreach ($photos as $key => $photo) {
+				$photos[$key]['classes'][] = 'actual_image';
+				$photos[$key]['actual_image'] = true;
+			}
+
+			/////////////////////////////////////////////////////////
+			// mark first and last real photos for convenience in js
+			reset($photos);
+			$first_key = key($photos);
+			$photos[$first_key]['classes'][] = 'first';
+			end($photos);
+			$last_key = key($photos);
+			$photos[$last_key]['classes'][] = 'last';
+
+
+			/////////////////////////////////////////////////////////
+			// add photos for endless circle illusion
+			$num_to_pad = 0;
+			$total_real_photos = count($photos);
+			if ($total_real_photos >= 7) {
+				$num_to_pad = 3;
+			} else if ($total_real_photos >= 6) {
+				$num_to_pad = 2;
+			} else if ($total_real_photos >= 5) {
+				$num_to_pad = 1;
+			}
+			$first_n_pad_photos = array();
+			$last_n_pad_photos = array();
+			if ($num_to_pad > 0) {
+				// grab nub from beginning and end
+				$first_n_pad_photos = array_slice($photos, 0, $num_to_pad);
+				$last_n_pad_photos = array_slice($photos, -$num_to_pad);
+			}
+			foreach ($last_n_pad_photos as &$last_n_pad_photo) {
+				unset($last_n_pad_photo['classes']);
+				unset($last_n_pad_photo['actual_image']);
+				$last_n_pad_photo['classes'][] = 'fake_image';
+				$last_n_pad_photo['classes'][] = 'before';
+			}
+			for ($i = count($last_n_pad_photos) - 1; $i >= 0; $i--) {
+				array_unshift($photos, $last_n_pad_photos[$i]);
+			}
+			foreach ($first_n_pad_photos as &$first_n_pad_photo) {
+				unset($first_n_pad_photo['classes']);
+				unset($first_n_pad_photo['actual_image']);
+				$first_n_pad_photo['classes'][] = 'fake_image';
+				$first_n_pad_photo['classes'][] = 'after';
+			}
+			foreach ($first_n_pad_photos as $first_n_pad_photo) {
+				array_push($photos, $first_n_pad_photo);
+			}
+
+
+
+			//////////////////////////////////////////////////////////////
+			// add 4 blank onto beginning and end
+			array_unshift($photos, array('blank_photo' => true, 'classes' => array()));
+			array_unshift($photos, array('blank_photo' => true, 'classes' => array()));
+			array_unshift($photos, array('blank_photo' => true, 'classes' => array()));
+			array_unshift($photos, array('blank_photo' => true, 'classes' => array()));
+			array_push($photos, array('blank_photo' => true, 'classes' => array()));
+			array_push($photos, array('blank_photo' => true, 'classes' => array()));
+			array_push($photos, array('blank_photo' => true, 'classes' => array()));
+			array_push($photos, array('blank_photo' => true, 'classes' => array()));
+
+
+			//////////////////////////////////////////////////////////////
+			// variables
+			$cover_width = 988;
+//					$blank_cont_left_add = -121;
+//					$cont_left_add = -128;
+			$cont_left_add = -250;
+			$prev_left = null;
+
+
+
+			// reverse photos just for this theme (because of the way the js animations are done)
+			$photos = array_reverse($photos);
+		?>
 		
 		<div id="image_slider_outer_container">
 			<div id="slider_info_container">
 				<img class="scroll_up_right" src="/img/scroll_up_right.png" />
 				<div class="top_info_line">&nbsp;</div>
-				<div class="welcome_info_line">
-					<div class="content">
-						<h2><?php __('WELCOME'); ?></h2>
-						<div class="thick_line"></div>
-					</div>
-					<div class="line"></div>
+				<div class="gallery_info_cont">
+					<?php foreach ($photos as $photo): ?>
+						<?php if (isset($photo['actual_image'])): ?>
+							<?php $photos_count = $this->Gallery->count_gallery_photos($photo); ?>
+					
+							<div class="curr_gallery_info" photo_gallery_id="<?php echo $photo['PhotoGallery']['id']; ?>">
+								<div class="content">
+									<h2><?php echo $photo['PhotoGallery']['display_name']; ?></h2>
+									<h3><?php echo sprintf(__('%1$d PHOTOS', true), $photos_count); ?></h3>
+									<div class="thick_line"></div>
+								</div>
+								<div class="line"></div>
+							</div>
+						<?php endif; ?>
+					<?php endforeach; ?>
 				</div>
 				<img class="scroll_down_left" src="/img/scroll_down_left.png" />
 			</div>
 			<div id="image_slider_container">
-				<?php 
-				
-					if (!isset($photos)) {
-						// treat the landing page as the first gallery
-						$curr_gallery = $this->Gallery->get_first_gallery(); 
-						if (isset($curr_gallery['PhotoGallery']['id'])) {
-							$gallery_id = $curr_gallery['PhotoGallery']['id'];
-						} else {
-							$gallery_id = 0;
-						}
-						$photos = $this->Gallery->get_gallery_photos($gallery_id, 200);
-					}
-				
-					/////////////////////////////////////////////////////////
-					// mark start photos as real photos
-					foreach ($photos as $key => $photo) {
-						$photos[$key]['actual_photo'] = true;
-					}
-					
-					/////////////////////////////////////////////////////////
-					// mark first and last real photos for convenience in js
-					reset($photos);
-					$first_key = key($photos);
-					$photos[$first_key]['first'] = true;
-					end($photos);
-					$last_key = key($photos);
-					$photos[$last_key]['last'] = true;
-
-					
-					/////////////////////////////////////////////////////////
-					// add photos for endless circle illusion
-					$num_to_pad = 0;
-					$total_real_photos = count($photos);
-					if ($total_real_photos >= 7) {
-						$num_to_pad = 3;
-					} else if ($total_real_photos >= 6) {
-						$num_to_pad = 2;
-					} else if ($total_real_photos >= 5) {
-						$num_to_pad = 1;
-					}
-					$first_n_pad_photos = array();
-					$last_n_pad_photos = array();
-					if ($num_to_pad > 0) {
-						// grab nub from beginning and end
-						$first_n_pad_photos = array_slice($photos, 0, $num_to_pad);
-						$last_n_pad_photos = array_slice($photos, -$num_to_pad);
-					}
-					foreach ($last_n_pad_photos as &$last_n_pad_photo) {
-						unset($last_n_pad_photo['actual_photo']);
-						unset($last_n_pad_photo['first']);
-						unset($last_n_pad_photo['last']);
-					}
-					for ($i = count($last_n_pad_photos) - 1; $i >= 0; $i--) {
-						array_unshift($photos, $last_n_pad_photos[$i]);
-					}
-					foreach ($first_n_pad_photos as &$first_n_pad_photo) {
-						unset($first_n_pad_photo['actual_photo']);
-						unset($first_n_pad_photo['first']);
-						unset($first_n_pad_photo['last']);
-					}
-					foreach ($first_n_pad_photos as $first_n_pad_photo) {
-						array_push($photos, $first_n_pad_photo);
-					}
-					
-					
-					
-					//////////////////////////////////////////////////////////////
-					// add 4 blank onto beginning and end
-					array_unshift($photos, array('blank_photo' => true));
-					array_unshift($photos, array('blank_photo' => true));
-					array_unshift($photos, array('blank_photo' => true));
-					array_unshift($photos, array('blank_photo' => true));
-					array_push($photos, array('blank_photo' => true));
-					array_push($photos, array('blank_photo' => true));
-					array_push($photos, array('blank_photo' => true));
-					array_push($photos, array('blank_photo' => true));
-					
-					
-					//////////////////////////////////////////////////////////////
-					// variables
-					$cover_width = 988; 
-					$blank_cont_left_add = -121;
-					$cont_left_add = -128;
-					$prev_left = null;
-					
-					
-					
-					// reverse photos just for this theme (because of the way the js animations are done)
-					$photos = array_reverse($photos);
-				?>
 				<?php foreach ($photos as $photo): ?>
 					<?php 
 						$blank = false;
@@ -376,7 +419,7 @@
 							$total_height = $img_src['height'] + 20;
 
 							// figure out the position of the left cover
-							$distance_from_middle = 74;
+							$distance_from_middle = 68;
 							$distance_to_close = 210;
 							$cover_width_left = 360 - $distance_from_middle - $cover_width;
 							$cover_width_right = 360 + $distance_from_middle;
@@ -394,47 +437,25 @@
 	//						$using_y = $div_y - 150;
 	//						debug("x: $div_x, y: $div_y");
 						?>
-						<div class="float_image_cont <?php if (isset($photo['actual_photo'])): ?>actual_image<?php endif; ?> <?php if (isset($photo['first'])): ?>first<?php endif; ?> <?php if (isset($photo['last'])): ?>last<?php endif; ?>" style="width: 720px; height: 300px; left: <?php echo $left; ?>px;" start_left="<?php echo $left; ?>" img_width="<?php echo $total_width; ?>" img_height="<?php echo $total_height; ?>">
-							<div class="img_cont" style="width: <?php echo $total_width; ?>px; height: <?php echo $total_height; ?>px; margin-left: <?php echo -round($total_width/2); ?>px; margin-top: <?php echo -round($total_height/2); ?>px;">
-								<div class="img_inner_wrap">
-									<img src="<?php echo $img_src['url']; ?>" style="display: block; width: <?php echo $img_src['width']; ?>px; height: <?php echo $img_src['height']; ?>px;" <?php echo $img_src['tag_attributes']; ?> />
+						<div photo_gallery_id="<?php if (isset($photo['PhotoGallery']['id'])) echo $photo['PhotoGallery']['id']; ?>" photo_id="<?php if (isset($photo['Photo']['id'])) { echo $photo['Photo']['id']; } ?>" class="float_image_cont <?php echo implode(' ', $photo['classes']); ?>" style="width: 720px; height: 310px; left: <?php echo $left; ?>px;" start_left="<?php echo $left; ?>" img_width="<?php echo $total_width; ?>" img_height="<?php echo $total_height; ?>">
+							<div class="img_outer_cont">
+								<div class="img_cont" style="width: <?php echo $total_width; ?>px; height: <?php echo $total_height; ?>px; margin-left: <?php echo -round($total_width/2); ?>px; margin-top: <?php echo -round($total_height/2); ?>px;">
+									<div class="img_inner_wrap">
+										<img src="<?php echo $img_src['url']; ?>" style="display: block; width: <?php echo $img_src['width']; ?>px; height: <?php echo $img_src['height']; ?>px;" <?php echo $img_src['tag_attributes']; ?> />
+									</div>
 								</div>
 							</div>
-							<div class="left_cover_image" open_left="<?php echo $cover_width_left; ?>" style="left: <?php echo $cover_width_left + $distance_to_close; ?>px;">
+							<div class="left_cover_image" open_left="<?php echo $cover_width_left; ?>" closed_left ="<?php echo $cover_width_left + $distance_to_close; ?>" style="left: <?php echo $cover_width_left + $distance_to_close; ?>px;">
 								<div class="one">&nbsp;</div>
 								<div class="two">&nbsp;</div>
 								<div class="three">&nbsp;</div>
 								<div class="four">&nbsp;</div>
 							</div>
-							<div class="right_cover_image" open_left="<?php echo $cover_width_right; ?>" style="left: <?php echo $cover_width_right - $distance_to_close; ?>px;">
+							<div class="right_cover_image" open_left="<?php echo $cover_width_right; ?>" closed_left="<?php echo $cover_width_right - $distance_to_close; ?>" style="left: <?php echo $cover_width_right - $distance_to_close; ?>px;">
 								<div class="one">&nbsp;</div>
 								<div class="two">&nbsp;</div>
 								<div class="three">&nbsp;</div>
 								<div class="four">&nbsp;</div>
-							</div>
-						</div>
-						<?php
-							$distance_from_middle = 74;
-							$cover_width_left = 360 - $distance_from_middle - $cover_width;
-							$cover_width_right = 360 + $distance_from_middle;
-
-							$left = $prev_left + $blank_cont_left_add;
-							$prev_left = $left;
-						?>
-						<div class="float_blank_cont" style="left: <?php echo $left; ?>px;">
-							<div class="float_blank_inner_cont" style="width: 720px; height: 300px;">
-								<div class="left_cover_image cover_image" open_left="<?php echo $cover_width_left; ?>" style="left: <?php echo $cover_width_left + $distance_to_close; ?>px;">
-									<div class="one">&nbsp;</div>
-									<div class="two">&nbsp;</div>
-									<div class="three">&nbsp;</div>
-									<div class="four">&nbsp;</div>
-								</div>
-								<div class="right_cover_image cover_image" open_left="<?php echo $cover_width_right; ?>" style="left: <?php echo $cover_width_right - $distance_to_close; ?>px;">
-									<div class="one">&nbsp;</div>
-									<div class="two">&nbsp;</div>
-									<div class="three">&nbsp;</div>
-									<div class="four">&nbsp;</div>
-								</div>
 							</div>
 						</div>
 				<?php endforeach; ?>

@@ -325,6 +325,26 @@ class Photo extends AppModel {
 		return true;
 	}
 
+	// a function to efficiently add photo format to a list of photos (without a bunch of extra queries)
+	public function add_photo_format(&$photos) {
+		$this->PhotoFormat = ClassRegistry::init('PhotoFormat');
+		$photo_formats = $this->PhotoFormat->find('all', array(
+			'contain' => false
+		));
+		$formats = Set::combine($photo_formats, '{n}.PhotoFormat.id', '{n}.PhotoFormat');
+		
+		if (isset($photos[0])) {
+			foreach ($photos as &$photo) {
+				if (isset($photo['Photo'])) {
+					$photo['Photo']['PhotoFormat'] = $formats[$photo['Photo']['photo_format_id']];
+				}
+			}
+		} else {
+			if (isset($photos['Photo'])) {
+				$photos['Photo']['PhotoFormat'] = $formats[$photos['Photo']['photo_format_id']];
+			}
+		}
+	}
 	
 	public function get_dummy_error_image_path($height, $width) {
 		$this->PhotoCache = ClassRegistry::init('PhotoCache');

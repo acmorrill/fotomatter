@@ -10,6 +10,12 @@ class PhotoHelper extends AppHelper {
 		return $this->PhotoCache->get_dummy_error_image_path($height, $width);
 	}
 	
+	public function add_photo_format(&$photos) {
+		$this->Photo = ClassRegistry::init('Photo');
+		
+		return $this->Photo->add_photo_format($photos);
+	}
+	
 	public function get_photo_path($photo_id, $height, $width, $unsharp_amount = null, $return_tag_attributes = false) {
 		$this->Photo = ClassRegistry::init('Photo');
 		

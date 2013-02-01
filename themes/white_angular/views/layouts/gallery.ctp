@@ -23,11 +23,15 @@
 		<?php echo $this->Element('menu/navBar'); ?>
 		
 		<script type="text/javascript">
-			var scroll_to_height = 257;
+			var scroll_to_height = 159;
 			var image_slider_container = undefined;
-			function scroll_to_image(image, speed, force) {
+			function scroll_to_image(image, speed, force, no_open) {
 				if (force == undefined) {
 					force = false;
+				}
+				
+				if (no_open == undefined) {
+					no_open = false;
 				}
 				
 				
@@ -39,8 +43,12 @@
 					image_slider_container.stop();
 
 					// set as the current image
+					close_image(jQuery('.current_image', image_slider_container), 150);
 					jQuery('.float_image_cont', image_slider_container).removeClass('current_image');				
 					image.addClass('current_image');
+					if (no_open == false) {
+						open_image(image, 300);
+					}
 
 					// scroll to the current image
 					var image_pos = jQuery(image).position();
@@ -49,7 +57,8 @@
 
 					var top_increase = -(this_image_top - Math.abs(container_top)) + scroll_to_height;
 					//var left_increase = (153 * top_increase) / -190;
-					var left_increase = (3734.394736842 * top_increase) / -4635;
+//					var left_increase = (3734.394736842 * top_increase) / -4635;
+					var left_increase = (8749.78674 * top_increase) / -10850;
 
 					var top_str = (top_increase > 0) ? '+='+Math.abs(top_increase) : '-='+Math.abs(top_increase) ;
 					var left_str = (left_increase > 0) ? '+='+Math.abs(left_increase) : '-='+Math.abs(left_increase) ;
@@ -65,20 +74,234 @@
 						image_slider_container.animate({
 							top: top_str,
 							left: left_str
-						}, {queue: false, duration: speed, easing: 'swing'});
+						}, {queue: false, duration: speed, easing: 'swing', complete: function() {
+							console.log ("came complete");
+						}});
 					}
 				}
 				
 			}
 			
+			function open_image(image, animation_time) {
+				jQuery(image).prev().addClass('before_open_image');
+				jQuery(image).addClass('open_image');
+
+				var img_height = parseInt(jQuery(image).attr('img_height'));
+				if (animation_time == undefined) {
+					animation_time = 700;
+				}
+				var slide_animation_time = animation_time;
+				var start_left_cover = -696;
+				var start_right_cover = 428;
+				var cover_move_distance = 400;
+				var left_cover = start_left_cover - cover_move_distance;
+				var right_cover = start_right_cover + cover_move_distance;
+				var top_increase = Math.abs(img_height - 300);
+				var left_increase = (8749.78674 * top_increase) / -10850;
+				
+				
+//				if (!image.hasClass('vertical_panoramic')) {
+//					jQuery('.left_cover_image', image).stop().animate({
+//						left: left_cover
+//					}, {queue: false, duration: animation_time});
+//
+//					jQuery('.right_cover_image', image).stop().animate({
+//						left: right_cover
+//					}, {queue: false, duration: animation_time});
+//				} else {
+					jQuery('.left_cover_image', image).stop().css({
+						left: left_cover
+					});
+
+					jQuery('.right_cover_image', image).stop().css({
+						left: right_cover
+					});
+//				}
+					
+
+
+				jQuery(image).css({
+					height: img_height,
+					width: '+=20'
+				});
+				
+				jQuery('.img_outer_cont', image).css({
+					height: img_height,
+					width: '+=20'
+				});
+
+				jQuery(image).css({
+					marginLeft: Math.round(left_increase/2)+'px'
+				});
+
+				jQuery(image).nextAll().css({
+					marginLeft: left_increase+'px'
+				});
+//				jQuery('.left_cover_image', image).stop().animate({
+//					left: left_cover
+//				}, {queue: false, duration: slide_animation_time});
+//
+//				jQuery('.right_cover_image', image).stop().animate({
+//					left: right_cover
+//				}, {queue: false, duration: slide_animation_time});
+//
+//				jQuery(image).animate({
+//					height: img_height,
+//					width: '+=20'
+//				}, {queue: false, duration: animation_time});
+//				
+//				jQuery('.img_outer_cont', image).animate({
+//					height: img_height,
+//					width: '+=20'
+//				}, {queue: false, duration: animation_time});
+//
+//				jQuery(image).nextAll().animate({
+//					marginLeft: '-171'
+//				}, {queue: false, duration: animation_time});
+			}
+			
+			function close_image(image, animation_time) {
+				jQuery('#image_slider_container .before_open_image').removeClass('before_open_image');
+				jQuery(image).removeClass('open_image');
+				
+				var img_height = parseInt(jQuery(image).attr('img_height'));
+				if (animation_time == undefined) {
+					animation_time = 700;
+				}
+				var slide_animation_time = animation_time + 300;
+				var start_left_cover = -696;
+				var start_right_cover = 428;
+				var cover_move_distance = 400;
+				var left_cover = start_left_cover - cover_move_distance;
+				var right_cover = start_right_cover + cover_move_distance;
+				
+				
+				jQuery('.left_cover_image', image).stop().css({
+					left: start_left_cover
+				});
+
+				jQuery('.right_cover_image', image).stop().css({
+					left: start_right_cover
+				});
+
+				jQuery(image).css({
+					height: 310,
+					width: '-=20'
+				});
+				
+				jQuery('.img_outer_cont', image).css({
+					height: 300,
+					width: '-=20'
+				});
+				
+				jQuery(image).css({
+					marginLeft: 0
+				});
+
+				jQuery(image).nextAll().css({
+					marginLeft: 0
+				});
+//				jQuery('.left_cover_image', image).stop().animate({
+//					left: start_left_cover
+//				}, {queue: false, duration: slide_animation_time});
+//
+//				jQuery('.right_cover_image', image).stop().animate({
+//					left: start_right_cover
+//				}, {queue: false, duration: slide_animation_time});
+//
+//				jQuery(image).animate({
+//					height: 310,
+//					width: '-=20'
+//				}, {queue: false, duration: animation_time});
+//				
+//				jQuery('.img_outer_cont', image).animate({
+//					height: 300,
+//					width: '-=20'
+//				}, {queue: false, duration: animation_time});
+//
+//				jQuery(image).nextAll().animate({
+//					marginLeft: 0
+//				}, {queue: false, duration: animation_time});
+			}
+			
+			function init_open_image(image) {
+				jQuery(image).prev().addClass('before_open_image');
+				jQuery(image).addClass('open_image');
+
+				var img_height = parseInt(jQuery(image).attr('img_height'));
+				var animation_time = 700;
+				var slide_animation_time = animation_time + 300;
+				var start_left_cover = -696;
+				var start_right_cover = 428;
+				var cover_move_distance = 400;
+				var left_cover = start_left_cover - cover_move_distance;
+				var right_cover = start_right_cover + cover_move_distance;
+				
+				var top_increase = Math.abs(img_height - 300);
+				var left_increase = (8749.78674 * top_increase) / -10850;
+				
+				jQuery('.left_cover_image', image).stop().animate({
+					left: left_cover
+				}, {queue: false, duration: slide_animation_time});
+
+				jQuery('.right_cover_image', image).stop().animate({
+					left: right_cover
+				}, {queue: false, duration: slide_animation_time});
+
+				jQuery(image).animate({
+					height: img_height,
+					width: '+=20'
+				}, {queue: false, duration: animation_time});
+				
+				jQuery('.img_outer_cont', image).animate({
+					height: img_height,
+					width: '+=20'
+				}, {queue: false, duration: animation_time});
+
+				jQuery(image).animate({
+					marginLeft: Math.round(left_increase/2)
+				}, {queue: false, duration: animation_time});
+
+				jQuery(image).nextAll().animate({
+					marginLeft: left_increase
+				}, {queue: false, duration: animation_time});
+				
+				
+					// grow an image
+//					jQuery('#image_slider_container .float_image_cont:eq(1)').each(function() {
+//						jQuery(this).prev().find('.cover_image').hide();
+//						jQuery(this).next().find('.cover_image').hide();
+//						
+//						var img_height = parseInt(jQuery(this).attr('img_height'));
+//						var animation_time = 700;
+//						
+//						jQuery('.left_cover_image', this).animate({
+//							left: '-=400'
+//						}, {queue: false, duration: animation_time});
+//						
+//						jQuery('.right_cover_image', this).animate({
+//							left: '+=400'
+//						}, {queue: false, duration: animation_time});
+//						
+//						jQuery(this).animate({
+//							height: img_height,
+//							width: '+=20'
+//						}, {queue: false, duration: animation_time});
+//						
+//						jQuery(this).nextAll().animate({
+//							left: '-=150'
+//						}, {queue: false, duration: animation_time});
+//					});
+			}
+			
 			function scroll_to_next_image() {
 				var current_image = jQuery('#image_slider_container .float_image_cont.current_image');
-				var next_image = current_image.prev().prev();
+				var next_image = current_image.prev();
 				if (next_image.hasClass('actual_image')) {
 					scroll_to_image(next_image, 300);
 				} else {
 					var first_image = jQuery('#image_slider_container .float_image_cont.first');
-					var before_first_image = first_image.next().next();
+					var before_first_image = first_image.next();
 					scroll_to_image(before_first_image, 0, true);
 					scroll_to_image(first_image, 300);
 				}
@@ -86,12 +309,12 @@
 			
 			function scroll_to_prev_image() {
 				var current_image = jQuery('#image_slider_container .float_image_cont.current_image');
-				var prev_image = current_image.next().next();
+				var prev_image = current_image.next();
 				if (prev_image.hasClass('actual_image')) {
 					scroll_to_image(prev_image, 300);
 				} else {
 					var last_image = jQuery('#image_slider_container .float_image_cont.last');
-					var after_last_image = last_image.prev().prev();
+					var after_last_image = last_image.prev();
 					scroll_to_image(after_last_image, 0, true);
 					scroll_to_image(last_image, 300);
 				}
@@ -146,8 +369,17 @@
 							left: left
 						}, {queue: false, duration: 500});
 					});
+					
+					setTimeout(function() {
+						var second_to_last_image = jQuery('#image_slider_container .float_image_cont.first').prev();
+						init_open_image(second_to_last_image);
+					}, 20);
+					
 				});
 				
+				// find the second to last image and scroll to it at the beginning
+				var second_to_last_image = jQuery('#image_slider_container .float_image_cont.first').prev();
+				scroll_to_image(second_to_last_image, 0, true, true);
 				
 				var bootstrap_count = 0;
 				$('<img/>').attr('src', '/img/left_block_image.png').load(function() {
@@ -170,10 +402,6 @@
 				});
 				
 				
-				// find the second to last image and scroll to it at the beginning
-				var second_to_last_image = jQuery('#image_slider_container .float_image_cont.first').prev().prev();
-				scroll_to_image(second_to_last_image, 0);
-				
 				jQuery('.scroll_up_right').click(function() {
 					scroll_to_prev_image();
 				});
@@ -182,8 +410,21 @@
 					scroll_to_next_image();
 				});
 				
-				jQuery('#image_slider_container .float_image_cont').click(function() {
+				jQuery('#image_slider_container .float_image_cont.actual_image').click(function() {
 					scroll_to_image(jQuery(this), 300);
+				});
+				
+				jQuery('#image_slider_container .float_image_cont.fake_image').click(function() {
+					var photo_id = jQuery(this).attr('photo_id');
+					var real_image = jQuery('#image_slider_container .float_image_cont.actual_image[photo_id='+photo_id+']');
+					var scroll_from = undefined;
+					if (jQuery(this).hasClass('before')) {
+						scroll_from = real_image.prev();
+					} else {
+						scroll_from = real_image.next();
+					}
+					scroll_to_image(scroll_from, 0, true);
+					scroll_to_image(real_image, 300);
 				});
 				
 				
@@ -230,7 +471,7 @@
 		</script>
 		
 		<div id="image_slider_outer_container">
-			<div id="slider_info_container">
+<!--			<div id="slider_info_container">
 				<img class="scroll_up_right" src="/img/scroll_up_right.png" />
 				<div class="top_info_line">&nbsp;</div>
 				<div class="welcome_info_line">
@@ -241,7 +482,7 @@
 					<div class="line"></div>
 				</div>
 				<img class="scroll_down_left" src="/img/scroll_down_left.png" />
-			</div>
+			</div>-->
 			<div id="image_slider_container">
 				<?php 
 				
@@ -255,21 +496,22 @@
 						}
 						$photos = $this->Gallery->get_gallery_photos($gallery_id, 200);
 					}
-				
+					
+					
 					/////////////////////////////////////////////////////////
 					// mark start photos as real photos
 					foreach ($photos as $key => $photo) {
-						$photos[$key]['actual_photo'] = true;
+						$photos[$key]['classes'][] = 'actual_image';
 					}
 					
 					/////////////////////////////////////////////////////////
 					// mark first and last real photos for convenience in js
 					reset($photos);
 					$first_key = key($photos);
-					$photos[$first_key]['first'] = true;
+					$photos[$first_key]['classes'][] = 'first';
 					end($photos);
 					$last_key = key($photos);
-					$photos[$last_key]['last'] = true;
+					$photos[$last_key]['classes'][] = 'last';
 
 					
 					/////////////////////////////////////////////////////////
@@ -291,17 +533,17 @@
 						$last_n_pad_photos = array_slice($photos, -$num_to_pad);
 					}
 					foreach ($last_n_pad_photos as &$last_n_pad_photo) {
-						unset($last_n_pad_photo['actual_photo']);
-						unset($last_n_pad_photo['first']);
-						unset($last_n_pad_photo['last']);
+						unset($last_n_pad_photo['classes']);
+						$last_n_pad_photo['classes'][] = 'fake_image';
+						$last_n_pad_photo['classes'][] = 'before';
 					}
 					for ($i = count($last_n_pad_photos) - 1; $i >= 0; $i--) {
 						array_unshift($photos, $last_n_pad_photos[$i]);
 					}
 					foreach ($first_n_pad_photos as &$first_n_pad_photo) {
-						unset($first_n_pad_photo['actual_photo']);
-						unset($first_n_pad_photo['first']);
-						unset($first_n_pad_photo['last']);
+						unset($first_n_pad_photo['classes']);
+						$first_n_pad_photo['classes'][] = 'fake_image';
+						$first_n_pad_photo['classes'][] = 'after';
 					}
 					foreach ($first_n_pad_photos as $first_n_pad_photo) {
 						array_push($photos, $first_n_pad_photo);
@@ -311,21 +553,22 @@
 					
 					//////////////////////////////////////////////////////////////
 					// add 4 blank onto beginning and end
-					array_unshift($photos, array('blank_photo' => true));
-					array_unshift($photos, array('blank_photo' => true));
-					array_unshift($photos, array('blank_photo' => true));
-					array_unshift($photos, array('blank_photo' => true));
-					array_push($photos, array('blank_photo' => true));
-					array_push($photos, array('blank_photo' => true));
-					array_push($photos, array('blank_photo' => true));
-					array_push($photos, array('blank_photo' => true));
+					array_unshift($photos, array('blank_photo' => true, 'classes' => array()));
+					array_unshift($photos, array('blank_photo' => true, 'classes' => array()));
+					array_unshift($photos, array('blank_photo' => true, 'classes' => array()));
+					array_unshift($photos, array('blank_photo' => true, 'classes' => array()));
+					array_push($photos, array('blank_photo' => true, 'classes' => array()));
+					array_push($photos, array('blank_photo' => true, 'classes' => array()));
+					array_push($photos, array('blank_photo' => true, 'classes' => array()));
+					array_push($photos, array('blank_photo' => true, 'classes' => array()));
 					
 					
 					//////////////////////////////////////////////////////////////
 					// variables
-					$cover_width = 988; 
-					$blank_cont_left_add = -121;
-					$cont_left_add = -128;
+					$cover_width = 988;
+//					$blank_cont_left_add = -121;
+//					$cont_left_add = -128;
+					$cont_left_add = -250;
 					$prev_left = null;
 					
 					
@@ -349,10 +592,10 @@
 							$height = null;
 
 							switch ($photo['Photo']['PhotoFormat']['ref_name']) {
-								case 'portrait':
 								case 'square':
+								case 'portrait':
 									$width = 630;
-									$height = 3000;
+									$height = 630;
 									break;
 								case 'landscape':
 									$width = 720;
@@ -364,9 +607,10 @@
 									break;
 								case 'vertical_panoramic':
 									$width = 300;
-									$height = 3000;
+									$height = 720;
 									break;
 							}
+							$photo['classes'][] = $photo['Photo']['PhotoFormat']['ref_name'];
 							$img_src = $this->Photo->get_photo_path($photo['Photo']['id'], $height, $width, .4, true); 
 						}
 
@@ -376,7 +620,7 @@
 							$total_height = $img_src['height'] + 20;
 
 							// figure out the position of the left cover
-							$distance_from_middle = 74;
+							$distance_from_middle = 68;
 							$distance_to_close = 210;
 							$cover_width_left = 360 - $distance_from_middle - $cover_width;
 							$cover_width_right = 360 + $distance_from_middle;
@@ -394,10 +638,12 @@
 	//						$using_y = $div_y - 150;
 	//						debug("x: $div_x, y: $div_y");
 						?>
-						<div class="float_image_cont <?php if (isset($photo['actual_photo'])): ?>actual_image<?php endif; ?> <?php if (isset($photo['first'])): ?>first<?php endif; ?> <?php if (isset($photo['last'])): ?>last<?php endif; ?>" style="width: 720px; height: 300px; left: <?php echo $left; ?>px;" start_left="<?php echo $left; ?>" img_width="<?php echo $total_width; ?>" img_height="<?php echo $total_height; ?>">
-							<div class="img_cont" style="width: <?php echo $total_width; ?>px; height: <?php echo $total_height; ?>px; margin-left: <?php echo -round($total_width/2); ?>px; margin-top: <?php echo -round($total_height/2); ?>px;">
-								<div class="img_inner_wrap">
-									<img src="<?php echo $img_src['url']; ?>" style="display: block; width: <?php echo $img_src['width']; ?>px; height: <?php echo $img_src['height']; ?>px;" <?php echo $img_src['tag_attributes']; ?> />
+						<div photo_id="<?php if (isset($photo['Photo']['id'])) { echo $photo['Photo']['id']; } ?>" class="float_image_cont <?php echo implode(' ', $photo['classes']); ?>" style="width: 720px; height: 310px; left: <?php echo $left; ?>px;" start_left="<?php echo $left; ?>" img_width="<?php echo $total_width; ?>" img_height="<?php echo $total_height; ?>">
+							<div class="img_outer_cont">
+								<div class="img_cont" style="width: <?php echo $total_width; ?>px; height: <?php echo $total_height; ?>px; margin-left: <?php echo -floor($total_width/2); ?>px; margin-top: <?php echo -floor($total_height/2); ?>px;">
+									<div class="img_inner_wrap">
+										<img src="<?php echo $img_src['url']; ?>" style="display: block; width: <?php echo $img_src['width']; ?>px; height: <?php echo $img_src['height']; ?>px;" <?php echo $img_src['tag_attributes']; ?> />
+									</div>
 								</div>
 							</div>
 							<div class="left_cover_image" open_left="<?php echo $cover_width_left; ?>" style="left: <?php echo $cover_width_left + $distance_to_close; ?>px;">
@@ -414,14 +660,14 @@
 							</div>
 						</div>
 						<?php
-							$distance_from_middle = 74;
-							$cover_width_left = 360 - $distance_from_middle - $cover_width;
-							$cover_width_right = 360 + $distance_from_middle;
-
-							$left = $prev_left + $blank_cont_left_add;
-							$prev_left = $left;
+//							$distance_from_middle = 74;
+//							$cover_width_left = 360 - $distance_from_middle - $cover_width;
+//							$cover_width_right = 360 + $distance_from_middle;
+//
+//							$left = $prev_left + $blank_cont_left_add;
+//							$prev_left = $left;
 						?>
-						<div class="float_blank_cont" style="left: <?php echo $left; ?>px;">
+						<?php /*<div class="float_blank_cont" style="left: <?php echo $left; ?>px;">
 							<div class="float_blank_inner_cont" style="width: 720px; height: 300px;">
 								<div class="left_cover_image cover_image" open_left="<?php echo $cover_width_left; ?>" style="left: <?php echo $cover_width_left + $distance_to_close; ?>px;">
 									<div class="one">&nbsp;</div>
@@ -436,7 +682,7 @@
 									<div class="four">&nbsp;</div>
 								</div>
 							</div>
-						</div>
+						</div> */ ?>
 				<?php endforeach; ?>
 			</div>
 			<div id="images_loading_tab">

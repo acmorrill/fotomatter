@@ -63,7 +63,7 @@ body {
 		overflow: hidden; 
 		height: 250px;
 		li {
-			margin-left: 102px;
+			margin-left: 52px;
 			font-weight: 400;
 			position: relative;
 			line-height: 36px;
@@ -178,14 +178,14 @@ body {
 #image_slider_outer_container {
 	position: absolute;
 	top: 0px;
-	left: 433px;
+	left: 482px;
 	.no_select;
 	#slider_info_container {
 		position: absolute;
 		height: 3000px;
 		width: 3000px;
 		top: 215px;
-		left: 150px;
+		left: 156px;
 		.content {
 			margin-left: 251px;
 		}
@@ -209,9 +209,36 @@ body {
 			width: 300px;
 			z-index: @slider_info_zindex;
 			.content {
-				h2 {
+				h2, h3 {
+					width: 400px;
 					margin-bottom: 14px;
 					font-weight: 800;
+				}
+			}
+		}
+		.gallery_info_cont {
+			.curr_gallery_info {
+				position: absolute;
+				left: 99px;
+				top: 283px;
+				height: 500px;
+				width: 300px;
+				z-index: @slider_info_zindex;
+				display: none;
+				.content {
+					h2, h3 {
+						width: 400px;
+						margin-bottom: 14px;
+						font-weight: 800;
+						text-transform: uppercase;
+					}
+					h2 {
+						margin-bottom: 6px;
+					}
+					h3 {
+						font-weight: 300;
+						font-size: 15px;
+					}
 				}
 			}
 		}
@@ -236,15 +263,20 @@ body {
 		z-index: 10000;
 		#progress_bar {
 			position: absolute;
-			top: 200px;
-			left: -101px;
-			height: 500px;
+			top: 259px;
+			left: -22px;
+			height: 300px;
 			width: 417px;
 			.percent_text {
-				font-weight: 600;
+				font-weight: 300;
 				position: absolute;
-				top: -2px;
-				right: -54px;
+				bottom: 0px;
+				left: 81px;
+				border-bottom: 1px solid @base_text_color;
+				text-align: right;
+				width: 105px;
+				padding-bottom: 7px;
+				font-size: 20px;
 			}
 			.ui-progressbar-value {
 				position: absolute;
@@ -274,20 +306,40 @@ body {
 
 		.float_image_cont {
 			position: relative;
-			overflow: hidden;
 			cursor: pointer;
-			.img_cont {
+			overflow: hidden; 
+			.img_outer_cont {
+				overflow: hidden; 
+				width: 720px; 
+				height: 300px; 
 				position: absolute;
-				top: 50%;
-				left: 50%;
-				/*width: ''; // these are set per image
-				height: '';
-				margin-top: '';
-				margin-left: '';*/
-				.img_inner_wrap {
-					border: 1px solid #808080;
-					img {
-						border: 9px solid #dddcdc;
+				.img_cont {
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					/*width: ''; // these are set per image
+					height: '';
+					margin-top: '';
+					margin-left: '';*/
+					.img_inner_wrap {
+						border: 1px solid transparent;
+						img {
+							border: 9px solid #dddcdc;
+						}
+					}
+				}
+			}
+			&.before_open_image {
+				height: 300px !important;
+				margin-bottom: 10px;
+			}
+			&.open_image {
+				margin-bottom: 10px;
+				.img_outer_cont {
+					.img_cont {
+						.img_inner_wrap {
+							border: 1px solid #808080;
+						}
 					}
 				}
 			}
