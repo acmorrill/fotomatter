@@ -324,6 +324,9 @@ function count_loaded_photos() {
 	jQuery('#image_slider_container .img_cont img').each(function() {
 		total_images++;
 		
+		var img_src = $(this).attr('src');
+		console.log (img_src);
+		
 		var tmpImg = document.createElement('img'); // new Image(1, 1); 
 		tmpImg.onload = function() {
 			console.log ("came into onload");
@@ -335,8 +338,7 @@ function count_loaded_photos() {
 			loaded_images++;
 			update_progress_bar();
 		};
-		tmpImg.src = $(this).attr('src');
-		console.log ("we got the change 2");
+		tmpImg.src = img_src;
 		
 		
 //		var tmpImg = new Image() ;
@@ -358,9 +360,9 @@ function bootstrap() {
 	jQuery('#image_slider_container').css({
 		opacity: 100
 	});
-//
-//	console.log ("bootstrap was called");
-//	count_loaded_photos();
+
+	console.log ("bootstrap was called");
+	count_loaded_photos();
 }
 
 function scroll_to_second_to_second_image(no_open) {
@@ -375,9 +377,6 @@ function scroll_to_second_to_second_image(no_open) {
 
 
 jQuery(document).ready(function() {
-	console.log ("the extra change");
-	count_loaded_photos();
-	
 	jQuery('#image_slider_container').css({
 		opacity: 0
 	});
