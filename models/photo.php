@@ -432,8 +432,6 @@ class Photo extends AppModel {
 			$releaseLock = $this->query("SELECT RELEASE_LOCK('start_create_cache_".$photo_id."')");
 		}
 		
-//		return trim( preg_replace( '/\s+/', '', $return_url ));
-//		return str_replace("\n", "", $return_url);
 		return preg_replace( '/\s+/', '', $return_url );
 	}
 	

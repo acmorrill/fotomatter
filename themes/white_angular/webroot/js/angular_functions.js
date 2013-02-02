@@ -310,10 +310,6 @@ function update_progress_bar() {
 	var total_progress = Math.round((loaded_images / total_images) * 100);
 	jQuery("#progress_bar .ui-progressbar-value").height(total_progress+'%');
 	jQuery("#progress_bar .percent_text span").text(total_progress);
-	console.log ('================================');
-	console.log (loaded_images);
-	console.log (total_images);
-	console.log ('================================');
 	if (total_progress == 100) {
 		jQuery(document).trigger('images_loaded');
 	}
@@ -325,11 +321,9 @@ function count_loaded_photos() {
 		total_images++;
 		
 		var img_src = $(this).attr('src');
-		console.log (img_src);
 		
 		var tmpImg = document.createElement('img'); // new Image(1, 1); 
 		tmpImg.onload = function() {
-			console.log ("came into onload");
 			loaded_images++;
 			update_progress_bar();
 		};
@@ -339,20 +333,6 @@ function count_loaded_photos() {
 			update_progress_bar();
 		};
 		tmpImg.src = img_src;
-		
-		
-//		var tmpImg = new Image() ;
-//		tmpImg.onload = function() {
-//			console.log ("came into onload");
-//			loaded_images++;
-//			update_progress_bar();
-//		};
-//		tmpImg.error = function() {
-//			console.log ("error loading image");
-//			loaded_images++;
-//			update_progress_bar();
-//		};
-//		tmpImg.src = $(this).attr('src') ;
 	});
 }
 
@@ -361,7 +341,6 @@ function bootstrap() {
 		opacity: 100
 	});
 
-	console.log ("bootstrap was called");
 	count_loaded_photos();
 }
 
@@ -385,8 +364,6 @@ jQuery(document).ready(function() {
 	
 	// reveal the images when they are loaded
 	jQuery(document).bind('images_loaded', function() {
-		console.log ("images were loaded");
-		
 		jQuery('#images_loading_tab').hide();
 
 		jQuery('#image_slider_container .left_cover_image, #image_slider_container .right_cover_image').each(function() {
