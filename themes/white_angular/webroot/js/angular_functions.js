@@ -323,7 +323,8 @@ function count_loaded_photos() {
 	// count how many of the images have loaded
 	jQuery('#image_slider_container .img_cont img').each(function() {
 		total_images++;
-		var tmpImg = new Image() ;
+		
+		var tmpImg = document.createElement('img'); // new Image(1, 1); 
 		tmpImg.onload = function() {
 			console.log ("came into onload");
 			loaded_images++;
@@ -334,8 +335,22 @@ function count_loaded_photos() {
 			loaded_images++;
 			update_progress_bar();
 		};
-		console.log ("we got the change");
-		tmpImg.src = $(this).attr('src') ;
+		tmpImg.src = $(this).attr('src');
+		console.log ("we got the change 2");
+		
+		
+//		var tmpImg = new Image() ;
+//		tmpImg.onload = function() {
+//			console.log ("came into onload");
+//			loaded_images++;
+//			update_progress_bar();
+//		};
+//		tmpImg.error = function() {
+//			console.log ("error loading image");
+//			loaded_images++;
+//			update_progress_bar();
+//		};
+//		tmpImg.src = $(this).attr('src') ;
 	});
 }
 
