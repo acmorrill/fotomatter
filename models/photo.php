@@ -433,7 +433,7 @@ class Photo extends AppModel {
 		}
 		
 //		return trim( preg_replace( '/\s+/', '', $return_url ));
-		return str_replace(" ", "", $return_url);
+		return str_replace("\n", "", $return_url);
 	}
 	
 	
