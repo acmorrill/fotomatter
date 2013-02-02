@@ -325,6 +325,7 @@ function count_loaded_photos() {
 		total_images++;
 		var tmpImg = new Image() ;
 		tmpImg.onload = function() {
+			console.log ("came into onload");
 			loaded_images++;
 			update_progress_bar();
 		};
