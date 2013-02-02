@@ -310,6 +310,10 @@ function update_progress_bar() {
 	var total_progress = Math.round((loaded_images / total_images) * 100);
 	jQuery("#progress_bar .ui-progressbar-value").height(total_progress+'%');
 	jQuery("#progress_bar .percent_text span").text(total_progress);
+	console.log ('================================');
+	console.log (loaded_images);
+	console.log (total_images);
+	console.log ('================================');
 	if (total_progress == 100) {
 		jQuery(document).trigger('images_loaded');
 	}
@@ -338,6 +342,7 @@ function bootstrap() {
 		opacity: 100
 	});
 
+	console.log ("bootstrap was called");
 	count_loaded_photos();
 }
 
@@ -361,6 +366,8 @@ jQuery(document).ready(function() {
 	
 	// reveal the images when they are loaded
 	jQuery(document).bind('images_loaded', function() {
+		console.log ("images were loaded");
+		
 		jQuery('#images_loading_tab').hide();
 
 		jQuery('#image_slider_container .left_cover_image, #image_slider_container .right_cover_image').each(function() {
