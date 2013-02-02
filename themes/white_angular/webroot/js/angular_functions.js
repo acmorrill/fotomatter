@@ -333,6 +333,7 @@ function count_loaded_photos() {
 			loaded_images++;
 			update_progress_bar();
 		};
+		console.log ("we got the change");
 		tmpImg.src = $(this).attr('src') ;
 	});
 }
