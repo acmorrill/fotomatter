@@ -324,7 +324,6 @@ function count_loaded_photos() {
 	jQuery('#image_slider_container .img_cont img').each(function() {
 		total_images++;
 		var tmpImg = new Image() ;
-		tmpImg.src = $(this).attr('src') ;
 		tmpImg.onload = function() {
 			loaded_images++;
 			update_progress_bar();
@@ -334,6 +333,7 @@ function count_loaded_photos() {
 			loaded_images++;
 			update_progress_bar();
 		};
+		tmpImg.src = $(this).attr('src') ;
 	});
 }
 
