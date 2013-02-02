@@ -358,9 +358,9 @@ function bootstrap() {
 	jQuery('#image_slider_container').css({
 		opacity: 100
 	});
-
-	console.log ("bootstrap was called");
-	count_loaded_photos();
+//
+//	console.log ("bootstrap was called");
+//	count_loaded_photos();
 }
 
 function scroll_to_second_to_second_image(no_open) {
@@ -375,6 +375,9 @@ function scroll_to_second_to_second_image(no_open) {
 
 
 jQuery(document).ready(function() {
+	console.log ("the extra change");
+	count_loaded_photos();
+	
 	jQuery('#image_slider_container').css({
 		opacity: 0
 	});
