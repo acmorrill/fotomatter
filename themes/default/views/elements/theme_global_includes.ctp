@@ -1,4 +1,4 @@
-<meta charset='utf-8'>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <script src="/js/jquery-1.7.1.min.js"></script>
 <script src="/js/jquery-ui-1.8.18.custom/js/jquery-ui-1.8.18.custom.min.js"></script>
 
