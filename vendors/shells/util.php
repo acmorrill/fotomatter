@@ -1,7 +1,7 @@
 <?php
 
 class UtilShell extends Shell {
-	public $uses = array('User', 'Group', 'Permission', 'Photo', 'SiteSetting', 'PhotoGallery', 'PhotoGalleriesPhoto', 'PhotoCache', 'SitePage', 'SitePageElement', 'SitePagesSitePageElement', 'SiteOneLevelMenu', 'SiteTwoLevelMenu', 'SiteTwoLevelMenuContainer', 'SiteTwoLevelMenuContainerItem');
+	public $uses = array('User', 'Group', 'Permission', 'Photo', 'SiteSetting', 'PhotoGallery', 'PhotoGalleriesPhoto', 'PhotoCache', 'SitePage', 'SitePageElement', 'SitePagesSitePageElement', 'SiteOneLevelMenu', 'SiteTwoLevelMenu', 'SiteTwoLevelMenuContainer', 'SiteTwoLevelMenuContainerItem', 'PhotoAvailSize');
 	
 		///////////////////////////////////////////////////////////////
 	/// shell start
@@ -83,6 +83,11 @@ class UtilShell extends Shell {
 		$this->out('-------- Adding Tags ------------');
 		$this->add_tags();
 		$this->out('-------- Tags Added ------------');
+		
+		
+		$this->out('-------- Adding Avail Sizes ------------');
+		$this->avail_photo_size_defaults();
+		$this->out('-------- Avail Sizes Added ------------');
 		/*$photo_data = array();
 		
 		////////////////////////////////////////////
@@ -145,6 +150,10 @@ class UtilShell extends Shell {
 				$this->PhotoGalleriesPhoto->save($photo_gallery_photo);
 			}
 		}*/
+	}
+	
+	public function avail_photo_size_defaults() {
+		$this->PhotoAvailSize->restore_avail_photo_size_defaults();
 	}
 	
 	public function add_tags() {

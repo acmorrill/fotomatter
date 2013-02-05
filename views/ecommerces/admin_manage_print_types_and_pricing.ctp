@@ -1,0 +1,1 @@
+manage print types and prices
