@@ -158,8 +158,10 @@ select,
 option {
   color: #333;
 }
-option[disabled="disabled"] {
+option[disabled="disabled"],
+input[disabled="disabled"] {
   color: #B3B3B3;
+  background-color: #afafaf;
 }
 label {
   font-weight: bold;
@@ -1110,4 +1112,13 @@ div#sub-nav ul li.title a {
   border-bottom: 1px solid white;
   line-height: 46px;
   width: 791px;
+}
+#print_type_pricing_cont table {
+  width: 760px;
+}
+#print_type_pricing_cont table input {
+  width: 50px;
+}
+.basic_settings .basic_setting_cont label {
+  min-width: 180px;
 }

@@ -35,7 +35,7 @@
 	<table class="list">
 		<thead>
 			<tr> 
-				<th class="first"><?php __('Dimension Size'); ?></th> 
+				<th class="first"><?php __('Dimension'); ?></th> 
 				<th class=""><?php __('Format(s)'); ?></th> 
 				<th class="last"><?php __('Actions'); ?></th>
 			</tr> 

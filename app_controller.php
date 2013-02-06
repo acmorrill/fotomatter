@@ -30,6 +30,7 @@ class AppController extends Controller {
 		'Theme',
 		'Photo',
 		'Gallery',
+		'Ecommerce'
 	);
 	
     /**

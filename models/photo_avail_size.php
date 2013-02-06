@@ -2,6 +2,10 @@
 
 class PhotoAvailSize extends AppModel {
 	public $name = 'PhotoAvailSize';
+
+	public $hasMany = array(
+		'PhotoAvailSizesPhotoPrintType'
+	);
 	
 	
 	public function restore_avail_photo_size_defaults() {
@@ -78,6 +82,12 @@ class PhotoAvailSize extends AppModel {
 		return $valid_sides;
 	}
 	
+	
+	public function afterDelete() {
+		$this->PhotoAvailSizesPhotoPrintType->deleteAll(array(
+			'PhotoAvailSizesPhotoPrintType.photo_avail_size_id' => $this->id
+		));
+	}
 	
 	
 	
