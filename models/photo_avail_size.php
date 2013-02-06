@@ -57,4 +57,30 @@ class PhotoAvailSize extends AppModel {
 			$this->save($new_photo_avail_size);
 		}
 	}
+	
+	public function get_used_short_side_values() {
+		$all_values = $this->find('all', array(
+			'contain' => false
+		));
+		
+		return Set::combine($all_values, '/PhotoAvailSize/short_side_length', '/PhotoAvailSize/short_side_length');
+	}
+	
+	public function valid_short_side_values() {
+		$valid_sides = array(
+			2.5,
+			3.5,
+		);
+		for ($i = 4; $i <= 96; $i++) {
+			$valid_sides[] = $i;
+		}
+		
+		return $valid_sides;
+	}
+	
+	
+	
+	
+	
+	
 }
