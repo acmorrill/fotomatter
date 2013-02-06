@@ -158,6 +158,9 @@ select,
 option {
   color: #333;
 }
+option[disabled="disabled"] {
+  color: #B3B3B3;
+}
 label {
   font-weight: bold;
   margin: 0;
@@ -1035,40 +1038,57 @@ div#sub-nav ul li.title a {
 .two_level_menu_items_cont .container_item {
   background-color: #636363;
 }
-#theme_centers_list_container {
+#theme_centers_list_container,
+.basic_settings {
   position: relative;
 }
-#theme_centers_list_container .theme_setting_container {
+#theme_centers_list_container .theme_setting_container,
+#theme_centers_list_container .basic_setting_cont,
+.basic_settings .theme_setting_container,
+.basic_settings .basic_setting_cont {
   vertical-align: top;
   margin-bottom: 30px;
 }
-#theme_centers_list_container .theme_setting_container label {
+#theme_centers_list_container .theme_setting_container label,
+#theme_centers_list_container .basic_setting_cont label,
+.basic_settings .theme_setting_container label,
+.basic_settings .basic_setting_cont label {
   text-align: right;
   margin-right: 12px;
   vertical-align: top;
   display: inline-block;
   min-width: 240px;
 }
-#theme_centers_list_container .theme_setting_container .theme_setting_inputs_container {
+#theme_centers_list_container .theme_setting_container .theme_setting_inputs_container,
+#theme_centers_list_container .basic_setting_cont .theme_setting_inputs_container,
+.basic_settings .theme_setting_container .theme_setting_inputs_container,
+.basic_settings .basic_setting_cont .theme_setting_inputs_container {
   margin-top: -3px;
   min-width: 80px;
   vertical-align: top;
   display: inline-block;
 }
-#theme_centers_list_container .theme_setting_container .theme_setting_inputs_container span.color_chooser {
+#theme_centers_list_container .theme_setting_container .theme_setting_inputs_container span.color_chooser,
+#theme_centers_list_container .basic_setting_cont .theme_setting_inputs_container span.color_chooser,
+.basic_settings .theme_setting_container .theme_setting_inputs_container span.color_chooser,
+.basic_settings .basic_setting_cont .theme_setting_inputs_container span.color_chooser {
   display: inline-block;
   width: 14px;
   height: 14px;
   outline: 1px solid #808080;
 }
-#theme_centers_list_container .theme_setting_container .theme_setting_description {
+#theme_centers_list_container .theme_setting_container .theme_setting_description,
+#theme_centers_list_container .basic_setting_cont .theme_setting_description,
+.basic_settings .theme_setting_container .theme_setting_description,
+.basic_settings .basic_setting_cont .theme_setting_description {
   display: inline-block;
   vertical-align: top;
   width: 500px;
   font-style: italic;
   margin-left: 80px;
 }
-#theme_centers_list_container .saving_theme_setting {
+#theme_centers_list_container .saving_theme_setting,
+.basic_settings .saving_theme_setting {
   display: none;
   position: absolute;
   background-color: #121212;
@@ -1081,7 +1101,8 @@ div#sub-nav ul li.title a {
   right: 48px;
   bottom: 25px;
 }
-#theme_centers_list_container h2.group_list_name {
+#theme_centers_list_container h2.group_list_name,
+.basic_settings h2.group_list_name {
   margin-left: 257px;
   font-size: 32px;
   font-weight: bold;

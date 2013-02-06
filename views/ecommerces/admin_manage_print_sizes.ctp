@@ -1,12 +1,30 @@
 <script type="text/javascript">
 	jQuery(document).ready(function() {
 		console.log ("document loaded");
+		jQuery('#reset_printsize_button').click(function(e) {
+			e.preventDefault();
+			
+			jQuery.foto('confirm', {
+				message: 'Are you sure you want to reset the available print sizes?',
+				onConfirm: function() {
+					jQuery('#reset_printsize_form').submit();
+				}
+			});
+		});
 	});
 </script>
 
 <?php echo $this->Session->flash(); ?>
 <div class="right">
-	<?php echo $this->Element('admin/gallery/add_gallery'); ?>
+	<div class="add_gallery_element custom_ui" style="margin: 5px; margin-bottom: 15px;">
+		<form action="/admin/ecommerces/add_print_size/" method="get" style="float: right;">
+			<input id="add_new_printsize_button" class="add_button ui-button ui-widget ui-state-default ui-corner-all" type="submit" value="Add New Print Size" role="button" aria-disabled="false" />
+		</form>
+		<form id="reset_printsize_form" action="/admin/ecommerces/reset_print_sizes/" method="get" style="float: right;">
+			<input id="reset_printsize_button" class="add_button ui-button ui-widget ui-state-default ui-corner-all" type="submit" value="Restore Defaults" role="button" aria-disabled="false" />
+		</form>
+		<div style="clear: both;"></div>
+	</div>
 </div>
 <div class="clear"></div>
 <?php //debug($photo_avail_sizes); ?>
@@ -26,12 +44,14 @@
 			<?php foreach($photo_avail_sizes as $photo_avail_size): ?> 
 				<tr photo_avail_size_id="<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>">
 					<td style="width: 100px;"><?php echo $photo_avail_size['PhotoAvailSize']['short_side_length']; ?> x --</td>
-					<td style="width: 150px;">
-						<?php foreach($photo_avail_size['PhotoFormat'] as $format): ?>
-							<?php echo $format['display_name']; ?>
-						<?php endforeach; ?>
+					<td style="width: 300px;">
+						<?php $formats = Set::extract('/PhotoFormat/display_name', $photo_avail_size); ?>
+						<?php echo implode(' | ', $formats) ?>
 					</td>
-					<td>edit delete</td>
+					<td>
+						<a href="/admin/ecommerces/add_print_size/<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>/">Edit</a> 
+						<a href="/admin/ecommerces/delete_print_size/<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>/">Delete</a>
+					</td>
 				</tr>
 			<?php endforeach; ?> 
 		</tbody>

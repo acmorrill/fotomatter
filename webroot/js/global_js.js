@@ -59,8 +59,8 @@ jQuery(document).ready(function() {
 });
 
 /****************************************************************************
-		GLOBAL FUNCTIONS
-	****************************************************************************/
+	GLOBAL FUNCTIONS
+****************************************************************************/
 function smart_reload(message) {
 	message = '<div style="display:inline-block;vertical-align:middle;margin:5px;margin:0 25px 15px 0">'+message+'</div>';
 	message += '<img src="/img/admin/icons/ajax-loader.gif" />';
