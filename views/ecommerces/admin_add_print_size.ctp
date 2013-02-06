@@ -37,8 +37,8 @@
 		<div class="basic_setting_cont">
 			<label><?php __('Photo Formats'); ?></label>
 			<div class="theme_setting_inputs_container">
-				<input type="checkbox" <?php if (isset($this->data['PhotoAvailSize']['photo_format_ids']) && strpos($this->data['PhotoAvailSize']['photo_format_ids'], '1,2,3') !== false): ?>checked="checked"<?php endif; ?> name="data[PhotoAvailSize][photo_format_ids][]" value="1,2,3" />Landscape / Portrait / Square<br/>
-				<input type="checkbox" <?php if (isset($this->data['PhotoAvailSize']['photo_format_ids']) && strpos($this->data['PhotoAvailSize']['photo_format_ids'], '4,5') !== false): ?>checked="checked"<?php endif; ?> name="data[PhotoAvailSize][photo_format_ids][]" value="4,5" />Panoramic / Vertical Panoramic<br/>
+				<input type="checkbox" <?php if ($this->Ecommerce->print_size_has_non_pano($this->data)): ?>checked="checked"<?php endif; ?> name="data[PhotoAvailSize][photo_format_ids][]" value="1,2,3" />Landscape / Portrait / Square<br/>
+				<input type="checkbox" <?php if ($this->Ecommerce->print_size_has_pano($this->data)): ?>checked="checked"<?php endif; ?> name="data[PhotoAvailSize][photo_format_ids][]" value="4,5" />Panoramic / Vertical Panoramic<br/>
 			</div>
 			<div class="theme_setting_description">
 				<?php __('Required. Choose the formats that this dimension will be available to. For example, choosing short side dimension with formats "Landscape / Portrait / Square" will make those sizes available as options when you are creating prices for different print types.'); ?>

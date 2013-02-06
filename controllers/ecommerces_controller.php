@@ -1,7 +1,7 @@
 <?php
 class EcommercesController extends AppController {
 	public $name = 'Ecommerces';
-	public $uses = array('PhotoAvailSize', 'PhotoFormat');
+	public $uses = array('PhotoAvailSize', 'PhotoFormat', 'PhotoPrintType');
 	public $layout = 'admin/ecommerces';
 
 
@@ -91,6 +91,35 @@ class EcommercesController extends AppController {
 	}
 
 	public function admin_manage_print_types_and_pricing() {
-
+		$photo_print_types = $this->PhotoPrintType->find('all', array(
+			'order' => array(
+				'PhotoPrintType.order ASC'
+			),
+			'contain' => false
+		));
+		
+		$this->set(compact('photo_print_types'));
+	}
+	
+	public function admin_add_print_type_and_pricing($photo_print_type_id = 0) {
+		$photo_avail_sizes_query = "
+			SELECT * FROM photo_avail_sizes AS PhotoAvailSize
+				LEFT JOIN photo_avail_sizes_photo_print_types AS PhotoAvailSizesPhotoPrintType
+					ON (PhotoAvailSizesPhotoPrintType.photo_avail_size_id = PhotoAvailSize.id AND PhotoAvailSize.id = ':photo_print_type_id' )
+				LEFT JOIN photo_print_types AS PhotoPrintType
+					ON (PhotoAvailSizesPhotoPrintType.photo_print_type_id = PhotoPrintType.id)
+			ORDER BY PhotoAvailSize.short_side_length ASC
+		";
+		
+		$photo_avail_sizes = $this->PhotoAvailSize->query($photo_avail_sizes_query, array(
+			'photo_print_type_id' => $photo_print_type_id
+		));
+		
+//		$this->log($photo_avail_sizes, 'add_print_type_and_pricing');
+		
+		$this->set(compact('photo_avail_sizes'));
+		
+		
+		
 	}
 }
