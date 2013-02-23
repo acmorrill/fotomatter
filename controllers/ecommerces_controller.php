@@ -102,6 +102,62 @@ class EcommercesController extends AppController {
 	}
 	
 	public function admin_add_print_type_and_pricing($photo_print_type_id = 0) {
+		if (!empty($this->data)) { 
+			$this->log($this->data, 'add_print_type_and_pricing');
+			
+			///////////////////////////////////////////////
+			// do validation on the data
+			$passed_validation = true;
+			$print_name = !empty($this->data['PhotoPrintType']['print_name']) ? $this->data['PhotoPrintType']['print_name'] : null ;
+			$turnaround_time = !empty($this->data['PhotoPrintType']['turnaround_time']) ? $this->data['PhotoPrintType']['turnaround_time'] : '' ;
+			
+			if ($passed_validation && !isset($print_name)) {
+				$this->Session->setFlash("Print name must be set.");
+				$passed_validation = false;
+			}
+			
+//			if ($passed_validation && !isset($turnaround_time)) {
+//				$this->Session->setFlash("");
+//				$passed_validation = false;
+//			}
+			
+
+			if ($passed_validation) {
+				// create the new photo type
+				$new_photo_type = array();
+				$new_photo_type['PhotoPrintType']['print_name'] = $print_name;
+				$new_photo_type['PhotoPrintType']['turnaround_time'] = $turnaround_time;
+				$this->PhotoPrintType->create();
+				$this->PhotoPrintType->save($new_photo_type);
+				
+				
+				// add into the PhotoPrintSizesPhotoPrintType join table
+				foreach ($this->data['PhotoAvailSizesPhotoPrintType'] as $curr_join_data) {
+					
+				}
+				
+				
+				
+//				[photo_avail_size_id] => 6
+//				[non_pano_available] => on
+//				[non_pano_price] => 40.00
+//				[non_pano_shipping_price] => 40.00
+//				[non_pano_custom_turnaround] => override
+//				[non_pano_global_default] => on
+//				[non_pano_force_settings] => on
+//				[pano_available] => on
+//				[pano_price] => 50.00
+//				[pano_shipping_price] => 50.00
+//				[pano_custom_turnaround] => override
+//				[pano_global_default] => on
+//				[pano_force_settings] => on
+			}
+			
+			
+			
+		}
+		
+		
 		$photo_avail_sizes_query = "
 			SELECT * FROM photo_avail_sizes AS PhotoAvailSize
 				LEFT JOIN photo_avail_sizes_photo_print_types AS PhotoAvailSizesPhotoPrintType
