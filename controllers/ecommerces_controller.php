@@ -102,14 +102,6 @@ class EcommercesController extends AppController {
 	}
 	
 	public function admin_add_print_type_and_pricing($photo_print_type_id = 0) {
-<<<<<<< HEAD
-		if (!empty($this->data)) {
-			$this->log($this->data, 'add_print_type_and_pricing');
-		}
-		
-		
-		
-=======
 		if (!empty($this->data)) { 
 			$this->log($this->data, 'add_print_type_and_pricing');
 			
@@ -166,7 +158,6 @@ class EcommercesController extends AppController {
 		}
 		
 		
->>>>>>> a08458f10d7340c542ef8453911c24c09575ad8c
 		$photo_avail_sizes_query = "
 			SELECT * FROM photo_avail_sizes AS PhotoAvailSize
 				LEFT JOIN photo_avail_sizes_photo_print_types AS PhotoAvailSizesPhotoPrintType
