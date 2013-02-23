@@ -45,6 +45,8 @@ class UtilShell extends Shell {
 	}
 	
 	function defaults() {
+		$this->MajorError = ClassRegistry::init('MajorError');
+		
 		$this->MajorError->deleteAll(array("1=1"), true, true);
 		
 		
