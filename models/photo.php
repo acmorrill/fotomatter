@@ -83,13 +83,17 @@ class Photo extends AppModel {
 	public function beforeSave($options = array()) {
 		parent::beforeSave($options);
 		
+
+		if (!isset($this->data['Photo']['date_taken'])) {
+			$this->data['Photo']['date_taken'] = date('Y-m-d');
+		}
+		
 		
 		$cacheTempLocation = '';
 		$maxmegabytes = MAX_UPLOAD_SIZE_MEGS * 1024 * 1024;
 		
 		////////////////////////////////////////////////////////////////////////////////////////////
 		// if a file was uploaded then upload it to cloud files and then delete any previous file
-		
 	//	$data_from_array 
 		if (is_array($this->data['Photo']['cdn-filename']) && !empty($this->data['Photo']['cdn-filename']['tmp_name'])) {
 			
@@ -151,7 +155,6 @@ class Photo extends AppModel {
 			$tmp_location = $this->data['Photo']['cdn-filename']['tmp_name'];
 			$mime_type = $this->data['Photo']['cdn-filename']['type'];
 
-			$this->log("made it here", 'photo');
 			if ($this->CloudFiles->put_object($file_name, $tmp_location, $mime_type)) {
 				// file successfully uploaded - so now automatically set the photo format
 				$this->data['Photo']['photo_format_id'] = $this->PhotoFormat->get_photo_format_id($height, $width);
@@ -281,8 +284,6 @@ class Photo extends AppModel {
 	}
 	
 	public function afterSave($created) {
-		$this->log($this->data, 'aftersave_foto');
-		
 		//////////////////////////////////////////////////////////////////////////////////////////
 		// now create all the prebuilt cache sizes
 		if (isset($this->data['Photo']['cdn-filename-forcache']) && isset($this->data['Photo']['cdn-filename-smaller-forcache']) && isset($this->id))   {
@@ -324,8 +325,28 @@ class Photo extends AppModel {
 		return true;
 	}
 
+	// a function to efficiently add photo format to a list of photos (without a bunch of extra queries)
+	public function add_photo_format(&$photos) {
+		$this->PhotoFormat = ClassRegistry::init('PhotoFormat');
+		$photo_formats = $this->PhotoFormat->find('all', array(
+			'contain' => false
+		));
+		$formats = Set::combine($photo_formats, '{n}.PhotoFormat.id', '{n}.PhotoFormat');
+		
+		if (isset($photos[0])) {
+			foreach ($photos as &$photo) {
+				if (isset($photo['Photo'])) {
+					$photo['Photo']['PhotoFormat'] = $formats[$photo['Photo']['photo_format_id']];
+				}
+			}
+		} else {
+			if (isset($photos['Photo'])) {
+				$photos['Photo']['PhotoFormat'] = $formats[$photos['Photo']['photo_format_id']];
+			}
+		}
+	}
 	
-		public function get_dummy_error_image_path($height, $width) {
+	public function get_dummy_error_image_path($height, $width) {
 		$this->PhotoCache = ClassRegistry::init('PhotoCache');
 		
 		return $this->PhotoCache->get_dummy_error_image_path($height, $width);
@@ -333,7 +354,7 @@ class Photo extends AppModel {
 	
 	public function get_photo_path($photo_id, $height, $width, $unsharp_amount = null, $return_tag_attributes = false) {
 		if ($height <= 0 || $width <= 0) {
-			$this->major_error('Called get photo path like a moron');
+			$this->major_error('Called get photo path like a moron', compact('width', 'height'));
 			return $this->PhotoCache->get_dummy_error_image_path($height, $width, false, $return_tag_attributes);
 		}
 		
@@ -411,7 +432,7 @@ class Photo extends AppModel {
 			$releaseLock = $this->query("SELECT RELEASE_LOCK('start_create_cache_".$photo_id."')");
 		}
 		
-		return $return_url;
+		return preg_replace( '/\s+/', '', $return_url );
 	}
 	
 	

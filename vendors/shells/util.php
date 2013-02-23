@@ -1,7 +1,7 @@
 <?php
 
 class UtilShell extends Shell {
-	public $uses = array('User', 'Group', 'Permission', 'Photo', 'SiteSetting', 'PhotoGallery', 'PhotoGalleriesPhoto', 'PhotoCache', 'SitePage', 'SitePageElement', 'SitePagesSitePageElement', 'SiteOneLevelMenu', 'SiteTwoLevelMenu', 'SiteTwoLevelMenuContainer', 'SiteTwoLevelMenuContainerItem');
+	public $uses = array('User', 'Group', 'Permission', 'Photo', 'SiteSetting', 'PhotoGallery', 'PhotoGalleriesPhoto', 'PhotoCache', 'SitePage', 'SitePageElement', 'SitePagesSitePageElement', 'SiteOneLevelMenu', 'SiteTwoLevelMenu', 'SiteTwoLevelMenuContainer', 'SiteTwoLevelMenuContainerItem', 'PhotoAvailSize');
 	
 		///////////////////////////////////////////////////////////////
 	/// shell start
@@ -45,8 +45,7 @@ class UtilShell extends Shell {
 	}
 	
 	function defaults() {
-		$this->MajorError = ClassRegistry::init('MajorError');
-		
+		$this->MajorError = CLassRegistry::init('MajorError');
 		$this->MajorError->deleteAll(array("1=1"), true, true);
 		
 		
@@ -81,6 +80,14 @@ class UtilShell extends Shell {
 		$this->add_menu_items();
 		$this->out('-------- Menu Items Added ------------');
 		
+		$this->out('-------- Adding Tags ------------');
+		$this->add_tags();
+		$this->out('-------- Tags Added ------------');
+		
+		
+		$this->out('-------- Adding Avail Sizes ------------');
+		$this->avail_photo_size_defaults();
+		$this->out('-------- Avail Sizes Added ------------');
 		/*$photo_data = array();
 		
 		////////////////////////////////////////////
@@ -145,6 +152,47 @@ class UtilShell extends Shell {
 		}*/
 	}
 	
+	public function avail_photo_size_defaults() {
+		$this->PhotoAvailSize->restore_avail_photo_size_defaults();
+	}
+	
+	public function add_tags() {
+		$this->Tag = ClassRegistry::init('Tag');
+		$this->Tag->deleteAll(array("1=1"), true, true);
+				
+		$tags_to_add = array(
+			'Portrait',
+			'Landscape',
+			'Wedding',
+			'Awesome',
+			'Wide Angle',
+			'Telephoto',
+			'Kids',
+			'Head Shots',
+			'Blue',
+			'Sunset',
+			'Green',
+			'Night',
+			'Moon',
+			'Large Format',
+			'Moab',
+			'California',
+			'Purple',
+			'New York',
+			'Misty',
+			'Subdued',
+			'Monster',
+		);
+		
+		foreach ($tags_to_add as $tag) {
+			$new_tag = array();
+			$new_tag['Tag']['name'] = $tag;
+
+			$this->Tag->create();
+			$this->Tag->save($new_tag);
+		}
+	}
+	
 	public function add_menu_items() {
 		// delete whole menu
 		$this->SiteOneLevelMenu->deleteAll('1=1', true, true);
@@ -156,6 +204,26 @@ class UtilShell extends Shell {
 		foreach ($belongsTo as $model_name => $item) {
 			$pos_models[] = $model_name;
 		}
+
+		
+		///////////////////////////////////////////
+		// put in the system menu items
+		$new_menu_item = array();
+		$new_menu_item['SiteOneLevelMenu']['external_id'] = 0;
+		$new_menu_item['SiteOneLevelMenu']['external_model'] = 'SitePage';
+		$new_menu_item['SiteOneLevelMenu']['ref_name'] = 'home';
+		$new_menu_item['SiteOneLevelMenu']['is_system'] = '1';
+		$this->SiteOneLevelMenu->create();
+		$this->SiteOneLevelMenu->save($new_menu_item);
+		
+		$new_menu_item = array();
+		$new_menu_item['SiteOneLevelMenu']['external_id'] = 0;
+		$new_menu_item['SiteOneLevelMenu']['external_model'] = 'SitePage';
+		$new_menu_item['SiteOneLevelMenu']['ref_name'] = 'image_galleries';
+		$new_menu_item['SiteOneLevelMenu']['is_system'] = '1';
+		$this->SiteOneLevelMenu->create();
+		$this->SiteOneLevelMenu->save($new_menu_item);
+		
 		
 		$total_menu_items = 10;
 		for($x = 0; $x < $total_menu_items; $x++) {
@@ -298,6 +366,23 @@ class UtilShell extends Shell {
         $this->files = new CloudFilesComponent();
 		
 		debug($this->files->list_objects());
+	}
+	
+	
+	public function clear_container() {
+	    App::import("Component", "CloudFiles");
+	    $this->files = new CloudFilesComponent();
+	    
+	    if (isset($this->args[0]) === false) {
+		$this->error('no container name');
+		exit(1);
+	    }
+	    
+	    $all_images = $this->files->list_objects($this->args[0]);
+	    foreach($all_images as $image) {
+		$this->files->delete_object($image['name'], $this->args[0]);
+	    }
+	    return true;
 	}
 	
 	public function clear_image_cache() {

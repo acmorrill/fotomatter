@@ -51,10 +51,6 @@ class ThemeHiddenSetting extends AppModel {
 			'contain' => false
 		));
 		
-		$this->log($theme_id, 'theme_id');
-		$this->log($name, 'theme_id');
-		$this->log($exists, 'theme_id');
-
 		if (!empty($exists['ThemeHiddenSetting']['id'])) {
 			$toSet['ThemeHiddenSetting']['id'] = $exists['ThemeHiddenSetting']['id'];
 		}

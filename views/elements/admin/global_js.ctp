@@ -2,6 +2,10 @@
 <script type="text/javascript" src="/js/jquery-ui-1.8.18.custom/js/jquery-ui-1.8.18.custom.min.js"></script>
 <script type="text/javascript" src="/js/jquery-validation-1.8.0/jquery.validate.min.js"></script>
 <script type="text/javascript" src="/js/tinymce/jscripts/tiny_mce/jquery.tinymce.js"></script>
+<script type="text/javascript" src="/js/chosen/chosen/chosen.jquery.min.js"></script>
+<link href="/js/chosen/chosen/chosen.css" rel="stylesheet" type="text/css" />
+
+
 <script type="text/javascript" src="/js/global_js.js"></script>
 <link href="/js/jquery-ui-1.8.18.custom/css/custom-theme/jquery-ui-1.8.18.custom.css" rel="stylesheet" type="text/css" />
 
@@ -38,9 +42,15 @@
 		});
 		<?php endif; ?>
 	
-		$.ajaxSetup({
-				
-		});
+	
+		// setup chosen based on class
+		jQuery('.chzn-select').chosen();
+	
+	
+		// DREW TODO - no idea why this is in here twice
+//		$.ajaxSetup({
+//				
+//		});
 	});
         
 var window_loaded = false;

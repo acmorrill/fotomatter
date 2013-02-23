@@ -1,0 +1,38 @@
+/**************************************************
+	TOP NAV
+**************************************************/
+#top-navigation {
+	
+}
+#top-navigation li {
+	display: inline-block;
+	vertical-align: bottom;
+	margin-right: 4px;
+	background: @midtone_background;
+	padding: 11px;
+	-moz-border-radius-topleft: 5px; /* Firefox */
+	-moz-border-radius-topright: 5px; /* Firefox */
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	text-align: center;
+}
+#top-navigation li a {
+	font-size: 11px;
+	text-transform: uppercase;
+	text-decoration: none;
+	font-weight: bold;
+	margin: 0;
+	font-family: 'Lucida Grande', 'Trebuchet MS','Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif;
+	text-align: center;
+	color: @subdued_text;
+}
+#top-navigation li a:hover {
+	color: @above_subdued_text;
+}
+#top-navigation li.curr {
+	background: @dark-background;
+}
+#top-navigation li.curr a {
+	color: @above_subdued_text;
+}
+/*** END TOP NAV ****/

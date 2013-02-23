@@ -24,7 +24,7 @@
 	<head>
 		<title><?php echo $curr_gallery['PhotoGallery']['display_name']; ?> -- Celestial Light Photography</title>
 		<?php echo $this->Element('theme_global_includes'); ?>
-		<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css" />
+		<link rel="stylesheet" type="text/css" href="/css/stylesheet.css" />
 		<link rel="stylesheet" type="text/css" href="/stylesheets/contentReadableBackground.css" />
 <?php
 if(!isset($HTTP_COOKIE_VARS["usersAvailScreenWidth"]) || !isset($HTTP_COOKIE_VARS["usersAvailScreenHeight"])) {
@@ -61,6 +61,8 @@ if(!isset($HTTP_COOKIE_VARS["usersAvailScreenWidth"]) || !isset($HTTP_COOKIE_VAR
 ?>
 	</head>
 	<body>		
+            <h1>Hey richard - you suck!</h1>
+            
 		<?php echo $this->Element('nameTitle'); ?>
 		<?php echo $this->Element('newsLetter'); ?>
 		<div class="galleryContent">

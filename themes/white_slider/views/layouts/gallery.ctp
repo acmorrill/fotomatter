@@ -12,6 +12,8 @@
 	
 </head>
 
+	
+<!--	DREW TODO - GET THIS THEME WORKING IN DIFFERENT ZOOM AMOUNTS OF BROWSERS-->
 <body>
 	<?php 
 		if (!isset($photos)) {
@@ -25,7 +27,6 @@
 			$photos = $this->Gallery->get_gallery_photos($gallery_id, 15);
 		}
 	?>
-	
 	
 	<?php if (count($photos) > 0): ?>
 <!--		<div class="endless_loading">Loading</div> maybe use this later-->
@@ -433,6 +434,10 @@
 					var tmpImg = new Image() ;
 					tmpImg.src = $(this).attr('src') ;
 					tmpImg.onload = function() {
+						loaded_images++;
+						update_progress_bar();
+					};
+					tmpImg.error = function() {
 						loaded_images++;
 						update_progress_bar();
 					};

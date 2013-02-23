@@ -1,7 +1,7 @@
 <?php
 class ThemeCentersController extends AppController {
     public $name = 'ThemeCenters';
-	public $uses = array('ThemeGlobalSetting', 'SiteSetting', 'ThemeHiddenSetting');
+	public $uses = array('ThemeGlobalSetting', 'SiteSetting', 'ThemeHiddenSetting', 'Theme', 'ThemeUserSetting');
 	public $helpers = array(
 		'Page',
 		'Gallery',
@@ -21,6 +21,39 @@ class ThemeCentersController extends AppController {
 		
 	}
 	
+	public function admin_ajax_save_theme_settings() {
+		$returnArr = array();
+		$returnArr['code'] = 1;
+		
+		$setting_name = isset($this->params['form']['setting_name']) ? $this->params['form']['setting_name'] : null;
+		$setting_value = isset($this->params['form']['setting_value']) ? $this->params['form']['setting_value'] : null;
+		$theme_id = isset($this->params['form']['theme_id']) ? $this->params['form']['theme_id'] : null;
+		$current_theme_id = $this->Theme->get_current_theme_id();
+		if (!isset($setting_name) || !isset($setting_value) || !isset($theme_id) || $theme_id != $current_theme_id) {
+			$returnArr['code'] = -1;
+			$returnArr['message'] = 'invalid params';
+			$this->return_json($returnArr);
+		}
+		
+		
+		if (!$this->ThemeUserSetting->setVal($setting_name, $setting_value, $theme_id)) {
+			$returnArr['code'] = -1;
+			$this->Theme->major_error('failed to save theme user setting', compact('setting_name', 'setting_value', 'theme_id'));
+			$returnArr['message'] = 'failed to save theme user setting';
+		}
+		
+		
+		$this->return_json($returnArr);
+	}
+	
+	public function admin_theme_settings() {
+		$avail_settings_list = $this->viewVars['theme_config']['admin_config']['theme_avail_custom_settings']['settings'];
+		
+		$theme_id = $this->Theme->get_current_theme_id();
+		
+		$this->set(compact('avail_settings_list', 'theme_id'));
+	}
+	
 	public function admin_main_menu() {
 		
 	}
@@ -33,8 +66,46 @@ class ThemeCentersController extends AppController {
 		
 	}
 	
-	public function admin_choose_theme() {
+	public function admin_change_theme($new_theme_id) {
+		$this->Theme->change_to_theme_by_id($new_theme_id);
 		
+		$this->redirect('/admin/theme_centers/choose_theme');
+	}
+	
+	public function admin_choose_theme() {
+		// get the current theme
+		$current_theme = $this->SiteSetting->getVal('current_theme', false);
+		
+		// get the top level themes
+		$top_level_themes = $this->Theme->find('all', array(
+			'conditions' => array(
+				'Theme.theme_id' => '0',
+				'Theme.disabled' => '0'
+			),
+			'contain' => false
+		));
+		
+		$all_themes = array();
+		foreach ($top_level_themes as $top_level_theme) {
+			// get child themes
+			$child_themes = $this->Theme->find('all', array(
+				'conditions' => array(
+					'Theme.theme_id' => $top_level_theme['Theme']['id'],
+					'Theme.disabled' => '0'
+				),
+				'contain' => false
+			));
+			
+			// add the theme
+			$all_themes[] = $top_level_theme;
+			
+			// add child themes
+			foreach ($child_themes as $child_theme) {
+				$all_themes[] = $child_theme;
+			}
+		}
+		
+		$this->set(compact('all_themes', 'current_theme'));
 	}
 	
 	public function admin_ajax_get_logo_webpath_and_save_dimension($height, $width, $top, $left) {

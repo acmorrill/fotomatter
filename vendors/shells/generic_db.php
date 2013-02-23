@@ -122,8 +122,17 @@ class GenericDbShell extends Shell {
 		
 		// get the last update run (to find out where to look for new updates to run)
 		$DbUpdate = ClassRegistry::init('Db'.$schema_name.'Update');
+		$firstDbUpdateOfCurrentSchema = $DbUpdate->find('first', array(
+			'conditions' => array(
+				'Db'.$schema_name.'Update.schema' => $current_schema
+			),
+			'order' => array('Db'.$schema_name.'Update.id ASC'),
+			'contain' => false
+		));
 		$lastDbUpdate = $DbUpdate->find('first', array(
-			'conditions' => array('Db'.$schema_name.'Update.status' => array('success','failed')),
+			'conditions' => array(
+				'Db'.$schema_name.'Update.status' => array('success','failed')
+			),
 			'order' => array('Db'.$schema_name.'Update.id DESC'),
 			'contain' => false
 		));
@@ -182,13 +191,14 @@ class GenericDbShell extends Shell {
 			}
 			
 		}
-
+		
+		
 		
 		///////////////////////////////////////////////////////////////////////////////////////////
 		// check for duplicate numbers used between devs (this is now an error condition)
 		$found_nums = array();
 		foreach ($all_updates as $all_update) {
-			if (isset($found_nums[$all_update['filename']])) {
+			if (isset($found_nums[$all_update['schema'].'_'.$all_update['filename']])) {
 				$this->out(" ");
 				$this->out("ERROR -- duplicate update number used.");
 				$this->out("     FIRST: ".$found_nums[$all_update['filename']]);
@@ -196,7 +206,7 @@ class GenericDbShell extends Shell {
 				exit();
 			} 
 			
-			$found_nums[$all_update['filename']] = $all_update['file_full_path'];
+			$found_nums[$all_update['schema'].'_'.$all_update['filename']] = $all_update['file_full_path'];
 		}
 		
 		
@@ -233,14 +243,15 @@ class GenericDbShell extends Shell {
 		// the last php file run failed -- try again because it may work this time
 		$start_using_updates = false;
 		$veryFirstUpdate = $lastDbUpdate == array();
-		$lastUpdateSuccess = $lastDbUpdate['Db'.$schema_name.'Update']['status'] == 'success';
-		$lastPhpFailed = $lastDbUpdate['Db'.$schema_name.'Update']['type'] == 'php' && $lastDbUpdate['Db'.$schema_name.'Update']['status'] == 'failed';
-		$lastSqlFailed = $lastDbUpdate['Db'.$schema_name.'Update']['type'] == 'sql' && $lastDbUpdate['Db'.$schema_name.'Update']['status'] == 'failed';
+		$firstUpdateOfSchema = empty($firstDbUpdateOfCurrentSchema);
+		$lastUpdateSuccess = isset($lastDbUpdate['Db'.$schema_name.'Update']) && $lastDbUpdate['Db'.$schema_name.'Update']['status'] == 'success';
+		$lastPhpFailed = isset($lastDbUpdate['Db'.$schema_name.'Update']) && $lastDbUpdate['Db'.$schema_name.'Update']['type'] == 'php' && $lastDbUpdate['Db'.$schema_name.'Update']['status'] == 'failed';
+		$lastSqlFailed = isset($lastDbUpdate['Db'.$schema_name.'Update']) && $lastDbUpdate['Db'.$schema_name.'Update']['type'] == 'sql' && $lastDbUpdate['Db'.$schema_name.'Update']['status'] == 'failed';
 		$this->out(" ");
 		$this->out("UPDATES");
-		if ($veryFirstUpdate || $lastUpdateSuccess || $lastPhpFailed) { 
+		if ($veryFirstUpdate || $firstUpdateOfSchema || $lastUpdateSuccess || $lastPhpFailed) { 
 			// if this is the first db update then just run from the beginning
-			if ($veryFirstUpdate) {
+			if ($veryFirstUpdate || $firstUpdateOfSchema) {
 				$start_using_updates = true;
 			}
 			

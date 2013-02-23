@@ -1,0 +1,71 @@
+
+////////////////////////////////////////////////////
+// two level menu item styles	
+.two_level_menu_items_cont { position: relative;
+	.top_level_item {
+		min-height: 60px;
+		margin: 20px;
+		position: relative;
+		border: 1px solid transparent;
+		margin-top: 43px;
+		h2 { margin: 10px; }
+		.sub_menu_item {
+			background-color: #454545;
+			margin: 10px;
+			min-height: 40px;
+			cursor: move;
+			position: relative;
+		}
+	}
+	.single_item { background-color: #454545; }
+	.container_item { background-color: #636363; } 
+}
+
+
+@label_width: 240px;
+/////////////////////////////////////////////////
+// Theme settings styles
+#theme_centers_list_container, .basic_settings {
+	position: relative;
+	.theme_setting_container, .basic_setting_cont {
+		vertical-align: top;
+		margin-bottom: 30px;
+		label {
+			text-align: right;
+			margin-right: 12px;
+			vertical-align: top;
+			display: inline-block;
+			min-width: @label_width;
+		}
+		.theme_setting_inputs_container {
+			margin-top: -3px;
+			min-width: 80px;
+			vertical-align: top;
+			display: inline-block;
+			span.color_chooser { display: inline-block; width: 14px; height: 14px; outline: 1px solid #808080; }
+		}
+		.theme_setting_description {
+			display: inline-block;
+			vertical-align: top;
+			width: 500px;
+			font-style: italic; 
+			margin-left: 80px;
+		}
+	}
+	.saving_theme_setting {
+		.black_loading_popup;
+		.rounded-corners-small;
+		position: fixed;
+		right: 48px;
+		bottom: 25px;
+	}
+	h2.group_list_name {
+		margin-left: (@label_width + 17);
+		font-size: 32px;
+		font-weight: bold;
+		margin-bottom: 32px;
+		border-bottom: 1px solid white;
+		line-height: 46px;
+		width: 791px;
+	}
+}
