@@ -1119,6 +1119,9 @@ div#sub-nav ul li.title a {
 #print_type_pricing_cont table input {
   width: 50px;
 }
+#print_type_pricing_cont table .price_width {
+  width: 80px;
+}
 .basic_settings .basic_setting_cont label {
   min-width: 180px;
 }

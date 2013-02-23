@@ -1,3 +1,5 @@
+<script type="text/javascript" src="/js/jquery_price_format/jquery.price_format.min.js"></script>
+
 <div class="basic_settings">
 	<div class="basic_setting_cont">
 		<label>&nbsp;</label>
@@ -17,7 +19,7 @@
 			</div>
 		</div>
 		<div class="basic_setting_cont">
-			<label><?php __('Turnaround Time'); ?></label>
+			<label><?php __('Default Turnaround Time'); ?></label>
 			<div class="theme_setting_inputs_container">
 				<input type="text" name="data[PhotoPrintType][turnaround_time]" />
 			</div>
@@ -46,9 +48,13 @@
 						}).each(function(){ 
 							setup_available_checkbox(this);
 						});
+						
+						$('#print_type_pricing_cont .money_format').priceFormat({
+							prefix: '',
+							thousandsSeparator: ''
+						});
 					});
 				</script>
-				
 				
 				<table class="list">
 					<thead>
@@ -65,7 +71,7 @@
 					</thead>
 					<tbody>
 						
-						<?php foreach ($photo_avail_sizes as $photo_avail_size): ?>
+						<?php $count = 0; foreach ($photo_avail_sizes as $photo_avail_size): ?>
 							<?php 
 								$has_non_pano = $this->Ecommerce->print_size_has_non_pano($photo_avail_size);
 								$has_pano = $this->Ecommerce->print_size_has_pano($photo_avail_size);
@@ -75,24 +81,25 @@
 									<td><?php echo $photo_avail_size['PhotoAvailSize']['short_side_length']; ?> x --</td>
 									<td style="width: 100px;">
 										Landscape | Portrait | Square
+										<input class="disablable" type="hidden" value="<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][photo_avail_size_id]" />
 									</td>
 									<td>
-										<input class="available_checkbox" type="checkbox" name="data[PhotoAvailSizesPhotoPrintType][non_pano_available]" /><br />
+										<input class="available_checkbox" type="checkbox" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][non_pano_available]" /><br />
+									</td>
+									<td class="price_width">
+										$<input class="disablable money_format" type="text" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][non_pano_price]" /><br />
+									</td>
+									<td class="price_width">
+										$<input class="disablable money_format" type="text" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][non_pano_shipping_price]" /><br />
 									</td>
 									<td>
-										<input class="disablable" type="text" name="data[PhotoAvailSizesPhotoPrintType][non_pano_price]" /><br />
+										<input class="disablable" type="input" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][non_pano_custom_turnaround]" /><br />
 									</td>
 									<td>
-										<input class="disablable" type="text" name="data[PhotoAvailSizesPhotoPrintType][non_pano_shipping_price]" /><br />
+										<input class="disablable" type="checkbox" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][non_pano_global_default]" /><br />
 									</td>
 									<td>
-										<input class="disablable" type="input" name="data[PhotoAvailSizesPhotoPrintType][non_pano_custom_turnaround]" /><br />
-									</td>
-									<td>
-										<input class="disablable" type="checkbox" name="data[PhotoAvailSizesPhotoPrintType][non_pano_global_default]" /><br />
-									</td>
-									<td>
-										<input class="disablable" type="checkbox" name="data[PhotoAvailSizesPhotoPrintType][non_pano_force_settings]" /><br />
+										<input class="disablable" type="checkbox" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][non_pano_force_settings]" /><br />
 									</td>
 								</tr>
 							<?php endif; ?>
@@ -103,26 +110,26 @@
 										Panoramic | Vertical Panoramic
 									</td>
 									<td>
-										<input class="available_checkbox" type="checkbox" name="data[PhotoAvailSizesPhotoPrintType][pano_available]" />
+										<input class="available_checkbox" type="checkbox" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][pano_available]" />
+									</td>
+									<td class="price_width">
+										$<input class="disablable money_format" type="text" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][pano_price]" />
+									</td>
+									<td class="price_width">
+										$<input class="disablable money_format" type="text" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][pano_shipping_price]" />
 									</td>
 									<td>
-										<input class="disablable" type="text" name="data[PhotoAvailSizesPhotoPrintType][pano_price]" />
+										<input class="disablable" type="input" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][pano_custom_turnaround]" />
 									</td>
 									<td>
-										<input class="disablable" type="text" name="data[PhotoAvailSizesPhotoPrintType][pano_shipping_price]" />
+										<input class="disablable" type="checkbox" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][pano_global_default]" />
 									</td>
 									<td>
-										<input class="disablable" type="input" name="data[PhotoAvailSizesPhotoPrintType][pano_custom_turnaround]" />
-									</td>
-									<td>
-										<input class="disablable" type="checkbox" name="data[PhotoAvailSizesPhotoPrintType][pano_global_default]" />
-									</td>
-									<td>
-										<input class="disablable" type="checkbox" name="data[PhotoAvailSizesPhotoPrintType][pano_force_settings]" />
+										<input class="disablable" type="checkbox" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][pano_force_settings]" />
 									</td>
 								</tr>
 							<?php endif; ?>
-						<?php endforeach; ?>
+						<?php $count++; endforeach; ?>
 					</tbody>
 				</table>
 			</div>
