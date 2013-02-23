@@ -34,11 +34,8 @@
 						var disablable = parent_tr.find('.disablable');
 
 						if (jQuery(checkbox).is(':checked')) {
-							console.log ("came into here 1");
-							console.log (disablable);
 							disablable.removeAttr('disabled');
 						} else {
-							console.log ("came into here 2");
 							disablable.attr('disabled', 'disabled');
 						}
 					}
