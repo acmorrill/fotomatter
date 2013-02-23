@@ -74,6 +74,25 @@
      echo $this->Form->input('alt_text');
      //echo $this->Form->input('shotDate');
      echo $this->Form->input('description');
+     echo $this->Form->input('date_taken', array(
+		'dateFormat' => 'DMY',
+		'minYear' => date('Y') - 100,
+		'maxYear' => date('Y'),
+	 ));
+	?>
+<!--	<div class="input text">
+			<label>Date Taken</label>
+			<script type="text/javascript">
+				jQuery(document).ready(function() {
+					jQuery('#date_taken').datepicker({
+						
+					});
+				});
+			</script>
+			<input id="date_taken" name="data[Photo][date_taken]" type="text" value="" />
+		</div>-->
+	<?php
+	 
      /*echo $this->Form->input('Photo.galleries', array(
           'type' => 'select',
           'multiple' => 'checkbox',
@@ -137,6 +156,14 @@
 	echo $this->Form->input('Photo.cdn-filename', array('type' => 'file'));
 	echo $this->Form->input('Photo.photo_format_id');
 ?>
+	<div class="input text">
+		<label><?php __('Photo Tags'); ?></label><br style="clear: both;"/>
+		<select name="data[Photo][tag_ids][]" multiple="multiple" class="chzn-select" data-placeholder="Find Tags ..." style="width: 300px;">
+			<?php foreach ($tags as $tag): ?>
+				<option value="<?php echo $tag['Tag']['id']; ?>" <?php if (in_array($tag['Tag']['id'], $photo_tag_ids)): ?>selected="selected"<?php endif; ?> ><?php echo $tag['Tag']['name']; ?></option>
+			<?php endforeach; ?>
+		</select>
+	</div>
 	
 <?php echo $this->Form->end('Save'); ?>
 <br/>

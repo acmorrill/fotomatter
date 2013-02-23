@@ -46,8 +46,14 @@ class ThemeShell extends Shell {
 	public function add_theme() {
 		if (!isset($this->args[0])) {
 			$this->hr();
-			$this->out('You must pass a name for the new theme');
+			$this->out('You must pass a name for the new theme followed optionally by the parent theme ref_name');
 			$this->hr();
+			$all_themes = $this->Theme->find('all', array(
+				'contain' => false
+			));
+			foreach ($all_themes as $curr_theme) {
+				$this->out($curr_theme['Theme']['id'].' --- '.$curr_theme['Theme']['ref_name']);
+			}
 			exit(1);
 		}
 		
@@ -61,6 +67,7 @@ class ThemeShell extends Shell {
 			exit(1);
 		}
 		
+		// add theme that has parent
 		if (!empty($parent_theme_name) && $this->Theme->theme_exists($parent_theme_name) && $this->Theme->theme_is_parent($parent_theme_name)) { // adding theme as subtheme of parent theme
 			$path_to_parent_theme = $this->Theme->get_path_to_theme($parent_theme_name);
 			
@@ -68,19 +75,52 @@ class ThemeShell extends Shell {
 				mkdir($path_to_parent_theme.DS.'subthemes', 0775);
 			}
 			
-			mkdir($path_to_parent_theme.DS.'subthemes'.DS.$new_theme_name.DS.'helpers', 0775, true);
-			mkdir($path_to_parent_theme.DS.'subthemes'.DS.$new_theme_name.DS.'views'.DS.'elements', 0775, true);
-			mkdir($path_to_parent_theme.DS.'subthemes'.DS.$new_theme_name.DS.'views'.DS.'layouts', 0775, true);
-			mkdir($path_to_parent_theme.DS.'subthemes'.DS.$new_theme_name.DS.'webroot', 0775, true);
+			$helpers_path = $path_to_parent_theme.DS.'subthemes'.DS.$new_theme_name.DS.'helpers';
+			mkdir($helpers_path, 0775, true);
+			$this->add_empty_file_to_folder($helpers_path);
+			
+			$elements_path = $path_to_parent_theme.DS.'subthemes'.DS.$new_theme_name.DS.'views'.DS.'elements';
+			mkdir($elements_path, 0775, true);
+			$this->add_empty_file_to_folder($elements_path);
+			
+			$layouts_path = $path_to_parent_theme.DS.'subthemes'.DS.$new_theme_name.DS.'views'.DS.'layouts';
+			mkdir($layouts_path, 0775, true);
+			$this->add_empty_file_to_folder($layouts_path);
+			
+			$lesscss_path = $path_to_parent_theme.DS.'subthemes'.DS.$new_theme_name.DS.'lesscss';
+			mkdir($lesscss_path, 0775, true);
+			$this->add_empty_file_to_folder($lesscss_path);
+			
+			$webroot_css_path = $path_to_parent_theme.DS.'subthemes'.DS.$new_theme_name.DS.'webroot'.DS.'css';
+			mkdir($webroot_css_path, 0775, true);
+			$this->add_empty_file_to_folder($webroot_css_path);
+			
 			$handle = fopen($path_to_parent_theme.DS.'subthemes'.DS.$new_theme_name.DS.'theme_config.php', 'x+');
 			fwrite($handle, "<?php\n\n\$theme_config = array();\n");
 			fclose($handle);
 			
+		// add top level theme
 		} else {
-			mkdir(PATH_TO_THEMES.DS.$new_theme_name.DS.'helpers', 0775, true);
-			mkdir(PATH_TO_THEMES.DS.$new_theme_name.DS.'views'.DS.'elements', 0775, true);
-			mkdir(PATH_TO_THEMES.DS.$new_theme_name.DS.'views'.DS.'layouts', 0775, true);
-			mkdir(PATH_TO_THEMES.DS.$new_theme_name.DS.'webroot', 0775, true);
+			$helper_path = PATH_TO_THEMES.DS.$new_theme_name.DS.'helpers';
+			mkdir($helper_path, 0775, true);
+			$this->add_empty_file_to_folder($helper_path);
+			
+			$elements_path = PATH_TO_THEMES.DS.$new_theme_name.DS.'views'.DS.'elements';
+			mkdir($elements_path, 0775, true);
+			$this->add_empty_file_to_folder($elements_path);
+			
+			$layouts_path = PATH_TO_THEMES.DS.$new_theme_name.DS.'views'.DS.'layouts';
+			mkdir($layouts_path, 0775, true);
+			$this->add_empty_file_to_folder($layouts_path);
+			
+			$lesscss_path = PATH_TO_THEMES.DS.$new_theme_name.DS.'lesscss';
+			mkdir($lesscss_path, 0775, true);
+			$this->add_empty_file_to_folder($lesscss_path);
+			
+			$webroot_css_path = PATH_TO_THEMES.DS.$new_theme_name.DS.'webroot'.DS.'css';
+			mkdir($webroot_css_path, 0775, true);
+			$this->add_empty_file_to_folder($webroot_css_path);
+			
 			$handle = fopen(PATH_TO_THEMES.DS.$new_theme_name.DS.'theme_config.php', 'x+');
 			fwrite($handle, "<?php\n\n\$theme_config = array();\n");
 			fclose($handle);
@@ -100,6 +140,10 @@ class ThemeShell extends Shell {
 			$this->hr();
 			exit(1);
 		}
+	}
+	
+	private function add_empty_file_to_folder($folder_path) {
+		touch($folder_path.DS.'empty');
 	}
 	
 	public function change_theme() {

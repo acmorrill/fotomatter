@@ -19,7 +19,7 @@ class AppController extends Controller {
      * @var $components array
      * @access public
      */
-    var $components = array('Auth', 'Session', 'RequestHandler', 'HashUtil', 'ThemeRenderer');
+    var $components = array('Auth', 'Session', 'RequestHandler', 'HashUtil', 'ThemeRenderer', 'LessCss');
 	
 	public $helpers = array(
 		'Session',
@@ -29,7 +29,8 @@ class AppController extends Controller {
 		'ThemeLogo',
 		'Theme',
 		'Photo',
-		'Gallery'
+		'Gallery',
+		'Ecommerce'
 	);
 	
     /**
@@ -40,6 +41,18 @@ class AppController extends Controller {
      * @access public
      */
     function beforeFilter() {
+		
+		
+		
+		// recompile less css if a get param is set
+		if (Configure::read('debug') == '2' || isset($this->params['url']['lesscss']) || $this->Session->check('recompile_css')) {
+			if (isset($this->params['url']['lesscss'])) {
+				$this->Session->write('recompile_css', true);
+			}
+			$this->LessCss->recompile_css();
+		}
+		
+		
 		if (isset($this->params['url']['ajax_autoredirect'])) {
 			$this->Session->write('Auth.redirect', $this->params['url']['ajax_autoredirect']);
 		}

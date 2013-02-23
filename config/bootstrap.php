@@ -40,6 +40,12 @@ a * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.o
  * ));
  *
  i*/
+// webroot abs path
+define("WEBROOT_ABS", ROOT.DS.APP_DIR.DS.'webroot');
+
+// less_css root path
+define("LESSCSS_ROOT", ROOT.DS.APP_DIR.DS.'lesscss');
+
 // themes paths 
 define("PATH_TO_THEMES", ROOT.DS.APP_DIR.DS.'themes');
 

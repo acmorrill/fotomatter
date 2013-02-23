@@ -120,9 +120,9 @@ class CloudFilesComponent extends RackspaceObj {
     
     public function put_object($object_name, $file_path, $mime_type, $container=false) {
 		if ($container === false) {
-                    $container = $this->_getContainerName();
-                    if ($container === false) return false;
-                }
+			$container = $this->_getContainerName();
+			if ($container === false) return false;
+		}
 	
 		$url = "/".$container."/".$object_name;
 		//the postdata option in this case in extra curl optons needed for the tranfer
