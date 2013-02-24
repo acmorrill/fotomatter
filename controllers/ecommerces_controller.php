@@ -101,6 +101,7 @@ class EcommercesController extends AppController {
 		$this->set(compact('photo_print_types'));
 	}
 	
+	
 	public function admin_add_print_type_and_pricing($photo_print_type_id = 0) {
 		if (!empty($this->data)) { 
 			$this->log($this->data, 'add_print_type_and_pricing');
