@@ -40,40 +40,41 @@ class UtilShell extends Shell {
 	function fix_all_permissions() {
 		$this->check_shell_running_as_root();
 		
-		$this->fix_mode_permissions();
+		$this->fix_mode_and_default_user_permissions();
 		$this->fix_local_user_permissions();
 		$this->fix_shared_user_permissions();
 	}
 	
-	function fix_mode_permissions() {
+	function fix_mode_and_default_user_permissions() {
 		// set all file and folder permissions
 		$root = ROOT;
 		exec("find $root -type d -exec chmod 775 {} \;", $output_1, $return_arr_1);
 		exec("find $root -type f -exec chmod 644 {} \;", $output_2, $return_arr_2);
+		
+		$default_user = Configure::read('file_folder_default_user');
+		
+		$this->set_owner("$default_user:$default_user", $root, true);
 	}
-	
 	
 	function fix_local_user_permissions() {
 		$this->check_shell_running_as_root();
 		
 		$permissions = array(
-			'app' => array(
-				'p' => 'test2',
-				'lesscss' => array(
-					'p' => 'test1'
-				),
-				'webroot' => array(
-					'r' => 'www-data',
-					'css' => array(
-						'admin.css' => 'acmorrill'
-					),
-				),
-			),
-			'themes' => 'test3',
+			'current_theme_webroot' => array('p' => ':www-data'),
+			'default_theme_webroot' => array('p' => ':www-data'),
+			'parent_theme_webroot' => array('p' => ':www-data'),
+			'themes' => array('p' => ':www-data'),
+			'image_tmp' => array('r' => ':www-data'),
+			'local_master_cache' => array('r' => ':www-data'),
+			'local_smaller_master_cache' => array('r' => ':www-data'),
+			'site_background' => array('r' => ':www-data'),
+			'site_logo' => array('r' => ':www-data'),
+			'tmp' => array('r' => ':www-data'),
+			'.' => array('p' => ':www-data'),
 		);
 		
 		
-		$this->fix_permissions('/home/amorrill/projects/fotomatter.dev', $permissions);
+		$this->recurse_set_user_permissions(ROOT, $permissions);
 	}
 	
 	
@@ -82,23 +83,33 @@ class UtilShell extends Shell {
 		
 		$permissions = array(
 			'app' => array(
-				'p' => 'test2',
-				'lesscss' => array(
-					'p' => 'test1'
+				'themes' => array( 
+					'adam' => array('webroot' => array('css' => array('r' => 'www-data:www-data'))),
+					'amazing' => array('webroot' => array('css' => array('r' => 'www-data:www-data'))),
+					'andrewmorrill' => array(
+						'subthemes' => array(
+							'difandrew' => array('webroot' => array('css' => array('r' => 'www-data:www-data'))),
+						),
+						'webroot' => array('css' => array('r' => 'www-data:www-data'))
+					),
+					'default' => array('webroot' => array('css' => array('r' => 'www-data:www-data'))),
+					'simple_lightgrey_textured' => array('webroot' => array('css' => array('r' => 'www-data:www-data'))),
+					'white_angular' => array('webroot' => array('css' => array('r' => 'www-data:www-data'))),
+					'white_slider' => array('webroot' => array('css' => array('r' => 'www-data:www-data'))),
 				),
 				'webroot' => array(
-					'r' => 'www-data',
-					'css' => array(
-						'admin.css' => 'acmorrill'
+					'css' => array( 'r' => 'www-data:www-data' ),
+					'img' => array(
+						'photo_default' => array(
+							'caches' => array( 'r' => ':www-data' ),
+						),
 					),
 				),
 			),
-			'themes' => 'test3',
 		);
 		
-		$this->set_owner('www-data:www-data', $root, true);
 		
-		$this->recurse_set_user_permissions('/home/amorrill/projects/fotomatter.dev', $permissions);
+		$this->recurse_set_user_permissions(ROOT, $permissions);
 	}
 	
 	private function recurse_set_user_permissions($path, $array) {
@@ -126,14 +137,20 @@ class UtilShell extends Shell {
 	
 	
 	private function set_owner($user, $path, $recurse = false) {
-		$params = '';
+		$params = '--silent --no-dereference';
 		if ($recurse == true) {
-			$params .= "-R";
+			$params .= " -R";
 		}
 		
-		exec("chown $params $user $path", $output, $return_arr);
-		
-		$this->out("setting permissions: chown $params $user $path");
+		if (file_exists($path)) {
+			exec("chown $params $user $path", $output, $return_arr);
+			$this->out("setting permissions: chown $params $user $path");
+		} else {
+//			$this->out('============================');
+//			$this->out('file did not exist');
+//			$this->out($path);
+//			$this->out('============================');
+		}
 	}
 	
 	
