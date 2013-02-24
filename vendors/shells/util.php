@@ -37,60 +37,71 @@ class UtilShell extends Shell {
 	}
 	
 	
-	
-	function fix_local_permissions() {
+	function fix_all_permissions() {
 		$this->check_shell_running_as_root();
 		
-		$permissions = array(
-			'app' => array(
-				'p' => 'test2',
-				'lesscss' => array(
-					'p' => 'test1'
-				),
-				'webroot' => array(
-					'r' => 'www-data',
-					'css' => array(
-						'admin.css' => 'acmorrill'
-					),
-				),
-			),
-			'themes' => 'test3',
-		);
-		
-		
-		$this->fix_permissions('/home/amorrill/projects/fotomatter.dev', $permissions);
+		$this->fix_mode_permissions();
+		$this->fix_local_user_permissions();
+		$this->fix_shared_user_permissions();
 	}
 	
-	function fix_shared_permissions() { 
-		$this->check_shell_running_as_root();
-		
-		$permissions = array(
-			'app' => array(
-				'p' => 'test2',
-				'lesscss' => array(
-					'p' => 'test1'
-				),
-				'webroot' => array(
-					'r' => 'www-data',
-					'css' => array(
-						'admin.css' => 'acmorrill'
-					),
-				),
-			),
-			'themes' => 'test3',
-		);
-		
+	function fix_mode_permissions() {
 		// set all file and folder permissions
 		$root = ROOT;
 		exec("find $root -type d -exec chmod 775 {} \;", $output_1, $return_arr_1);
 		exec("find $root -type f -exec chmod 644 {} \;", $output_2, $return_arr_2);
+	}
+	
+	
+	function fix_local_user_permissions() {
+		$this->check_shell_running_as_root();
 		
-		$this->set_owner('www-data:www-data', $root, true);
+		$permissions = array(
+			'app' => array(
+				'p' => 'test2',
+				'lesscss' => array(
+					'p' => 'test1'
+				),
+				'webroot' => array(
+					'r' => 'www-data',
+					'css' => array(
+						'admin.css' => 'acmorrill'
+					),
+				),
+			),
+			'themes' => 'test3',
+		);
+		
 		
 		$this->fix_permissions('/home/amorrill/projects/fotomatter.dev', $permissions);
 	}
 	
-	private function fix_permissions($path, $array) {
+	
+	function fix_shared_user_permissions() { 
+		$this->check_shell_running_as_root();
+		
+		$permissions = array(
+			'app' => array(
+				'p' => 'test2',
+				'lesscss' => array(
+					'p' => 'test1'
+				),
+				'webroot' => array(
+					'r' => 'www-data',
+					'css' => array(
+						'admin.css' => 'acmorrill'
+					),
+				),
+			),
+			'themes' => 'test3',
+		);
+		
+		$this->set_owner('www-data:www-data', $root, true);
+		
+		$this->recurse_set_user_permissions('/home/amorrill/projects/fotomatter.dev', $permissions);
+	}
+	
+	private function recurse_set_user_permissions($path, $array) {
 		if (is_string($array)) {
 			$this->set_owner($array, $path);
 			return;
@@ -109,7 +120,7 @@ class UtilShell extends Shell {
 			if ($index == 'r' || $index == 'p') {
 				continue;
 			}
-			$this->fix_permissions($path.'/'.$index, $value);
+			$this->recurse_set_user_permissions($path.'/'.$index, $value);
 		}
 	}
 	
@@ -120,7 +131,7 @@ class UtilShell extends Shell {
 			$params .= "-R";
 		}
 		
-//		exec("chown $params $user $path", $output, $return_arr);
+		exec("chown $params $user $path", $output, $return_arr);
 		
 		$this->out("setting permissions: chown $params $user $path");
 	}

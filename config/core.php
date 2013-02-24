@@ -34,7 +34,7 @@
  * In production mode, flash messages redirect after a time interval.
  * In development mode, you need to click the flash message to continue.
  */
-	Configure::write('debug', 2);
+	Configure::write('debug', 0);
 
 /**
  * CakePHP Log Level:
@@ -109,7 +109,7 @@
  * Defines the default error type when using the log() function. Used for
  * differentiating error logging and debugging. Currently PHP supports LOG_DEBUG.
  */
-	define('LOG_ERROR', 2);
+	define('LOG_ERROR', 0);
 
 /**
  * The preferred session handling method. Valid values:
@@ -314,3 +314,5 @@
 	if (((isset($_GET['xhprof']) && $debug == 2) || $debug == 4) && PHP_SAPI != 'cli') {
 		require_once('xhprof.php');
 	}
+
+require_once('core_ignored.php');
