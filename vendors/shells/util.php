@@ -39,24 +39,26 @@ class UtilShell extends Shell {
 	
 	
 	function fix_local_permissions() {
+		$this->check_shell_running_as_root();
+		
 		$permissions = array(
 			'app' => array(
-				'permissions_r' => 'user',
-				'permissions' => 'user_2',
-				'controller' => array(
-					
-				),
-				'models' => array(
-					
+				'p' => 'test2',
+				'lesscss' => array(
+					'p' => 'test1'
 				),
 				'webroot' => array(
+					'r' => 'www-data',
 					'css' => array(
-						'admin.css' => 'user_2'
-					)
+						'admin.css' => 'acmorrill'
+					),
 				),
 			),
-			'themes',
+			'themes' => 'test3',
 		);
+		
+		
+		$this->fix_permissions('/home/amorrill/projects/fotomatter.dev', $permissions);
 	}
 	
 	function fix_shared_permissions() { 
@@ -78,8 +80,12 @@ class UtilShell extends Shell {
 			'themes' => 'test3',
 		);
 		
+		// set all file and folder permissions
+		$root = ROOT;
+		exec("find $root -type d -exec chmod 775 {} \;", $output_1, $return_arr_1);
+		exec("find $root -type f -exec chmod 644 {} \;", $output_2, $return_arr_2);
 		
-		
+		$this->set_owner('www-data:www-data', $root, true);
 		
 		$this->fix_permissions('/home/amorrill/projects/fotomatter.dev', $permissions);
 	}
@@ -111,22 +117,18 @@ class UtilShell extends Shell {
 	private function set_owner($user, $path, $recurse = false) {
 		$params = '';
 		if ($recurse == true) {
-			$params .= "-r";
+			$params .= "-R";
 		}
 		
 //		exec("chown $params $user $path", $output, $return_arr);
 		
-//		$this->out("-$user-");
-//		$this->out("-$path-");
 		$this->out("setting permissions: chown $params $user $path");
 	}
 	
 	
 	private function check_shell_running_as_root() {
-		$this->out(get_current_user());
-		exec('whoami', $output, $result);
-		$this->out($output);
-		if (get_current_user() != 'root') {
+		exec('whoami', $current_user);
+		if ($current_user[0] != 'root') {
 			$this->out('RUN THIS SHELL FUNCTION AS ROOT ONLY!');
 			exit();
 		}
