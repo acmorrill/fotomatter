@@ -36,6 +36,102 @@ class UtilShell extends Shell {
 		}
 	}
 	
+	
+	
+	function fix_local_permissions() {
+		$permissions = array(
+			'app' => array(
+				'permissions_r' => 'user',
+				'permissions' => 'user_2',
+				'controller' => array(
+					
+				),
+				'models' => array(
+					
+				),
+				'webroot' => array(
+					'css' => array(
+						'admin.css' => 'user_2'
+					)
+				),
+			),
+			'themes',
+		);
+	}
+	
+	function fix_shared_permissions() { 
+		$this->check_shell_running_as_root();
+		
+		$permissions = array(
+			'app' => array(
+				'p' => 'test2',
+				'lesscss' => array(
+					'p' => 'test1'
+				),
+				'webroot' => array(
+					'r' => 'www-data',
+					'css' => array(
+						'admin.css' => 'acmorrill'
+					),
+				),
+			),
+			'themes' => 'test3',
+		);
+		
+		
+		
+		
+		$this->fix_permissions('/home/amorrill/projects/fotomatter.dev', $permissions);
+	}
+	
+	private function fix_permissions($path, $array) {
+		if (is_string($array)) {
+			$this->set_owner($array, $path);
+			return;
+		}
+		
+		if (isset($array['p'])) {
+			$this->set_owner($array['p'], $path);
+		}
+		
+		if (isset($array['r'])) {
+			$this->set_owner($array['r'], $path, true);
+		}
+		
+		
+		foreach ($array as $index => $value) {
+			if ($index == 'r' || $index == 'p') {
+				continue;
+			}
+			$this->fix_permissions($path.'/'.$index, $value);
+		}
+	}
+	
+	
+	private function set_owner($user, $path, $recurse = false) {
+		$params = '';
+		if ($recurse == true) {
+			$params .= "-r";
+		}
+		
+//		exec("chown $params $user $path", $output, $return_arr);
+		
+//		$this->out("-$user-");
+//		$this->out("-$path-");
+		$this->out("setting permissions: chown $params $user $path");
+	}
+	
+	
+	private function check_shell_running_as_root() {
+		$this->out(get_current_user());
+		exec('whoami', $output, $result);
+		$this->out($output);
+		if (get_current_user() != 'root') {
+			$this->out('RUN THIS SHELL FUNCTION AS ROOT ONLY!');
+			exit();
+		}
+	}
+	
 	function andrew_defaults() {
 		$this->SiteSetting->setVal('image-container-url', 'http://c9134086.r86.cf2.rackcdn.com/');
 		$this->SiteSetting->setVal('image-container-secure_url', 'https://c9134086.ssl.cf2.rackcdn.com/');

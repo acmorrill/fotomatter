@@ -31,7 +31,7 @@
 				</select>
 			</div>
 			<div class="theme_setting_description">
-				<?php __('The "short" side is the dimension of the shorter side of an image depending on the format. For example, the "short" side of a landscape is the side while the "short" side of a vertical panoramic is the bottom or top. The "long" side will be calculated based on the actual image depending on the format.'); ?>
+				<?php __('The "short" side is the dimension of the shorter side of an image depending on the format. For example, the "short" side of a landscape is the height while the "short" side of a vertical panoramic is the width. The "long" side will be calculated based on the actual image depending on the format.'); ?>
 			</div>
 		</div>
 		<div class="basic_setting_cont">
