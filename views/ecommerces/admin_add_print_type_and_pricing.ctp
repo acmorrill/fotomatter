@@ -9,6 +9,9 @@
 	</div>
 	<form action="" method="post">
 <!--		<h2 class="group_list_name">Add Dimension</h2>-->
+		<?php if (!empty($photo_print_type['PhotoPrintType']['id']) && $photo_print_type['PhotoPrintType']['id'] != '0'): ?>
+			<input type="hidden" name="data[PhotoPrintType][id]" value="<?php echo $photo_print_type['PhotoPrintType']['id']; ?>" />
+		<?php endif; ?>
 		<div class="basic_setting_cont">
 			<label><?php __('Print Type Name'); ?></label>
 			<div class="theme_setting_inputs_container">
@@ -81,6 +84,9 @@
 									<td><?php echo $photo_avail_size['PhotoAvailSize']['short_side_length']; ?> x --</td>
 									<td style="width: 100px;">
 										Landscape | Portrait | Square
+										<?php if (!empty($photo_avail_size['PhotoAvailSizesPhotoPrintType']['id'])): ?>
+											<input class="disableable" type="hidden" value="<?php echo $photo_avail_size['PhotoAvailSizesPhotoPrintType']['id']; ?>" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][id]" />
+										<?php endif; ?>
 										<input class="disablable" type="hidden" value="<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][photo_avail_size_id]" />
 									</td>
 									<td>
