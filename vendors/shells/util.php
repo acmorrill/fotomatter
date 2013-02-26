@@ -101,9 +101,12 @@ class UtilShell extends Shell {
 					'css' => array( 'r' => 'www-data:www-data' ),
 					'img' => array(
 						'photo_default' => array(
-							'caches' => array( 'r' => ':www-data' ),
+							'caches' => array( 'r' => 'www-data:www-data' ),
 						),
 					),
+				),
+				'tmp' => array(
+					'r' => 'www-data:www-data'
 				),
 			),
 		);
