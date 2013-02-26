@@ -48,8 +48,8 @@ class UtilShell extends Shell {
 	function fix_mode_and_default_user_permissions() {
 		// set all file and folder permissions
 		$root = ROOT;
-		exec("find $root -type d -exec chmod 775 {} \;", $output_1, $return_arr_1);
-		exec("find $root -type f -exec chmod 644 {} \;", $output_2, $return_arr_2);
+		exec("{$this->get_root_prefix()} find $root -type d -exec chmod 775 {} \;", $output_1, $return_arr_1);
+		exec("{$this->get_root_prefix()} find $root -type f -exec chmod 644 {} \;", $output_2, $return_arr_2);
 		
 		$default_user = Configure::read('file_folder_default_user');
 		
@@ -146,7 +146,7 @@ class UtilShell extends Shell {
 		}
 		
 		if (file_exists($path)) {
-			exec("chown $params $user $path", $output, $return_arr);
+			exec("{$this->get_root_prefix()} chown $params $user $path", $output, $return_arr);
 			$this->out("setting permissions: chown $params $user $path");
 		} else {
 //			$this->out('============================');
@@ -156,13 +156,35 @@ class UtilShell extends Shell {
 		}
 	}
 	
+	private function get_root_prefix() {
+	    if ($this->RUNNING_AS_ROOT == false){
+		return "sudo ";
+	    }
+	    return "";
+	}
+	
 	
 	private function check_shell_running_as_root() {
 		exec('whoami', $current_user);
 		if ($current_user[0] != 'root') {
-			$this->out('RUN THIS SHELL FUNCTION AS ROOT ONLY!');
-			exit();
-		}
+			//can we chown and chmod without password
+			exec('sudo -n chown --help', $output, $status);
+			if ($status != 0) {
+			    $this->out('RUN THIS SHELL FUNCTION AS ROOT ONLY! OR MAKE SURE USER CAN CHOWN AND CHMODdd');
+			    exit();
+			}
+			
+			exec('sudo -n chmod --help', $output, $status);
+			if ($status != 0) {
+			    $this->out('RUN THIS SHELL FUNCTION AS ROOT ONLY! OR MAKE SURE USER CAN CHOWN AND CHMOD');
+			    exit();
+			}
+			
+			$this->RUNNING_AS_ROOT = false;
+			return;
+		} 
+		$this->RUNNING_AS_ROOT = true;
+		return;
 	}
 	
 	function andrew_defaults() {
