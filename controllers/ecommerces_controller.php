@@ -102,6 +102,20 @@ class EcommercesController extends AppController {
 	}
 	
 	
+	public function admin_ajax_set_print_type_order($photo_print_type_id, $new_order) {
+		$returnArr = array();
+		
+		if ($this->PhotoPrintType->moveto($photo_print_type_id, $new_order)) {
+			$returnArr['code'] = 1;
+			$returnArr['message'] = 'photo print type order changed successfully';
+		} else {
+			$returnArr['code'] = -1;
+			$returnArr['message'] = $this->PhotoPrintType->major_error('failed to change photo print type order', compact('photo_print_type_id', 'new_order'));
+		}
+		
+		$this->return_json($returnArr);
+	}
+	
 	public function admin_delete_print_type($photo_print_type_id) {
 		if (!$this->PhotoPrintType->delete($photo_print_type_id)) {
 			$this->Session->setFlash('Failed to delete photo print type.');
