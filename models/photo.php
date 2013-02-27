@@ -482,5 +482,143 @@ class Photo extends AppModel {
 	}
 	
 	
+	public function photo_has_pano_format($photo) {
+		$format_ref_name = $photo['PhotoFormat']['ref_name'];
+		if ($format_ref_name === 'panoramic' || $format_ref_name === 'vertical_panoramic') {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public function get_sellable_print_sizes($photo) {
+		$join_format_requirment = 'non_pano';
+		if ($this->photo_has_pano_format($photo)) {
+			$join_format_requirment = 'pano';
+		}
+		$photo_sellable_print_query = "
+			SELECT * FROM photo_avail_sizes_photo_print_types AS PrintTypeJoin
+				LEFT JOIN photo_print_types AS PhotoPrintType
+					ON (PhotoPrintType.id = PrintTypeJoin.photo_print_type_id)
+				LEFT JOIN photo_avail_sizes AS PhotoAvailSize
+					ON (PhotoAvailSize.id = PrintTypeJoin.photo_avail_size_id)
+				LEFT JOIN photo_sellable_prints AS PhotoSellablePrint
+					ON (PhotoSellablePrint.photo_avail_sizes_photo_print_type_id = PrintTypeJoin.id AND PhotoSellablePrint.photo_id = :photo_id)
+			WHERE 
+				PrintTypeJoin.{$join_format_requirment}_available = 1
+			ORDER BY PhotoPrintType.order, PhotoAvailSize.short_side_length
+		";
+		$this->PhotoAvailSizesPhotoPrintType = ClassRegistry::init('PhotoAvailSizesPhotoPrintType');
+		$photo_sellable_prints = $this->PhotoAvailSizesPhotoPrintType->query($photo_sellable_print_query, array(
+			'photo_id' => $photo['Photo']['id']
+		));
+		
+		
+		// reformat some stuff
+		foreach ($photo_sellable_prints as &$photo_sellable_print) {
+			$photo_sellable_print['ExtraPrintData'] = $this->get_long_side_length($photo, $photo_sellable_print['PhotoAvailSize']['short_side_length']);
+			$photo_sellable_print['ExtraPrintData']['price'] = $photo_sellable_print['PrintTypeJoin']["{$join_format_requirment}_price"];
+			$photo_sellable_print['ExtraPrintData']['shipping_price'] = $photo_sellable_print['PrintTypeJoin']["{$join_format_requirment}_shipping_price"];
+			$photo_sellable_print['ExtraPrintData']['custom_turnaround'] = $photo_sellable_print['PrintTypeJoin']["{$join_format_requirment}_custom_turnaround"];
+		}
+		
+		
+		$this->log($photo_sellable_prints, 'photo_sellable_prints');
+
+		return $photo_sellable_prints;
+	}
+	
+	public function get_long_side_length($photo, $short_side_length) {
+		$width = $photo['Photo']['pixel_width'];
+		$height = $photo['Photo']['pixel_height'];
+		
+		$format_ref_name = $photo['PhotoFormat']['ref_name']; 
+		
+		if (in_array($format_ref_name, array('landscape', 'panoramic', 'square'))) {
+			$start_short_side = $height;
+			$start_long_side = $width;
+		} else {
+			$start_short_side = $width;
+			$start_long_side = $height;
+		}
+		
+		$short_side_inches = $short_side_length;
+		$long_side_inches = ( $short_side_length * $start_long_side ) / $start_short_side;
+		
+		$long_side_feet_inches = $this->decimalToFraction($long_side_inches);
+		
+		return compact( 'short_side_inches', 'long_side_inches', 'long_side_feet_inches' );
+		
+		// DREW TODO - also add a conversion from inches to meters and centimeters
+		
+//		$this->log('============================', 'get_long_side_length');
+//		$this->log($format_ref_name, 'get_long_side_length');
+//		$this->log($width, 'get_long_side_length');
+//		$this->log($height, 'get_long_side_length');
+//		$this->log($short_side_length, 'get_long_side_length');
+//		$this->log($calc_long_side, 'get_long_side_length');
+//		$this->log('============================', 'get_long_side_length');
+	}
+	
+	function decimalToFraction($decimalInch) {
+			if ($decimalInch < .03125) {
+				return "";
+			}
+		
+			// separate out decimal from whole number
+			$pWhole = explode('.',$decimalInch); 
+			$pWhole = $pWhole[0];
+			$pDecimal = $decimalInch-$pWhole; 
+		
+			// create list of numbers to round to
+			$fractionOption = array();
+			$fractionOption['0/16'] = 0;
+			$fractionOption['1/16'] = 0.0625;
+			$fractionOption['1/8'] = 0.125;
+			$fractionOption['3/16'] = 0.1875;
+			$fractionOption['1/4'] = 0.25;
+			$fractionOption['5/16'] = 0.3125;
+			$fractionOption['3/8'] = 0.375;
+			$fractionOption['7/16'] = 0.4375;
+			$fractionOption['1/2'] = 0.5;
+			$fractionOption['9/16'] = 0.5625;
+			$fractionOption['5/8'] = 0.625;
+			$fractionOption['11/16'] = 0.6875;
+			$fractionOption['3/4'] = 0.75;
+			$fractionOption['13/16'] = 0.8125;
+			$fractionOption['7/8'] = 0.875;
+			$fractionOption['15/16'] = 0.9375;
+			$fractionOption['16/16'] = 1;
+			
+			// find closest number to round to
+			foreach ($fractionOption as $k => $v) {
+				 $tmpV[$k] = abs($pDecimal - $v);
+			}
+			asort($tmpV,SORT_NUMERIC);
+			list($inch, $decimal) = each($tmpV);
+			
+			// clean up for edge values
+			$inch = ($inch == '0/16') ? '': $inch;
+			// round off to nearest whole number if 16/16
+			if ($inch == '16/16') {
+				$inch = '';
+				$pWhole++;
+			}
+			
+			// strip inch and return fraction formatted in css
+			$finalText = "";
+			if ($inch != '') { 
+				$tFrac = explode('/',$inch);
+				$fraction = "<span style=\"font-size: 75%; vertical-align: .5ex;\">$tFrac[0]</span>&#8260;<span style=\"font-size: 75%;\">$tFrac[1]</span>";
+				$finalText .= $pWhole.' '.$fraction."\" ";	
+			}
+			else {
+				$fraction = ''; 
+				$finalText .= $pWhole."\" ";	
+			}
+			
+			return $finalText;
+		}
+	
 
 }

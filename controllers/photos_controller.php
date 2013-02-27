@@ -1,7 +1,7 @@
 <?php
 class PhotosController extends AppController {
 	public $name = 'Photos';
-	public $uses = array(/*'OldPhoto', */'Photo', 'SiteSetting', 'PhotoFormat', 'SiteSetting', 'PhotoGalleriesPhoto', 'PhotoGallery', 'PhotosTag', 'Tag');
+	public $uses = array(/*'OldPhoto', */'Photo', 'SiteSetting', 'PhotoFormat', 'SiteSetting', 'PhotoGalleriesPhoto', 'PhotoGallery', 'PhotosTag', 'Tag', 'PhotoAvailSizesPhotoPrintType');
 	public $helpers = array('Menu', 'Photo', 'Gallery');
 	public $components = array('Upload', "ImageVersion", "Gd", "ImageWizards", "CloudFiles");
 	public $paginate = array(
@@ -152,6 +152,15 @@ class PhotosController extends AppController {
 					'PhotoFormat'
 				)
 			));
+
+			
+			/////////////////////////////////////////////////
+			// Get available print types and sizes 
+			// and any overridden values for the photo
+			$photo_sellable_prints = $this->Photo->get_sellable_print_sizes($this->data);
+			$this->set(compact('photo_sellable_prints'));
+			
+			
 			
 			//$this->log($this->data, 'photo_edit');
 			if ($id == null) { // adding (default data for when your adding)
