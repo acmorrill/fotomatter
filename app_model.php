@@ -128,6 +128,8 @@ class AppModel extends LazyModel {
 		$data['MajorError']['severity'] = $severity;
 		$majorError->create();
 		$majorError->save($data);
+		
+		return $description;
 	}
 	
 	

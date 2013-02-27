@@ -459,6 +459,7 @@ class PhotoGalleriesController extends AppController {
 		} else {
 			$returnArr['code'] = -1;
 			$returnArr['message'] = 'failed to change gallery order';
+			$this->PhotoGallery->major_error('failed to change gallery order', compact('photoGalleryId', 'newOrder'));
 		}
 		
 		$this->return_json($returnArr);

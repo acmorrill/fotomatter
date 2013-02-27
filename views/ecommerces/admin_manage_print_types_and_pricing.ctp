@@ -1,15 +1,35 @@
 <script type="text/javascript">
 	jQuery(document).ready(function() {
-//		jQuery('#reset_printsize_button').click(function(e) {
-//			e.preventDefault();
-//			
-//			jQuery.foto('confirm', {
-//				message: 'Are you sure you want to reset the available print sizes?',
-//				onConfirm: function() {
-//					jQuery('#reset_printsize_form').submit();
-//				}
-//			});
-//		});
+		jQuery('#print_types_list tbody').sortable({
+			items: 'tr.photo_print_type_item',
+			handle : '.reorder_print_type_grabber',
+			update : function(event, ui) {
+				var context = this;
+				jQuery(context).sortable('disable');
+				
+				// figure the the new position of the dragged element
+				var photo_print_type_id = jQuery(ui.item).attr('photo_print_type_id');
+				var newPosition = position_of_element_among_siblings(jQuery('.photo_print_type_item', this), jQuery(ui.item));
+				
+				jQuery.ajax({
+					type: 'post',
+					url: '/admin/ecommerces/ajax_set_print_type_order/'+photo_print_type_id+'/'+newPosition+'/',
+					data: {},
+					success: function(data) {
+						if (data.code != 1) {
+							// TODO - maybe revert the draggable back to its start position here
+						}
+					},
+					complete: function() {
+						jQuery(context).sortable('enable');
+					},
+					error: function() {
+						//console.log ("this is where an error would occure");
+					},
+					dataType: 'json'
+				});
+			}
+		}).disableSelection();
 	});
 </script>
 
@@ -31,7 +51,7 @@
 	<div class="table_header">
 		<label class="inline"><?php __('Available Print Sizes:'); ?></label> 
 	</div>
-	<table class="list">
+	<table id="print_types_list" class="list">
 		<thead>
 			<tr> 
 				<th class="first"></th> 
@@ -41,7 +61,7 @@
 		</thead>
 		<tbody>
 			<?php foreach($photo_print_types as $photo_print_type): ?> 
-				<tr photo_print_type_id="<?php echo $photo_print_type['PhotoPrintType']['id']; ?>">
+				<tr class="photo_print_type_item" photo_print_type_id="<?php echo $photo_print_type['PhotoPrintType']['id']; ?>">
 					<td class="print_type_id first"><div class="reorder_print_type_grabber reorder_grabber" /> </td> 
 					<td style="width: 300px;">
 						<?php echo $photo_print_type['PhotoPrintType']['print_name']; ?>
