@@ -958,6 +958,12 @@ div#sub-nav ul li.title a {
 .upload_complete .error_cont ul {
   margin: 5px 25px;
 }
+#image_edit_container .image_edit_block {
+  display: inline-block;
+  vertical-align: top;
+  width: 350px;
+  margin-right: 30px;
+}
 #configure_page_cont .avail_page_elements_cont {
   float: left;
   width: 200px;
