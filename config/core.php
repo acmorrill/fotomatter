@@ -303,7 +303,7 @@
  *
  */
 	
-        Cache::config('default', array(
+	Cache::config('default', array(
  		'engine' => 'Apc', //[required]
  		'duration'=> 3600, //[optional]
  		'probability'=> 100, //[optional]
