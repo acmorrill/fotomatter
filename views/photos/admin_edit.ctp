@@ -176,11 +176,27 @@
 		<br/>
 
 	</div>
-	<div class="image_edit_block" style="width: 550px;">
+	
+	<script type="text/javascript">
+		jQuery(document).ready(function() {
+			jQuery('#image_sellable_prints .lock_img').click(function() {
+				jQuery(this).parent().find('.unlock_img').css('display', 'inline-block');
+				jQuery(this).css('display', 'none');
+				jQuery(this).closest('tr').find('.disablable').removeClass('opacity_50');
+			});
+			jQuery('#image_sellable_prints .unlock_img').click(function() {
+				jQuery(this).parent().find('.lock_img').css('display', 'inline-block');
+				jQuery(this).css('display', 'none');
+				jQuery(this).closest('tr').find('.disablable').addClass('opacity_50');
+			});
+		});
+	</script>
+	<div id="image_sellable_prints" class="image_edit_block" style="width: 550px;">
 		<h1>Choose Available Sizes</h1>
 		<table class="list">
 			<thead>
 				<tr>
+					<th>Override Global Default</th>
 					<th>Photo Uses Size</th>
 					<th>Print Type and Size</th>
 					<th>Price</th>
@@ -192,14 +208,34 @@
 				<?php foreach ($photo_sellable_prints as $photo_sellable_print): ?>
 					<tr>
 						<td>
-							<input type="checkbox" />
+							<img class="lock_img" src="/img/admin/icons/lock_white.png" />
+							<img class="unlock_img" src="/img/admin/icons/unlock_white.png" />
+						</td>
+						<td>
+							<div class="disablable opacity_50">
+								<input type="checkbox" />
+							</div>
 						</td>
 						<td style="width: 200px;">
-							<?php echo $photo_sellable_print['PhotoPrintType']['print_name']; ?> &mdash; <?php echo $photo_sellable_print['ExtraPrintData']['short_side_inches']; ?>" x <?php echo $photo_sellable_print['ExtraPrintData']['long_side_feet_inches']; ?>
+							<div class="disablable opacity_50">
+								<?php echo $photo_sellable_print['PhotoPrintType']['print_name']; ?> &mdash; <?php echo $photo_sellable_print['ExtraPrintData']['short_side_inches']; ?>" x <?php echo $photo_sellable_print['ExtraPrintData']['long_side_feet_inches']; ?>
+							</div>
 						</td>
-						<td>$<?php echo $photo_sellable_print['ExtraPrintData']['price']; ?></td> <?php // DREW TODO - change to an input do better money formatting ?>
-						<td>$<?php echo $photo_sellable_print['ExtraPrintData']['shipping_price']; ?></td> <?php // DREW TODO - change to an input do better money formatting ?>
-						<td><?php echo $photo_sellable_print['ExtraPrintData']['custom_turnaround']; ?></td>
+						<td>
+							<div class="disablable opacity_50">
+								$<?php echo $photo_sellable_print['ExtraPrintData']['price']; ?>
+							</div>
+						</td> <?php // DREW TODO - change to an input do better money formatting ?>
+						<td>
+							<div class="disablable opacity_50">
+								$<?php echo $photo_sellable_print['ExtraPrintData']['shipping_price']; ?>
+							</div>
+						</td> <?php // DREW TODO - change to an input do better money formatting ?>
+						<td>
+							<div class="disablable opacity_50">
+								<?php echo $photo_sellable_print['ExtraPrintData']['custom_turnaround']; ?>
+							</div>
+						</td>
 					</tr>
 				<?php endforeach; ?>
 			</tbody>

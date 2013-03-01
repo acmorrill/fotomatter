@@ -209,6 +209,34 @@
 		margin-right: 30px;
 	}
 }
+
+#image_sellable_prints {
+	.list {
+		tbody {
+			.lock_img, .unlock_img {
+				cursor: pointer;
+				display: inline-block;
+				vertical-align: top;
+			}
+			.lock_img {
+				display: inline-block;
+			}
+			.unlock_img {
+				display: none;
+			}
+		}
+	}
+}
+
+.opacity_50 {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+  filter: alpha(opacity=50);
+  -moz-opacity: 0.5;
+  -khtml-opacity: 0.5;
+  opacity: 0.5;
+}
+
+
 /* END PHOTO EDIT PAGE */
 
 /***** END PHOTO SECTION****/
