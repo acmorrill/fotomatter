@@ -192,14 +192,14 @@
 				<?php foreach ($photo_sellable_prints as $photo_sellable_print): ?>
 					<tr>
 						<td>
-							<input type="checkbox" />
+							<input type="checkbox" <?php if ($photo_sellable_print['CurrentPrintData']['available'] === '1'): ?>checked="checked"<?php endif; ?> default="<?php echo $photo_sellable_print['DefaultPrintData']['default_available']; ?>" custom="<?php echo $photo_sellable_print['PhotoSellablePrint']['override_for_photo']; ?>" />
 						</td>
 						<td style="width: 200px;">
-							<?php echo $photo_sellable_print['PhotoPrintType']['print_name']; ?> &mdash; <?php echo $photo_sellable_print['ExtraPrintData']['short_side_inches']; ?>" x <?php echo $photo_sellable_print['ExtraPrintData']['long_side_feet_inches']; ?>
+							<?php echo $photo_sellable_print['PhotoPrintType']['print_name']; ?> &mdash; <?php echo $photo_sellable_print['DefaultPrintData']['short_side_inches']; ?>" x <?php echo $photo_sellable_print['DefaultPrintData']['long_side_feet_inches']; ?>
 						</td>
-						<td>$<?php echo $photo_sellable_print['ExtraPrintData']['price']; ?></td> <?php // DREW TODO - change to an input do better money formatting ?>
-						<td>$<?php echo $photo_sellable_print['ExtraPrintData']['shipping_price']; ?></td> <?php // DREW TODO - change to an input do better money formatting ?>
-						<td><?php echo $photo_sellable_print['ExtraPrintData']['custom_turnaround']; ?></td>
+						<td default="<?php echo $photo_sellable_print['DefaultPrintData']['price']; ?>" custom="<?php echo $photo_sellable_print['PhotoSellablePrint']['price']; ?>">$<?php echo $photo_sellable_print['CurrentPrintData']['price']; ?></td> <?php // DREW TODO - change to an input do better money formatting ?>
+						<td default="<?php echo $photo_sellable_print['DefaultPrintData']['shipping_price']; ?>" custom="<?php echo $photo_sellable_print['PhotoSellablePrint']['shipping_price']; ?>">$<?php echo $photo_sellable_print['DefaultPrintData']['shipping_price']; ?></td> <?php // DREW TODO - change to an input do better money formatting ?>
+						<td default="<?php echo $photo_sellable_print['DefaultPrintData']['custom_turnaround']; ?>" custom="<?php echo $photo_sellable_print['PhotoSellablePrint']['custom_turnaround']; ?>"><?php echo $photo_sellable_print['CurrentPrintData']['custom_turnaround']; ?></td>
 					</tr>
 				<?php endforeach; ?>
 			</tbody>
