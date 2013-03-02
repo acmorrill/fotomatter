@@ -49,7 +49,7 @@ class UtilShell extends Shell {
 		// set all file and folder permissions
 		$root = ROOT;
 		exec("{$this->get_root_prefix()} find $root -type d -exec chmod 775 {} \;", $output_1, $return_arr_1);
-		exec("{$this->get_root_prefix()} find $root -type f -exec chmod 644 {} \;", $output_2, $return_arr_2);
+		exec("{$this->get_root_prefix()} find $root -type f -exec chmod 664 {} \;", $output_2, $return_arr_2);
 		
 		$default_user = Configure::read('file_folder_default_user');
 		
