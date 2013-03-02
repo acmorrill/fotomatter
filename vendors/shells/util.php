@@ -84,29 +84,29 @@ class UtilShell extends Shell {
 		$permissions = array(
 			'app' => array(
 				'themes' => array( 
-					'adam' => array('webroot' => array('css' => array('r' => 'www-data:www-data'))),
-					'amazing' => array('webroot' => array('css' => array('r' => 'www-data:www-data'))),
+					'adam' => array('webroot' => array('css' => array('r' => ':www-data'))),
+					'amazing' => array('webroot' => array('css' => array('r' => ':www-data'))),
 					'andrewmorrill' => array(
 						'subthemes' => array(
-							'difandrew' => array('webroot' => array('css' => array('r' => 'www-data:www-data'))),
+							'difandrew' => array('webroot' => array('css' => array('r' => ':www-data'))),
 						),
-						'webroot' => array('css' => array('r' => 'www-data:www-data'))
+						'webroot' => array('css' => array('r' => ':www-data'))
 					),
-					'default' => array('webroot' => array('css' => array('r' => 'www-data:www-data'))),
-					'simple_lightgrey_textured' => array('webroot' => array('css' => array('r' => 'www-data:www-data'))),
-					'white_angular' => array('webroot' => array('css' => array('r' => 'www-data:www-data'))),
-					'white_slider' => array('webroot' => array('css' => array('r' => 'www-data:www-data'))),
+					'default' => array('webroot' => array('css' => array('r' => ':www-data'))),
+					'simple_lightgrey_textured' => array('webroot' => array('css' => array('r' => ':www-data'))),
+					'white_angular' => array('webroot' => array('css' => array('r' => ':www-data'))),
+					'white_slider' => array('webroot' => array('css' => array('r' => ':www-data'))),
 				),
 				'webroot' => array(
-					'css' => array( 'r' => 'www-data:www-data' ),
+					'css' => array( 'r' => ':www-data' ),
 					'img' => array(
 						'photo_default' => array(
-							'caches' => array( 'r' => 'www-data:www-data' ),
+							'caches' => array( 'r' => ':www-data' ),
 						),
 					),
 				),
 				'tmp' => array(
-					'r' => 'www-data:www-data'
+					'r' => ':www-data'
 				),
 			),
 		);
