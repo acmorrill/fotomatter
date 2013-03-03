@@ -4,7 +4,7 @@ class AppController extends Controller {
 
  	function redirect($url) {
 //		debug($_SERVER); debug($url); die();
-		$this->log($_SERVER, 'url_redirect');
+//		$this->log($_SERVER, 'url_redirect');
 		parent::redirect($url);
 		exit();
 		
@@ -53,6 +53,7 @@ class AppController extends Controller {
 		}
 		
 		
+		// locking hash code
 		if (isset($this->params['url']['ajax_autoredirect'])) {
 			$this->Session->write('Auth.redirect', $this->params['url']['ajax_autoredirect']);
 		}
@@ -73,9 +74,16 @@ class AppController extends Controller {
         //Pass auth component data over to view files
         $this->set('Auth',$this->Auth->user());
 		
-		if (isset($this->params['form']['global_current_js_locking_hash']) && isset($this->params['form']['global_current_js_locking_hash_namespace']) && $this->RequestHandler->isAjax()) {
+		
+		// locking hash code
+		if (isset($this->params['form']['global_current_js_locking_hash']) && isset($this->params['form']['global_current_js_locking_hash_namespace'])) {
 			if ($this->HashUtil->check_this_hash($this->params['form']['global_current_js_locking_hash'], $this->params['form']['global_current_js_locking_hash_namespace']) === false) {
-				header('HTTP/1.0 412 Precondition Failed');
+				$this->major_error('had to relead a page because of a locking hash', null, 'low');
+				if ($this->RequestHandler->isAjax()) {
+					header('HTTP/1.0 412 Precondition Failed');
+				} else {
+					$this->redirect($_SERVER['HTTP_REFERER']);
+				}
 				exit();
 			}
 		}
