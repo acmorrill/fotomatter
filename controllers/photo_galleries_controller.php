@@ -101,7 +101,7 @@ class PhotoGalleriesController extends AppController {
 		}
 		
 		// add in photo format using best performance
-		$this->Photo->add_photo_format(&$photos);
+		$this->Photo->add_photo_format($photos);
 		
 		
 		$this->set(compact('curr_gallery', 'photos', 'gallery_id', 'smart_settings'));

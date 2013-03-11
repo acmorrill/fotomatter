@@ -46,7 +46,7 @@
 				}
 			}
 
-			$this->Photo->add_photo_format(&$photos);
+			$this->Photo->add_photo_format($photos);
 
 			
 			$this->WhiteAngular->process_photos_for_angular_slide($photos);
