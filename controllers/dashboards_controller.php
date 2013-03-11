@@ -11,6 +11,6 @@ class DashboardsController extends AppController {
      }
 
      public function admin_index() {
-		 $this->HashUtil->set_new_hash('hash_five');
+		 $this->HashUtil->set_new_hash('hash_five'); // DREW TODO - remove this
      }
 }

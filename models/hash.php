@@ -1,6 +1,8 @@
 <?php
 class Hash extends AppModel {
 	
+	
+	
 	public function generate_and_return_hash($name_space) {
 		//delete any hashes that are currently there
 		if ($this->DeleteAll(array(

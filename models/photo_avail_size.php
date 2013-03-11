@@ -86,7 +86,7 @@ class PhotoAvailSize extends AppModel {
 	public function afterDelete() {
 		$this->PhotoAvailSizesPhotoPrintType->deleteAll(array(
 			'PhotoAvailSizesPhotoPrintType.photo_avail_size_id' => $this->id
-		));
+		), true, true);
 	}
 	
 	

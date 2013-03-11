@@ -29,7 +29,7 @@
 					'url' => "/admin/ecommerces/manage_print_sizes/"
 				);
 				$subnav['pages'][] = array(
-					'name' => __('Manage Print Types and Prices', true),
+					'name' => __('Manage Print Types and Default Pricing', true),
 					'url' => "/admin/ecommerces/manage_print_types_and_pricing"
 				);
 
