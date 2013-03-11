@@ -15,6 +15,6 @@ class PhotoPrintType extends AppModel {
 	public function afterDelete() {
 		$this->PhotoAvailSizesPhotoPrintType->deleteAll(array(
 			'PhotoAvailSizesPhotoPrintType.photo_print_type_id' => $this->id
-		));
+		), true, true);
 	}
 }

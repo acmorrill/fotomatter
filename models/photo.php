@@ -522,6 +522,7 @@ class Photo extends AppModel {
 			$photo_sellable_print['DefaultPrintData']['price'] = $photo_sellable_print['PrintTypeJoin']["{$join_format_requirment}_price"];
 			$photo_sellable_print['DefaultPrintData']['shipping_price'] = $photo_sellable_print['PrintTypeJoin']["{$join_format_requirment}_shipping_price"];
 			$photo_sellable_print['DefaultPrintData']['custom_turnaround'] = $photo_sellable_print['PrintTypeJoin']["{$join_format_requirment}_custom_turnaround"];
+			$photo_sellable_print['DefaultPrintData']['force_defaults'] = $photo_sellable_print['PrintTypeJoin']["{$join_format_requirment}_force_settings"];
 		}
 		
 		
@@ -529,23 +530,22 @@ class Photo extends AppModel {
 		// set the current values
 		foreach ($photo_sellable_prints as &$photo_sellable_print) {
 			$photo_sellable_print['CurrentPrintData'] = $this->get_long_side_length($photo, $photo_sellable_print['PhotoAvailSize']['short_side_length']);
-			if (!empty($photo_sellable_print['PhotoSellablePrint']['override_for_photo'])) {
-				$photo_sellable_print['CurrentPrintData']['available'] = $photo_sellable_print['PhotoSellablePrint']['available'];
-				$photo_sellable_print['CurrentPrintData']['price'] = $photo_sellable_print['PhotoSellablePrint']['price'];
-				$photo_sellable_print['CurrentPrintData']['shipping_price'] = $photo_sellable_print['PhotoSellablePrint']['shipping_price'];
-				$photo_sellable_print['CurrentPrintData']['custom_turnaround'] = $photo_sellable_print['PhotoSellablePrint']['custom_turnaround'];
+			if (!empty($photo_sellable_print['PhotoSellablePrint']['override_for_photo']) && $photo_sellable_print['DefaultPrintData']['force_defaults'] !== '1') {
+				$photo_sellable_print['CurrentPrintData']['available'] = isset($photo_sellable_print['PhotoSellablePrint']['available']) ? $photo_sellable_print['PhotoSellablePrint']['available'] : $photo_sellable_print['DefaultPrintData']['default_available'];
+				$photo_sellable_print['CurrentPrintData']['price'] = isset($photo_sellable_print['PhotoSellablePrint']['price']) ? $photo_sellable_print['PhotoSellablePrint']['price'] : $photo_sellable_print['DefaultPrintData']['price'];
+				$photo_sellable_print['CurrentPrintData']['shipping_price'] = isset($photo_sellable_print['PhotoSellablePrint']['shipping_price']) ? $photo_sellable_print['PhotoSellablePrint']['shipping_price'] : $photo_sellable_print['DefaultPrintData']['shipping_price'];
+				$photo_sellable_print['CurrentPrintData']['custom_turnaround'] = isset($photo_sellable_print['PhotoSellablePrint']['custom_turnaround']) ? $photo_sellable_print['PhotoSellablePrint']['custom_turnaround'] : $photo_sellable_print['DefaultPrintData']['custom_turnaround'];
+				$photo_sellable_print['CurrentPrintData']['override_for_photo'] = '1';
 			} else {
 				$photo_sellable_print['CurrentPrintData']['available'] = $photo_sellable_print['DefaultPrintData']['default_available'];
 				$photo_sellable_print['CurrentPrintData']['price'] = $photo_sellable_print['DefaultPrintData']['price'];
 				$photo_sellable_print['CurrentPrintData']['shipping_price'] = $photo_sellable_print['DefaultPrintData']['shipping_price'];
 				$photo_sellable_print['CurrentPrintData']['custom_turnaround'] = $photo_sellable_print['DefaultPrintData']['custom_turnaround'];
+				$photo_sellable_print['CurrentPrintData']['override_for_photo'] = '0';
 			}
 		}
 		
 		
-		
-		$this->log($photo_sellable_prints, 'photo_sellable_prints');
-
 		return $photo_sellable_prints;
 	}
 	

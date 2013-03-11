@@ -1,7 +1,7 @@
 <?php
 class PhotosController extends AppController {
 	public $name = 'Photos';
-	public $uses = array(/*'OldPhoto', */'Photo', 'SiteSetting', 'PhotoFormat', 'SiteSetting', 'PhotoGalleriesPhoto', 'PhotoGallery', 'PhotosTag', 'Tag', 'PhotoAvailSizesPhotoPrintType');
+	public $uses = array(/*'OldPhoto', */'Photo', 'SiteSetting', 'PhotoFormat', 'SiteSetting', 'PhotoGalleriesPhoto', 'PhotoGallery', 'PhotosTag', 'Tag', 'PhotoAvailSizesPhotoPrintType', 'PhotoSellablePrint');
 	public $helpers = array('Menu', 'Photo', 'Gallery');
 	public $components = array('Upload', "ImageVersion", "Gd", "ImageWizards", "CloudFiles");
 	public $paginate = array(
@@ -133,6 +133,8 @@ class PhotosController extends AppController {
 	}
 	
 	public function admin_edit($id) {
+		$this->HashUtil->set_new_hash('ecommerce');
+		
 		if ($id != null) { // edit or save mode?
 		   $this->set('mode', 'edit');
 		} else {
@@ -153,13 +155,6 @@ class PhotosController extends AppController {
 				)
 			));
 
-			
-			/////////////////////////////////////////////////
-			// Get available print types and sizes 
-			// and any overridden values for the photo
-			$photo_sellable_prints = $this->Photo->get_sellable_print_sizes($this->data);
-			$this->set(compact('photo_sellable_prints'));
-			
 			
 			
 			//$this->log($this->data, 'photo_edit');
@@ -199,6 +194,37 @@ class PhotosController extends AppController {
 			}
 			
 			
+			///////////////////////////////////////////////////////
+			// save the sellable print data
+			foreach ($this->data['PhotoSellablePrint'] as $curr_photo_sellable_data) {
+				if ($curr_photo_sellable_data['override_for_photo'] === '1') {
+					if (isset($curr_photo_sellable_data['available'])) {
+						$curr_photo_sellable_data['available'] = '1';
+					} else {
+						$curr_photo_sellable_data['available'] = '0';
+					}
+					
+					// if the value is the same as the default then don't save it so it will use a changed default
+					foreach ($curr_photo_sellable_data['defaults'] as $default_name => $default_value) {
+						if ($curr_photo_sellable_data[$default_name] == $default_value) {
+							unset($curr_photo_sellable_data[$default_name]);
+						}
+					}
+					
+					$this->PhotoSellablePrint->create();
+					if (!$this->PhotoSellablePrint->save(array('PhotoSellablePrint' => $curr_photo_sellable_data))) {
+						$this->PhotoSellablePrint->major_error('failed to save photo sellable print on photo save', compact('curr_photo_sellable_data'));
+					}
+				} else {
+					$this->PhotoSellablePrint->deleteAll(array(
+						'PhotoSellablePrint.photo_avail_sizes_photo_print_type_id' => $curr_photo_sellable_data['photo_avail_sizes_photo_print_type_id'],
+						'PhotoSellablePrint.photo_id' => $this->data['Photo']['id'],
+					));
+				}
+			}
+			
+			
+			$this->Photo->create();
 			if ($this->Photo->save($this->data)) {
 				//$this->Photo->replicatePriceCal($this->Photo->id); // this is to calculate the price in the old way for the old website (so when you add you don't have to run priceCal.php)
 				$this->Session->setFlash('Photo saved');
@@ -221,6 +247,15 @@ class PhotosController extends AppController {
 				$this->Session->setFlash('Error saving photo');
 			}
 		}
+		
+		
+		
+		/////////////////////////////////////////////////
+		// Get available print types and sizes 
+		// and any overridden values for the photo
+		$photo_sellable_prints = $this->Photo->get_sellable_print_sizes($this->data);
+		$this->set(compact('photo_sellable_prints'));
+		
 		
 		$tags = $this->Tag->find('all', array(
 			'order' => array(

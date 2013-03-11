@@ -40,17 +40,17 @@
 				global_current_js_locking_hash_namespace: '<?php echo $current_locking_hash_namespace; ?>'
 			}
 		});
+		var hash_input = jQuery("<input name='global_current_js_locking_hash' type='hidden' value='<?php echo $current_locking_hash; ?>' />");
+		var hash_namespace = jQuery("<input name='global_current_js_locking_hash_namespace' type='hidden' value='<?php echo $current_locking_hash_namespace; ?>' />");
+		jQuery('form').each(function() {
+			jQuery(this).append(hash_input);
+			jQuery(this).append(hash_namespace);
+		});
 		<?php endif; ?>
 	
 	
 		// setup chosen based on class
 		jQuery('.chzn-select').chosen();
-	
-	
-		// DREW TODO - no idea why this is in here twice
-//		$.ajaxSetup({
-//				
-//		});
 	});
         
 var window_loaded = false;
