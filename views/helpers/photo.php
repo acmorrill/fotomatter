@@ -4,6 +4,12 @@
 class PhotoHelper extends AppHelper {
 	public $helpers = array('Html');
 	
+	public function get_enabled_photo_sellable_prints($photo_id) {
+		$this->Photo = ClassRegistry::init('Photo');
+		
+		return $this->Photo->get_enabled_photo_sellable_prints($photo_id);
+	}
+	
 	public function get_dummy_error_image_path($height, $width) {
 		$this->PhotoCache = ClassRegistry::init('PhotoCache');
 		

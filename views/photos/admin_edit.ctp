@@ -255,7 +255,6 @@
 			});
 		});
 	</script>
-	<?php // DREW TODO - START HERE TOMORROW -- make the opacity on this page better - also, put the opacity on manage print types page ?>
 	<div id="image_sellable_prints" class="image_edit_block" style="width: 575px;">
 		<h1><?php __('Choose Available Sizes'); ?></h1>
 		<table class="list">
@@ -286,13 +285,13 @@
 							
 							<input name="data[PhotoSellablePrint][<?php echo $count; ?>][photo_avail_sizes_photo_print_type_id]" type="hidden" value="<?php echo $photo_sellable_print['PrintTypeJoin']['id']; ?>" />
 							<input name="data[PhotoSellablePrint][<?php echo $count; ?>][photo_id]" type="hidden" value="<?php echo $this->data['Photo']['id']; ?>" />
-							<?php if ($photo_sellable_print['PhotoSellablePrint']['id']): ?>
+							<?php if (isset($photo_sellable_print['PhotoSellablePrint']['id'])): ?>
 								<input name="data[PhotoSellablePrint][<?php echo $count; ?>][id]" type="hidden" value="<?php echo $photo_sellable_print['PhotoSellablePrint']['id']; ?>" />
 							<?php endif; ?>
 						</td>
 						<td default="<?php echo $photo_sellable_print['DefaultPrintData']['default_available']; ?>" current="<?php echo $photo_sellable_print['CurrentPrintData']['available']; ?>">
 							<div class="disablable <?php if ($override_for_photo === '0'): ?>opacity_50<?php endif; ?>">
-								<input type="checkbox"  name="data[PhotoSellablePrint][<?php echo $count; ?>][available]" <?php if ($photo_sellable_print['CurrentPrintData']['available'] === '1'): ?>checked="checked"<?php endif; ?> default="<?php echo $photo_sellable_print['DefaultPrintData']['default_available']; ?>" custom="<?php echo $photo_sellable_print['PhotoSellablePrint']['override_for_photo']; ?>" />
+								<input type="checkbox"  name="data[PhotoSellablePrint][<?php echo $count; ?>][available]" <?php if ($photo_sellable_print['CurrentPrintData']['available'] === '1'): ?>checked="checked"<?php endif; ?> default="<?php echo $photo_sellable_print['DefaultPrintData']['default_available']; ?>" custom="<?php echo isset($photo_sellable_print['PhotoSellablePrint']['override_for_photo']) ? $photo_sellable_print['PhotoSellablePrint']['override_for_photo'] : 0 ; ?>" />
 								<input type="hidden"  name="data[PhotoSellablePrint][<?php echo $count; ?>][defaults][available]" value="<?php echo $photo_sellable_print['DefaultPrintData']['default_available']; ?>"  />
 							</div>
 						</td>
