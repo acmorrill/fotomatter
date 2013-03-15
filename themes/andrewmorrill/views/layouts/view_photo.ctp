@@ -15,6 +15,9 @@
 		
 	</head>
 	<body>
+		<?php //$this->log($photo_sellable_prints, 'photo_sellable_prints'); ?>
+		
+		
 		<?php echo $this->Element('nameTitle'); ?>
 		
 		<div id="largePhotoPos" style="width: 892px">
@@ -47,7 +50,11 @@
 			</p>
 
 			<p style="width: 520px"><?php print("{$curr_photo['Photo']['description']}"); ?></p>
-			<img src="/images/misc/horiz_gradientline.png"><br/><br/>
+			
+			
+			<?php echo $this->Element('cart_checkout/image_add_to_cart_form_simple'); ?>
+			
+			<img src="/images/misc/horiz_gradientline.png" /><br/><br/>
 		</div>
 	</body>
 </html>

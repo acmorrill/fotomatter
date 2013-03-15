@@ -34,6 +34,8 @@ class PhotosController extends AppController {
 				'PhotoFormat'
 			)
 		));
+		$photo_id = $curr_photo['Photo']['id'];
+		
 		
 		// what gallery are we currently in
 		$gallery_id = isset($this->params['named']['gid']) ? $this->params['named']['gid'] : '' ;
@@ -47,7 +49,8 @@ class PhotosController extends AppController {
 		));
 		
 		
-		$this->set(compact('curr_photo', 'curr_gallery'));
+		
+		$this->set(compact('curr_photo', 'curr_gallery', 'photo_sellable_prints', 'photo_id'));
 		$this->renderEmpty();
 	}
 
@@ -205,11 +208,13 @@ class PhotosController extends AppController {
 					}
 					
 					// if the value is the same as the default then don't save it so it will use a changed default
-					foreach ($curr_photo_sellable_data['defaults'] as $default_name => $default_value) {
-						if ($curr_photo_sellable_data[$default_name] == $default_value) {
-							unset($curr_photo_sellable_data[$default_name]);
-						}
-					}
+					// DREW TODO - this has a bug that makes it so that it won't save even if the photo already has a value
+					// turning off this functionality for now
+//					foreach ($curr_photo_sellable_data['defaults'] as $default_name => $default_value) {
+//						if ($curr_photo_sellable_data[$default_name] == $default_value) {
+//							unset($curr_photo_sellable_data[$default_name]);
+//						}
+//					}
 					
 					$this->PhotoSellablePrint->create();
 					if (!$this->PhotoSellablePrint->save(array('PhotoSellablePrint' => $curr_photo_sellable_data))) {

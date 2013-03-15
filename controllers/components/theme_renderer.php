@@ -91,6 +91,10 @@ class ThemeRendererComponent extends Object {
 			$this->merged_theme_config = $this->_merge_arrays($default_theme_config, $current_theme_config);
 		}
 
+		
+		// DREW TODO - add apc caching for the theme config here
+		
+		
 		return $this->merged_theme_config;
 	}
 	
