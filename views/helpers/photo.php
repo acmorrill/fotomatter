@@ -4,11 +4,20 @@
 class PhotoHelper extends AppHelper {
 	public $helpers = array('Html');
 	
-	public function get_enabled_photo_sellable_prints($photo_id) {
+	
+	/**
+	 *	If can't find the function try to call on photo model
+	 * 
+	 * @param type $method_name
+	 * @param type $args
+	 * @return type 
+	 */
+	function __call($method_name, $args) {
 		$this->Photo = ClassRegistry::init('Photo');
 		
-		return $this->Photo->get_enabled_photo_sellable_prints($photo_id);
-	}
+		return call_user_func_array(array($this->Photo, $method_name), $args);
+    }
+	
 	
 	public function get_dummy_error_image_path($height, $width) {
 		$this->PhotoCache = ClassRegistry::init('PhotoCache');
@@ -16,18 +25,7 @@ class PhotoHelper extends AppHelper {
 		return $this->PhotoCache->get_dummy_error_image_path($height, $width);
 	}
 	
-	public function add_photo_format(&$photos) {
-		$this->Photo = ClassRegistry::init('Photo');
 		
-		return $this->Photo->add_photo_format($photos);
-	}
-	
-	public function get_photo_path($photo_id, $height, $width, $unsharp_amount = null, $return_tag_attributes = false) {
-		$this->Photo = ClassRegistry::init('Photo');
-		
-		return $this->Photo->get_photo_path($photo_id, $height, $width, $unsharp_amount, $return_tag_attributes);
-	}
-	
 	public function get_prev_image_web_path($photo_id, $gallery_id) {
 		return $this->_get_image_neighbor_web_path($photo_id, $gallery_id, -1);
 	}

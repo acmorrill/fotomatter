@@ -207,14 +207,14 @@ class PhotosController extends AppController {
 						$curr_photo_sellable_data['available'] = '0';
 					}
 					
-					// if the value is the same as the default then don't save it so it will use a changed default
-					// DREW TODO - this has a bug that makes it so that it won't save even if the photo already has a value
-					// turning off this functionality for now
-//					foreach ($curr_photo_sellable_data['defaults'] as $default_name => $default_value) {
-//						if ($curr_photo_sellable_data[$default_name] == $default_value) {
-//							unset($curr_photo_sellable_data[$default_name]);
-//						}
-//					}
+					//////////////////////////////////////////////////////////////////////////////////////////////////////////
+					// if the value is the same as the default then save as null it so it will use a changed default
+					// this currently doesn't effect 'availability' right now (as its not passed in the default array)
+					foreach ($curr_photo_sellable_data['defaults'] as $default_name => $default_value) {
+						if ($curr_photo_sellable_data[$default_name] == $default_value) {
+							$curr_photo_sellable_data[$default_name] = null;
+						}
+					}
 					
 					$this->PhotoSellablePrint->create();
 					if (!$this->PhotoSellablePrint->save(array('PhotoSellablePrint' => $curr_photo_sellable_data))) {
