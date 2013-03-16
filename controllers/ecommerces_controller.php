@@ -1,7 +1,7 @@
 <?php
 class EcommercesController extends AppController {
 	public $name = 'Ecommerces';
-	public $uses = array('PhotoAvailSize', 'PhotoFormat', 'PhotoPrintType', 'PhotoAvailSizesPhotoPrintType');
+	public $uses = array('PhotoAvailSize', 'PhotoFormat', 'PhotoPrintType', 'PhotoAvailSizesPhotoPrintType', 'Cart');
 	public $layout = 'admin/ecommerces';
 
 
@@ -260,5 +260,18 @@ class EcommercesController extends AppController {
 		
 		
 		$this->set(compact('photo_avail_sizes', 'photo_print_type'));
+	}
+	
+	public function add_to_cart() {
+		$this->log($this->referer, 'referer');
+		
+		if (!isset($this->data['PhotoAvailSizesPhotoPrintType']['id'])) {
+			$this->major_error("photo_avail_sizes_photo_print_type_id not set in add to cart");
+			return false;
+		}
+		
+		$photo_avail_sizes_photo_print_type_id = $this->data['PhotoAvailSizesPhotoPrintType']['id'];
+		
+		
 	}
 }
