@@ -171,7 +171,7 @@
  * Session time out time (in seconds).
  * Actual value depends on 'Security.level' setting.
  */
-	Configure::write('Session.timeout', '120');
+	Configure::write('Session.timeout', '3600'); // 10 hours on security level high
 
 /**
  * If set to false, sessions are not automatically started.
@@ -197,7 +197,7 @@
  * CakePHP session IDs are also regenerated between requests if
  * 'Security.level' is set to 'high'.
  */
-	Configure::write('Security.level', 'low');
+	Configure::write('Security.level', 'high');
 
 /**
  * A random string used in security hashing methods.

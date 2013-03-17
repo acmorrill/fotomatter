@@ -5,16 +5,36 @@
 $theme_config = array(
 	'theme_controller_action_layouts' => array(
 		'SitePages' => array(
-			'landing_page' => 'landing',
-			'custom_page' => 'custom_page'
+			'landing_page' => array(
+				'layout' => 'landing',
+			),
+			'custom_page' => array(
+				'layout' => 'custom_page',
+				'view' => 'custom_page',
+			),
 		),
 		'PhotoGalleries' => array(
-			'choose_gallery' => 'gallery_landing',
-			'view_gallery' => 'gallery'
+			'choose_gallery' => array(
+				'layout' => 'gallery_landing',
+				'view' => false,
+			),
+			'view_gallery' => array(
+				'layout' => 'gallery',
+				'view' => false,
+			),
 		),
 		'Photos' => array(
-			'view_photo' => 'view_photo'
-		)
+			'view_photo' => array(
+				'layout' => 'view_photo',
+				'view' => false,
+			),
+		),
+		'Ecommerces' => array(
+			'view_cart' => array(
+				'layout' => 'custom_page',
+				'view' => 'view_cart',
+			),
+		),
 	),
 	'admin_config' => array(
 		'main_menu' => array(

@@ -53,9 +53,25 @@ class ThemeRendererComponent extends Object {
 				exit();
 			}
 			
-			$this->controller->layout = $theme_config['theme_controller_action_layouts'][$this->controller->name][$this->controller->action];
+			$layout_view_data = $theme_config['theme_controller_action_layouts'][$this->controller->name][$this->controller->action];
+			if (is_string($layout_view_data)) {
+				$this->controller->layout = $layout_view_data;
+			} else if (is_array($layout_view_data)) {
+				$this->controller->layout = $layout_view_data['layout'];
+				if (!empty($layout_view_data['view'])) {
+					$this->controller->theme_view = $layout_view_data['view'];
+				}
+			}
 			
 			$this->controller->theme_config = $theme_config;
+		}
+	}
+	
+	public function render(&$controller) {
+		if (isset($controller->theme_view)) {
+			$controller->render($controller->theme_view);
+		} else {
+			$controller->render('/elements/empty_theme_page');
 		}
 	}
 	
@@ -71,7 +87,7 @@ class ThemeRendererComponent extends Object {
 	public function _process_theme_config() {
 		if (!isset($this->merged_theme_config)) {
 			$default_theme_config = array();
-			require_once(DEFAULT_THEME_PATH.DS.'theme_config.php');
+			require(DEFAULT_THEME_PATH.DS.'theme_config.php');
 			if (isset($theme_config)) {
 				$default_theme_config = $theme_config;
 				unset($theme_config);
@@ -80,7 +96,7 @@ class ThemeRendererComponent extends Object {
 			$curr_theme_config_file_path = CURRENT_THEME_PATH.DS.'theme_config.php';
 			$current_theme_config = array();
 			if (file_exists($curr_theme_config_file_path)) {
-				require_once($curr_theme_config_file_path);
+				require($curr_theme_config_file_path);
 				if (isset($theme_config)) {
 					$current_theme_config = $theme_config;
 					unset($theme_config);

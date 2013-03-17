@@ -7,7 +7,7 @@
 	<script src="/js/scrollto/jquery.scrollTo.min.js"></script>
 	<script src="/js/jquery.endless-scroll_horizontal.js"></script>
 	
-	<link rel="stylesheet" type="text/css" href="/css/style.css" />
+	<link rel="stylesheet" type="text/css" href="/css/white_slider_style.css" />
 	<link href='http://fonts.googleapis.com/css?family=PT+Sans:400italic,400' rel='stylesheet' type='text/css' />
 	
 </head>

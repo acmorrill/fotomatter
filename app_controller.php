@@ -2,14 +2,6 @@
 class AppController extends Controller {
 	public $view = 'fotomatter';
 
- 	function redirect($url) {
-//		debug($_SERVER); debug($url); die();
-//		$this->log($_SERVER, 'url_redirect');
-		parent::redirect($url);
-		exit();
-		
-
-	}
 	
     /**
      * components
@@ -19,7 +11,14 @@ class AppController extends Controller {
      * @var $components array
      * @access public
      */
-    var $components = array('Auth', 'Session', 'RequestHandler', 'HashUtil', 'ThemeRenderer', 'LessCss');
+    var $components = array(
+		'Auth', 
+		'Session', 
+		'RequestHandler', 
+		'HashUtil', 
+		'ThemeRenderer', 
+		'LessCss',
+	);
 	
 	public $helpers = array(
 		'Session',
@@ -33,6 +32,8 @@ class AppController extends Controller {
 		'Ecommerce'
 	);
 	
+	
+	
     /**
      * beforeFilter
      *
@@ -41,10 +42,7 @@ class AppController extends Controller {
      * @access public
      */
     function beforeFilter() {
-		
-		
-		
-		// recompile less css if a get param is set
+		// recompile less css if a get param is set or debug is set to 2
 		if (Configure::read('debug') == '2' || isset($this->params['url']['lesscss']) || $this->Session->check('recompile_css')) {
 			if (isset($this->params['url']['lesscss'])) {
 				$this->Session->write('recompile_css', true);
@@ -113,8 +111,15 @@ class AppController extends Controller {
         $this->set(compact('permittedControllers'));
     }
 	
-	public function renderEmpty() {
-		$this->render('/elements/empty_theme_page');
+	// deprecated - use ThemeRenderer->render()
+//	public function renderEmpty() {
+//		$this->render('/elements/empty_theme_page');
+//	}
+	
+	
+ 	function redirect($url) {
+		parent::redirect($url);
+		exit();
 	}
 	
 	

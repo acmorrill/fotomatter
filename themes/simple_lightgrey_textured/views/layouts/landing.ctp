@@ -10,7 +10,7 @@
 	<link rel='stylesheet' type='text/css' href='/css/quickmenu_styles.css'/>
 <!--	<script type='text/javascript' src='/js/quickmenu2.js'></script>   DREW TODO  - delete this script from the repo -->
 	<title>Photographs by Joe Smo</title>
-	<link href="/css/index1.css" rel="stylesheet" type="text/css" />
+	<link href="/css/simple_lightgrey_textured_style.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
