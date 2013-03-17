@@ -13,12 +13,7 @@
 		<a name="bio"></a>
 		<div class="standardContent">
 			<div class="contentBackgroundInside">
-				<?php 
-					echo $this->Element('render_page_elements', array(
-						'site_page_id' => $site_page_id 
-					)); 
-				?>
-				
+				<?php echo $content_for_layout; ?>
 				<?php echo $this->Element('footer'); ?>
 			</div>
 		</div>

@@ -51,7 +51,7 @@ class PhotosController extends AppController {
 		
 		
 		$this->set(compact('curr_photo', 'curr_gallery', 'photo_sellable_prints', 'photo_id'));
-		$this->renderEmpty();
+		$this->ThemeRenderer->render($this);
 	}
 
 	public function admin_index() {

@@ -61,8 +61,6 @@ if(!isset($HTTP_COOKIE_VARS["usersAvailScreenWidth"]) || !isset($HTTP_COOKIE_VAR
 ?>
 	</head>
 	<body>		
-            <h1>Hey richard - you suck!</h1>
-            
 		<?php echo $this->Element('nameTitle'); ?>
 		<?php echo $this->Element('newsLetter'); ?>
 		<div class="galleryContent">

@@ -509,8 +509,10 @@ class Photo extends AppModel {
 				$new_combined_data = array();
 				$new_combined_data = $sellable_data['CurrentPrintData'];
 				$new_combined_data['print_type'] = $sellable_data['PhotoPrintType']['print_name'];
+				$new_combined_data['print_type_id'] = $sellable_data['PhotoPrintType']['id'];
 				$new_combined_data['photo_avail_sizes_photo_print_type_id'] = $sellable_data['PrintTypeJoin']['id'];
-				$combined_data[$sellable_data['PhotoPrintType']['print_name']][] = $new_combined_data;
+				$combined_data[$sellable_data['PhotoPrintType']['print_name']]['print_type_id'] = $sellable_data['PhotoPrintType']['id'];
+				$combined_data[$sellable_data['PhotoPrintType']['print_name']]['items'][] = $new_combined_data;
 				
 				$count++;
 			}

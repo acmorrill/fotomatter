@@ -4,18 +4,40 @@
 
 $theme_config = array(
 	'theme_include_helpers' => array(),
+	// theme_controller_action_layouts - ControllerName->action->{layout|array(layout, view)} // two formats are valid here
 	'theme_controller_action_layouts' => array(
 		'SitePages' => array(
-			'landing_page' => 'landing',
-			'custom_page' => 'custom_page'
+			'landing_page' => array(
+				'layout' => 'landing',
+				'view' => false,
+			),
+			'custom_page' => array(
+				'layout' => 'custom_page',
+				'view' => false,
+			),
 		),
 		'PhotoGalleries' => array(
-			'choose_gallery' => 'gallery_landing',
-			'view_gallery' => 'gallery'
+			'choose_gallery' => array(
+				'layout' => 'gallery_landing',
+				'view' => false,
+			),
+			'view_gallery' => array(
+				'layout' => 'gallery',
+				'view' => false,
+			)
 		),
 		'Photos' => array(
-			'view_photo' => 'view_photo'
-		)
+			'view_photo' => array(
+				'layout' => 'view_photo',
+				'view' => false,
+			),
+		),
+		'Ecommerces' => array(
+			'view_cart' => array(
+				'laytout' => 'custom_page',
+				'view' => false,
+			),
+		),
 	),
 	'admin_config' => array(
 		'main_menu' => array(

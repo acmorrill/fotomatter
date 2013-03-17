@@ -19,7 +19,7 @@ class SitePagesController extends AppController {
 	}
 	
 	public function landing_page() {
-		$this->renderEmpty();
+		$this->ThemeRenderer->render($this);
 	}
 	public function custom_page($site_page_id) {
 		$site_page = $this->SitePage->find('first', array(
@@ -36,7 +36,7 @@ class SitePagesController extends AppController {
 
 		$this->set(compact('site_page_id'));
 		
-		$this->renderEmpty();
+		$this->ThemeRenderer->render($this);
 	}
 
 	

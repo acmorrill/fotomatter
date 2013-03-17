@@ -78,6 +78,15 @@ class AppModel extends LazyModel {
 		}
 	}
 	
+	public function get_session() {
+		if (!isset($this->Session)) {
+			App::import('Component', 'SessionComponent'); 
+			$this->Session = new SessionComponent(); 
+		}
+		
+		return $this->Session;
+	}
+	
 	
 	public function get_insult() {
 		$insults = array();
