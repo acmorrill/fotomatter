@@ -4,7 +4,7 @@
 		<title>About Andrew Morrill -- Celestial Light Photography</title>
 		<meta name="keywords" content="Andrew Morrill, photography, fine art, utah photography, utah photographer, National Park, Utah, California, Large Format">
 		<meta name="description" content="Large format landscape photography by Utah based photographer Andrew Morrill.">
-		<link rel="stylesheet" type="text/css" href="/css/stylesheet.css" />
+		<link rel="stylesheet" type="text/css" href="/css/andrewmorrill_style.css" />
 		<?php echo $this->Element('theme_global_includes'); ?>
 	</head>
 	<body>
@@ -13,12 +13,7 @@
 		<a name="bio"></a>
 		<div class="standardContent">
 			<div class="contentBackgroundInside">
-				<?php 
-					echo $this->Element('render_page_elements', array(
-						'site_page_id' => $site_page_id 
-					)); 
-				?>
-				
+				<?php echo $content_for_layout; ?>
 				<?php echo $this->Element('footer'); ?>
 			</div>
 		</div>

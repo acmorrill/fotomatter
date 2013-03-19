@@ -34,6 +34,8 @@ class PhotosController extends AppController {
 				'PhotoFormat'
 			)
 		));
+		$photo_id = $curr_photo['Photo']['id'];
+		
 		
 		// what gallery are we currently in
 		$gallery_id = isset($this->params['named']['gid']) ? $this->params['named']['gid'] : '' ;
@@ -47,8 +49,9 @@ class PhotosController extends AppController {
 		));
 		
 		
-		$this->set(compact('curr_photo', 'curr_gallery'));
-		$this->renderEmpty();
+		
+		$this->set(compact('curr_photo', 'curr_gallery', 'photo_sellable_prints', 'photo_id'));
+		$this->ThemeRenderer->render($this);
 	}
 
 	public function admin_index() {
@@ -204,10 +207,12 @@ class PhotosController extends AppController {
 						$curr_photo_sellable_data['available'] = '0';
 					}
 					
-					// if the value is the same as the default then don't save it so it will use a changed default
+					//////////////////////////////////////////////////////////////////////////////////////////////////////////
+					// if the value is the same as the default then save as null it so it will use a changed default
+					// this currently doesn't effect 'availability' right now (as its not passed in the default array)
 					foreach ($curr_photo_sellable_data['defaults'] as $default_name => $default_value) {
 						if ($curr_photo_sellable_data[$default_name] == $default_value) {
-							unset($curr_photo_sellable_data[$default_name]);
+							$curr_photo_sellable_data[$default_name] = null;
 						}
 					}
 					

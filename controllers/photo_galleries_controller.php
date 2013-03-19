@@ -45,7 +45,7 @@ class PhotoGalleriesController extends AppController {
 	}
 	
 	public function choose_gallery() {
-		$this->renderEmpty();
+		$this->ThemeRenderer->render($this);
 	}
 	
 	public function view_gallery($gallery_id = null) {
@@ -106,7 +106,7 @@ class PhotoGalleriesController extends AppController {
 		
 		$this->set(compact('curr_gallery', 'photos', 'gallery_id', 'smart_settings'));
 		
-		$this->renderEmpty();
+		$this->ThemeRenderer->render($this);
 	}
 
 	public function admin_index() {

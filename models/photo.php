@@ -483,7 +483,7 @@ class Photo extends AppModel {
 	
 	
 	public function photo_has_pano_format($photo) {
-		$format_ref_name = $photo['PhotoFormat']['ref_name'];
+		$format_ref_name = isset($photo['PhotoFormat']['ref_name']) ? $photo['PhotoFormat']['ref_name'] : $photo['Photo']['PhotoFormat']['ref_name'];
 		if ($format_ref_name === 'panoramic' || $format_ref_name === 'vertical_panoramic') {
 			return true;
 		}
@@ -491,6 +491,58 @@ class Photo extends AppModel {
 		return false;
 	}
 	
+	
+	/**
+	 * This is the final sellable prints based on defaults and all values overridden by the current photo
+	 * 
+	 * 
+	 * @param type $photo_id
+	 */
+	public function get_enabled_photo_sellable_prints($photo_id) {
+		$sellable_datas = $this->get_sellable_print_sizes_by_id($photo_id);
+		
+		
+		$combined_data = array();
+		$count = 0;
+		foreach ($sellable_datas as $sellable_data) {
+			if (isset($sellable_data['CurrentPrintData']['available']) && $sellable_data['CurrentPrintData']['available'] == '1') {
+				$new_combined_data = array();
+				$new_combined_data = $sellable_data['CurrentPrintData'];
+				$new_combined_data['print_type'] = $sellable_data['PhotoPrintType']['print_name'];
+				$new_combined_data['print_type_id'] = $sellable_data['PhotoPrintType']['id'];
+				$new_combined_data['photo_avail_sizes_photo_print_type_id'] = $sellable_data['PrintTypeJoin']['id'];
+				$combined_data[$sellable_data['PhotoPrintType']['print_name']]['print_type_id'] = $sellable_data['PhotoPrintType']['id'];
+				$combined_data[$sellable_data['PhotoPrintType']['print_name']]['items'][] = $new_combined_data;
+				
+				$count++;
+			}
+		}
+		
+		
+//		return $sellable_datas;
+		return $combined_data;
+	}
+	
+	public function get_sellable_print_sizes_by_id($photo_id) {
+		$photo = $this->find('first', array(
+			'conditions' => array(
+				'Photo.id' => $photo_id
+			),
+			'contain' => false
+		));
+		
+		
+		$this->add_photo_format($photo);
+		
+		return $this->get_sellable_print_sizes($photo);
+	}
+	
+	/**
+	 * This the size based on the default data - and also the overriddable data
+	 * 
+	 * @param type $photo
+	 * @return type
+	 */
 	public function get_sellable_print_sizes($photo) {
 		$join_format_requirment = 'non_pano';
 		if ($this->photo_has_pano_format($photo)) {
@@ -534,7 +586,7 @@ class Photo extends AppModel {
 				$photo_sellable_print['CurrentPrintData']['available'] = isset($photo_sellable_print['PhotoSellablePrint']['available']) ? $photo_sellable_print['PhotoSellablePrint']['available'] : $photo_sellable_print['DefaultPrintData']['default_available'];
 				$photo_sellable_print['CurrentPrintData']['price'] = isset($photo_sellable_print['PhotoSellablePrint']['price']) ? $photo_sellable_print['PhotoSellablePrint']['price'] : $photo_sellable_print['DefaultPrintData']['price'];
 				$photo_sellable_print['CurrentPrintData']['shipping_price'] = isset($photo_sellable_print['PhotoSellablePrint']['shipping_price']) ? $photo_sellable_print['PhotoSellablePrint']['shipping_price'] : $photo_sellable_print['DefaultPrintData']['shipping_price'];
-				$photo_sellable_print['CurrentPrintData']['custom_turnaround'] = isset($photo_sellable_print['PhotoSellablePrint']['custom_turnaround']) ? $photo_sellable_print['PhotoSellablePrint']['custom_turnaround'] : $photo_sellable_print['DefaultPrintData']['custom_turnaround'];
+				$photo_sellable_print['CurrentPrintData']['custom_turnaround'] = (isset($photo_sellable_print['PhotoSellablePrint']['custom_turnaround']) && $photo_sellable_print['PhotoSellablePrint']['custom_turnaround'] != '') ? $photo_sellable_print['PhotoSellablePrint']['custom_turnaround'] : $photo_sellable_print['DefaultPrintData']['custom_turnaround'];
 				$photo_sellable_print['CurrentPrintData']['override_for_photo'] = '1';
 			} else {
 				$photo_sellable_print['CurrentPrintData']['available'] = $photo_sellable_print['DefaultPrintData']['default_available'];
@@ -542,6 +594,10 @@ class Photo extends AppModel {
 				$photo_sellable_print['CurrentPrintData']['shipping_price'] = $photo_sellable_print['DefaultPrintData']['shipping_price'];
 				$photo_sellable_print['CurrentPrintData']['custom_turnaround'] = $photo_sellable_print['DefaultPrintData']['custom_turnaround'];
 				$photo_sellable_print['CurrentPrintData']['override_for_photo'] = '0';
+			}
+			
+			if (empty($photo_sellable_print['CurrentPrintData']['custom_turnaround'])) {
+				$photo_sellable_print['CurrentPrintData']['custom_turnaround'] = $photo_sellable_print['PhotoPrintType']['turnaround_time'];
 			}
 		}
 		
@@ -553,7 +609,7 @@ class Photo extends AppModel {
 		$width = $photo['Photo']['pixel_width'];
 		$height = $photo['Photo']['pixel_height'];
 		
-		$format_ref_name = $photo['PhotoFormat']['ref_name']; 
+		$format_ref_name = isset($photo['PhotoFormat']['ref_name']) ? $photo['PhotoFormat']['ref_name'] : $photo['Photo']['PhotoFormat']['ref_name'] ; 
 		
 		if (in_array($format_ref_name, array('landscape', 'panoramic', 'square'))) {
 			$start_short_side = $height;

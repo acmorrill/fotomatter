@@ -12,7 +12,7 @@
 		<meta name="keywords" content="Andrew Morrill, photography, fine art, utah photography, utah photographer, National Park, Utah, California">
 		<meta name="description" content="Large format landscape photography by Utah based photographer Andrew Morrill.">
 		<?php echo $this->Element('theme_global_includes'); ?>
-		<link rel="stylesheet" type="text/css" href="/css/stylesheet.css" />
+		<link rel="stylesheet" type="text/css" href="/css/andrewmorrill_style.css" />
 		<link rel="stylesheet" type="text/css" href="/stylesheets/introBackground.css" />
 		<script src="/javascript/preloadImages.js"></script>
 		<script src="/javascript/slideShow.js"></script>

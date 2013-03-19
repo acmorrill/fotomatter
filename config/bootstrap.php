@@ -140,3 +140,87 @@ if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'd
  */
 
 
+function record_major_error($location, $line_number, $description, $log_data) {
+	require_once(CONFIGS.'database.php');
+	$dbconfig = new DATABASE_CONFIG();
+
+	
+	$local_db = mysql_connect($dbconfig->default['host'], $dbconfig->default['login'], $dbconfig->default['password'], true);
+	if (mysql_error($local_db)) {
+		echo ("Cannot connect to local db. Check config, and try again.");
+		return;
+	}
+
+	mysql_select_db($dbconfig->default['database'], $local_db);
+	if (mysql_error($local_db)) {
+		echo ("Cannot select local db. Check config, and try again.");
+		return;
+	}
+	
+	$location = mysql_real_escape_string($location);
+	$line_number = mysql_real_escape_string($line_number);
+	$description = mysql_real_escape_string($description);
+	$log_data_str = mysql_real_escape_string(print_r($log_data, true));
+	$sql = "INSERT INTO  `fotomatter`.`major_errors` (`id` ,`location` ,`line_num` ,`description` ,`extra_data` ,`type` ,`created` ,`modified`)
+		VALUES (NULL ,  '$location',  '$line_number',  '$description',  '$log_data_str',  'high', NOW() , NOW() );
+	";
+	mysql_query($sql, $local_db);
+}
+
+/**
+ * Record major error for fatal errors
+ * 
+ * @return type 
+ */
+function myFatalErrorHandler() {
+	$error = error_get_last();
+	
+	if (isset($error['type']) && $error['type'] === 2048 || $error['type'] === 8192 || error_reporting() === 0) {
+		return;
+	}
+	
+	$location = 'Fatal Error';
+	if (isset($error['file'])) {
+		$location = $error['file'];
+	}
+	$line_number = '1';
+	if (isset($error['line'])) {
+		$line_number = $error['line'];
+	}
+	$description = 'Fatal Error: A fatal error occurred and was handled by a shutdown function in bootstrap.php';
+	if (isset($error['message'])) {
+		$description = "Fatal Error: ".$error['message'];
+	}
+	
+	$log_data = compact('error');
+	
+	
+	// record the error
+	record_major_error($location, $line_number, $description, $log_data);
+}
+register_shutdown_function('myFatalErrorHandler');
+
+
+/**
+* Record major error for runtime errors
+*/
+function myErrorHandler($errno, $errstr, $errfile, $errline) {
+	if ($errno === 2048 || $errno === 8192 || error_reporting() === 0) {
+		return;
+	}
+	
+	$log_data = compact('errno', 'errstr', 'errfile', 'errline');
+	$errstr = mysql_escape_string($errstr);
+	$errline = mysql_escape_string($errline);
+	$description = "An error recorded by myErrorHandler in bootstrap.php: $errstr on line $errline";
+	
+	
+	// record the error
+	record_major_error($errfile, $errline, $description, $log_data);
+
+	
+	/* Don't execute PHP internal error handler */
+	return false;
+}
+$old_error_handler = set_error_handler("myErrorHandler");
+

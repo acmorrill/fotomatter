@@ -5,14 +5,23 @@
 $theme_config = array(
 	'theme_controller_action_layouts' => array(
 		'SitePages' => array(
-			'landing_page' => 'landing'
+			'landing_page' => array(
+				'layout' => 'landing',
+				'view' => false,
+			),
 		),
 		'PhotoGalleries' => array(
 			'choose_gallery' => false,
-			'view_gallery' => 'gallery'
+			'view_gallery' => array(
+				'layout' => 'gallery',
+				'view' => false,
+			),
 		),
 		'Photos' => array(
-			'view_photo' => 'view_photo'
+			'view_photo' => array(
+				'layout' => 'view_photo',
+				'view' => false,
+			),
 		)
 	),
 	'admin_config' => array(

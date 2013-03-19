@@ -9,7 +9,7 @@
 	<script type='text/javascript' src='/js/quickmenu2.js'></script>
 	<title>Photographs by Joe Smo</title>
 	<script type="text/javascript"></script>
-	<link href="/css/index1.css" rel="stylesheet" type="text/css" />
+	<link href="/css/simple_lightgrey_textured_style.css" rel="stylesheet" type="text/css" />
 	<style type="text/css">
 	<!--
 
