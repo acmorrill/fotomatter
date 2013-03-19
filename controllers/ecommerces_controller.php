@@ -1,14 +1,14 @@
 <?php
 class EcommercesController extends AppController {
 	public $name = 'Ecommerces';
-	public $uses = array('PhotoAvailSize', 'PhotoFormat', 'PhotoPrintType', 'PhotoAvailSizesPhotoPrintType');
+	public $uses = array('PhotoAvailSize', 'PhotoFormat', 'PhotoPrintType', 'PhotoAvailSizesPhotoPrintType', 'Cart', 'Photo');
 	public $layout = 'admin/ecommerces';
 
 
 	public function beforeFilter() {
 		parent::beforeFilter();
 
-
+		$this->Auth->allow(array('view_cart', 'add_to_cart'));
 	}
 
 	public function admin_index() {
@@ -260,5 +260,60 @@ class EcommercesController extends AppController {
 		
 		
 		$this->set(compact('photo_avail_sizes', 'photo_print_type'));
+	}
+	
+	public function add_to_cart() {
+		///////////////////////////////////////////////
+		// make sure ids are valid
+			if (!isset($this->data['PhotoPrintType']['id']) || !isset($this->data['Photo']['id']) || !isset($this->data['Photo']['short_side_inches'])) {
+				$this->major_error("photo_print_type_id or photo_id or short_side_inches not set in add to cart", array('data' => $this->data, 'params' => $this->params));
+				$this->Session->setFlash('Error adding item to cart.');
+				$this->redirect($this->referer());
+				exit();
+			}
+
+			$photo_print_type_id = $this->data['PhotoPrintType']['id'];
+			$photo_id = $this->data['Photo']['id'];
+			$short_side_inches = $this->data['Photo']['short_side_inches'];
+
+			$photo_exists = $this->Photo->find('first', array(
+				'conditions' => array(
+					'Photo.id' => $photo_id
+				),
+				'contain' => false
+			));
+			if (empty($photo_exists)) {
+				$this->major_error("photo_id not connected to real photo", array('data' => $this->data, 'params' => $this->params));
+				$this->Session->setFlash('Error adding item to cart.');
+				$this->redirect($this->referer());
+				exit();
+			}
+			$print_type_exists = $this->PhotoPrintType->find('first', array(
+				'conditions' => array(
+					'PhotoPrintType.id' => $photo_print_type_id
+				),
+				'contain' => false
+			));
+			if (empty($print_type_exists)) {
+				$this->major_error("photo_print_type_id not connected to real print type", array('data' => $this->data, 'params' => $this->params));
+				$this->Session->setFlash('Error adding item to cart.');
+				$this->redirect($this->referer());
+				exit();
+			}
+			
+			// DREW TODO - validate the short side inches 
+			// $short_side_inches
+		// end validation
+			
+		
+		$this->Cart->add_to_cart($photo_id, $photo_print_type_id, $short_side_inches);
+		$this->redirect('/ecommerces/view_cart/');
+	}
+	
+	public function view_cart() {
+		$cart_data = $this->Cart->get_cart_data();
+		
+		$this->set(compact('cart_data'));
+		$this->ThemeRenderer->render($this);
 	}
 }

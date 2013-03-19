@@ -3,7 +3,7 @@
 	<head>
 		<title><?php print($curr_photo['Photo']['display_title']." - ".$curr_photo['Photo']['display_subtitle']." - ".$curr_gallery['PhotoGallery']['display_name']);?></title>
 		<?php echo $this->Element('theme_global_includes'); ?>
-		<link rel="stylesheet" type="text/css" href="/css/stylesheet.css" />
+		<link rel="stylesheet" type="text/css" href="/css/andrewmorrill_style.css" />
 
 		<?php $is_pano = $curr_photo['PhotoFormat']['ref_name'] == "panoramic"; ?>
 		
@@ -15,6 +15,9 @@
 		
 	</head>
 	<body>
+		<?php //$this->log($photo_sellable_prints, 'photo_sellable_prints'); ?>
+		
+		
 		<?php echo $this->Element('nameTitle'); ?>
 		
 		<div id="largePhotoPos" style="width: 892px">
@@ -47,7 +50,15 @@
 			</p>
 
 			<p style="width: 520px"><?php print("{$curr_photo['Photo']['description']}"); ?></p>
-			<img src="/images/misc/horiz_gradientline.png"><br/><br/>
+			
+			
+			<?php echo $this->Element('cart_checkout/image_add_to_cart_form_simple'); ?>
+			
+			<img src="/images/misc/horiz_gradientline.png" />
+			<br/><br/>
+			<br/><br/>
+			<br/><br/>
+			<br/><br/>
 		</div>
 	</body>
 </html>
