@@ -569,7 +569,7 @@ class GenericDbShell extends Shell {
 		if ($this->local_db == null || !mysql_ping($this->local_db)) {
 			require_once(CONFIGS.'database.php');
 			$this->dbconfig = new DATABASE_CONFIG();
-
+                       
 			$this->local_db = mysql_connect($this->dbconfig->default['host'], $this->dbconfig->default['login'], $this->dbconfig->default['password'], true);
 			if (mysql_error($this->local_db)) {
 				$this->out("Cannot connect to local db. Check config, and try again.");
