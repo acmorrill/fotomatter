@@ -58,7 +58,11 @@ class UtilShell extends Shell {
 	
 	function fix_local_user_permissions() {
 		$this->check_shell_running_as_root();
-		
+                
+                $root = ROOT;
+                
+                exec("{$this->get_root_prefix()} find $root -maxdepth 1 -not -name 'app' -type d -exec chmod 775 {} \;", $output_1, $return_arr_1);
+               
 		$permissions = array(
 			'current_theme_webroot' => array('p' => ':www-data'),
 			'default_theme_webroot' => array('p' => ':www-data'),
