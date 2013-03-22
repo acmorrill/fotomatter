@@ -483,7 +483,7 @@ class Photo extends AppModel {
 	
 	
 	public function photo_has_pano_format($photo) {
-		$format_ref_name = isset($photo['PhotoFormat']['ref_name']) ? $photo['PhotoFormat']['ref_name'] : $photo['Photo']['PhotoFormat']['ref_name'];
+		$format_ref_name = isset($photo['PhotoFormat']['ref_name']) ? $photo['PhotoFormat']['ref_name'] : (isset($photo['Photo']['PhotoFormat']['ref_name']) ? $photo['Photo']['PhotoFormat']['ref_name'] : '' );
 		if ($format_ref_name === 'panoramic' || $format_ref_name === 'vertical_panoramic') {
 			return true;
 		}
@@ -523,7 +523,7 @@ class Photo extends AppModel {
 		return $combined_data;
 	}
 	
-	public function get_sellable_print_sizes_by_id($photo_id) {
+	public function get_sellable_print_sizes_by_id($photo_id, $photo_print_type_id = null) {
 		$photo = $this->find('first', array(
 			'conditions' => array(
 				'Photo.id' => $photo_id
@@ -534,7 +534,7 @@ class Photo extends AppModel {
 		
 		$this->add_photo_format($photo);
 		
-		return $this->get_sellable_print_sizes($photo);
+		return $this->get_sellable_print_sizes($photo, $photo_print_type_id);
 	}
 	
 	/**
@@ -543,10 +543,20 @@ class Photo extends AppModel {
 	 * @param type $photo
 	 * @return type
 	 */
-	public function get_sellable_print_sizes($photo) {
+	public function get_sellable_print_sizes($photo, $photo_print_type_id = null) {
 		$join_format_requirment = 'non_pano';
 		if ($this->photo_has_pano_format($photo)) {
 			$join_format_requirment = 'pano';
+		}
+		$where_clause = "
+			WHERE 
+				PrintTypeJoin.{$join_format_requirment}_available = 1
+		";
+		if (isset($photo_print_type_id)) {
+			$photo_print_type_id = (int) $photo_print_type_id;
+			$where_clause .= "
+				AND PhotoPrintType.id = :photo_print_type_id
+			";
 		}
 		$photo_sellable_print_query = "
 			SELECT * FROM photo_avail_sizes_photo_print_types AS PrintTypeJoin
@@ -556,13 +566,13 @@ class Photo extends AppModel {
 					ON (PhotoAvailSize.id = PrintTypeJoin.photo_avail_size_id)
 				LEFT JOIN photo_sellable_prints AS PhotoSellablePrint
 					ON (PhotoSellablePrint.photo_avail_sizes_photo_print_type_id = PrintTypeJoin.id AND PhotoSellablePrint.photo_id = :photo_id)
-			WHERE 
-				PrintTypeJoin.{$join_format_requirment}_available = 1
+				$where_clause
 			ORDER BY PhotoPrintType.order, PhotoAvailSize.short_side_length
 		";
 		$this->PhotoAvailSizesPhotoPrintType = ClassRegistry::init('PhotoAvailSizesPhotoPrintType');
 		$photo_sellable_prints = $this->PhotoAvailSizesPhotoPrintType->query($photo_sellable_print_query, array(
-			'photo_id' => $photo['Photo']['id']
+			'photo_id' => $photo['Photo']['id'],
+			'photo_print_type_id' => $photo_print_type_id,
 		));
 		
 		
@@ -603,6 +613,20 @@ class Photo extends AppModel {
 		
 		
 		return $photo_sellable_prints;
+	}
+	
+	public function get_extra_print_data($photo_id, $photo_print_type_id, $short_side_inches) {
+		$sellable_print_sizes = $this->get_sellable_print_sizes_by_id($photo_id, $photo_print_type_id);
+		
+		$extra_print_data = array();
+		foreach ($sellable_print_sizes as $key => $sellable_print_size) {
+			if ($sellable_print_size['PhotoAvailSize']['short_side_length'] == $short_side_inches) {
+				$extra_print_data = $sellable_print_sizes[$key];
+				break;
+			}
+		}
+		
+		return $extra_print_data;
 	}
 	
 	public function get_long_side_length($photo, $short_side_length) {
