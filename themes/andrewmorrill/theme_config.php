@@ -7,6 +7,7 @@ $theme_config = array(
 		'SitePages' => array(
 			'landing_page' => array(
 				'layout' => 'landing',
+				'view' => false,
 			),
 			'custom_page' => array(
 				'layout' => 'custom_page',

@@ -14,12 +14,15 @@
 <?php if (empty($photo_sellable_prints)): ?>
 	<!-- <?php __('The add to cart buttons have not been fully setup'); ?> -->
 <?php else: ?>
-	<?php debug($photo_sellable_prints); ?>
+	<?php //debug($photo_sellable_prints); ?>
 	<?php foreach ($photo_sellable_prints as $print_type_name => $print_type_sizes): ?>
 		<h2><?php echo $print_type_name; ?></h2>
 		<form action="/ecommerces/add_to_cart/" method="post">
 			<input type="hidden" name="data[Photo][id]" value="<?php echo $photo_id; ?>" />
 			<input type="hidden" name="data[PhotoPrintType][id]" value="<?php echo $print_type_sizes['print_type_id']; ?>" />
+<!--			<input type="hidden" name="data[Photo][price]" value="<?php //echo $print_type_sizes['price']; ?>" />
+			<input type="hidden" name="data[Photo][shipping_price]" value="<?php //echo $print_type_sizes['shipping_price']; ?>" />
+			<input type="hidden" name="data[Photo][long_side_inches]" value="<?php //echo $print_type_sizes['long_side_feet_inches']; ?>" />-->
 			<select name="data[Photo][short_side_inches]">
 				<?php foreach ($print_type_sizes['items'] as $print_type_size): ?>
 					<!--DREW TODO - improve the money formatting here-->

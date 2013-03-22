@@ -275,6 +275,9 @@ class EcommercesController extends AppController {
 			$photo_print_type_id = $this->data['PhotoPrintType']['id'];
 			$photo_id = $this->data['Photo']['id'];
 			$short_side_inches = $this->data['Photo']['short_side_inches'];
+			
+			
+			
 
 			$photo_exists = $this->Photo->find('first', array(
 				'conditions' => array(
@@ -303,6 +306,13 @@ class EcommercesController extends AppController {
 			
 			// DREW TODO - validate the short side inches 
 			// $short_side_inches
+			
+			// DREW TODO - validate the long side inches
+			
+			
+			// DREW TODO - add in the price to the calculation
+			// validate the price againts the print type and size
+			
 		// end validation
 			
 		
@@ -311,9 +321,9 @@ class EcommercesController extends AppController {
 	}
 	
 	public function view_cart() {
-		$cart_data = $this->Cart->get_cart_data();
+		$cart_datas = $this->Cart->get_cart_data();
 		
-		$this->set(compact('cart_data'));
+		$this->set(compact('cart_datas'));
 		$this->ThemeRenderer->render($this);
 	}
 }
