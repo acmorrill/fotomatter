@@ -610,3 +610,10 @@ td.priceAndDiscountCode.price {
   cursor: pointer;
   color: white;
 }
+#cart_table {
+  width: 100%;
+}
+#cart_table td,
+#cart_table th {
+  outline: 1px solid black;
+}

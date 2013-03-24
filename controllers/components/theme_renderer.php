@@ -2,12 +2,10 @@
 class ThemeRendererComponent extends Object {
 	
 	public function initialize(&$controller, $settings=array()) {
-		$this->controller = $controller;
+//		$this->controller = $controller;
 	}
 	
 	public function startup(&$controller) {
-		$this->controller = $controller;
-		
 		$theme_config = $this->_process_theme_config();
 		// add in the current theme settings to the config
 			$avail_settings_list = $theme_config['admin_config']['theme_avail_custom_settings']['settings'];
@@ -35,35 +33,35 @@ class ThemeRendererComponent extends Object {
 			}
 			$theme_config['admin_config']['theme_avail_custom_settings']['settings'] = $avail_settings_list;
 		// save the config for the view
-			$this->controller->set(compact('theme_config'));
+			$controller->set(compact('theme_config'));
 		
 			
 		// check to see if current action needs to have theme rendering done to it
-		if (isset($theme_config['theme_controller_action_layouts'][$this->controller->name][$this->controller->action])) {
+		$theme_layout_data = $theme_config['theme_controller_action_layouts'];
+		if ($controller->is_mobile === true) {
+			$theme_layout_data = $theme_config['theme_controller_action_mobile_layouts'];
+		}
+		if (isset($theme_layout_data[$controller->name][$controller->action])) {
 			
 			if (isset($theme_config['theme_include_helpers'])) {
 				foreach ($theme_config['theme_include_helpers'] as $helper_name) {
-					$this->controller->helpers[] = $helper_name;
+					$controller->helpers[] = $helper_name;
 				}
 			}
 			
-			if ($theme_config['theme_controller_action_layouts'][$this->controller->name][$this->controller->action] === false) {
+			if ($theme_layout_data[$controller->name][$controller->action] === false) {
 				// DREW TODO - we need to make a php page for 404s maybe
 				header('HTTP/1.0 404 Not Found');
 				exit();
 			}
 			
-			$layout_view_data = $theme_config['theme_controller_action_layouts'][$this->controller->name][$this->controller->action];
-			if (is_string($layout_view_data)) {
-				$this->controller->layout = $layout_view_data;
-			} else if (is_array($layout_view_data)) {
-				$this->controller->layout = $layout_view_data['layout'];
-				if (!empty($layout_view_data['view'])) {
-					$this->controller->theme_view = $layout_view_data['view'];
-				}
+			$layout_view_data = $theme_layout_data[$controller->name][$controller->action];
+			$controller->layout = $layout_view_data['layout'];
+			if (!empty($layout_view_data['view'])) {
+				$controller->theme_view = $layout_view_data['view'];
 			}
 			
-			$this->controller->theme_config = $theme_config;
+			$controller->theme_config = $theme_config;
 		}
 	}
 	

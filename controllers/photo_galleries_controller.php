@@ -66,6 +66,10 @@ class PhotoGalleriesController extends AppController {
 		));
 
 		$photos = array();
+		$limit = $gallery_listing_config['default_images_per_page']; // DREW TODO - maybe make this number (the number of photos per gallery page) a global option in the admin
+		if ($this->is_mobile === true) {
+			$limit = 1000;
+		}
 		if ($curr_gallery['PhotoGallery']['type'] == 'smart') {
 			$smart_settings = $curr_gallery['PhotoGallery']['smart_settings'];
 			
@@ -77,7 +81,7 @@ class PhotoGalleriesController extends AppController {
 					'conditions' => array(
 						'Photo.id' => $found_photo_ids
 					),
-					'limit' => $gallery_listing_config['default_images_per_page'], // DREW TODO - maybe make this number (the number of photos per gallery page) a global option in the admin
+					'limit' => $limit,
 					'contain' => false,
 					'order' => "Photo.{$smart_settings['order_by']} {$smart_settings['order_direction']}"
 				)
@@ -90,7 +94,7 @@ class PhotoGalleriesController extends AppController {
 					'conditions' => array(
 						'PhotoGalleriesPhoto.photo_gallery_id' => $gallery_id
 					),
-					'limit' => $gallery_listing_config['default_images_per_page'], // DREW TODO - maybe make this number (the number of photos per gallery page) a global option in the admin
+					'limit' => $limit,
 					'contain' => array(
 						'Photo'
 					),

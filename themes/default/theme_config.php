@@ -4,7 +4,6 @@
 
 $theme_config = array(
 	'theme_include_helpers' => array(),
-	// theme_controller_action_layouts - ControllerName->action->{layout|array(layout, view)} // two formats are valid here
 	'theme_controller_action_layouts' => array(
 		'SitePages' => array(
 			'landing_page' => array(
@@ -35,6 +34,40 @@ $theme_config = array(
 		'Ecommerces' => array(
 			'view_cart' => array(
 				'laytout' => 'custom_page',
+				'view' => false,
+			),
+		),
+	),
+	'theme_controller_action_mobile_layouts' => array(
+		'SitePages' => array(
+			'landing_page' => array(
+				'layout' => 'mobile_landing',
+				'view' => false,
+			),
+			'custom_page' => array(
+				'layout' => 'mobile_landing',
+				'view' => false,
+			),
+		),
+		'PhotoGalleries' => array(
+			'choose_gallery' => array(
+				'layout' => 'gallery_landing',
+				'view' => false,
+			),
+			'view_gallery' => array(
+				'layout' => 'mobile_gallery_landing',
+				'view' => false,
+			)
+		),
+		'Photos' => array(
+			'view_photo' => array(
+				'layout' => 'mobile_landing',
+				'view' => false,
+			),
+		),
+		'Ecommerces' => array(
+			'view_cart' => array(
+				'laytout' => 'mobile_landing',
 				'view' => false,
 			),
 		),
