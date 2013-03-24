@@ -18,6 +18,7 @@ class AppController extends Controller {
 		'HashUtil', 
 		'ThemeRenderer', 
 		'LessCss',
+		'MobileDetect',
 	);
 	
 	public $helpers = array(
@@ -43,6 +44,18 @@ class AppController extends Controller {
      * @access public
      */
     function beforeFilter() {
+		///////////////////////////////////////////////////////
+		// setup mobile settings for mobile theming
+		$this->is_mobile = false;
+		if ($this->MobileDetect->isMobile()) {
+			$this->is_mobile = true;
+			$this->autoRender = false;
+		}
+//		$this->is_mobile = true; // DREW TODO - remove this
+		$this->set('is_mobile', $this->is_mobile);
+		
+		
+		
 		// recompile less css if a get param is set or debug is set to 2
 		if (Configure::read('debug') == '2' || isset($this->params['url']['lesscss']) || $this->Session->check('recompile_css')) {
 			if (isset($this->params['url']['lesscss'])) {

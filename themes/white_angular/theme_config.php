@@ -1,6 +1,6 @@
 <?php
 
-// config for theme: andrewmorrill
+// config for theme: white angular
 
 $theme_config = array(
 	'theme_include_helpers' => array(
@@ -8,16 +8,31 @@ $theme_config = array(
 	),
 	'theme_controller_action_layouts' => array(
 		'SitePages' => array(
-			'landing_page' => 'landing',
-			'custom_page' => 'landing'
+			'landing_page' => array(
+				'layout' => 'landing',
+				'view' => false,
+			),
+			'custom_page' => array(
+				'layout' => 'landing',
+				'view' => false,
+			),
 		),
 		'PhotoGalleries' => array(
-			'choose_gallery' => 'gallery_landing',
-			'view_gallery' => 'gallery'
+			'choose_gallery' => array(
+				'layout' => 'gallery_landing',
+				'view' => false,
+			),
+			'view_gallery' => array(
+				'layout' => 'gallery',
+				'view' => false,
+			),
 		),
 		'Photos' => array(
-			'view_photo' => 'landing'
-		)
+			'view_photo' => array(
+				'layout' => 'landing',
+				'view' => false,
+			),
+		),
 	),
 	'admin_config' => array(
 		'main_menu' => array(

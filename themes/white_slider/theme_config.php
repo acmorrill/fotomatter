@@ -5,15 +5,30 @@
 $theme_config = array(
 	'theme_controller_action_layouts' => array(
 		'SitePages' => array(
-			'landing_page' => 'gallery',
-			'custom_page' => 'gallery'
+			'landing_page' => array(
+				'layout' => 'gallery',
+				'view' => false,
+			),
+			'custom_page' => array(
+				'layout' => 'gallery',
+				'view' => false,
+			),
 		),
 		'PhotoGalleries' => array(
-			'choose_gallery' => 'gallery',
-			'view_gallery' => 'gallery'
+			'choose_gallery' => array(
+				'layout' => 'gallery',
+				'view' => false,
+			),
+			'view_gallery' => array(
+				'layout' => 'gallery',
+				'view' => false,
+			),
 		),
 		'Photos' => array(
-			'view_photo' => 'gallery'
+			'view_photo' => array(
+				'layout' => 'gallery',
+				'view' => false,
+			),
 		)
 	),
 	'admin_config' => array(
