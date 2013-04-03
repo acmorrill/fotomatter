@@ -13,4 +13,5 @@
 	<li class='<?php if ($curr_page == 'sell'): ?> curr<?php endif; ?>'><a href='/admin/ecommerces'><?php __("SELL"); ?></a></li>
 	<li class='<?php if ($curr_page == 'pages'): ?> curr<?php endif; ?>'><a href='/admin/site_pages'><?php __("PAGES"); ?></a></li>
 	<li class='<?php if ($curr_page == 'users'): ?> curr<?php endif; ?>'><a href='/admin/users'><?php __("USERS"); ?></a></li>
+	<li class='<?php if ($curr_page == 'accounts'): ?> curr<?php endif; ?>'><a href='/admin/accounts'><?php __("ACCOUNTS"); ?></a></li>
 </ul>
