@@ -3,7 +3,6 @@ class FotomatterView extends View {
 	
 	public function element($name, $params = array(), $loadHelpers = false) {
 		$element_result = parent::element($name, $params, $loadHelpers);
-		
 		$debug_data = '';
 		if (false && Configure::read('debug') > 1 && !isset($params['hide_debug'])) {
 			$uuid = substr(base64_encode(String::uuid()), 0, 20);

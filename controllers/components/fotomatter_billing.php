@@ -1,15 +1,21 @@
 <?php
 class FotomatterBillingComponent extends Object {
     
-    public $server_url = 'http://overlord.local.net';
+    public $server_url = 'https://overlord.fotomatter.net';
     //adam TODO this should be ssl
     
     public $shared_secret = 'baYMbSR0EM0REmSheFHc0Qo2RUmEGoToNFnPWFcyAEUYRlaOgSynnI1F9DyI';
     
     public function remote_find($params) {
-        $response = $this->send_api_request('billing_api/remote_find', $params);
-        debug($response);
-        die();
+        $result_of_find = json_decode($this->send_api_request('billing_api/remote_find', $params), true);
+        if($result_of_find['code']) {
+            return $result_of_find['payload'];
+        }
+        
+        $this->MajorError = ClassRegistry::init("MajorError");
+        $this->MajorError->major_error('Remote find from overlord returned with error.', $params);
+        return false;
+        //overlord returned an error so store it
     }
     
      private function send_api_request($api, $params=array()) {
