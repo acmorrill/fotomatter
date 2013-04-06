@@ -99,6 +99,17 @@ class AppController extends Controller {
 				exit();
 			}
 		}
+                
+                if (Configure::read('debug') > 0) {
+                    if (empty($this->MajorError)) {
+                        $this->MajorError = ClassRegistry::init("MajorError");
+                    }
+                    
+                    $count = $this->MajorError->find('count');
+                    if ($count) {
+                        $this->set('error_found', true);
+                    }
+                }
     }
     /**
      * beforeRender

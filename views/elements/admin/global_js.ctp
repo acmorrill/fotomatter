@@ -145,3 +145,11 @@ $(window).load(function() {
 
 
 </script>
+<?php if (isset($error_found) && $error_found): ?>
+    <script type="text/javascript">
+        $(document).ready(function() {
+           var error_div = $("<div class='error_found'>Major Error Found</div>");
+           $('body').prepend(error_div);
+        });
+    </script>
+<?php endif; ?>
