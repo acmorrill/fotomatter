@@ -6,8 +6,8 @@ class FotomatterBillingComponent extends Object {
     
     public $shared_secret = 'baYMbSR0EM0REmSheFHc0Qo2RUmEGoToNFnPWFcyAEUYRlaOgSynnI1F9DyI';
     
-    public function remote_find($params) {
-        $result_of_find = json_decode($this->send_api_request('billing_api/remote_find', $params), true);
+    public function get_info_account($params=array()) {
+        $result_of_find = json_decode($this->send_api_request('billing_api/get_info_account', $params), true);
         if($result_of_find['code']) {
             return $result_of_find['payload'];
         }
@@ -29,6 +29,10 @@ class FotomatterBillingComponent extends Object {
         $time_stamp = (string) time();
         $request['Request']['Server_params']['time_stamp'] = $time_stamp;
         
+        $this->SiteSetting = ClassRegistry::init("SiteSetting");
+        $site_key = $this->SiteSetting->getVal('overlord_site_key');
+        $request['Request']['key'] = $site_key;
+        
 	$request['Access']['signature'] = hash_hmac('sha256', json_encode($request['Request']), $this->shared_secret);
 	$response = $HttpSocket->request(array(
             'body'=>$request,
@@ -42,7 +46,7 @@ class FotomatterBillingComponent extends Object {
     }
     
     private function clear_values($params) {
-        $value_to_return;
+        $value_to_return = '';
         if (is_array($params)) {
             foreach ($params as $key => $param) {
                if (empty($param) === false) { 

@@ -2178,19 +2178,22 @@ div#sub-nav ul li.title a {
   width: 80%;
 }
 #line_item_cont .line_item .bar {
-  cursor: pointer;
   border: 1px solid black;
   padding: 7px 3px 7px 7px;
   background-color: #454545;
 }
 #line_item_cont .line_item .bar div.bar-right {
   float: right;
+  cursor: pointer;
 }
 #line_item_cont .line_item .bar div.bar-right span {
   margin: 0;
 }
 #line_item_cont .line_item .bar div.bar-right i {
   margin: 0 5px;
+}
+#line_item_cont .line_item .bar div.bar-right:hover {
+  font-weight: bold;
 }
 #line_item_cont .line_item .bar h5 {
   display: inline-block;

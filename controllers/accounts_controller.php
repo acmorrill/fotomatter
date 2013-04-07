@@ -8,15 +8,8 @@ class AccountsController extends AppController {
    );
     
    public function admin_index() {
-       $line_items = $this->FotomatterBilling->remote_find(array(
-           'model'=>'AccountLineItem',
-           'type'=>'all',
-           'params'=>array(
-               
-           )
-       ));
-      
-       
+       $line_items = $this->FotomatterBilling->get_info_account();
+ 
        $this->set(compact(array('line_items')));
        $this->layout = 'admin/accounts';
    }
