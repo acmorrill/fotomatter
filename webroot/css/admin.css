@@ -1740,6 +1740,19 @@ div#sub-nav ul li.title a {
   background-color: #363636;
   padding: 20px;
 }
+.profile-outer-cont label {
+  width: 100px;
+  display: inline-block;
+  font-size: 13px;
+  text-align: right;
+  margin: 0 15px 0 0;
+}
+.profile-outer-cont .payment {
+  margin: 35px 0 0 0;
+}
+.profile-outer-cont div.input {
+  margin: 0 0 3px 0;
+}
 #connect_gallery_photos_cont {
   min-height: 200px;
   clear: both;
@@ -2174,6 +2187,9 @@ div#sub-nav ul li.title a {
 #line_item_cont .body_container {
   width: 80%;
 }
+#line_item_cont .finish input {
+  display: none;
+}
 #line_item_cont .line_item {
   width: 80%;
 }
@@ -2191,9 +2207,6 @@ div#sub-nav ul li.title a {
 }
 #line_item_cont .line_item .bar div.bar-right i {
   margin: 0 5px;
-}
-#line_item_cont .line_item .bar div.bar-right:hover {
-  font-weight: bold;
 }
 #line_item_cont .line_item .bar h5 {
   display: inline-block;

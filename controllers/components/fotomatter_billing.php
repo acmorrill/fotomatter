@@ -2,6 +2,8 @@
 class FotomatterBillingComponent extends Object {
     
     public $server_url = 'https://overlord.fotomatter.net';
+    //
+    //public $server_url = 'http://overlord.local.net';
     //adam TODO this should be ssl
     
     public $shared_secret = 'baYMbSR0EM0REmSheFHc0Qo2RUmEGoToNFnPWFcyAEUYRlaOgSynnI1F9DyI';
