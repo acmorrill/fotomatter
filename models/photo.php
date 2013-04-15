@@ -99,7 +99,6 @@ class Photo extends AppModel {
 			
 			// fail if the file is greater than max upload size
 			if (isset($this->data['Photo']['cdn-filename']['size']) && $this->data['Photo']['cdn-filename']['size'] > $maxmegabytes) {
-				$this->log("1", 'photo');
 				return false;
 			}
 			
@@ -129,7 +128,6 @@ class Photo extends AppModel {
 			
 			list($width, $height, $type, $attr) = getimagesize($this->data['Photo']['cdn-filename']['tmp_name']);
 			if ($width > FREE_MAX_RES || $height > FREE_MAX_RES) {
-				$this->log("2", 'photo');
 				if (is_writable(TEMP_IMAGE_PATH) == false) {
 					$this->major_error("the temp image path is not writable for photo before save for smaller master cache file");
 				}
@@ -300,7 +298,8 @@ class Photo extends AppModel {
 					$conditions = array(
 						'PhotoCache.photo_id' => $this->id,
 						'PhotoCache.max_height' => $all_cache_size['PhotoPrebuildCacheSize']['max_height'],
-						'PhotoCache.max_width' => $all_cache_size['PhotoPrebuildCacheSize']['max_width']
+						'PhotoCache.max_width' => $all_cache_size['PhotoPrebuildCacheSize']['max_width'],
+						'PhotoCache.crop' => 1,
 					);
 					
 					$photoCache = $this->PhotoCache->find('first', array(
@@ -346,16 +345,16 @@ class Photo extends AppModel {
 		}
 	}
 	
-	public function get_dummy_error_image_path($height, $width) {
+	public function get_dummy_error_image_path($height, $width, $crop = false) {
 		$this->PhotoCache = ClassRegistry::init('PhotoCache');
 		
-		return $this->PhotoCache->get_dummy_error_image_path($height, $width);
+		return $this->PhotoCache->get_dummy_error_image_path($height, $width, false, false, $crop);
 	}
 	
-	public function get_photo_path($photo_id, $height, $width, $unsharp_amount = null, $return_tag_attributes = false) {
+	public function get_photo_path($photo_id, $height, $width, $unsharp_amount = null, $return_tag_attributes = false, $crop = false) {
 		if ($height <= 0 || $width <= 0) {
 			$this->major_error('Called get photo path like a moron', compact('width', 'height'));
-			return $this->PhotoCache->get_dummy_error_image_path($height, $width, false, $return_tag_attributes);
+			return $this->PhotoCache->get_dummy_error_image_path($height, $width, false, $return_tag_attributes, $crop);
 		}
 		
 		
@@ -369,14 +368,15 @@ class Photo extends AppModel {
 		
 		// check to make sure the photo has a file attached 
 		if ( empty($the_photo['Photo']['cdn-filename-forcache']) || empty($the_photo['Photo']['cdn-filename']) || empty($the_photo['Photo']['cdn-filename-smaller-forcache']) ) {
-			return $this->PhotoCache->get_dummy_error_image_path($height, $width, false, $return_tag_attributes);
+			return $this->PhotoCache->get_dummy_error_image_path($height, $width, false, $return_tag_attributes, $crop);
 		}
 		
 
 		$conditions = array(
 			'PhotoCache.photo_id' => $photo_id,
 			'PhotoCache.max_height' => $height,
-			'PhotoCache.max_width' => $width
+			'PhotoCache.max_width' => $width,
+			'PhotoCache.crop' => ($crop === true) ? 1 : 0,
 		);
 		
 		$photoCache = $this->PhotoCache->find('first', array(
@@ -388,13 +388,13 @@ class Photo extends AppModel {
 			if ( $photoCache['PhotoCache']['status'] == 'ready' ) {
 				$return_url = $this->PhotoCache->get_full_path($photoCache['PhotoCache']['id'], $return_tag_attributes);
 			} else if ( $photoCache['PhotoCache']['status'] == 'processing' ) {
-				$return_url = $this->PhotoCache->get_dummy_processing_image_path($height, $width, false, $return_tag_attributes);
+				$return_url = $this->PhotoCache->get_dummy_processing_image_path($height, $width, false, $return_tag_attributes, $crop);
 			} else if ( $photoCache['PhotoCache']['status'] == 'failed' ) {
-				$return_url = $this->PhotoCache->get_dummy_error_image_path($height, $width, false, $return_tag_attributes);
+				$return_url = $this->PhotoCache->get_dummy_error_image_path($height, $width, false, $return_tag_attributes, $crop);
 			} else {
 				$initLocked = $this->query("SELECT GET_LOCK('finish_create_cache_".$photoCache['PhotoCache']['id']."', 8)");
 				if ($initLocked['0']['0']["GET_LOCK('finish_create_cache_".$photoCache['PhotoCache']['id']."', 8)"] == 0 || $initLocked['0']['0']["GET_LOCK('finish_create_cache_".$photoCache['PhotoCache']['id']."', 8)"] == null) {
-					return $this->PhotoCache->get_dummy_processing_image_path($height, $width, false, $return_tag_attributes);
+					return $this->PhotoCache->get_dummy_processing_image_path($height, $width, false, $return_tag_attributes, $crop);
 				}
 
 				// grab again after lock - to make sure we are not conflicting
@@ -408,7 +408,7 @@ class Photo extends AppModel {
 					// I don't think I need to do the TODO now that I've added locking to the finish create cache and this helper
 					$return_url = $this->PhotoCache->get_existing_cache_create_url($photoCache['PhotoCache']['id'], $return_tag_attributes);
 				} else {
-					$return_url = $this->PhotoCache->get_dummy_error_image_path($height, $width, false, $return_tag_attributes);
+					$return_url = $this->PhotoCache->get_dummy_error_image_path($height, $width, false, $return_tag_attributes, $crop);
 				}
 
 				$releaseLock = $this->query("SELECT RELEASE_LOCK('finish_create_cache_".$photoCache['PhotoCache']['id']."')");
@@ -416,7 +416,7 @@ class Photo extends AppModel {
 		} else {
 			$initLocked = $this->query("SELECT GET_LOCK('start_create_cache_".$photo_id."', 8)");
 			if ($initLocked['0']['0']["GET_LOCK('start_create_cache_".$photo_id."', 8)"] == 0 || $initLocked['0']['0']["GET_LOCK('start_create_cache_".$photo_id."', 8)"] == null) {
-				return $this->PhotoCache->get_dummy_processing_image_path($height, $width, false, $return_tag_attributes);
+				return $this->PhotoCache->get_dummy_processing_image_path($height, $width, false, $return_tag_attributes, $crop);
 			}
 				// grab again after lock - to make sure we are not conflicting
 				$photoCache = $this->PhotoCache->find('first', array(
@@ -424,9 +424,9 @@ class Photo extends AppModel {
 					'contain' => false
 				));
 				if (!$photoCache) {
-					$return_url = $this->PhotoCache->prepare_new_cachesize($photo_id, $height, $width, false, $unsharp_amount, $return_tag_attributes);
+					$return_url = $this->PhotoCache->prepare_new_cachesize($photo_id, $height, $width, false, $unsharp_amount, $return_tag_attributes, $crop);
 				} else {
-					$return_url = $this->PhotoCache->get_dummy_error_image_path($height, $width, false, $return_tag_attributes);
+					$return_url = $this->PhotoCache->get_dummy_error_image_path($height, $width, false, $return_tag_attributes, $crop);
 				}
 			
 			$releaseLock = $this->query("SELECT RELEASE_LOCK('start_create_cache_".$photo_id."')");

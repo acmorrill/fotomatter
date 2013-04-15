@@ -32,7 +32,11 @@ class Cart extends AppModel {
 		// update the cart
 		$cart_items = array();
 		if ($this->Session->check('Cart.items')) {
+			$this->log('came here 1', 'cart_error');
 			$cart_items = $this->Session->read('Cart.items');
+		} else {
+			$this->log('came here 2', 'cart_error');
+			$this->log($this->Session->read('Cart'), 'cart_error');
 		}
 		if (isset($cart_items[$key])) {
 			$cart_items[$key]['qty'] += 1;
@@ -60,17 +64,63 @@ class Cart extends AppModel {
 		return $this->Session->read('Cart');
 	}
 	
-	public function get_cart_line_total($qty, $price, $shipping_price) {
-		return ($qty * $price) + ($qty * $shipping_price);
+	public function get_cart_items() {
+		$cart_data = $this->get_cart_data();
+		
+		return $cart_data['items'];
 	}
 	
-	public function get_cart_total($cart_items) {
-		$total = 0;
-		foreach ($cart_items as $cart_item) {
-			$total += ($cart_item['qty'] * $cart_item['price']) + ($cart_item['qty'] * $cart_item['shipping_price']);
+	public function get_cart_line_total($qty, $price) {
+		return $qty * $price;
+	}
+	
+	public function get_cart_total($cart_items = null) {
+		if (!isset($cart_items)) {
+			$cart_items = $this->get_cart_items();
 		}
 		
+		$total = 0;
+		$total += $this->get_cart_subtotal($cart_items);
+		$total += $this->get_cart_shipping_total($cart_items);
+		
 		return $total;
+	}
+	
+	public function get_cart_subtotal($cart_items = null) {
+		if (!isset($cart_items)) {
+			$cart_items = $this->get_cart_items();
+		}
+		
+		$total = 0;
+		$total += $this->get_cart_items_total($cart_items);
+		
+		return $total;
+	}
+	
+	public function get_cart_shipping_total($cart_items = null) {
+		if (!isset($cart_items)) {
+			$cart_items = $this->get_cart_items();
+		}
+		
+		$shipping_total = 0;
+		foreach ($cart_items as $cart_item) {
+			$shipping_total += $cart_item['qty'] * $cart_item['shipping_price'];
+		}
+		
+		return $shipping_total;
+	}
+	
+	public function get_cart_items_total($cart_items = null) {
+		if (!isset($cart_items)) {
+			$cart_items = $this->get_cart_items();
+		}
+		
+		$items_total = 0;
+		foreach ($cart_items as $cart_item) {
+			$items_total += $cart_item['qty'] * $cart_item['price'];
+		}
+		
+		return $items_total;
 	}
 	
 }

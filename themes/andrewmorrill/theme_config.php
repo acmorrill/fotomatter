@@ -35,6 +35,10 @@ $theme_config = array(
 				'layout' => 'custom_page',
 				'view' => 'view_cart',
 			),
+			'checkout_login_or_guest' => array(
+				'laytout' => 'custom_page',
+				'view' => 'checkout_login_or_guest',
+			),
 		),
 	),
 	'admin_config' => array(

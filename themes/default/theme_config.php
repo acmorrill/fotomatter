@@ -36,6 +36,10 @@ $theme_config = array(
 				'laytout' => 'custom_page',
 				'view' => false,
 			),
+			'checkout_login_or_guest' => array(
+				'laytout' => 'custom_page',
+				'view' => false,
+			),
 		),
 	),
 	'theme_controller_action_mobile_layouts' => array(

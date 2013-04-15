@@ -35,6 +35,7 @@
  * In development mode, you need to click the flash message to continue.
  */
 	Configure::write('debug', 0);
+	Configure::write('show_major_error_bar', true);
 
 /**
  * CakePHP Log Level:
@@ -125,7 +126,7 @@
  * the cake shell command: cake schema create Sessions
  *
  */
-	Configure::write('Session.save', 'php');
+	Configure::write('Session.save', 'cake');
 
 /**
  * The model name to be used for the session model.

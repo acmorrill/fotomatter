@@ -8,7 +8,11 @@ class EcommercesController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 
-		$this->Auth->allow(array('view_cart', 'add_to_cart'));
+		$this->Auth->allow(array('view_cart', 'add_to_cart', 'checkout_login_or_guest'));
+		
+		$this->front_end_allow = array(
+			
+		);
 	}
 
 	public function admin_index() {
@@ -263,6 +267,12 @@ class EcommercesController extends AppController {
 	}
 	
 	public function add_to_cart() {
+		if ($this->Session->check('Cart')) {
+			$this->log('came here 3', 'cart_error');
+		} else {
+			$this->log('came here 4', 'cart_error');
+		}
+		
 		///////////////////////////////////////////////
 		// make sure ids are valid
 			if (!isset($this->data['PhotoPrintType']['id']) || !isset($this->data['Photo']['id']) || !isset($this->data['Photo']['short_side_inches'])) {
@@ -316,6 +326,7 @@ class EcommercesController extends AppController {
 		// end validation
 			
 		
+			
 		$this->Cart->add_to_cart($photo_id, $photo_print_type_id, $short_side_inches);
 		$this->redirect('/ecommerces/view_cart/');
 	}
@@ -326,4 +337,20 @@ class EcommercesController extends AppController {
 		$this->set(compact('cart_datas'));
 		$this->ThemeRenderer->render($this);
 	}
+	
+	
+	
+	public function checkout_login_or_guest() {
+		$logged_in = false;
+		
+		// sudo code 
+		if ($logged_in) {
+			// redirect to finalize payment page
+		}
+
+		$this->ThemeRenderer->render($this);
+	}
+	
+	
+	
 }

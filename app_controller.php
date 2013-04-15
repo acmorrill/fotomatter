@@ -99,17 +99,19 @@ class AppController extends Controller {
 				exit();
 			}
 		}
-                
-                if (Configure::read('debug') > 0) {
-                    if (empty($this->MajorError)) {
-                        $this->MajorError = ClassRegistry::init("MajorError");
-                    }
-                    
-                    $count = $this->MajorError->find('count');
-                    if ($count) {
-                        $this->set('error_found', true);
-                    }
-                }
+         
+		
+		// display or hide the major error bar
+		if (Configure::read('debug') > 0 && Configure::read('show_major_error_bar') === true) {
+			if (empty($this->MajorError)) {
+				$this->MajorError = ClassRegistry::init("MajorError");
+			}
+
+			$count = $this->MajorError->find('count');
+			if ($count) {
+				$this->set('error_found', true);
+			}
+		}
     }
     /**
      * beforeRender
@@ -119,22 +121,22 @@ class AppController extends Controller {
      *
      * @access public
      */
-    function beforeRender(){
-        //If we have an authorised user logged then pass over an array of controllers
-        //to which they have index action permission
-        if($this->Auth->user()){
-            $controllerList = Configure::listObjects('controller');
-            $permittedControllers = array();
-            foreach($controllerList as $controllerItem){
-                if($controllerItem <> 'App'){
-                    if($this->__permitted($controllerItem,'index')){
-                        $permittedControllers[] = $controllerItem;
-                    }
-                }
-            }
-        }
-        $this->set(compact('permittedControllers'));
-    }
+//    function beforeRender(){
+//        //If we have an authorised user logged then pass over an array of controllers
+//        //to which they have index action permission
+//        if($this->Auth->user()){
+//            $controllerList = Configure::listObjects('controller');
+//            $permittedControllers = array();
+//            foreach($controllerList as $controllerItem){
+//                if($controllerItem <> 'App'){
+//                    if($this->__permitted($controllerItem,'index')){
+//                        $permittedControllers[] = $controllerItem;
+//                    }
+//                }
+//            }
+//        }
+//        $this->set(compact('permittedControllers'));
+//    }
 	
 	// deprecated - use ThemeRenderer->render()
 //	public function renderEmpty() {
@@ -158,8 +160,17 @@ class AppController extends Controller {
      * @access public
      */
     function isAuthorized(){
-		$value = $this->__permitted($this->name,$this->action);
-        return $value;
+//		if (isset($this->front_end_allow)) { // DREW TODO - use this for setting auth for frontend only features (see ecommerces controller)
+//			
+//		}
+		
+		
+		return true;
+		
+		// DREW TODO - if we want to use more granular auth then turn the below back on and setup the db
+		
+//		$value = $this->__permitted($this->name,$this->action);
+//        return $value;
     }
     /**
      * __permitted
@@ -170,49 +181,49 @@ class AppController extends Controller {
      * @param $controllerName Object
      * @param $actionName Object
      */
-    function __permitted($controllerName,$actionName){
-        //Ensure checks are all made lower case
-        $controllerName = low($controllerName);
-        $actionName = low($actionName);
-        //If permissions have not been cached to session...
-        if(!$this->Session->check('Permissions')){
-            //...then build permissions array and cache it
-            $permissions = array();
-            //everyone gets permission to logout
-            $permissions[]='users:logout';
-            //Import the User Model so we can build up the permission cache
-            App::import('Model', 'User');
-            $thisUser = new User;
-            //Now bring in the current users full record along with groups
-            $thisGroups = $thisUser->find(array('User.id'=>$this->Auth->user('id')));
-            $thisGroups = $thisGroups['Group'];
-            foreach($thisGroups as $thisGroup){
-                $thisPermissions = $thisUser->Group->find(array('Group.id'=>$thisGroup['id']));
-                $thisPermissions = $thisPermissions['Permission'];
-                foreach($thisPermissions as $thisPermission){
-                    $permissions[]=$thisPermission['name'];
-                }
-            }
-            //write the permissions array to session
-            $this->Session->write('Permissions',$permissions);
-        }else{
-            //...they have been cached already, so retrieve them
-            $permissions = $this->Session->read('Permissions');
-        }
-        //Now iterate through permissions for a positive match
-        foreach($permissions as $permission){
-            if($permission == '*'){
-                return true;//Super Admin Bypass Found
-            }
-            if($permission == $controllerName.':*'){
-                return true;//Controller Wide Bypass Found
-            }
-            if($permission == $controllerName.':'.$actionName){
-                return true;//Specific permission found
-            }
-        }
-        return false;
-    }
+//    function __permitted($controllerName,$actionName){
+//        //Ensure checks are all made lower case
+//        $controllerName = low($controllerName);
+//        $actionName = low($actionName);
+//        //If permissions have not been cached to session...
+//        if(!$this->Session->check('Permissions')){
+//            //...then build permissions array and cache it
+//            $permissions = array();
+//            //everyone gets permission to logout
+//            $permissions[]='users:logout';
+//            //Import the User Model so we can build up the permission cache
+//            App::import('Model', 'User');
+//            $thisUser = new User;
+//            //Now bring in the current users full record along with groups
+//            $thisGroups = $thisUser->find(array('User.id'=>$this->Auth->user('id')));
+//            $thisGroups = $thisGroups['Group'];
+//            foreach($thisGroups as $thisGroup){
+//                $thisPermissions = $thisUser->Group->find(array('Group.id'=>$thisGroup['id']));
+//                $thisPermissions = $thisPermissions['Permission'];
+//                foreach($thisPermissions as $thisPermission){
+//                    $permissions[]=$thisPermission['name'];
+//                }
+//            }
+//            //write the permissions array to session
+//            $this->Session->write('Permissions',$permissions);
+//        }else{
+//            //...they have been cached already, so retrieve them
+//            $permissions = $this->Session->read('Permissions');
+//        }
+//        //Now iterate through permissions for a positive match
+//        foreach($permissions as $permission){
+//            if($permission == '*'){
+//                return true;//Super Admin Bypass Found
+//            }
+//            if($permission == $controllerName.':*'){
+//                return true;//Controller Wide Bypass Found
+//            }
+//            if($permission == $controllerName.':'.$actionName){
+//                return true;//Specific permission found
+//            }
+//        }
+//        return false;
+//    }
 	
 	public function element($element_path, $extra_vals = array()) {
 		$this->layout = false;
