@@ -126,7 +126,7 @@
  * the cake shell command: cake schema create Sessions
  *
  */
-	Configure::write('Session.save', 'cake');
+	Configure::write('Session.save', 'php');
 
 /**
  * The model name to be used for the session model.
@@ -198,7 +198,7 @@
  * CakePHP session IDs are also regenerated between requests if
  * 'Security.level' is set to 'high'.
  */
-	Configure::write('Security.level', 'high');
+	Configure::write('Security.level', 'medium');
 
 /**
  * A random string used in security hashing methods.
