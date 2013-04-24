@@ -10,9 +10,7 @@ class EcommercesController extends AppController {
 
 		$this->Auth->allow(array('view_cart', 'add_to_cart', 'checkout_login_or_guest'));
 		
-		$this->front_end_allow = array(
-			
-		);
+		$this->front_end_auth = array('checkout_get_address');
 	}
 
 	public function admin_index() {
@@ -348,6 +346,22 @@ class EcommercesController extends AppController {
 			// redirect to finalize payment page
 		}
 
+		$this->ThemeRenderer->render($this);
+	}
+	
+	public function checkout_get_address() {
+		$logged_in = true;
+		
+		// sudo code 
+		if (!$logged_in) {
+			// redirect to checkout_login_or_guest
+		}
+		
+//		if ($cart_empty) {
+			// redirect to view_cart
+//		}
+		
+		
 		$this->ThemeRenderer->render($this);
 	}
 	

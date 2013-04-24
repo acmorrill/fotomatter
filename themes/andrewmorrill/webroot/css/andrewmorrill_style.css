@@ -617,3 +617,6 @@ td.priceAndDiscountCode.price {
 #cart_table th {
   outline: 1px solid black;
 }
+button {
+  cursor: pointer;
+}
