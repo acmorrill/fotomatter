@@ -2,6 +2,9 @@
 	<script type="text/javascript">
 		jQuery(document).ready(function() {
 			jQuery('#standard_checkout_button').click(function() {
+				
+				
+				jQuery('#standard_checkout_form').submit();
 				console.log ("button was clicked");
 			});
 		});
@@ -43,7 +46,9 @@
 					Sub Total: $<?php echo $this->Cart->get_cart_subtotal(); ?><br />
 					Total: $<?php echo $this->Cart->get_cart_total(); ?><br />
 					
-					<button id="standard_checkout_button">Checkout</button>
+					<form id="standard_checkout_form" action="/ecommerces/checkout_login_or_guest" method="post">
+						<button id="standard_checkout_button">Checkout</button>
+					</form>
 				</td>
 			</tr>
 		</tfoot>

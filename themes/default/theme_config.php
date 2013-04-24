@@ -33,11 +33,15 @@ $theme_config = array(
 		),
 		'Ecommerces' => array(
 			'view_cart' => array(
-				'laytout' => 'custom_page',
+				'layout' => 'custom_page',
 				'view' => false,
 			),
 			'checkout_login_or_guest' => array(
-				'laytout' => 'custom_page',
+				'layout' => 'custom_page',
+				'view' => false,
+			),
+			'checkout_get_address' => array(
+				'layout' => 'custom_page',
 				'view' => false,
 			),
 		),

@@ -160,12 +160,13 @@ class AppController extends Controller {
      * @access public
      */
     function isAuthorized(){
-//		if (isset($this->front_end_allow)) { // DREW TODO - use this for setting auth for frontend only features (see ecommerces controller)
-//			
-//		}
+		$is_admin_user = ($this->Auth->user('admin') === '1') ? true : false;
 		
+		if ($is_admin_user === true || (isset($this->front_end_auth) && in_array($this->action, $this->front_end_auth))) {
+			return true;
+		} 
 		
-		return true;
+		return false;
 		
 		// DREW TODO - if we want to use more granular auth then turn the below back on and setup the db
 		

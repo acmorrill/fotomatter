@@ -36,8 +36,12 @@ $theme_config = array(
 				'view' => 'view_cart',
 			),
 			'checkout_login_or_guest' => array(
-				'laytout' => 'custom_page',
+				'layout' => 'custom_page',
 				'view' => 'checkout_login_or_guest',
+			),
+			'checkout_get_address' => array(
+				'layout' => 'custom_page',
+				'view' => 'checkout_get_address',
 			),
 		),
 	),
