@@ -1,0 +1,56 @@
+#billing_address_container,
+#shipping_address_container,
+#create_account,
+#final_payment_info,
+#billing_address_summary,
+#shipping_address_summary {
+  margin-top: 30px;
+  outline: 1px solid black;
+  padding: 20px;
+}
+#billing_address_container label,
+#shipping_address_container label,
+#create_account label,
+#final_payment_info label,
+#billing_address_summary label,
+#shipping_address_summary label {
+  display: inline-block;
+  vertical-align: top;
+  width: 100px;
+  text-align: right;
+  margin-right: 10px;
+}
+#billing_address_container .input,
+#billing_address_container .select,
+#shipping_address_container .input,
+#shipping_address_container .select,
+#create_account .input,
+#create_account .select,
+#final_payment_info .input,
+#final_payment_info .select,
+#billing_address_summary .input,
+#billing_address_summary .select,
+#shipping_address_summary .input,
+#shipping_address_summary .select {
+  margin-bottom: 10px;
+}
+#billing_address_container .state,
+#shipping_address_container .state,
+#create_account .state,
+#final_payment_info .state,
+#billing_address_summary .state,
+#shipping_address_summary .state {
+  display: none;
+}
+#billing_address_container .shipping_data_cont,
+#shipping_address_container .shipping_data_cont,
+#create_account .shipping_data_cont,
+#final_payment_info .shipping_data_cont,
+#billing_address_summary .shipping_data_cont,
+#shipping_address_summary .shipping_data_cont {
+  display: none;
+}
+.no_label {
+  margin-top: 20px;
+  float: right;
+}

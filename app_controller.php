@@ -253,5 +253,22 @@ class AppController extends Controller {
 	}
 	
 	
+	///////////////////////////////////////////////////////////////////////////////////
+	// VALIDATION FUNCTIONS
+	public function t_validate($type, $data, $value, $flash_message) {
+		switch($type) {
+			case 'not_empty':
+				if (empty($data[$value])) {
+					throw new Exception($flash_message);
+					return;
+				}
+				break;
+			default:
+				break;
+		}
+	}
+	
+	
+	
 }
 

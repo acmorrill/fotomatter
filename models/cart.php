@@ -10,7 +10,6 @@ class Cart extends AppModel {
 		$this->Session = $this->get_session();
 		
 //		$this->Session->delete('Cart'); // DREW TODO - remove this
-		// DREW TODO -- START HERE TOMORROW
 		// 4) add print type name to cart data
 		// 5) create a cart validator
 		// 6) create html for the cart
@@ -32,11 +31,11 @@ class Cart extends AppModel {
 		// update the cart
 		$cart_items = array();
 		if ($this->Session->check('Cart.items')) {
-			$this->log('came here 1', 'cart_error');
+//			$this->log('came here 1', 'cart_error');
 			$cart_items = $this->Session->read('Cart.items');
 		} else {
-			$this->log('came here 2', 'cart_error');
-			$this->log($this->Session->read('Cart'), 'cart_error');
+//			$this->log('came here 2', 'cart_error');
+//			$this->log($this->Session->read('Cart'), 'cart_error');
 		}
 		if (isset($cart_items[$key])) {
 			$cart_items[$key]['qty'] += 1;
@@ -67,7 +66,11 @@ class Cart extends AppModel {
 	public function get_cart_items() {
 		$cart_data = $this->get_cart_data();
 		
-		return $cart_data['items'];
+		if (isset($cart_data['items'])) {
+			return $cart_data['items'];
+		} else {
+			return array();
+		}
 	}
 	
 	public function get_cart_line_total($qty, $price) {
@@ -121,6 +124,82 @@ class Cart extends AppModel {
 		}
 		
 		return $items_total;
+	}
+	
+	public function set_cart_address_data($billing_data, $shipping_data) {
+		$this->Session = $this->get_session();
+		
+		$this->Session->write('Cart.billing_address', $billing_data);
+		$this->Session->write('Cart.shipping_address', $shipping_data);
+	}
+	
+	public function get_cart_billing_address() {
+		$this->Session = $this->get_session();
+		
+		if ($this->Session->check('Cart.billing_address')) {
+			$billing_address = $this->Session->read('Cart.billing_address');
+			
+			if (!empty($billing_address['country_id'])) {
+				$this->GlobalCountry = ClassRegistry::init('GlobalCountry');
+				$country = $this->GlobalCountry->find('first', array(
+					'conditions' => array(
+						'GlobalCountry.id' => $billing_address['country_id'],
+					),
+					'contain' => false,
+				));
+				$billing_address['country_name'] = $country['GlobalCountry']['country_name'];
+			}
+			
+			if (!empty($billing_address['state_id'])) {
+				$this->GlobalCountryState = ClassRegistry::init('GlobalCountryState');
+				$state = $this->GlobalCountryState->find('first', array(
+					'conditions' => array(
+						'GlobalCountryState.id' => $billing_address['state_id'],
+					),
+					'contain' => false,
+				));
+				$billing_address['state_name'] = $state['GlobalCountryState']['state_name'];
+			}
+			
+			return $billing_address;
+		} else {
+			return array();
+		}
+	}
+	
+	public function get_cart_shipping_address() {
+		$this->Session = $this->get_session();
+		
+		if ($this->Session->check('Cart.shipping_address')) {
+			$shipping_address = $this->Session->read('Cart.shipping_address');
+			
+			if (!empty($shipping_address['country_id'])) {
+				$this->GlobalCountry = ClassRegistry::init('GlobalCountry');
+				$country = $this->GlobalCountry->find('first', array(
+					'conditions' => array(
+						'GlobalCountry.id' => $shipping_address['country_id'],
+					),
+					'contain' => false,
+				));
+				$shipping_address['country_name'] = $country['GlobalCountry']['country_name'];
+			}
+			
+			if (!empty($shipping_address['state_id'])) {
+				$this->GlobalCountryState = ClassRegistry::init('GlobalCountryState');
+				$state = $this->GlobalCountryState->find('first', array(
+					'conditions' => array(
+						'GlobalCountryState.id' => $shipping_address['state_id'],
+					),
+					'contain' => false,
+				));
+				$shipping_address['state_name'] = $state['GlobalCountryState']['state_name'];
+			}
+			
+			
+			return $shipping_address;
+		} else {
+			return array();
+		}
 	}
 	
 }

@@ -270,8 +270,6 @@ INSERT INTO `countries` VALUES ('236','Yugoslavia','YU','YUG','','Active');
 INSERT INTO `countries` VALUES ('237','Zaire','ZR','ZAR','','Active');
 INSERT INTO `countries` VALUES ('238','Zambia','ZM','ZMB','','Active');
 INSERT INTO `countries` VALUES ('239','Zimbabwe','ZW','ZWE','','Active');
-INSERT INTO `countries` VALUES ('241','alaska','al','ala','','Active');
-INSERT INTO `countries` VALUES ('244','Demo','ZZ','ZZZ','','Active');
 
 # --------------------------------------------------------
 
@@ -3015,7 +3013,7 @@ INSERT INTO `country_states` VALUES ('2718','175','RO','TL','Tulcea','Active');
 INSERT INTO `country_states` VALUES ('2719','175','RO','VS','Vaslui','Active');
 INSERT INTO `country_states` VALUES ('2720','175','RO','VL','Valcea','Active');
 INSERT INTO `country_states` VALUES ('2721','175','RO','VN','Vrancea','Active');
-INSERT INTO `country_states` VALUES ('2722','223','US','AB','Abakan','Active');
+INSERT INTO `country_states` VALUES ('2722','223','RU','AB','Abakan','Active');
 INSERT INTO `country_states` VALUES ('2723','176','RU','AG','Aginskoye','Active');
 INSERT INTO `country_states` VALUES ('2724','176','RU','AN','Anadyr','Active');
 INSERT INTO `country_states` VALUES ('2725','176','RU','AR','Arkahangelsk','Active');
@@ -3907,7 +3905,7 @@ INSERT INTO `country_states` VALUES ('3610','222','GB','WIL','Western Isles','Ac
 INSERT INTO `country_states` VALUES ('3611','222','GB','WLT','Wiltshire','Active');
 INSERT INTO `country_states` VALUES ('3612','222','GB','WORCS','Worcestershire','Active');
 INSERT INTO `country_states` VALUES ('3613','222','GB','WRX','Wrexham','Active');
-INSERT INTO `country_states` VALUES ('3614','223','US','AL','Alabamas','Active');
+INSERT INTO `country_states` VALUES ('3614','223','US','AL','Alabama','Active');
 INSERT INTO `country_states` VALUES ('3615','223','US','AK','Alaska','Active');
 INSERT INTO `country_states` VALUES ('3616','223','US','AS','American Samoa','Active');
 INSERT INTO `country_states` VALUES ('3617','223','US','AZ','Arizona','Active');
@@ -4136,9 +4134,6 @@ INSERT INTO `country_states` VALUES ('3839','239','ZW','MV','Masvingo','Active')
 INSERT INTO `country_states` VALUES ('3840','239','ZW','MN','Matabeleland North','Active');
 INSERT INTO `country_states` VALUES ('3841','239','ZW','MS','Matabeleland South','Active');
 INSERT INTO `country_states` VALUES ('3842','239','ZW','MD','Midlands','Active');
-INSERT INTO `country_states` VALUES ('3846','0','AE','ds','ss','Active');
-INSERT INTO `country_states` VALUES ('3854','0','99|IN','aaa','ates','Active');
-INSERT INTO `country_states` VALUES ('3856','244','ZZ','ZZZ','Test','Active');
 
 DELETE FROM  `countries` WHERE  `countries`.`id` =241;
 
