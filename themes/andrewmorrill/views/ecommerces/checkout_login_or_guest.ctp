@@ -21,19 +21,19 @@
 	}
 </style>
 <br/>
-<button>Checkout as Guest</button>
+<a href="/ecommerces/checkout_get_address"><button><?php __('Checkout as Guest'); ?></button></a>
 
 
 <div id="login_container">
 	<form action="" method="post">
 		<div class="input">
-			<label>Email:</label> <input type="text" value="" /><br/>
+			<label><?php __('Email'); ?>:</label> <input type="text" value="" /><br/>
 		</div>
 		<div class="input">
-			<label>Password:</label> <input type="text" value="" />
+			<label><?php __('Password'); ?>:</label> <input type="text" value="" />
 		</div>
 		<div class="submit">
-			<input type="submit" value="Login" />
+			<input type="submit" value="<?php __('Login'); ?>" />
 		</div>
 	</form>
 	

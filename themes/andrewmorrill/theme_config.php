@@ -43,6 +43,10 @@ $theme_config = array(
 				'layout' => 'custom_page',
 				'view' => 'checkout_get_address',
 			),
+			'checkout_finalize_payment' => array(
+				'layout' => 'custom_page',
+				'view' => 'checkout_finalize_payment',
+			),
 		),
 	),
 	'admin_config' => array(

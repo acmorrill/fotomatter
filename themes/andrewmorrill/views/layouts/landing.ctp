@@ -20,7 +20,7 @@
 	</head>
 	<body onload="preloadSlideShowImages(); startSlideShow();">
 		<?php echo $this->Element('nameTitle'); ?>
-		<?php echo $this->Element('newsLetter'); ?>
+		<?php //echo $this->Element('newsLetter'); ?>
 		<?php //require_once("php/newsLetter.php"); ?>
 	
 		<div onclick="toggleSLStartStop();" id="slideShowDiv" style="background-image: url('/slideShow/A-Tangerine-Blue.jpg'); background-repeat: no-repeat; width: 556px; height: 453px;">

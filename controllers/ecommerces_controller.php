@@ -8,9 +8,9 @@ class EcommercesController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 
-		$this->Auth->allow(array('view_cart', 'add_to_cart', 'checkout_login_or_guest'));
+		$this->Auth->allow(array('view_cart', 'add_to_cart', 'checkout_login_or_guest', 'checkout_get_address', 'get_available_states_for_country_options', 'checkout_finalize_payment'));
 		
-		$this->front_end_auth = array('checkout_get_address');
+//		$this->front_end_auth = array('checkout_get_address');
 	}
 
 	public function admin_index() {
@@ -330,9 +330,6 @@ class EcommercesController extends AppController {
 	}
 	
 	public function view_cart() {
-		$cart_datas = $this->Cart->get_cart_data();
-		
-		$this->set(compact('cart_datas'));
 		$this->ThemeRenderer->render($this);
 	}
 	
@@ -350,15 +347,80 @@ class EcommercesController extends AppController {
 	}
 	
 	public function checkout_get_address() {
-		$logged_in = true;
+//		if ($cart_empty) { // DREW TODO
+			// redirect to view_cart
+//		}
 		
-		// sudo code 
-		if (!$logged_in) {
-			// redirect to checkout_login_or_guest
+//		if ($logged_in) { // DREW TODO
+			// get logged in user info to popuplate the cart address data with
+//		}
+		
+//		if ($no_addresses) { // DREW TODO
+			// redirect to collect address
+//		}
+		
+		
+		if (!empty($this->data)) {
+			// validate the data
+				try {
+					// validate billing address
+					$this->t_validate('not_empty', $this->data, 'BillingAddress', __('Billing address must be passed.', true));
+					$this->t_validate('not_empty', $this->data['BillingAddress'], 'firstname', __('Billing first name is required.', true));
+					$this->t_validate('not_empty', $this->data['BillingAddress'], 'lastname', __('Billing last name is required.', true));
+					$this->t_validate('not_empty', $this->data['BillingAddress'], 'address1', __('Billing address is required.', true));
+					$this->t_validate('not_empty', $this->data['BillingAddress'], 'city', __('Billing city is required.', true));
+					$this->t_validate('not_empty', $this->data['BillingAddress'], 'zip', __('Billing zip code is required.', true));
+					$this->t_validate('not_empty', $this->data['BillingAddress'], 'country_id', __('Billing country is required.', true));
+					if (isset($this->data['BillingAddress']['state_id']) && $this->data['BillingAddress']['state_id'] !== 'no_state') {
+						$this->t_validate($this, 'not_empty', $this->data['BillingAddress'], 'state_id', __('Billing state is required.', true));
+					}
+
+					// validate shipping address
+					if (!isset($this->data['ShippingAddress']['same_as_billing'])) {
+						$this->t_validate('not_empty', $this->data, 'ShippingAddress', __('Shipping address must be passed.', true));
+						$this->t_validate('not_empty', $this->data['ShippingAddress'], 'firstname', __('Shipping first name is required.', true));
+						$this->t_validate('not_empty', $this->data['ShippingAddress'], 'lastname', __('Shipping last name is required.', true));
+						$this->t_validate('not_empty', $this->data['ShippingAddress'], 'address1', __('Shipping address is required.', true));
+						$this->t_validate('not_empty', $this->data['ShippingAddress'], 'city', __('Shipping city is required.', true));
+						$this->t_validate('not_empty', $this->data['ShippingAddress'], 'zip', __('Shipping zip code is required.', true));
+						$this->t_validate('not_empty', $this->data['ShippingAddress'], 'country_id', __('Shipping country is required.', true));
+						if (isset($this->data['ShippingAddress']['state_id']) && $this->data['ShippingAddress']['state_id'] !== 'no_state') {
+							$this->t_validate($this, 'not_empty', $this->data['ShippingAddress'], 'state_id', __('Shipping state is required.', true));
+						}
+					}
+				} catch (Exception $e) {
+					$this->Session->setFlash($e->getMessage());
+					$this->ThemeRenderer->render($this);
+					return;
+				}
+				
+			// save the data into the cart session
+			$billing_data = $this->data['BillingAddress'];
+			if (isset($this->data['ShippingAddress']['same_as_billing'])) {
+				$shipping_data = $billing_data;
+				$shipping_data['same_as_billing'] = true;
+			} else {
+				$shipping_data = $this->data['ShippingAddress'];
+				$shipping_data['same_as_billing'] = false;
+			}
+			$this->Cart->set_cart_address_data($billing_data, $shipping_data);
+			
+			$this->redirect('/ecommerces/checkout_finalize_payment');
 		}
 		
-//		if ($cart_empty) {
+		
+		
+		
+		$this->ThemeRenderer->render($this);
+	}
+	
+	public function checkout_finalize_payment() {
+//		if ($cart_empty) { // DREW TODO
 			// redirect to view_cart
+//		}
+		
+//		if ($logged_in) { // DREW TODO
+			// get logged in user info to popuplate address and cc info
 //		}
 		
 		
@@ -366,5 +428,31 @@ class EcommercesController extends AppController {
 	}
 	
 	
+	public function get_available_states_for_country_options($country_id, $state_id = null) {
+		$state_option_html = '';
+		$data = array();
+		$this->GlobalCountryState = ClassRegistry::init('GlobalCountryState');
+
+		$states = $this->GlobalCountryState->get_states_by_country($country_id);
+
+		$data['count'] = count($states);
+		if ($data['count'] > 0) {
+			$state_option_html .= "<option value=''>".__('Choose a State', true)."</option>";
+		} else {
+			$state_option_html .= "<option value='no_state'>&nbsp;</option>";
+		}
+		foreach ($states as $state) {
+			$selected = '';
+			if (isset($state_id) && $state_id == $state['GlobalCountryState']['id']) {
+				$selected = 'selected="selected"';
+			}
+
+			$state_option_html .= "<option value='{$state['GlobalCountryState']['id']}' $selected >{$state['GlobalCountryState']['state_name']}</option>";
+		}
+		$data['html'] = $state_option_html;
+		
+		
+		$this->return_json($data);
+	}
 	
 }
