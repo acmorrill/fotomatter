@@ -1,5 +1,5 @@
 <?php
-class AuthnetProfile extends RainauthnetAppModel {
+class AuthnetProfile extends CakeAuthnetAppModel {
 
 	var $name = 'AuthnetProfile';
         
@@ -106,15 +106,15 @@ class AuthnetProfile extends RainauthnetAppModel {
                                             ),
                                     ),
                             ),
-                          /*  'shipToList' => array(
-                                            'firstName' => $this->data['AuthnetProfile']['shipping_firstname'],
-                                            'lastName' => $this->data['AuthnetProfile']['shipping_lastname'],
-                                            'address' => $this->data['AuthnetProfile']['shipping_address'],
-                                            'city' => $this->data['AuthnetProfile']['shipping_city'],
-                                            'state' => $this->data['AuthnetProfile']['shipping_state'],
-                                            'zip' => $this->data['AuthnetProfile']['shipping_zip'],
-                                            'country' => $this->data['AuthnetProfile']['shipping_country']
-                                    ), */
+                            'shipToList' => array(
+								'firstName' => $this->data['AuthnetProfile']['shipping_firstname'],
+								'lastName' => $this->data['AuthnetProfile']['shipping_lastname'],
+								'address' => $this->data['AuthnetProfile']['shipping_address'],
+								'city' => $this->data['AuthnetProfile']['shipping_city'],
+								'state' => $this->data['AuthnetProfile']['shipping_state'],
+								'zip' => $this->data['AuthnetProfile']['shipping_zip'],
+								'country' => $this->data['AuthnetProfile']['shipping_country'],
+							), 
                     ),
                     'validationMode' => 'testMode' //Adam TODO what is this?
                 );

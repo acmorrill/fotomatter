@@ -52,6 +52,16 @@ class Cart extends AppModel {
 		$this->Session->write('Cart.items', $cart_items);
 	}
 	
+	public function create_fake_cart_items() {
+		$this->Session = $this->get_session();
+		$this->Session->delete('Cart');
+		$this->add_to_cart(21, 1, 11);
+		$this->add_to_cart(21, 1, 11);
+		$this->add_to_cart(23, 1, 11);
+		$this->add_to_cart(24, 1, 11);
+		$this->add_to_cart(27, 1, 11);
+	}
+	
 	public function get_cart_key($photo_id, $photo_print_type_id, $short_side_inches) {
 		return 'photo_id:'.$photo_id.'|print_type_id:'.$photo_print_type_id.'|short_side_inches:'.$short_side_inches;
 	}
@@ -139,6 +149,7 @@ class Cart extends AppModel {
 		if ($this->Session->check('Cart.billing_address')) {
 			$billing_address = $this->Session->read('Cart.billing_address');
 			
+			$billing_address['country_name'] = '';
 			if (!empty($billing_address['country_id'])) {
 				$this->GlobalCountry = ClassRegistry::init('GlobalCountry');
 				$country = $this->GlobalCountry->find('first', array(
@@ -150,6 +161,7 @@ class Cart extends AppModel {
 				$billing_address['country_name'] = $country['GlobalCountry']['country_name'];
 			}
 			
+			$billing_address['state_name'] = '';
 			if (!empty($billing_address['state_id'])) {
 				$this->GlobalCountryState = ClassRegistry::init('GlobalCountryState');
 				$state = $this->GlobalCountryState->find('first', array(
@@ -173,6 +185,7 @@ class Cart extends AppModel {
 		if ($this->Session->check('Cart.shipping_address')) {
 			$shipping_address = $this->Session->read('Cart.shipping_address');
 			
+			$shipping_address['country_name'] = '';
 			if (!empty($shipping_address['country_id'])) {
 				$this->GlobalCountry = ClassRegistry::init('GlobalCountry');
 				$country = $this->GlobalCountry->find('first', array(
@@ -184,6 +197,7 @@ class Cart extends AppModel {
 				$shipping_address['country_name'] = $country['GlobalCountry']['country_name'];
 			}
 			
+			$shipping_address['state_name'] = '';
 			if (!empty($shipping_address['state_id'])) {
 				$this->GlobalCountryState = ClassRegistry::init('GlobalCountryState');
 				$state = $this->GlobalCountryState->find('first', array(
@@ -199,6 +213,16 @@ class Cart extends AppModel {
 			return $shipping_address;
 		} else {
 			return array();
+		}
+	}
+	
+	public function cart_empty() {
+		$cart_items = $this->get_cart_items();
+		
+		if (empty($cart_items)) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 	

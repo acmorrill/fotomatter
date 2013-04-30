@@ -19,6 +19,7 @@ class AppController extends Controller {
 		'ThemeRenderer', 
 		'LessCss',
 		'MobileDetect',
+		'Validation',
 	);
 	
 	public $helpers = array(
@@ -253,22 +254,15 @@ class AppController extends Controller {
 	}
 	
 	
-	///////////////////////////////////////////////////////////////////////////////////
-	// VALIDATION FUNCTIONS
-	public function t_validate($type, $data, $value, $flash_message) {
-		switch($type) {
-			case 'not_empty':
-				if (empty($data[$value])) {
-					throw new Exception($flash_message);
-					return;
-				}
-				break;
-			default:
-				break;
+	public function is_logged_in() {
+		$user = $this->Auth->user();
+		
+		if (!empty($user)) {
+			return true;
+		} else {
+			return false;
 		}
 	}
-	
-	
 	
 }
 

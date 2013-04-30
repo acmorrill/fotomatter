@@ -1,5 +1,5 @@
 <?php
-class AuthnetError extends RainauthnetAppModel {
-    
+class AuthnetError extends CakeAuthnetAppModel {
+    public $useTable = false;
     
 }

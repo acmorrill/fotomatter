@@ -1,5 +1,7 @@
 <?php $cart_items = $this->Cart->get_cart_items(); ?>
 
+<?php //debug($cart_items); ?>
+
 <?php if (!empty($cart_items)): ?>
 	<script type="text/javascript">
 		jQuery(document).ready(function() {
