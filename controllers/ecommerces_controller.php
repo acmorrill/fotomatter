@@ -1,7 +1,7 @@
 <?php
 class EcommercesController extends AppController {
 	public $name = 'Ecommerces';
-	public $uses = array('PhotoAvailSize', 'PhotoFormat', 'PhotoPrintType', 'PhotoAvailSizesPhotoPrintType', 'Cart', 'Photo', 'User', 'cake_authnet.AuthnetProfile');
+	public $uses = array('PhotoAvailSize', 'PhotoFormat', 'PhotoPrintType', 'PhotoAvailSizesPhotoPrintType', 'Cart', 'Photo', 'User', 'cake_authnet.AuthnetProfile', 'cake_authnet.AuthnetOrder');
 	public $layout = 'admin/ecommerces';
 
 
@@ -479,46 +479,64 @@ class EcommercesController extends AppController {
 			}
 			
 			
-			// create a user if need be // DREW TODO - turn this back on
-			$new_user_id = $this->User->create_user($this->data['CreateAccount']['email_address'], $this->data['CreateAccount']['password'], false);
+			/////////////////////////////////////////////////////
+			// create a user if need be 
+			// also create a CIM account for the user - and charge
+			// amount to CIM account
+			// otherwise just charge straight to authorize.net
+			if (!empty($this->data['CreateAccount']['email_address'])) {
+				$new_user_id = $this->User->create_user($this->data['CreateAccount']['email_address'], $this->data['CreateAccount']['password'], false);
 			
 			
-			// try and save the credit card data to authorize.net CIM
-			$billing_address = $this->Cart->get_cart_billing_address();
-			$shipping_address = $this->Cart->get_cart_shipping_address();
-			$authnet_data = array(
-				'AuthnetProfile' => array(
-					'user_id' => $new_user_id,
-					'billing_firstname' => $billing_address['firstname'],
-					'billing_lastname' => $billing_address['lastname'],
-					'billing_address' => $billing_address['address1']." ".$billing_address['address2'],
-					'billing_city' => $billing_address['city'],
-					'billing_state' => $billing_address['state_name'],
-					'billing_zip' => $billing_address['zip'],
-					'billing_country' => $billing_address['country_name'],
-					'billing_phoneNumber' => isset($billing_address['phoneNumber']) ? $billing_address['phoneNumber'] : '' ,
-					'payment_cardNumber' => $this->data['Payment']['card_number'],
-					'payment_expirationDate' => $expiration_str,
-					'payment_cardCode' => $this->data['Payment']['security_code'],
-					'shipping_firstname' => $shipping_address['firstname'],
-					'shipping_lastname' => $shipping_address['lastname'],
-					'shipping_address' => $shipping_address['address1']." ".$shipping_address['address2'],
-					'shipping_city' => $shipping_address['city'],
-					'shipping_state' => $shipping_address['state_name'],
-					'shipping_zip' => $shipping_address['zip'],
-					'shipping_country' => $shipping_address['country_name'],
-					'payment_cc_last_four' => substr($this->data['Payment']['card_number'], -4, 4),
-				),
-			);
-			
-			$this->AuthnetProfile->create();
-			$authnet_result = $this->AuthnetProfile->save($authnet_data);
-			// START HERE TOMORROW - DREW TODO - charge the actaul credit card for the purchase now
-			
-			if ($authnet_result === false) {
-				$this->Session->setFlash('Failed to save credit card info. Please contact Fotomatter support.');
-				$this->ThemeRenderer->render($this);
-				return;
+				// try and save the credit card data to authorize.net CIM
+				$billing_address = $this->Cart->get_cart_billing_address();
+				$shipping_address = $this->Cart->get_cart_shipping_address();
+				$authnet_data = array(
+					'AuthnetProfile' => array(
+						'user_id' => $new_user_id,
+						'billing_firstname' => $billing_address['firstname'],
+						'billing_lastname' => $billing_address['lastname'],
+						'billing_address' => $billing_address['address1']." ".$billing_address['address2'],
+						'billing_city' => $billing_address['city'],
+						'billing_state' => $billing_address['state_name'],
+						'billing_zip' => $billing_address['zip'],
+						'billing_country' => $billing_address['country_name'],
+						'billing_phoneNumber' => isset($billing_address['phoneNumber']) ? $billing_address['phoneNumber'] : '' ,
+						'payment_cardNumber' => $this->data['Payment']['card_number'],
+						'payment_expirationDate' => $expiration_str,
+						'payment_cardCode' => $this->data['Payment']['security_code'],
+						'shipping_firstname' => $shipping_address['firstname'],
+						'shipping_lastname' => $shipping_address['lastname'],
+						'shipping_address' => $shipping_address['address1']." ".$shipping_address['address2'],
+						'shipping_city' => $shipping_address['city'],
+						'shipping_state' => $shipping_address['state_name'],
+						'shipping_zip' => $shipping_address['zip'],
+						'shipping_country' => $shipping_address['country_name'],
+						'payment_cc_last_four' => substr($this->data['Payment']['card_number'], -4, 4),
+					),
+				);
+
+				$this->AuthnetProfile->create();
+				$authnet_result = $this->AuthnetProfile->save($authnet_data);
+
+
+				if ($authnet_result === false) {
+					$this->Session->setFlash('Failed to save credit card info. Please contact Fotomatter support.');
+					$this->major_error('Failed to save credit card info. Please contact Fotomatter support.');
+					$this->ThemeRenderer->render($this);
+					return;
+				}
+
+
+				// actually charge for the order
+				if (!$this->AuthnetOrder->charge_cart_to_cim($this->AuthnetProfile->id)) {
+					$this->Session->setFlash('Failed to charge credit card.');
+					$this->major_error('Failed to charge credit card.');
+					$this->ThemeRenderer->render($this);
+					return;
+				}
+			} else {
+				// DREW TODO - charge straight to authorize.net without the CIM
 			}
 		}
 		

@@ -25,7 +25,8 @@
 
 
 <div id="login_container">
-	<form action="" method="post">
+	START HERE TOMORROW
+	<form action="/ecommerces/checkout_login_or_guest" method="post">
 		<div class="input">
 			<label><?php __('Email'); ?>:</label> <input type="text" value="" /><br/>
 		</div>
