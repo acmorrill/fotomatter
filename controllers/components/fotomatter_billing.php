@@ -1,12 +1,17 @@
 <?php
 class FotomatterBillingComponent extends Object {
     
-    public $server_url = 'https://overlord.fotomatter.net';
+    //public $server_url = 'https://overlord.fotomatter.net';
     //
-    //public $server_url = 'http://overlord.local.net';
+    public $server_url = 'http://overlord.local.net';
     //adam TODO this should be ssl
     
     public $shared_secret = 'baYMbSR0EM0REmSheFHc0Qo2RUmEGoToNFnPWFcyAEUYRlaOgSynnI1F9DyI';
+    
+    public function save_payment_profile($profile_data) {
+        $save_result = $this->send_api_request('billing_api/save_payment_profile', $profile_data);
+        $this->log($save_result, 'client_billing');
+    }
     
     public function get_info_account($params=array()) {
         $result_of_find = json_decode($this->send_api_request('billing_api/get_info_account', $params), true);

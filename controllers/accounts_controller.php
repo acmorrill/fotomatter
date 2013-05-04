@@ -9,6 +9,11 @@ class AccountsController extends AppController {
        'Session'
    );
     
+   
+   /**
+    * action for the page to add/remove line items. 
+    * @author Adam Holsinger
+    */
    public function admin_index() {
        $line_items = $this->FotomatterBilling->get_info_account();
        
@@ -25,6 +30,8 @@ class AccountsController extends AppController {
    
    /**
     * Gets called when a line item is selected or deselected
+    * @return Json indicating that we have recorded whether that item is checked on unchecked
+    * @author Adam Holsinger
     */
    public function ajax_setItemChecked() {
       
@@ -47,6 +54,24 @@ class AccountsController extends AppController {
        exit();
    }
    
+   /**
+    * Ajax function that gets called to save client billing and send it to overlord
+    * @return This function will either return a error or call ajax_finishLineChange
+    * @author Adam Holsinger
+    */
+   public function admin_ajax_save_client_billing() {
+       if (empty($this->data) == false) {
+           $this->FotomatterBilling->save_payment_profile($this->data);
+           
+       }
+   }
+   
+   /**
+    * Figure out exactly what changed from what they have selected and display that to the user. They will be warned as far
+    * as how their bill is changing. 
+    * @return Function will get the html for the account_change_finish_element. 
+    * @author Adam Holsinger
+    */
    public function ajax_finishLineChange() {
        //If payment needed collect authnet
        
