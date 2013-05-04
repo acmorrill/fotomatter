@@ -4,6 +4,10 @@
 <script src="/js/jquery-ui-1.8.18.custom/js/jquery-ui-1.8.18.custom.min.js"></script>
 
 <script type="text/javascript">
+	if (!window.console) {
+		console = {log: function() {}};
+	}
+	
 	jQuery(document).ready(function() {
 		jQuery('#main_nav li.main_menu_item').mouseover(function() {
 			jQuery('#main_nav li.main_menu_item').removeClass('hover');
@@ -12,6 +16,7 @@
 	});
 </script>
 
+<link rel="stylesheet" type="text/css" href="/css/global_ecommerce.css" />
 
 <?php if (Configure::read('debug') >= 2): ?>
 <!--<script src="/js/live.js"></script>-->

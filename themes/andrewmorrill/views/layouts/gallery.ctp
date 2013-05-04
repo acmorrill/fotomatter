@@ -62,7 +62,7 @@ if(!isset($HTTP_COOKIE_VARS["usersAvailScreenWidth"]) || !isset($HTTP_COOKIE_VAR
 	</head>
 	<body>		
 		<?php echo $this->Element('nameTitle'); ?>
-		<?php echo $this->Element('newsLetter'); ?>
+		<?php //echo $this->Element('newsLetter'); ?>
 		<div class="galleryContent">
 			<br />
 			<h1><?php echo "<b>",$curr_gallery['PhotoGallery']['display_name'],"</b>"; ?></h1>

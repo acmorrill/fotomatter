@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		<?php echo $this->Element('nameTitle'); ?>
-		<?php echo $this->Element('newsLetter'); ?>
+		<?php //echo $this->Element('newsLetter'); ?>
 		<a name="bio"></a>
 		<div class="standardContent">
 			<div class="contentBackgroundInside">

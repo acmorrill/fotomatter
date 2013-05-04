@@ -33,7 +33,19 @@ $theme_config = array(
 		),
 		'Ecommerces' => array(
 			'view_cart' => array(
-				'laytout' => 'custom_page',
+				'layout' => 'custom_page',
+				'view' => false,
+			),
+			'checkout_login_or_guest' => array(
+				'layout' => 'custom_page',
+				'view' => false,
+			),
+			'checkout_get_address' => array(
+				'layout' => 'custom_page',
+				'view' => false,
+			),
+			'checkout_finalize_payment' => array(
+				'layout' => 'custom_page',
 				'view' => false,
 			),
 		),
@@ -68,6 +80,18 @@ $theme_config = array(
 		'Ecommerces' => array(
 			'view_cart' => array(
 				'laytout' => 'mobile_landing',
+				'view' => false,
+			),
+			'checkout_login_or_guest' => array(
+				'layout' => 'mobile_landing',
+				'view' => false,
+			),
+			'checkout_get_address' => array(
+				'layout' => 'mobile_landing',
+				'view' => false,
+			),
+			'checkout_finalize_payment' => array(
+				'layout' => 'mobile_landing',
 				'view' => false,
 			),
 		),

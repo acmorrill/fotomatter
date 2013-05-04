@@ -35,6 +35,7 @@
  * In development mode, you need to click the flash message to continue.
  */
 	Configure::write('debug', 0);
+	Configure::write('show_major_error_bar', true);
 
 /**
  * CakePHP Log Level:
@@ -197,7 +198,7 @@
  * CakePHP session IDs are also regenerated between requests if
  * 'Security.level' is set to 'high'.
  */
-	Configure::write('Security.level', 'high');
+	Configure::write('Security.level', 'medium');
 
 /**
  * A random string used in security hashing methods.

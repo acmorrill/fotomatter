@@ -23,27 +23,27 @@ class PhotoCache extends AppModel {
 	}
 	
 	
-	public function get_dummy_error_image_path($height, $width, $direct_output = false, $return_tag_attributes = false) {
+	public function get_dummy_error_image_path($height, $width, $direct_output = false, $return_tag_attributes = false, $crop = false) {
 		$image_name = 'photo_404.jpg';
 		$dummy_image_path = ROOT.DS.APP_DIR.DS.'webroot/img/photo_default/'.$image_name;
 		$dummy_image_url_path = '/img/photo_default/'.$image_name;
 		$cache_path = ROOT.DS.APP_DIR.DS.'webroot/img/photo_default/caches';
 		$url_cache_path = '/img/photo_default/caches';
 		
-		return $this->get_dummy_image_path($height, $width, $image_name, $dummy_image_path, $dummy_image_url_path, $cache_path, $url_cache_path, $direct_output, $return_tag_attributes);
+		return $this->get_dummy_image_path($height, $width, $image_name, $dummy_image_path, $dummy_image_url_path, $cache_path, $url_cache_path, $direct_output, $return_tag_attributes, $crop);
 	}
 	
-	public function get_dummy_processing_image_path($height, $width, $direct_output = false, $return_tag_attributes = false) {
+	public function get_dummy_processing_image_path($height, $width, $direct_output = false, $return_tag_attributes = false, $crop = false) {
 		$image_name = 'photo_processing.jpg';
 		$dummy_image_path = ROOT.DS.APP_DIR.DS.'webroot/img/photo_default/'.$image_name;
 		$dummy_image_url_path = '/img/photo_default/'.$image_name;
 		$cache_path = ROOT.DS.APP_DIR.DS.'webroot/img/photo_default/caches';
 		$url_cache_path = '/img/photo_default/caches';
 		
-		return $this->get_dummy_image_path($height, $width, $image_name, $dummy_image_path, $dummy_image_url_path, $cache_path, $url_cache_path, $direct_output, $return_tag_attributes);
+		return $this->get_dummy_image_path($height, $width, $image_name, $dummy_image_path, $dummy_image_url_path, $cache_path, $url_cache_path, $direct_output, $return_tag_attributes, $crop);
 	}
 	
-	private function get_dummy_image_path($height, $width, $image_name, $dummy_image_path, $dummy_image_url_path, $cache_path, $url_cache_path, $direct_output, $return_tag_attributes = false) { 
+	private function get_dummy_image_path($height, $width, $image_name, $dummy_image_path, $dummy_image_url_path, $cache_path, $url_cache_path, $direct_output, $return_tag_attributes = false, $crop = false) { 
 		$bothEmpty = empty($height) && empty($width);
 		$onlyWidth = !empty($width) && empty($height);
 		$onlyHeight = empty($width) && !empty($height);
@@ -105,7 +105,7 @@ class PhotoCache extends AppModel {
 				mkdir($cache_path.DS.$folder, 0775);
 			}
 			
-			if ($this->convert($dummy_image_path, $image_path, $width, $height) == false) {
+			if ($this->convert($dummy_image_path, $image_path, $width, $height, true, null, $crop) == false) {
 				$this->major_error('failed to create dummy image cache in get_dummy_image_path', array($dummy_image_path, $image_path, $width, $height));
 			}
 		}
@@ -162,10 +162,11 @@ class PhotoCache extends AppModel {
 		}
 	}
 	
-	public function prepare_new_cachesize($photo_id, $height, $width, $raw_id = false, $unsharp_amount = null, $return_tag_attributes = false) {
+	public function prepare_new_cachesize($photo_id, $height, $width, $raw_id = false, $unsharp_amount = null, $return_tag_attributes = false, $crop = false) {
 		$data['PhotoCache']['photo_id'] = $photo_id;
 		$data['PhotoCache']['max_height'] = $height;
 		$data['PhotoCache']['max_width'] = $width;
+		$data['PhotoCache']['crop'] = ($crop === true) ? 1 : 0;
 		$data['PhotoCache']['status'] = 'queued';
 		if (isset($unsharp_amount)) {
 			$data['PhotoCache']['unsharp_amount'] = $unsharp_amount;
@@ -203,6 +204,16 @@ class PhotoCache extends AppModel {
 				'Photo'
 			)
 		));
+		
+		
+		// if the cache is cropped then just return the easily calculated size
+		if ($curr_photo_cache['PhotoCache']['crop'] == '1') {
+			return array(
+				'tag_attributes' =>	'width="'.$curr_photo_cache['PhotoCache']['max_width'].'" height="'.$curr_photo_cache['PhotoCache']['max_height'].'"',
+				'width' => $curr_photo_cache['PhotoCache']['max_width'],
+				'height' => $curr_photo_cache['PhotoCache']['max_height'],
+			);
+		}
 		
 		
 		$forcache_pixel_width = $curr_photo_cache['Photo']['forcache_pixel_width'];
@@ -287,7 +298,7 @@ class PhotoCache extends AppModel {
 		$initLocked = $this->query("SELECT GET_LOCK('finish_create_cache_".$photo_cache_id."', 8)");
 		if ($initLocked['0']['0']["GET_LOCK('finish_create_cache_".$photo_cache_id."', 8)"] == 0 || $initLocked['0']['0']["GET_LOCK('finish_create_cache_".$photo_cache_id."', 8)"] == null) {
 			if ( !empty($photoCache['PhotoCache']['max_height']) || !empty($photoCache['PhotoCache']['max_width']) ) {
-				return $this->get_dummy_processing_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], $direct_output);
+				return $this->get_dummy_processing_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], $direct_output, false, $photoCache['PhotoCache']['crop']);
 			} else {
 				return;
 			}
@@ -297,7 +308,7 @@ class PhotoCache extends AppModel {
 		if ($photoCache['PhotoCache']['status'] != 'queued') {
 			$this->query("SELECT RELEASE_LOCK('finish_create_cache_".$photo_cache_id."')");
 			if ( !empty($photoCache['PhotoCache']['max_height']) || !empty($photoCache['PhotoCache']['max_width']) ) {
-				return $this->get_dummy_processing_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], $direct_output);
+				return $this->get_dummy_processing_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], $direct_output, false, $photoCache['PhotoCache']['crop']);
 			} else {
 				return;
 			}
@@ -328,7 +339,7 @@ class PhotoCache extends AppModel {
 			if ( !empty($photoCache['PhotoCache']['max_height']) || !empty($photoCache['PhotoCache']['max_width']) ) {
 				$photoCache['PhotoCache']['status'] = 'failed';
 				$this->save($photoCache);
-				return $this->get_dummy_error_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], $direct_output);
+				return $this->get_dummy_error_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], $direct_output, false, $photoCache['PhotoCache']['crop']);
 			} 
 			
 			return;
@@ -367,12 +378,12 @@ class PhotoCache extends AppModel {
 			}
 			
 			
-			if ($this->convert($large_image_url, $new_cache_image_path, $max_width, $max_height, true, $unsharp_amount) == false) {
+			if ($this->convert($large_image_url, $new_cache_image_path, $max_width, $max_height, true, $unsharp_amount, $photoCache['PhotoCache']['crop']) == false) {
 				$this->major_error('failed to create new cache file in finish_create_cache', array($large_image_url, $new_cache_image_path, $max_width, $max_height));
 				$photoCache['PhotoCache']['status'] = 'failed';
 				$this->save($photoCache);
 				if ( !empty($photoCache['PhotoCache']['max_height']) || !empty($photoCache['PhotoCache']['max_width']) ) {
-					return $this->get_dummy_error_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], $direct_output);
+					return $this->get_dummy_error_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], $direct_output, false, $photoCache['PhotoCache']['crop']);
 				} 
 				
 				return;
@@ -418,7 +429,7 @@ class PhotoCache extends AppModel {
 			unlink($new_cache_image_path);
 		} else {
 			$this->major_error("the temp image path is not writable for image cache");
-			return $this->get_dummy_error_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], true);
+			return $this->get_dummy_error_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], true, false, $photoCache['PhotoCache']['crop']);
 		}
 	}
 	
@@ -431,7 +442,7 @@ class PhotoCache extends AppModel {
 		return $this->CloudFiles;
 	}
 	
-	public function convert($old_image_url, $new_image_path, $max_width, $max_height, $enlarge = true, $unsharp_amount = null) {
+	public function convert($old_image_url, $new_image_path, $max_width, $max_height, $enlarge = true, $unsharp_amount = null, $crop = false) {
 		/*App::import('Component', 'ImageVersion');
 		$email = new ImageVersionComponent();
 		$email->startup($controller);
@@ -491,7 +502,13 @@ class PhotoCache extends AppModel {
 			$unsharp = "-unsharp 0x$unsharp_amount";
 		}
 		
-		$imageMagickCommand = "convert $unsharp $jpeg_define $filter $resize$enlarge_str ".escapeshellarg($old_image_url).' '.escapeshellarg($new_image_path).' ';
+		$crop_str = '';
+		if ($crop == true) {
+			$crop_str = " -gravity center -extent {$max_width}x{$max_height}";
+			$enlarge_str = '^';
+		}
+		
+		$imageMagickCommand = "convert $unsharp $jpeg_define $filter $resize$enlarge_str $crop_str ".escapeshellarg($old_image_url).' '.escapeshellarg($new_image_path).' ';
 		$info = array();
 		$info['output'] = array();
 		$info['return_var'] = 0;
