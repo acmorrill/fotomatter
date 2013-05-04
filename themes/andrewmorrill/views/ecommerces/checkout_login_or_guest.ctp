@@ -25,17 +25,16 @@
 
 
 <div id="login_container">
-	START HERE TOMORROW
 	<form action="/ecommerces/checkout_login_or_guest" method="post">
+		<?php echo $this->Session->flash(); ?>
 		<div class="input">
-			<label><?php __('Email'); ?>:</label> <input type="text" value="" /><br/>
+			<label><?php __('Email'); ?>:</label> <input type="text" name="data[User][email_address]" value="" /><br/>
 		</div>
 		<div class="input">
-			<label><?php __('Password'); ?>:</label> <input type="text" value="" />
+			<label><?php __('Password'); ?>:</label> <input type="password" name="data[User][password]" value="" />
 		</div>
 		<div class="submit">
 			<input type="submit" value="<?php __('Login'); ?>" />
 		</div>
 	</form>
-	
 </div>
