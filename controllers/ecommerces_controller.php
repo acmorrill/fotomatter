@@ -346,6 +346,15 @@ class EcommercesController extends AppController {
 			 $this->cart_empty_redirect();
 		}
 		
+		// we are logging in
+		if (isset($this->data['User']['password'])) {
+			if ($this->Auth->login()) {
+				$this->redirect('/ecommerces/checkout_finalize_payment');
+			} else {
+				$this->Session->setFlash('Invalid login credentials.');
+			}
+		}
+		
 		
 		$logged_in = $this->is_logged_in();
 		if ($logged_in) {
@@ -434,8 +443,12 @@ class EcommercesController extends AppController {
 		
 		
 //		if ($logged_in) { // DREW TODO
-			// get logged in user info to popuplate address and cc info
+			// get logged in user info to populate address and cc info
 //		}
+		
+		$user = $this->Auth->user();
+		$logged_in = !empty($user) ? true : false ;
+		$this->set('logged_in', $logged_in);
 		
 		
 		if (!empty($this->data)) {

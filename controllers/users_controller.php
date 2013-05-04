@@ -4,11 +4,11 @@ class UsersController extends AppController {
     public $scaffold;
 	
 	public function  beforeFilter() {
-	  parent::beforeFilter();
-
+		parent::beforeFilter();
 	}
 	
-    function admin_login(){}
+    function admin_login() {}
+	
     function admin_logout() {
         $this->Session->delete('Permissions');
         $this->redirect($this->Auth->logout());

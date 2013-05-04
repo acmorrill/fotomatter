@@ -12,24 +12,28 @@
 	}
 ?>
 
+<?php debug($logged_in); ?>
+
 <form action="/ecommerces/checkout_finalize_payment" method="post">
-
-	<div id="create_account">
-		<h1><?php __('Create Account'); ?> (Optional)</h1>
-		<div class="input email">
-			<label><?php __('Email Address'); ?>:</label> 
-			<input type="text" name="data[CreateAccount][email_address]" value="<?php if (isset($CreateAccount['email_address'])): ?><?php echo $CreateAccount['email_address']; ?><?php endif; ?>" />
+	
+	<?php if ($logged_in === true): ?>
+		<div id="create_account">
+			<h1><?php __('Create Account'); ?> (Optional)</h1>
+			<div class="input email">
+				<label><?php __('Email Address'); ?>:</label> 
+				<input type="text" name="data[CreateAccount][email_address]" value="<?php if (isset($CreateAccount['email_address'])): ?><?php echo $CreateAccount['email_address']; ?><?php endif; ?>" />
+			</div>
+			<div class="input password">
+				<label><?php __('Password'); ?>:</label> 
+				<input type="password" name="data[CreateAccount][password]" value="<?php if (isset($CreateAccount['password'])): ?><?php echo $CreateAccount['password']; ?><?php endif; ?>" />
+			</div>
+			<div class="input password_repeat">
+				<label><?php __('Repeat'); ?></label> 
+				<input type="password" name="data[CreateAccount][repeat_password]" value="<?php if (isset($CreateAccount['repeat_password'])): ?><?php echo $CreateAccount['repeat_password']; ?><?php endif; ?>" />
+			</div>
 		</div>
-		<div class="input password">
-			<label><?php __('Password'); ?>:</label> 
-			<input type="password" name="data[CreateAccount][password]" value="<?php if (isset($CreateAccount['password'])): ?><?php echo $CreateAccount['password']; ?><?php endif; ?>" />
-		</div>
-		<div class="input password_repeat">
-			<label><?php __('Repeat'); ?></label> 
-			<input type="password" name="data[CreateAccount][repeat_password]" value="<?php if (isset($CreateAccount['repeat_password'])): ?><?php echo $CreateAccount['repeat_password']; ?><?php endif; ?>" />
-		</div>
-	</div>
-
+	<?php endif; ?>
+	
 	<div id="final_payment_info">
 		<h1><?php __('Payment Info'); ?></h1>
 		<div class="input name_on_card">
