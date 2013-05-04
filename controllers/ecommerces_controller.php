@@ -1,14 +1,16 @@
 <?php
 class EcommercesController extends AppController {
 	public $name = 'Ecommerces';
-	public $uses = array('PhotoAvailSize', 'PhotoFormat', 'PhotoPrintType', 'PhotoAvailSizesPhotoPrintType', 'Cart', 'Photo');
+	public $uses = array('PhotoAvailSize', 'PhotoFormat', 'PhotoPrintType', 'PhotoAvailSizesPhotoPrintType', 'Cart', 'Photo', 'User', 'cake_authnet.AuthnetProfile', 'cake_authnet.AuthnetOrder');
 	public $layout = 'admin/ecommerces';
 
 
 	public function beforeFilter() {
 		parent::beforeFilter();
 
-		$this->Auth->allow(array('view_cart', 'add_to_cart'));
+		$this->Auth->allow(array('view_cart', 'add_to_cart', 'checkout_login_or_guest', 'checkout_get_address', 'get_available_states_for_country_options', 'checkout_finalize_payment'));
+		
+//		$this->front_end_auth = array('checkout_get_address');
 	}
 
 	public function admin_index() {
@@ -263,6 +265,12 @@ class EcommercesController extends AppController {
 	}
 	
 	public function add_to_cart() {
+		if ($this->Session->check('Cart')) {
+			$this->log('came here 3', 'cart_error');
+		} else {
+			$this->log('came here 4', 'cart_error');
+		}
+		
 		///////////////////////////////////////////////
 		// make sure ids are valid
 			if (!isset($this->data['PhotoPrintType']['id']) || !isset($this->data['Photo']['id']) || !isset($this->data['Photo']['short_side_inches'])) {
@@ -316,14 +324,265 @@ class EcommercesController extends AppController {
 		// end validation
 			
 		
+			
 		$this->Cart->add_to_cart($photo_id, $photo_print_type_id, $short_side_inches);
 		$this->redirect('/ecommerces/view_cart/');
 	}
 	
 	public function view_cart() {
-		$cart_datas = $this->Cart->get_cart_data();
+		$this->Cart->create_fake_cart_items(); // DREW TODO - delete this line
 		
-		$this->set(compact('cart_datas'));
 		$this->ThemeRenderer->render($this);
 	}
+	
+	public function cart_empty_redirect() { 
+		$this->redirect('/ecommerces/view_cart');
+		exit();
+	}
+		
+	
+	public function checkout_login_or_guest() {
+		if ($this->Cart->cart_empty()) {
+			 $this->cart_empty_redirect();
+		}
+		
+		// we are logging in
+		if (isset($this->data['User']['password'])) {
+			if ($this->Auth->login()) {
+				$this->redirect('/ecommerces/checkout_finalize_payment');
+			} else {
+				$this->Session->setFlash('Invalid login credentials.');
+			}
+		}
+		
+		
+		$logged_in = $this->is_logged_in();
+		if ($logged_in) {
+//			if ($no_addresses) { // DREW TODO
+//				redirect to collect address
+//			}
+			
+			$this->redirect('/ecommerces/checkout_finalize_payment');
+		}
+
+		$this->ThemeRenderer->render($this);
+	}
+	
+	public function checkout_get_address() {
+		if ($this->Cart->cart_empty()) {
+			 $this->cart_empty_redirect();
+		}
+		
+//		if ($logged_in) { // DREW TODO
+			// get logged in user info to popuplate the cart address data with
+//		}
+		
+		
+		if (!empty($this->data)) {
+			// validate the data
+				try {
+					// validate billing address
+					$this->Validation->validate('not_empty', $this->data, 'BillingAddress', __('Billing address must be passed.', true));
+					$this->Validation->validate('not_empty', $this->data['BillingAddress'], 'firstname', __('Billing first name is required.', true));
+					$this->Validation->validate('not_empty', $this->data['BillingAddress'], 'lastname', __('Billing last name is required.', true));
+					$this->Validation->validate('not_empty', $this->data['BillingAddress'], 'address1', __('Billing address is required.', true));
+					$this->Validation->validate('not_empty', $this->data['BillingAddress'], 'city', __('Billing city is required.', true));
+					$this->Validation->validate('not_empty', $this->data['BillingAddress'], 'zip', __('Billing zip code is required.', true));
+					$this->Validation->validate('not_empty', $this->data['BillingAddress'], 'country_id', __('Billing country is required.', true));
+					if (isset($this->data['BillingAddress']['state_id']) && $this->data['BillingAddress']['state_id'] !== 'no_state') {
+						$this->Validation->validate($this, 'not_empty', $this->data['BillingAddress'], 'state_id', __('Billing state is required.', true));
+					}
+
+					// validate shipping address
+					if (!isset($this->data['ShippingAddress']['same_as_billing'])) {
+						$this->Validation->validate('not_empty', $this->data, 'ShippingAddress', __('Shipping address must be passed.', true));
+						$this->Validation->validate('not_empty', $this->data['ShippingAddress'], 'firstname', __('Shipping first name is required.', true));
+						$this->Validation->validate('not_empty', $this->data['ShippingAddress'], 'lastname', __('Shipping last name is required.', true));
+						$this->Validation->validate('not_empty', $this->data['ShippingAddress'], 'address1', __('Shipping address is required.', true));
+						$this->Validation->validate('not_empty', $this->data['ShippingAddress'], 'city', __('Shipping city is required.', true));
+						$this->Validation->validate('not_empty', $this->data['ShippingAddress'], 'zip', __('Shipping zip code is required.', true));
+						$this->Validation->validate('not_empty', $this->data['ShippingAddress'], 'country_id', __('Shipping country is required.', true));
+						if (isset($this->data['ShippingAddress']['state_id']) && $this->data['ShippingAddress']['state_id'] !== 'no_state') {
+							$this->Validation->validate($this, 'not_empty', $this->data['ShippingAddress'], 'state_id', __('Shipping state is required.', true));
+						}
+					}
+				} catch (Exception $e) {
+					$this->Session->setFlash($e->getMessage());
+					$this->ThemeRenderer->render($this);
+					return;
+				}
+				
+			// save the data into the cart session
+			$billing_data = $this->data['BillingAddress'];
+			if (isset($this->data['ShippingAddress']['same_as_billing'])) {
+				$shipping_data = $billing_data;
+				$shipping_data['same_as_billing'] = true;
+			} else {
+				$shipping_data = $this->data['ShippingAddress'];
+				$shipping_data['same_as_billing'] = false;
+			}
+			$this->Cart->set_cart_address_data($billing_data, $shipping_data);
+			
+			$this->redirect('/ecommerces/checkout_finalize_payment');
+		}
+		
+		
+		
+		
+		$this->ThemeRenderer->render($this);
+	}
+	
+	public function checkout_finalize_payment() {
+		if ($this->Cart->cart_empty()) {
+			 $this->cart_empty_redirect();
+		}
+		
+//		if ($shipping_data_empty) {
+//			redirect to get shipping
+//		}
+		
+		
+//		if ($logged_in) { // DREW TODO
+			// get logged in user info to populate address and cc info
+//		}
+		
+		$user = $this->Auth->user();
+		$logged_in = !empty($user) ? true : false ;
+		$this->set('logged_in', $logged_in);
+		
+		
+		if (!empty($this->data)) {
+			// validate the data
+			try {
+				// validate create account data
+				if (!empty($this->data['CreateAccount']['email_address'])) {
+					$this->Validation->validate('valid_email', $this->data['CreateAccount'], 'email_address', __('Email address invalid.', true));
+					$this->Validation->validate('not_empty', $this->data['CreateAccount'], 'password', __('Please enter an account password.', true));
+					$this->Validation->validate('not_empty', $this->data['CreateAccount'], 'repeat_password', __('Please reenter the password.', true));
+					$this->Validation->validate('valid_password', $this->data['CreateAccount'], 'password', __('Account password must be at least 8 characters long.', true));
+					$this->Validation->validate('password_match', $this->data['CreateAccount']['password'], $this->data['CreateAccount']['repeat_password'], __('Account repeat password does not match', true));
+					
+					// check to see if the user email address is available
+					$exists = $this->User->find('first', array(
+						'conditions' => array('User.email_address' => $this->data['CreateAccount']['email_address']),
+						'contain' => false,
+					));
+					
+					if (!empty($exists)) {
+						throw new Exception('Email address already taken.');
+					}
+				}
+				
+				// validate cc info
+				$this->Validation->validate('not_empty', $this->data['Payment'], 'name_on_card', __('Name on card cannot be empty.', true));
+				$this->Validation->validate('in_array', $this->data['Payment']['credit_card_method'], array('visa', 'mastercard', 'discover', 'amex'), __('Invalid payment method.', true));
+				$this->Validation->validate('valid_cc', $this->data['Payment']['card_number'], $this->data['Payment']['credit_card_method'], __('Invalid credit card number.', true));
+				// make sure the expiration is in the future
+				$expiration_timestamp = mktime(0, 0, 0, (int)$this->data['Payment']['expiration_month'], 1, (int)$this->data['Payment']['expiration_year']);
+				$expiration_str = date('Y-m-d H:i:s', $expiration_timestamp);
+				if (time() > $expiration_timestamp) {
+					throw new Exception('Invalid card expiration.');
+				}
+				$this->Validation->validate('valid_cc_code', $this->data['Payment'], 'security_code', __('Invalid security code.', true));
+				
+			} catch (Exception $e) {
+				$this->Session->setFlash($e->getMessage());
+				$this->ThemeRenderer->render($this);
+				return;
+			}
+			
+			
+			/////////////////////////////////////////////////////
+			// create a user if need be 
+			// also create a CIM account for the user - and charge
+			// amount to CIM account
+			// otherwise just charge straight to authorize.net
+			if (!empty($this->data['CreateAccount']['email_address'])) {
+				$new_user_id = $this->User->create_user($this->data['CreateAccount']['email_address'], $this->data['CreateAccount']['password'], false);
+			
+			
+				// try and save the credit card data to authorize.net CIM
+				$billing_address = $this->Cart->get_cart_billing_address();
+				$shipping_address = $this->Cart->get_cart_shipping_address();
+				$authnet_data = array(
+					'AuthnetProfile' => array(
+						'user_id' => $new_user_id,
+						'billing_firstname' => $billing_address['firstname'],
+						'billing_lastname' => $billing_address['lastname'],
+						'billing_address' => $billing_address['address1']." ".$billing_address['address2'],
+						'billing_city' => $billing_address['city'],
+						'billing_state' => $billing_address['state_name'],
+						'billing_zip' => $billing_address['zip'],
+						'billing_country' => $billing_address['country_name'],
+						'billing_phoneNumber' => isset($billing_address['phoneNumber']) ? $billing_address['phoneNumber'] : '' ,
+						'payment_cardNumber' => $this->data['Payment']['card_number'],
+						'payment_expirationDate' => $expiration_str,
+						'payment_cardCode' => $this->data['Payment']['security_code'],
+						'shipping_firstname' => $shipping_address['firstname'],
+						'shipping_lastname' => $shipping_address['lastname'],
+						'shipping_address' => $shipping_address['address1']." ".$shipping_address['address2'],
+						'shipping_city' => $shipping_address['city'],
+						'shipping_state' => $shipping_address['state_name'],
+						'shipping_zip' => $shipping_address['zip'],
+						'shipping_country' => $shipping_address['country_name'],
+						'payment_cc_last_four' => substr($this->data['Payment']['card_number'], -4, 4),
+					),
+				);
+
+				$this->AuthnetProfile->create();
+				$authnet_result = $this->AuthnetProfile->save($authnet_data);
+
+
+				if ($authnet_result === false) {
+					$this->Session->setFlash('Failed to save credit card info. Please contact Fotomatter support.');
+					$this->major_error('Failed to save credit card info. Please contact Fotomatter support.');
+					$this->ThemeRenderer->render($this);
+					return;
+				}
+
+
+				// actually charge for the order
+				if (!$this->AuthnetOrder->charge_cart_to_cim($this->AuthnetProfile->id)) {
+					$this->Session->setFlash('Failed to charge credit card.');
+					$this->major_error('Failed to charge credit card.');
+					$this->ThemeRenderer->render($this);
+					return;
+				}
+			} else {
+				// DREW TODO - charge straight to authorize.net without the CIM
+			}
+		}
+		
+		
+		$this->ThemeRenderer->render($this);
+	}
+	
+	
+	public function get_available_states_for_country_options($country_id, $state_id = null) {
+		$state_option_html = '';
+		$data = array();
+		$this->GlobalCountryState = ClassRegistry::init('GlobalCountryState');
+
+		$states = $this->GlobalCountryState->get_states_by_country($country_id);
+
+		$data['count'] = count($states);
+		if ($data['count'] > 0) {
+			$state_option_html .= "<option value=''>".__('Choose a State', true)."</option>";
+		} else {
+			$state_option_html .= "<option value='no_state'>&nbsp;</option>";
+		}
+		foreach ($states as $state) {
+			$selected = '';
+			if (isset($state_id) && $state_id == $state['GlobalCountryState']['id']) {
+				$selected = 'selected="selected"';
+			}
+
+			$state_option_html .= "<option value='{$state['GlobalCountryState']['id']}' $selected >{$state['GlobalCountryState']['state_name']}</option>";
+		}
+		$data['html'] = $state_option_html;
+		
+		
+		$this->return_json($data);
+	}
+	
 }

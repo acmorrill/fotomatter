@@ -16,4 +16,27 @@ class User extends AppModel {
 			'unique' => true
 		)
     );
+	
+	public function create_user($email_address, $password, $is_admin = false) {
+		App::import('Core', 'Security');
+		
+		$data['User']['admin'] = ($is_admin === true) ? 1 : 0;
+		$data['User']['email_address'] = $email_address;
+		$data['User']['password'] = Security::hash($password, null, true);
+		$data['User']['active'] = '1';
+		
+		$exists = $this->find('first', array(
+			'conditions' => array('User.email_address' => $email_address)
+		));
+		if ($exists != array()) {
+			$data['User']['id'] = $exists['User']['id'];
+		}
+		
+		if ($this->save($data)) {
+			return $this->id;
+		} else {
+			$this->major_error('failed to create a user', compact('email_address', 'password', 'is_admin'));
+			return false;
+		}
+	}
 }

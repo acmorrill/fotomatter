@@ -15,9 +15,18 @@ class PhotoHelper extends AppHelper {
 	function __call($method_name, $args) {
 		$this->Photo = ClassRegistry::init('Photo');
 		
+		if ($method_name === 'add_photo_format') {
+			$this->log($args, 'args');
+		}
+		
 		return call_user_func_array(array($this->Photo, $method_name), $args);
     }
 	
+	public function add_photo_format(&$photos) {
+		$this->Photo = ClassRegistry::init('Photo');
+		
+		return $this->Photo->add_photo_format($photos);
+	}
 	
 	public function get_dummy_error_image_path($height, $width) {
 		$this->PhotoCache = ClassRegistry::init('PhotoCache');

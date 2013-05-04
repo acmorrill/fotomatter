@@ -1,10 +1,23 @@
+<?php $cart_items = $this->Cart->get_cart_items(); ?>
+
+<?php //debug($cart_items); ?>
+
 <?php if (!empty($cart_items)): ?>
+	<script type="text/javascript">
+		jQuery(document).ready(function() {
+			jQuery('#standard_checkout_button').click(function() {
+				jQuery('#standard_checkout_form').submit();
+			});
+		});
+	</script>
+
+
 	<table id="cart_table">
 		<thead>
 			<tr>
 				<th class="first"><?php __('Item'); ?></th>
 				<th><?php __('Price'); ?></th>
-				<th><?php __('Shipping Price'); ?></th>
+				<?php /*<th><?php __('Shipping Price'); ?></th> */ ?>
 				<th><?php __('Qty'); ?></th>
 				<th class="last"><?php __('Total'); ?></th>
 			</tr>
@@ -19,17 +32,27 @@
 					<td>
 						$<?php echo $cart_data['price']; ?> <?php // DREW TODO - make the money format better ?>
 					</td>
-					<td>
+					<?php /*<td>
 						$<?php echo $cart_data['shipping_price']; ?> <?php // DREW TODO - make the money format better ?>
-					</td>
+					</td> */ ?>
 					<td><?php echo $cart_data['qty']; ?></td>
-					<td class="last">$<?php echo $this->Cart->get_cart_line_total($cart_data['qty'], $cart_data['price'], $cart_data['shipping_price']); ?><?php // DREW TODO - make the money format better ?></td>
+					<td class="last">$<?php echo $this->Cart->get_cart_line_total($cart_data['qty'], $cart_data['price']); ?><?php // DREW TODO - make the money format better ?></td>
 				</tr>
 			<?php endforeach; ?>
 		</tbody>
 		<tfoot>
 			<tr>
-				<td colspan="5" style="text-align: right;">$<?php echo $this->Cart->get_cart_total($cart_datas['items']); ?></td>
+				<td colspan="5" style="text-align: right;">
+					Shipping: $<?php echo $this->Cart->get_cart_shipping_total(); ?><br />
+					Sub Total: $<?php echo $this->Cart->get_cart_subtotal(); ?><br />
+					Total: $<?php echo $this->Cart->get_cart_total(); ?><br />
+					
+					<?php if (!isset($hide_checkout) || $hide_checkout !== true): ?>
+						<form id="standard_checkout_form" action="/ecommerces/checkout_login_or_guest" method="post">
+							<button id="standard_checkout_button">Checkout</button>
+						</form>
+					<?php endif; ?>
+				</td>
 			</tr>
 		</tfoot>
 	</table>

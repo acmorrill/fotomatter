@@ -21,7 +21,7 @@
 	</head>
 	<body>
 		<?php echo $this->Element('nameTitle'); ?>
-		<?php echo $this->Element('newsLetter'); ?>
+		<?php //echo $this->Element('newsLetter'); ?>
 		<div class="galleryContent">
 			<br /><br />
 			
