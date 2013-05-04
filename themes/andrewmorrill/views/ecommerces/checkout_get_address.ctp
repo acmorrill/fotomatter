@@ -94,7 +94,7 @@
 			<select class="country_select" name="data[BillingAddress][country_id]">
 				<option class="empty_option" value=""><?php __('Choose a Country'); ?></option>
 				<?php foreach ($countries as $country): ?>
-					<option value="<?php echo $country['GlobalCountry']['id']; ?>" <?php if ($billing_address['country_id'] == $country['GlobalCountry']['id']): ?>selected="selected"<?php endif; ?>><?php echo $country['GlobalCountry']['country_name']; ?></option>
+					<option value="<?php echo $country['GlobalCountry']['id']; ?>" <?php if (isset($billing_address['country_id']) && $billing_address['country_id'] == $country['GlobalCountry']['id']): ?>selected="selected"<?php endif; ?>><?php echo $country['GlobalCountry']['country_name']; ?></option>
 				<?php endforeach; ?>
 			</select>
 		</div>
@@ -138,7 +138,7 @@
 				<select class="country_select" name="data[ShippingAddress][country_id]">
 					<option class="empty_option" value=""><?php __('Choose a Country'); ?></option>
 					<?php foreach ($countries as $country): ?>
-						<option value="<?php echo $country['GlobalCountry']['id']; ?>" <?php if ($shipping_address['country_id'] == $country['GlobalCountry']['id']): ?>selected="selected"<?php endif; ?>><?php echo $country['GlobalCountry']['country_name']; ?></option>
+						<option value="<?php echo $country['GlobalCountry']['id']; ?>" <?php if (isset($shipping_address['country_id']) && $shipping_address['country_id'] == $country['GlobalCountry']['id']): ?>selected="selected"<?php endif; ?>><?php echo $country['GlobalCountry']['country_name']; ?></option>
 					<?php endforeach; ?>
 				</select>
 			</div>
