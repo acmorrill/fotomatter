@@ -1,5 +1,4 @@
 @import url("site_page_elements.css");
-@import url("inc/admin_payment_dialogs.less");
 .rounded-corners-small {
   -webkit-border-radius: 7px;
   -moz-border-radius: 7px;
@@ -1740,6 +1739,19 @@ div#sub-nav ul li.title a {
 .lighter-content-background {
   background-color: #363636;
   padding: 20px;
+}
+.profile-outer-cont label {
+  width: 100px;
+  display: inline-block;
+  font-size: 13px;
+  text-align: right;
+  margin: 0 15px 0 0;
+}
+.profile-outer-cont .payment {
+  margin: 35px 0 0 0;
+}
+.profile-outer-cont div.input {
+  margin: 0 0 3px 0;
 }
 #connect_gallery_photos_cont {
   min-height: 200px;
