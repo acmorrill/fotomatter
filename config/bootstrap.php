@@ -40,6 +40,10 @@ a * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.o
  * ));
  *
  i*/
+
+define("FORGOT_PASSWORD_SALT", 'a0YngDg079JmYJ5ahCxWV6PFovsyGn');
+
+
 // webroot abs path
 define("WEBROOT_ABS", ROOT.DS.APP_DIR.DS.'webroot');
 
