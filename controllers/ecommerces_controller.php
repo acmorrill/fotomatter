@@ -8,7 +8,7 @@ class EcommercesController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 
-		$this->Auth->allow(array('view_cart', 'add_to_cart', 'checkout_login_or_guest', 'checkout_get_address', 'get_available_states_for_country_options', 'checkout_finalize_payment', 'change_frontend_password'));
+		$this->Auth->allow(array('view_cart', 'add_to_cart', 'checkout_login_or_guest', 'checkout_get_address', 'get_available_states_for_country_options', 'checkout_finalize_payment', 'change_fe_password'));
 		
 //		$this->front_end_auth = array('checkout_get_address');
 	}
@@ -330,8 +330,8 @@ class EcommercesController extends AppController {
 	}
 	
 	public function view_cart() {
-		//$this->Cart->create_fake_cart_items(); // DREW TODO - delete this line
-		$this->Cart->create_fake_cart_items_laptop(); // DREW TODO - delete this line
+		$this->Cart->create_fake_cart_items(); // DREW TODO - delete this line
+//		$this->Cart->create_fake_cart_items_laptop(); // DREW TODO - delete this line
 		
 		$this->ThemeRenderer->render($this);
 	}
@@ -342,9 +342,58 @@ class EcommercesController extends AppController {
 	}
 		
 	
-	public function change_frontend_password($user_id, $modified_hash) {
-		echo "here is where you will change your password";
-		exit();
+	/**
+	 *	Change the frontend password
+	 * 
+	 * @param type $user_id
+	 * @param type $passed_modified_hash 
+	 */
+	public function change_fe_password($user_id, $passed_modified_hash) {
+		$change_password_user = $this->User->find('first', array(
+			'conditions' => array(
+				'User.id' => $user_id,
+			),
+			'contain' => false,
+		));
+		
+		$can_change_password = false;
+		if (!empty($change_password_user)) {
+			$modified_hash = openssl_digest($change_password_user['User']['modified'].FORGOT_PASSWORD_SALT, 'sha512');
+			
+			if ($modified_hash === $passed_modified_hash) {
+				$this->log($modified_hash, 'hash');
+				$this->log($passed_modified_hash, 'hash');
+				
+				$can_change_password = true;
+			}
+		}
+		
+		
+		if ($can_change_password === true && isset($this->data['User']['new_password']) && isset($this->data['User']['new_password_repeat'])) {
+			try {
+				$this->Validation->validate('valid_password', $this->data['User'], 'new_password', 'Please enter a valid password.');
+				$this->Validation->validate('password_match', $this->data['User']['new_password'], $this->data['User']['new_password_repeat'], 'The passwords must match.');
+			} catch (Exception $e) {
+				$this->Session->setFlash($e->getMessage());
+				$this->ThemeRenderer->render_default($this, '/elements/change_password');
+				return;
+			}
+			
+			// actually change the password
+			$new_password_hash = Security::hash($this->data['User']['new_password'], null, true);
+			$change_password_user['User']['password'] = $new_password_hash;
+			unset($change_password_user['User']['modified']);
+			if (!$this->User->save($change_password_user)) {
+				$this->Session->setFlash("Failed to change password.");
+				$this->User->major_error('Failed to change front end user password.', compact('change_password_user'));
+			} else {
+				$this->Session->setFlash("Password changed.");
+			}
+		}
+		
+		
+		$this->set(compact('can_change_password', 'user_id', 'passed_modified_hash'));
+		$this->ThemeRenderer->render_default($this, '/elements/change_password');
 	}
 	
 	

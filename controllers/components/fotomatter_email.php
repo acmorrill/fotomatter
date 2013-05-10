@@ -2,11 +2,11 @@
 class FotomatterEmailComponent extends Object {
 
 	public function send_forgot_password_email(&$controller, $change_password_user) {
-		$salt = 'a0YngDg079JmYJ5ahCxWV6PFovsyGn';
-		
-		$modified_hash = openssl_digest($change_password_user['User']['modified'].$salt, 'sha512');
+		$modified_hash = openssl_digest($change_password_user['User']['modified'].FORGOT_PASSWORD_SALT, 'sha512');
 		$user_id = $change_password_user['User']['id'];
-		$return_link = "http://fotomatter.dev/ecommerces/change_frontend_password/$user_id/$modified_hash/"; // DREW TODO - change this to the live domain
+		$return_link = "http://fotomatter.dev/ecommerces/change_fe_password/$user_id/$modified_hash/"; // DREW TODO - change this to the live domain
+		
+		$this->log($return_link, 'return_link');
 		
 		
 		$controller->set(compact('modified_hash', 'user_id', 'return_link'));
@@ -20,7 +20,7 @@ class FotomatterEmailComponent extends Object {
 			 'password' => '0923587kK',
 		);
 		$controller->Email->to = $change_password_user['User']['email_address'];
-		$controller->Email->bcc = array('richykimball@gmail.com');
+//		$controller->Email->bcc = array('richykimball@gmail.com');
 		$controller->Email->subject = 'Change Password';
 		$controller->Email->replyTo = 'support@fotomatter.net';
 		$controller->Email->from = '"Support" <support@fotomatter.net>';
@@ -34,6 +34,7 @@ class FotomatterEmailComponent extends Object {
 		
 		/* Check for SMTP errors. */
 		if (!empty($controller->Email->smtpError)) {
+			$this->log($controller->Email->smtpError, 'smtpError');
 			$controller->major_error('Failed to send smtp email.', array('email_errors' => $controller->Email->smtpError));
 		}
 	}

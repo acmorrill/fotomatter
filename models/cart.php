@@ -53,13 +53,13 @@ class Cart extends AppModel {
 	}
 	
 	public function create_fake_cart_items() {
-//		$this->Session = $this->get_session();
-//		$this->Session->delete('Cart');
-//		$this->add_to_cart(21, 1, 11);
-//		$this->add_to_cart(21, 1, 11);
-//		$this->add_to_cart(23, 1, 11);
-//		$this->add_to_cart(24, 1, 11);
-//		$this->add_to_cart(27, 1, 11);
+		$this->Session = $this->get_session();
+		$this->Session->delete('Cart');
+		$this->add_to_cart(21, 1, 11);
+		$this->add_to_cart(21, 1, 11);
+		$this->add_to_cart(23, 1, 11);
+		$this->add_to_cart(24, 1, 11);
+		$this->add_to_cart(27, 1, 11);
 	}
 	
 	public function create_fake_cart_items_laptop() {
