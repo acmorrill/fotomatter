@@ -420,8 +420,6 @@ class EcommercesController extends AppController {
 			} else {
 				$this->FotomatterEmail->send_forgot_password_email($this, $change_password_user);
 			}
-			
-			
 		}
 		
 		
@@ -512,22 +510,29 @@ class EcommercesController extends AppController {
 	}
 	
 	public function checkout_finalize_payment() {
+		$this->log('came into here 1', 'checkout_finalize_payment');
+		
 		if ($this->Cart->cart_empty()) {
 			 $this->cart_empty_redirect();
 		}
 		
-//		if ($shipping_data_empty) {
-//			redirect to get shipping
-//		}
 		
-		
-//		if ($logged_in) { // DREW TODO
-			// get logged in user info to populate address and cc info
-//		}
-		
-		$user = $this->Auth->user();
-		$logged_in = !empty($user) ? true : false ;
+		$logged_in_user = $this->Auth->user();
+		$logged_in = !empty($logged_in_user) ? true : false ;
 		$this->set('logged_in', $logged_in);
+		
+		
+		if ($logged_in === true) { 
+			// get logged in user info to populate address and cc info
+			$this->Cart->prepopulate_cart_by_user($logged_in_user);
+		}
+		
+		
+//		$this->log($this->Session->read('Cart'), 'checkout_finalize_payment');
+		if (!$this->Cart->has_cart_address_data()) {
+			$this->redirect('/ecommerces/checkout_get_address/');
+		}
+		
 		
 		
 		if (!empty($this->data)) {
@@ -553,7 +558,6 @@ class EcommercesController extends AppController {
 				}
 				
 				// validate cc info
-				$this->Validation->validate('not_empty', $this->data['Payment'], 'name_on_card', __('Name on card cannot be empty.', true));
 				$this->Validation->validate('in_array', $this->data['Payment']['credit_card_method'], array('visa', 'mastercard', 'discover', 'amex'), __('Invalid payment method.', true));
 				$this->Validation->validate('valid_cc', $this->data['Payment']['card_number'], $this->data['Payment']['credit_card_method'], __('Invalid credit card number.', true));
 				// make sure the expiration is in the future
@@ -576,37 +580,47 @@ class EcommercesController extends AppController {
 			// also create a CIM account for the user - and charge
 			// amount to CIM account
 			// otherwise just charge straight to authorize.net
-			if (!empty($this->data['CreateAccount']['email_address'])) {
-				$new_user_id = $this->User->create_user($this->data['CreateAccount']['email_address'], $this->data['CreateAccount']['password'], false);
-			
-			
+			if (!empty($this->data['CreateAccount']['email_address']) || $logged_in === true) {
+				if ($logged_in === true) {
+					$user_id = $logged_in_user['User']['id'];
+					$authnet_data = $this->AuthnetProfile->find('first', array(
+						'conditions' => array(
+							'AuthnetProfile.user_id' => $user_id,
+						),
+						'contain' => false,
+					));
+				} else {
+					$authnet_data = array();
+					$user_id = $this->User->create_user($this->data['CreateAccount']['email_address'], $this->data['CreateAccount']['password'], false);
+				}
+				
 				// try and save the credit card data to authorize.net CIM
 				$billing_address = $this->Cart->get_cart_billing_address();
 				$shipping_address = $this->Cart->get_cart_shipping_address();
-				$authnet_data = array(
-					'AuthnetProfile' => array(
-						'user_id' => $new_user_id,
-						'billing_firstname' => $billing_address['firstname'],
-						'billing_lastname' => $billing_address['lastname'],
-						'billing_address' => $billing_address['address1']." ".$billing_address['address2'],
-						'billing_city' => $billing_address['city'],
-						'billing_state' => $billing_address['state_name'],
-						'billing_zip' => $billing_address['zip'],
-						'billing_country' => $billing_address['country_name'],
-						'billing_phoneNumber' => isset($billing_address['phoneNumber']) ? $billing_address['phoneNumber'] : '' ,
-						'payment_cardNumber' => $this->data['Payment']['card_number'],
-						'payment_expirationDate' => $expiration_str,
-						'payment_cardCode' => $this->data['Payment']['security_code'],
-						'shipping_firstname' => $shipping_address['firstname'],
-						'shipping_lastname' => $shipping_address['lastname'],
-						'shipping_address' => $shipping_address['address1']." ".$shipping_address['address2'],
-						'shipping_city' => $shipping_address['city'],
-						'shipping_state' => $shipping_address['state_name'],
-						'shipping_zip' => $shipping_address['zip'],
-						'shipping_country' => $shipping_address['country_name'],
-						'payment_cc_last_four' => substr($this->data['Payment']['card_number'], -4, 4),
-					),
-				);
+				$authnet_data['AuthnetProfile']['user_id'] = $user_id;
+				$authnet_data['AuthnetProfile']['billing_firstname'] = $billing_address['firstname'];
+				$authnet_data['AuthnetProfile']['billing_lastname'] = $billing_address['lastname'];
+				$authnet_data['AuthnetProfile']['billing_address'] = $billing_address['address1']." ".$billing_address['address2'];
+				$authnet_data['AuthnetProfile']['billing_city'] = $billing_address['city'];
+				$authnet_data['AuthnetProfile']['billing_state'] = $billing_address['state_name'];
+				$authnet_data['AuthnetProfile']['billing_zip'] = $billing_address['zip'];
+				$authnet_data['AuthnetProfile']['billing_country'] = $billing_address['country_name'];
+				$authnet_data['AuthnetProfile']['billing_phoneNumber'] = isset($billing_address['phoneNumber']) ? $billing_address['phoneNumber'] : '' ;
+				if (!$this->Cart->startsWith($this->data['Payment']['card_number'], CARDNUMBER_MASK)) {
+					$authnet_data['AuthnetProfile']['payment_cardNumber'] = $this->data['Payment']['card_number'];
+				}
+				$authnet_data['AuthnetProfile']['payment_expirationDate'] = $expiration_str;
+				$authnet_data['AuthnetProfile']['payment_cardCode'] = $this->data['Payment']['security_code'];
+				$authnet_data['AuthnetProfile']['shipping_firstname'] = $shipping_address['firstname'];
+				$authnet_data['AuthnetProfile']['shipping_lastname'] = $shipping_address['lastname'];
+				$authnet_data['AuthnetProfile']['shipping_address'] = $shipping_address['address1']." ".$shipping_address['address2'];
+				$authnet_data['AuthnetProfile']['shipping_city'] = $shipping_address['city'];
+				$authnet_data['AuthnetProfile']['shipping_state'] = $shipping_address['state_name'];
+				$authnet_data['AuthnetProfile']['shipping_zip'] = $shipping_address['zip'];
+				$authnet_data['AuthnetProfile']['shipping_country'] = $shipping_address['country_name'];
+				$authnet_data['AuthnetProfile']['payment_cc_last_four'] = substr($this->data['Payment']['card_number'], -4, 4);
+				$authnet_data['AuthnetProfile']['payment_method'] = $this->data['Payment']['credit_card_method'];
+				
 
 				$this->AuthnetProfile->create();
 				$authnet_result = $this->AuthnetProfile->save($authnet_data);
@@ -621,7 +635,7 @@ class EcommercesController extends AppController {
 
 
 				// actually charge for the order
-				if (!$this->AuthnetOrder->charge_cart_to_cim($this->AuthnetProfile->id)) {
+				if (!$this->AuthnetOrder->charge_cart_to_cim($authnet_data['AuthnetProfile']['id'])) {
 					$this->Session->setFlash('Failed to charge credit card.');
 					$this->major_error('Failed to charge credit card.');
 					$this->ThemeRenderer->render($this);
@@ -630,6 +644,13 @@ class EcommercesController extends AppController {
 			} else {
 				// DREW TODO - charge straight to authorize.net without the CIM
 			}
+		}
+		
+		
+		// setup the data variable based on the cart
+		$cart_payment_data = $this->Cart->get_cart_credit_card_data();
+		if (!empty($cart_payment_data)) {
+			$this->data['Payment'] = $cart_payment_data;
 		}
 		
 		
