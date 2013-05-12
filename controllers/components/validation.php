@@ -39,7 +39,8 @@ class ValidationComponent extends Object {
 				}
 				break;
 			case 'valid_cc':
-				if ($this->check_cc($data) === false || $this->detectType($data) !== $value) {
+				$starts_with_x = $this->startsWith($data, CARDNUMBER_MASK);
+				if (!$starts_with_x && ($this->check_cc($data) === false || $this->detectType($data) !== $value)) {
 					throw new Exception($flash_message);
 					return;
 				}
@@ -53,6 +54,11 @@ class ValidationComponent extends Object {
 			default:
 				break;
 		}
+	}
+	
+	public function startsWith($haystack, $needle) {
+		$length = strlen($needle);
+		return (substr($haystack, 0, $length) === $needle);
 	}
 
 	/*

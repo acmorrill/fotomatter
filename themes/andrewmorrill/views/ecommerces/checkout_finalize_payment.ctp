@@ -35,10 +35,6 @@
 	
 	<div id="final_payment_info">
 		<h1><?php __('Payment Info'); ?></h1>
-		<div class="input name_on_card">
-			<label><?php __('Name On Card'); ?>:</label> 
-			<input type="text" name="data[Payment][name_on_card]" value="<?php if (isset($Payment['name_on_card'])): ?><?php echo $Payment['name_on_card']; ?><?php endif; ?>" />
-		</div>
 		<div class="select credit_card_type">
 			<label><?php __('Payment Method'); ?>:</label> 
 			<select name="data[Payment][credit_card_method]">
@@ -50,7 +46,16 @@
 		</div>
 		<div class="input card_number">
 			<label><?php __('Card Number'); ?>:</label>
-			<input type="text" name="data[Payment][card_number]" value="<?php if (isset($Payment['card_number'])): ?><?php echo $Payment['card_number']; ?><?php endif; ?>" />
+			<?php 
+				$card_number_value = '';
+				if (isset($Payment['card_number'])) {
+					$card_number_value = $Payment['card_number'];
+				}
+				if (isset($Payment['last_four'])) {
+					$card_number_value = CARDNUMBER_MASK.$Payment['last_four'];
+				}
+			?>
+			<input type="text" name="data[Payment][card_number]" value="<?php echo $card_number_value; ?>" />
 		</div>
 		<div class="input card_expiration">
 			<label><?php __('Expiration'); ?>:</label>
