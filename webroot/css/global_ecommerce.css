@@ -54,3 +54,15 @@
   margin-top: 20px;
   float: right;
 }
+#forgot_your_password_container {
+  margin-top: 10px;
+}
+#forgot_your_password_container #forgot_password_link {
+  cursor: pointer;
+}
+#forgot_your_password_container .step_1 {
+  display: block;
+}
+#forgot_your_password_container .step_2 {
+  display: none;
+}

@@ -12,11 +12,10 @@
 	}
 ?>
 
-<?php debug($logged_in); ?>
 
 <form action="/ecommerces/checkout_finalize_payment" method="post">
 	
-	<?php if ($logged_in === true): ?>
+	<?php if ($logged_in !== true): ?>
 		<div id="create_account">
 			<h1><?php __('Create Account'); ?> (Optional)</h1>
 			<div class="input email">
