@@ -9,8 +9,11 @@ class FotomatterBillingComponent extends Object {
     public $shared_secret = 'baYMbSR0EM0REmSheFHc0Qo2RUmEGoToNFnPWFcyAEUYRlaOgSynnI1F9DyI';
     
     public function save_payment_profile($profile_data) {
-        $save_result = $this->send_api_request('billing_api/save_payment_profile', $profile_data);
-        $this->log($save_result, 'client_billing');
+        $save_result = json_decode($this->send_api_request('billing_api/save_payment_profile', $profile_data), true);
+        if ($save_result['code']) {
+            return $save_result['data']['authnet_profile_id'];
+        }
+        return false;
     }
     
     public function get_info_account($params=array()) {

@@ -138,13 +138,10 @@ if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'd
  * Inflector::rules('plural', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
  *
  */
-
-
 function record_major_error($location, $line_number, $description, $log_data) {
 	require_once(CONFIGS.'database.php');
 	$dbconfig = new DATABASE_CONFIG();
-
-	
+       
 	$local_db = mysql_connect($dbconfig->default['host'], $dbconfig->default['login'], $dbconfig->default['password'], true);
 	if (mysql_error($local_db)) {
 		echo ("Cannot connect to local db. Check config, and try again.");
