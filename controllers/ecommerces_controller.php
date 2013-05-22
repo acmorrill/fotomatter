@@ -8,7 +8,7 @@ class EcommercesController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 
-		$this->Auth->allow(array('view_cart', 'add_to_cart', 'checkout_login_or_guest', 'checkout_get_address', 'get_available_states_for_country_options', 'checkout_finalize_payment'));
+		$this->Auth->allow(array('view_cart', 'add_to_cart', 'checkout_login_or_guest', 'checkout_get_address', 'get_available_states_for_country_options', 'checkout_finalize_payment', 'change_frontend_password'));
 		
 //		$this->front_end_auth = array('checkout_get_address');
 	}
@@ -330,7 +330,8 @@ class EcommercesController extends AppController {
 	}
 	
 	public function view_cart() {
-		$this->Cart->create_fake_cart_items(); // DREW TODO - delete this line
+		//$this->Cart->create_fake_cart_items(); // DREW TODO - delete this line
+		$this->Cart->create_fake_cart_items_laptop(); // DREW TODO - delete this line
 		
 		$this->ThemeRenderer->render($this);
 	}
@@ -341,10 +342,39 @@ class EcommercesController extends AppController {
 	}
 		
 	
+	public function change_frontend_password($user_id, $modified_hash) {
+		echo "here is where you will change your password";
+		exit();
+	}
+	
+	
 	public function checkout_login_or_guest() {
 		if ($this->Cart->cart_empty()) {
 			 $this->cart_empty_redirect();
 		}
+		
+		// we are sending the forgot password email
+		if (isset($this->data['User']['forgot_password_email'])) {
+			$forgot_password_email = $this->data['User']['forgot_password_email'];
+			
+			
+			// check to make sure the email is a valid email for a user
+			$change_password_user = $this->User->find('first', array(
+				'conditions' => array(
+					'User.email_address' => $forgot_password_email,
+				),
+				'contain' => false,
+			));
+			
+			if (empty($change_password_user)) {
+				$this->Session->setFlash('Email does not belong to a valid user.');
+			} else {
+				$this->FotomatterEmail->send_forgot_password_email($this, $change_password_user);
+			}
+			
+			
+		}
+		
 		
 		// we are logging in
 		if (isset($this->data['User']['password'])) {

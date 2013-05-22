@@ -20,6 +20,8 @@ class AppController extends Controller {
 		'LessCss',
 		'MobileDetect',
 		'Validation',
+		'Email',
+		'FotomatterEmail',
 	);
 	
 	public $helpers = array(

@@ -53,13 +53,23 @@ class Cart extends AppModel {
 	}
 	
 	public function create_fake_cart_items() {
+//		$this->Session = $this->get_session();
+//		$this->Session->delete('Cart');
+//		$this->add_to_cart(21, 1, 11);
+//		$this->add_to_cart(21, 1, 11);
+//		$this->add_to_cart(23, 1, 11);
+//		$this->add_to_cart(24, 1, 11);
+//		$this->add_to_cart(27, 1, 11);
+	}
+	
+	public function create_fake_cart_items_laptop() {
 		$this->Session = $this->get_session();
 		$this->Session->delete('Cart');
-		$this->add_to_cart(21, 1, 11);
-		$this->add_to_cart(21, 1, 11);
-		$this->add_to_cart(23, 1, 11);
-		$this->add_to_cart(24, 1, 11);
-		$this->add_to_cart(27, 1, 11);
+		$this->add_to_cart(32, 2, 2.5);
+		$this->add_to_cart(32, 2, 2.5);
+		$this->add_to_cart(29, 2, 2.5);
+		$this->add_to_cart(25, 2, 2.5);
+		$this->add_to_cart(27, 2, 2.5);
 	}
 	
 	public function get_cart_key($photo_id, $photo_print_type_id, $short_side_inches) {
