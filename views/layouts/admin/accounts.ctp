@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<html  ng-app>
 <head>
 	<title><?php __('Admin Dashboard'); ?></title>
 	<script type="text/javascript" src="/js/jquery-1.7.1.min.js"></script>

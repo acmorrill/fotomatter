@@ -1,7 +1,7 @@
 <?php
 class AccountsController extends AppController {
     
-   public $uses = array();
+   public $uses = array('GlobalCountry', 'GlobalCountryState');
    
    
    public $components = array(
@@ -9,14 +9,15 @@ class AccountsController extends AppController {
        'Session'
    );
     
-   
-   /**
+    /**
     * action for the page to add/remove line items. 
     * @author Adam Holsinger
     */
    public function admin_index() {
        $line_items = $this->FotomatterBilling->get_info_account();
        
+       
+       $this->log($line_items, 'client_billing');
       
        $this->Session->delete('account_line_items');
        $this->Session->write('account_line_items', array('checked'=>array(), 'unchecked'=>array()));
@@ -55,15 +56,32 @@ class AccountsController extends AppController {
    }
    
    /**
+    * Return a html select options for the country id specified
+    * @param type $country_id Will return states for this country id
+    */
+   public function admin_ajax_get_states_for_country($country_code) {
+       $states = $this->GlobalCountryState->get_states_by_country_code($country_code);
+       $result['html'] = $this->element('admin/accounts/state_list', array('states'=>$states));
+       $this->return_json($result);
+   }
+   
+   /**
     * Ajax function that gets called to save client billing and send it to overlord
     * @return This function will either return a error or call ajax_finishLineChange
     * @author Adam Holsinger
     */
    public function admin_ajax_save_client_billing() {
        if (empty($this->data) == false) {
-           $this->FotomatterBilling->save_payment_profile($this->data);
+           $profile_id = $this->FotomatterBilling->save_payment_profile($this->data);
            
+           $account_info = $this->Session->read('account_info');
+           $account_info['Account']['authnet_profile_id'] = $profile_id;
+           $this->Session->write('account_info', $account_info);
+           $this->ajax_finishLineChange();
+           exit();
        }
+       $this->major_error('admin_ajax_save_client_billing was called without data');
+       exit();
    }
    
    /**
@@ -80,7 +98,8 @@ class AccountsController extends AppController {
        
        if ($account_info['Account']['authnet_profile_id'] == false) {
            $return = array();
-           $return['html'] = $this->element("accounts/add_profile");
+           $countries = $this->GlobalCountry->get_available_countries();
+           $return['html'] = $this->element("admin/accounts/add_profile", array('countries'=>$countries));
            print(json_encode($return));
            exit();
        }
@@ -111,7 +130,7 @@ class AccountsController extends AppController {
        }
        
        $return = array();
-       $return['html'] = $this->element('accounts/account_change_finish', array('current_bill'=>$current_bill,
+       $return['html'] = $this->element('admin/accounts/account_change_finish', array('current_bill'=>$current_bill,
                                                                                 'account_changes'=>$account_changes,
                                                                                 'account_info'=>$account_info));
        print(json_encode($return));

@@ -100,19 +100,6 @@ class AppController extends Controller {
 				exit();
 			}
 		}
-         
-		
-		// display or hide the major error bar
-		if (Configure::read('debug') > 0 && Configure::read('show_major_error_bar') === true) {
-			if (empty($this->MajorError)) {
-				$this->MajorError = ClassRegistry::init("MajorError");
-			}
-
-			$count = $this->MajorError->find('count');
-			if ($count) {
-				$this->set('error_found', true);
-			}
-		}
     }
     /**
      * beforeRender
@@ -232,11 +219,11 @@ class AppController extends Controller {
 		$this->autoRender = false;
  
 		/* Set up new view that won't enter the ClassRegistry */
+		$view = new View($this, false);
 		foreach($extra_vals as $key => $extra_val) {
 			$view->set($key, $extra_val);
 		}
 		
-		$view = new View($this, false);
 		$view->viewPath = 'elements';
 
 		/* Grab output into variable without the view actually outputting! */
