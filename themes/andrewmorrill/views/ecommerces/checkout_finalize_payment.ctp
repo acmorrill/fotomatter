@@ -12,6 +12,74 @@
 	}
 ?>
 
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+		function country_select_reset(context, country_id, first_load) {
+			if (country_id !== 'empty_option') {
+				var state_cont = jQuery(context).closest('.address_cont').find('.state');
+				var state_select = jQuery('.state_select', state_cont);
+				var url = '/ecommerces/get_available_states_for_country_options/'+country_id+'/';
+				if (first_load) {
+					var start_state_id = state_select.attr('first_load_id');
+					url += start_state_id;
+				} 
+				
+				jQuery.ajax({
+					type: 'post',
+					url: url,
+					data: {},
+					success: function(state_data) {
+						console.log ("success");
+						console.log (state_data.count);
+						if (state_data.count == 0) {
+							state_cont.hide();
+							state_select.html(state_data.html);
+						} else {
+							state_select.html(state_data.html);
+							state_cont.show();
+						}
+					},
+					complete: function() {
+						console.log ("complete");
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						console.log ("error");
+//						console.log (textStatus);
+//						console.log (errorThrown);
+					},
+					dataType: 'json'
+				});
+			}
+		}
+		
+		jQuery('.country_select').each(function() {
+			var context = this;
+			var country_id = jQuery(context).val();
+			
+			country_select_reset(context, country_id, true);
+		});
+		jQuery('.country_select').change(function() {
+			var context = this;
+			var country_id = jQuery(context).val();
+			
+			country_select_reset(context, country_id, false);
+		});
+		
+//		var shipping_data_cont = jQuery('.shipping_data_cont');
+//		var same_as_billing_callback = function() {
+//			if (jQuery(this).prop('checked')) {
+//				shipping_data_cont.hide();
+//			} else {
+//				shipping_data_cont.show();
+//			}
+//		};
+//		jQuery('.same_as_billing input').each(same_as_billing_callback);
+//		jQuery('.same_as_billing input').change(same_as_billing_callback);
+	});
+</script>
+
+
+<?php $billing_address = $this->Ecommerce->get_cart_billing_address(); ?>
 
 <form action="/ecommerces/checkout_finalize_payment" method="post">
 	
@@ -35,6 +103,46 @@
 	
 	<div id="final_payment_info">
 		<h1><?php __('Payment Info'); ?></h1>
+		<div class="address_cont">
+			<div class="input firstname">
+				<label><?php __('First Name'); ?>:</label> <input type="text" name="data[BillingAddress][firstname]" value="<?php if (isset($billing_address['firstname'])): ?><?php echo $billing_address['firstname']; ?><?php endif; ?>" /><br/>
+			</div>
+			<div class="input lastname">
+				<label><?php __('Last Name'); ?>:</label> <input type="text" name="data[BillingAddress][lastname]" value="<?php if (isset($billing_address['lastname'])): ?><?php echo $billing_address['lastname']; ?><?php endif; ?>" /><br/>
+			</div>
+			<div class="input address1">
+				<label><?php __('Address'); ?>:</label> <input type="text" name="data[BillingAddress][address1]" value="<?php if (isset($billing_address['address1'])): ?><?php echo $billing_address['address1']; ?><?php endif; ?>" /><br/>
+			</div>
+			<div class="input address2">
+				<label>&nbsp;</label> <input type="text" name="data[BillingAddress][address2]" value="<?php if (isset($billing_address['address2'])): ?><?php echo $billing_address['address2']; ?><?php endif; ?>" /> (optional)
+			</div>
+			<div class="input city">
+				<label><?php __('City'); ?>:</label> <input type="text" name="data[BillingAddress][city]" value="<?php if (isset($billing_address['city'])): ?><?php echo $billing_address['city']; ?><?php endif; ?>" />
+			</div>
+			<div class="input zip">
+				<label><?php __('Zip Code'); ?>:</label> <input type="text" name="data[BillingAddress][zip]" value="<?php if (isset($billing_address['zip'])): ?><?php echo $billing_address['zip']; ?><?php endif; ?>" />
+			</div>
+			<div class="select country">
+				<?php $countries = $this->Ecommerce->get_available_countries(); ?>
+				<label><?php __('Country'); ?>:</label> 
+				<select class="country_select" name="data[BillingAddress][country_id]">
+					<option class="empty_option" value=""><?php __('Choose a Country'); ?></option>
+					<?php foreach ($countries as $country): ?>
+						<option value="<?php echo $country['GlobalCountry']['id']; ?>" <?php if (isset($billing_address['country_id']) && $billing_address['country_id'] == $country['GlobalCountry']['id']): ?>selected="selected"<?php endif; ?>><?php echo $country['GlobalCountry']['country_name']; ?></option>
+					<?php endforeach; ?>
+				</select>
+			</div>
+			<div class="select state">
+				<label><?php __('State'); ?>:</label>
+				<select class="state_select" name="data[BillingAddress][state_id]" first_load_id="<?php echo isset($billing_address['state_id']) ? $billing_address['state_id'] : ''; ?>" >
+					<option value="no_state">&nbsp;</option>
+				</select>
+			</div>
+		</div>
+		<div class="input phone">
+			<label><?php __('Phone Number'); ?>:</label> <input type="text" name="data[BillingAddress][phone]" value="<?php if (isset($billing_address['phone'])): ?><?php echo $billing_address['phone']; ?><?php endif; ?>" /> (optional)
+		</div>
+		
 		<div class="select credit_card_type">
 			<label><?php __('Payment Method'); ?>:</label> 
 			<select name="data[Payment][credit_card_method]">
@@ -46,16 +154,7 @@
 		</div>
 		<div class="input card_number">
 			<label><?php __('Card Number'); ?>:</label>
-			<?php 
-				$card_number_value = '';
-				if (isset($Payment['card_number'])) {
-					$card_number_value = $Payment['card_number'];
-				}
-				if (isset($Payment['last_four'])) {
-					$card_number_value = CARDNUMBER_MASK.$Payment['last_four'];
-				}
-			?>
-			<input type="text" name="data[Payment][card_number]" value="<?php echo $card_number_value; ?>" />
+			<input type="text" name="data[Payment][card_number]" value="" />
 		</div>
 		<div class="input card_expiration">
 			<label><?php __('Expiration'); ?>:</label>
@@ -90,7 +189,7 @@
 	'hide_checkout' => true
 )); ?>
 
-<?php echo $this->Element('cart_checkout/billing_address_summary'); ?>	
+<?php //echo $this->Element('cart_checkout/billing_address_summary'); ?>	
 <?php echo $this->Element('cart_checkout/shipping_address_summary'); ?>	
 	
 	

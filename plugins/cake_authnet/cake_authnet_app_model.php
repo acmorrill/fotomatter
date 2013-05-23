@@ -30,26 +30,28 @@ class CakeAuthnetAppModel extends AppModel {
     }
     
     public function authnet_error($description, $extra_data = null, $severity = 'normal') {
-//		$stackTrace = debug_backtrace(false);
-//
-//		$majorError = ClassRegistry::init("AuthnetError");
-//
-//		$location = '';
-//		if (isset($stackTrace[1]['class'])) {
-//				$location .= " --- Class: ".$stackTrace[1]['class']." --- ";
-//		}
-//		if (isset($stackTrace[1]['function'])) {
-//				$location .= " --- Function: ".$stackTrace[1]['function']." --- ";
-//		}
-//		$data['AuthnetError']['location'] = $location;
-//		$data['AuthnetError']['line_num'] = isset($stackTrace[1]['line']) ? $stackTrace[1]['line']: 1;
-//		$data['AuthnetError']['description'] = $description;
-//		if ($extra_data != null) {
-//				$data['AuthnetError']['extra_data'] = print_r($extra_data, true);
-//		}
-//		$data['AuthnetError']['severity'] = $severity;
-//		$majorError->create();
-//		$majorError->save($data);        
+		$stackTrace = debug_backtrace(false);
+		
+		$majorError = ClassRegistry::init("MajorError");
+		
+		$location = '';
+		if (isset($stackTrace[1]['class'])) {
+			$location .= " --- Class: ".$stackTrace[1]['class']." --- ";
+		}
+		if (isset($stackTrace[1]['function'])) {
+			$location .= " --- Function: ".$stackTrace[1]['function']." --- ";
+		}
+		$data['MajorError']['location'] = $location;
+		$data['MajorError']['line_num'] = isset($stackTrace[1]['line']) ? $stackTrace[1]['line']: 1;
+		$data['MajorError']['description'] = $description;
+		if ($extra_data != null) {
+			$data['MajorError']['extra_data'] = print_r($extra_data, true);
+		}
+		$data['MajorError']['severity'] = $severity;
+		$majorError->create();
+		$majorError->save($data);
+		
+		return $description;      
 	}
     
 }
