@@ -42,4 +42,19 @@ class GlobalCountryState extends AppModel {
 			return false;
 		}
 	}
+	
+	public function get_state_name_by_id($state_id) {
+		$state_data = $this->find('first', array(
+			'conditions' => array(
+				'GlobalCountryState.id' => $state_id,
+			),
+			'contain' => false,
+		));
+		
+		if (!empty($state_data['GlobalCountryState']['state_name'])) {
+			return $state_data['GlobalCountryState']['state_name'];
+		} else {
+			return false;
+		}
+	}
 }

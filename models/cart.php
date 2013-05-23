@@ -166,11 +166,16 @@ class Cart extends AppModel {
 //		$payment_data['expiration_year']
 	}
 	
-	public function set_cart_address_data($billing_data, $shipping_data) {
+	public function set_cart_shipping_address_data($shipping_data) {
+		$this->Session = $this->get_session();
+		
+		$this->Session->write('Cart.shipping_address', $shipping_data);
+	}
+	
+	public function set_cart_billing_address_data($billing_data) {
 		$this->Session = $this->get_session();
 		
 		$this->Session->write('Cart.billing_address', $billing_data);
-		$this->Session->write('Cart.shipping_address', $shipping_data);
 	}
 	
 	public function has_cart_address_data() {
@@ -187,6 +192,37 @@ class Cart extends AppModel {
 		// DREW TODO - maybe we should validate the cart address data here
 		
 		if (!empty($billing_data) && !empty($shipping_data)) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public function has_cart_shipping_address_data() {
+		$shipping_data = null;
+		if ($this->Session->check('Cart.shipping_address')) {
+			$shipping_data = $this->Session->read('Cart.shipping_address');
+		}
+		
+		// DREW TODO - maybe we should validate the cart address data here
+		
+		if (!empty($shipping_data)) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	
+	public function has_cart_billing_address_data() {
+		$billing_data = null;
+		if ($this->Session->check('Cart.billing_address')) {
+			$billing_data = $this->Session->read('Cart.billing_address');
+		}
+		
+		// DREW TODO - maybe we should validate the cart address data here
+		
+		if (!empty($billing_data)) {
 			return true;
 		}
 		
@@ -230,7 +266,8 @@ class Cart extends AppModel {
 				$shipping_address_data['state_id'] = $this->GlobalCountryState->get_state_id_by_name($authnet_profile['AuthnetProfile']['shipping_state']);
 				$shipping_address_data['phone'] = isset($authnet_profile['AuthnetProfile']['shipping_phoneNumber']) ? $authnet_profile['AuthnetProfile']['shipping_phoneNumber'] : '';
 				
-				$this->set_cart_address_data($billing_address_data, $shipping_address_data);
+				$this->set_cart_billing_address_data($billing_address_data);
+				$this->set_cart_shipping_address_data($shipping_address_data);
 				
 				
 				// save cart cc info
