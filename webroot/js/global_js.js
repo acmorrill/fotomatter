@@ -57,7 +57,7 @@ jQuery(document).ready(function() {
 	/************************************************/
 	/* globally setup add buttons (for add anthing) */
 	/************************************************/
-	jQuery('.add_button').button();
+	//jQuery('.add_button').button();
 });
 
 /****************************************************************************

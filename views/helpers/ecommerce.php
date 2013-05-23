@@ -10,20 +10,7 @@ class EcommerceHelper extends AppHelper {
 	}
 	
 	public function get_available_countries() {
-		$apc_key = 'available_countries';
-		apc_clear_cache('user');
-		if (apc_exists($apc_key)) {
-			$countries = apc_fetch($apc_key);
-		} else {
-			$this->GlobalCountry = ClassRegistry::init("GlobalCountry");
-		
-			$countries = $this->GlobalCountry->find('all', array(
-				'contain' => false
-			));
-			apc_store($apc_key, $countries, 60*60*24*7); // store for one week
-		}
-		
-		return $countries;
+		return ClassRegistry::init('GlobalCountry')->get_available_countries();
 	}
 	
 	public function get_cart_billing_address() {

@@ -6,11 +6,10 @@
 
 <script type="text/javascript" src="/js/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="/js/jquery-ui-1.8.18.custom/js/jquery-ui-1.8.18.custom.min.js"></script>
-<script type="text/javascript" src="/js/jquery-validation-1.8.0/jquery.validate.min.js"></script>
+
 <script type="text/javascript" src="/js/tinymce/jscripts/tiny_mce/jquery.tinymce.js"></script>
 <script type="text/javascript" src="/js/chosen/chosen/chosen.jquery.min.js"></script>
 <link href="/js/chosen/chosen/chosen.css" rel="stylesheet" type="text/css" />
-
 
 <script type="text/javascript" src="/js/global_js.js"></script>
 <link href="/js/jquery-ui-1.8.18.custom/css/custom-theme/jquery-ui-1.8.18.custom.css" rel="stylesheet" type="text/css" />
@@ -148,14 +147,4 @@ $(window).load(function() {
 		return false;
 	};
 })(jQuery);
-
-
 </script>
-<?php if (isset($error_found) && $error_found): ?>
-    <script type="text/javascript">
-        $(document).ready(function() {
-           var error_div = $("<div class='error_found'>Major Error Found</div>");
-           $('body').prepend(error_div);
-        });
-    </script>
-<?php endif; ?>

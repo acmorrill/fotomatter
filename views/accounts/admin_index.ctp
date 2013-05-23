@@ -37,7 +37,7 @@ $(document).ready(function() {
            div.dialog({
                width:'600',
                height:'500',
-               title: '<?php echo __('Finish Account Changes'); ?>'
+               title: '<?php echo __('Finish Account Changes'); ?>',
            });
        }, 'json') 
    });
@@ -53,7 +53,7 @@ $(document).ready(function() {
                <div class="bar hidden">
                    <h5><?php echo $line_item['AccountLineItem']['name']; ?> - $<?php echo $line_item['AccountLineItem']['current_cost']; ?></h5>
                        <div class="bar-right">
-                           <span>Active</span><input <?php echo $line_item['AccountLineItem']['active']?'CHECKED':''; ?> type='checkbox' name='data[AccountLineItem][]' data_id='<?php echo $line_item['AccountLineItem']['id']; ?>' />
+                           <span>Active</span><input <?php echo $line_item['AccountLineItem']['active']?'CHECKED':''; ?> type='checkbox' name='data[AccountLineItem][]'  data_id='<?php echo $line_item['AccountLineItem']['id']; ?>' />
                            <span class="toggle">Show Details</span><i class="icon-angle-down"></i>
                        </div>
                </div>
