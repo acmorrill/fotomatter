@@ -53,13 +53,13 @@ class Cart extends AppModel {
 	}
 	
 	public function create_fake_cart_items() {
-//		$this->Session = $this->get_session();
-//		$this->Session->delete('Cart');
-//		$this->add_to_cart(21, 1, 11);
-//		$this->add_to_cart(21, 1, 11);
-//		$this->add_to_cart(23, 1, 11);
-//		$this->add_to_cart(24, 1, 11);
-//		$this->add_to_cart(27, 1, 11);
+		$this->Session = $this->get_session();
+		$this->Session->delete('Cart');
+		$this->add_to_cart(21, 1, 11);
+		$this->add_to_cart(21, 1, 11);
+		$this->add_to_cart(23, 1, 11);
+		$this->add_to_cart(24, 1, 11);
+		$this->add_to_cart(27, 1, 11);
 	}
 	
 	public function create_fake_cart_items_laptop() {
@@ -146,11 +146,141 @@ class Cart extends AppModel {
 		return $items_total;
 	}
 	
-	public function set_cart_address_data($billing_data, $shipping_data) {
+	public function get_cart_credit_card_data() {
+		$this->Session = $this->get_session();
+		
+		if ($this->Session->check('Cart.payment_info')) {
+			return $this->Session->read('Cart.payment_info');
+		}
+		
+		return false;
+	}
+	
+	public function set_cart_credit_card_data($payment_data) {
+		$this->Session = $this->get_session();
+		
+		$this->Session->write('Cart.payment_info', $payment_data);
+//		$payment_data['credit_card_method']
+//		$payment_data['last_four']
+//		$payment_data['expiration_month']
+//		$payment_data['expiration_year']
+	}
+	
+	public function set_cart_shipping_address_data($shipping_data) {
+		$this->Session = $this->get_session();
+		
+		$this->Session->write('Cart.shipping_address', $shipping_data);
+	}
+	
+	public function set_cart_billing_address_data($billing_data) {
 		$this->Session = $this->get_session();
 		
 		$this->Session->write('Cart.billing_address', $billing_data);
-		$this->Session->write('Cart.shipping_address', $shipping_data);
+	}
+	
+	public function has_cart_address_data() {
+		
+		$billing_data = null;
+		$shipping_data = null;
+		if ($this->Session->check('Cart.billing_address')) {
+			$billing_data = $this->Session->read('Cart.billing_address');
+		}
+		if ($this->Session->check('Cart.shipping_address')) {
+			$shipping_data = $this->Session->read('Cart.shipping_address');
+		}
+		
+		// DREW TODO - maybe we should validate the cart address data here
+		
+		if (!empty($billing_data) && !empty($shipping_data)) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public function has_cart_shipping_address_data() {
+		$shipping_data = null;
+		if ($this->Session->check('Cart.shipping_address')) {
+			$shipping_data = $this->Session->read('Cart.shipping_address');
+		}
+		
+		// DREW TODO - maybe we should validate the cart address data here
+		
+		if (!empty($shipping_data)) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	
+	public function has_cart_billing_address_data() {
+		$billing_data = null;
+		if ($this->Session->check('Cart.billing_address')) {
+			$billing_data = $this->Session->read('Cart.billing_address');
+		}
+		
+		// DREW TODO - maybe we should validate the cart address data here
+		
+		if (!empty($billing_data)) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public function prepopulate_cart_by_user($user) {
+		if (isset($user['User']['id'])) {
+			$this->AuthnetProfile = ClassRegistry::init('AuthnetProfile');
+			$authnet_profile = $this->AuthnetProfile->find('first', array(
+				'conditions' => array(
+					'AuthnetProfile.user_id' => $user['User']['id'],
+				),
+				'contain' => false,
+			));
+			
+			if (!empty($authnet_profile)) {
+				$this->GlobalCountry = ClassRegistry::init('GlobalCountry');
+				$this->GlobalCountryState = ClassRegistry::init('GlobalCountryState');
+				
+				$billing_address_data = array();
+				$billing_address_data['firstname'] = $authnet_profile['AuthnetProfile']['billing_firstname'];
+				$billing_address_data['lastname'] = $authnet_profile['AuthnetProfile']['billing_lastname'];
+				$billing_address_data['address1'] = $authnet_profile['AuthnetProfile']['billing_address'];
+				$billing_address_data['address2'] = ''; // DREW TODO - maybe change authnet profile to use address1 and address2
+				$billing_address_data['city'] = $authnet_profile['AuthnetProfile']['billing_city'];
+				$billing_address_data['zip'] = $authnet_profile['AuthnetProfile']['billing_zip'];
+				$billing_address_data['country_id'] = $this->GlobalCountry->get_country_id_by_name($authnet_profile['AuthnetProfile']['billing_country']);
+				$billing_address_data['state_id'] = $this->GlobalCountryState->get_state_id_by_name($authnet_profile['AuthnetProfile']['billing_state']);
+				$billing_address_data['phone'] = isset($authnet_profile['AuthnetProfile']['billing_phoneNumber']) ? $authnet_profile['AuthnetProfile']['billing_phoneNumber'] : '' ;
+				
+				
+				$shipping_address_data = array();
+				$shipping_address_data['firstname'] = $authnet_profile['AuthnetProfile']['shipping_firstname'];
+				$shipping_address_data['lastname'] = $authnet_profile['AuthnetProfile']['shipping_lastname'];
+				$shipping_address_data['address1'] = $authnet_profile['AuthnetProfile']['shipping_address'];
+				$shipping_address_data['address2'] = ''; // DREW TODO - maybe change authnet profile to use address1 and address2
+				$shipping_address_data['city'] = $authnet_profile['AuthnetProfile']['shipping_city'];
+				$shipping_address_data['zip'] = $authnet_profile['AuthnetProfile']['shipping_zip'];
+				$shipping_address_data['country_id'] = $this->GlobalCountry->get_country_id_by_name($authnet_profile['AuthnetProfile']['shipping_country']);
+				$shipping_address_data['state_id'] = $this->GlobalCountryState->get_state_id_by_name($authnet_profile['AuthnetProfile']['shipping_state']);
+				$shipping_address_data['phone'] = isset($authnet_profile['AuthnetProfile']['shipping_phoneNumber']) ? $authnet_profile['AuthnetProfile']['shipping_phoneNumber'] : '';
+				
+				$this->set_cart_billing_address_data($billing_address_data);
+				$this->set_cart_shipping_address_data($shipping_address_data);
+				
+				
+				// save cart cc info
+				$cc_data = array();
+				$cc_data['credit_card_method'] = $authnet_profile['AuthnetProfile']['payment_method'];
+				$cc_data['last_four'] = $authnet_profile['AuthnetProfile']['payment_cc_last_four'];
+				$expiration_timestamp = strtotime($authnet_profile['AuthnetProfile']['payment_expirationDate']);
+				$cc_data['expiration_month'] = date('n', $expiration_timestamp);
+				$cc_data['expiration_year'] = date('Y', $expiration_timestamp);
+				
+				$this->set_cart_credit_card_data($cc_data);
+			}
+		}
 	}
 	
 	public function get_cart_billing_address() {

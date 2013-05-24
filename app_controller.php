@@ -239,7 +239,7 @@ class AppController extends Controller {
 	
 	public function major_error($description, $extra_data = null, $severity = 'normal') {
 		$this->MajorError = ClassRegistry::init("MajorError");
-		$this->MajorError->major_error($description, $extra_data = null, $severity = 'normal');
+		$this->MajorError->major_error($description, $extra_data, $severity);
 	}
 	
 	
