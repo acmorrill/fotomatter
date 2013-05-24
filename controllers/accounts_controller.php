@@ -6,7 +6,8 @@ class AccountsController extends AppController {
    
    public $components = array(
        'FotomatterBilling',
-       'Session'
+       'Session',
+       'Validation'
    );
     
     /**
@@ -72,6 +73,28 @@ class AccountsController extends AppController {
     */
    public function admin_ajax_save_client_billing() {
        if (empty($this->data) == false) {
+           try {
+               $this->Validation->validate('not_empty', $this->data['AuthnetProfile'], 'billing_firstname', __('You must provide your first name.', true));
+               $this->Validation->validate('not_empty', $this->data['AuthnetProfile'], 'billing_lastname', __('You must provide your last name.', true));
+               $this->Validation->validate('not_empty', $this->data['AuthnetProfile'], 'billing_address', __('You must provide your address.', true));
+               $this->Validation->validate('not_empty', $this->data['AuthnetProfile'], 'billing_city', __('You must provide your city.', true));
+               
+               if (empty($this->data['AutnetProfile']['country_state_id']) || $this->data['AutnetProfile']['country_state_id'] == 'Please Choose Country') {
+                   throw new Exception(__("Please indicate your state and country."));
+               }
+               
+               
+               
+               $this->log($this->log($this->data, 'client_billing'));
+               throw new Exception('error');
+               
+           } catch (Exception $e) {
+               $this->Session->setFlash($e->getMessage());
+               $return['html'] = $this->get_add_profile_form();
+               print(json_encode($return));
+               exit();
+           }
+           
            $profile_id = $this->FotomatterBilling->save_payment_profile($this->data);
            
            $account_info = $this->Session->read('account_info');
@@ -82,6 +105,12 @@ class AccountsController extends AppController {
        }
        $this->major_error('admin_ajax_save_client_billing was called without data');
        exit();
+   }
+   
+   private function get_add_profile_form() {
+        $return = array();
+        $countries = $this->GlobalCountry->get_available_countries();
+        return $this->element("admin/accounts/add_profile", array('countries'=>$countries));
    }
    
    /**
