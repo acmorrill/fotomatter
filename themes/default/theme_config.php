@@ -5,6 +5,9 @@
 $theme_config = array(
 	'theme_include_helpers' => array(),
 	'theme_controller_action_layouts' => array(
+		'Default' => array(
+			'layout' => false,
+		),
 		'SitePages' => array(
 			'landing_page' => array(
 				'layout' => 'landing',
@@ -51,6 +54,9 @@ $theme_config = array(
 		),
 	),
 	'theme_controller_action_mobile_layouts' => array(
+		'Default' => array(
+			'layout' => false,
+		),
 		'SitePages' => array(
 			'landing_page' => array(
 				'layout' => 'mobile_landing',

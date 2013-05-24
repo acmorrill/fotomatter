@@ -42,14 +42,6 @@
 #shipping_address_summary .state {
   display: none;
 }
-#billing_address_container .shipping_data_cont,
-#shipping_address_container .shipping_data_cont,
-#create_account .shipping_data_cont,
-#final_payment_info .shipping_data_cont,
-#billing_address_summary .shipping_data_cont,
-#shipping_address_summary .shipping_data_cont {
-  display: none;
-}
 .no_label {
   margin-top: 20px;
   float: right;

@@ -73,6 +73,16 @@ class ThemeRendererComponent extends Object {
 		}
 	}
 	
+	public function render_default(&$controller, $theme_view) {
+		$theme_config = $this->_process_theme_config();
+		if (!empty($theme_config['theme_controller_action_layouts']['Default']['layout'])) {
+			$controller->layout = $theme_config['theme_controller_action_layouts']['Default']['layout'];
+			$controller->theme_view = $theme_view;
+		}
+		
+		$this->render($controller);
+	}
+	
 
 	public function shutdown(&$controller) {}
 	

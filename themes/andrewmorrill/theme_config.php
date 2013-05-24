@@ -4,6 +4,9 @@
 
 $theme_config = array(
 	'theme_controller_action_layouts' => array(
+		'Default' => array(
+			'layout' => 'custom_page',
+		),
 		'SitePages' => array(
 			'landing_page' => array(
 				'layout' => 'landing',

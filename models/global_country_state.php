@@ -27,25 +27,55 @@ class GlobalCountryState extends AppModel {
 		
 		return $states;
 	}
+	
+	public function get_state_id_by_name($state_name) {
+		$state_data = $this->find('first', array(
+			'conditions' => array(
+				'GlobalCountryState.state_name' => $state_name,
+			),
+			'contain' => false,
+		));
+		
+		if (!empty($state_data['GlobalCountryState']['id'])) {
+			return $state_data['GlobalCountryState']['id'];
+		} else {
+			return false;
+		}
+	}
+	
+	public function get_state_name_by_id($state_id) {
+		$state_data = $this->find('first', array(
+			'conditions' => array(
+				'GlobalCountryState.id' => $state_id,
+			),
+			'contain' => false,
+		));
+		
+		if (!empty($state_data['GlobalCountryState']['state_name'])) {
+			return $state_data['GlobalCountryState']['state_name'];
+		} else {
+			return false;
+		}
+	}
         
-        public function get_states_by_country_code($country_code) {
-            $apc_key = 'global_country_code_'.$country_code;
-            if (apc_exists($apc_key)) {
-                $country_id = apc_fetch($apc_key);
-            } else {
-                $this->GlobalCountry = ClassRegistry::init("GlobalCountry");
-                $country = $this->GlobalCountry->find('first', array(
-                    'conditions'=>array(
-                        'GlobalCountry.country_code_2'=>$country_code
-                    )
-                ));
-                if (empty($country)) {
-                    return array();
-                }
-                apc_store($apc_key, $country['GlobalCountry']['id'], 60*60*24*7);
-                $country_id = $country['GlobalCountry']['id'];
-            }
-            
-            return $this->get_states_by_country($country_id);
-        }
+	public function get_states_by_country_code($country_code) {
+		$apc_key = 'global_country_code_'.$country_code;
+		if (apc_exists($apc_key)) {
+			$country_id = apc_fetch($apc_key);
+		} else {
+			$this->GlobalCountry = ClassRegistry::init("GlobalCountry");
+			$country = $this->GlobalCountry->find('first', array(
+				'conditions'=>array(
+					'GlobalCountry.country_code_2'=>$country_code
+				)
+			));
+			if (empty($country)) {
+				return array();
+			}
+			apc_store($apc_key, $country['GlobalCountry']['id'], 60*60*24*7);
+			$country_id = $country['GlobalCountry']['id'];
+		}
+
+		return $this->get_states_by_country($country_id);
+	}
 }
