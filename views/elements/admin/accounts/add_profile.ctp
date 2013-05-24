@@ -5,7 +5,8 @@
               url: "/admin/accounts/ajax_save_client_billing",
               data: $("#payment_details_client").serialize(),
               success: function(data) {
-                  $(".ui_dialog_content").html(data.html);
+                  
+                  $(".ui-dialog-content").html(data.html);
               },
               dataType: 'json'
            });
@@ -21,6 +22,7 @@
 </script>
 
 <div class="profile-outer-cont">
+    <?php echo $this->Session->flash(); ?>
     <form id="payment_details_client" action="#" onSubmit="send_form(); return false;">
         <div class="address">
             <div class="input">

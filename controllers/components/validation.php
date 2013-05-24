@@ -7,6 +7,9 @@ class ValidationComponent extends Object {
 	///////////////////////////////////////////////////////////////////////////////////
 	// VALIDATION FUNCTIONS
 	public function validate($type, $data, $value, $flash_message) {
+            $this->log($data, 'client_billing');
+            $this->log($value, 'client_billing');
+            $this->log($data[$value], 'client_billing');
 		switch($type) {
 			case 'not_empty':
 				if (empty($data[$value])) {
