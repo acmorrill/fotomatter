@@ -35,6 +35,7 @@ class AppController extends Controller {
 		'Gallery',
 		'Ecommerce',
 		'Cart',
+                'Account'
 	);
 	
 	

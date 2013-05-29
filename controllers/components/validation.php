@@ -7,9 +7,7 @@ class ValidationComponent extends Object {
 	///////////////////////////////////////////////////////////////////////////////////
 	// VALIDATION FUNCTIONS
 	public function validate($type, $data, $value, $flash_message) {
-            $this->log($data, 'client_billing');
-            $this->log($value, 'client_billing');
-            $this->log($data[$value], 'client_billing');
+      
 		switch($type) {
 			case 'not_empty':
 				if (empty($data[$value])) {
@@ -48,12 +46,26 @@ class ValidationComponent extends Object {
 					return;
 				}
 				break;
+                        case 'valid_cc_no_type':
+                                $starts_with_x = $this->startsWith($data, CARDNUMBER_MASK);
+                                if (!$starts_with_x && ($this->check_cc($data) === false ) || $this->detectType($data) === false) {
+                                    throw New Exception($flash_message);
+                                    return;
+                                }
+                            break;
 			case 'valid_cc_code':
 				if ( !is_numeric($data[$value]) || (strlen($data[$value]) !== 3 && strlen($data[$value]) !== 4) ) {
 					throw new Exception($flash_message);
 					return;
 				}
 				break;
+                        case 'date_is_future':
+                                $timestamp = strtotime($data[$value]);
+                                if ($timestamp === false || $timestamp < time()) {
+                                    throw new Exception($flash_message);
+                                    return;
+                                }
+                            break;
 			default:
 				break;
 		}

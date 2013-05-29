@@ -17,47 +17,49 @@
                 $("#billing_state").html(data.html);
             }, 'json');
     }
-        
-  
+    
 </script>
-
 <div class="profile-outer-cont">
     <?php echo $this->Session->flash(); ?>
     <form id="payment_details_client" action="#" onSubmit="send_form(); return false;">
         <div class="address">
             <div class="input">
                 <label for="billing_firstname"><?php echo __('First Name'); ?></label>
-                <input type="text" id="billing_firstname" name="data[AuthnetProfile][billing_firstname]" />
+                <input type="text" id="billing_firstname" name="data[AuthnetProfile][billing_firstname]" value="<?php echo empty($current_data['AuthnetProfile']['billing_firstname'])==false?$current_data['AuthnetProfile']['billing_firstname']:''; ?>" />
             </div>
             <div class="input">
                 <label for="billing_lastname"><?php echo __('Last Name'); ?></label>
-                <input type="text" id="billing_lastname" name="data[AuthnetProfile][billing_lastname]" />
+                <input type="text" id="billing_lastname" name="data[AuthnetProfile][billing_lastname]" value="<?php echo empty($current_data['AuthnetProfile']['billing_lastname'])==false?$current_data['AuthnetProfile']['billing_lastname']:''; ?>" />
             </div>
             <div class="input">
                 <label for="billing_address"><?php echo __('Address'); ?></label>
-                <input type="text" id="billing_address" name="data[AuthnetProfile][billing_address]" />
+                <input type="text" id="billing_address" name="data[AuthnetProfile][billing_address]" value="<?php echo empty($current_data['AuthnetProfile']['billing_address'])==false?$current_data['AuthnetProfile']['billing_address']:''; ?>" />
             </div>
             <div class="input">
                 <label for="billing_country"><?php echo __('Country'); ?></label>
                 <select style="width:205px" name="data[AuthnetProfile][country_id]" id="billing_country" onChange="getCountries($(this).val())">
                     <?php foreach ($countries as $key => $country): ?>
-                    <option value="<?php echo $country['GlobalCountry']['country_code_2']; ?>"><?php echo $country['GlobalCountry']['country_name']; ?></option>
+                    <option <?php echo empty($current_data['AuthnetProfile']['country_id'])===false&&$current_data['AuthnetProfile']['country_id']==$country['GlobalCountry']['country_code_2']?'SELECTED':''; ?> value="<?php echo $country['GlobalCountry']['country_code_2']; ?>"><?php echo $country['GlobalCountry']['country_name']; ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
             <div class="input">
                 <label for="billing_city"><?php echo __('City'); ?></label>
-                <input type="text" id="billing_city" name="data[AuthnetProfile][billing_city]" />
+                <input type="text" id="billing_city" name="data[AuthnetProfile][billing_city]" value="<?php echo empty($current_data['AuthnetProfile']['billing_city'])==false?$current_data['AuthnetProfile']['billing_city']:''; ?>" />
             </div>
             <div class="input">
                 <label for="billing_state"><?php echo __('State'); ?></label>
                 <select id="billing_state" name="data[AuthnetProfile][country_state_id]">
-                    <option><?php echo __('Please Choose Country'); ?></option>
+                    <?php if (empty($current_data['AuthnetProfile']['country_id'])): ?>
+                        <?php echo $this->element('admin/accounts/state_list', array('country_code'=>'US')); ?>
+                    <?php else: ?>
+                        <?php echo $this->element('admin/accounts/state_list', array('country_code'=>$current_data['AuthnetProfile']['country_id'], 'selected'=>$current_data['AuthnetProfile']['country_state_id'])); ?>
+                    <?php endif; ?>
                 </select>
             </div>
             <div class="input">
                 <label for="billing_zip"><?php echo __('Zip'); ?></label>
-                <input type="text" id="billing_zip" name="data[AuthnetProfile][billing_zip]" />
+                <input type="text" id="billing_zip" name="data[AuthnetProfile][billing_zip]" value="<?php echo empty($current_data['AuthnetProfile']['billing_zip'])===false?$current_data['AuthnetProfile']['billing_zip']:''; ?>" />
             </div>
         </div>
         <div class="payment">

@@ -8,6 +8,14 @@ class FotomatterBillingComponent extends Object {
     
     public $shared_secret = 'baYMbSR0EM0REmSheFHc0Qo2RUmEGoToNFnPWFcyAEUYRlaOgSynnI1F9DyI';
     
+    public function makeAccountChanges($changes) {
+        $result = json_decode($this->send_api_request('billing_api/makeAccountChanges', $changes), true);
+        if ($result['code']) {
+            return true;
+        }
+        return false;
+    }
+    
     public function save_payment_profile($profile_data) {
         $save_result = json_decode($this->send_api_request('billing_api/save_payment_profile', $profile_data), true);
         if ($save_result['code']) {
@@ -52,6 +60,7 @@ class FotomatterBillingComponent extends Object {
 		'billing'=>'GlAxUMNy5upK97MKZk4C'
 	    )
 	));
+        $this->log($response, 'client_billing');
 	return $response;
     }
     

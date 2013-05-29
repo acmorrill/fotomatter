@@ -14,11 +14,11 @@ class AccountsController extends AppController {
     * action for the page to add/remove line items. 
     * @author Adam Holsinger
     */
+   
+   
    public function admin_index() {
        $line_items = $this->FotomatterBilling->get_info_account();
        
-       
-       $this->log($line_items, 'client_billing');
       
        $this->Session->delete('account_line_items');
        $this->Session->write('account_line_items', array('checked'=>array(), 'unchecked'=>array()));
@@ -62,7 +62,7 @@ class AccountsController extends AppController {
     */
    public function admin_ajax_get_states_for_country($country_code) {
        $states = $this->GlobalCountryState->get_states_by_country_code($country_code);
-       $result['html'] = $this->element('admin/accounts/state_list', array('states'=>$states));
+       $result['html'] = $this->element('admin/accounts/state_list', array('country_code'=>$country_code));
        $this->return_json($result);
    }
    
@@ -79,18 +79,15 @@ class AccountsController extends AppController {
                $this->Validation->validate('not_empty', $this->data['AuthnetProfile'], 'billing_address', __('You must provide your address.', true));
                $this->Validation->validate('not_empty', $this->data['AuthnetProfile'], 'billing_city', __('You must provide your city.', true));
                
-               if (empty($this->data['AutnetProfile']['country_state_id']) || $this->data['AutnetProfile']['country_state_id'] == 'Please Choose Country') {
-                   throw new Exception(__("Please indicate your state and country."));
-               }
-               
-               
-               
-               $this->log($this->log($this->data, 'client_billing'));
-               throw new Exception('error');
-               
+               $this->Validation->validate('not_empty', $this->data['AuthnetProfile'], 'billing_zip', __('You must provide your zip code.', true));
+               $this->Validation->validate('valid_cc_no_type', $this->data['AuthnetProfile']['payment_cardNumber'], 'billing_cardNumber', __('Your credit card was not entered or not in a valid format.', true));
+               $this->data['AuthnetProfile']['str_date'] = '01/' . $this->data['AuthnetProfile']['expiration']['month'] . '/' . $this->data['AuthnetProfile']['expiration']['year'];
+               $this->Validation->validate('date_is_future', $this->data['AuthnetProfile'], 'str_date', __('Your date provided was invalid or not in the future.', true)); //Ok in theory this should never be hit cause they are selects
+               $this->Validation->validate('not_empty', $this->data['AuthnetProfile'], 'payment_cardCode', __('Your csv code was either blank or invalid.', true));
+           
            } catch (Exception $e) {
                $this->Session->setFlash($e->getMessage());
-               $return['html'] = $this->get_add_profile_form();
+               $return['html'] = $this->get_add_profile_form($this->data);
                print(json_encode($return));
                exit();
            }
@@ -107,10 +104,10 @@ class AccountsController extends AppController {
        exit();
    }
    
-   private function get_add_profile_form() {
+   private function get_add_profile_form($current_data=array()) {
         $return = array();
         $countries = $this->GlobalCountry->get_available_countries();
-        return $this->element("admin/accounts/add_profile", array('countries'=>$countries));
+        return $this->element("admin/accounts/add_profile", array('countries'=>$countries, 'current_data'=>$current_data));
    }
    
    /**
@@ -127,8 +124,7 @@ class AccountsController extends AppController {
        
        if ($account_info['Account']['authnet_profile_id'] == false) {
            $return = array();
-           $countries = $this->GlobalCountry->get_available_countries();
-           $return['html'] = $this->element("admin/accounts/add_profile", array('countries'=>$countries));
+           $return['html'] = $this->get_add_profile_form();
            print(json_encode($return));
            exit();
        }
@@ -158,14 +154,52 @@ class AccountsController extends AppController {
            }
        }
        
+       $this->Session->delete('final_account_changes');
+       $this->Session->write('final_account_changes', $account_changes);
+              
        $return = array();
        $return['html'] = $this->element('admin/accounts/account_change_finish', array('current_bill'=>$current_bill,
                                                                                 'account_changes'=>$account_changes,
                                                                                 'account_info'=>$account_info));
        print(json_encode($return));
        exit();
+   }
+   
+   /**
+    * this function is called to send the final account change to overlord
+    * @return <html> The html of the summary page
+    */
+   public function admin_ajax_finish_account_change() {
+       $account_changes = array();
+       if ($this->Session->check('final_account_changes')) {
+           $account_changes = $this->Session->read('final_account_changes');
+       } else {
+           $return['code'] = false;
+           $this->major_error('Expected account changes not set in session.');
+           $this->return_json($return);
+       }
        
+       $account_info = array();
+       if ($this->Session->check('account_info')){
+           $account_info = $this->Session->read('account_info');
+       } else {
+           $return['code'] = false;
+           $this->major_error('Expected to have account_line_items set in session');
+           $this->return_json($return);
+       }
        
+       $change_to_send = array();
+       foreach($account_changes['checked'] as $key => $item_to_add) {
+           $change_to_send['add'][] = $account_info['items'][$key];
+       }
+       
+       foreach ($account_changes['unchecked'] as $key => $item_to_remove) {
+           $change_to_send['remove'][] = $account_info['items'][$key];
+       }
+     
+       $result = $this->FotomatterBilling->makeAccountChanges($change_to_send);
+       $return['code'] = true;
+       $this->return_json($return);
    }
    
    
