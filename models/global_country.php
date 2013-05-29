@@ -17,7 +17,8 @@ class GlobalCountry extends AppModel {
                     $this->GlobalCountry = ClassRegistry::init("GlobalCountry");
 
                     $countries = $this->GlobalCountry->find('all', array(
-                            'contain' => false
+                            'contain' => false,
+                            'order'=>'order desc'
                     ));
                     apc_store($apc_key, $countries, 60*60*24*7); // store for one week
             }
