@@ -6,8 +6,6 @@ class AuthnetOrder extends CakeAuthnetAppModel {
        
 	
 	public function one_time_charge($authnet_data) {
-		$this->log($authnet_data, 'one_time_charge');
-		
 		$this->Cart = ClassRegistry::init('Cart');
 		
 		
@@ -41,9 +39,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			);
 		}
 		
-		$this->log('made it here 1', 'one_time_charge');
 		if ($this->createOrderForProfile($order, false) === true) {
-			$this->log('made it here 2', 'one_time_charge');
 			$charge_data = array(
 				'refId' => $this->id,
 				'transactionRequest' => array(
@@ -52,7 +48,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 					'payment' => array(
 						'creditCard' => array(
 							'cardNumber' => $authnet_data['AuthnetProfile']['payment_cardNumber'],
-							'expirationDate' => strtotime($authnet_data['AuthnetProfile']['payment_expirationDate']),
+							'expirationDate' => date('m/Y', strtotime($authnet_data['AuthnetProfile']['payment_expirationDate'])),
 							'cardCode' => $authnet_data['AuthnetProfile']['payment_cardCode'],
 						),
 					),
@@ -115,25 +111,37 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 				),
 			);
 
-			$count = 1; 
-			foreach ($items as $key => $item) {
-				$charge_data['line_items']['line_item'][] = array(
-					'itemId' => $count,
-					'name' => $item['photo_id'].'|'.$item['photo_print_type_id'].'|'.$item['short_side_inches'],
-					'description' => $key,
-					'quantity' => $item['qty'],
-					'unitPrice' => $item['price'],
-				);
-				$count++;
-			}
+			// DREW TODO - get the below working - not a high priority though
+//			$count = 1; 
+//			foreach ($items as $key => $item) {
+//				$charge_data['lineItems']['lineItem'][] = array(
+//					'itemId' => $count,
+//					'name' => $item['photo_id'].'+'.$item['photo_print_type_id'].'+'.$item['short_side_inches'],
+//					'description' => $key,
+//					'quantity' => $item['qty'],
+//					'unitPrice' => $item['price'],
+//				);
+//				$count++;
+//			}
 			
 			
 			$this->log($charge_data, 'one_time_charge');
 			
 			
 			$authnet = $this->get_authnet_instance();
-			// START HERE TOMORROW - the line below is failing
-			$authnet->createTransactionRequest($charge_data);
+			$result = $authnet->createTransactionRequest($charge_data);
+			
+			
+			// START HERE TOMORROW - get process the results below and respond - after that make the finalize payment show just last four for logged in with data
+			$result_data = array();
+			$result_data['resultCode'] = $authnet->messages->resultCode;
+			$result_data['code'] = $authnet->messages->message->code;
+			$result_data['isSuccessful'] = ($authnet->isSuccessful()) ? 'yes' : 'no';
+			$result_data['isError'] = ($authnet->isError()) ? 'yes' : 'no';
+			$result_data['authCode'] = $authnet->transactionResponse->authCode;
+			$result_data['transId'] = $authnet->transactionResponse->transId;
+			
+			$this->log($result_data, 'result_data_one_time_charge');
 		}
 		
 		
