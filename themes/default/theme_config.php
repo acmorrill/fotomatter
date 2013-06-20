@@ -51,6 +51,10 @@ $theme_config = array(
 				'layout' => 'custom_page',
 				'view' => false,
 			),
+			'checkout_thankyou' => array(
+				'layout' => 'custom_page',
+				'view' => false,
+			),
 		),
 	),
 	'theme_controller_action_mobile_layouts' => array(

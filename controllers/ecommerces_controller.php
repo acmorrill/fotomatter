@@ -3,12 +3,17 @@ class EcommercesController extends AppController {
 	public $name = 'Ecommerces';
 	public $uses = array('PhotoAvailSize', 'PhotoFormat', 'PhotoPrintType', 'PhotoAvailSizesPhotoPrintType', 'Cart', 'Photo', 'User', 'cake_authnet.AuthnetProfile', 'cake_authnet.AuthnetOrder', 'GlobalCountryState', 'GlobalCountry');
 	public $layout = 'admin/ecommerces';
-
+	public $paginate = array(
+		'limit' => 10,        
+		'order' => array(            
+			'AuthnetOrder.created' => 'desc',
+		),
+	);
 
 	public function beforeFilter() {
 		parent::beforeFilter();
 
-		$this->Auth->allow(array('view_cart', 'add_to_cart', 'checkout_login_or_guest', 'checkout_get_address', 'get_available_states_for_country_options', 'checkout_finalize_payment', 'change_fe_password'));
+		$this->Auth->allow(array('view_cart', 'add_to_cart', 'checkout_login_or_guest', 'checkout_get_address', 'get_available_states_for_country_options', 'checkout_finalize_payment', 'change_fe_password', 'checkout_thankyou'));
 		
 //		$this->front_end_auth = array('checkout_get_address');
 	}
@@ -113,6 +118,39 @@ class EcommercesController extends AppController {
 		$this->set(compact('photo_print_types'));
 	}
 	
+	public function admin_order_management() {
+		$this->HashUtil->set_new_hash('ecommerce');
+		
+		$authnet_orders = $this->paginate('AuthnetOrder');    
+		
+		$this->set(compact('authnet_orders'));
+	}
+	
+	public function admin_fulfill_order($authnet_order_id) {
+		$this->HashUtil->set_new_hash('ecommerce');
+		
+		$authnet_order = $this->AuthnetOrder->find('first', array(
+			'conditions' => array(
+				'AuthnetOrder.id' => $authnet_order_id,
+			),
+			'contain' => array(
+				'AuthnetProfile',
+				'AuthnetLineItem',
+			),
+		));
+		
+		foreach ($authnet_order['AuthnetLineItem'] as &$line_item) {
+			$extra_data = explode("|", $line_item['name']);
+			$line_item['photo_id'] = $extra_data[0];
+			$line_item['print_type_id'] = $extra_data[1];
+			$line_item['short_side_inches'] = $extra_data[2];
+			$line_item['extra_data'] = $this->Photo->get_extra_print_data($line_item['photo_id'], $line_item['print_type_id'], $line_item['short_side_inches']);
+		}
+		
+		
+		
+		$this->set(compact('authnet_order_id', 'authnet_order'));
+	}
 	
 	public function admin_ajax_set_print_type_order($photo_print_type_id, $new_order) {
 		$this->HashUtil->set_new_hash('ecommerce');
@@ -324,8 +362,8 @@ class EcommercesController extends AppController {
 	}
 	
 	public function view_cart() {
-//		$this->Cart->create_fake_cart_items(); // DREW TODO - delete this line
-		$this->Cart->create_fake_cart_items_laptop(); // DREW TODO - delete this line
+		$this->Cart->create_fake_cart_items(); // DREW TODO - delete this line
+//		$this->Cart->create_fake_cart_items_laptop(); // DREW TODO - delete this line
 		
 		$this->ThemeRenderer->render($this);
 	}
@@ -637,6 +675,8 @@ class EcommercesController extends AppController {
 					$this->ThemeRenderer->render($this);
 					return;
 				}
+				
+				$this->redirect('/ecommerces/checkout_thankyou');
 			} else {
 				$authnet_data = array();
 				
@@ -664,8 +704,22 @@ class EcommercesController extends AppController {
 				$authnet_data['AuthnetProfile']['payment_cc_last_four'] = substr($this->data['Payment']['card_number'], -4, 4);
 				$authnet_data['AuthnetProfile']['payment_method'] = $this->data['Payment']['credit_card_method'];
 				
-				// DREW TODO - charge straight to authorize.net without the CIM
-				$this->AuthnetOrder->one_time_charge($authnet_data);
+				$result_data = $this->AuthnetOrder->one_time_charge($authnet_data);
+				
+				
+				if ($result_data['success'] !== true) {
+					if ($result_data['declined'] === true) {
+						$this->Session->setFlash('Transaction declined.');
+					} else {
+						$this->Session->setFlash('An unknown error occured processing the transaction.');
+					}
+					
+					$this->ThemeRenderer->render($this);
+					return;
+				} 
+				
+				
+				$this->redirect('/ecommerces/checkout_thankyou');
 			}
 		}
 		
@@ -677,6 +731,11 @@ class EcommercesController extends AppController {
 		}
 		
 		
+		$this->ThemeRenderer->render($this);
+	}
+	
+	
+	public function checkout_thankyou() {
 		$this->ThemeRenderer->render($this);
 	}
 	
@@ -707,5 +766,7 @@ class EcommercesController extends AppController {
 		
 		$this->return_json($data);
 	}
+	
+	
 	
 }

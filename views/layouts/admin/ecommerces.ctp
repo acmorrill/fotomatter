@@ -32,6 +32,10 @@
 					'name' => __('Manage Print Types and Default Pricing', true),
 					'url' => "/admin/ecommerces/manage_print_types_and_pricing"
 				);
+				$subnav['pages'][] = array(
+					'name' => __('Order Management', true),
+					'url' => "/admin/ecommerces/order_management"
+				);
 
 				echo $this->Element('/admin/submenu', array( 'subnav' => $subnav ));
 			?>
