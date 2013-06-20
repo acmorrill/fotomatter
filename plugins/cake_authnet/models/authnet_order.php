@@ -3,6 +3,9 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 
 	public $name = 'AuthnetOrder';
 	public $belongsTo = array('CakeAuthnet.AuthnetProfile');
+	public $hasMany = array(
+		'AuthnetLineItem',
+	);
        
 	
 	public function one_time_charge($authnet_data) {
@@ -11,6 +14,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		
 		$order = array(
 			'authnet_profile_id' => 0,
+			'one_time_charge' => 1,
 			'total' => $this->Cart->get_cart_total(),
 			'foreign_model' => 'User',
 			'foreign_key' => 0,
@@ -38,6 +42,12 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 				'authnet_line_item_type_id' => 1,
 			);
 		}
+		
+		$return_arr = array();
+		$return_arr['success'] = true;
+		$return_arr['code'] = '';
+		$return_arr['declined'] = false;
+		
 		
 		if ($this->createOrderForProfile($order, false) === true) {
 			$charge_data = array(
@@ -124,29 +134,31 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 //				$count++;
 //			}
 			
-			
-			$this->log($charge_data, 'one_time_charge');
-			
+
 			
 			$authnet = $this->get_authnet_instance();
-			$result = $authnet->createTransactionRequest($charge_data);
+			$authnet->createTransactionRequest($charge_data);
+			
+			if ($authnet->isError()) {
+				$return_arr['code'] = $authnet->messages->message->code[0];
+				if ($authnet->messages->message->code[0] == 'I00002') {
+					$return_arr['declined'] = true;
+				} else {
+					$this->major_error('Authorize.net one time charge failed', compact('charge_data'), 'high');
+				}
+				$this->delete($this->id);
+				$return_arr['success'] = false;
+			}
 			
 			
-			// START HERE TOMORROW - get process the results below and respond - after that make the finalize payment show just last four for logged in with data
-			$result_data = array();
-			$result_data['resultCode'] = $authnet->messages->resultCode;
-			$result_data['code'] = $authnet->messages->message->code;
-			$result_data['isSuccessful'] = ($authnet->isSuccessful()) ? 'yes' : 'no';
-			$result_data['isError'] = ($authnet->isError()) ? 'yes' : 'no';
-			$result_data['authCode'] = $authnet->transactionResponse->authCode;
-			$result_data['transId'] = $authnet->transactionResponse->transId;
+			return $return_arr;
+		} else {
+			$return_arr['success'] = false;
+			$return_arr['code'] = 'I00003';
+			$return_arr['declined'] = false;
 			
-			$this->log($result_data, 'result_data_one_time_charge');
+			return $return_arr;
 		}
-		
-		
-		
-		
 	}
 	
 	
@@ -239,7 +251,6 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			return false;
 		}
 		
-		$this->log('made it here 3', 'one_time_charge');
 
 		$this->AuthnetProfile = ClassRegistry::init("AuthnetProfile");
 		$profile_to_use = $this->AuthnetProfile->find('first', array(
@@ -261,6 +272,11 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			$api_order['tax'] = $order['tax'];
 			$order_save_db['AuthnetOrder']['tax'] = $order['tax']['amount'];
 		}
+		
+		// one time charge
+		if (isset($order['one_time_charge'])) {
+			$order_save_db['AuthnetOrder']['one_time_charge'] = $order['one_time_charge'];
+		}
 
 		//shipping?
 		if (isset($order['shipping'])) {
@@ -269,7 +285,6 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		}
 
 		foreach ($order['line_items'] as $line_item) {
-
 			$attach_to_order['itemId'] = $line_item['foreign_key'];
 			$attach_to_order['name'] = $line_item['name'];
 			$attach_to_order['description'] = $line_item['description'];
@@ -283,7 +298,6 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		$api_order['customerPaymentProfileId'] = $profile_to_use['AuthnetProfile']['customerPaymentProfileId'];
 		$data_to_send['transaction']['profileTransAuthCapture'] = $api_order;
 
-		$this->log('made it here 6', 'one_time_charge');
 		$authnet = $this->get_authnet_instance();
 		try {
 //			$authnet->createCustomerProfileTransactionRequest($data_to_send);
@@ -294,7 +308,6 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 //				$this->authnet_error("request failed", $authnet->get_response());
 //				return $returnArr;
 //			}
-			$this->log('made it here 7', 'one_time_charge');
 
 			if (isset($order['foreign_model'])) {
 				$order_save_db['AuthnetOrder']['foreign_model'] = $order['foreign_model'];
@@ -310,7 +323,6 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 				$this->authnet_error('Could not save order', $order);
 				return false;
 			}
-			$this->log('made it here 4', 'one_time_charge');
 			$this->AuthnetLineItem = ClassRegistry::init("AuthnetLineItem");
 
 			foreach ($order['line_items'] as $item) {
