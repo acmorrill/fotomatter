@@ -22,6 +22,16 @@ class EcommerceHelper extends AppHelper {
 		$this->Cart = ClassRegistry::init('Cart');
 		return $this->Cart->get_cart_shipping_address();
 	}
+	
+	public function get_country_name_by_id($country_id) {
+		$this->GlobalCountry = ClassRegistry::init('GlobalCountry');
+		return $this->GlobalCountry->get_country_name_by_id($country_id);
+	}
+	
+	public function get_state_name_by_id($state_id) {
+		$this->GlobalCountryState = ClassRegistry::init('GlobalCountryState');
+		return $this->GlobalCountryState->get_state_name_by_id($state_id);
+	}
 		
 	
 	
