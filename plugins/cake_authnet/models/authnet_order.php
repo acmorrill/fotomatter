@@ -3,153 +3,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 
 	public $name = 'AuthnetOrder';
 	public $belongsTo = array('CakeAuthnet.AuthnetProfile');
-       
-	
-	public function one_time_charge($authnet_data) {
-		$this->Cart = ClassRegistry::init('Cart');
-		
-		
-		$order = array(
-			'authnet_profile_id' => 0,
-			'total' => $this->Cart->get_cart_total(),
-			'foreign_model' => 'User',
-			'foreign_key' => 0,
-//			'tax' => array( // DREW TODO - add tax here when we have tax
-//				'amount' => '',
-//				'name' => '',
-//				'description' => '',
-//			),
-			'shipping' => array(
-				'amount' => $this->Cart->get_cart_shipping_total(),
-				'name' => '',
-				'description' => '',
-			),
-			'line_items' => array(),
-		);
-		$items = $this->Cart->get_cart_items();
-		foreach ($items as $key => $item) {
-			$order['line_items'][] = array(
-				'unit_cost' => $item['price'],
-				'name' => $item['photo_id'].'|'.$item['photo_print_type_id'].'|'.$item['short_side_inches'],
-				'description' => $key,
-				'quantity' => $item['qty'],
-				'foreign_model' => 'Photo',
-				'foreign_key' => $item['photo_id'],
-				'authnet_line_item_type_id' => 1,
-			);
-		}
-		
-		if ($this->createOrderForProfile($order, false) === true) {
-			$charge_data = array(
-				'refId' => $this->id,
-				'transactionRequest' => array(
-					'transactionType' => 'authCaptureTransaction',
-					'amount' => $this->Cart->get_cart_total(),
-					'payment' => array(
-						'creditCard' => array(
-							'cardNumber' => $authnet_data['AuthnetProfile']['payment_cardNumber'],
-							'expirationDate' => date('m/Y', strtotime($authnet_data['AuthnetProfile']['payment_expirationDate'])),
-							'cardCode' => $authnet_data['AuthnetProfile']['payment_cardCode'],
-						),
-					),
-	//				'order' => array(
-	//					'invoiceNumber' => $order['AuthnetOrder'],
-	//					'description' => 'this is a test transaction',
-	//				),
-	//				'lineItems' => array(
-	//					'lineItem' => array(
-	//						0 => array(
-	//							'itemId' => '1',
-	//							'name' => 'vase',
-	//							'description' => 'Cannes logo',
-	//							'quantity' => '18',
-	//							'unitPrice' => '45.00'
-	//						),
-	//						1 => array(
-	//							'itemId' => '2',
-	//							'name' => 'desk',
-	//							'description' => 'Big Desk',
-	//							'quantity' => '10',
-	//							'unitPrice' => '85.00'
-	//						)
-	//					)
-	//				),
-	//				'tax' => array(
-	//					'amount' => '4.26',
-	//					'name' => 'level2 tax name',
-	//					'description' => 'level2 tax',
-	//				),
-	//				'duty' => array(
-	//					'amount' => '8.55',
-	//					'name' => 'duty name',
-	//					'description' => 'duty description',
-	//				),
-					'shipping' => array(
-						'amount' => $this->Cart->get_cart_shipping_total(),
-						'name' => '',
-						'description' => '',
-					),
-					'billTo' => array(
-						'firstName' => $authnet_data['AuthnetProfile']['billing_firstname'],
-						'lastName' => $authnet_data['AuthnetProfile']['billing_lastname'],
-						'address' => $authnet_data['AuthnetProfile']['billing_address'],
-						'city' => $authnet_data['AuthnetProfile']['billing_city'],
-						'state' => $authnet_data['AuthnetProfile']['billing_state'],
-						'zip' => $authnet_data['AuthnetProfile']['billing_zip'],
-						'country' => $authnet_data['AuthnetProfile']['billing_country'],
-					),
-					'shipTo' => array(
-						'firstName' => $authnet_data['AuthnetProfile']['shipping_firstname'],
-						'lastName' => $authnet_data['AuthnetProfile']['shipping_lastname'],
-						'address' => $authnet_data['AuthnetProfile']['shipping_address'],
-						'city' => $authnet_data['AuthnetProfile']['shipping_city'],
-						'state' => $authnet_data['AuthnetProfile']['shipping_state'],
-						'zip' => $authnet_data['AuthnetProfile']['shipping_zip'],
-						'country' => $authnet_data['AuthnetProfile']['shipping_country'],
-					),
-					'customerIP' => $_SERVER['REMOTE_ADDR'],
-				),
-			);
-
-			// DREW TODO - get the below working - not a high priority though
-//			$count = 1; 
-//			foreach ($items as $key => $item) {
-//				$charge_data['lineItems']['lineItem'][] = array(
-//					'itemId' => $count,
-//					'name' => $item['photo_id'].'+'.$item['photo_print_type_id'].'+'.$item['short_side_inches'],
-//					'description' => $key,
-//					'quantity' => $item['qty'],
-//					'unitPrice' => $item['price'],
-//				);
-//				$count++;
-//			}
-			
-			
-			$this->log($charge_data, 'one_time_charge');
-			
-			
-			$authnet = $this->get_authnet_instance();
-			$result = $authnet->createTransactionRequest($charge_data);
-			
-			
-			// START HERE TOMORROW - get process the results below and respond - after that make the finalize payment show just last four for logged in with data
-			$result_data = array();
-			$result_data['resultCode'] = $authnet->messages->resultCode;
-			$result_data['code'] = $authnet->messages->message->code;
-			$result_data['isSuccessful'] = ($authnet->isSuccessful()) ? 'yes' : 'no';
-			$result_data['isError'] = ($authnet->isError()) ? 'yes' : 'no';
-			$result_data['authCode'] = $authnet->transactionResponse->authCode;
-			$result_data['transId'] = $authnet->transactionResponse->transId;
-			
-			$this->log($result_data, 'result_data_one_time_charge');
-		}
-		
-		
-		
-		
-	}
-	
-	
+        
 	public function charge_cart_to_cim($authnet_profile_id) {
 		$this->Cart = ClassRegistry::init('Cart');
 		
@@ -233,13 +87,11 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		*     )
 		* )
 		*/
-	public function createOrderForProfile($order, $validate = true) {
+	public function createOrderForProfile($order) {
 		//make sure all required items are there
-		if ($validate === true && $this->_validate_order($order) === false) {
+		if ($this->_validate_order($order) === false) {
 			return false;
 		}
-		
-		$this->log('made it here 3', 'one_time_charge');
 
 		$this->AuthnetProfile = ClassRegistry::init("AuthnetProfile");
 		$profile_to_use = $this->AuthnetProfile->find('first', array(
@@ -283,18 +135,17 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		$api_order['customerPaymentProfileId'] = $profile_to_use['AuthnetProfile']['customerPaymentProfileId'];
 		$data_to_send['transaction']['profileTransAuthCapture'] = $api_order;
 
-		$this->log('made it here 6', 'one_time_charge');
+
 		$authnet = $this->get_authnet_instance();
 		try {
-//			$authnet->createCustomerProfileTransactionRequest($data_to_send);
-//			if ($authnet->isError()) {
-//				$returnArr['success'] = false;
-//				$returnArr['code'] = $authnet->get_code();
-//				$returnArr['message'] = $authnet->get_message();
-//				$this->authnet_error("request failed", $authnet->get_response());
-//				return $returnArr;
-//			}
-			$this->log('made it here 7', 'one_time_charge');
+			$authnet->createCustomerProfileTransactionRequest($data_to_send);
+			if ($authnet->isError()) {
+				$returnArr['success'] = false;
+				$returnArr['code'] = $authnet->get_code();
+				$returnArr['message'] = $authnet->get_message();
+				$this->authnet_error("request failed", $authnet->get_response());
+				return $returnArr;
+			}
 
 			if (isset($order['foreign_model'])) {
 				$order_save_db['AuthnetOrder']['foreign_model'] = $order['foreign_model'];
@@ -310,7 +161,6 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 				$this->authnet_error('Could not save order', $order);
 				return false;
 			}
-			$this->log('made it here 4', 'one_time_charge');
 			$this->AuthnetLineItem = ClassRegistry::init("AuthnetLineItem");
 
 			foreach ($order['line_items'] as $item) {
@@ -346,7 +196,6 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			$this->authnet_error('Tried to create an order without specifing a profile to charge it', $order);
 			return false;
 		}
-		
 
 		if (empty($order['foreign_model']) == false && empty($order['foreign_key'])) {
 			$this->authnet_error('Trying to create an order, specified foreign_model but did not specify key.', $order);

@@ -1,6 +1,6 @@
 <?php
 //dev credentials
-Configure::write('cake_authnet.id', '7kxH9P7L');
-Configure::write('cake_authnet.key', '7ycnCT73epa7C637');
-Configure::write('cake_authnet.is_dev', false);
+Configure::write('rainauthnet.id', '__dev_id_here__');
+Configure::write('rainauthnet.key', '__dev_key_here');
+Configure::write('rainauthnet.is_dev', "true/false");
 

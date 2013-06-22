@@ -18,7 +18,6 @@ class AccountsController extends AppController {
    
    public function admin_index() {
        $line_items = $this->FotomatterBilling->get_info_account();
-       
       
        $this->Session->delete('account_line_items');
        $this->Session->write('account_line_items', array('checked'=>array(), 'unchecked'=>array()));
@@ -110,6 +109,20 @@ class AccountsController extends AppController {
         return $this->element("admin/accounts/add_profile", array('countries'=>$countries, 'current_data'=>$current_data));
    }
    
+   private function rekey_account_info($account_info) {
+       //rekey the original array
+       $tmp_array = array();
+       $current_bill = 0;
+       foreach($account_info['items'] as $line_item) {
+           if ($line_item['AccountLineItem']['active']) {
+               $current_bill += $line_item['AccountLineItem']['current_cost'];
+           }
+           $tmp_array[$line_item['AccountLineItem']['id']] = $line_item;
+       }
+       return $tmp_array;
+       
+   }
+   
    /**
     * Figure out exactly what changed from what they have selected and display that to the user. They will be warned as far
     * as how their bill is changing. 
@@ -129,16 +142,13 @@ class AccountsController extends AppController {
            exit();
        }
        
-       //rekey the original array
-       $tmp_array = array();
+       $account_info = $this->rekey_account_info($account_info);
        $current_bill = 0;
-       foreach($account_info['items'] as $line_item) {
+       foreach($account_info as $line_item) {
            if ($line_item['AccountLineItem']['active']) {
                $current_bill += $line_item['AccountLineItem']['current_cost'];
            }
-           $tmp_array[$line_item['AccountLineItem']['id']] = $line_item;
        }
-       $account_info = $tmp_array;
        
        //compare checked items
        foreach ($account_changes['checked'] as $id => $change) {
@@ -188,15 +198,14 @@ class AccountsController extends AppController {
            $this->return_json($return);
        }
        
-       $change_to_send = array();
+       $account_info = $this->rekey_account_info($account_info);
        foreach($account_changes['checked'] as $key => $item_to_add) {
-           $change_to_send['add'][] = $account_info['items'][$key];
+           $change_to_send['add'][] = $account_info[$key];
        }
        
        foreach ($account_changes['unchecked'] as $key => $item_to_remove) {
-           $change_to_send['remove'][] = $account_info['items'][$key];
+           $change_to_send['remove'][] = $account_info[$key];
        }
-     
        $result = $this->FotomatterBilling->makeAccountChanges($change_to_send);
        $return['code'] = true;
        $this->return_json($return);
