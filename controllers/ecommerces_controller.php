@@ -324,8 +324,8 @@ class EcommercesController extends AppController {
 	}
 	
 	public function view_cart() {
-//		$this->Cart->create_fake_cart_items(); // DREW TODO - delete this line
-		$this->Cart->create_fake_cart_items_laptop(); // DREW TODO - delete this line
+		$this->Cart->create_fake_cart_items(); // DREW TODO - delete this line
+//		$this->Cart->create_fake_cart_items_laptop(); // DREW TODO - delete this line
 		
 		$this->ThemeRenderer->render($this);
 	}
@@ -604,7 +604,9 @@ class EcommercesController extends AppController {
 				$authnet_data['AuthnetProfile']['billing_zip'] = $billing_address['zip'];
 				$authnet_data['AuthnetProfile']['billing_country'] = $this->GlobalCountry->get_country_name_by_id($billing_address['country_id']);
 				$authnet_data['AuthnetProfile']['billing_phoneNumber'] = isset($billing_address['phoneNumber']) ? $billing_address['phoneNumber'] : '' ;
-				$authnet_data['AuthnetProfile']['payment_cardNumber'] = $this->data['Payment']['card_number'];
+				if (!$this->Cart->startsWith($this->data['Payment']['card_number'], CARDNUMBER_MASK)) {
+					$authnet_data['AuthnetProfile']['payment_cardNumber'] = $this->data['Payment']['card_number'];
+				}
 				$authnet_data['AuthnetProfile']['payment_expirationDate'] = $expiration_str;
 				$authnet_data['AuthnetProfile']['payment_cardCode'] = $this->data['Payment']['security_code'];
 				$authnet_data['AuthnetProfile']['shipping_firstname'] = $shipping_address['firstname'];
@@ -638,34 +640,8 @@ class EcommercesController extends AppController {
 					return;
 				}
 			} else {
-				$authnet_data = array();
-				
-				// try and save the credit card data to authorize.net CIM
-				$billing_address = $this->data['BillingAddress'];
-				$shipping_address = $this->Cart->get_cart_shipping_address();
-				$authnet_data['AuthnetProfile']['billing_firstname'] = $billing_address['firstname'];
-				$authnet_data['AuthnetProfile']['billing_lastname'] = $billing_address['lastname'];
-				$authnet_data['AuthnetProfile']['billing_address'] = $billing_address['address1']." ".$billing_address['address2'];
-				$authnet_data['AuthnetProfile']['billing_city'] = $billing_address['city'];
-				$authnet_data['AuthnetProfile']['billing_state'] = $this->GlobalCountryState->get_state_name_by_id($billing_address['state_id']);
-				$authnet_data['AuthnetProfile']['billing_zip'] = $billing_address['zip'];
-				$authnet_data['AuthnetProfile']['billing_country'] = $this->GlobalCountry->get_country_name_by_id($billing_address['country_id']);
-				$authnet_data['AuthnetProfile']['billing_phoneNumber'] = isset($billing_address['phoneNumber']) ? $billing_address['phoneNumber'] : '' ;
-				$authnet_data['AuthnetProfile']['payment_cardNumber'] = $this->data['Payment']['card_number'];
-				$authnet_data['AuthnetProfile']['payment_expirationDate'] = $expiration_str;
-				$authnet_data['AuthnetProfile']['payment_cardCode'] = $this->data['Payment']['security_code'];
-				$authnet_data['AuthnetProfile']['shipping_firstname'] = $shipping_address['firstname'];
-				$authnet_data['AuthnetProfile']['shipping_lastname'] = $shipping_address['lastname'];
-				$authnet_data['AuthnetProfile']['shipping_address'] = $shipping_address['address1']." ".$shipping_address['address2'];
-				$authnet_data['AuthnetProfile']['shipping_city'] = $shipping_address['city'];
-				$authnet_data['AuthnetProfile']['shipping_state'] = $shipping_address['state_name'];
-				$authnet_data['AuthnetProfile']['shipping_zip'] = $shipping_address['zip'];
-				$authnet_data['AuthnetProfile']['shipping_country'] = $shipping_address['country_name'];
-				$authnet_data['AuthnetProfile']['payment_cc_last_four'] = substr($this->data['Payment']['card_number'], -4, 4);
-				$authnet_data['AuthnetProfile']['payment_method'] = $this->data['Payment']['credit_card_method'];
-				
 				// DREW TODO - charge straight to authorize.net without the CIM
-				$this->AuthnetOrder->one_time_charge($authnet_data);
+				$this->AuthnetProfile->one_time_charge($authnet_data); // DREW TODO - START HERE TOMORROW
 			}
 		}
 		
