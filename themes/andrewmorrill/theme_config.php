@@ -50,6 +50,10 @@ $theme_config = array(
 				'layout' => 'custom_page',
 				'view' => 'checkout_finalize_payment',
 			),
+			'checkout_thankyou' => array(
+				'layout' => 'custom_page',
+				'view' => 'checkout_thankyou',
+			),
 		),
 	),
 	'admin_config' => array(

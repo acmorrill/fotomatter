@@ -7,46 +7,9 @@
 ?>
 
 <style type="text/css">
-	.sub_submenu_cont {
-		
-	}
-	.sub_submenu_cont .sub_submenu_left_cont, .sub_submenu_cont .sub_submenu_right_cont, .sub_submenu_cont .sub_submenu_far_right_cont {
-		float: left;
-	}
-	.sub_submenu_cont .sub_submenu_far_right_cont {
-		width: 230px;
-		min-height: 100px;
-		margin-left: 20px;
-	}
-	.sub_submenu_cont .sub_submenu_left_cont {
-		width: 50px;
-	}
-	.sub_submenu_cont .sub_submenu_left_cont .sub_submenu_tab {
-		width: 50px;
-		height: 50px;
-		overflow: hidden;
-		background: #474747;
-		cursor: pointer;
-		border: 1px solid #333;
-		-moz-border-radius-topleft: 5px;
-		border-top-left-radius: 5px;
-		-moz-border-radius-bottomleft: 5px;
-		border-bottom-left-radius: 5px;
-	}
-	.sub_submenu_cont .sub_submenu_left_cont .sub_submenu_tab.selected {
-		background: #636363;
-	}
-	.sub_submenu_cont .sub_submenu_left_cont .sub_submenu_tab:hover {
-		background: #2b2b2b;
-	}
-	.sub_submenu_cont .sub_submenu_right_cont {
-		width: <?php echo $_width; ?>px;
-	}
-	.sub_submenu_cont .sub_submenu_right_cont .sub_submenu_tab_cont {
-		display: none;
-		position: relative;
-		margin-bottom: 210px;
-	}
+.sub_submenu_cont .sub_submenu_right_cont {
+	width: <?php echo $_width; ?>px;
+}
 </style>
 
 <script type="text/javascript">
