@@ -12,8 +12,14 @@ $(document).ready(function() {
        }
    });
    
+   
+   var inAjaxCall = false;
    $("#line_item_cont .line_item .bar input").change(function(e) {
       e.preventDefault();
+      if (inAjaxCall) {
+          return false;
+      }
+      inAjaxCall = true;
       var args_item = {};
       args_item.checked = 0;
       if ($(this).is(':checked')) {
@@ -21,10 +27,10 @@ $(document).ready(function() {
       }
       args_item.id = $(this).attr('data_id');
       var this_check_box = $(this);
-      $("#line_item_cont .line_item .bar input").attr('disabled', 'disabled');
       $("#line_item_cont .finish input[type=button]").fadeIn();
       $.post('/accounts/ajax_setItemChecked', args_item, 
            function(data) {
+               inAjaxCall = false;
                $("#line_item_cont .line_item .bar input").removeAttr('disabled');
            }, 'json');
        return false;

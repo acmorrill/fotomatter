@@ -5,7 +5,6 @@
               url: "/admin/accounts/ajax_save_client_billing",
               data: $("#payment_details_client").serialize(),
               success: function(data) {
-                  
                   $(".ui-dialog-content").html(data.html);
               },
               dataType: 'json'
@@ -23,6 +22,9 @@
     <?php echo $this->Session->flash(); ?>
     <form id="payment_details_client" action="#" onSubmit="send_form(); return false;">
         <div class="address">
+            <input type='hidden' id='billing_id' name='data[AuthnetProfile][id]' value="<?php echo empty($current_data['AuthnetProfile']['id'])==false?$current_data['AuthnetProfile']['id']:''; ?>" />
+            <input type='hidden' id='billing_id' name='data[AuthnetProfile][created]' value="<?php echo empty($current_data['AuthnetProfile']['created'])==false?$current_data['AuthnetProfile']['created']:''; ?>" />
+            <input type='hidden' id='billing_id' name='data[AuthnetProfile][modified]' value="<?php echo empty($current_data['AuthnetProfile']['modified'])==false?$current_data['AuthnetProfile']['modified']:''; ?>" />
             <div class="input">
                 <label for="billing_firstname"><?php echo __('First Name'); ?></label>
                 <input type="text" id="billing_firstname" name="data[AuthnetProfile][billing_firstname]" value="<?php echo empty($current_data['AuthnetProfile']['billing_firstname'])==false?$current_data['AuthnetProfile']['billing_firstname']:''; ?>" />
