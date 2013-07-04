@@ -91,6 +91,9 @@ define('MAX_UPLOAD_SIZE_MEGS', 5);
 define('FREE_MAX_RES', 2000);
 define("USE_CACHE_SPEED", true);
 
+//path to overlord. (so it can change for development)
+Configure::write('OVERLORD_PATH', 'http://overlord.fotomatter.net');
+
 // path to fonts
 define("GLOBAL_TTF_FONT_PATH", ROOT.DS.APP_DIR.DS.'webroot'.DS.'fonts');
 
@@ -224,4 +227,4 @@ function myErrorHandler($errno, $errstr, $errfile, $errline) {
 	return false;
 }
 $old_error_handler = set_error_handler("myErrorHandler");
-
+require_once('core_ignored.php');

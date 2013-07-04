@@ -18,7 +18,8 @@ class AccountsController extends AppController {
    
    public function admin_index() {
        $line_items = $this->FotomatterBilling->get_info_account();
-      
+       
+       
        $this->Session->delete('account_line_items');
        $this->Session->write('account_line_items', array('checked'=>array(), 'unchecked'=>array()));
        
@@ -53,6 +54,16 @@ class AccountsController extends AppController {
        $this->Session->write('account_line_items', $line_items);
        print(json_encode(array('code'=>true)));
        exit();
+   }
+   
+   /**
+    * Get the payment profile form to update payment details
+    */
+   public function admin_ajax_update_payment() {
+       $currentData = $this->FotomatterBilling->getPaymentProfile();
+       $this->log($currentData, 'payment');
+       $return['html'] = $this->get_add_profile_form($currentData['data']);
+       $this->return_json($return);
    }
    
    /**
@@ -199,6 +210,7 @@ class AccountsController extends AppController {
        }
        
        $account_info = $this->rekey_account_info($account_info);
+       
        foreach($account_changes['checked'] as $key => $item_to_add) {
            $change_to_send['add'][] = $account_info[$key];
        }
