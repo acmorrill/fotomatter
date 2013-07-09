@@ -1,4 +1,28 @@
+<script type="text/javascript">
+       function finishChange() {
+            $.ajax({
+               type: 'POST',
+               url: "/admin/accounts/ajax_finish_account_change",
+               success: function(data) {
+                   window.location.reload();
+               },
+               dataType: 'json'
+            });
+       }
+       
+       function changePaymentData() {
+            $.ajax({
+               type: 'GET',
+               url: '/admin/accounts/ajax_update_payment',
+               success: function(data) {
+                   $(".ui-dialog-content").html(data.html);
+               },
+               dataType: 'json'
+            });
+       }
+   </script>
 <div id="finish_account_change">
+    <a href='#' onClick='changePaymentData()'>Change Payment Details</a>
    <p>Your current bill is <?php echo $current_bill; ?>.</p>
    <?php $amount_to_add = 0; ?>
    <?php if(empty($account_changes['checked']) == false): ?>
@@ -26,19 +50,6 @@
    <?php endif; ?>
    <p>-----------</p>
    <p>Your new bill is <?php echo ($current_bill - $amount_to_remove) + $amount_to_add; ?></p>
-   <script type="text/javascript">
-       function finishChange() {
-            console.log('finish');
-            $.ajax({
-               type: 'POST',
-               url: "/admin/accounts/ajax_finish_account_change",
-               success: function(data) {
-                   window.location.reload();
-               },
-               dataType: 'json'
-            });
-       }
-   </script>
    <button class="finalize_change" onClick='finishChange()'><?php __('Finalize Change'); ?></button>
    
    

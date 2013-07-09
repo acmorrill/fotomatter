@@ -17,6 +17,19 @@
 			<?php echo $this->Element('admin/menu', array( 'curr_page' => 'accounts' )); ?>
 		</div>
 		<div id="middle" class="rounded-corners">
+                        <?php 
+				/*$subnav = array(); 
+
+				$subnav['title'] = array(
+					'name' => 'Upgrade Account',
+					'url' => "/admin/accounts"
+				);
+				$subnav['pages'][] = array(
+					'name' => __('Account Details', true),
+					'url' => "/admin/accounts/account_details/"
+				);
+				echo $this->Element('/admin/submenu', array( 'subnav' => $subnav )); */
+			?>
 			<?php echo $content_for_layout; ?>
 		</div>
 		<div id="footer"></div>
