@@ -46,13 +46,13 @@ class ValidationComponent extends Object {
 					return;
 				}
 				break;
-                        case 'valid_cc_no_type':
-                                $starts_with_x = $this->startsWith($data, CARDNUMBER_MASK);
-                                if (!$starts_with_x && ($this->check_cc($data) === false ) || $this->detectType($data) === false) {
-                                    throw New Exception($flash_message);
-                                    return;
-                                }
-                            break;
+			case 'valid_cc_no_type':
+					$starts_with_x = $this->startsWith($data, CARDNUMBER_MASK);
+					if (!$starts_with_x && ($this->check_cc($data) === false ) || $this->detectType($data) === false) {
+						throw New Exception($flash_message);
+						return;
+					}
+				break;
 			case 'valid_cc_code':
 				if ( !is_numeric($data[$value]) || (strlen($data[$value]) !== 3 && strlen($data[$value]) !== 4) ) {
 					throw new Exception($flash_message);
