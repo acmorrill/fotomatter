@@ -1,5 +1,10 @@
 <?php echo $this->Session->flash(); ?>
 
+<?php 
+//debug($is_voidable);
+//debug($is_refundable);
+?>
+
 <?php //debug($authnet_order['AuthnetLineItem']); ?>
 <div id="fulfill_order_container">
 	<?php if (!empty($authnet_order['AuthnetLineItem'])): ?>
@@ -11,6 +16,8 @@
 			});
 		</script>
 
+		
+		<?php //debug($authnet_order['AuthnetLineItem']); ?>
 
 		<table id="cart_table">
 			<thead>
@@ -38,7 +45,7 @@
 							<?php echo $order_item_data['extra_data']['CurrentPrintData']['short_side_inches']; ?> x <?php echo $order_item_data['extra_data']['CurrentPrintData']['long_side_feet_inches']; ?>
 						</td>
 						<td>
-							self
+							<?php echo ucwords($order_item_data['extra_data']['PhotoPrintType']['print_fulfillment_type']); ?>
 						</td>
 						<td>
 							$<?php echo $order_item_data['unit_cost']; ?> <?php // DREW TODO - make the money format better ?>
@@ -55,6 +62,17 @@
 			</tbody>
 			<tfoot>
 				<tr>
+					<td colspan="3" style="text-align: left;">
+						<a href="">Finalize Order</a>
+						<?php if ($is_voidable): ?>
+							<form action="">
+								<a href="">Void Order</a>
+							</form>
+						<?php endif; ?>
+						<?php if ($is_refundable): ?>
+							<a href="">Refund Order</a>
+						<?php endif; ?>
+					</td>
 					<td colspan="5" style="text-align: right;">
 						Shipping: $<?php echo $authnet_order['AuthnetOrder']['shipping']; ?><br />
 						Sub Total: $<?php echo $authnet_order['AuthnetOrder']['total'] - $authnet_order['AuthnetOrder']['shipping']; ?><br />

@@ -43,6 +43,7 @@ class AuthnetXML
 	private $login;
     private $response;
     private $response_xml;
+    private $raw_response;
     private $results;
     private $transkey;
     private $url;
@@ -202,6 +203,7 @@ class AuthnetXML
 
         if(($this->response = curl_exec($this->ch)) !== false)
         {
+			$this->raw_response = $this->response;
             $this->response_xml = @new SimpleXMLElement($this->response);
 
 		    curl_close($this->ch);
@@ -234,6 +236,78 @@ class AuthnetXML
     public function get_response() {
             return $this->response_xml;
     }
+	
+    public function get_raw_response() {
+            return $this->raw_response;
+    }
+	
+	public function get_parsed_response() {
+		$direct_response = (string)$this->get_response()->directResponse;
+		$direct_response_values = explode(',', $direct_response);
+		
+		$result = array();
+		$result['full_response_string'] = print_r($direct_response_values, true);
+		// response code
+//		1 = Approved 
+//		2 = Declined 
+//		3 = Error 
+//		4 = Held for Review
+		$result['response_code'] = $direct_response_values[0];
+		$result['response_subcode'] = $direct_response_values[1];
+		$result['response_reason_code'] = $direct_response_values[2];
+		$result['response_reason_text'] = $direct_response_values[3];
+		$result['authorization_code'] = $direct_response_values[4];
+		// avs_response codes
+//		A = Address (Street) matches, ZIP does not
+//		B = Address information not provided for AVS check
+//		E = AVS error
+//		G = Non-U.S. Card Issuing Bank
+//		N = No Match on Address (Street) or ZIP
+//		P = AVS not applicable for this transaction
+//		R = Retry—System unavailable or timed out
+//		S = Service not supported by issuer
+//		U = Address information is unavailable
+//		W = Nine digit ZIP matches, Address (Street) does not
+//		X = Address (Street) and nine digit ZIP match
+//		Y = Address (Street) and five digit ZIP match
+//		Z = Five digit ZIP matches, Address (Street) does not
+		$result['avs_response'] = $direct_response_values[5];
+		$result['transaction_id'] = $direct_response_values[6];
+		$result['amount'] = $direct_response_values[9];
+		$result['method'] = $direct_response_values[10];
+		$result['transaction_type'] = $direct_response_values[11];
+		$result['authnet_profile_id'] = $direct_response_values[12];
+		$result['first_name'] = $direct_response_values[13];
+		$result['last_name'] = $direct_response_values[14];
+		$result['address'] = $direct_response_values[16];
+		$result['city'] = $direct_response_values[17];
+		$result['state'] = $direct_response_values[18];
+		$result['zip'] = $direct_response_values[19];
+		$result['country'] = $direct_response_values[20];
+		$result['phone'] = $direct_response_values[21];
+		$result['email'] = $direct_response_values[25];
+		$result['shipping_price'] = $direct_response_values[34];
+		$result['md5_hash'] = $direct_response_values[37];
+		// ccv response codes
+//		0 = CAVV not validated because erroneous data was submitted
+//		1 = CAVV failed validation
+//		2 = CAVV passed validation
+//		3 = CAVV validation could not be performed; issuer attempt incomplete
+//		4 = CAVV validation could not be performed; issuer system error
+//		5 = Reserved for future use
+//		6 = Reserved for future use
+//		7 = CAVV attempt – failed validation – issuer available (U.S.-		issued card/non-U.S acquirer)
+//		8 = CAVV attempt – passed validation – issuer available (U.S.-issued card/non-U.S. acquirer)
+//		9 = CAVV attempt – failed validation – issuer unavailable (U.S.-issued card/non-U.S. acquirer)
+//		A = CAVV attempt – passed validation – issuer unavailable (U.S.-issued card/non-U.S. acquirer)
+//		B = CAVV passed validation, information only, no liability shift
+		$result['credit_card_validation_code_response'] = $direct_response_values[39];
+		$result['last_four'] = $direct_response_values[50];
+		$result['card_type'] = $direct_response_values[51];
+		
+		
+		return $result;
+	}
 
 }
 

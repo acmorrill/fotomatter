@@ -3,11 +3,128 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 
 	public $name = 'AuthnetOrder';
 	public $belongsTo = array('CakeAuthnet.AuthnetProfile');
+	
 
 	public $hasMany = array(
 		'AuthnetLineItem',
 	);
-       
+	
+	private $transaction_data;
+    
+	
+	public function get_authnet_transaction_data($transaction_id) {
+		// transaction statuses
+//		authorizedPendingCapture
+//		capturedPendingSettlement
+//		communicationError
+//		refundSettledSuccessfully
+//		refundPendingSettlement
+//		approvedReview
+//		declined
+//		couldNotVoid
+//		expired
+//		generalError
+//		pendingFinalSettlement
+//		pendingSettlement
+//		failedReview
+//		settledSuccessfully
+//		settlementError
+//		underReview
+//		updatingSettlement
+//		voided
+//		FDSPendingReview
+//		FDSAuthorizedPendingRevi
+//		ew
+//		returnedItem
+//		chargeback
+//		chargebackReversal
+//		authorizedPendingRelease
+		
+		// saving the data for the current request (to avoid multiple authnet api request per page request)
+		if (!isset($this->transaction_data[$transaction_id])) {
+			$authnet = $this->get_authnet_instance();
+		
+			$authnet->getTransactionDetailsRequest(array(
+				'transId' => $transaction_id,
+			));
+
+			$response = $authnet->get_response();
+
+
+			if ($authnet->isError() == true) {
+				return false;
+			}
+			
+			$this->transaction_data[$transaction_id] = $response->transaction;
+
+			return $response->transaction;
+		} else {
+			return $this->transaction_data[$transaction_id];
+		}
+	}
+	
+	public function transaction_voidable($transaction_id) {
+		$details = $this->get_authnet_transaction_data($transaction_id);
+		
+		$voidable_statuses = array(
+			'authorizedPendingCapture',
+			'capturedPendingSettlement',
+			'authorizedPendingRelease',
+		);
+		
+		if (in_array($details->transactionStatus, $voidable_statuses)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public function transaction_refundable($transaction_id) {
+		$details = $this->get_authnet_transaction_data($transaction_id);
+		
+//		$this->log($details, 'details');
+		
+		$refundable_statuses = array(
+			'settledSuccessfully',
+		);
+		
+		if (in_array($details->transactionStatus, $refundable_statuses)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public function void_transaction($transaction_id, $authnet_profile_id) {
+		$authnet = $this->get_authnet_instance();
+
+		$this->AuthnetProfile = ClassRegistry::init('AuthnetProfile');
+		$authnet_profile = $this->AuthnetProfile->find('first', array(
+			'conditions' => array(
+				'AuthnetProfile.id' => $authnet_profile_id,
+			),
+		));
+		
+		if (empty($authnet_profile)) {
+			$this->major_error('Failed to void a transaction because the authnet profile id was incorrect.', compact('authnet_profile_id', 'transaction_id'));
+			return false;
+		}
+		
+		$authnet->createCustomerProfileTransactionRequest(array(
+			'transaction' => array(
+				'profileTransVoid' => array(
+					'customerProfileId' => $authnet_profile['AuthnetProfile']['customerProfileId'],
+					'customerPaymentProfileId' => $authnet_profile['AuthnetProfile']['customerPaymentProfileId'],
+					'customerShippingAddressId' => $authnet_profile['AuthnetProfile']['customerShippingAddressId'],
+					'transId' => $transaction_id,
+				)
+			),
+//			'extraOptions' => '<![CDATA[x_customer_ip=100.0.0.1]]>'
+		));
+		
+		
+		// START HERE TOMORROW - check the status of the above call - and then test it etc
+	}
 	
 	public function one_time_charge($authnet_data) {
 		$this->Cart = ClassRegistry::init('Cart');
@@ -299,14 +416,18 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 
 		$authnet = $this->get_authnet_instance();
 		try {
-//			$authnet->createCustomerProfileTransactionRequest($data_to_send);
-//			if ($authnet->isError()) {
-//				$returnArr['success'] = false;
-//				$returnArr['code'] = $authnet->get_code();
-//				$returnArr['message'] = $authnet->get_message();
-//				$this->authnet_error("request failed", $authnet->get_response());
-//				return $returnArr;
-//			}
+			$authnet->createCustomerProfileTransactionRequest($data_to_send);
+			$full_parsed_result = $authnet->get_parsed_response();
+//			$this->log($full_parsed_result, 'full_parsed_result');
+			if ($authnet->isError()) {
+				$returnArr['success'] = false;
+				$returnArr['code'] = $authnet->get_code();
+				$returnArr['message'] = $authnet->get_message();
+				$this->authnet_error("request failed", compact('full_parsed_result'));
+				return $returnArr;
+			}
+			
+			
 
 			if (isset($order['foreign_model'])) {
 				$order_save_db['AuthnetOrder']['foreign_model'] = $order['foreign_model'];
@@ -317,6 +438,13 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			}
 			$order_save_db['AuthnetOrder']['authnet_profile_id'] = $order['authnet_profile_id'];
 
+			
+			// add in extra order data (Andrew)
+			$order_save_db['AuthnetOrder']['full_response'] = print_r($full_parsed_result, true);
+			$order_save_db['AuthnetOrder']['transaction_id'] = $full_parsed_result['transaction_id'];
+			
+			
+			
 			$this->create();
 			if ($this->save($order_save_db) == false) {
 				$this->authnet_error('Could not save order', $order);

@@ -147,9 +147,23 @@ class EcommercesController extends AppController {
 			$line_item['extra_data'] = $this->Photo->get_extra_print_data($line_item['photo_id'], $line_item['print_type_id'], $line_item['short_side_inches']);
 		}
 		
+		$is_voidable = $this->AuthnetOrder->transaction_voidable($authnet_order['AuthnetOrder']['transaction_id']);
+		$is_refundable = $this->AuthnetOrder->transaction_refundable($authnet_order['AuthnetOrder']['transaction_id']);
 		
 		
-		$this->set(compact('authnet_order_id', 'authnet_order'));
+		$this->set(compact('authnet_order_id', 'authnet_order', 'is_voidable', 'is_refundable'));
+	}
+	
+	public function admin_refund_order($authnet_order_id) {
+		$authnet_order = $this->AuthnetOrder->find('first', array(
+			'conditions' => array(
+				'AuthnetOrder.id' => $authnet_order_id,
+			),
+			'contain' =>  false,
+		));
+
+		// DREW TODO - finish this
+		$this->AuthnetOrder->void_transaction($transaction_id, $authnet_profile_id);
 	}
 	
 	public function admin_ajax_set_print_type_order($photo_print_type_id, $new_order) {
@@ -545,6 +559,7 @@ class EcommercesController extends AppController {
 		$this->set('logged_in', $logged_in);
 		
 		
+		
 		if ($logged_in === true) { 
 			// get logged in user info to populate address and cc info
 			$this->Cart->prepopulate_cart_by_user($logged_in_user);
@@ -559,6 +574,12 @@ class EcommercesController extends AppController {
 		
 		
 		if (!empty($this->data)) {
+			// setup the data variable based on the cart
+			$cart_payment_data = $this->Cart->get_cart_credit_card_data();
+			if (!empty($cart_payment_data['last_four'])) {
+				$this->data['Payment']['last_four'] = $cart_payment_data['last_four'];
+			}
+			
 			// validate the data
 			try {
 				// validate create account data
@@ -595,15 +616,19 @@ class EcommercesController extends AppController {
 				
 				// validate cc info
 				$this->Validation->validate('in_array', $this->data['Payment']['credit_card_method'], array('visa', 'mastercard', 'discover', 'amex'), __('Invalid payment method.', true));
-				$this->Validation->validate('valid_cc', $this->data['Payment']['card_number'], $this->data['Payment']['credit_card_method'], __('Invalid credit card number.', true));
+				////////////////////////////////////////////////////////////
+				// don't worry about cc if not logged in or cc not empty
+				// this is so that the card ending charged thing will work
+				if ($logged_in === false || !empty($this->data['Payment']['card_number'])) {
+					$this->Validation->validate('valid_cc', $this->data['Payment']['card_number'], $this->data['Payment']['credit_card_method'], __('Invalid credit card number.', true));
+					$this->Validation->validate('valid_cc_code', $this->data['Payment'], 'security_code', __('Invalid security code.', true));
+				}
 				// make sure the expiration is in the future
 				$expiration_timestamp = mktime(0, 0, 0, (int)$this->data['Payment']['expiration_month'], 1, (int)$this->data['Payment']['expiration_year']);
 				$expiration_str = date('Y-m-d H:i:s', $expiration_timestamp);
 				if (time() > $expiration_timestamp) {
 					throw new Exception('Invalid card expiration.');
 				}
-				$this->Validation->validate('valid_cc_code', $this->data['Payment'], 'security_code', __('Invalid security code.', true));
-				
 			} catch (Exception $e) {
 				$this->Session->setFlash($e->getMessage());
 				$this->ThemeRenderer->render($this);
@@ -652,7 +677,7 @@ class EcommercesController extends AppController {
 				$authnet_data['AuthnetProfile']['shipping_state'] = $shipping_address['state_name'];
 				$authnet_data['AuthnetProfile']['shipping_zip'] = $shipping_address['zip'];
 				$authnet_data['AuthnetProfile']['shipping_country'] = $shipping_address['country_name'];
-				$authnet_data['AuthnetProfile']['payment_cc_last_four'] = substr($this->data['Payment']['card_number'], -4, 4);
+				$authnet_data['AuthnetProfile']['payment_cc_last_four'] = (!empty($this->data['Payment']['card_number'])) ? substr($this->data['Payment']['card_number'], -4, 4) : $this->data['Payment']['last_four'];
 				$authnet_data['AuthnetProfile']['payment_method'] = $this->data['Payment']['credit_card_method'];
 				
 
@@ -723,13 +748,14 @@ class EcommercesController extends AppController {
 			}
 		}
 		
-		
 		// setup the data variable based on the cart
 		$cart_payment_data = $this->Cart->get_cart_credit_card_data();
 		if (!empty($cart_payment_data)) {
 			$this->data['Payment'] = $cart_payment_data;
+			if (!isset($this->data['Payment']['last_four'])) {
+				$this->data['Payment']['last_four'] = '';
+			}
 		}
-		
 		
 		$this->ThemeRenderer->render($this);
 	}

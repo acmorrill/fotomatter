@@ -135,10 +135,8 @@ class AuthnetProfile extends CakeAuthnetAppModel {
          *    */
         public function afterSave($created) {
             if ($created) {
-				$this->log('came here 1', 'afterSave');
                 $this->process_new_profile();
             } else {
-				$this->log('came here 2', 'afterSave');
                 $this->save_profile();
             }
         }
@@ -178,7 +176,7 @@ class AuthnetProfile extends CakeAuthnetAppModel {
 					'customerPaymentProfileId' => $this->data['AuthnetProfile']['customerPaymentProfileId'],
 				)
 			);
-
+			
 
 			$authnet = $this->get_authnet_instance();
 			$returnArr = array();
