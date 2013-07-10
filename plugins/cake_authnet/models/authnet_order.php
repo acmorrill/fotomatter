@@ -72,7 +72,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			'authorizedPendingRelease',
 		);
 		
-		if (in_array($details->transactionStatus, $voidable_statuses)) {
+		if (!empty($details) && in_array($details->transactionStatus, $voidable_statuses)) {
 			return true;
 		} else {
 			return false;
@@ -88,7 +88,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			'settledSuccessfully',
 		);
 		
-		if (in_array($details->transactionStatus, $refundable_statuses)) {
+		if (!empty($details) && in_array($details->transactionStatus, $refundable_statuses)) {
 			return true;
 		} else {
 			return false;
