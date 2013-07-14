@@ -202,6 +202,7 @@ class AuthnetProfile extends CakeAuthnetAppModel {
                     'profile' => array(
                             'merchantCustomerId' => $this->id,
                             //'email' => $email, // DREW TODO - maybe don't include this
+							'description' => rand(0, 300000), // remove this
                             'paymentProfiles' => array(
                                     'billTo' => array(
                                             'firstName' => $this->data['AuthnetProfile']['billing_firstname'],

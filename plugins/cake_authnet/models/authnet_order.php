@@ -57,10 +57,16 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			
 			$this->transaction_data[$transaction_id] = $response->transaction;
 
-			return $response->transaction;
+			$transaction_data = $response->transaction;
 		} else {
-			return $this->transaction_data[$transaction_id];
+			$transaction_data = $this->transaction_data[$transaction_id];
 		}
+		
+		
+		$this->log($transaction_data, 'transaction_data');
+		
+		
+		return $transaction_data;
 	}
 	
 	public function transaction_voidable($transaction_id) {
@@ -73,6 +79,34 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		);
 		
 		if (!empty($details) && in_array($details->transactionStatus, $voidable_statuses)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public function transaction_voided($transaction_id) {
+		$details = $this->get_authnet_transaction_data($transaction_id);
+		
+		$voided_status = array(
+			'voided',
+		);
+		
+		if (!empty($details) && in_array($details->transactionStatus, $voided_status)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public function transaction_refunded($transaction_id) {
+		$details = $this->get_authnet_transaction_data($transaction_id);
+		
+		$refunded_status = array(
+			'returnedItem',
+		);
+		
+		if (!empty($details) && in_array($details->transactionStatus, $refunded_status)) {
 			return true;
 		} else {
 			return false;
@@ -98,24 +132,26 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 	public function void_transaction($transaction_id, $authnet_profile_id) {
 		$authnet = $this->get_authnet_instance();
 
-		$this->AuthnetProfile = ClassRegistry::init('AuthnetProfile');
-		$authnet_profile = $this->AuthnetProfile->find('first', array(
-			'conditions' => array(
-				'AuthnetProfile.id' => $authnet_profile_id,
-			),
-		));
-		
-		if (empty($authnet_profile)) {
-			$this->major_error('Failed to void a transaction because the authnet profile id was incorrect.', compact('authnet_profile_id', 'transaction_id'));
-			return false;
-		}
+		// turn this back on later if necessary
+//		$this->AuthnetProfile = ClassRegistry::init('AuthnetProfile');
+//		$authnet_profile = $this->AuthnetProfile->find('first', array(
+//			'conditions' => array(
+//				'AuthnetProfile.id' => $authnet_profile_id,
+//			),
+//			'contain' => false,
+//		));
+//		
+//		if (empty($authnet_profile)) {
+//			$this->major_error('Failed to void a transaction because the authnet profile id was incorrect.', compact('authnet_profile_id', 'transaction_id'));
+//			return false;
+//		}
 		
 		$authnet->createCustomerProfileTransactionRequest(array(
 			'transaction' => array(
 				'profileTransVoid' => array(
-					'customerProfileId' => $authnet_profile['AuthnetProfile']['customerProfileId'],
-					'customerPaymentProfileId' => $authnet_profile['AuthnetProfile']['customerPaymentProfileId'],
-					'customerShippingAddressId' => $authnet_profile['AuthnetProfile']['customerShippingAddressId'],
+//					'customerProfileId' => $authnet_profile['AuthnetProfile']['customerProfileId'],
+//					'customerPaymentProfileId' => $authnet_profile['AuthnetProfile']['customerPaymentProfileId'],
+//					'customerShippingAddressId' => $authnet_profile['AuthnetProfile']['customerShippingAddressId'],
 					'transId' => $transaction_id,
 				)
 			),
@@ -123,7 +159,98 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		));
 		
 		
-		// START HERE TOMORROW - check the status of the above call - and then test it etc
+		if ($authnet->isError()) {
+			$response = $authnet->get_response();
+			$this->major_error('Failed to void order', compact('response'), 'high');
+			
+			return false;
+		}
+		
+		
+		return true;
+	}
+	
+	public function refund_transaction($authnet_order_id) {
+		$authnet = $this->get_authnet_instance();
+
+		$authnet_order = $this->find('first', array(
+			'conditions' => array(
+				'AuthnetOrder.id' => $authnet_order_id,
+			),
+			'contain' => array(
+				'AuthnetProfile',
+			),
+		));
+		
+		if (empty($authnet_order)) {
+			$this->major_error('Failed to refund a transaction because the authnet_order_id was incorrect.', compact('authnet_order_id', 'authnet_profile_id'));
+			return false;
+		}
+		
+		$refund_data = array(
+			'transaction' => array(
+				'profileTransRefund' => array(
+					'amount' => $authnet_order['AuthnetOrder']['total'],
+//					'tax' => array(
+//						'amount' => '1.00',
+//						'name' => 'WA state sales tax',
+//						'description' => 'Washington state sales tax'
+//					),
+//					'shipping' => array(
+//						'amount' => '2.00',
+//						'name' => 'ground based shipping',
+//						'description' => 'Ground based 5 to 10 day shipping'
+//					),
+//					'lineItems' => array(
+//						'lineItem' => array(
+//							0 => array(
+//								'itemId' => '1',
+//								'name' => 'vase',
+//								'description' => 'Cannes logo',
+//								'quantity' => '18',
+//								'unitPrice' => '45.00'
+//							),
+//							1 => array(
+//								'itemId' => '2',
+//								'name' => 'desk',
+//								'description' => 'Big Desk',
+//								'quantity' => '10',
+//								'unitPrice' => '85.00'
+//							)
+//						)
+//					),
+//					'customerProfileId' => '5427896',
+//					'customerPaymentProfileId' => '4796541',
+//					'customerShippingAddressId' => '4907537',
+					'creditCardNumberMasked' => 'XXXX'.$authnet_order['AuthnetProfile']['payment_cc_last_four'],
+//					'order' => array(
+//						'invoiceNumber' => 'INV000001',
+//						'description' => 'description of transaction',
+//						'purchaseOrderNumber' => 'PONUM000001'
+//					),
+					'transId' => $authnet_order['AuthnetOrder']['transaction_id'],
+				)
+			),
+//			'extraOptions' => '<![CDATA[x_customer_ip=100.0.0.1]]>'
+		);
+		$this->log($refund_data, 'refund_data');
+		$authnet->createCustomerProfileTransactionRequest($refund_data);
+		
+		
+		if ($authnet->isError()) {
+			$response = $authnet->get_response();
+			$this->major_error('Failed to refund order', compact('response'), 'high');
+			
+			return false;
+		}
+		
+		
+		// START HERE TOMORROW DREW TODO - parse the new transaction for the refund - so can track refund
+		
+		$this->log($authnet->get_response(), 'refund_transaction');
+		
+		
+		return true;
 	}
 	
 	public function one_time_charge($authnet_data) {
