@@ -198,10 +198,20 @@ class AuthnetProfile extends CakeAuthnetAppModel {
         }
         
         private function process_new_profile() {
+			$this->User = ClassRegistry::init('User');
+			$actual_user = $this->User->find('first', array(
+				'conditions' => array(
+					'User.id' => $this->data['AuthnetProfile']['user_id'],
+				),
+				'contain' => false,
+			));
+//			$this->log($actual_user, 'process_new_profile');
+			
             $data_to_save = array(
                     'profile' => array(
-                            'merchantCustomerId' => $this->id,
-                            //'email' => $email, // DREW TODO - maybe don't include this
+//                            'merchantCustomerId' => substr($this->data['AuthnetProfile']['user_id'], 0, 20), // can't use this because only 20 characters long
+                            'description' => $this->data['AuthnetProfile']['user_id'],
+                            'email' => $actual_user['User']['email_address'],
                             'paymentProfiles' => array(
                                     'billTo' => array(
                                             'firstName' => $this->data['AuthnetProfile']['billing_firstname'],

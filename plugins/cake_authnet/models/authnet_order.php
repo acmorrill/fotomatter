@@ -105,8 +105,8 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			),
 		));
 		
-		if (empty($authnet_profile)) {
-			$this->major_error('Failed to void a transaction because the authnet profile id was incorrect.', compact('authnet_profile_id', 'transaction_id'));
+		if (empty($authnet_profile) || empty($transaction_id)) {
+			$this->major_error('Failed to void a transaction because the authnet_profile_id or transaction_id was incorrect.', compact('authnet_profile_id', 'transaction_id'));
 			return false;
 		}
 		
@@ -117,13 +117,19 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 					'customerPaymentProfileId' => $authnet_profile['AuthnetProfile']['customerPaymentProfileId'],
 					'customerShippingAddressId' => $authnet_profile['AuthnetProfile']['customerShippingAddressId'],
 					'transId' => $transaction_id,
-				)
+				),
 			),
 //			'extraOptions' => '<![CDATA[x_customer_ip=100.0.0.1]]>'
 		));
 		
 		
-		// START HERE TOMORROW - check the status of the above call - and then test it etc
+		$this->log($authnet->get_response(), 'void_transaction');
+		
+		if ($authnet->isError()) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 	
 	public function one_time_charge($authnet_data) {
