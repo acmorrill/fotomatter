@@ -147,14 +147,17 @@ class EcommercesController extends AppController {
 			$line_item['extra_data'] = $this->Photo->get_extra_print_data($line_item['photo_id'], $line_item['print_type_id'], $line_item['short_side_inches']);
 		}
 		
-		$is_voidable = $this->AuthnetOrder->transaction_voidable($authnet_order['AuthnetOrder']['transaction_id']);
-		$is_refundable = $this->AuthnetOrder->transaction_refundable($authnet_order['AuthnetOrder']['transaction_id']);
+		$transaction_id = $authnet_order['AuthnetOrder']['transaction_id'];
+		$is_voidable = $this->AuthnetOrder->transaction_voidable($transaction_id);
+		$is_voided = $this->AuthnetOrder->transaction_voided($transaction_id);
+		$is_refundable = $this->AuthnetOrder->transaction_refundable($transaction_id);
+		$is_refunded = $this->AuthnetOrder->transaction_refunded($transaction_id);
 		
 		
-		$this->set(compact('authnet_order_id', 'authnet_order', 'is_voidable', 'is_refundable'));
+		$this->set(compact('authnet_order_id', 'authnet_order', 'is_voidable', 'is_voided', 'is_refundable', 'is_refunded'));
 	}
 	
-	public function admin_refund_order($authnet_order_id) {
+	public function admin_void_order($authnet_order_id) {
 		$authnet_order = $this->AuthnetOrder->find('first', array(
 			'conditions' => array(
 				'AuthnetOrder.id' => $authnet_order_id,
@@ -162,8 +165,20 @@ class EcommercesController extends AppController {
 			'contain' =>  false,
 		));
 
-		// DREW TODO - finish this
-		$this->AuthnetOrder->void_transaction($transaction_id, $authnet_profile_id);
+		
+		$void_result = $this->AuthnetOrder->void_transaction($authnet_order['AuthnetOrder']['transaction_id'], $authnet_order['AuthnetOrder']['authnet_profile_id']);
+		
+		// DREW TODO - deal with the void result
+		
+		$this->redirect('/admin/ecommerces/fulfill_order/'.$authnet_order_id);
+	}
+	
+	public function admin_refund_order($authnet_order_id) {
+		$refund_result = $this->AuthnetOrder->refund_transaction($authnet_order_id);
+		
+		// DREW TODO - deal with the refund result
+		
+		$this->redirect('/admin/ecommerces/fulfill_order/'.$authnet_order_id);
 	}
 	
 	public function admin_ajax_set_print_type_order($photo_print_type_id, $new_order) {
