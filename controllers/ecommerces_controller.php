@@ -376,8 +376,8 @@ class EcommercesController extends AppController {
 	}
 	
 	public function view_cart() {
-		$this->Cart->create_fake_cart_items(); // DREW TODO - delete this line
-//		$this->Cart->create_fake_cart_items_laptop(); // DREW TODO - delete this line
+//		$this->Cart->create_fake_cart_items(); // DREW TODO - delete this line
+		$this->Cart->create_fake_cart_items_laptop(); // DREW TODO - delete this line
 		
 		$this->ThemeRenderer->render($this);
 	}
@@ -683,7 +683,6 @@ class EcommercesController extends AppController {
 
 				$this->AuthnetProfile->create();
 				$authnet_result = $this->AuthnetProfile->save($authnet_data);
-				
 
 				if ($authnet_result === false || (is_array($authnet_result) && isset($authnet_result['success']) && $authnet_result['success'] === false) )  {
 					$this->Session->setFlash('Failed to save credit card info. Please contact Fotomatter support.');
@@ -691,6 +690,7 @@ class EcommercesController extends AppController {
 					$this->ThemeRenderer->render($this);
 					return;
 				}
+				$authnet_data['AuthnetProfile']['id'] = $this->AuthnetProfile->id;
 
 
 				// actually charge for the order
