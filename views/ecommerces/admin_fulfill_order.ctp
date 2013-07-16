@@ -63,14 +63,20 @@
 			<tfoot>
 				<tr>
 					<td colspan="3" style="text-align: left;">
-						<a href="">Finalize Order</a>
-						<?php if ($is_voidable): ?>
-							<form action="">
-								<a href="">Void Order</a>
-							</form>
-						<?php endif; ?>
-						<?php if ($is_refundable): ?>
-							<a href="">Refund Order</a>
+						<?php if ($is_voided): ?>
+<!--							DREW TODO - finish this-->
+							This order was VOIDED
+						<?php elseif ($is_refunded): ?>
+<!--							DREW TODO - finish this-->
+							This order was REFUNDED
+						<?php else: ?>
+							<a href="">Finalize Order</a>
+							<?php if ($is_voidable): ?>
+								<a href="/admin/ecommerces/void_order/<?php echo $authnet_order['AuthnetOrder']['id']; ?>/">Void Order</a>
+							<?php endif; ?>
+							<?php if ($is_refundable): ?>
+								<a href="/admin/ecommerces/refund_order/<?php echo $authnet_order['AuthnetOrder']['id']; ?>/">Refund Order</a>
+							<?php endif; ?>
 						<?php endif; ?>
 					</td>
 					<td colspan="5" style="text-align: right;">
