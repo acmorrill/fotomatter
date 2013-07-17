@@ -150,8 +150,8 @@ class EcommercesController extends AppController {
 		$transaction_id = $authnet_order['AuthnetOrder']['transaction_id'];
 		$is_voidable = $this->AuthnetOrder->transaction_voidable($transaction_id);
 		$is_voided = $this->AuthnetOrder->transaction_voided($transaction_id);
-		$is_refundable = $this->AuthnetOrder->transaction_refundable($transaction_id);
-		$is_refunded = $this->AuthnetOrder->transaction_refunded($transaction_id);
+		$is_refundable = $this->AuthnetOrder->transaction_refundable($transaction_id, $authnet_order_id);
+		$is_refunded = $this->AuthnetOrder->transaction_refunded($transaction_id, $authnet_order_id);
 		
 		
 		$this->set(compact('authnet_order_id', 'authnet_order', 'is_voidable', 'is_voided', 'is_refundable', 'is_refunded'));
@@ -391,8 +391,8 @@ class EcommercesController extends AppController {
 	}
 	
 	public function view_cart() {
-//		$this->Cart->create_fake_cart_items(); // DREW TODO - delete this line
-		$this->Cart->create_fake_cart_items_laptop(); // DREW TODO - delete this line
+		$this->Cart->create_fake_cart_items(); // DREW TODO - delete this line
+//		$this->Cart->create_fake_cart_items_laptop(); // DREW TODO - delete this line
 		
 		$this->ThemeRenderer->render($this);
 	}
