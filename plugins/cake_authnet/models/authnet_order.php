@@ -99,24 +99,42 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		}
 	}
 	
-	public function transaction_refunded($transaction_id) {
-		$details = $this->get_authnet_transaction_data($transaction_id);
+	public function transaction_refunded($transaction_id, $authnet_order_id) {
+		$authnet_order = $this->find('first', array(
+			'conditions' => array(
+				'AuthnetOrder.id' => $authnet_order_id,
+			),
+			'contain' => false,
+		));
 		
-		$refunded_status = array(
-			'returnedItem',
-		);
-		
-		if (!empty($details) && in_array($details->transactionStatus, $refunded_status)) {
+		if (!empty($authnet_order['AuthnetOrder']['refund_transaction_id'])) {
 			return true;
 		} else {
 			return false;
 		}
+//		$details = $this->get_authnet_transaction_data($transaction_id);
+//		
+//		
+//		$refunded_status = array(
+//			'returnedItem',
+//		);
+//		
+//		if (!empty($details) && in_array($details->transactionStatus, $refunded_status)) {
+//			return true;
+//		} else {
+//			return false;
+//		}
 	}
 	
-	public function transaction_refundable($transaction_id) {
+	public function transaction_refundable($transaction_id, $authnet_order_id) {
+		// if already refunded then not refundable
+		if ($this->transaction_refunded($transaction_id, $authnet_order_id) === true) {
+			return false;
+		}
+
+		
 		$details = $this->get_authnet_transaction_data($transaction_id);
 		
-//		$this->log($details, 'details');
 		
 		$refundable_statuses = array(
 			'settledSuccessfully',
@@ -233,21 +251,21 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			),
 //			'extraOptions' => '<![CDATA[x_customer_ip=100.0.0.1]]>'
 		);
-		$this->log($refund_data, 'refund_data');
 		$authnet->createCustomerProfileTransactionRequest($refund_data);
 		
 		
 		if ($authnet->isError()) {
 			$response = $authnet->get_response();
+//			$this->log($response, 'response');
 			$this->major_error('Failed to refund order', compact('response'), 'high');
 			
 			return false;
 		}
 		
 		
-		// START HERE TOMORROW DREW TODO - parse the new transaction for the refund - so can track refund
-		
-		$this->log($authnet->get_response(), 'refund_transaction');
+		$parsed_response = $authnet->get_parsed_response();
+		$authnet_order['AuthnetOrder']['return_transaction_id'] = $parsed_response['transaction_id'];
+		$this->save($authnet_order);
 		
 		return true;
 	}
