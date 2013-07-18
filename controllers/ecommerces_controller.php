@@ -148,35 +148,47 @@ class EcommercesController extends AppController {
 		}
 		
 		$transaction_id = $authnet_order['AuthnetOrder']['transaction_id'];
-		$is_voidable = $this->AuthnetOrder->transaction_voidable($transaction_id);
-		$is_voided = $this->AuthnetOrder->transaction_voided($transaction_id);
-		$is_refundable = $this->AuthnetOrder->transaction_refundable($transaction_id, $authnet_order_id);
-		$is_refunded = $this->AuthnetOrder->transaction_refunded($transaction_id, $authnet_order_id);
+		$is_voidable = $this->AuthnetOrder->transaction_voidable($authnet_order_id);
+		$is_voided = $this->AuthnetOrder->transaction_voided($authnet_order_id);
+		$is_refundable = $this->AuthnetOrder->transaction_refundable($authnet_order_id);
+		$is_refunded = $this->AuthnetOrder->transaction_refunded($authnet_order_id);
 		
 		
 		$this->set(compact('authnet_order_id', 'authnet_order', 'is_voidable', 'is_voided', 'is_refundable', 'is_refunded'));
 	}
 	
 	public function admin_void_order($authnet_order_id) {
-		$authnet_order = $this->AuthnetOrder->find('first', array(
-			'conditions' => array(
-				'AuthnetOrder.id' => $authnet_order_id,
-			),
-			'contain' =>  false,
-		));
-
+		if (!$this->AuthnetOrder->transaction_voidable($authnet_order_id)) {
+			$this->Session->setFlash('Failed to void order. Please contact support.');
+			$this->AuthnetOrder->major_error('Tried to void an unvoidable order.', compact('authnet_order_id'));
+			$this->redirect('/admin/ecommerces/fulfill_order/'.$authnet_order_id);
+			return false;
+		}
 		
-		$void_result = $this->AuthnetOrder->void_transaction($authnet_order['AuthnetOrder']['transaction_id'], $authnet_order['AuthnetOrder']['authnet_profile_id']);
 		
-		// DREW TODO - deal with the void result
+		$void_result = $this->AuthnetOrder->void_transaction($authnet_order_id);
+		
+		
+		if ($void_result === false) {
+			$this->Session->setFlash('Failed to void order. Please contact support.');
+		}
 		
 		$this->redirect('/admin/ecommerces/fulfill_order/'.$authnet_order_id);
 	}
 	
 	public function admin_refund_order($authnet_order_id) {
+		if (!$this->AuthnetOrder->transaction_refundable($authnet_order_id)) {
+			$this->Session->setFlash('Failed to refund order. Please contact support.');
+			$this->AuthnetOrder->major_error('Tried to refund an unrefundable order.', compact('authnet_order_id'), 'high');
+			$this->redirect('/admin/ecommerces/fulfill_order/'.$authnet_order_id);
+			return false;
+		}
+		
 		$refund_result = $this->AuthnetOrder->refund_transaction($authnet_order_id);
 		
-		// DREW TODO - deal with the refund result
+		if ($refund_result === false) {
+			$this->Session->setFlash('Failed to refund order. Please contact support.');
+		}
 		
 		$this->redirect('/admin/ecommerces/fulfill_order/'.$authnet_order_id);
 	}
