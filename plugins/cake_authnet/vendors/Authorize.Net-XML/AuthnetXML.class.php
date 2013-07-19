@@ -241,6 +241,53 @@ class AuthnetXML
             return $this->raw_response;
     }
 	
+	public function get_one_time_parsed_response() {
+		$response = $this->get_response();
+		$response = get_object_vars($response->transactionResponse);
+		
+		$result = array();
+		$result['response_code'] = $response['responseCode'];
+		$result['authorization_code'] = $response['authCode'];
+		// avs_response codes
+//		A = Address (Street) matches, ZIP does not
+//		B = Address information not provided for AVS check
+//		E = AVS error
+//		G = Non-U.S. Card Issuing Bank
+//		N = No Match on Address (Street) or ZIP
+//		P = AVS not applicable for this transaction
+//		R = Retry—System unavailable or timed out
+//		S = Service not supported by issuer
+//		U = Address information is unavailable
+//		W = Nine digit ZIP matches, Address (Street) does not
+//		X = Address (Street) and nine digit ZIP match
+//		Y = Address (Street) and five digit ZIP match
+//		Z = Five digit ZIP matches, Address (Street) does not
+		$result['avs_response'] = $response['avsResultCode'];
+		// ccv response codes
+//		0 = CAVV not validated because erroneous data was submitted
+//		1 = CAVV failed validation
+//		2 = CAVV passed validation
+//		3 = CAVV validation could not be performed; issuer attempt incomplete
+//		4 = CAVV validation could not be performed; issuer system error
+//		5 = Reserved for future use
+//		6 = Reserved for future use
+//		7 = CAVV attempt – failed validation – issuer available (U.S.-		issued card/non-U.S acquirer)
+//		8 = CAVV attempt – passed validation – issuer available (U.S.-issued card/non-U.S. acquirer)
+//		9 = CAVV attempt – failed validation – issuer unavailable (U.S.-issued card/non-U.S. acquirer)
+//		A = CAVV attempt – passed validation – issuer unavailable (U.S.-issued card/non-U.S. acquirer)
+//		B = CAVV passed validation, information only, no liability shift
+		$result['credit_card_validation_code_response'] = $response['cvvResultCode'];
+		$result['cavvResultCode'] = $response['cavvResultCode'];
+		$result['transaction_id'] = $response['transId'];
+		$result['transaction_hash'] = $response['transHash'];
+		$result['test_request'] = $response['testRequest'];
+		$result['account_number'] = $response['accountNumber'];
+		$result['account_type'] = $response['accountType'];
+		
+		
+		return $result;
+	}
+		
 	public function get_parsed_response() {
 		$direct_response = (string)$this->get_response()->directResponse;
 		$direct_response_values = explode(',', $direct_response);

@@ -227,4 +227,4 @@ function myErrorHandler($errno, $errstr, $errfile, $errline) {
 	return false;
 }
 $old_error_handler = set_error_handler("myErrorHandler");
-require_once('core_ignored.php');
+require('core_ignored.php');

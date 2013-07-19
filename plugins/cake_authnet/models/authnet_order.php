@@ -287,7 +287,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		
 		$order = array(
 			'authnet_profile_id' => 0,
-			'one_time_charge' => 1,
+			'one_time_charge' => '1',
 			'total' => $this->Cart->get_cart_total(),
 			'foreign_model' => 'User',
 			'foreign_key' => 0,
@@ -322,79 +322,78 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		$return_arr['declined'] = false;
 		
 		
-		if ($this->createOrderForProfile($order, false) === true) {
-			$charge_data = array(
-				'refId' => $this->id,
-				'transactionRequest' => array(
-					'transactionType' => 'authCaptureTransaction',
-					'amount' => $this->Cart->get_cart_total(),
-					'payment' => array(
-						'creditCard' => array(
-							'cardNumber' => $authnet_data['AuthnetProfile']['payment_cardNumber'],
-							'expirationDate' => date('m/Y', strtotime($authnet_data['AuthnetProfile']['payment_expirationDate'])),
-							'cardCode' => $authnet_data['AuthnetProfile']['payment_cardCode'],
-						),
+		$charge_data = array(
+			'refId' => $this->id,
+			'transactionRequest' => array(
+				'transactionType' => 'authCaptureTransaction',
+				'amount' => $this->Cart->get_cart_total(),
+				'payment' => array(
+					'creditCard' => array(
+						'cardNumber' => $authnet_data['AuthnetProfile']['payment_cardNumber'],
+						'expirationDate' => date('m/Y', strtotime($authnet_data['AuthnetProfile']['payment_expirationDate'])),
+						'cardCode' => $authnet_data['AuthnetProfile']['payment_cardCode'],
 					),
-	//				'order' => array(
-	//					'invoiceNumber' => $order['AuthnetOrder'],
-	//					'description' => 'this is a test transaction',
-	//				),
-	//				'lineItems' => array(
-	//					'lineItem' => array(
-	//						0 => array(
-	//							'itemId' => '1',
-	//							'name' => 'vase',
-	//							'description' => 'Cannes logo',
-	//							'quantity' => '18',
-	//							'unitPrice' => '45.00'
-	//						),
-	//						1 => array(
-	//							'itemId' => '2',
-	//							'name' => 'desk',
-	//							'description' => 'Big Desk',
-	//							'quantity' => '10',
-	//							'unitPrice' => '85.00'
-	//						)
-	//					)
-	//				),
-	//				'tax' => array(
-	//					'amount' => '4.26',
-	//					'name' => 'level2 tax name',
-	//					'description' => 'level2 tax',
-	//				),
-	//				'duty' => array(
-	//					'amount' => '8.55',
-	//					'name' => 'duty name',
-	//					'description' => 'duty description',
-	//				),
-					'shipping' => array(
-						'amount' => $this->Cart->get_cart_shipping_total(),
-						'name' => '',
-						'description' => '',
-					),
-					'billTo' => array(
-						'firstName' => $authnet_data['AuthnetProfile']['billing_firstname'],
-						'lastName' => $authnet_data['AuthnetProfile']['billing_lastname'],
-						'address' => $authnet_data['AuthnetProfile']['billing_address'],
-						'city' => $authnet_data['AuthnetProfile']['billing_city'],
-						'state' => $authnet_data['AuthnetProfile']['billing_state'],
-						'zip' => $authnet_data['AuthnetProfile']['billing_zip'],
-						'country' => $authnet_data['AuthnetProfile']['billing_country'],
-					),
-					'shipTo' => array(
-						'firstName' => $authnet_data['AuthnetProfile']['shipping_firstname'],
-						'lastName' => $authnet_data['AuthnetProfile']['shipping_lastname'],
-						'address' => $authnet_data['AuthnetProfile']['shipping_address'],
-						'city' => $authnet_data['AuthnetProfile']['shipping_city'],
-						'state' => $authnet_data['AuthnetProfile']['shipping_state'],
-						'zip' => $authnet_data['AuthnetProfile']['shipping_zip'],
-						'country' => $authnet_data['AuthnetProfile']['shipping_country'],
-					),
-					'customerIP' => $_SERVER['REMOTE_ADDR'],
 				),
-			);
+//				'order' => array(
+//					'invoiceNumber' => $order['AuthnetOrder'],
+//					'description' => 'this is a test transaction',
+//				),
+//				'lineItems' => array(
+//					'lineItem' => array(
+//						0 => array(
+//							'itemId' => '1',
+//							'name' => 'vase',
+//							'description' => 'Cannes logo',
+//							'quantity' => '18',
+//							'unitPrice' => '45.00'
+//						),
+//						1 => array(
+//							'itemId' => '2',
+//							'name' => 'desk',
+//							'description' => 'Big Desk',
+//							'quantity' => '10',
+//							'unitPrice' => '85.00'
+//						)
+//					)
+//				),
+//				'tax' => array(
+//					'amount' => '4.26',
+//					'name' => 'level2 tax name',
+//					'description' => 'level2 tax',
+//				),
+//				'duty' => array(
+//					'amount' => '8.55',
+//					'name' => 'duty name',
+//					'description' => 'duty description',
+//				),
+				'shipping' => array(
+					'amount' => $this->Cart->get_cart_shipping_total(),
+					'name' => '',
+					'description' => '',
+				),
+				'billTo' => array(
+					'firstName' => $authnet_data['AuthnetProfile']['billing_firstname'],
+					'lastName' => $authnet_data['AuthnetProfile']['billing_lastname'],
+					'address' => $authnet_data['AuthnetProfile']['billing_address'],
+					'city' => $authnet_data['AuthnetProfile']['billing_city'],
+					'state' => $authnet_data['AuthnetProfile']['billing_state'],
+					'zip' => $authnet_data['AuthnetProfile']['billing_zip'],
+					'country' => $authnet_data['AuthnetProfile']['billing_country'],
+				),
+				'shipTo' => array(
+					'firstName' => $authnet_data['AuthnetProfile']['shipping_firstname'],
+					'lastName' => $authnet_data['AuthnetProfile']['shipping_lastname'],
+					'address' => $authnet_data['AuthnetProfile']['shipping_address'],
+					'city' => $authnet_data['AuthnetProfile']['shipping_city'],
+					'state' => $authnet_data['AuthnetProfile']['shipping_state'],
+					'zip' => $authnet_data['AuthnetProfile']['shipping_zip'],
+					'country' => $authnet_data['AuthnetProfile']['shipping_country'],
+				),
+				'customerIP' => $_SERVER['REMOTE_ADDR'],
+			),
+		);
 
-			// DREW TODO - get the below working - not a high priority though
+		// DREW TODO - get the below working - not a high priority though
 //			$count = 1; 
 //			foreach ($items as $key => $item) {
 //				$charge_data['lineItems']['lineItem'][] = array(
@@ -406,32 +405,54 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 //				);
 //				$count++;
 //			}
-			
 
-			
-			$authnet = $this->get_authnet_instance();
-			$authnet->createTransactionRequest($charge_data);
-			
-			if ($authnet->isError()) {
-				$return_arr['code'] = $authnet->messages->message->code[0];
-				if ($authnet->messages->message->code[0] == 'I00002') {
-					$return_arr['declined'] = true;
-				} else {
-					$this->major_error('Authorize.net one time charge failed', compact('charge_data'), 'high');
-				}
-				$this->delete($this->id);
-				$return_arr['success'] = false;
+
+
+		$authnet = $this->get_authnet_instance();
+		$authnet->createTransactionRequest($charge_data);
+		
+		if ($authnet->isError()) {
+			$return_arr['code'] = $authnet->messages->message->code[0];
+			$error_response = $authnet->get_response();
+			if ($authnet->messages->message->code[0] == 'I00002') {
+				$return_arr['declined'] = true;
+			} else {
+				$this->major_error('Authorize.net one time charge failed', compact('charge_data', 'return_arr', 'error_response'), 'high');
 			}
+			$return_arr['success'] = false;
 			
-			
+			$this->log('made it here 1', 'made_it_here');
+			$this->log($return_arr, 'made_it_here');
 			return $return_arr;
-		} else {
+		}
+
+		
+		$this->log($order, 'made_it_here');
+		// add the one time order trasaction_id to the order
+		$one_time_response = $authnet->get_one_time_parsed_response();
+//		$this->log($response, 'get_one_time_parsed_response');
+		
+//		[response_code] => 1
+//		[authorization_code] => G6CI52
+//		[avs_response] => Y
+//		[credit_card_validation_code_response] => P
+//		[cavvResultCode] => 2
+//		[transaction_id] => 2195858988
+//		[transaction_hash] => 1924C07E36CB7CB39439C762A3560FD5
+//		[test_request] => 0
+//		[account_number] => XXXX3135
+//		[account_type] => Visa
+
+		
+		if ($this->createOrderForProfile($order, false, false, $one_time_response['transaction_id']) !== true) {
 			$return_arr['success'] = false;
 			$return_arr['code'] = 'I00003';
 			$return_arr['declined'] = false;
 			
 			return $return_arr;
 		}
+		
+		return $return_arr;
 	}
 	
 	public function charge_cart_to_cim($authnet_profile_id) {
@@ -517,9 +538,9 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		*     )
 		* )
 		*/
-	public function createOrderForProfile($order) {
+	public function createOrderForProfile($order, $validate_order = true, $createCIMProfile = true, $one_time_transaction_id = null) {
 		//make sure all required items are there
-		if ($this->_validate_order($order) === false) {
+		if ($validate_order === true && $this->_validate_order($order) === false) {
 			return false;
 		}
                 
@@ -546,6 +567,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		
 		// one time charge
 		if (isset($order['one_time_charge'])) {
+			$this->log('made it here 2', 'made_it_here');
 			$order_save_db['AuthnetOrder']['one_time_charge'] = $order['one_time_charge'];
 		}
 
@@ -569,17 +591,22 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		$api_order['customerPaymentProfileId'] = $profile_to_use['AuthnetProfile']['customerPaymentProfileId'];
 		$data_to_send['transaction']['profileTransAuthCapture'] = $api_order;
 
-		$authnet = $this->get_authnet_instance();
 		try {
-			$authnet->createCustomerProfileTransactionRequest($data_to_send);
-			$full_parsed_result = $authnet->get_parsed_response();
-//			$this->log($full_parsed_result, 'full_parsed_result');
-			if ($authnet->isError()) {
-				$returnArr['success'] = false;
-				$returnArr['code'] = $authnet->get_code();
-				$returnArr['message'] = $authnet->get_message();
-				$this->authnet_error("request failed", compact('full_parsed_result'));
-				return $returnArr;
+			if ($createCIMProfile === true) {
+				$authnet = $this->get_authnet_instance();
+				$this->log($data_to_send, 'data_to_send');
+				$authnet->createCustomerProfileTransactionRequest($data_to_send);
+				$test_response = $authnet->get_response();
+				$this->log($test_response, 'test_response');
+				if ($authnet->isError()) {
+					$parsed_result = $authnet->get_response();
+					$returnArr['success'] = false;
+					$returnArr['code'] = $authnet->get_code();
+					$returnArr['message'] = $authnet->get_message();
+					$this->authnet_error("request failed", compact('parsed_result'));
+					return $returnArr;
+				}
+				$full_parsed_result = $authnet->get_parsed_response();
 			}
 			
 			
@@ -595,16 +622,28 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 
 			
 			// add in extra order data (Andrew)
-			$order_save_db['AuthnetOrder']['full_response'] = print_r($full_parsed_result, true);
-			$order_save_db['AuthnetOrder']['transaction_id'] = $full_parsed_result['transaction_id'];
-			
+			$order_save_db['AuthnetOrder']['full_response'] = isset($full_parsed_result) ? print_r($full_parsed_result, true) : '';
+			$order_save_db['AuthnetOrder']['transaction_id'] = isset($full_parsed_result['transaction_id']) ? $full_parsed_result['transaction_id'] : 0;
+			if (isset($one_time_transaction_id)) {
+				$order_save_db['AuthnetOrder']['transaction_id'] = $one_time_transaction_id;
+			}
 			
 			
 			$this->create();
+			$order_save_db['AuthnetOrder']['shipping'] = '3700.00';
+			$this->log($order_save_db, 'made_it_here');
+			$this->log(Configure::read('debug'), 'made_it_here');
 			if ($this->save($order_save_db) == false) {
-				$this->authnet_error('Could not save order', $order);
+				$this->authnet_error('Could not save order', compact('order_save_db'));
 				return false;
 			}
+			$first = $this->find('first', array(
+				'conditions' => array(
+					'AuthnetOrder.id' => $this->id
+				),
+				'contain' => false,
+			));
+			$this->log($first, 'f_ing_first');
 			$this->AuthnetLineItem = ClassRegistry::init("AuthnetLineItem");
 
 			foreach ($order['line_items'] as $item) {
@@ -636,6 +675,8 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		* @return boolean
 		*/
 	private function _validate_order($order) {
+		return true;
+		
 		if (empty($order['authnet_profile_id'])) {
 			$this->authnet_error('Tried to create an order without specifing a profile to charge it', $order);
 			return false;
