@@ -49,7 +49,7 @@ $(document).ready(function() {
    });
 });
 </script>
-<div id="line_item_cont">
+<div class='clear' id="line_item_cont">
     <div class="finish">
         <input type="button" value="Finish Changes" />
     </div>

@@ -5,7 +5,11 @@
               url: "/admin/accounts/ajax_save_client_billing",
               data: $("#payment_details_client").serialize(),
               success: function(data) {
-                  $(".ui-dialog-content").html(data.html);
+                  <?php if($closeWhenDone): ?>
+                      $(".ui-dialog-content").dialog('close');
+                  <?php else: ?>
+                      $(".ui-dialog-content").html(data.html);
+                  <?php endif; ?>
               },
               dataType: 'json'
            });

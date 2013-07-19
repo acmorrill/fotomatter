@@ -12,6 +12,11 @@ class FotomatterBillingComponent extends Object {
         $this->server_url = Configure::read('OVERLORD_PATH');
     }
     
+    public function getAccountDetails() {
+        $details = json_decode($this->send_api_request('billing_api/get_account_details', array()), true);
+        return $details;
+    }
+    
     public function getPaymentProfile() {
         $result = json_decode($this->send_api_request('billing_api/get_payment_profile', array()), true);
         return $result;
@@ -69,7 +74,7 @@ class FotomatterBillingComponent extends Object {
 		'billing'=>'GlAxUMNy5upK97MKZk4C'
 	    )
 	));
-        $this->log('client|' . json_encode($request['Request']) . "\n", 'client_billing');
+        
         $this->log($response, 'client_billing');
 	return $response;
     }
