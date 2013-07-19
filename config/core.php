@@ -315,3 +315,5 @@
 	if (((isset($_GET['xhprof']) && $debug == 2) || $debug == 4) && PHP_SAPI != 'cli') {
 		require_once('xhprof.php');
 	}
+	
+	require('core_ignored.php');

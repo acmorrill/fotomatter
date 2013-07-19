@@ -403,8 +403,8 @@ class EcommercesController extends AppController {
 	}
 	
 	public function view_cart() {
-		$this->Cart->create_fake_cart_items(); // DREW TODO - delete this line
-//		$this->Cart->create_fake_cart_items_laptop(); // DREW TODO - delete this line
+//		$this->Cart->create_fake_cart_items(); // DREW TODO - delete this line
+		$this->Cart->create_fake_cart_items_laptop(); // DREW TODO - delete this line
 		
 		$this->ThemeRenderer->render($this);
 	}
@@ -548,6 +548,7 @@ class EcommercesController extends AppController {
 					$this->Validation->validate('not_empty', $this->data['ShippingAddress'], 'city', __('Shipping city is required.', true));
 					$this->Validation->validate('not_empty', $this->data['ShippingAddress'], 'zip', __('Shipping zip code is required.', true));
 					$this->Validation->validate('not_empty', $this->data['ShippingAddress'], 'country_id', __('Shipping country is required.', true));
+					// DREW TODO - fix a bug where state doesn't have to be set to save the shipping address
 					if (isset($this->data['ShippingAddress']['state_id']) && $this->data['ShippingAddress']['state_id'] !== 'no_state') {
 						$this->Validation->validate($this, 'not_empty', $this->data['ShippingAddress'], 'state_id', __('Shipping state is required.', true));
 					}
