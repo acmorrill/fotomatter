@@ -210,56 +210,75 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			return false;
 		}
 		
-		$refund_data = array(
-			'transaction' => array(
-				'profileTransRefund' => array(
-					'amount' => $authnet_order['AuthnetOrder']['total'],
-//					'tax' => array(
-//						'amount' => '1.00',
-//						'name' => 'WA state sales tax',
-//						'description' => 'Washington state sales tax'
-//					),
-//					'shipping' => array(
-//						'amount' => '2.00',
-//						'name' => 'ground based shipping',
-//						'description' => 'Ground based 5 to 10 day shipping'
-//					),
-//					'lineItems' => array(
-//						'lineItem' => array(
-//							0 => array(
-//								'itemId' => '1',
-//								'name' => 'vase',
-//								'description' => 'Cannes logo',
-//								'quantity' => '18',
-//								'unitPrice' => '45.00'
-//							),
-//							1 => array(
-//								'itemId' => '2',
-//								'name' => 'desk',
-//								'description' => 'Big Desk',
-//								'quantity' => '10',
-//								'unitPrice' => '85.00'
-//							)
-//						)
-//					),
-//					'customerProfileId' => '5427896',
-//					'customerPaymentProfileId' => '4796541',
-//					'customerShippingAddressId' => '4907537',
-					'creditCardNumberMasked' => 'XXXX'.$authnet_order['AuthnetProfile']['payment_cc_last_four'],
-//					'order' => array(
-//						'invoiceNumber' => 'INV000001',
-//						'description' => 'description of transaction',
-//						'purchaseOrderNumber' => 'PONUM000001'
-//					),
-					'transId' => $authnet_order['AuthnetOrder']['transaction_id'],
-				)
-			),
-//			'extraOptions' => '<![CDATA[x_customer_ip=100.0.0.1]]>'
-		);
-		$authnet->createCustomerProfileTransactionRequest($refund_data);
+		if ($authnet_order['AuthnetOrder']['one_time_charge'] == '0') {
+			$refund_data = array(
+				'transaction' => array(
+					'profileTransRefund' => array(
+						'amount' => $authnet_order['AuthnetOrder']['total'],
+	//					'tax' => array(
+	//						'amount' => '1.00',
+	//						'name' => 'WA state sales tax',
+	//						'description' => 'Washington state sales tax'
+	//					),
+	//					'shipping' => array(
+	//						'amount' => '2.00',
+	//						'name' => 'ground based shipping',
+	//						'description' => 'Ground based 5 to 10 day shipping'
+	//					),
+	//					'lineItems' => array(
+	//						'lineItem' => array(
+	//							0 => array(
+	//								'itemId' => '1',
+	//								'name' => 'vase',
+	//								'description' => 'Cannes logo',
+	//								'quantity' => '18',
+	//								'unitPrice' => '45.00'
+	//							),
+	//							1 => array(
+	//								'itemId' => '2',
+	//								'name' => 'desk',
+	//								'description' => 'Big Desk',
+	//								'quantity' => '10',
+	//								'unitPrice' => '85.00'
+	//							)
+	//						)
+	//					),
+	//					'customerProfileId' => '5427896',
+	//					'customerPaymentProfileId' => '4796541',
+	//					'customerShippingAddressId' => '4907537',
+						'creditCardNumberMasked' => 'XXXX'.$authnet_order['AuthnetProfile']['payment_cc_last_four'],
+	//					'order' => array(
+	//						'invoiceNumber' => 'INV000001',
+	//						'description' => 'description of transaction',
+	//						'purchaseOrderNumber' => 'PONUM000001'
+	//					),
+						'transId' => $authnet_order['AuthnetOrder']['transaction_id'],
+					)
+				),
+	//			'extraOptions' => '<![CDATA[x_customer_ip=100.0.0.1]]>'
+			);
+			$authnet->createCustomerProfileTransactionRequest($refund_data);
+		} else {
+			// START HERE TOMORROW - finish the below code and then move to the void for one_time_payment code
+			
+			$authnet->createTransactionRequest(array(
+				'transactionRequest' => array(
+					'transactionType' => 'refundTransaction',
+					'amount' => 5,
+					'payment' => array(
+						'creditCard' => array(
+							'cardNumber' => 'XXXX1111',
+							'expirationDate' => '122016'
+						)
+					),
+					'authCode' => '2165668159'
+				),
+			));
+		}
 		
 		
-		$parsed_response = $authnet->get_parsed_response();
+		
+		
 		if ($authnet->isError()) {
 			$response = $authnet->get_response();
 			$this->major_error('Failed to refund order', compact('response'), 'high');
@@ -287,7 +306,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		
 		$order = array(
 			'authnet_profile_id' => 0,
-			'one_time_charge' => '1',
+			'one_time_charge' => 1,
 			'total' => $this->Cart->get_cart_total(),
 			'foreign_model' => 'User',
 			'foreign_key' => 0,
@@ -421,13 +440,10 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			}
 			$return_arr['success'] = false;
 			
-			$this->log('made it here 1', 'made_it_here');
-			$this->log($return_arr, 'made_it_here');
 			return $return_arr;
 		}
 
 		
-		$this->log($order, 'made_it_here');
 		// add the one time order trasaction_id to the order
 		$one_time_response = $authnet->get_one_time_parsed_response();
 //		$this->log($response, 'get_one_time_parsed_response');
@@ -567,7 +583,6 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		
 		// one time charge
 		if (isset($order['one_time_charge'])) {
-			$this->log('made it here 2', 'made_it_here');
 			$order_save_db['AuthnetOrder']['one_time_charge'] = $order['one_time_charge'];
 		}
 
@@ -594,10 +609,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		try {
 			if ($createCIMProfile === true) {
 				$authnet = $this->get_authnet_instance();
-				$this->log($data_to_send, 'data_to_send');
 				$authnet->createCustomerProfileTransactionRequest($data_to_send);
-				$test_response = $authnet->get_response();
-				$this->log($test_response, 'test_response');
 				if ($authnet->isError()) {
 					$parsed_result = $authnet->get_response();
 					$returnArr['success'] = false;
@@ -630,20 +642,10 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			
 			
 			$this->create();
-			$order_save_db['AuthnetOrder']['shipping'] = '3700.00';
-			$this->log($order_save_db, 'made_it_here');
-			$this->log(Configure::read('debug'), 'made_it_here');
 			if ($this->save($order_save_db) == false) {
 				$this->authnet_error('Could not save order', compact('order_save_db'));
 				return false;
 			}
-			$first = $this->find('first', array(
-				'conditions' => array(
-					'AuthnetOrder.id' => $this->id
-				),
-				'contain' => false,
-			));
-			$this->log($first, 'f_ing_first');
 			$this->AuthnetLineItem = ClassRegistry::init("AuthnetLineItem");
 
 			foreach ($order['line_items'] as $item) {
