@@ -18,7 +18,7 @@
 		</div>
 		<div id="middle" class="rounded-corners">
                         <?php 
-				/*$subnav = array(); 
+				$subnav = array(); 
 
 				$subnav['title'] = array(
 					'name' => 'Upgrade Account',
@@ -28,7 +28,7 @@
 					'name' => __('Account Details', true),
 					'url' => "/admin/accounts/account_details/"
 				);
-				echo $this->Element('/admin/submenu', array( 'subnav' => $subnav )); */
+				echo $this->Element('/admin/submenu', array( 'subnav' => $subnav )); 
 			?>
 			<?php echo $content_for_layout; ?>
 		</div>

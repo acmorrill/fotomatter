@@ -1,5 +1,50 @@
-#line_item_cont {
+#account-details {
+    padding: 0px 15px;
+   
+    fieldset {
+        padding: 15px 30px 20px;
+        margin: 15px 0;
+        border:1px solid @subdued_text;
+        color: @subdued_text;
+    }
+
+    fieldset.payment {
+        display:inline-block;
+
+        .payment-summary {
+            margin:0 10px;
+            color:@subdued_text;
+            font-size:13px;
+
+            .payment-details {
+                button {
+                    margin: 0 10px;
+                }
+                display:inline-block;
+                margin:0 60px;
+            }
+            
+            .edit-details {
+                display:inline-block;
+                
+
+                button {
+                    font-size:12px;
+                    margin: 0 10px;
+                }
+            }
+
+            a.free-link {
+                display:block;
+            }
+        }
+    }
+
     
+}
+
+#line_item_cont {
+   
     padding:10px;
 
     .body_container {

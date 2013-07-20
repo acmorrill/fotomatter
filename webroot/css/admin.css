@@ -2178,6 +2178,40 @@ div#sub-nav ul li.title a {
   padding: 20px;
   vertical-align: middle;
 }
+#account-details {
+  padding: 0px 15px;
+}
+#account-details fieldset {
+  padding: 15px 30px 20px;
+  margin: 15px 0;
+  border: 1px solid #AAAAAA;
+  color: #AAAAAA;
+}
+#account-details fieldset.payment {
+  display: inline-block;
+}
+#account-details fieldset.payment .payment-summary {
+  margin: 0 10px;
+  color: #AAAAAA;
+  font-size: 13px;
+}
+#account-details fieldset.payment .payment-summary .payment-details {
+  display: inline-block;
+  margin: 0 60px;
+}
+#account-details fieldset.payment .payment-summary .payment-details button {
+  margin: 0 10px;
+}
+#account-details fieldset.payment .payment-summary .edit-details {
+  display: inline-block;
+}
+#account-details fieldset.payment .payment-summary .edit-details button {
+  font-size: 12px;
+  margin: 0 10px;
+}
+#account-details fieldset.payment .payment-summary a.free-link {
+  display: block;
+}
 #line_item_cont {
   padding: 10px;
 }

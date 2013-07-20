@@ -3,22 +3,25 @@ class AccountsController extends AppController {
     
    public $uses = array('GlobalCountry', 'GlobalCountryState');
    
+   public $layout = 'admin/accounts';
    
    public $components = array(
        'FotomatterBilling',
        'Session',
        'Validation'
    );
+   
+   public function admin_account_details() {
+       $accountDetails = $this->FotomatterBilling->getAccountDetails();
+       $this->set('accountDetails', $accountDetails['data']);
+   }
     
     /**
     * action for the page to add/remove line items. 
     * @author Adam Holsinger
     */
-   
-   
    public function admin_index() {
        $line_items = $this->FotomatterBilling->get_info_account();
-       
        
        $this->Session->delete('account_line_items');
        $this->Session->write('account_line_items', array('checked'=>array(), 'unchecked'=>array()));
@@ -61,8 +64,7 @@ class AccountsController extends AppController {
     */
    public function admin_ajax_update_payment() {
        $currentData = $this->FotomatterBilling->getPaymentProfile();
-       $this->log($currentData, 'payment');
-       $return['html'] = $this->get_add_profile_form($currentData['data']);
+       $return['html'] = $this->get_add_profile_form($currentData['data'], $this->params['named']['closeWhenDone']);
        $this->return_json($return);
    }
    
@@ -102,6 +104,8 @@ class AccountsController extends AppController {
                exit();
            }
            
+           $this->data['AuthnetProfile']['payment_cc_last_four'] = substr($this->data['AuthnetProfile']['payment_cardNumber'], -4, 4);
+           $this->log($this->data, 'authnet');
            $profile_id = $this->FotomatterBilling->save_payment_profile($this->data);
            
            $account_info = $this->Session->read('account_info');
@@ -114,10 +118,10 @@ class AccountsController extends AppController {
        exit();
    }
    
-   private function get_add_profile_form($current_data=array()) {
+   private function get_add_profile_form($current_data=array(), $closeWhenDone=false) {
         $return = array();
         $countries = $this->GlobalCountry->get_available_countries();
-        return $this->element("admin/accounts/add_profile", array('countries'=>$countries, 'current_data'=>$current_data));
+        return $this->element("admin/accounts/add_profile", array('countries'=>$countries, 'current_data'=>$current_data, 'closeWhenDone'=>$closeWhenDone));
    }
    
    private function rekey_account_info($account_info) {
