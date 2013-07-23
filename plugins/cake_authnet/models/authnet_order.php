@@ -168,18 +168,31 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			'contain' =>  false,
 		));
 		
-		
-		$authnet->createCustomerProfileTransactionRequest(array(
-			'transaction' => array(
-				'profileTransVoid' => array(
-//					'customerProfileId' => $authnet_profile['AuthnetProfile']['customerProfileId'],
-//					'customerPaymentProfileId' => $authnet_profile['AuthnetProfile']['customerPaymentProfileId'],
-//					'customerShippingAddressId' => $authnet_profile['AuthnetProfile']['customerShippingAddressId'],
-					'transId' => $authnet_order['AuthnetOrder']['transaction_id'],
-				)
-			),
-//			'extraOptions' => '<![CDATA[x_customer_ip=100.0.0.1]]>'
-		));
+		if ($authnet_order['AuthnetOrder']['one_time_charge'] == '0') {
+			$authnet->createCustomerProfileTransactionRequest(array(
+				'transaction' => array(
+					'profileTransVoid' => array(
+//						'customerProfileId' => $authnet_profile['AuthnetProfile']['customerProfileId'],
+//						'customerPaymentProfileId' => $authnet_profile['AuthnetProfile']['customerPaymentProfileId'],
+//						'customerShippingAddressId' => $authnet_profile['AuthnetProfile']['customerShippingAddressId'],
+						'transId' => $authnet_order['AuthnetOrder']['transaction_id'],
+					)
+				),
+//				'extraOptions' => '<![CDATA[x_customer_ip=100.0.0.1]]>'
+			));
+		} else {
+			$authnet->createTransactionRequest(array(
+//				'refId' => rand(1000000, 100000000),
+				'transactionRequest' => array(
+					'transactionType' => 'voidTransaction',
+					'refTransId' => $authnet_order['AuthnetOrder']['transaction_id'],
+				),
+			));
+			
+			$one_time_void_response = $authnet->get_response();
+			// DREW TODO - maybe we should add an explicit voided field in the order table?? (so don't have to query from now on to see status)
+//			$this->log($one_time_void_response, 'one_time_void_response');
+		}
 		
 		
 		if ($authnet->isError()) {
@@ -259,21 +272,21 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			);
 			$authnet->createCustomerProfileTransactionRequest($refund_data);
 		} else {
-			// START HERE TOMORROW - finish the below code and then move to the void for one_time_payment code
-			
 			$authnet->createTransactionRequest(array(
 				'transactionRequest' => array(
 					'transactionType' => 'refundTransaction',
-					'amount' => 5,
+					'amount' => $authnet_order['AuthnetOrder']['total'],
 					'payment' => array(
 						'creditCard' => array(
-							'cardNumber' => 'XXXX1111',
-							'expirationDate' => '122016'
+							'cardNumber' => $authnet_order['AuthnetOrder']['payment_cc_last_four'], 
+							'expirationDate' => $authnet_order['AuthnetOrder']['expiration_date'],
 						)
 					),
-					'authCode' => '2165668159'
+					'authCode' => $authnet_order['AuthnetOrder']['one_time_authorization_code'],
 				),
 			));
+			$one_time_refund_response = $authnet->get_parsed_response();
+			$this->log($one_time_refund_response, 'one_time_refund_response');  // START HERE TOMORROW - finish testing the code above when you have some orders that are one time refundable
 		}
 		
 		
@@ -298,9 +311,6 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 	}
 	
 	public function one_time_charge($authnet_data) {
-		// START HERE TOMORROW
-		// DREW TODO - do the refund for a one time charge
-		
 		$this->Cart = ClassRegistry::init('Cart');
 		
 		
@@ -446,6 +456,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		
 		// add the one time order trasaction_id to the order
 		$one_time_response = $authnet->get_one_time_parsed_response();
+		$one_time_response['expiration_date'] = date('mY', strtotime($authnet_data['AuthnetProfile']['payment_expirationDate']));
 //		$this->log($response, 'get_one_time_parsed_response');
 		
 //		[response_code] => 1
@@ -458,15 +469,123 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 //		[test_request] => 0
 //		[account_number] => XXXX3135
 //		[account_type] => Visa
+//		[expiration_date] => Visa
 
 		
-		if ($this->createOrderForProfile($order, false, false, $one_time_response['transaction_id']) !== true) {
-			$return_arr['success'] = false;
-			$return_arr['code'] = 'I00003';
-			$return_arr['declined'] = false;
-			
-			return $return_arr;
-		}
+		///////////////////////////////////
+		// start old create order
+			$this->AuthnetProfile = ClassRegistry::init("AuthnetProfile");
+
+			//build the order
+			$order_save_db = array(); //data to be saved in order table
+
+			$order_save_db['AuthnetOrder']['total'] = $order['total'];
+
+			//tax?
+			if (isset($order['tax'])) {
+				$order_save_db['AuthnetOrder']['tax'] = $order['tax']['amount'];
+			}
+
+			// one time charge
+			if (isset($order['one_time_charge'])) {
+				$order_save_db['AuthnetOrder']['one_time_charge'] = $order['one_time_charge'];
+			}
+
+			//shipping?
+			if (isset($order['shipping'])) {
+				$order_save_db['AuthnetOrder']['shipping'] = $order['shipping']['amount'];
+			}
+
+			foreach ($order['line_items'] as $line_item) {
+				$attach_to_order['itemId'] = $line_item['foreign_key'];
+				$attach_to_order['name'] = $line_item['name'];
+				$attach_to_order['description'] = $line_item['description'];
+				$attach_to_order['quantity'] = $line_item['quantity'];
+				$attach_to_order['unitPrice'] = $line_item['unit_cost'];
+			}
+
+
+			try {
+				if (isset($order['foreign_model'])) {
+					$order_save_db['AuthnetOrder']['foreign_model'] = $order['foreign_model'];
+				}
+
+				if (isset($order['foreign_key'])) {
+					$order_save_db['AuthnetOrder']['foreign_key'] = $order['foreign_key'];
+				}
+				$order_save_db['AuthnetOrder']['authnet_profile_id'] = $order['authnet_profile_id'];
+
+
+				// add in extra one time order data (Andrew)
+				//		[response_code] => 1
+				//		[authorization_code] => G6CI52
+				//		[avs_response] => Y
+				//		[credit_card_validation_code_response] => P
+				//		[cavvResultCode] => 2
+				//		[transaction_id] => 2195858988
+				//		[transaction_hash] => 1924C07E36CB7CB39439C762A3560FD5
+				//		[test_request] => 0
+				//		[account_number] => XXXX3135
+				//		[account_type] => Visa
+				$order_save_db['AuthnetOrder']['full_response'] = print_r($one_time_response, true);
+				if (isset($one_time_response['transaction_id'])) {
+					$order_save_db['AuthnetOrder']['transaction_id'] = $one_time_response['transaction_id'];
+				}
+				if (isset($one_time_response['account_number'])) {
+					$order_save_db['AuthnetOrder']['payment_cc_last_four'] = $one_time_response['account_number'];
+				}
+				if (isset($one_time_response['authorization_code'])) {
+					$order_save_db['AuthnetOrder']['one_time_authorization_code'] = $one_time_response['authorization_code'];
+				}
+				if (isset($one_time_response['expiration_date'])) {
+					$order_save_db['AuthnetOrder']['expiration_date'] = $one_time_response['expiration_date'];
+				}
+
+
+
+
+				$this->create();
+				if ($this->save($order_save_db) == false) {
+					$this->authnet_error('Could not save order', compact('order_save_db'));
+					$return_arr['success'] = false;
+					$return_arr['code'] = 'I00003';
+					$return_arr['declined'] = false;
+
+					return $return_arr;
+				}
+				$this->AuthnetLineItem = ClassRegistry::init("AuthnetLineItem");
+
+				foreach ($order['line_items'] as $item) {
+					$item_save['AuthnetLineItem']['unit_cost'] = $item['unit_cost'];
+					$item_save['AuthnetLineItem']['name'] = $item['name'];
+					$item_save['AuthnetLineItem']['description'] = $item['description'];
+					$item_save['AuthnetLineItem']['quantity'] = $item['quantity'];
+					$item_save['AuthnetLineItem']['foreign_model'] = $item['foreign_model'];
+					$item_save['AuthnetLineItem']['foreign_key'] = $item['foreign_key'];
+					$item_save['AuthnetLineItem']['authnet_order_id'] = $this->id;
+					$item_save['AuthnetLineItem']['authnet_line_item_type_id'] = $item['authnet_line_item_type_id'];
+					$this->AuthnetLineItem->create();
+					if ($this->AuthnetLineItem->save($item_save) == false) {
+						$this->authnet_error('could not save line item');
+						$return_arr['success'] = false;
+						$return_arr['code'] = 'I00003';
+						$return_arr['declined'] = false;
+
+						return $return_arr;
+					}
+				}
+
+			} catch (Exception $e) {
+				$this->authnet_error('an exception has occurred', $e->getMessage());
+				$return_arr['success'] = false;
+				$return_arr['code'] = 'I00003';
+				$return_arr['declined'] = false;
+
+				return $return_arr;
+			}
+		// end old create order
+		/////////////////////////////////////
+		
 		
 		return $return_arr;
 	}
@@ -554,7 +673,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		*     )
 		* )
 		*/
-	public function createOrderForProfile($order, $validate_order = true, $createCIMProfile = true, $one_time_transaction_id = null) {
+	public function createOrderForProfile($order, $validate_order = true, $createCIMProfile = true, $one_time_data = null) {
 		//make sure all required items are there
 		if ($validate_order === true && $this->_validate_order($order) === false) {
 			return false;
@@ -633,12 +752,33 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			$order_save_db['AuthnetOrder']['authnet_profile_id'] = $order['authnet_profile_id'];
 
 			
-			// add in extra order data (Andrew)
+			// add in extra one time order data (Andrew)
+			//		[response_code] => 1
+			//		[authorization_code] => G6CI52
+			//		[avs_response] => Y
+			//		[credit_card_validation_code_response] => P
+			//		[cavvResultCode] => 2
+			//		[transaction_id] => 2195858988
+			//		[transaction_hash] => 1924C07E36CB7CB39439C762A3560FD5
+			//		[test_request] => 0
+			//		[account_number] => XXXX3135
+			//		[account_type] => Visa
 			$order_save_db['AuthnetOrder']['full_response'] = isset($full_parsed_result) ? print_r($full_parsed_result, true) : '';
 			$order_save_db['AuthnetOrder']['transaction_id'] = isset($full_parsed_result['transaction_id']) ? $full_parsed_result['transaction_id'] : 0;
-			if (isset($one_time_transaction_id)) {
-				$order_save_db['AuthnetOrder']['transaction_id'] = $one_time_transaction_id;
+			if (isset($one_time_data['transaction_id'])) {
+				$order_save_db['AuthnetOrder']['transaction_id'] = $one_time_data['transaction_id'];
 			}
+			if (isset($one_time_data['account_number'])) {
+				$order_save_db['AuthnetOrder']['payment_cc_last_four'] = $one_time_data['account_number'];
+			}
+			if (isset($one_time_data['authorization_code'])) {
+				$order_save_db['AuthnetOrder']['one_time_authorization_code'] = $one_time_data['authorization_code'];
+			}
+			if (isset($one_time_data['expiration_date'])) {
+				$order_save_db['AuthnetOrder']['expiration_date'] = $one_time_data['expiration_date'];
+			}
+			
+			
 			
 			
 			$this->create();
