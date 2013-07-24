@@ -126,6 +126,20 @@ class EcommercesController extends AppController {
 		$this->set(compact('authnet_orders'));
 	}
 	
+	public function admin_finalize_order($authnet_order_id) {
+		$finalize_order_result = $this->AuthnetOrder->finalize_order($authnet_order_id);
+			
+		
+		$return_arr = array();
+		if ($finalize_order_result === false) {
+			$return_arr['success'] = true;
+			
+			$this->Session->setFlash('Failed to finalize order. Please contact support.');
+		}
+		
+		$this->redirect('/admin/ecommerces/fulfill_order/'.$authnet_order_id.'/');
+	}
+	
 	public function admin_fulfill_order($authnet_order_id) {
 		$this->HashUtil->set_new_hash('ecommerce');
 		

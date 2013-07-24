@@ -71,7 +71,7 @@
 							This order was REFUNDED
 						<?php else: ?>
 							<?php // START HERE TOMORROW - DREW TODO - do the finalize order ?>
-							<a href="">Finalize Order</a>
+							<a href="/admin/ecommerces/finalize_order/<?php echo $authnet_order['AuthnetOrder']['id']; ?>/">Finalize Order</a>
 							<?php if ($is_voidable): ?>
 								<a href="/admin/ecommerces/void_order/<?php echo $authnet_order['AuthnetOrder']['id']; ?>/">Void Order</a>
 							<?php endif; ?>

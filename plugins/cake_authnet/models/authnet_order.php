@@ -271,8 +271,18 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 	//			'extraOptions' => '<![CDATA[x_customer_ip=100.0.0.1]]>'
 			);
 			$authnet->createCustomerProfileTransactionRequest($refund_data);
+			
+			if ($authnet->isError()) {
+				$response = $authnet->get_response();
+				$this->major_error('Failed to refund order 1', compact('response', 'refund_data'), 'high');
+
+				return false;
+			}
+			
+			
+			$parsed_response = $authnet->get_parsed_response();
 		} else {
-			$authnet->createTransactionRequest(array(
+			$one_time_refund_data = array(
 				'transactionRequest' => array(
 					'transactionType' => 'refundTransaction',
 					'amount' => $authnet_order['AuthnetOrder']['total'],
@@ -282,25 +292,26 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 							'expirationDate' => $authnet_order['AuthnetOrder']['expiration_date'],
 						)
 					),
-					'authCode' => $authnet_order['AuthnetOrder']['one_time_authorization_code'],
+					'refTransId' => $authnet_order['AuthnetOrder']['transaction_id'],
 				),
-			));
-			$one_time_refund_response = $authnet->get_parsed_response();
-			$this->log($one_time_refund_response, 'one_time_refund_response');  // START HERE TOMORROW - finish testing the code above when you have some orders that are one time refundable
-		}
-		
-		
-		
-		
-		if ($authnet->isError()) {
-			$response = $authnet->get_response();
-			$this->major_error('Failed to refund order', compact('response'), 'high');
+			);
 			
-			return false;
+			$authnet->createTransactionRequest($one_time_refund_data);
+			
+			if ($authnet->isError()) {
+				$response = $authnet->get_response();
+				$this->major_error('Failed to refund order 2', compact('response', 'one_time_refund_data'), 'high');
+
+				return false;
+			}
+			
+			$parsed_response = $authnet->get_one_time_parsed_response();
+//			$this->log($parsed_response, 'one_time_refund_response');  
 		}
 		
 		
-		$parsed_response = $authnet->get_parsed_response();
+		////////////////////////////////////////////////////////
+		// save the refund transaction_id
 		$authnet_order['AuthnetOrder']['refund_transaction_id'] = $parsed_response['transaction_id'];
 		if (!$this->save($authnet_order)) {
 			$this->major_error('Failed to record new refund_transaction_id', compact('parsed_response'), 'high');
@@ -810,6 +821,57 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			return false;
 		}
 	}
+	
+	
+	public function finalize_order($authnet_order_id) {
+		$authnet_order = $this->find('first', array(
+			'conditions' => array(
+				'AuthnetOrder.id' => $authnet_order_id,
+			),
+			'contain' => array(
+				'AuthnetProfile',
+				'AuthnetLineItem',
+			),
+		));
+		
+		$this->Photo = ClassRegistry::init('Photo');
+		foreach ($authnet_order['AuthnetLineItem'] as &$line_item) {
+			$extra_data = explode("|", $line_item['name']);
+			$line_item['photo_id'] = $extra_data[0];
+			$line_item['print_type_id'] = $extra_data[1];
+			$line_item['short_side_inches'] = $extra_data[2];
+			$line_item['extra_data'] = $this->Photo->get_extra_print_data($line_item['photo_id'], $line_item['print_type_id'], $line_item['short_side_inches']);
+		}
+		
+		// log the order data
+		$this->log($authnet_order, 'finalize_order');
+		
+		
+		//////////////////////////////////////////////////////////
+		// go through each line item and finalize each
+		foreach ($authnet_order['AuthnetLineItem'] as $line_item) {
+			$fulfillment_type = ucwords($line_item['extra_data']['PhotoPrintType']['print_fulfillment_type']).'Fulfillment';
+			
+			// DREW TODO - maybe make this more efficient? - but probobly ok since is just done occasionally
+			
+			// grab the filfillment component needed
+			App::import('Component', $fulfillment_type);
+			$new_obj_name = $fulfillment_type.'Component';
+			$fulfillment_obj = new $new_obj_name();
+			
+			// call finalize order
+			$result = $fulfillment_obj->finalize_order();
+			
+			// START HERE TOMORROW  - DREW TODO - finish the above code to finalize item
+			
+			$this->log($result, 'result');
+		}
+		
+		
+		
+		return true;
+	}
+	
         
 	/**
 		* Make sure that we have good data passed to createOrder
