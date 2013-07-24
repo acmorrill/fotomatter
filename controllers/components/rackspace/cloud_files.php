@@ -1,5 +1,5 @@
 <?php
-require_once(ROOT . DS . 'app' . DS . 'controllers' . DS . 'components' . DS . 'rackspace' . DS . 'rackspace_obj.php');
+require(ROOT . DS . 'app' . DS . 'controllers' . DS . 'components' . DS . 'rackspace' . DS . 'rackspace_obj.php');
 class CloudFilesComponent extends RackspaceObj {
     
     /**
