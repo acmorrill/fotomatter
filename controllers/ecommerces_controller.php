@@ -126,15 +126,15 @@ class EcommercesController extends AppController {
 		$this->set(compact('authnet_orders'));
 	}
 	
-	public function admin_finalize_order($authnet_order_id) {
-		$finalize_order_result = $this->AuthnetOrder->finalize_order($authnet_order_id);
+	public function admin_approve_order($authnet_order_id) {
+		$finalize_order_result = $this->AuthnetOrder->approve_order($authnet_order_id);
 			
 		
 		$return_arr = array();
 		if ($finalize_order_result === false) {
 			$return_arr['success'] = true;
 			
-			$this->Session->setFlash('Failed to finalize order. Please contact support.');
+			$this->Session->setFlash('Failed to approve order. Please contact support.');
 		}
 		
 		$this->redirect('/admin/ecommerces/fulfill_order/'.$authnet_order_id.'/');
@@ -166,9 +166,9 @@ class EcommercesController extends AppController {
 		$is_voided = $this->AuthnetOrder->transaction_voided($authnet_order_id);
 		$is_refundable = $this->AuthnetOrder->transaction_refundable($authnet_order_id);
 		$is_refunded = $this->AuthnetOrder->transaction_refunded($authnet_order_id);
+		$order_status = $this->AuthnetOrder->order_status($authnet_order_id);
 		
-		
-		$this->set(compact('authnet_order_id', 'authnet_order', 'is_voidable', 'is_voided', 'is_refundable', 'is_refunded'));
+		$this->set(compact('authnet_order_id', 'authnet_order', 'is_voidable', 'is_voided', 'is_refundable', 'is_refunded', 'order_status'));
 	}
 	
 	public function admin_void_order($authnet_order_id) {
