@@ -12,6 +12,17 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 	private $transaction_data;
     
 	
+	public function order_status($authnet_order_id) {
+		$authnet_order = $this->find('first', array(
+			'conditions' => array(
+				'AuthnetOrder.id' => $authnet_order_id,
+			),
+			'contain' =>  false,
+		));
+		
+		return $authnet_order['AuthnetOrder']['status'];
+	}
+	
 	public function get_authnet_transaction_data($authnet_order_id) {
 		// transaction statuses
 //		authorizedPendingCapture
@@ -77,7 +88,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 	}
 	
 	public function transaction_voidable($authnet_order_id) {
-		// DREW TODO - make sure the transaction is not finalized (which makes it unvoidable)
+		// START HERE TOMORROW - DREW TODO - make sure the transaction is not APPROVED (which makes it unvoidable)
 		
 		$details = $this->get_authnet_transaction_data($authnet_order_id);
 		
@@ -136,7 +147,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 	}
 	
 	public function transaction_refundable($authnet_order_id) {
-		// DREW TODO - make sure the transaction is not finalized (which makes it unrefundable)
+		// START HERE TOMORROW - DREW TODO - make sure the transaction is not APPROVED (which makes it unrefundable)
 		
 		// if already refunded then not refundable
 		if ($this->transaction_refunded($authnet_order_id) === true) {
@@ -823,7 +834,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 	}
 	
 	
-	public function finalize_order($authnet_order_id) {
+	public function approve_order($authnet_order_id) {
 		$authnet_order = $this->find('first', array(
 			'conditions' => array(
 				'AuthnetOrder.id' => $authnet_order_id,
@@ -843,33 +854,50 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			$line_item['extra_data'] = $this->Photo->get_extra_print_data($line_item['photo_id'], $line_item['print_type_id'], $line_item['short_side_inches']);
 		}
 		
-		// log the order data
-		$this->log($authnet_order, 'finalize_order');
+		
+		//////////////////////////////////////////////////////////
+		// go through each line item and group them all by fulfillment type
+		$items_by_fulfillment_type = array();
+		foreach ($authnet_order['AuthnetLineItem'] as $a_line_item) {
+			$fulfillment_type = ucwords($a_line_item['extra_data']['PhotoPrintType']['print_fulfillment_type']).'Fulfillment';
+		
+			$items_by_fulfillment_type[$fulfillment_type][] = $a_line_item;
+		}
 		
 		
 		//////////////////////////////////////////////////////////
 		// go through each line item and finalize each
-		foreach ($authnet_order['AuthnetLineItem'] as $line_item) {
-			$fulfillment_type = ucwords($line_item['extra_data']['PhotoPrintType']['print_fulfillment_type']).'Fulfillment';
-			
+		foreach ($items_by_fulfillment_type as $fulfillment_type => $line_items) {
 			// DREW TODO - maybe make this more efficient? - but probobly ok since is just done occasionally
-			
 			// grab the filfillment component needed
 			App::import('Component', $fulfillment_type);
 			$new_obj_name = $fulfillment_type.'Component';
 			$fulfillment_obj = new $new_obj_name();
 			
-			// call finalize order
-			$result = $fulfillment_obj->finalize_order();
 			
-			// START HERE TOMORROW  - DREW TODO - finish the above code to finalize item
-			
-			$this->log($result, 'result');
+			// call approve order for the line items of current type
+			if (!$fulfillment_obj->approve_order_line_items($line_items)) {
+				$this->major_error('Failed to approve an order', compact('authnet_order'), 'high');
+				return false;
+			}
 		}
 		
 		
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// mark the order as approved  - assumes all order line items are approved (based on the above code working)
+		// ie - if made it here then order is ok to be approved
+		$authnet_order['AuthnetOrder']['order_status'] = 'approved';
+		if (!$this->save($authnet_order)) {
+			$this->major_error('Failed to set order status as approved', compact('authnet_order'), 'high');
+			return false;
+		}
+		
 		
 		return true;
+	}
+	
+	public function verify_order_status($authnet_order_id) {
+		// DREW TODO - finish this function if needed
 	}
 	
         

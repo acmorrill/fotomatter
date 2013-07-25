@@ -63,21 +63,24 @@
 			<tfoot>
 				<tr>
 					<td colspan="3" style="text-align: left;">
-						<?php if ($is_voided): ?>
-<!--							DREW TODO - finish this-->
-							This order was VOIDED
-						<?php elseif ($is_refunded): ?>
-<!--							DREW TODO - finish this-->
-							This order was REFUNDED
+						<?php if ($order_status === 'new'): ?>
+							<?php if ($is_voided): ?>
+<!--								DREW TODO - finish this-->
+								This order was VOIDED
+							<?php elseif ($is_refunded): ?>
+<!--								DREW TODO - finish this-->
+								This order was REFUNDED
+							<?php else: ?>
+								<a href="/admin/ecommerces/approve_order/<?php echo $authnet_order['AuthnetOrder']['id']; ?>/">Approve Order</a>
+								<?php if ($is_voidable): ?>
+									<a href="/admin/ecommerces/void_order/<?php echo $authnet_order['AuthnetOrder']['id']; ?>/">Void Order</a>
+								<?php endif; ?>
+								<?php if ($is_refundable): ?>
+									<a href="/admin/ecommerces/refund_order/<?php echo $authnet_order['AuthnetOrder']['id']; ?>/">Refund Order</a>
+								<?php endif; ?>
+							<?php endif; ?>
 						<?php else: ?>
-							<?php // START HERE TOMORROW - DREW TODO - do the finalize order ?>
-							<a href="/admin/ecommerces/finalize_order/<?php echo $authnet_order['AuthnetOrder']['id']; ?>/">Finalize Order</a>
-							<?php if ($is_voidable): ?>
-								<a href="/admin/ecommerces/void_order/<?php echo $authnet_order['AuthnetOrder']['id']; ?>/">Void Order</a>
-							<?php endif; ?>
-							<?php if ($is_refundable): ?>
-								<a href="/admin/ecommerces/refund_order/<?php echo $authnet_order['AuthnetOrder']['id']; ?>/">Refund Order</a>
-							<?php endif; ?>
+							<?php // DREW TODO - START HERE TOMORROW - setup the after approved options (mark shipped etc)  ?>
 						<?php endif; ?>
 					</td>
 					<td colspan="5" style="text-align: right;">
