@@ -10,17 +10,36 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 	);
 	
 	private $transaction_data;
+	private $order_data;
     
 	
-	public function order_status($authnet_order_id) {
-		$authnet_order = $this->find('first', array(
-			'conditions' => array(
-				'AuthnetOrder.id' => $authnet_order_id,
-			),
-			'contain' =>  false,
-		));
+	private function get_authnet_order($authnet_order_id) {
+		if (!isset($this->order_data[$authnet_order_id])) {
+			$authnet_order = $this->find('first', array(
+				'conditions' => array(
+					'AuthnetOrder.id' => $authnet_order_id,
+				),
+				'contain' =>  false,
+			));
+
+			$this->order_data[$authnet_order_id] = $authnet_order;
+		}
+
+		if (empty($this->order_data[$authnet_order_id])) {
+			return false;
+		}
 		
-		return $authnet_order['AuthnetOrder']['status'];
+		return $this->order_data[$authnet_order_id];
+	}
+	
+	public function order_status($authnet_order_id) {
+		$authnet_order = $this->get_authnet_order($authnet_order_id);
+			
+		if (empty($authnet_order)) {
+			return false;
+		}
+		
+		return $authnet_order['AuthnetOrder']['order_status'];
 	}
 	
 	public function get_authnet_transaction_data($authnet_order_id) {
@@ -55,12 +74,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		if (!isset($this->transaction_data[$authnet_order_id])) {
 			$authnet = $this->get_authnet_instance();
 		
-			$authnet_order = $this->find('first', array(
-				'conditions' => array(
-					'AuthnetOrder.id' => $authnet_order_id,
-				),
-				'contain' =>  false,
-			));
+			$authnet_order = $this->get_authnet_order($authnet_order_id);
 			
 			$authnet->getTransactionDetailsRequest(array(
 				'transId' => $authnet_order['AuthnetOrder']['transaction_id'],
@@ -88,7 +102,10 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 	}
 	
 	public function transaction_voidable($authnet_order_id) {
-		// START HERE TOMORROW - DREW TODO - make sure the transaction is not APPROVED (which makes it unvoidable)
+		$order_status = $this->order_status($authnet_order_id);
+		if ($order_status !== 'new') {
+			return false;
+		}
 		
 		$details = $this->get_authnet_transaction_data($authnet_order_id);
 		
@@ -120,12 +137,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 	}
 	
 	public function transaction_refunded($authnet_order_id) {
-		$authnet_order = $this->find('first', array(
-			'conditions' => array(
-				'AuthnetOrder.id' => $authnet_order_id,
-			),
-			'contain' => false,
-		));
+		$authnet_order = $this->get_authnet_order($authnet_order_id);
 		
 		if (!empty($authnet_order['AuthnetOrder']['refund_transaction_id'])) {
 			return true;
@@ -147,7 +159,10 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 	}
 	
 	public function transaction_refundable($authnet_order_id) {
-		// START HERE TOMORROW - DREW TODO - make sure the transaction is not APPROVED (which makes it unrefundable)
+		$order_status = $this->order_status($authnet_order_id);
+		if ($order_status !== 'new') {
+			return false;
+		}
 		
 		// if already refunded then not refundable
 		if ($this->transaction_refunded($authnet_order_id) === true) {
@@ -170,14 +185,19 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 	}
 	
 	public function void_transaction($authnet_order_id) {
+		$order_status = $this->order_status($authnet_order_id);
+		if ($order_status !== 'new') {
+			return false;
+		}
+		
+		if ($this->transaction_voidable($authnet_order_id) === false) {
+			return false;
+		}
+		
+		
 		$authnet = $this->get_authnet_instance();
 
-		$authnet_order = $this->find('first', array(
-			'conditions' => array(
-				'AuthnetOrder.id' => $authnet_order_id,
-			),
-			'contain' =>  false,
-		));
+		$authnet_order = $this->get_authnet_order($authnet_order_id);
 		
 		if ($authnet_order['AuthnetOrder']['one_time_charge'] == '0') {
 			$authnet->createCustomerProfileTransactionRequest(array(
@@ -218,16 +238,19 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 	}
 	
 	public function refund_transaction($authnet_order_id) {
+		$order_status = $this->order_status($authnet_order_id);
+		if ($order_status !== 'new') {
+			return false;
+		}
+		
+		if ($this->transaction_refundable($authnet_order_id) === false) {
+			return false;
+		}
+		
 		$authnet = $this->get_authnet_instance();
 
-		$authnet_order = $this->find('first', array(
-			'conditions' => array(
-				'AuthnetOrder.id' => $authnet_order_id,
-			),
-			'contain' => array(
-				'AuthnetProfile',
-			),
-		));
+		$authnet_order = $this->get_authnet_order($authnet_order_id);
+		
 		
 		if (empty($authnet_order)) {
 			$this->major_error('Failed to refund a transaction because the authnet_order_id was incorrect.', compact('authnet_order_id'));
@@ -866,7 +889,8 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		
 		
 		//////////////////////////////////////////////////////////
-		// go through each line item and finalize each
+		// go through each line item and approve each
+		$approval_date = date('Y-m-d H:i:s');
 		foreach ($items_by_fulfillment_type as $fulfillment_type => $line_items) {
 			// DREW TODO - maybe make this more efficient? - but probobly ok since is just done occasionally
 			// grab the filfillment component needed
@@ -876,7 +900,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			
 			
 			// call approve order for the line items of current type
-			if (!$fulfillment_obj->approve_order_line_items($line_items)) {
+			if (!$fulfillment_obj->approve_order_line_items($line_items, $approval_date)) {
 				$this->major_error('Failed to approve an order', compact('authnet_order'), 'high');
 				return false;
 			}
@@ -887,6 +911,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		// mark the order as approved  - assumes all order line items are approved (based on the above code working)
 		// ie - if made it here then order is ok to be approved
 		$authnet_order['AuthnetOrder']['order_status'] = 'approved';
+		$authnet_order['AuthnetOrder']['approval_date'] = $approval_date;
 		if (!$this->save($authnet_order)) {
 			$this->major_error('Failed to set order status as approved', compact('authnet_order'), 'high');
 			return false;
@@ -894,6 +919,27 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		
 		
 		return true;
+	}
+	
+	public function get_payable_orders() {
+		/////////////////////
+		// pay_out_statuses
+		// -----------------------------
+		// not_payed
+		// processing
+		// payed
+		// failed
+		
+		$payable_orders = $this->find('all', array(
+			'conditions' => array(
+				'AuthnetOrder.order_status' => 'approved',
+				'AuthnetOrder.pay_out_status' => 'not_payed',
+				'AuthnetOrder.approval_date IS NOT NULL',
+			),
+			'contain' => false,
+		));
+		
+		return $payable_orders;
 	}
 	
 	public function verify_order_status($authnet_order_id) {

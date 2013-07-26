@@ -234,7 +234,14 @@ class EcommercesController extends AppController {
 		$this->redirect('/admin/ecommerces/manage_print_types_and_pricing');
 	}
 		
+	public function admin_get_paid() {
+		// get all the payableorders
+		$payable_orders = $this->AuthnetOrder->get_payable_orders();
 		
+//		$this->log($payable_orders, 'admin_get_paid');
+		
+		$this->set(compact('payable_orders'));
+	}
 	
 	public function admin_add_print_type_and_pricing($photo_print_type_id = 0) {
 		$this->HashUtil->set_new_hash('ecommerce');
