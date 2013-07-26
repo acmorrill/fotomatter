@@ -80,7 +80,8 @@
 								<?php endif; ?>
 							<?php endif; ?>
 						<?php else: ?>
-							<?php // DREW TODO - START HERE TOMORROW - setup the after approved options (mark shipped etc)  ?>
+							This order was APPROVED
+							<?php // DREW TODO - setup the after approved options (mark shipped etc)  ?>
 						<?php endif; ?>
 					</td>
 					<td colspan="5" style="text-align: right;">
