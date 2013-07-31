@@ -13,6 +13,106 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 	private $order_data;
     
 	
+//	public function callPayPal($methodName,$base_call = NULL)
+//    {
+//             
+//        $header_call = "&PWD=".urlencode($this->API_Password).
+//                        "&USER=".urlencode($this->API_UserName).
+//                    "&SIGNATURE=".urlencode($this->API_Signature).
+//                    "&SUBJECT=".urlencode($this->subject).
+//                            "&VERSION=".urlencode($this->version);
+//             
+//        $call = $header_call.$base_call;
+//         
+//        //setting the curl parameters.
+//        $ch = curl_init();
+//        curl_setopt($ch, CURLOPT_URL,$this->API_Endpoint);
+//        curl_setopt($ch, CURLOPT_VERBOSE, 1);
+//         
+//        //Turning off the server and peer verification(TrustManager Concept).
+//        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+//        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+//         
+//        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+//        curl_setopt($ch, CURLOPT_POST, 1);
+//         
+//        //If USE_PROXY constant set to TRUE in Constants.php, then only proxy will be enabled.
+//        //Set proxy name to PROXY_HOST and port number to PROXY_PORT in constants.php
+//        /*if(USE_PROXY)
+//            curl_setopt ($ch, CURLOPT_PROXY, PROXY_HOST.":".PROXY_PORT);*/
+//         
+//        //Check if version is included in $nvpStr else include the version.
+//        if(strlen(str_replace('VERSION=', '', strtoupper($call))) == strlen($call)) {
+//             
+//            $nvpStr = "&VERSION=" . urlencode($this->version) . $call;  
+//        }
+//         
+//        $nvpreq="METHOD=".urlencode($methodName).$call;
+//         
+//        $this->last_request = $nvpreq;
+//         
+//        //Setting the nvpreq as POST FIELD to curl
+//        curl_setopt($ch,CURLOPT_POSTFIELDS,$nvpreq);
+//         
+//        //Getting response from server
+//        $response = curl_exec($ch);
+//         
+//        //Converting NVPResponse to an Associative Array
+//        $nvpResArray = $this->deformatNVP($response);
+//        $nvpReqArray = $this->deformatNVP($nvpreq);
+//        $_SESSION['nvpReqArray'] = $nvpReqArray;
+//         
+//        if (curl_errno($ch)) {
+//             
+//            throw new Exception('Curl error: '.curl_errno($ch).' - '.curl_error($ch));
+//               
+//         } else {
+//            //Closing the curl
+//            curl_close($ch);
+//         }
+//         
+//         $this->last_response = $nvpResArray;
+//          
+//        return $nvpResArray;
+//    }
+	
+	public function send_photographer_payment_via_paypal($amount, $logged_in_user_data) {
+		// paypal sandbox credentials - START HERE TOMORROW - DREW TODO - make this better later
+		$credentials = array(
+			'API_USERNAME' => 'acmorrill-facilitator_api1.gmail.com',
+			'API_PASSWORD' => '1375235502',
+			'API_SIGNATURE' => 'A77j959Pqig6qJbPbnjY4Z-qjG5CA4ygwzjgdkTH8na-CvJDrZQnVeHI',
+			'API_ENDPOINT' => 'https://api-3t.sandbox.paypal.com/nvp',
+			'VERSION' => '104',
+			'SUBJECT' => '',
+		);
+		
+		// START HERE TOMORROW - DREW TODO - make the below code better!!
+		$refund_note = "Paying {$logged_in_user_data['email_address']} with user_id {$logged_in_user_data['id']} for recent orders.";
+		$subject = "Fotomatter Payment"; // DREW TODO - make this subject better
+		$type = "EmailAddress";
+		$currency = "USD";
+		
+        $header_call = "&PWD=".urlencode($credentials['API_PASSWORD']).
+					   "&USER=".urlencode($credentials['API_USERNAME']).
+					   "&SIGNATURE=".urlencode($credentials['API_SIGNATURE']).
+//					   "&SUBJECT=".urlencode($credentials['SUBJECT']).
+					   "&VERSION=".urlencode($credentials['VERSION']);
+             
+		$base_call  = "&L_EMAIL0=".$logged_in_user_data['email_address'].
+					  "&L_AMT0=".$amount.
+//					  "&L_UNIQUEID0=".$logged_in_user_data['id'].
+					  "&L_NOTE0=".$refund_note.
+					  "&EMAILSUBJECT=".$subject.
+					  "&RECEIVERTYPE=".$type.
+					  "&CURRENCYCODE=".$currency;
+		
+        $call = $header_call.$base_call;
+		
+		$this->log($call, 'send_photographer_payment_via_paypal');
+	}
+	
+	
 	private function get_authnet_order($authnet_order_id) {
 		if (!isset($this->order_data[$authnet_order_id])) {
 			$authnet_order = $this->find('first', array(

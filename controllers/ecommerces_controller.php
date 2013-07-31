@@ -22,6 +22,11 @@ class EcommercesController extends AppController {
 
 	}
 	
+	// START HERE TOMORROW - DREW TODO - redo and finish this function
+	public function admin_send_amount($amount) {
+		$this->AuthnetOrder->send_photographer_payment_via_paypal($amount, $this->Session->read('Auth.User'));
+	}
+	
 	public function admin_reset_print_sizes() {
 		$this->HashUtil->set_new_hash('ecommerce');
 		
