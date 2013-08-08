@@ -1,0 +1,68 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+    ],
+    "hash": "25c526077e191b300664b0c2858b4ed6",
+    "packages": [
+        {
+            "name": "paypal/sdk-core-php",
+            "version": "v2.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paypal/sdk-core-php.git",
+                "reference": "v2.4.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paypal/sdk-core-php/zipball/v2.4.1",
+                "reference": "v2.4.1",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PayPal": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache2"
+            ],
+            "authors": [
+                {
+                    "name": "PayPal",
+                    "homepage": "https://github.com/paypal/sdk-core-php/contributors"
+                }
+            ],
+            "description": "PayPal Core SDK for PHP",
+            "homepage": "https://github.com/paypal/sdk-core-php",
+            "keywords": [
+                "paypal",
+                "php",
+                "sdk"
+            ],
+            "time": "2013-06-11 17:47:07"
+        }
+    ],
+    "packages-dev": [
+
+    ],
+    "aliases": [
+
+    ],
+    "minimum-stability": "stable",
+    "stability-flags": [
+
+    ],
+    "platform": [
+
+    ],
+    "platform-dev": [
+
+    ]
+}
