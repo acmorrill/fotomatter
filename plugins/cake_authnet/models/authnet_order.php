@@ -77,17 +77,24 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 //    }
 	
 	public function send_photographer_payment_via_paypal($amount, $logged_in_user_data) {
-		// paypal sandbox credentials - START HERE TOMORROW - DREW TODO - make this better later
+		// paypal sandbox credentials - 
+//		$credentials = array(
+//			'API_USERNAME' => 'acmorrill-facilitator_api1.gmail.com',
+//			'API_PASSWORD' => '1375235502',
+//			'API_SIGNATURE' => 'A77j959Pqig6qJbPbnjY4Z-qjG5CA4ygwzjgdkTH8na-CvJDrZQnVeHI',
+//			'API_ENDPOINT' => 'https://api-3t.sandbox.paypal.com/nvp',
+//			'VERSION' => '104',
+//			'SUBJECT' => '',
+//		);
 		$credentials = array(
-			'API_USERNAME' => 'acmorrill-facilitator_api1.gmail.com',
-			'API_PASSWORD' => '1375235502',
-			'API_SIGNATURE' => 'A77j959Pqig6qJbPbnjY4Z-qjG5CA4ygwzjgdkTH8na-CvJDrZQnVeHI',
+			'API_USERNAME' => 'acmorrill_api1.gmail.com',
+			'API_PASSWORD' => '1376003579',
+			'API_SIGNATURE' => 'AzaYvS4XSOUNXi2X-BUTSvLaG.rIA1CgDbTymfWTnnNUtxKsZ-42WqTK',
 			'API_ENDPOINT' => 'https://api-3t.sandbox.paypal.com/nvp',
 			'VERSION' => '104',
 			'SUBJECT' => '',
 		);
 		
-		// START HERE TOMORROW - DREW TODO - make the below code better!!
 		$refund_note = "Paying {$logged_in_user_data['email_address']} with user_id {$logged_in_user_data['id']} for recent orders.";
 		$subject = "Fotomatter Payment"; // DREW TODO - make this subject better
 		$type = "EmailAddress";
@@ -99,7 +106,8 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 //					   "&SUBJECT=".urlencode($credentials['SUBJECT']).
 					   "&VERSION=".urlencode($credentials['VERSION']);
              
-		$base_call  = "&L_EMAIL0=".$logged_in_user_data['email_address'].
+		$base_call  = "&METHOD=MassPay".
+					  "&L_EMAIL0=".$logged_in_user_data['email_address'].
 					  "&L_AMT0=".$amount.
 //					  "&L_UNIQUEID0=".$logged_in_user_data['id'].
 					  "&L_NOTE0=".$refund_note.
@@ -109,8 +117,94 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		
         $call = $header_call.$base_call;
 		
-		$this->log($call, 'send_photographer_payment_via_paypal');
+		
+		//setting the curl parameters.
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $credentials['API_ENDPOINT']);
+        curl_setopt($ch, CURLOPT_VERBOSE, 1);
+         
+        //Turning off the server and peer verification(TrustManager Concept).
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+         
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+         
+        //If USE_PROXY constant set to TRUE in Constants.php, then only proxy will be enabled.
+        //Set proxy name to PROXY_HOST and port number to PROXY_PORT in constants.php
+        /*if(USE_PROXY)
+            curl_setopt ($ch, CURLOPT_PROXY, PROXY_HOST.":".PROXY_PORT);*/
+         
+        //Check if version is included in $nvpStr else include the version.
+//        if(strlen(str_replace('VERSION=', '', strtoupper($call))) == strlen($call)) {
+//             
+//            $nvpStr = "&VERSION=" . urlencode($this->version) . $call;  
+//        }
+//         
+//        $nvpreq="METHOD=".urlencode($methodName).$call;
+//         
+//        $this->last_request = $nvpreq;
+         
+		
+        //Setting the nvpreq as POST FIELD to curl
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $call);
+         
+        //Getting response from server
+        $response = curl_exec($ch);
+         
+        //Converting NVPResponse to an Associative Array
+        $nvpResArray = $this->deformatNVP($response);
+        $nvpReqArray = $this->deformatNVP($call);
+        $_SESSION['nvpReqArray'] = $nvpReqArray;
+         
+        if (curl_errno($ch)) {
+			$curl_error = curl_error($ch);
+			$curl_errno = curl_errno($ch);
+			$this->major_error('Curl error for paypal masspayment API', compact('curl_error', 'curl_errno', 'nvpReqArray', 'nvpResArray'), 'high');
+			return false;
+		} else {
+			//Closing the curl
+			curl_close($ch);
+		}
+         
+          
+		// parse the response to the API request 
+//		[TIMESTAMP] => 2013-08-08T23:18:02Z
+//		[CORRELATIONID] => 35d727e68d0a1
+//		[ACK] => Success
+//		[VERSION] => 104
+//		[BUILD] => 7161310
+//		$this->log($nvpResArray, 'send_photographer_payment_via_paypal');
+		if ($nvpResArray['ACK'] !== 'Success') {
+			$this->major_error('Failed to send payment via paypal masspayment API', compact('nvpReqArray', 'nvpResArray', 'credentials', 'amount', 'logged_in_user_data'), 'high');
+			return false;
+		}
+
+		// START HERE TOMORROW -  DREW TODO - record the data to the paypal_reimbursement_log table
+		
+		return true;
 	}
+	
+	public function deformatNVP($nvpstr) {
+        $intial=0;
+        $nvpArray = array();
+     
+        while(strlen($nvpstr)) {
+			//postion of Key
+			$keypos= strpos($nvpstr,'=');
+			//position of value
+			$valuepos = strpos($nvpstr,'&') ? strpos($nvpstr,'&'): strlen($nvpstr);
+
+			/*getting the Key and Value values and storing in a Associative Array*/
+			$keyval=substr($nvpstr,$intial,$keypos);
+			$valval=substr($nvpstr,$keypos+1,$valuepos-$keypos-1);
+			//decoding the respose
+			$nvpArray[urldecode($keyval)] = urldecode( $valval);
+			$nvpstr = substr($nvpstr,$valuepos+1,strlen($nvpstr));
+		}
+          
+        return $nvpArray;
+    }
 	
 	
 	private function get_authnet_order($authnet_order_id) {
