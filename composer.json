@@ -1,0 +1,8 @@
+{
+    "config": {
+		"vendor-dir": "vendors"
+	},
+	"require": {
+		"paypal/sdk-core-php": "2.4.*"
+	}
+}
