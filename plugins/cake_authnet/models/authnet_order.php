@@ -10,7 +10,270 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 	);
 	
 	private $transaction_data;
+	private $order_data;
     
+	
+//	public function callPayPal($methodName,$base_call = NULL)
+//    {
+//             
+//        $header_call = "&PWD=".urlencode($this->API_Password).
+//                        "&USER=".urlencode($this->API_UserName).
+//                    "&SIGNATURE=".urlencode($this->API_Signature).
+//                    "&SUBJECT=".urlencode($this->subject).
+//                            "&VERSION=".urlencode($this->version);
+//             
+//        $call = $header_call.$base_call;
+//         
+//        //setting the curl parameters.
+//        $ch = curl_init();
+//        curl_setopt($ch, CURLOPT_URL,$this->API_Endpoint);
+//        curl_setopt($ch, CURLOPT_VERBOSE, 1);
+//         
+//        //Turning off the server and peer verification(TrustManager Concept).
+//        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+//        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+//         
+//        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+//        curl_setopt($ch, CURLOPT_POST, 1);
+//         
+//        //If USE_PROXY constant set to TRUE in Constants.php, then only proxy will be enabled.
+//        //Set proxy name to PROXY_HOST and port number to PROXY_PORT in constants.php
+//        /*if(USE_PROXY)
+//            curl_setopt ($ch, CURLOPT_PROXY, PROXY_HOST.":".PROXY_PORT);*/
+//         
+//        //Check if version is included in $nvpStr else include the version.
+//        if(strlen(str_replace('VERSION=', '', strtoupper($call))) == strlen($call)) {
+//             
+//            $nvpStr = "&VERSION=" . urlencode($this->version) . $call;  
+//        }
+//         
+//        $nvpreq="METHOD=".urlencode($methodName).$call;
+//         
+//        $this->last_request = $nvpreq;
+//         
+//        //Setting the nvpreq as POST FIELD to curl
+//        curl_setopt($ch,CURLOPT_POSTFIELDS,$nvpreq);
+//         
+//        //Getting response from server
+//        $response = curl_exec($ch);
+//         
+//        //Converting NVPResponse to an Associative Array
+//        $nvpResArray = $this->deformatNVP($response);
+//        $nvpReqArray = $this->deformatNVP($nvpreq);
+//        $_SESSION['nvpReqArray'] = $nvpReqArray;
+//         
+//        if (curl_errno($ch)) {
+//             
+//            throw new Exception('Curl error: '.curl_errno($ch).' - '.curl_error($ch));
+//               
+//         } else {
+//            //Closing the curl
+//            curl_close($ch);
+//         }
+//         
+//         $this->last_response = $nvpResArray;
+//          
+//        return $nvpResArray;
+//    }
+	
+	public function get_order_totals($order_ids) {
+		$ids = implode(',', $order_ids);
+		$query = "SELECT SUM(AuthnetOrder.total) 
+					FROM authnet_orders AS AuthnetOrder
+					WHERE AuthnetOrder.id IN ($ids);
+		";
+		
+		$total_arr = $this->query($query);
+		
+		
+		$total = $total_arr[0][0]['SUM(AuthnetOrder.total)'];
+		$this->log($total, 'get_order_totals');
+		
+//		(
+//			[0] => Array
+//				(
+//					[0] => Array
+//						(
+//							[SUM(AuthnetOrder.total)] => 500.00
+//						)
+//
+//				)
+//
+//		)
+
+		
+		return $total;
+	}
+	
+	public function send_photographer_payment_via_paypal($amount, $logged_in_user_data, $payable_order_ids) {
+		// START HERE TOMORROW - DREW TODO - refactor the below code - and change the crendials to live
+		
+		// paypal sandbox credentials - 
+//		$credentials = array(
+//			'API_USERNAME' => 'acmorrill-facilitator_api1.gmail.com',
+//			'API_PASSWORD' => '1375235502',
+//			'API_SIGNATURE' => 'A77j959Pqig6qJbPbnjY4Z-qjG5CA4ygwzjgdkTH8na-CvJDrZQnVeHI',
+//			'API_ENDPOINT' => 'https://api-3t.sandbox.paypal.com/nvp',
+//			'VERSION' => '104',
+//			'SUBJECT' => '',
+//		);
+		$credentials = array(
+			'API_USERNAME' => 'acmorrill_api1.gmail.com',
+			'API_PASSWORD' => '1376003579',
+			'API_SIGNATURE' => 'AzaYvS4XSOUNXi2X-BUTSvLaG.rIA1CgDbTymfWTnnNUtxKsZ-42WqTK',
+			'API_ENDPOINT' => 'https://api-3t.sandbox.paypal.com/nvp',
+			'VERSION' => '104',
+			'SUBJECT' => '',
+		);
+		
+		$refund_note = "Paying {$logged_in_user_data['User']['email_address']} with user_id {$logged_in_user_data['User']['id']} for recent orders.";
+		$subject = "Fotomatter Payment"; // DREW TODO - make this subject better
+		$type = "EmailAddress";
+		$currency = "USD";
+		
+        $header_call = "&PWD=".urlencode($credentials['API_PASSWORD']).
+					   "&USER=".urlencode($credentials['API_USERNAME']).
+					   "&SIGNATURE=".urlencode($credentials['API_SIGNATURE']).
+//					   "&SUBJECT=".urlencode($credentials['SUBJECT']).
+					   "&VERSION=".urlencode($credentials['VERSION']);
+             
+		$base_call  = "&METHOD=MassPay".
+					  "&L_EMAIL0=".$logged_in_user_data['User']['email_address'].
+					  "&L_AMT0=".$amount.
+//					  "&L_UNIQUEID0=".$logged_in_user_data['id'].
+					  "&L_NOTE0=".$refund_note.
+					  "&EMAILSUBJECT=".$subject.
+					  "&RECEIVERTYPE=".$type.
+					  "&CURRENCYCODE=".$currency;
+		
+        $call = $header_call.$base_call;
+		
+		
+		//setting the curl parameters.
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $credentials['API_ENDPOINT']);
+        curl_setopt($ch, CURLOPT_VERBOSE, 1);
+         
+        //Turning off the server and peer verification(TrustManager Concept).
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+         
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+         
+        //If USE_PROXY constant set to TRUE in Constants.php, then only proxy will be enabled.
+        //Set proxy name to PROXY_HOST and port number to PROXY_PORT in constants.php
+        /*if(USE_PROXY)
+            curl_setopt ($ch, CURLOPT_PROXY, PROXY_HOST.":".PROXY_PORT);*/
+         
+        //Check if version is included in $nvpStr else include the version.
+//        if(strlen(str_replace('VERSION=', '', strtoupper($call))) == strlen($call)) {
+//             
+//            $nvpStr = "&VERSION=" . urlencode($this->version) . $call;  
+//        }
+//         
+//        $nvpreq="METHOD=".urlencode($methodName).$call;
+//         
+//        $this->last_request = $nvpreq;
+         
+		
+        //Setting the nvpreq as POST FIELD to curl
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $call);
+         
+        //Getting response from server
+        $response = curl_exec($ch);
+         
+        //Converting NVPResponse to an Associative Array
+        $nvpResArray = $this->deformatNVP($response);
+        $nvpReqArray = $this->deformatNVP($call);
+        $_SESSION['nvpReqArray'] = $nvpReqArray;
+         
+        if (curl_errno($ch)) {
+			$curl_error = curl_error($ch);
+			$curl_errno = curl_errno($ch);
+			$this->major_error('Curl error for paypal masspayment API', compact('curl_error', 'curl_errno', 'nvpReqArray', 'nvpResArray'), 'high');
+			return false;
+		} 
+		curl_close($ch);
+         
+          
+		// parse the response to the API request 
+//		[TIMESTAMP] => 2013-08-08T23:18:02Z
+//		[CORRELATIONID] => 35d727e68d0a1
+//		[ACK] => Success
+//		[VERSION] => 104
+//		[BUILD] => 7161310
+//		$this->log($nvpResArray, 'send_photographer_payment_via_paypal');
+		if ($nvpResArray['ACK'] !== 'Success') {
+			$this->major_error('Failed to send payment via paypal masspayment API', compact('nvpReqArray', 'nvpResArray', 'credentials', 'amount', 'logged_in_user_data'), 'high');
+			return false;
+		}
+		
+		
+		// record the payment to the paypal_reimbursement_log table
+		$this->PaypalReimbursementLog = ClassRegistry::init('PaypalReimbursementLog');
+		$paypal_payment_log = array();
+		$paypal_payment_log['PaypalReimbursementLog']['amount'] = $amount;
+		$paypal_payment_log['PaypalReimbursementLog']['order_ids'] = implode(',', $payable_order_ids);
+		$paypal_payment_log['PaypalReimbursementLog']['all_data'] = print_r(compact('nvpReqArray', 'nvpResArray', 'credentials', 'amount', 'logged_in_user_data'), true);
+		$this->PaypalReimbursementLog->create();
+		if (!$this->PaypalReimbursementLog->save($paypal_payment_log)) {
+			$this->major_error('Failed to create a entry in the PaypalReimbursementLog', compact('paypal_payment_log', 'curl_error', 'curl_errno', 'nvpReqArray', 'nvpResArray'), 'high');
+		}
+
+		return true;
+	}
+	
+	public function deformatNVP($nvpstr) {
+        $intial=0;
+        $nvpArray = array();
+     
+        while(strlen($nvpstr)) {
+			//postion of Key
+			$keypos= strpos($nvpstr,'=');
+			//position of value
+			$valuepos = strpos($nvpstr,'&') ? strpos($nvpstr,'&'): strlen($nvpstr);
+
+			/*getting the Key and Value values and storing in a Associative Array*/
+			$keyval=substr($nvpstr,$intial,$keypos);
+			$valval=substr($nvpstr,$keypos+1,$valuepos-$keypos-1);
+			//decoding the respose
+			$nvpArray[urldecode($keyval)] = urldecode( $valval);
+			$nvpstr = substr($nvpstr,$valuepos+1,strlen($nvpstr));
+		}
+          
+        return $nvpArray;
+    }
+	
+	
+	private function get_authnet_order($authnet_order_id) {
+		if (!isset($this->order_data[$authnet_order_id])) {
+			$authnet_order = $this->find('first', array(
+				'conditions' => array(
+					'AuthnetOrder.id' => $authnet_order_id,
+				),
+				'contain' =>  false,
+			));
+
+			$this->order_data[$authnet_order_id] = $authnet_order;
+		}
+
+		if (empty($this->order_data[$authnet_order_id])) {
+			return false;
+		}
+		
+		return $this->order_data[$authnet_order_id];
+	}
+	
+	public function order_status($authnet_order_id) {
+		$authnet_order = $this->get_authnet_order($authnet_order_id);
+			
+		if (empty($authnet_order)) {
+			return false;
+		}
+		
+		return $authnet_order['AuthnetOrder']['order_status'];
+	}
 	
 	public function get_authnet_transaction_data($authnet_order_id) {
 		// transaction statuses
@@ -44,12 +307,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		if (!isset($this->transaction_data[$authnet_order_id])) {
 			$authnet = $this->get_authnet_instance();
 		
-			$authnet_order = $this->find('first', array(
-				'conditions' => array(
-					'AuthnetOrder.id' => $authnet_order_id,
-				),
-				'contain' =>  false,
-			));
+			$authnet_order = $this->get_authnet_order($authnet_order_id);
 			
 			$authnet->getTransactionDetailsRequest(array(
 				'transId' => $authnet_order['AuthnetOrder']['transaction_id'],
@@ -77,7 +335,10 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 	}
 	
 	public function transaction_voidable($authnet_order_id) {
-		// DREW TODO - make sure the transaction is not finalized (which makes it unvoidable)
+		$order_status = $this->order_status($authnet_order_id);
+		if ($order_status !== 'new') {
+			return false;
+		}
 		
 		$details = $this->get_authnet_transaction_data($authnet_order_id);
 		
@@ -109,12 +370,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 	}
 	
 	public function transaction_refunded($authnet_order_id) {
-		$authnet_order = $this->find('first', array(
-			'conditions' => array(
-				'AuthnetOrder.id' => $authnet_order_id,
-			),
-			'contain' => false,
-		));
+		$authnet_order = $this->get_authnet_order($authnet_order_id);
 		
 		if (!empty($authnet_order['AuthnetOrder']['refund_transaction_id'])) {
 			return true;
@@ -136,7 +392,10 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 	}
 	
 	public function transaction_refundable($authnet_order_id) {
-		// DREW TODO - make sure the transaction is not finalized (which makes it unrefundable)
+		$order_status = $this->order_status($authnet_order_id);
+		if ($order_status !== 'new') {
+			return false;
+		}
 		
 		// if already refunded then not refundable
 		if ($this->transaction_refunded($authnet_order_id) === true) {
@@ -159,27 +418,45 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 	}
 	
 	public function void_transaction($authnet_order_id) {
+		$order_status = $this->order_status($authnet_order_id);
+		if ($order_status !== 'new') {
+			return false;
+		}
+		
+		if ($this->transaction_voidable($authnet_order_id) === false) {
+			return false;
+		}
+		
+		
 		$authnet = $this->get_authnet_instance();
 
-		$authnet_order = $this->find('first', array(
-			'conditions' => array(
-				'AuthnetOrder.id' => $authnet_order_id,
-			),
-			'contain' =>  false,
-		));
+		$authnet_order = $this->get_authnet_order($authnet_order_id);
 		
-		
-		$authnet->createCustomerProfileTransactionRequest(array(
-			'transaction' => array(
-				'profileTransVoid' => array(
-//					'customerProfileId' => $authnet_profile['AuthnetProfile']['customerProfileId'],
-//					'customerPaymentProfileId' => $authnet_profile['AuthnetProfile']['customerPaymentProfileId'],
-//					'customerShippingAddressId' => $authnet_profile['AuthnetProfile']['customerShippingAddressId'],
-					'transId' => $authnet_order['AuthnetOrder']['transaction_id'],
-				)
-			),
-//			'extraOptions' => '<![CDATA[x_customer_ip=100.0.0.1]]>'
-		));
+		if ($authnet_order['AuthnetOrder']['one_time_charge'] == '0') {
+			$authnet->createCustomerProfileTransactionRequest(array(
+				'transaction' => array(
+					'profileTransVoid' => array(
+//						'customerProfileId' => $authnet_profile['AuthnetProfile']['customerProfileId'],
+//						'customerPaymentProfileId' => $authnet_profile['AuthnetProfile']['customerPaymentProfileId'],
+//						'customerShippingAddressId' => $authnet_profile['AuthnetProfile']['customerShippingAddressId'],
+						'transId' => $authnet_order['AuthnetOrder']['transaction_id'],
+					)
+				),
+//				'extraOptions' => '<![CDATA[x_customer_ip=100.0.0.1]]>'
+			));
+		} else {
+			$authnet->createTransactionRequest(array(
+//				'refId' => rand(1000000, 100000000),
+				'transactionRequest' => array(
+					'transactionType' => 'voidTransaction',
+					'refTransId' => $authnet_order['AuthnetOrder']['transaction_id'],
+				),
+			));
+			
+			$one_time_void_response = $authnet->get_response();
+			// DREW TODO - maybe we should add an explicit voided field in the order table?? (so don't have to query from now on to see status)
+//			$this->log($one_time_void_response, 'one_time_void_response');
+		}
 		
 		
 		if ($authnet->isError()) {
@@ -194,81 +471,114 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 	}
 	
 	public function refund_transaction($authnet_order_id) {
+		$order_status = $this->order_status($authnet_order_id);
+		if ($order_status !== 'new') {
+			return false;
+		}
+		
+		if ($this->transaction_refundable($authnet_order_id) === false) {
+			return false;
+		}
+		
 		$authnet = $this->get_authnet_instance();
 
-		$authnet_order = $this->find('first', array(
-			'conditions' => array(
-				'AuthnetOrder.id' => $authnet_order_id,
-			),
-			'contain' => array(
-				'AuthnetProfile',
-			),
-		));
+		$authnet_order = $this->get_authnet_order($authnet_order_id);
+		
 		
 		if (empty($authnet_order)) {
 			$this->major_error('Failed to refund a transaction because the authnet_order_id was incorrect.', compact('authnet_order_id'));
 			return false;
 		}
 		
-		$refund_data = array(
-			'transaction' => array(
-				'profileTransRefund' => array(
-					'amount' => $authnet_order['AuthnetOrder']['total'],
-//					'tax' => array(
-//						'amount' => '1.00',
-//						'name' => 'WA state sales tax',
-//						'description' => 'Washington state sales tax'
-//					),
-//					'shipping' => array(
-//						'amount' => '2.00',
-//						'name' => 'ground based shipping',
-//						'description' => 'Ground based 5 to 10 day shipping'
-//					),
-//					'lineItems' => array(
-//						'lineItem' => array(
-//							0 => array(
-//								'itemId' => '1',
-//								'name' => 'vase',
-//								'description' => 'Cannes logo',
-//								'quantity' => '18',
-//								'unitPrice' => '45.00'
-//							),
-//							1 => array(
-//								'itemId' => '2',
-//								'name' => 'desk',
-//								'description' => 'Big Desk',
-//								'quantity' => '10',
-//								'unitPrice' => '85.00'
-//							)
-//						)
-//					),
-//					'customerProfileId' => '5427896',
-//					'customerPaymentProfileId' => '4796541',
-//					'customerShippingAddressId' => '4907537',
-					'creditCardNumberMasked' => 'XXXX'.$authnet_order['AuthnetProfile']['payment_cc_last_four'],
-//					'order' => array(
-//						'invoiceNumber' => 'INV000001',
-//						'description' => 'description of transaction',
-//						'purchaseOrderNumber' => 'PONUM000001'
-//					),
-					'transId' => $authnet_order['AuthnetOrder']['transaction_id'],
-				)
-			),
-//			'extraOptions' => '<![CDATA[x_customer_ip=100.0.0.1]]>'
-		);
-		$authnet->createCustomerProfileTransactionRequest($refund_data);
-		
-		
-		$parsed_response = $authnet->get_parsed_response();
-		if ($authnet->isError()) {
-			$response = $authnet->get_response();
-			$this->major_error('Failed to refund order', compact('response'), 'high');
+		if ($authnet_order['AuthnetOrder']['one_time_charge'] == '0') {
+			$refund_data = array(
+				'transaction' => array(
+					'profileTransRefund' => array(
+						'amount' => $authnet_order['AuthnetOrder']['total'],
+	//					'tax' => array(
+	//						'amount' => '1.00',
+	//						'name' => 'WA state sales tax',
+	//						'description' => 'Washington state sales tax'
+	//					),
+	//					'shipping' => array(
+	//						'amount' => '2.00',
+	//						'name' => 'ground based shipping',
+	//						'description' => 'Ground based 5 to 10 day shipping'
+	//					),
+	//					'lineItems' => array(
+	//						'lineItem' => array(
+	//							0 => array(
+	//								'itemId' => '1',
+	//								'name' => 'vase',
+	//								'description' => 'Cannes logo',
+	//								'quantity' => '18',
+	//								'unitPrice' => '45.00'
+	//							),
+	//							1 => array(
+	//								'itemId' => '2',
+	//								'name' => 'desk',
+	//								'description' => 'Big Desk',
+	//								'quantity' => '10',
+	//								'unitPrice' => '85.00'
+	//							)
+	//						)
+	//					),
+	//					'customerProfileId' => '5427896',
+	//					'customerPaymentProfileId' => '4796541',
+	//					'customerShippingAddressId' => '4907537',
+						'creditCardNumberMasked' => 'XXXX'.$authnet_order['AuthnetProfile']['payment_cc_last_four'],
+	//					'order' => array(
+	//						'invoiceNumber' => 'INV000001',
+	//						'description' => 'description of transaction',
+	//						'purchaseOrderNumber' => 'PONUM000001'
+	//					),
+						'transId' => $authnet_order['AuthnetOrder']['transaction_id'],
+					)
+				),
+	//			'extraOptions' => '<![CDATA[x_customer_ip=100.0.0.1]]>'
+			);
+			$authnet->createCustomerProfileTransactionRequest($refund_data);
 			
-			return false;
+			if ($authnet->isError()) {
+				$response = $authnet->get_response();
+				$this->major_error('Failed to refund order 1', compact('response', 'refund_data'), 'high');
+
+				return false;
+			}
+			
+			
+			$parsed_response = $authnet->get_parsed_response();
+		} else {
+			$one_time_refund_data = array(
+				'transactionRequest' => array(
+					'transactionType' => 'refundTransaction',
+					'amount' => $authnet_order['AuthnetOrder']['total'],
+					'payment' => array(
+						'creditCard' => array(
+							'cardNumber' => $authnet_order['AuthnetOrder']['payment_cc_last_four'], 
+							'expirationDate' => $authnet_order['AuthnetOrder']['expiration_date'],
+						)
+					),
+					'refTransId' => $authnet_order['AuthnetOrder']['transaction_id'],
+				),
+			);
+			
+			$authnet->createTransactionRequest($one_time_refund_data);
+			
+			if ($authnet->isError()) {
+				$response = $authnet->get_response();
+				$this->major_error('Failed to refund order 2', compact('response', 'one_time_refund_data'), 'high');
+
+				return false;
+			}
+			
+			$parsed_response = $authnet->get_one_time_parsed_response();
+//			$this->log($parsed_response, 'one_time_refund_response');  
 		}
 		
 		
-		$parsed_response = $authnet->get_parsed_response();
+		////////////////////////////////////////////////////////
+		// save the refund transaction_id
 		$authnet_order['AuthnetOrder']['refund_transaction_id'] = $parsed_response['transaction_id'];
 		if (!$this->save($authnet_order)) {
 			$this->major_error('Failed to record new refund_transaction_id', compact('parsed_response'), 'high');
@@ -279,15 +589,12 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 	}
 	
 	public function one_time_charge($authnet_data) {
-		// START HERE TOMORROW
-		// DREW TODO - do the refund for a one time charge
-		
 		$this->Cart = ClassRegistry::init('Cart');
 		
 		
 		$order = array(
 			'authnet_profile_id' => 0,
-			'one_time_charge' => '1',
+			'one_time_charge' => 1,
 			'total' => $this->Cart->get_cart_total(),
 			'foreign_model' => 'User',
 			'foreign_key' => 0,
@@ -421,15 +728,13 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			}
 			$return_arr['success'] = false;
 			
-			$this->log('made it here 1', 'made_it_here');
-			$this->log($return_arr, 'made_it_here');
 			return $return_arr;
 		}
 
 		
-		$this->log($order, 'made_it_here');
 		// add the one time order trasaction_id to the order
 		$one_time_response = $authnet->get_one_time_parsed_response();
+		$one_time_response['expiration_date'] = date('mY', strtotime($authnet_data['AuthnetProfile']['payment_expirationDate']));
 //		$this->log($response, 'get_one_time_parsed_response');
 		
 //		[response_code] => 1
@@ -442,15 +747,123 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 //		[test_request] => 0
 //		[account_number] => XXXX3135
 //		[account_type] => Visa
+//		[expiration_date] => Visa
 
 		
-		if ($this->createOrderForProfile($order, false, false, $one_time_response['transaction_id']) !== true) {
-			$return_arr['success'] = false;
-			$return_arr['code'] = 'I00003';
-			$return_arr['declined'] = false;
-			
-			return $return_arr;
-		}
+		///////////////////////////////////
+		// start old create order
+			$this->AuthnetProfile = ClassRegistry::init("AuthnetProfile");
+
+			//build the order
+			$order_save_db = array(); //data to be saved in order table
+
+			$order_save_db['AuthnetOrder']['total'] = $order['total'];
+
+			//tax?
+			if (isset($order['tax'])) {
+				$order_save_db['AuthnetOrder']['tax'] = $order['tax']['amount'];
+			}
+
+			// one time charge
+			if (isset($order['one_time_charge'])) {
+				$order_save_db['AuthnetOrder']['one_time_charge'] = $order['one_time_charge'];
+			}
+
+			//shipping?
+			if (isset($order['shipping'])) {
+				$order_save_db['AuthnetOrder']['shipping'] = $order['shipping']['amount'];
+			}
+
+			foreach ($order['line_items'] as $line_item) {
+				$attach_to_order['itemId'] = $line_item['foreign_key'];
+				$attach_to_order['name'] = $line_item['name'];
+				$attach_to_order['description'] = $line_item['description'];
+				$attach_to_order['quantity'] = $line_item['quantity'];
+				$attach_to_order['unitPrice'] = $line_item['unit_cost'];
+			}
+
+
+			try {
+				if (isset($order['foreign_model'])) {
+					$order_save_db['AuthnetOrder']['foreign_model'] = $order['foreign_model'];
+				}
+
+				if (isset($order['foreign_key'])) {
+					$order_save_db['AuthnetOrder']['foreign_key'] = $order['foreign_key'];
+				}
+				$order_save_db['AuthnetOrder']['authnet_profile_id'] = $order['authnet_profile_id'];
+
+
+				// add in extra one time order data (Andrew)
+				//		[response_code] => 1
+				//		[authorization_code] => G6CI52
+				//		[avs_response] => Y
+				//		[credit_card_validation_code_response] => P
+				//		[cavvResultCode] => 2
+				//		[transaction_id] => 2195858988
+				//		[transaction_hash] => 1924C07E36CB7CB39439C762A3560FD5
+				//		[test_request] => 0
+				//		[account_number] => XXXX3135
+				//		[account_type] => Visa
+				$order_save_db['AuthnetOrder']['full_response'] = print_r($one_time_response, true);
+				if (isset($one_time_response['transaction_id'])) {
+					$order_save_db['AuthnetOrder']['transaction_id'] = $one_time_response['transaction_id'];
+				}
+				if (isset($one_time_response['account_number'])) {
+					$order_save_db['AuthnetOrder']['payment_cc_last_four'] = $one_time_response['account_number'];
+				}
+				if (isset($one_time_response['authorization_code'])) {
+					$order_save_db['AuthnetOrder']['one_time_authorization_code'] = $one_time_response['authorization_code'];
+				}
+				if (isset($one_time_response['expiration_date'])) {
+					$order_save_db['AuthnetOrder']['expiration_date'] = $one_time_response['expiration_date'];
+				}
+
+
+
+
+				$this->create();
+				if ($this->save($order_save_db) == false) {
+					$this->authnet_error('Could not save order', compact('order_save_db'));
+					$return_arr['success'] = false;
+					$return_arr['code'] = 'I00003';
+					$return_arr['declined'] = false;
+
+					return $return_arr;
+				}
+				$this->AuthnetLineItem = ClassRegistry::init("AuthnetLineItem");
+
+				foreach ($order['line_items'] as $item) {
+					$item_save['AuthnetLineItem']['unit_cost'] = $item['unit_cost'];
+					$item_save['AuthnetLineItem']['name'] = $item['name'];
+					$item_save['AuthnetLineItem']['description'] = $item['description'];
+					$item_save['AuthnetLineItem']['quantity'] = $item['quantity'];
+					$item_save['AuthnetLineItem']['foreign_model'] = $item['foreign_model'];
+					$item_save['AuthnetLineItem']['foreign_key'] = $item['foreign_key'];
+					$item_save['AuthnetLineItem']['authnet_order_id'] = $this->id;
+					$item_save['AuthnetLineItem']['authnet_line_item_type_id'] = $item['authnet_line_item_type_id'];
+					$this->AuthnetLineItem->create();
+					if ($this->AuthnetLineItem->save($item_save) == false) {
+						$this->authnet_error('could not save line item');
+						$return_arr['success'] = false;
+						$return_arr['code'] = 'I00003';
+						$return_arr['declined'] = false;
+
+						return $return_arr;
+					}
+				}
+
+			} catch (Exception $e) {
+				$this->authnet_error('an exception has occurred', $e->getMessage());
+				$return_arr['success'] = false;
+				$return_arr['code'] = 'I00003';
+				$return_arr['declined'] = false;
+
+				return $return_arr;
+			}
+		// end old create order
+		/////////////////////////////////////
+		
 		
 		return $return_arr;
 	}
@@ -538,7 +951,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		*     )
 		* )
 		*/
-	public function createOrderForProfile($order, $validate_order = true, $createCIMProfile = true, $one_time_transaction_id = null) {
+	public function createOrderForProfile($order, $validate_order = true, $createCIMProfile = true, $one_time_data = null) {
 		//make sure all required items are there
 		if ($validate_order === true && $this->_validate_order($order) === false) {
 			return false;
@@ -567,7 +980,6 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		
 		// one time charge
 		if (isset($order['one_time_charge'])) {
-			$this->log('made it here 2', 'made_it_here');
 			$order_save_db['AuthnetOrder']['one_time_charge'] = $order['one_time_charge'];
 		}
 
@@ -594,17 +1006,11 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		try {
 			if ($createCIMProfile === true) {
 				$authnet = $this->get_authnet_instance();
-				$this->log($data_to_send, 'data_to_send');
 				$authnet->createCustomerProfileTransactionRequest($data_to_send);
-				$test_response = $authnet->get_response();
-				$this->log($test_response, 'test_response');
 				if ($authnet->isError()) {
 					$parsed_result = $authnet->get_response();
-					$returnArr['success'] = false;
-					$returnArr['code'] = $authnet->get_code();
-					$returnArr['message'] = $authnet->get_message();
-					$this->authnet_error("request failed", compact('parsed_result'));
-					return $returnArr;
+					$this->authnet_error("Authorize CIM create failed", compact('parsed_result'));
+					return false;
 				}
 				$full_parsed_result = $authnet->get_parsed_response();
 			}
@@ -621,29 +1027,40 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			$order_save_db['AuthnetOrder']['authnet_profile_id'] = $order['authnet_profile_id'];
 
 			
-			// add in extra order data (Andrew)
+			// add in extra one time order data (Andrew)
+			//		[response_code] => 1
+			//		[authorization_code] => G6CI52
+			//		[avs_response] => Y
+			//		[credit_card_validation_code_response] => P
+			//		[cavvResultCode] => 2
+			//		[transaction_id] => 2195858988
+			//		[transaction_hash] => 1924C07E36CB7CB39439C762A3560FD5
+			//		[test_request] => 0
+			//		[account_number] => XXXX3135
+			//		[account_type] => Visa
 			$order_save_db['AuthnetOrder']['full_response'] = isset($full_parsed_result) ? print_r($full_parsed_result, true) : '';
 			$order_save_db['AuthnetOrder']['transaction_id'] = isset($full_parsed_result['transaction_id']) ? $full_parsed_result['transaction_id'] : 0;
-			if (isset($one_time_transaction_id)) {
-				$order_save_db['AuthnetOrder']['transaction_id'] = $one_time_transaction_id;
+			if (isset($one_time_data['transaction_id'])) {
+				$order_save_db['AuthnetOrder']['transaction_id'] = $one_time_data['transaction_id'];
+			}
+			if (isset($one_time_data['account_number'])) {
+				$order_save_db['AuthnetOrder']['payment_cc_last_four'] = $one_time_data['account_number'];
+			}
+			if (isset($one_time_data['authorization_code'])) {
+				$order_save_db['AuthnetOrder']['one_time_authorization_code'] = $one_time_data['authorization_code'];
+			}
+			if (isset($one_time_data['expiration_date'])) {
+				$order_save_db['AuthnetOrder']['expiration_date'] = $one_time_data['expiration_date'];
 			}
 			
 			
+			
+			
 			$this->create();
-			$order_save_db['AuthnetOrder']['shipping'] = '3700.00';
-			$this->log($order_save_db, 'made_it_here');
-			$this->log(Configure::read('debug'), 'made_it_here');
 			if ($this->save($order_save_db) == false) {
 				$this->authnet_error('Could not save order', compact('order_save_db'));
 				return false;
 			}
-			$first = $this->find('first', array(
-				'conditions' => array(
-					'AuthnetOrder.id' => $this->id
-				),
-				'contain' => false,
-			));
-			$this->log($first, 'f_ing_first');
 			$this->AuthnetLineItem = ClassRegistry::init("AuthnetLineItem");
 
 			foreach ($order['line_items'] as $item) {
@@ -668,6 +1085,141 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			return false;
 		}
 	}
+	
+	
+	public function approve_order($authnet_order_id) {
+		$authnet_order = $this->find('first', array(
+			'conditions' => array(
+				'AuthnetOrder.id' => $authnet_order_id,
+			),
+			'contain' => array(
+				'AuthnetProfile',
+				'AuthnetLineItem',
+			),
+		));
+		
+		$this->Photo = ClassRegistry::init('Photo');
+		foreach ($authnet_order['AuthnetLineItem'] as &$line_item) {
+			$extra_data = explode("|", $line_item['name']);
+			$line_item['photo_id'] = $extra_data[0];
+			$line_item['print_type_id'] = $extra_data[1];
+			$line_item['short_side_inches'] = $extra_data[2];
+			$line_item['extra_data'] = $this->Photo->get_extra_print_data($line_item['photo_id'], $line_item['print_type_id'], $line_item['short_side_inches']);
+		}
+		
+		
+		//////////////////////////////////////////////////////////
+		// go through each line item and group them all by fulfillment type
+		$items_by_fulfillment_type = array();
+		foreach ($authnet_order['AuthnetLineItem'] as $a_line_item) {
+			$fulfillment_type = ucwords($a_line_item['extra_data']['PhotoPrintType']['print_fulfillment_type']).'Fulfillment';
+		
+			$items_by_fulfillment_type[$fulfillment_type][] = $a_line_item;
+		}
+		
+		
+		//////////////////////////////////////////////////////////
+		// go through each line item and approve each
+		$approval_date = date('Y-m-d H:i:s');
+		foreach ($items_by_fulfillment_type as $fulfillment_type => $line_items) {
+			// DREW TODO - maybe make this more efficient? - but probobly ok since is just done occasionally
+			// grab the filfillment component needed
+			App::import('Component', $fulfillment_type);
+			$new_obj_name = $fulfillment_type.'Component';
+			$fulfillment_obj = new $new_obj_name();
+			
+			
+			// call approve order for the line items of current type
+			if (!$fulfillment_obj->approve_order_line_items($line_items, $approval_date)) {
+				$this->major_error('Failed to approve an order', compact('authnet_order'), 'high');
+				return false;
+			}
+		}
+		
+		
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// mark the order as approved  - assumes all order line items are approved (based on the above code working)
+		// ie - if made it here then order is ok to be approved
+		$authnet_order['AuthnetOrder']['order_status'] = 'approved';
+		$authnet_order['AuthnetOrder']['approval_date'] = $approval_date;
+		if (!$this->save($authnet_order)) {
+			$this->major_error('Failed to set order status as approved', compact('authnet_order'), 'high');
+			return false;
+		}
+		
+		
+		return true;
+	}
+	
+	public function get_payable_orders() {
+		/////////////////////
+		// pay_out_statuses
+		// -----------------------------
+		// not_payed
+		// processing
+		// payed
+		// failed
+		
+		
+		// START HERE TOMORROW DREW TODO - take into account the waiting time for this
+		// -- DREW TODO - check to see if there is enough money in the paypay account
+		// -- DREW TODO - make sure the orders authorize.net accounts have been settled
+		$payable_orders = $this->find('all', array(
+			'conditions' => array(
+				'AuthnetOrder.order_status' => 'approved',
+				'AuthnetOrder.pay_out_status' => 'not_payed',
+				'AuthnetOrder.approval_date IS NOT NULL',
+			),
+			'contain' => false,
+			'order' => array(
+				'AuthnetOrder.id DESC'
+			),
+		));
+		
+		return $payable_orders;
+	}
+	
+	public function are_orders_payable($order_ids) {
+		// create array of keys of payable order ids
+		$payable_orders = $this->get_payable_orders();
+		$payable_order_ids = Set::extract('/AuthnetOrder/id', $payable_orders);
+		$payable_order_ids = array_combine($payable_order_ids, $payable_order_ids);
+		
+		
+		// make sure all order ids are a key in above array
+		foreach ($order_ids as $order_id) {
+			if (!isset($payable_order_ids[$order_id])) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	public function set_orders_status($order_ids, $status) {
+		$ids = implode(',', $order_ids);
+		$query = "UPDATE authnet_orders AS AuthnetOrder 
+					SET order_status='$status'
+					WHERE AuthnetOrder.id IN ($ids)
+				 ";
+		
+		return $this->query($query);
+	}
+	
+	public function set_orders_pay_out_status($order_ids, $status) {
+		$ids = implode(',', $order_ids);
+		$query = "UPDATE authnet_orders AS AuthnetOrder 
+					SET pay_out_status='$status'
+					WHERE AuthnetOrder.id IN ($ids)
+				 ";
+		
+		return $this->query($query);
+	}
+	
+	public function verify_order_status($authnet_order_id) {
+		// DREW TODO - finish this function if needed
+	}
+	
         
 	/**
 		* Make sure that we have good data passed to createOrder

@@ -17,6 +17,8 @@
 			<?php echo $this->Element('admin/menu', array( 'curr_page' => 'dashboard' )); ?>
 		</div>
 		<div id="middle" class="rounded-corners">
+			<?php echo $this->Session->flash(); ?>
+			<br/><br/>
 			<?php echo $content_for_layout; ?>
 		</div>
 		<div id="footer"></div>
