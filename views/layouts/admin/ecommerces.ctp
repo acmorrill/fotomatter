@@ -36,9 +36,15 @@
 					'name' => __('Order Management', true),
 					'url' => "/admin/ecommerces/order_management"
 				);
+				$subnav['pages'][] = array(
+					'name' => __('Get Paid', true),
+					'url' => "/admin/ecommerces/get_paid/"
+				);
 
 				echo $this->Element('/admin/submenu', array( 'subnav' => $subnav ));
 			?>
+			<?php echo $this->Session->flash(); ?>
+			<br/><br/>
 			<?php echo $content_for_layout; ?>
 		</div>
 		<div id="footer"></div>

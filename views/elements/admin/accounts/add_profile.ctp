@@ -23,7 +23,6 @@
     
 </script>
 <div class="profile-outer-cont">
-    <?php echo $this->Session->flash(); ?>
     <form id="payment_details_client" action="#" onSubmit="send_form(); return false;">
         <div class="address">
             <input type='hidden' id='billing_id' name='data[AuthnetProfile][id]' value="<?php echo empty($current_data['AuthnetProfile']['id'])==false?$current_data['AuthnetProfile']['id']:''; ?>" />
