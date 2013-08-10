@@ -23,21 +23,89 @@ class EcommercesController extends AppController {
 	}
 	
 	
-	
+	public function admin_payout_orders() {
+		$this->PaypalReimbursementLog = ClassRegistry::init('PaypalReimbursementLog');
+		
+		/////////////////////////////////////////////////
+		// do this whole function while locked
+		//---------------------------------------------------------------------
+		$lock_name = 'paying_out_orders';
+		$lock = $this->PaypalReimbursementLog->get_lock($lock_name, 8);
+			if ($lock === false) {
+				// DREW TODO - fail here
+				$this->redirect('/admin/ecommerces/get_payed/');
+			}
+		
+		
+			///////////////////////////////////////////////////////////////
+			// do the locked code
+			$payable_order_ids = $this->data['payout_order_ids'];
+
+
+			// make sure all the payable order ids are still payable
+			if ($this->AuthnetOrder->are_orders_payable($payable_order_ids) === false) {
+				$this->release_lock($lock_name);
+				// START HERE TOMORROW DREW TODO - fail here
+				$this->redirect('/admin/ecommerces/get_payed/');
+			} 
+
+
+			
+			///////////////////////////////////////////////////////////////////
+			// actually send out the payment for the orders via paypal 
+			// (if this fails need to set everything back the way it was)
+			$logged_in_user = $this->Auth->user();
+			if (empty($logged_in_user['User']['email_address'])) {
+				$this->major_error('2 No email address to get payed via paypal with!', compact('logged_in_user', 'payable_order_ids'), 'high');
+				$this->Session->setFlash('Cannot get paid on orders. Please contact support.');
+				$this->release_lock($lock_name);
+				$this->redirect('/admin/ecommerces/get_payed/');
+				// START HERE TOMORROW DREW TODO - finish this error case
+			}
+			$user_email_address = $logged_in_user['User']['email_address'];
+			$amount = $this->AuthnetOrder->get_order_totals($payable_order_ids);
+			// mark all the payable orders as being in the process of paying
+			$this->AuthnetOrder->set_orders_pay_out_status($payable_order_ids, 'processing');
+			$send_payment_result = $this->AuthnetOrder->send_photographer_payment_via_paypal($amount, $logged_in_user, $payable_order_ids);
+			if ($send_payment_result === false) {
+				$this->AuthnetOrder->set_orders_pay_out_status($payable_order_ids, 'not_payed'); // DREW TODO - maybe mark as error?
+				$this->major_error('Failed to reimmburse for orders', compact('logged_in_user', 'payable_order_ids', 'amount'), 'high');
+				$this->Session->setFlash('Cannot get paid on orders. Please contact support.');
+				$this->release_lock($lock_name);
+				$this->redirect('/admin/ecommerces/get_payed/');
+				// START HERE TOMORROW DREW TODO - finish this error case
+			}
+			
+			
+			// payment worked so now mark orders as payed
+			$this->AuthnetOrder->set_orders_pay_out_status($payable_order_ids, 'payed');
+		$this->PaypalReimbursementLog->release_lock($lock_name);
+		//---------------------------------------------------------------------
+		
+		
+		$this->Session->setFlash("A payment of $$amount was sent to $user_email_address via Paypal."); // DREW TODO - translate this string and make sure its good
+		$this->redirect('/admin/ecommerces/order_management/');
+	}
 	
 	// START HERE TOMORROW - DREW TODO - redo and finish this function
 	public function admin_get_paid() {
+		// DREW TODO remove this - just for testing
+//		$this->AuthnetOrder->set_orders_pay_out_status(array('48','49','50','51','52'), 'not_payed');
+		
 		// get all the payableorders
 		$payable_orders = $this->AuthnetOrder->get_payable_orders();
 		
-//		$this->log($payable_orders, 'admin_get_paid');
 		
-		$this->set(compact('payable_orders'));
-	}
-	
-	
-	public function admin_send_amount($amount) {
-		$this->AuthnetOrder->send_photographer_payment_via_paypal($amount, $this->Session->read('Auth.User'));
+		// find users email address that will get paypal email
+		$logged_in_user = $this->Auth->user();
+		if (empty($logged_in_user['User']['email_address'])) {
+			$this->major_error('No email address to get payed via paypal with!', compact('logged_in_user', 'payable_orders'), 'high');
+			$this->Session->setFlash('Cannot get paid on orders. Please contact support.');
+		}
+		$payable_paypal_email_address = $logged_in_user['User']['email_address'];
+		
+		
+		$this->set(compact('payable_orders', 'payable_paypal_email_address'));
 	}
 	
 	public function admin_reset_print_sizes() {
@@ -434,8 +502,8 @@ class EcommercesController extends AppController {
 	}
 	
 	public function view_cart() {
-		$this->Cart->create_fake_cart_items(); // DREW TODO - delete this line
-//		$this->Cart->create_fake_cart_items_laptop(); // DREW TODO - delete this line
+//		$this->Cart->create_fake_cart_items(); // DREW TODO - delete this line
+		$this->Cart->create_fake_cart_items_laptop(); // DREW TODO - delete this line
 		
 		$this->ThemeRenderer->render($this);
 	}

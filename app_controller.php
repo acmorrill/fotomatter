@@ -48,6 +48,14 @@ class AppController extends Controller {
      * @access public
      */
     function beforeFilter() {
+		// DREW TODO - for testing only!
+		if (Configure::read('debug') > 0) {
+			$this->Session->setFlash('If you do not see this on a page that page is not outputting any flash messages and there also is no flash message to display. For testing only.');
+		}
+		
+		
+		
+		
 		///////////////////////////////////////////////////////
 		// setup mobile settings for mobile theming
 		$this->is_mobile = false;

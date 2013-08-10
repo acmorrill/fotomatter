@@ -83,8 +83,6 @@
 		</form>
 	</div>
 	
-	<?php echo $this->Session->flash(); ?>
-	
 	<div class="custom_ui" style="margin: 5px; margin-bottom: 15px;">
 		<input id="change_logo_button" class="add_button" type="submit" value="<?php __('Choose Different Logo'); ?>" />
 	</div>

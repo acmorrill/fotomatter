@@ -1,5 +1,3 @@
-<?php echo $this->Session->flash(); ?>
-
 <?php 
 //debug($is_voidable);
 //debug($is_refundable);

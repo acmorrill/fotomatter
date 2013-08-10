@@ -2178,6 +2178,19 @@ div#sub-nav ul li.title a {
   padding: 20px;
   vertical-align: middle;
 }
+#payable_orders_table {
+  width: 100%;
+}
+#payable_orders_table,
+#payable_orders_table th,
+#payable_orders_table td {
+  border: 1px solid black;
+  padding: 20px;
+  vertical-align: middle;
+}
+#payable_orders_table tfoot tr td {
+  text-align: right;
+}
 #account-details {
   padding: 0px 15px;
 }
