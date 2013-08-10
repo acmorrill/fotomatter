@@ -50,22 +50,10 @@
 				<td class="photo_title <?php if ($this->Paginator->sortKey('Photo') == 'Photo.display_title'): ?> curr<?php endif; ?>"><?php echo $curr_photo['Photo']['display_title']; ?> </td> 
 				<td class="photo_enabled <?php if ($this->Paginator->sortKey('Photo') == 'Photo.enabled'): ?> curr<?php endif; ?>"><?php echo ($curr_photo['Photo']['enabled'] == 0) ? __('NO', true): __('YES', true); ?> </td> 
 				<td class="photo_format <?php if ($this->Paginator->sortKey('Photo') == 'PhotoFormat.display_name'): ?> curr<?php endif; ?>"><?php echo $curr_photo['PhotoFormat']['display_name']; ?> </td> 
-				<?php 
-					if (date("Y", strtotime($curr_photo['Photo']['modified'])) == date('Y')) {
-						$modified_format = "F j, g:i A";
-					} else {
-						$modified_format = "F j Y, g:i A";
-					}
-					if (date("Y", strtotime($curr_photo['Photo']['created'])) == date('Y')) {
-						$created_format = "F j, g:i A";
-					} else {
-						$created_format = "F j Y, g:i A";
-					}
-				?>
-				
-				<?php $created_current_year = date("Y", strtotime($curr_photo['Photo']['created'])) == date('Y'); ?>
-				<td class="photo_modified <?php if ($this->Paginator->sortKey('Photo') == 'Photo.modified'): ?> curr<?php endif; ?>"><?php echo date($modified_format, strtotime($curr_photo['Photo']['modified'])); ?> </td> 
-				<td class="photo_created <?php if ($this->Paginator->sortKey('Photo') == 'Photo.created'): ?> curr<?php endif; ?>"><?php echo date($created_format, strtotime($curr_photo['Photo']['created'])); ?> </td> 
+				<?php $modified_date = $this->Util->get_formatted_created_date($curr_photo['Photo']['modified']); ?>
+				<?php $created_date = $this->Util->get_formatted_created_date($curr_photo['Photo']['created']); ?>
+				<td class="photo_modified <?php if ($this->Paginator->sortKey('Photo') == 'Photo.modified'): ?> curr<?php endif; ?>"><?php echo $modified_date; ?> </td> 
+				<td class="photo_created <?php if ($this->Paginator->sortKey('Photo') == 'Photo.created'): ?> curr<?php endif; ?>"><?php echo $created_date; ?> </td> 
 				<td class="photo_action last">
 					<a href="/admin/photos/edit/<?php echo $curr_photo['Photo']['id']; ?>/"><?php __('Edit'); ?></a>
 				</td>

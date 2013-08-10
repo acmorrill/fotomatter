@@ -35,7 +35,6 @@
 </script>
 
 
-<?php echo $this->Session->flash(); ?>
 <div class="right">
 	<?php echo $this->Element('admin/pages/add_page'); ?>
 </div>
@@ -61,20 +60,10 @@
 				<tr page_id="<?php echo $curr_page['SitePage']['id']; ?>">
 					<td class="page_id first"><div class="reorder_page_grabber reorder_grabber" /> </td> 
 					<td class="page_name "><?php echo $curr_page['SitePage']['title']; ?> </td> 
-					<?php 
-						if (date("Y", strtotime($curr_page['SitePage']['modified'])) == date('Y')) {
-							$modified_format = "F j, g:i A";
-						} else {
-							$modified_format = "F j Y, g:i A";
-						}
-						if (date("Y", strtotime($curr_page['SitePage']['created'])) == date('Y')) {
-							$created_format = "F j, g:i A";
-						} else {
-							$created_format = "F j Y, g:i A";
-						}
-					?>
-					<td class="page_modified"><?php echo date($modified_format, strtotime($curr_page['SitePage']['modified'])); ?> </td> 
-					<td class="page_created"><?php echo date($created_format, strtotime($curr_page['SitePage']['created'])); ?> </td> 
+					<?php $modified_date = $this->Util->get_formatted_created_date($curr_page['SitePage']['modified']); ?>
+					<?php $created_date = $this->Util->get_formatted_created_date($curr_page['SitePage']['created']); ?>
+					<td class="page_modified"><?php echo $modified_date; ?> </td> 
+					<td class="page_created"><?php echo $created_date; ?> </td> 
 					<td class="page_action last">
 						<a href="/admin/site_pages/edit_page/<?php echo $curr_page['SitePage']['id']; ?>/"><?php __('Edit'); ?></a>
 						<?php if (isset($curr_page['SitePage']['type']) && $curr_page['SitePage']['type'] == 'custom'): ?>

@@ -76,7 +76,38 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 //        return $nvpResArray;
 //    }
 	
-	public function send_photographer_payment_via_paypal($amount, $logged_in_user_data) {
+	public function get_order_totals($order_ids) {
+		$ids = implode(',', $order_ids);
+		$query = "SELECT SUM(AuthnetOrder.total) 
+					FROM authnet_orders AS AuthnetOrder
+					WHERE AuthnetOrder.id IN ($ids);
+		";
+		
+		$total_arr = $this->query($query);
+		
+		
+		$total = $total_arr[0][0]['SUM(AuthnetOrder.total)'];
+		$this->log($total, 'get_order_totals');
+		
+//		(
+//			[0] => Array
+//				(
+//					[0] => Array
+//						(
+//							[SUM(AuthnetOrder.total)] => 500.00
+//						)
+//
+//				)
+//
+//		)
+
+		
+		return $total;
+	}
+	
+	public function send_photographer_payment_via_paypal($amount, $logged_in_user_data, $payable_order_ids) {
+		// START HERE TOMORROW - DREW TODO - refactor the below code - and change the crendials to live
+		
 		// paypal sandbox credentials - 
 //		$credentials = array(
 //			'API_USERNAME' => 'acmorrill-facilitator_api1.gmail.com',
@@ -95,7 +126,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			'SUBJECT' => '',
 		);
 		
-		$refund_note = "Paying {$logged_in_user_data['email_address']} with user_id {$logged_in_user_data['id']} for recent orders.";
+		$refund_note = "Paying {$logged_in_user_data['User']['email_address']} with user_id {$logged_in_user_data['User']['id']} for recent orders.";
 		$subject = "Fotomatter Payment"; // DREW TODO - make this subject better
 		$type = "EmailAddress";
 		$currency = "USD";
@@ -107,7 +138,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 					   "&VERSION=".urlencode($credentials['VERSION']);
              
 		$base_call  = "&METHOD=MassPay".
-					  "&L_EMAIL0=".$logged_in_user_data['email_address'].
+					  "&L_EMAIL0=".$logged_in_user_data['User']['email_address'].
 					  "&L_AMT0=".$amount.
 //					  "&L_UNIQUEID0=".$logged_in_user_data['id'].
 					  "&L_NOTE0=".$refund_note.
@@ -162,10 +193,8 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			$curl_errno = curl_errno($ch);
 			$this->major_error('Curl error for paypal masspayment API', compact('curl_error', 'curl_errno', 'nvpReqArray', 'nvpResArray'), 'high');
 			return false;
-		} else {
-			//Closing the curl
-			curl_close($ch);
-		}
+		} 
+		curl_close($ch);
          
           
 		// parse the response to the API request 
@@ -179,9 +208,19 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			$this->major_error('Failed to send payment via paypal masspayment API', compact('nvpReqArray', 'nvpResArray', 'credentials', 'amount', 'logged_in_user_data'), 'high');
 			return false;
 		}
-
-		// START HERE TOMORROW -  DREW TODO - record the data to the paypal_reimbursement_log table
 		
+		
+		// record the payment to the paypal_reimbursement_log table
+		$this->PaypalReimbursementLog = ClassRegistry::init('PaypalReimbursementLog');
+		$paypal_payment_log = array();
+		$paypal_payment_log['PaypalReimbursementLog']['amount'] = $amount;
+		$paypal_payment_log['PaypalReimbursementLog']['order_ids'] = implode(',', $payable_order_ids);
+		$paypal_payment_log['PaypalReimbursementLog']['all_data'] = print_r(compact('nvpReqArray', 'nvpResArray', 'credentials', 'amount', 'logged_in_user_data'), true);
+		$this->PaypalReimbursementLog->create();
+		if (!$this->PaypalReimbursementLog->save($paypal_payment_log)) {
+			$this->major_error('Failed to create a entry in the PaypalReimbursementLog', compact('paypal_payment_log', 'curl_error', 'curl_errno', 'nvpReqArray', 'nvpResArray'), 'high');
+		}
+
 		return true;
 	}
 	
@@ -970,11 +1009,8 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 				$authnet->createCustomerProfileTransactionRequest($data_to_send);
 				if ($authnet->isError()) {
 					$parsed_result = $authnet->get_response();
-					$returnArr['success'] = false;
-					$returnArr['code'] = $authnet->get_code();
-					$returnArr['message'] = $authnet->get_message();
-					$this->authnet_error("request failed", compact('parsed_result'));
-					return $returnArr;
+					$this->authnet_error("Authorize CIM create failed", compact('parsed_result'));
+					return false;
 				}
 				$full_parsed_result = $authnet->get_parsed_response();
 			}
@@ -1124,6 +1160,10 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		// payed
 		// failed
 		
+		
+		// START HERE TOMORROW DREW TODO - take into account the waiting time for this
+		// -- DREW TODO - check to see if there is enough money in the paypay account
+		// -- DREW TODO - make sure the orders authorize.net accounts have been settled
 		$payable_orders = $this->find('all', array(
 			'conditions' => array(
 				'AuthnetOrder.order_status' => 'approved',
@@ -1131,9 +1171,49 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 				'AuthnetOrder.approval_date IS NOT NULL',
 			),
 			'contain' => false,
+			'order' => array(
+				'AuthnetOrder.id DESC'
+			),
 		));
 		
 		return $payable_orders;
+	}
+	
+	public function are_orders_payable($order_ids) {
+		// create array of keys of payable order ids
+		$payable_orders = $this->get_payable_orders();
+		$payable_order_ids = Set::extract('/AuthnetOrder/id', $payable_orders);
+		$payable_order_ids = array_combine($payable_order_ids, $payable_order_ids);
+		
+		
+		// make sure all order ids are a key in above array
+		foreach ($order_ids as $order_id) {
+			if (!isset($payable_order_ids[$order_id])) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	public function set_orders_status($order_ids, $status) {
+		$ids = implode(',', $order_ids);
+		$query = "UPDATE authnet_orders AS AuthnetOrder 
+					SET order_status='$status'
+					WHERE AuthnetOrder.id IN ($ids)
+				 ";
+		
+		return $this->query($query);
+	}
+	
+	public function set_orders_pay_out_status($order_ids, $status) {
+		$ids = implode(',', $order_ids);
+		$query = "UPDATE authnet_orders AS AuthnetOrder 
+					SET pay_out_status='$status'
+					WHERE AuthnetOrder.id IN ($ids)
+				 ";
+		
+		return $this->query($query);
 	}
 	
 	public function verify_order_status($authnet_order_id) {
