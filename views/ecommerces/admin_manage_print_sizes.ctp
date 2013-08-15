@@ -1,6 +1,5 @@
 <script type="text/javascript">
 	jQuery(document).ready(function() {
-		console.log ("document loaded");
 		jQuery('#reset_printsize_button').click(function(e) {
 			e.preventDefault();
 			
@@ -14,7 +13,6 @@
 	});
 </script>
 
-<?php echo $this->Session->flash(); ?>
 <div class="right">
 	<div class="add_gallery_element custom_ui" style="margin: 5px; margin-bottom: 15px;">
 		<form action="/admin/ecommerces/add_print_size/" method="get" style="float: right;">

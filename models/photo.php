@@ -290,8 +290,8 @@ class Photo extends AppModel {
 				'contain' => false
 			));
 			foreach ($all_cache_sizes as $all_cache_size) {
-				$initLocked = $this->query("SELECT GET_LOCK('start_create_cache_".$this->id."', 8)");
-				if ($initLocked['0']['0']["GET_LOCK('start_create_cache_".$this->id."', 8)"] == 0 || $initLocked['0']['0']["GET_LOCK('start_create_cache_".$this->id."', 8)"] == null) {
+				$initLocked = $this->get_lock("start_create_cache_".$this->id, 8);
+				if ($initLocked === false) {
 					continue;
 				}
 
@@ -309,11 +309,11 @@ class Photo extends AppModel {
 					if (!$photoCache) {
 						$photo_cache_id = $this->PhotoCache->prepare_new_cachesize($this->id, $all_cache_size['PhotoPrebuildCacheSize']['max_height'], $all_cache_size['PhotoPrebuildCacheSize']['max_width'], true);
 					} else {
-						$releaseLock = $this->query("SELECT RELEASE_LOCK('start_create_cache_".$this->id."')");
+						$releaseLock = $this->release_lock("start_create_cache_".$this->id);
 						continue;
 					}
 
-				$releaseLock = $this->query("SELECT RELEASE_LOCK('start_create_cache_".$this->id."')");
+				$releaseLock = $this->release_lock("start_create_cache_".$this->id);
 
 				ignore_user_abort(true);
 				set_time_limit(0);
@@ -392,8 +392,8 @@ class Photo extends AppModel {
 			} else if ( $photoCache['PhotoCache']['status'] == 'failed' ) {
 				$return_url = $this->PhotoCache->get_dummy_error_image_path($height, $width, false, $return_tag_attributes, $crop);
 			} else {
-				$initLocked = $this->query("SELECT GET_LOCK('finish_create_cache_".$photoCache['PhotoCache']['id']."', 8)");
-				if ($initLocked['0']['0']["GET_LOCK('finish_create_cache_".$photoCache['PhotoCache']['id']."', 8)"] == 0 || $initLocked['0']['0']["GET_LOCK('finish_create_cache_".$photoCache['PhotoCache']['id']."', 8)"] == null) {
+				$initLocked = $this->get_lock("finish_create_cache_".$photoCache['PhotoCache']['id'], 8);
+				if ($initLocked === false) {
 					return $this->PhotoCache->get_dummy_processing_image_path($height, $width, false, $return_tag_attributes, $crop);
 				}
 
@@ -411,11 +411,11 @@ class Photo extends AppModel {
 					$return_url = $this->PhotoCache->get_dummy_error_image_path($height, $width, false, $return_tag_attributes, $crop);
 				}
 
-				$releaseLock = $this->query("SELECT RELEASE_LOCK('finish_create_cache_".$photoCache['PhotoCache']['id']."')");
+				$releaseLock = $this->release_lock("finish_create_cache_".$photoCache['PhotoCache']['id']);
 			}
 		} else {
-			$initLocked = $this->query("SELECT GET_LOCK('start_create_cache_".$photo_id."', 8)");
-			if ($initLocked['0']['0']["GET_LOCK('start_create_cache_".$photo_id."', 8)"] == 0 || $initLocked['0']['0']["GET_LOCK('start_create_cache_".$photo_id."', 8)"] == null) {
+			$initLocked = $this->get_lock("start_create_cache_".$photo_id, 8);
+			if ($initLocked === false) {
 				return $this->PhotoCache->get_dummy_processing_image_path($height, $width, false, $return_tag_attributes, $crop);
 			}
 				// grab again after lock - to make sure we are not conflicting
@@ -429,7 +429,7 @@ class Photo extends AppModel {
 					$return_url = $this->PhotoCache->get_dummy_error_image_path($height, $width, false, $return_tag_attributes, $crop);
 				}
 			
-			$releaseLock = $this->query("SELECT RELEASE_LOCK('start_create_cache_".$photo_id."')");
+			$releaseLock = $this->release_lock("start_create_cache_".$photo_id);
 		}
 		
 		return preg_replace( '/\s+/', '', $return_url );

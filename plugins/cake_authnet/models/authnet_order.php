@@ -76,19 +76,57 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 //        return $nvpResArray;
 //    }
 	
-	public function send_photographer_payment_via_paypal($amount, $logged_in_user_data) {
-		// paypal sandbox credentials - START HERE TOMORROW - DREW TODO - make this better later
+	public function get_order_totals($order_ids) {
+		$ids = implode(',', $order_ids);
+		$query = "SELECT SUM(AuthnetOrder.total) 
+					FROM authnet_orders AS AuthnetOrder
+					WHERE AuthnetOrder.id IN ($ids);
+		";
+		
+		$total_arr = $this->query($query);
+		
+		
+		$total = $total_arr[0][0]['SUM(AuthnetOrder.total)'];
+		$this->log($total, 'get_order_totals');
+		
+//		(
+//			[0] => Array
+//				(
+//					[0] => Array
+//						(
+//							[SUM(AuthnetOrder.total)] => 500.00
+//						)
+//
+//				)
+//
+//		)
+
+		
+		return $total;
+	}
+	
+	public function send_photographer_payment_via_paypal($amount, $logged_in_user_data, $payable_order_ids) {
+		// START HERE TOMORROW - DREW TODO - refactor the below code - and change the crendials to live
+		
+		// paypal sandbox credentials - 
+//		$credentials = array(
+//			'API_USERNAME' => 'acmorrill-facilitator_api1.gmail.com',
+//			'API_PASSWORD' => '1375235502',
+//			'API_SIGNATURE' => 'A77j959Pqig6qJbPbnjY4Z-qjG5CA4ygwzjgdkTH8na-CvJDrZQnVeHI',
+//			'API_ENDPOINT' => 'https://api-3t.sandbox.paypal.com/nvp',
+//			'VERSION' => '104',
+//			'SUBJECT' => '',
+//		);
 		$credentials = array(
-			'API_USERNAME' => 'acmorrill-facilitator_api1.gmail.com',
-			'API_PASSWORD' => '1375235502',
-			'API_SIGNATURE' => 'A77j959Pqig6qJbPbnjY4Z-qjG5CA4ygwzjgdkTH8na-CvJDrZQnVeHI',
+			'API_USERNAME' => 'acmorrill_api1.gmail.com',
+			'API_PASSWORD' => '1376003579',
+			'API_SIGNATURE' => 'AzaYvS4XSOUNXi2X-BUTSvLaG.rIA1CgDbTymfWTnnNUtxKsZ-42WqTK',
 			'API_ENDPOINT' => 'https://api-3t.sandbox.paypal.com/nvp',
 			'VERSION' => '104',
 			'SUBJECT' => '',
 		);
 		
-		// START HERE TOMORROW - DREW TODO - make the below code better!!
-		$refund_note = "Paying {$logged_in_user_data['email_address']} with user_id {$logged_in_user_data['id']} for recent orders.";
+		$refund_note = "Paying {$logged_in_user_data['User']['email_address']} with user_id {$logged_in_user_data['User']['id']} for recent orders.";
 		$subject = "Fotomatter Payment"; // DREW TODO - make this subject better
 		$type = "EmailAddress";
 		$currency = "USD";
@@ -99,7 +137,8 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 //					   "&SUBJECT=".urlencode($credentials['SUBJECT']).
 					   "&VERSION=".urlencode($credentials['VERSION']);
              
-		$base_call  = "&L_EMAIL0=".$logged_in_user_data['email_address'].
+		$base_call  = "&METHOD=MassPay".
+					  "&L_EMAIL0=".$logged_in_user_data['User']['email_address'].
 					  "&L_AMT0=".$amount.
 //					  "&L_UNIQUEID0=".$logged_in_user_data['id'].
 					  "&L_NOTE0=".$refund_note.
@@ -109,8 +148,102 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		
         $call = $header_call.$base_call;
 		
-		$this->log($call, 'send_photographer_payment_via_paypal');
+		
+		//setting the curl parameters.
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $credentials['API_ENDPOINT']);
+        curl_setopt($ch, CURLOPT_VERBOSE, 1);
+         
+        //Turning off the server and peer verification(TrustManager Concept).
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+         
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+         
+        //If USE_PROXY constant set to TRUE in Constants.php, then only proxy will be enabled.
+        //Set proxy name to PROXY_HOST and port number to PROXY_PORT in constants.php
+        /*if(USE_PROXY)
+            curl_setopt ($ch, CURLOPT_PROXY, PROXY_HOST.":".PROXY_PORT);*/
+         
+        //Check if version is included in $nvpStr else include the version.
+//        if(strlen(str_replace('VERSION=', '', strtoupper($call))) == strlen($call)) {
+//             
+//            $nvpStr = "&VERSION=" . urlencode($this->version) . $call;  
+//        }
+//         
+//        $nvpreq="METHOD=".urlencode($methodName).$call;
+//         
+//        $this->last_request = $nvpreq;
+         
+		
+        //Setting the nvpreq as POST FIELD to curl
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $call);
+         
+        //Getting response from server
+        $response = curl_exec($ch);
+         
+        //Converting NVPResponse to an Associative Array
+        $nvpResArray = $this->deformatNVP($response);
+        $nvpReqArray = $this->deformatNVP($call);
+        $_SESSION['nvpReqArray'] = $nvpReqArray;
+         
+        if (curl_errno($ch)) {
+			$curl_error = curl_error($ch);
+			$curl_errno = curl_errno($ch);
+			$this->major_error('Curl error for paypal masspayment API', compact('curl_error', 'curl_errno', 'nvpReqArray', 'nvpResArray'), 'high');
+			return false;
+		} 
+		curl_close($ch);
+         
+          
+		// parse the response to the API request 
+//		[TIMESTAMP] => 2013-08-08T23:18:02Z
+//		[CORRELATIONID] => 35d727e68d0a1
+//		[ACK] => Success
+//		[VERSION] => 104
+//		[BUILD] => 7161310
+//		$this->log($nvpResArray, 'send_photographer_payment_via_paypal');
+		if ($nvpResArray['ACK'] !== 'Success') {
+			$this->major_error('Failed to send payment via paypal masspayment API', compact('nvpReqArray', 'nvpResArray', 'credentials', 'amount', 'logged_in_user_data'), 'high');
+			return false;
+		}
+		
+		
+		// record the payment to the paypal_reimbursement_log table
+		$this->PaypalReimbursementLog = ClassRegistry::init('PaypalReimbursementLog');
+		$paypal_payment_log = array();
+		$paypal_payment_log['PaypalReimbursementLog']['amount'] = $amount;
+		$paypal_payment_log['PaypalReimbursementLog']['order_ids'] = implode(',', $payable_order_ids);
+		$paypal_payment_log['PaypalReimbursementLog']['all_data'] = print_r(compact('nvpReqArray', 'nvpResArray', 'credentials', 'amount', 'logged_in_user_data'), true);
+		$this->PaypalReimbursementLog->create();
+		if (!$this->PaypalReimbursementLog->save($paypal_payment_log)) {
+			$this->major_error('Failed to create a entry in the PaypalReimbursementLog', compact('paypal_payment_log', 'curl_error', 'curl_errno', 'nvpReqArray', 'nvpResArray'), 'high');
+		}
+
+		return true;
 	}
+	
+	public function deformatNVP($nvpstr) {
+        $intial=0;
+        $nvpArray = array();
+     
+        while(strlen($nvpstr)) {
+			//postion of Key
+			$keypos= strpos($nvpstr,'=');
+			//position of value
+			$valuepos = strpos($nvpstr,'&') ? strpos($nvpstr,'&'): strlen($nvpstr);
+
+			/*getting the Key and Value values and storing in a Associative Array*/
+			$keyval=substr($nvpstr,$intial,$keypos);
+			$valval=substr($nvpstr,$keypos+1,$valuepos-$keypos-1);
+			//decoding the respose
+			$nvpArray[urldecode($keyval)] = urldecode( $valval);
+			$nvpstr = substr($nvpstr,$valuepos+1,strlen($nvpstr));
+		}
+          
+        return $nvpArray;
+    }
 	
 	
 	private function get_authnet_order($authnet_order_id) {
@@ -876,11 +1009,8 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 				$authnet->createCustomerProfileTransactionRequest($data_to_send);
 				if ($authnet->isError()) {
 					$parsed_result = $authnet->get_response();
-					$returnArr['success'] = false;
-					$returnArr['code'] = $authnet->get_code();
-					$returnArr['message'] = $authnet->get_message();
-					$this->authnet_error("request failed", compact('parsed_result'));
-					return $returnArr;
+					$this->authnet_error("Authorize CIM create failed", compact('parsed_result'));
+					return false;
 				}
 				$full_parsed_result = $authnet->get_parsed_response();
 			}
@@ -1030,6 +1160,10 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		// payed
 		// failed
 		
+		
+		// START HERE TOMORROW DREW TODO - take into account the waiting time for this
+		// -- DREW TODO - check to see if there is enough money in the paypay account
+		// -- DREW TODO - make sure the orders authorize.net accounts have been settled
 		$payable_orders = $this->find('all', array(
 			'conditions' => array(
 				'AuthnetOrder.order_status' => 'approved',
@@ -1037,9 +1171,49 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 				'AuthnetOrder.approval_date IS NOT NULL',
 			),
 			'contain' => false,
+			'order' => array(
+				'AuthnetOrder.id DESC'
+			),
 		));
 		
 		return $payable_orders;
+	}
+	
+	public function are_orders_payable($order_ids) {
+		// create array of keys of payable order ids
+		$payable_orders = $this->get_payable_orders();
+		$payable_order_ids = Set::extract('/AuthnetOrder/id', $payable_orders);
+		$payable_order_ids = array_combine($payable_order_ids, $payable_order_ids);
+		
+		
+		// make sure all order ids are a key in above array
+		foreach ($order_ids as $order_id) {
+			if (!isset($payable_order_ids[$order_id])) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	public function set_orders_status($order_ids, $status) {
+		$ids = implode(',', $order_ids);
+		$query = "UPDATE authnet_orders AS AuthnetOrder 
+					SET order_status='$status'
+					WHERE AuthnetOrder.id IN ($ids)
+				 ";
+		
+		return $this->query($query);
+	}
+	
+	public function set_orders_pay_out_status($order_ids, $status) {
+		$ids = implode(',', $order_ids);
+		$query = "UPDATE authnet_orders AS AuthnetOrder 
+					SET pay_out_status='$status'
+					WHERE AuthnetOrder.id IN ($ids)
+				 ";
+		
+		return $this->query($query);
 	}
 	
 	public function verify_order_status($authnet_order_id) {

@@ -1,7 +1,5 @@
 <script src="/js/jquery-file-upload/js/jquery.iframe-transport.js"></script>
 <script src="/js/jquery-file-upload/js/jquery.fileupload.js"></script>
-<?php echo $this->Session->flash(); ?>
-<br/>
 
 <script type="text/javascript">
 	/*
