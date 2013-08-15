@@ -295,8 +295,9 @@ class PhotoCache extends AppModel {
 		}
 		
 		$photo_cache_id = $photoCache['PhotoCache']['id'];
-		$initLocked = $this->query("SELECT GET_LOCK('finish_create_cache_".$photo_cache_id."', 8)");
-		if ($initLocked['0']['0']["GET_LOCK('finish_create_cache_".$photo_cache_id."', 8)"] == 0 || $initLocked['0']['0']["GET_LOCK('finish_create_cache_".$photo_cache_id."', 8)"] == null) {
+		$initLocked = $this->get_lock("finish_create_cache_".$photo_cache_id, 8);
+		if ($initLocked === false) {
+			// DREW TODO - should maybe put a major_error here
 			if ( !empty($photoCache['PhotoCache']['max_height']) || !empty($photoCache['PhotoCache']['max_width']) ) {
 				return $this->get_dummy_processing_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], $direct_output, false, $photoCache['PhotoCache']['crop']);
 			} else {
@@ -306,7 +307,7 @@ class PhotoCache extends AppModel {
 
 
 		if ($photoCache['PhotoCache']['status'] != 'queued') {
-			$this->query("SELECT RELEASE_LOCK('finish_create_cache_".$photo_cache_id."')");
+			$releaseLock = $this->release_lock("finish_create_cache_".$photo_cache_id);
 			if ( !empty($photoCache['PhotoCache']['max_height']) || !empty($photoCache['PhotoCache']['max_width']) ) {
 				return $this->get_dummy_processing_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], $direct_output, false, $photoCache['PhotoCache']['crop']);
 			} else {
@@ -317,7 +318,7 @@ class PhotoCache extends AppModel {
 		$cache_prefix = 'cache_';
 		$photoCache['PhotoCache']['status'] = 'processing';
 		$this->save($photoCache);
-		$releaseLock = $this->query("SELECT RELEASE_LOCK('finish_create_cache_".$photo_cache_id."')");
+		$releaseLock = $this->release_lock("finish_create_cache_".$photo_cache_id);
 		
 		
 		// TODO - these may not be necessary anymore (cus height and width are both requered to be set)

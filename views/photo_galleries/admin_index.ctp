@@ -34,7 +34,6 @@
 	});
 </script>
 
-<?php echo $this->Session->flash(); ?>
 <div class="right">
 	<?php echo $this->Element('admin/gallery/add_gallery'); ?>
 </div>
@@ -62,21 +61,10 @@
 					<td class="gallery_id first"><div class="reorder_gallery_grabber reorder_grabber" /> </td> 
 					<td class="gallery_name "><?php echo $curr_gallery['PhotoGallery']['display_name']; ?> </td> 
 					<td class="gallery_description"><?php echo $curr_gallery['PhotoGallery']['description']; ?> </td> 
-					<?php 
-						if (date("Y", strtotime($curr_gallery['PhotoGallery']['modified'])) == date('Y')) {
-							$modified_format = "F j, g:i A";
-						} else {
-							$modified_format = "F j Y, g:i A";
-						}
-						if (date("Y", strtotime($curr_gallery['PhotoGallery']['created'])) == date('Y')) {
-							$created_format = "F j, g:i A";
-						} else {
-							$created_format = "F j Y, g:i A";
-						}
-					?>
-
-					<td class="gallery_modified"><?php echo date($modified_format, strtotime($curr_gallery['PhotoGallery']['modified'])); ?> </td> 
-					<td class="gallery_created"><?php echo date($created_format, strtotime($curr_gallery['PhotoGallery']['created'])); ?> </td> 
+					<?php $modified_date = $this->Util->get_formatted_created_date($curr_gallery['PhotoGallery']['modified']); ?>
+					<?php $created_date = $this->Util->get_formatted_created_date($curr_gallery['PhotoGallery']['created']); ?>
+					<td class="gallery_modified"><?php echo $modified_date; ?> </td> 
+					<td class="gallery_created"><?php echo $created_date; ?> </td> 
 					<td class="gallery_action last">
 						<a href="/admin/photo_galleries/edit_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Edit'); ?></a>
 						<a href="/admin/photo_galleries/edit_gallery_connect_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Connect'); ?></a>

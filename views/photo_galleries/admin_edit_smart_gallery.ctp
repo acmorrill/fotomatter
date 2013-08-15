@@ -20,8 +20,6 @@
 ?>
 
 
-<?php echo $this->Session->flash(); ?>
-<br/>
 
 <style type="text/css">
 	/* DREW TODO - style on this page must be totatally redone */

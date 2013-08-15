@@ -41,6 +41,8 @@
 					echo $this->Element('/admin/submenu', array( 'subnav' => $subnav ));
 				}
 			?>
+			<?php echo $this->Session->flash(); ?>
+			<br/><br/>
 			<?php echo $content_for_layout; ?>
 		</div>
 		<div id="footer"></div>
