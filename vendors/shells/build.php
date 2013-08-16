@@ -1,5 +1,9 @@
 <?php
 class BuildShell extends Shell {
+	
+	public function _welcome() {
+		
+	}
     
     /**
      * start build process
@@ -35,6 +39,11 @@ class BuildShell extends Shell {
 			exit(1);
 		}
 	}
+	
+	public function apc_clear() {
+        apc_clear_cache();
+        apc_clear_cache('user');
+    }
     
     
 	
