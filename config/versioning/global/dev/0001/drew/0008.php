@@ -11,5 +11,5 @@ $sqls[] = "CREATE TABLE IF NOT EXISTS `welcome_hashes` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
 $sqls[] = "ALTER TABLE  `welcome_hashes` CHANGE  `hash`  `hash` CHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL";
-$sqls[] = "ALTER TABLE  `fotomatter_global`.`welcome_hashes` ADD UNIQUE (`account_id`)";
-$sqls[] = "ALTER TABLE  `fotomatter_global`.`welcome_hashes` ADD UNIQUE (`hash`)";
+$sqls[] = "ALTER TABLE  `welcome_hashes` ADD UNIQUE (`account_id`)";
+$sqls[] = "ALTER TABLE  `welcome_hashes` ADD UNIQUE (`hash`)";
