@@ -35,7 +35,7 @@ class AppController extends Controller {
 		'Gallery',
 		'Ecommerce',
 		'Cart',
-                'Account'
+		'Account',
 	);
 	
 	
@@ -83,7 +83,7 @@ class AppController extends Controller {
 		}
 		
         //Override default fields used by Auth component
-        $this->Auth->fields = array('username'=>'email_address','password'=>'password');
+        $this->Auth->fields = array('username' => 'email_address', 'password' => 'password');
         //Set application wide actions which do not require authentication
         $this->Auth->allow('display', 'view');//IMPORTANT for CakePHP 1.2 final release change this to $this->Auth->allow(array('display'));
         //$this->Auth->allow(array('*'));//IMPORTANT for CakePHP 1.2 final release change this to $this->Auth->allow(array('display'));
@@ -96,7 +96,7 @@ class AppController extends Controller {
         //Restrict access to only users with an active account
         $this->Auth->userScope = array('User.active = 1');
         //Pass auth component data over to view files
-        $this->set('Auth',$this->Auth->user());
+        $this->set('Auth', $this->Auth->user());
 		
 		
 		// locking hash code
@@ -112,6 +112,9 @@ class AppController extends Controller {
 			}
 		}
     }
+	
+	
+	
     /**
      * beforeRender
      *
@@ -158,7 +161,7 @@ class AppController extends Controller {
      * @return true if authorised/false if not authorized
      * @access public
      */
-    function isAuthorized(){
+    function isAuthorized() {
 		$is_admin_user = ($this->Auth->user('admin') === '1') ? true : false;
 		
 		if ($is_admin_user === true || (isset($this->front_end_auth) && in_array($this->action, $this->front_end_auth))) {
