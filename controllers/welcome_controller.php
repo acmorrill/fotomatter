@@ -1,6 +1,6 @@
 <?php
-class WelocomeController extends AppController {
-    public $name = 'Welocome';
+class WelcomeController extends AppController {
+    public $name = 'Welcome';
 	
 	public function  beforeFilter() {
 		parent::beforeFilter();
