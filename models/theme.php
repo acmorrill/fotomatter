@@ -16,6 +16,39 @@ class Theme extends AppModel {
 	);
 
 	
+	public function get_all_available_themes() {
+		// get the top level themes
+		$top_level_themes = $this->find('all', array(
+			'conditions' => array(
+				'Theme.theme_id' => '0',
+				'Theme.disabled' => '0'
+			),
+			'contain' => false
+		));
+		
+		$all_themes = array();
+		foreach ($top_level_themes as $top_level_theme) {
+			// get child themes
+			$child_themes = $this->find('all', array(
+				'conditions' => array(
+					'Theme.theme_id' => $top_level_theme['Theme']['id'],
+					'Theme.disabled' => '0'
+				),
+				'contain' => false
+			));
+			
+			// add the theme
+			$all_themes[] = $top_level_theme;
+			
+			// add child themes
+			foreach ($child_themes as $child_theme) {
+				$all_themes[] = $child_theme;
+			}
+		}
+		
+		return $all_themes;
+	}
+	
 	public function get_current_theme_id() {
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
 		$current_theme_ref_name = $this->SiteSetting->getVal('current_theme');
