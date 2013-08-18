@@ -21,8 +21,14 @@ class ValidationComponent extends Object {
 					return;
 				}
 				break;
+			case 'account_valid_password':
+				if (strlen($data[$value]) < 8) {
+					throw new Exception($flash_message);
+					return;
+				}
+				break;
 			case 'valid_password':
-				if (!empty($data[$value]) && count($data[$value]) >= 8) {
+				if (!empty($data[$value]) && strlen($data[$value]) < 8) {
 					throw new Exception($flash_message);
 					return;
 				}

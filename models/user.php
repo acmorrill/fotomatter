@@ -17,6 +17,7 @@ class User extends AppModel {
 		)
     );
 	
+	
 	public function create_user($email_address, $password, $is_admin = false) {
 		App::import('Core', 'Security');
 		
@@ -26,7 +27,8 @@ class User extends AppModel {
 		$data['User']['active'] = '1';
 		
 		$exists = $this->find('first', array(
-			'conditions' => array('User.email_address' => $email_address)
+			'conditions' => array('User.email_address' => $email_address),
+			'contain' => false
 		));
 		if ($exists != array()) {
 			$data['User']['id'] = $exists['User']['id'];

@@ -87,7 +87,6 @@ class EcommercesController extends AppController {
 		$this->redirect('/admin/ecommerces/order_management/');
 	}
 	
-	// START HERE TOMORROW - DREW TODO - redo and finish this function
 	public function admin_get_paid() {
 		// DREW TODO remove this - just for testing
 //		$this->AuthnetOrder->set_orders_pay_out_status(array('48','49','50','51','52'), 'not_payed');
@@ -98,11 +97,13 @@ class EcommercesController extends AppController {
 		
 		// find users email address that will get paypal email
 		$logged_in_user = $this->Auth->user();
+		$payable_paypal_email_address = '';
 		if (empty($logged_in_user['User']['email_address'])) {
 			$this->major_error('No email address to get payed via paypal with!', compact('logged_in_user', 'payable_orders'), 'high');
 			$this->Session->setFlash('Cannot get paid on orders. Please contact support.');
+		} else {
+			$payable_paypal_email_address = $logged_in_user['User']['email_address'];
 		}
-		$payable_paypal_email_address = $logged_in_user['User']['email_address'];
 		
 		
 		$this->set(compact('payable_orders', 'payable_paypal_email_address'));

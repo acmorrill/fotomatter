@@ -36,6 +36,7 @@ class BuildShell extends Shell {
 			echo $new_hash;
 			exit(0);
 		} catch (Exception $e) {
+			echo "failed to create the hash: ".$e->getMessage();
 			exit(1);
 		}
 	}

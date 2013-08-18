@@ -66,46 +66,11 @@ class ThemeCentersController extends AppController {
 		
 	}
 	
-	public function admin_change_theme($new_theme_id) {
-		$this->Theme->change_to_theme_by_id($new_theme_id);
-		
-		$this->redirect('/admin/theme_centers/choose_theme');
-	}
 	
 	public function admin_choose_theme() {
-		// get the current theme
-		$current_theme = $this->SiteSetting->getVal('current_theme', false);
-		
-		// get the top level themes
-		$top_level_themes = $this->Theme->find('all', array(
-			'conditions' => array(
-				'Theme.theme_id' => '0',
-				'Theme.disabled' => '0'
-			),
-			'contain' => false
-		));
-		
-		$all_themes = array();
-		foreach ($top_level_themes as $top_level_theme) {
-			// get child themes
-			$child_themes = $this->Theme->find('all', array(
-				'conditions' => array(
-					'Theme.theme_id' => $top_level_theme['Theme']['id'],
-					'Theme.disabled' => '0'
-				),
-				'contain' => false
-			));
-			
-			// add the theme
-			$all_themes[] = $top_level_theme;
-			
-			// add child themes
-			foreach ($child_themes as $child_theme) {
-				$all_themes[] = $child_theme;
-			}
+		if (!empty($this->data['new_theme_id'])) {
+			$this->Theme->change_to_theme_by_id($this->data['new_theme_id']);
 		}
-		
-		$this->set(compact('all_themes', 'current_theme'));
 	}
 	
 	public function admin_ajax_get_logo_webpath_and_save_dimension($height, $width, $top, $left) {

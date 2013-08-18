@@ -13,12 +13,12 @@ var verticle_sortable_defaults = {
  ****/
 jQuery(document).ready(function() {
     jQuery(document).ajaxStart(function(event, request, settings) {
-        console.log('start');
-            jQuery('body, div, img').addClass('cursor-progress');
+//        console.log('start');
+		jQuery('body, div, img').addClass('cursor-progress');
     });
     jQuery(document).ajaxStop(function(event, request, settings) {
-        console.log('stop');
-            jQuery('body, div, img').removeClass('cursor-progress');	
+//        console.log('stop');
+		jQuery('body, div, img').removeClass('cursor-progress');	
     });
         
 	
@@ -94,8 +94,8 @@ function show_modal(message, time_to_show, after_hide_callback, remove_after,css
 	
 	if (css != undefined) {
 		for(var x in css) {
-			console.log(x);
-			console.log(css[x]);
+//			console.log(x);
+//			console.log(css[x]);
 			message_div.css(x, css[x]);
 		}
 	}

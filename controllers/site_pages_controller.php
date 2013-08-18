@@ -18,6 +18,14 @@ class SitePagesController extends AppController {
 		$this->Auth->allow('landing_page', 'custom_page', 'htaccess');
 	}
 	
+	public function ping() {
+		if (isset($_GET['callback'])) {
+			$callback = $_GET['callback'];
+			echo $callback."(".json_encode(true).");"; 
+		}
+		exit();
+	}
+	
 	public function landing_page() {
 		$this->ThemeRenderer->render($this);
 	}
