@@ -7,8 +7,9 @@ class WelcomeController extends AppController {
 	
 	public function  beforeFilter() {
 		if (isset($_COOKIE['welcome_hash'])) {
-			$this->Auth->allow('admin_create_password', 'admin_index');
+			$this->Auth->allow('admin_create_password', 'admin_index', 'admin_site_building');
 		} else {
+			$this->Auth->allow('admin_site_building');
 		}
 		
  		parent::beforeFilter();
@@ -17,6 +18,14 @@ class WelcomeController extends AppController {
 	public function admin_index() {
 		$this->redirect('/admin/welcome/create_password');
 	}
+	
+	
+	public function admin_site_building($site_build_hash) {
+		
+		
+		$this->set('site_build_hash');
+	}
+	
 	
 //	http://fotomatter.dev/admin/welcome/create_password?wh=pBeW3Mmp1K8v4FfCqvmoADJZgQYpNoBcZP93CvsEfBakgpXHVj5vWOvdEtCsReFR4OUGjnlzYvTfVQWQa1l7QRkvkXXcbC4fqZWKmiklNeBJ5xzfzVmpMHV7ESkQvo6V
 	
