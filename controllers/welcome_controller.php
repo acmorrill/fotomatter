@@ -29,6 +29,7 @@ class WelcomeController extends AppController {
 		
 		// check site built
 		$site_built = $this->Welcome->site_is_built($account_welcome_email_hash);
+		
 		if ($site_built !== false) {
 			header("Location: /admin/welcome/create_password?wh=".$site_built);
 			exit();
@@ -37,9 +38,6 @@ class WelcomeController extends AppController {
 		
 		$this->set(compact('account_welcome_email_hash', 'hash_valid', 'site_built'));
 	}
-	
-	
-	
 	
 	
     public function admin_create_password() {

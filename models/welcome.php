@@ -31,6 +31,7 @@ class Welcome extends AppModel {
 		$ch = curl_init(); 
 
 		$url = 'http://'.Configure::read('OVERLORD_URL').'/fm_build/site_is_built/'.$email_hash;
+		
         curl_setopt($ch, CURLOPT_URL, $url); 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
         $json_output = json_decode(curl_exec($ch)); 

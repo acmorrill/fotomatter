@@ -8,6 +8,9 @@
 				success: function(data) {
 					if (data.code) {
 						$(".build-pending h3").html("Site built successfully.");
+						setTimeout(function() {
+							window.location = '/admin/welcome/create_password?wh=<?php echo $account_welcome_email_hash; ?>';
+						}, 3000);
 					} else {
 						$(".build-pending h3").html("Problem with site build");
 					}
