@@ -7,27 +7,39 @@ class WelcomeController extends AppController {
 	
 	public function  beforeFilter() {
 		if (isset($_COOKIE['welcome_hash'])) {
-			$this->Auth->allow('admin_create_password', 'admin_index', 'admin_site_building');
+			$this->Auth->allow('admin_create_password', 'admin_index');
 		} else {
-			$this->Auth->allow('admin_site_building');
+			$this->Auth->allow('admin_index');
 		}
 		
  		parent::beforeFilter();
 	}
 	
-	public function admin_index() {
-		$this->redirect('/admin/welcome/create_password');
+	public function admin_index($account_welcome_email_hash) {
+		$this->Welcome = ClassRegistry::init('Welcome');
+		
+		
+		// check valid hash
+		$hash_valid = $this->Welcome->welcome_email_hash_is_valid($account_welcome_email_hash);
+		
+		if ($hash_valid === false) {
+			$this->Welcome->major_error('Welcome index with invalid hash', compact('account_welcome_email_hash'), 'low');
+			header('HTTP/1.0 404 Not Found');
+			exit();
+		}
+		
+		
+		
+		// check site built
+		$site_built = $this->Welcome->site_is_built($account_welcome_email_hash);
+		
+		
+		$this->set(compact('account_welcome_email_hash', 'hash_valid', 'site_built'));
 	}
 	
 	
-	public function admin_site_building($site_build_hash) {
-		
-		
-		$this->set('site_build_hash');
-	}
 	
 	
-//	http://fotomatter.dev/admin/welcome/create_password?wh=pBeW3Mmp1K8v4FfCqvmoADJZgQYpNoBcZP93CvsEfBakgpXHVj5vWOvdEtCsReFR4OUGjnlzYvTfVQWQa1l7QRkvkXXcbC4fqZWKmiklNeBJ5xzfzVmpMHV7ESkQvo6V
 	
     public function admin_create_password() {
 		

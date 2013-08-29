@@ -9,7 +9,7 @@ class FotomatterBillingComponent extends Object {
     public $shared_secret = 'baYMbSR0EM0REmSheFHc0Qo2RUmEGoToNFnPWFcyAEUYRlaOgSynnI1F9DyI';
     
     public function __construct() {
-        $this->server_url = Configure::read('OVERLORD_PATH');
+        $this->server_url = Configure::read('OVERLORD_URL');
     }
     
     public function getAccountDetails() {
