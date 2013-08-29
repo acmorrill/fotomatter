@@ -62,7 +62,7 @@ class FotomatterBillingComponent extends Object {
         $request['Request']['Server_params']['time_stamp'] = $time_stamp;
         
         $this->SiteSetting = ClassRegistry::init("SiteSetting");
-        $site_key = $this->SiteSetting->getVal('overlord_site_key');
+        $site_key = $this->SiteSetting->getVal('site_domain');
         $request['Request']['key'] = $site_key;
         
 	$request['Access']['signature'] = hash_hmac('sha256', json_encode($request['Request']), $this->shared_secret);
