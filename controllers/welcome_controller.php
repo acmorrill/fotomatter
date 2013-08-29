@@ -9,7 +9,7 @@ class WelcomeController extends AppController {
 		if (isset($_COOKIE['welcome_hash'])) {
 			$this->Auth->allow('admin_create_password', 'admin_index');
 		} else {
-			$this->Auth->allow('admin_index');
+			$this->Auth->allow('admin_index', 'admin_create_password');
 		}
 		
  		parent::beforeFilter();
@@ -17,7 +17,6 @@ class WelcomeController extends AppController {
 	
 	public function admin_index($account_welcome_email_hash) {
 		$this->Welcome = ClassRegistry::init('Welcome');
-		
 		
 		// check valid hash
 		$hash_valid = $this->Welcome->welcome_email_hash_is_valid($account_welcome_email_hash);
@@ -28,10 +27,12 @@ class WelcomeController extends AppController {
 			exit();
 		}
 		
-		
-		
 		// check site built
 		$site_built = $this->Welcome->site_is_built($account_welcome_email_hash);
+		if ($site_built !== false) {
+			header("Location: /admin/welcome/create_password?wh=".$site_built);
+			exit();
+		}
 		
 		
 		$this->set(compact('account_welcome_email_hash', 'hash_valid', 'site_built'));
@@ -42,6 +43,8 @@ class WelcomeController extends AppController {
 	
 	
     public function admin_create_password() {
+		die('made it to create password');
+		
 		
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
 
