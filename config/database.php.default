@@ -111,6 +111,7 @@ require(ROOT."/db_configs.php");
 
 ///////////////////////////////////////////////////////////////////////////////////
 // if we have the welcome cookie hash then try and see if we can use it
+$on_welcome_site = $_SERVER['HTTP_HOST'] === WELCOME_SITE_URL;
 if (isset($_COOKIE['welcome_hash'])) {
 	////////////////////////////////////////////////
 	// get the welcome hash data from the db
@@ -132,7 +133,6 @@ if (isset($_COOKIE['welcome_hash'])) {
 	// check if hash is valid
 	if (!empty($hash_data['hash']) && !empty($hash_data['created']) && !empty($hash_data['account_id']) && !empty($hash_data['site_domain'])) {
 		// hash is valid - if on welcome site we do some more work
-		$on_welcome_site = $_SERVER['HTTP_HOST'] === 'welcome.fotomatter.net';
 		if ($on_welcome_site === true) {
 			// check to make sure the hash is not too old
 			$max_old = 60*15; // 15 mins
@@ -147,16 +147,16 @@ if (isset($_COOKIE['welcome_hash'])) {
 				
 				
 				// success - we can act as a new site's db
-//				require("/var/www/accounts/{$hash_data['account_id']}/db_configs.php"); // DREW TODO - this needs to be on for on the real server
+				require("/var/www/accounts/{$hash_data['account_id']}/db_configs.php"); // DREW TODO - this needs to be on for on the real server
 			} else {
 				// redirect to the dns site
 				$request_uri_arr = parse_url($_SERVER['REQUEST_URI']);
-				db_redirect('http://fotomatter.dev/'.$request_uri_arr['path']); // DREW TODO - turn this off
+//				db_redirect('http://fotomatter.dev/'.$request_uri_arr['path']); // DREW TODO - turn this off
 				db_redirect('http://'.$hash_data['site_domain'].".fotomatter.net/".$request_uri_arr['path']); // DREW TODO - make this into https - and turn this on!
 			}
 		} else {
 			// check if hash applies to current site
-			if (false && $_SERVER['HTTP_HOST'] !== $hash_data['site_domain'].'.fotomatter.net') { // DREW TODO - remove the false &&
+			if ($_SERVER['HTTP_HOST'] !== $hash_data['site_domain'].'.fotomatter.net') { // DREW TODO - remove the false &&
 				unset($_COOKIE['welcome_hash']);
 				header('HTTP/1.0 404 Not Found');
 				die();
