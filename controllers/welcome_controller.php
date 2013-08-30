@@ -9,7 +9,7 @@ class WelcomeController extends AppController {
 		if (isset($_COOKIE['welcome_hash'])) {
 			$this->Auth->allow('admin_create_password', 'admin_index');
 		} else {
-			$this->Auth->allow('admin_index', 'admin_create_password');
+			$this->Auth->allow('admin_index');
 		}
 		
  		parent::beforeFilter();
@@ -41,9 +41,6 @@ class WelcomeController extends AppController {
 	
 	
     public function admin_create_password() {
-		die('made it to create password');
-		
-		
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
 
 		
