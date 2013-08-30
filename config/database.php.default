@@ -98,7 +98,7 @@ if (!empty($_GET['wh'])) {
 	
 	// redirect to remove the get param
 	$request_uri_arr = parse_url($_SERVER['REQUEST_URI']);
-	db_redirect("http://".$_SERVER['HTTP_HOST'].'/'.$request_uri_arr['path']); // DREW TODO - change this to https
+	db_redirect("http://".$_SERVER['HTTP_HOST'].$request_uri_arr['path']); // DREW TODO - change this to https
 }
 
 
