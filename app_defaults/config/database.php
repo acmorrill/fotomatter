@@ -132,7 +132,7 @@ if (isset($_COOKIE['welcome_hash'])) {
 	// check if hash is valid
 	if (!empty($hash_data['hash']) && !empty($hash_data['created']) && !empty($hash_data['account_id']) && !empty($hash_data['site_domain'])) {
 		// hash is valid - if on welcome site we do some more work
-		$on_welcome_site = $_SERVER['HTTP_HOST'] === 'welcome.fotomatter.net';
+		$on_welcome_site = $_SERVER['HTTP_HOST'] === WELCOME_SITE_URL;
 		if ($on_welcome_site === true) {
 			// check to make sure the hash is not too old
 			$max_old = 60*15; // 15 mins
