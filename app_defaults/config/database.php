@@ -168,7 +168,7 @@ if (isset($_COOKIE['welcome_hash'])) {
 		header('HTTP/1.0 404 Not Found');
 		die();
 	}
-} 
+}
 
 
 class DATABASE_CONFIG {
