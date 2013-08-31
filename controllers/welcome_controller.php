@@ -6,6 +6,7 @@ class WelcomeController extends AppController {
 	
 	
 	public function  beforeFilter() {
+		
 		if (isset($_COOKIE['welcome_hash'])) {
 			$this->Auth->allow('admin_create_password', 'admin_index');
 		} else {
@@ -20,7 +21,7 @@ class WelcomeController extends AppController {
 		
 		// check valid hash
 		$hash_valid = $this->Welcome->welcome_email_hash_is_valid($account_welcome_email_hash);
-		
+	
 		if ($hash_valid === false) {
 			$this->Welcome->major_error('Welcome index with invalid hash', compact('account_welcome_email_hash'), 'low');
 			header('HTTP/1.0 404 Not Found');
@@ -34,15 +35,15 @@ class WelcomeController extends AppController {
 			header("Location: /admin/welcome/create_password?wh=".$site_built);
 			exit();
 		}
-		
-		
+	
 		$this->set(compact('account_welcome_email_hash', 'hash_valid', 'site_built'));
 	}
 	
 	
     public function admin_create_password() {
+		
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
-
+		
 		
 		// don't do this method if the password has already been set
 		if ($this->SiteSetting->getVal('welcome_password_set', 1) == 1) {
@@ -120,14 +121,13 @@ class WelcomeController extends AppController {
 		// figure out the correct dns domain
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
 		$site_domain = $this->SiteSetting->getVal('site_domain', false);
+		
 		$dns_domain = '';
 		if ($site_domain === false) {
 			$this->SiteSetting->major_error('Site domain not set!');
 		} else {
 			$dns_domain = $site_domain.".fotomatter.net";
 		}
-		
-		$dns_domain = "fotomatter.dev";
 		
 		$this->set(compact('dns_domain'));
 	}
