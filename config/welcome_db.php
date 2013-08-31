@@ -39,8 +39,8 @@ require(ROOT."/db_configs.php");
 
 ///////////////////////////////////////////////////////////////////////////////////
 // if we have the welcome cookie hash then try and see if we can use it
-$on_welcome_site = $_SERVER['HTTP_HOST'] === WELCOME_SITE_URL;
 if (isset($_COOKIE['welcome_hash'])) {
+	$on_welcome_site = $_SERVER['HTTP_HOST'] === WELCOME_SITE_URL;
 	////////////////////////////////////////////////
 	// get the welcome hash data from the db
 	$welcome_hash = $_COOKIE['welcome_hash'];
