@@ -263,6 +263,7 @@ class GenericDbShell extends Shell {
 				
 				
 				// am I on the update that ran last?
+				$temp_file_full_path = preg_match();
 				$update_last_run = $lastDbUpdate != array() && $all_update['file_full_path'] == $lastDbUpdate['Db'.$schema_name.'Update']['full_file_path'];
 				
 				// if the last update was a php update that failed and this is that update then start from the failed one
