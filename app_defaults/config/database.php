@@ -72,7 +72,8 @@
  *
  */
 
-require(ROOT.DS.'app/app_defaults/welcome_db.php');
+
+require(ROOT.DS.'app/app_defaults/config/welcome_db.php');
 class DATABASE_CONFIG {
 
 	var $default = array(
