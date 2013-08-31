@@ -9,10 +9,10 @@ class UsersController extends AppController {
 	
     function admin_login() {
 		// before displaying the login check to see if a user has ever been setup - if not - then go to the welcome page
-		$this->SiteSetting = ClassRegistry::init('SiteSetting');
-		if ($this->SiteSetting->getVal('welcome_password_set', 1) == 0) { // START HERE TOMORROW - this causes a redirect loop
-			$this->redirect('/admin/welcome/create_password');
-		}
+//		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+//		if ($this->SiteSetting->getVal('welcome_password_set', 1) == 0) { // START HERE TOMORROW - this causes a redirect loop
+//			$this->redirect('/admin/welcome/create_password');
+//		}
 	}
 	
     function admin_logout() {
