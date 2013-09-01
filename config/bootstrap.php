@@ -92,7 +92,7 @@ define('FREE_MAX_RES', 2000);
 define("USE_CACHE_SPEED", true);
 
 //path to overlord. (so it can change for development)
-Configure::write('OVERLORD_URL', 'overlord.fotomatter.net');
+Configure::write('OVERLORD_URL', 'builds.fotomatter.net');
 
 // path to fonts
 define("GLOBAL_TTF_FONT_PATH", ROOT.DS.APP_DIR.DS.'webroot'.DS.'fonts');
