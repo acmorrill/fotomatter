@@ -6,8 +6,6 @@ class FotomatterEmailComponent extends Object {
 		$user_id = $change_password_user['User']['id'];
 		$return_link = "http://fotomatter.dev/ecommerces/change_fe_password/$user_id/$modified_hash/"; // DREW TODO - change this to the live domain
 		
-		$this->log($return_link, 'return_link');
-		
 		
 		$controller->set(compact('modified_hash', 'user_id', 'return_link'));
 		
@@ -34,7 +32,6 @@ class FotomatterEmailComponent extends Object {
 		
 		/* Check for SMTP errors. */
 		if (!empty($controller->Email->smtpError)) {
-			$this->log($controller->Email->smtpError, 'smtpError');
 			$controller->major_error('Failed to send smtp email.', array('email_errors' => $controller->Email->smtpError));
 		}
 	}
