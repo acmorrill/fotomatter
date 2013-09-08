@@ -1155,9 +1155,9 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		/////////////////////
 		// pay_out_statuses
 		// -----------------------------
-		// not_payed
+		// not_paid
 		// processing
-		// payed
+		// paid
 		// failed
 		
 		
@@ -1167,7 +1167,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		$payable_orders = $this->find('all', array(
 			'conditions' => array(
 				'AuthnetOrder.order_status' => 'approved',
-				'AuthnetOrder.pay_out_status' => 'not_payed',
+				'AuthnetOrder.pay_out_status' => 'not_paid',
 				'AuthnetOrder.approval_date IS NOT NULL',
 			),
 			'contain' => false,
