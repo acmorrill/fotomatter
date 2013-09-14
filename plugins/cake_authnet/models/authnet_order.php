@@ -87,19 +87,6 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		
 		
 		$total = $total_arr[0][0]['SUM(AuthnetOrder.total)'];
-		$this->log($total, 'get_order_totals');
-		
-//		(
-//			[0] => Array
-//				(
-//					[0] => Array
-//						(
-//							[SUM(AuthnetOrder.total)] => 500.00
-//						)
-//
-//				)
-//
-//		)
 
 		
 		return $total;
