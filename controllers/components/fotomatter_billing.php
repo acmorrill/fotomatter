@@ -11,6 +11,16 @@ class FotomatterBillingComponent extends Object {
     public function __construct() {
         $this->server_url = Configure::read('OVERLORD_URL');
     }
+	
+	public function remove_item($line_item_id) {
+		$result = json_decode($this->send_api_request('billing_api/remove_item', array('line_item_id'=>$line_item_id)), true);
+		return $result;
+	}
+	
+	public function undo_cancellation($line_item_id) {
+		$result = json_decode($this->send_api_request('billing_api/undo_cancellation', array('line_item_id'=>$line_item_id)), true);
+		return $result;
+	}
     
     public function getAccountDetails() {
         $details = json_decode($this->send_api_request('billing_api/get_account_details', array()), true);
@@ -52,9 +62,9 @@ class FotomatterBillingComponent extends Object {
     
      private function send_api_request($api, $params=array()) {
         App::import('Core', 'HttpSocket');
-	$HttpSocket = new HttpSocket();
+		$HttpSocket = new HttpSocket();
 	
-	$request['Request']['data'] = $this->clear_values($params);
+		$request['Request']['data'] = $this->clear_values($params);
         
         $url_to_use = $this->server_url . '/' .$api;
         $request['Request']['Server_params']['url'] = $url_to_use;
@@ -64,17 +74,21 @@ class FotomatterBillingComponent extends Object {
         $this->SiteSetting = ClassRegistry::init("SiteSetting");
         $site_key = $this->SiteSetting->getVal('site_domain');
         $request['Request']['key'] = $site_key;
-        
-	$request['Access']['signature'] = hash_hmac('sha256', json_encode($request['Request']), $this->shared_secret);
-	$response = $HttpSocket->request(array(
-            'body'=>$request,
-	    'method'=>'POST',
-	    'uri'=>$url_to_use,
-	    'auth'=>array(
-		'billing'=>'GlAxUMNy5upK97MKZk4C'
-	    )
-	));
-        
+		$request['Access']['signature'] = hash_hmac('sha256', json_encode($request['Request']), $this->shared_secret);
+		
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL , $url_to_use);
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($request));
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+			'Content-Type: application/json',
+			'API_SIGNATURE: '.$request['Access']['signature']
+		));
+		$response = curl_exec($ch);
+		curl_close($ch);
+				
+   //     $this->log($request['Request'], 'client_billing');
         $this->log($response, 'client_billing');
 	return $response;
     }

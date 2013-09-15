@@ -31,6 +31,7 @@
                 button {
                     font-size:12px;
                     margin: 0 10px;
+					
                 }
             }
 
@@ -39,23 +40,94 @@
             }
         }
     }
-
-    
 }
 
 #line_item_cont {
    
     padding:10px;
 
+	.pay_fail_message {
+		border:1px solid grey;
+		padding:20px;
+		margin:15px 1px 25px;
+		width:33%;
+		background-color:#460E00;
+		color: #FFF4F1;
+	}
+
     .body_container {
-        width:80%;
+        width:650px;
+		display:inline-block;
+		float:left;
+		margin:0 40px 0 0;
+		
     }
+
+	.account-details.finish-shown {
+		.finish-outer-cont {
+			border-bottom: 1px solid white;
+		}
+		.details {
+			margin:20px 0 0 0;
+		}
+	}
+
+	.account-details {
+		display:none;
+		border:1px solid grey;
+		width:300px;
+		min-height:100px;
+		float:left;
+		display:inline-block;
+		background-color: @midtone_background;
+		padding:15px;
+		p {
+			font-size:28px;
+		}
+		button {
+			margin: 25px 0 20px;
+			background: none @action_background;
+			color: @action_text;
+		}
+		button:hover {
+			background: none @action_hover_background;
+		}
+		.details {
+			.detail {
+				margin: 20px 0;
+				span.title {
+					font-weight:bold;
+					margin:0 10px 0 0;
+				}
+				span.pending_total {
+					color: @warn_text_color;
+				}
+			}
+		}
+	}
 
     .finish {
         input {
             display:none;
         }
     }
+
+	.line_item.line_not_added {
+		.bar {
+			background-color: #292929;
+			.bar-right {
+				span.toggle {
+					color: #5E5E5E;
+				}
+				i {
+					color: #5E5E5E;
+				}
+			}
+			h5 {
+				color: #5E5E5E;
+			}
+		}
+	}
     
     .line_item {
         .bar {
@@ -68,10 +140,18 @@
                 }
                 float:right;
                 cursor:pointer;
+				button.ui-button {
+					min-width:80px;
+					span {
+						font-size:14px;
+						padding:3px;
+					}
+				}
             }
           
             h5 {
                 display:inline-block;
+				margin:7px;
             }
             border:1px solid black;
             padding:7px 3px 7px 7px;
@@ -85,7 +165,94 @@
             margin:0px auto;
             display:none;
         }
-        width:80%;
     }
-
 }
+
+.promo_notify {
+	margin:15px 10px;
+
+	h3{
+		font-weight:bold;
+		font-size:20px;
+		color: #fff;
+	}
+
+	p {
+		margin: 18px 2px;
+	}
+	
+	span.title {
+		color: @slightly_darker_white_text;
+	}
+
+	.promo_credit_balance, .due_today {
+		margin: 0 10px;
+	}
+
+	.actions {
+		button {
+			font-size:15px;
+			font-weight:bold;
+			color: #464646;
+		}
+	}
+}
+
+#finish_account_change {
+	margin:20px 0;
+	.payment_item {
+		.label {
+			font-size:18px;
+			font-weight:bold;
+			color:@slightly_darker_white_text;
+			margin:15px 10px 0 0;
+		}
+	}
+
+	.due_today {
+		margin:20px 0;
+		a {
+			color:@link_color;
+		}
+	}
+
+	.pending_change{
+		font-size:18px;
+		font-weight:bold;
+		color:@slightly_darker_white_text;
+		margin:15px 0;
+	}
+
+	button.finalize_change {
+		margin:20px 0;
+		font-size:15px;
+	}
+
+	.change_summary {
+		border:1px solid grey;
+		min-height:150px;
+		padding:10px;
+
+		.item_to_add {
+			height:30px;
+			div {
+				display:inline-block;
+				float:left;
+			}
+
+			div.item_name {
+				margin:5px 50px 0 20px;
+				width:170px;
+			}
+
+			div.item_cost {
+				margin:5px 20px 0 70px;
+			}
+		}
+	}
+}
+
+
+ 
+
+
