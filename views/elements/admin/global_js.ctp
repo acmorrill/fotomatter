@@ -8,6 +8,7 @@
 <script type="text/javascript" src="/js/jquery-ui-1.8.18.custom/js/jquery-ui-1.8.18.custom.min.js"></script>
 
 <script type="text/javascript" src="/js/tinymce/jscripts/tiny_mce/jquery.tinymce.js"></script>
+<script type="text/javascript" src="/js/money_format/accounting.min.js"></script>
 <script type="text/javascript" src="/js/chosen/chosen/chosen.jquery.min.js"></script>
 <link href="/js/chosen/chosen/chosen.css" rel="stylesheet" type="text/css" />
 

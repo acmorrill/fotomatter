@@ -4,6 +4,27 @@
   -moz-border-radius: 7px;
   border-radius: 7px;
 }
+.flashMessage {
+  padding: 10px 20px 10px;
+  margin: 10px 0;
+  display: inline-block;
+}
+.flashMessage.error {
+  border: 1px solid grey;
+  background-color: #FFDFDD;
+  color: #6D0600;
+}
+.flashMessage.error span {
+  margin: 0 0 0 10px;
+}
+.flashMessage.success {
+  border: 1px solid grey;
+  background-color: #ECFFDD;
+  color: #1E4500;
+}
+.flashMessage.success span {
+  margin: 0 0 0 10px;
+}
 html,
 body,
 div,
@@ -1730,18 +1751,70 @@ div#sub-nav ul li.title a {
   background-color: #363636;
   padding: 20px;
 }
+.profile-outer-cont h3 {
+  font-weight: bold;
+  margin: 10px 0;
+  color: #fff;
+}
 .profile-outer-cont label {
-  width: 100px;
+  width: 80px;
   display: inline-block;
   font-size: 13px;
-  text-align: right;
-  margin: 0 15px 0 0;
 }
 .profile-outer-cont .payment {
   margin: 35px 0 0 0;
 }
 .profile-outer-cont div.input {
   margin: 0 0 3px 0;
+}
+.profile-outer-cont #payment_details_client {
+  margin: 20px 0px;
+  float: left;
+  display: inline-block;
+}
+.profile-outer-cont input {
+  padding: 2px;
+  width: 210px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  border: 1px solid #222222;
+}
+.profile-outer-cont select {
+  padding: 2px;
+  width: 210px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  border: 1px solid #222222;
+}
+.profile-outer-cont .exp_date select {
+  width: 103px;
+}
+.profile-outer-cont .continue.input {
+  margin: 20px 0 0 0;
+  font-size: 15px;
+  font-weight: bold;
+}
+.profile-outer-cont .continue.input input {
+  width: 100px;
+}
+.profile-outer-cont .profile_info {
+  display: inline-block;
+  float: left;
+  min-height: 200px;
+  width: 150px;
+  border: 1px solid #303030;
+  background-color: #D8D8D8;
+  margin: 15px 35px;
+  padding: 10px;
+  -webkit-box-shadow: 0px 0px 3px #000000;
+  -moz-box-shadow: 0px 0px 3px #000000;
+  box-shadow: 0px 0px 3px #000000;
+  color: black;
+}
+.profile-outer-cont .profile_info p {
+  margin: 10px 0;
 }
 #connect_gallery_photos_cont {
   min-height: 200px;
@@ -2228,14 +2301,71 @@ div#sub-nav ul li.title a {
 #line_item_cont {
   padding: 10px;
 }
+#line_item_cont .pay_fail_message {
+  border: 1px solid grey;
+  padding: 20px;
+  margin: 15px 1px 25px;
+  width: 33%;
+  background-color: #460E00;
+  color: #FFF4F1;
+}
 #line_item_cont .body_container {
-  width: 80%;
+  width: 650px;
+  display: inline-block;
+  float: left;
+  margin: 0 40px 0 0;
+}
+#line_item_cont .account-details.finish-shown .finish-outer-cont {
+  border-bottom: 1px solid white;
+}
+#line_item_cont .account-details.finish-shown .details {
+  margin: 20px 0 0 0;
+}
+#line_item_cont .account-details {
+  display: none;
+  border: 1px solid grey;
+  width: 300px;
+  min-height: 100px;
+  float: left;
+  display: inline-block;
+  background-color: #454545;
+  padding: 15px;
+}
+#line_item_cont .account-details p {
+  font-size: 28px;
+}
+#line_item_cont .account-details button {
+  margin: 25px 0 20px;
+  background: none #205B88;
+  color: #fff;
+}
+#line_item_cont .account-details button:hover {
+  background: none #538FBD;
+}
+#line_item_cont .account-details .details .detail {
+  margin: 20px 0;
+}
+#line_item_cont .account-details .details .detail span.title {
+  font-weight: bold;
+  margin: 0 10px 0 0;
+}
+#line_item_cont .account-details .details .detail span.pending_total {
+  color: #FCCD18;
 }
 #line_item_cont .finish input {
   display: none;
 }
-#line_item_cont .line_item {
-  width: 80%;
+#line_item_cont .line_item.line_not_added .bar {
+  background-color: #292929;
+}
+#line_item_cont .line_item.line_not_added .bar .bar-right span.toggle {
+  color: #5E5E5E;
+}
+#line_item_cont .line_item.line_not_added .bar .bar-right i {
+  color: #5E5E5E;
+}
+#line_item_cont .line_item.line_not_added .bar h5 {
+  color: #5E5E5E;
 }
 #line_item_cont .line_item .bar {
   border: 1px solid black;
@@ -2252,8 +2382,16 @@ div#sub-nav ul li.title a {
 #line_item_cont .line_item .bar div.bar-right i {
   margin: 0 5px;
 }
+#line_item_cont .line_item .bar div.bar-right button.ui-button {
+  min-width: 80px;
+}
+#line_item_cont .line_item .bar div.bar-right button.ui-button span {
+  font-size: 14px;
+  padding: 3px;
+}
 #line_item_cont .line_item .bar h5 {
   display: inline-block;
+  margin: 7px;
 }
 #line_item_cont .line_item .item_ad_area {
   width: 99%;
@@ -2261,6 +2399,73 @@ div#sub-nav ul li.title a {
   background-color: #787878;
   margin: 0px auto;
   display: none;
+}
+.promo_notify {
+  margin: 15px 10px;
+}
+.promo_notify h3 {
+  font-weight: bold;
+  font-size: 20px;
+  color: #fff;
+}
+.promo_notify p {
+  margin: 18px 2px;
+}
+.promo_notify span.title {
+  color: #F3F3F3;
+}
+.promo_notify .promo_credit_balance,
+.promo_notify .due_today {
+  margin: 0 10px;
+}
+.promo_notify .actions button {
+  font-size: 15px;
+  font-weight: bold;
+  color: #464646;
+}
+#finish_account_change {
+  margin: 20px 0;
+}
+#finish_account_change .payment_item .label {
+  font-size: 18px;
+  font-weight: bold;
+  color: #F3F3F3;
+  margin: 15px 10px 0 0;
+}
+#finish_account_change .due_today {
+  margin: 20px 0;
+}
+#finish_account_change .due_today a {
+  color: #00E8FA;
+}
+#finish_account_change .pending_change {
+  font-size: 18px;
+  font-weight: bold;
+  color: #F3F3F3;
+  margin: 15px 0;
+}
+#finish_account_change button.finalize_change {
+  margin: 20px 0;
+  font-size: 15px;
+}
+#finish_account_change .change_summary {
+  border: 1px solid grey;
+  min-height: 150px;
+  padding: 10px;
+}
+#finish_account_change .change_summary .item_to_add {
+  height: 30px;
+}
+#finish_account_change .change_summary .item_to_add div {
+  display: inline-block;
+  float: left;
+}
+#finish_account_change .change_summary .item_to_add div.item_name {
+  margin: 5px 50px 0 20px;
+  width: 170px;
+}
+#finish_account_change .change_summary .item_to_add div.item_cost {
+  margin: 5px 20px 0 70px;
 }
 .sub_submenu_cont .sub_submenu_left_cont,
 .sub_submenu_cont .sub_submenu_right_cont,
