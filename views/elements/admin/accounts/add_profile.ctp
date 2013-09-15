@@ -20,9 +20,12 @@
                 $("#billing_state").html(data.html);
             }, 'json');
     }
+	
+	setTimeout($("input[type=submit]").button(), 50);
     
 </script>
 <div class="profile-outer-cont">
+	<h3><?php echo __('Add credit Card'); ?></h3>
     <form id="payment_details_client" action="#" onSubmit="send_form(); return false;">
         <div class="address">
             <input type='hidden' id='billing_id' name='data[AuthnetProfile][id]' value="<?php echo empty($current_data['AuthnetProfile']['id'])==false?$current_data['AuthnetProfile']['id']:''; ?>" />
@@ -42,7 +45,7 @@
             </div>
             <div class="input">
                 <label for="billing_country"><?php echo __('Country'); ?></label>
-                <select style="width:205px" name="data[AuthnetProfile][country_id]" id="billing_country" onChange="getCountries($(this).val())">
+                <select name="data[AuthnetProfile][country_id]" id="billing_country" onChange="getCountries($(this).val())">
                     <?php foreach ($countries as $key => $country): ?>
                     <option <?php echo empty($current_data['AuthnetProfile']['country_id'])===false&&$current_data['AuthnetProfile']['country_id']==$country['GlobalCountry']['country_code_2']?'SELECTED':''; ?> value="<?php echo $country['GlobalCountry']['country_code_2']; ?>"><?php echo $country['GlobalCountry']['country_name']; ?></option>
                     <?php endforeach; ?>
@@ -72,7 +75,7 @@
                 <label for="billing_zip"><?php echo __('Card Number'); ?></label>
                 <input type="text" id="billing_cardNumber" name="data[AuthnetProfile][payment_cardNumber]" />
             </div>
-            <div class="input">
+            <div class="input exp_date">
                 <label for ="card_exp"><?php echo __('Expiration Date'); ?></label>
                 <select name="data[AuthnetProfile][expiration][month]">
                     <option value="01">January</option>
@@ -99,8 +102,12 @@
                 <input type="text" id="billing_csv" name="data[AuthnetProfile][payment_cardCode]" />
             </div>
             <div class="input continue">
-                <input type="submit" class="payment_details_submit" value="<?php echo __('Continue'); ?>" /> 
+                <input type="submit" class="payment_details_submit ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" value="<?php echo __('Continue'); ?>" /> 
             </div>
         </div>
     </form>
+	<div class='profile_info rounded-corners'>
+		<p>This is the card that we will use every month to pay your fotomatter subscription. </p>
+		<p>Please remember to keep it up to date so that your service or website will not be interrupted.</p>
+	</div>
 </div>

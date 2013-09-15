@@ -37,6 +37,7 @@ class AppController extends Controller {
 		'Cart',
 		'Account',
 		'SiteSetting',
+		'Number'
 	);
 	
 	

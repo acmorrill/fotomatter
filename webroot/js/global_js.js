@@ -14,11 +14,11 @@ var verticle_sortable_defaults = {
 jQuery(document).ready(function() {
     jQuery(document).ajaxStart(function(event, request, settings) {
 //        console.log('start');
-		jQuery('body, div, img').addClass('cursor-progress');
+		jQuery('body, div, img, button').addClass('cursor-progress');
     });
     jQuery(document).ajaxStop(function(event, request, settings) {
 //        console.log('stop');
-		jQuery('body, div, img').removeClass('cursor-progress');	
+		jQuery('body, div, img, button').removeClass('cursor-progress');	
     });
         
 	
