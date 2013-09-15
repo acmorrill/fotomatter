@@ -21,16 +21,57 @@ class AccountsController extends AppController {
     * @author Adam Holsinger
     */
    public function admin_index() {
-       $line_items = $this->FotomatterBilling->get_info_account();
-       
+       $overlord_account_info = $this->FotomatterBilling->get_info_account();
        $this->Session->delete('account_line_items');
        $this->Session->write('account_line_items', array('checked'=>array(), 'unchecked'=>array()));
        
        $this->Session->delete('account_info');
-       $this->Session->write('account_info', $line_items);
+       $this->Session->write('account_info', $overlord_account_info);
        
-       $this->set(compact(array('line_items')));
+       $this->set(compact(array('overlord_account_info')));
+
        $this->layout = 'admin/accounts';
+   }
+   
+   public function admin_ajax_addPreviousItems() {
+	   $overlord_account_info = $this->Session->read('account_info');
+	   $line_items = $this->Session->read('account_line_items');
+	   
+	   foreach($overlord_account_info['items'] as $item) {
+		   if ($item['AccountLineItem']['previous'] == false) {
+			   continue;
+		   }
+		   
+		   if (isset($line_items['unchecked'][$item['AccountLineItem']['id']])) {
+               unset($line_items['unchecked'][$item['AccountLineItem']['id']]);
+           }
+           $line_items['checked'][$item['AccountLineItem']['id']] = 'checked';
+	   }
+	   $this->Session->write('account_line_items', $line_items);
+       print(json_encode(array('code'=>true)));
+       exit();
+   }
+   
+   public function admin_ajax_undo_cancellation($line_item_id) {
+	   $result = $this->FotomatterBilling->undo_cancellation($line_item_id);
+	   if($result['code']){
+		   $this->return_json(array('code'=>true));
+	   } else {
+		   $this->Session->setFlash(__('There has been a problem while undoing your cancellation. Please contact us at support@fotomatter.net for help.', true), 'admin/flashMessage/error');
+		   $this->return_json(array('code'=>false));
+	   }
+       exit();
+   }
+   
+   public function admin_ajax_remove_item($line_item_id) {
+	   $result = $this->FotomatterBilling->remove_item($line_item_id);
+	   if($result['code']){
+		   $this->return_json(array('code'=>true));
+	   } else {
+		   $this->Session->setFlash(__('There has been a problem while undoing your cancellation. Please contact us at support@fotomatter.net for help.', true), 'admin/flashMessage/error');
+		   $this->return_json(array('code'=>false));
+	   }
+       exit();
    }
    
    /**
@@ -105,13 +146,12 @@ class AccountsController extends AppController {
            }
            
            $this->data['AuthnetProfile']['payment_cc_last_four'] = substr($this->data['AuthnetProfile']['payment_cardNumber'], -4, 4);
-           $this->log($this->data, 'authnet');
            $profile_id = $this->FotomatterBilling->save_payment_profile($this->data);
            
            $account_info = $this->Session->read('account_info');
            $account_info['Account']['authnet_profile_id'] = $profile_id;
            $this->Session->write('account_info', $account_info);
-           $this->ajax_finishLineChange();
+           $this->admin_ajax_finishLineChange();
            exit();
        }
        $this->major_error('admin_ajax_save_client_billing was called without data');
@@ -132,11 +172,39 @@ class AccountsController extends AppController {
            if ($line_item['AccountLineItem']['active']) {
                $current_bill += $line_item['AccountLineItem']['current_cost'];
            }
-           $tmp_array[$line_item['AccountLineItem']['id']] = $line_item;
+           $tmp_array['items'][$line_item['AccountLineItem']['id']] = $line_item;
        }
+	   $tmp_array['Account'] = $account_info['Account'];
        return $tmp_array;
        
    }
+   
+   private function findAmountDueToday($account_changes, $account_info) {
+	   //add everything being added
+	   $whole_month_cost = 0;
+	   foreach ($account_changes['checked'] as $id => $change) {
+		   $whole_month_cost += $account_info['items'][$id]['AccountLineItem']['current_cost'];
+	   }
+
+	   if (empty($account_info['Account']['next_bill_date'])) {
+		   return $whole_month_cost;
+	   }
+	   
+	   //figure out how many days we are billing for
+	   $next_billing_date = strtotime($account_info['Account']['next_bill_date']);
+	   $days_difference = intval(($next_billing_date - strtotime('tomorrow')) / (60 * 60 * 24));
+	   
+	   if ($days_difference < 1) {
+		   return 0;
+	   }
+	   
+	   //figure out cost per day for features added
+	   $year_cost_for_features_added = $whole_month_cost * 12;
+	   $cost_per_day = $year_cost_for_features_added / 365;
+	   
+	   return round($days_difference * $cost_per_day, 2);   
+   }
+   
    
    /**
     * Figure out exactly what changed from what they have selected and display that to the user. They will be warned as far
@@ -144,48 +212,61 @@ class AccountsController extends AppController {
     * @return Function will get the html for the account_change_finish_element. 
     * @author Adam Holsinger
     */
-   public function ajax_finishLineChange() {
-       //If payment needed collect authnet
+   public function admin_ajax_finishLineChange() {
+       //If payment needed collect authnet 
        
        $account_info = $this->Session->read('account_info');
        $account_changes = $this->Session->read('account_line_items');
        
-       if ($account_info['Account']['authnet_profile_id'] == false) {
-           $return = array();
-           $return['html'] = $this->get_add_profile_form();
-           print(json_encode($return));
-           exit();
-       }
-       
+      
        $account_info = $this->rekey_account_info($account_info);
        $current_bill = 0;
-       foreach($account_info as $line_item) {
+       foreach($account_info['items'] as $line_item) {
            if ($line_item['AccountLineItem']['active']) {
-               $current_bill += $line_item['AccountLineItem']['current_cost'];
+               $current_bill += $line_item['AccountLineItem']['customer_cost'];
            }
        }
        
        //compare checked items
        foreach ($account_changes['checked'] as $id => $change) {
-           if ($account_info[$id]['AccountLineItem']['active']) {
+           if ($account_info['items'][$id]['AccountLineItem']['active']) {
                unset($account_changes['checked'][$id]);
            }
        }
        
        //compare unchecked items
        foreach ($account_changes['unchecked'] as $id => $change) {
-           if ($account_info[$id]['AccountLineItem']['active'] == false) {
+           if ($account_info['items'][$id]['AccountLineItem']['active'] == false) {
                unset($account_changes['unchecked'][$id]);
            }
        }
-       
+	   
+	   $bill_today = $this->findAmountDueToday($account_changes, $account_info);
+	  
+	   if ($account_info['Account']['authnet_profile_id'] == false && $account_info['Account']['promo_credit_balance'] >= $bill_today && empty($this->params['named']['noCCPromoConfirm'])) {
+		
+		   $return = array();
+           $return['html'] = $this->element('admin/accounts/promo_notification_form', compact(array('account_info', 'bill_today', 'current_bill', 'account_changes')));
+           print(json_encode($return));
+           exit();
+	   } elseif ($account_info['Account']['authnet_profile_id'] == false && empty($this->params['named']['noCCPromoConfirm'])) {
+		
+		   $return = array();
+           $return['html'] = $this->get_add_profile_form();
+           print(json_encode($return));
+           exit();
+	   }
+	
        $this->Session->delete('final_account_changes');
        $this->Session->write('final_account_changes', $account_changes);
-              
+	   $payment_profile = $this->FotomatterBilling->getPaymentProfile();
+           
        $return = array();
        $return['html'] = $this->element('admin/accounts/account_change_finish', array('current_bill'=>$current_bill,
                                                                                 'account_changes'=>$account_changes,
-                                                                                'account_info'=>$account_info));
+                                                                                'account_info'=>$account_info,
+																				'bill_today'=>$bill_today,
+																				'payment_profile'=>$payment_profile));
        print(json_encode($return));
        exit();
    }
@@ -216,18 +297,26 @@ class AccountsController extends AppController {
        $account_info = $this->rekey_account_info($account_info);
        
        foreach($account_changes['checked'] as $key => $item_to_add) {
-           $change_to_send['add'][] = $account_info[$key];
+           $change_to_send['add'][] = $account_info['items'][$key];
        }
        
        foreach ($account_changes['unchecked'] as $key => $item_to_remove) {
-           $change_to_send['remove'][] = $account_info[$key];
+           $change_to_send['remove'][] = $account_info['items'][$key];
        }
-       $result = $this->FotomatterBilling->makeAccountChanges($change_to_send);
-       $return['code'] = true;
-       $this->return_json($return);
+	   $change_to_send['amount_due_today'] = $this->findAmountDueToday($account_changes, $account_info);
+	   
+       $return = $this->FotomatterBilling->makeAccountChanges($change_to_send);
+	   if ($return == false) {
+			$this->Session->setFlash(__('There has been a problem while undoing your cancellation. Please contact us at support@fotomatter.net for help.', true), 'admin/flashMessage/error');
+			$result['code'] = false;
+			$this->return_json($return);
+	   } else {
+			$this->Session->setFlash(__('We have successfully added new ala-cart items to your account.', true), 'admin/flashMessage/success');
+		    $result['code'] = true;
+			$this->return_json($return);
+	   }
+	   exit();
+      
    }
-   
-   
-    
-    
+
 }

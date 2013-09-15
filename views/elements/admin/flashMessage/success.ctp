@@ -1,0 +1,1 @@
+<div class='success flashMessage rounded-corners-tiny'><i class='icon-check'></i><span><?php echo $message; ?></span></div>
