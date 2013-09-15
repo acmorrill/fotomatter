@@ -47,7 +47,7 @@ class DrewShell extends Shell {
 			),
 			'b' => array(
 				'start_equity' => 37.5,
-				'hours' => 10.05,
+				'hours' => 11,
 			),
 			'c' => array(
 				'start_equity' => 25,

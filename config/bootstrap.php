@@ -41,6 +41,8 @@ a * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.o
  *
  i*/
 
+date_default_timezone_set('America/Denver');
+
 define("FORGOT_PASSWORD_SALT", 'a0YngDg079JmYJ5ahCxWV6PFovsyGn');
 define("CARDNUMBER_MASK", 'XXXXXXXXXXXX');
 

@@ -33,7 +33,7 @@ class EcommercesController extends AppController {
 		$lock = $this->PaypalReimbursementLog->get_lock($lock_name, 8);
 			if ($lock === false) {
 				// DREW TODO - fail here
-				$this->redirect('/admin/ecommerces/get_payed/');
+				$this->redirect('/admin/ecommerces/get_paid/');
 			}
 		
 		
@@ -44,9 +44,8 @@ class EcommercesController extends AppController {
 
 			// make sure all the payable order ids are still payable
 			if ($this->AuthnetOrder->are_orders_payable($payable_order_ids) === false) {
-				$this->release_lock($lock_name);
-				// START HERE TOMORROW DREW TODO - fail here
-				$this->redirect('/admin/ecommerces/get_payed/');
+				$this->PaypalReimbursementLog->release_lock($lock_name);
+				$this->redirect('/admin/ecommerces/get_paid/');
 			} 
 
 
@@ -56,11 +55,10 @@ class EcommercesController extends AppController {
 			// (if this fails need to set everything back the way it was)
 			$logged_in_user = $this->Auth->user();
 			if (empty($logged_in_user['User']['email_address'])) {
-				$this->major_error('2 No email address to get payed via paypal with!', compact('logged_in_user', 'payable_order_ids'), 'high');
+				$this->major_error('2 No email address to get paid via paypal with!', compact('logged_in_user', 'payable_order_ids'), 'high');
 				$this->Session->setFlash('Cannot get paid on orders. Please contact support.');
-				$this->release_lock($lock_name);
-				$this->redirect('/admin/ecommerces/get_payed/');
-				// START HERE TOMORROW DREW TODO - finish this error case
+				$this->PaypalReimbursementLog->release_lock($lock_name);
+				$this->redirect('/admin/ecommerces/get_paid/');
 			}
 			$user_email_address = $logged_in_user['User']['email_address'];
 			$amount = $this->AuthnetOrder->get_order_totals($payable_order_ids);
@@ -68,17 +66,16 @@ class EcommercesController extends AppController {
 			$this->AuthnetOrder->set_orders_pay_out_status($payable_order_ids, 'processing');
 			$send_payment_result = $this->AuthnetOrder->send_photographer_payment_via_paypal($amount, $logged_in_user, $payable_order_ids);
 			if ($send_payment_result === false) {
-				$this->AuthnetOrder->set_orders_pay_out_status($payable_order_ids, 'not_payed'); // DREW TODO - maybe mark as error?
+				$this->AuthnetOrder->set_orders_pay_out_status($payable_order_ids, 'not_paid'); // DREW TODO - maybe mark as error?
 				$this->major_error('Failed to reimmburse for orders', compact('logged_in_user', 'payable_order_ids', 'amount'), 'high');
 				$this->Session->setFlash('Cannot get paid on orders. Please contact support.');
-				$this->release_lock($lock_name);
-				$this->redirect('/admin/ecommerces/get_payed/');
-				// START HERE TOMORROW DREW TODO - finish this error case
+				$this->PaypalReimbursementLog->release_lock($lock_name);
+				$this->redirect('/admin/ecommerces/get_paid/');
 			}
 			
 			
-			// payment worked so now mark orders as payed
-			$this->AuthnetOrder->set_orders_pay_out_status($payable_order_ids, 'payed');
+			// payment worked so now mark orders as paid
+			$this->AuthnetOrder->set_orders_pay_out_status($payable_order_ids, 'paid');
 		$this->PaypalReimbursementLog->release_lock($lock_name);
 		//---------------------------------------------------------------------
 		
@@ -89,7 +86,7 @@ class EcommercesController extends AppController {
 	
 	public function admin_get_paid() {
 		// DREW TODO remove this - just for testing
-//		$this->AuthnetOrder->set_orders_pay_out_status(array('48','49','50','51','52'), 'not_payed');
+//		$this->AuthnetOrder->set_orders_pay_out_status(array('48','49','50','51','52'), 'not_paid');
 		
 		// get all the payableorders
 		$payable_orders = $this->AuthnetOrder->get_payable_orders();
@@ -99,7 +96,7 @@ class EcommercesController extends AppController {
 		$logged_in_user = $this->Auth->user();
 		$payable_paypal_email_address = '';
 		if (empty($logged_in_user['User']['email_address'])) {
-			$this->major_error('No email address to get payed via paypal with!', compact('logged_in_user', 'payable_orders'), 'high');
+			$this->major_error('No email address to get paid via paypal with!', compact('logged_in_user', 'payable_orders'), 'high');
 			$this->Session->setFlash('Cannot get paid on orders. Please contact support.');
 		} else {
 			$payable_paypal_email_address = $logged_in_user['User']['email_address'];
