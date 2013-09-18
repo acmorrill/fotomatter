@@ -114,13 +114,16 @@ class AppModel extends LazyModel {
 	 *
 	 * @param type $description
 	 * @param type $extra_data
-	 * @param type $severity 
+	 * @param type $severity // low, normal, high
 	 */
-	public function major_error($description, $extra_data = null, $severity = 'normal') {
+	public function major_error($description, $extra_data = null, $severity = 'normal') { // low, normal, high
+		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+		
 		$stackTrace = debug_backtrace(false);
 		
 		$majorError = ClassRegistry::init("MajorError");
 		
+		$data['MajorError']['account_id'] = $this->SiteSetting->getVal('account_id');;
 		$location = '';
 		if (isset($stackTrace[1]['class'])) {
 			$location .= " --- Class: ".$stackTrace[1]['class']." --- ";
@@ -134,7 +137,7 @@ class AppModel extends LazyModel {
 		if ($extra_data != null) {
 			$data['MajorError']['extra_data'] = print_r($extra_data, true);
 		}
-		$data['MajorError']['type'] = $severity;
+		$data['MajorError']['severity'] = $severity;
 		$majorError->create();
 		$majorError->save($data);
 		
