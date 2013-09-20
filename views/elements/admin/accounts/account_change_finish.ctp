@@ -13,7 +13,7 @@
        function changePaymentData() {
             $.ajax({
                type: 'GET',
-               url: '/admin/accounts/ajax_update_payment/closeWhenDone: false',
+               url: '/admin/accounts/ajax_update_payment/closeWhenDone:false',
                success: function(data) {
                    $(".ui-dialog-content").html(data.html);
                },
@@ -21,9 +21,17 @@
             });
        }
 	   
-	   setTimeout($('button.finalize_change').button(), 20);
+	   setTimeout(function() {
+			$('button.finalize_change').button();
+			<?php if($bill_today === false): ?>
+					$('button.finalize_change').button('option', 'disabled', true);
+		    <?php endif; ?>
+	   }, 20);
    </script>
 <div id="finish_account_change">
+	<?php if ($bill_today === false): ?>
+		<?php echo $this->element('admin/flashMessage/error', array('message'=>__('Our system is down right now and we can\'t continue your order, please contact us at support@fotomatter.net.', true))); ?>
+	<?php endif; ?>
 	<div class='payment_item current_bill'>
 		<span class='label'><?php echo __('Current Bill'); ?>:</span><span class='value'><?php echo $this->Number->currency($current_bill); ?></span>
 	</div>

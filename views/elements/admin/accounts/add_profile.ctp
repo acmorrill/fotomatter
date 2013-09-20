@@ -1,10 +1,12 @@
 <script type="text/javascript">
+
     function send_form() {
         $.ajax({
               type: "POST",
               url: "/admin/accounts/ajax_save_client_billing",
               data: $("#payment_details_client").serialize(),
               success: function(data) {
+
                   <?php if($closeWhenDone): ?>
                       $(".ui-dialog-content").dialog('close');
                   <?php else: ?>
@@ -21,10 +23,15 @@
             }, 'json');
     }
 	
-	setTimeout($("input[type=submit]").button(), 50);
+	setTimeout(function() {
+		$("input[type=submit]").button()
+	}, 50);
     
 </script>
 <div class="profile-outer-cont">
+	<?php if (empty($error_message) === false): ?>
+		<?php echo $this->element('admin/flashMessage/error', array('message'=>$error_message)); ?>
+	<?php endif; ?>
 	<h3><?php echo __('Add credit Card'); ?></h3>
     <form id="payment_details_client" action="#" onSubmit="send_form(); return false;">
         <div class="address">
