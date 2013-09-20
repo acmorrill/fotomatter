@@ -171,7 +171,7 @@ class AppModel extends LazyModel {
 	
 	public function get_lock($lock_name, $wait_time) {
 		$initLocked = $this->query("SELECT GET_LOCK('$lock_name', $wait_time)");
-		if ($initLocked['0']['0']["GET_LOCK('$lock_name', 8)"] == 0 || $initLocked['0']['0']["GET_LOCK('$lock_name', 8)"] == null) {
+		if ($initLocked['0']['0']["GET_LOCK('$lock_name', $wait_time)"] == 0 || $initLocked['0']['0']["GET_LOCK('$lock_name', $wait_time)"] == null) {
 			// could not get the lock
 			return false;
 		}

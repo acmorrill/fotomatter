@@ -11,7 +11,7 @@ class DashboardsController extends AppController {
 
      public function admin_index() {
 		 $this->MajorError = ClassRegistry::init('MajorError');
-//		 $this->MajorError->create_fake_major_errors();
+		 $this->MajorError->create_fake_major_errors();
 		 
 		 $this->MajorError->aggragate_errors();
 		 
