@@ -22,6 +22,7 @@ class AccountsController extends AppController {
     */
    public function admin_index() {
        $overlord_account_info = $this->FotomatterBilling->get_info_account();
+	   
        $this->Session->delete('account_line_items');
        $this->Session->write('account_line_items', array('checked'=>array(), 'unchecked'=>array()));
        
@@ -104,6 +105,11 @@ class AccountsController extends AppController {
     * Get the payment profile form to update payment details
     */
    public function admin_ajax_update_payment() {
+	   if ($this->params['named']['closeWhenDone'] == 'false') {
+		   $this->params['named']['closeWhenDone'] = false;
+	   } else {
+		   $this->params['named']['closeWhenDone'] = true;
+	   }
        $currentData = $this->FotomatterBilling->getPaymentProfile();
        $return['html'] = $this->get_add_profile_form($currentData['data'], $this->params['named']['closeWhenDone']);
        $this->return_json($return);
@@ -139,8 +145,12 @@ class AccountsController extends AppController {
                $this->Validation->validate('not_empty', $this->data['AuthnetProfile'], 'payment_cardCode', __('Your csv code was either blank or invalid.', true));
            
            } catch (Exception $e) {
-               $this->Session->setFlash($e->getMessage());
-               $return['html'] = $this->get_add_profile_form($this->data);
+			   if (empty($this->params['named']['closeWhenDone']) === false && $this->params['named']['closeWhenDone'] == 'true') {
+				   $this->params['named']['closeWhenDone'] = true;
+			   } else {
+				   $this->params['named']['closeWhenDone'] = false;
+			   }
+               $return['html'] = $this->get_add_profile_form($this->data, $this->params['named']['closeWhenDone'], $e->getMessage());
                print(json_encode($return));
                exit();
            }
@@ -158,10 +168,10 @@ class AccountsController extends AppController {
        exit();
    }
    
-   private function get_add_profile_form($current_data=array(), $closeWhenDone=false) {
+   private function get_add_profile_form($current_data=array(), $closeWhenDone=false, $error_message='') {
         $return = array();
-        $countries = $this->GlobalCountry->get_available_countries();
-        return $this->element("admin/accounts/add_profile", array('countries'=>$countries, 'current_data'=>$current_data, 'closeWhenDone'=>$closeWhenDone));
+        $countries = $this->GlobalCountry->get_available_countries();   
+		return $this->element('admin/accounts/add_profile', compact(array('countries', 'current_data', 'closeWhenDone', 'error_message')));
    }
    
    private function rekey_account_info($account_info) {
@@ -192,12 +202,15 @@ class AccountsController extends AppController {
 	   
 	   //figure out how many days we are billing for
 	   $next_billing_date = strtotime($account_info['Account']['next_bill_date']);
-	   $days_difference = intval(($next_billing_date - strtotime('tomorrow')) / (60 * 60 * 24));
-	   
-	   if ($days_difference < 1) {
+	   $now = time();
+	  
+	   if ($now > $next_billing_date) {
+		   $this->major_error('Billing date is in the past, probably billing problem.', $account_changes, 'high');
 		   return 0;
 	   }
 	   
+	   $days_difference = intval(($next_billing_date - $now) / (60 * 60 * 24));
+	 
 	   //figure out cost per day for features added
 	   $year_cost_for_features_added = $whole_month_cost * 12;
 	   $cost_per_day = $year_cost_for_features_added / 365;
@@ -304,10 +317,15 @@ class AccountsController extends AppController {
            $change_to_send['remove'][] = $account_info['items'][$key];
        }
 	   $change_to_send['amount_due_today'] = $this->findAmountDueToday($account_changes, $account_info);
+	   if ($change_to_send['amount_due_today'] === false) {
+		   $this->major_error('Someone tried to send billing even though their billing date was in the past, probably a hacking attempt.', $change_to_send, 'high');
+		   $result['code'] = false;
+		   $this->return_json($return);
+	   }
 	   
        $return = $this->FotomatterBilling->makeAccountChanges($change_to_send);
 	   if ($return == false) {
-			$this->Session->setFlash(__('There has been a problem while undoing your cancellation. Please contact us at support@fotomatter.net for help.', true), 'admin/flashMessage/error');
+			$this->Session->setFlash(__('Your credit card has been declined, if you need help please contact us at support@fotomatter.net for help.', true), 'admin/flashMessage/error');
 			$result['code'] = false;
 			$this->return_json($return);
 	   } else {

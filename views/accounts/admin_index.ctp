@@ -14,16 +14,22 @@
 		$(".details .current_credit .info").html(accounting.formatMoney($(".details .current_credit .info").html()));
 	}
 	
+	function roundTwoDecimal(number) {
+		return Math.round(number * 100) / 100;
+	}
+	
 	function update_total(line_item, is_add) {
 		if (account_info.pending_bill === undefined) {	
 			account_info.pending_bill = account_info.total_bill;
 		}
 		
+		var floatNum = roundTwoDecimal(parseFloat(line_item.attr('data-customer_cost')), 2);
 		if(is_add) {
-			 account_info.pending_bill += parseFloat(line_item.attr('data-customer_cost'));
+			 account_info.pending_bill += floatNum;
 		} else {
-			 account_info.pending_bill -= parseFloat(line_item.attr('data-customer_cost'));
+			 account_info.pending_bill -= floatNum;
 		}
+		account_info.pending_bill = roundTwoDecimal(account_info.pending_bill, 2);
 		
 		if (account_info.pending_bill === account_info.total_bill) {
 			$('.current_bill .pending_total').html('');
@@ -134,7 +140,7 @@
 			
 			if ($("button.pending").length > 0) {
 				$(".account-details").addClass('finish-shown');
-				$(".finish-outer-cont").show();
+				$(".finish-outer-cont").fadeIn();
 			} else {
 				$(".account-details").removeClass('finish-shown');
 				$(".finish-outer-cont").hide();
@@ -196,6 +202,11 @@
 	});
 </script>
 <div class='clear' id="line_item_cont">
+	<ul>
+		<li>When billing runs when the credit card is declined it needs to see removed and removed_scheduled to the current date time.</li>
+		<li>when adding a feature and payment is declined it sill allowed the feature to be added.</li>
+	</ul>
+	
 	<?php echo $this->Session->flash(); ?>
 	<?php if($overlord_account_info['is_pay_fail']): ?>
 	<div class='pay_fail_message rounded-corners'>
