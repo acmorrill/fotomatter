@@ -43,10 +43,4 @@ class CronJob extends AppModel {
 
 		return true;
 	}
-	
-	public function test() {
-		$this->log('works in the app as well!', 'test');
-		
-		return true;
-	}
 }

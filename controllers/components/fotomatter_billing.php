@@ -6,8 +6,6 @@ class FotomatterBillingComponent extends Object {
     //public $server_url = 'http://local.fotomatter.net';
     //adam TODO this should be ssl
     
-    public $shared_secret = 'baYMbSR0EM0REmSheFHc0Qo2RUmEGoToNFnPWFcyAEUYRlaOgSynnI1F9DyI';
-    
     public function __construct() {
         $this->server_url = Configure::read('OVERLORD_URL');
     }
@@ -61,9 +59,6 @@ class FotomatterBillingComponent extends Object {
     }
     
      private function send_api_request($api, $params=array()) {
-        App::import('Core', 'HttpSocket');
-		$HttpSocket = new HttpSocket();
-	
 		$request['Request']['data'] = $this->clear_values($params);
         
         $url_to_use = $this->server_url . '/' .$api;
@@ -74,7 +69,7 @@ class FotomatterBillingComponent extends Object {
         $this->SiteSetting = ClassRegistry::init("SiteSetting");
         $site_key = $this->SiteSetting->getVal('site_domain');
         $request['Request']['key'] = $site_key;
-		$request['Access']['signature'] = hash_hmac('sha256', json_encode($request['Request']), $this->shared_secret);
+		$request['Access']['signature'] = hash_hmac('sha256', json_encode($request['Request']), OVERLORD_API_KEY);
 		
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL , $url_to_use);
@@ -89,8 +84,8 @@ class FotomatterBillingComponent extends Object {
 		curl_close($ch);
 				
    //     $this->log($request['Request'], 'client_billing');
-        $this->log($response, 'client_billing');
-	return $response;
+//        $this->log($response, 'client_billing');
+		return $response;
     }
     
     private function clear_values($params) {
