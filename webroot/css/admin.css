@@ -2426,14 +2426,26 @@ div#sub-nav ul li.title a {
 #finish_account_change {
   margin: 20px 0;
 }
+#finish_account_change .summary {
+  float: right;
+}
+#finish_account_change .cc_info {
+  float: left;
+  margin: 5px;
+  width: 280px;
+}
+#finish_account_change .payment_item {
+  margin: 5px 10px;
+}
 #finish_account_change .payment_item .label {
   font-size: 18px;
   font-weight: bold;
   color: #F3F3F3;
   margin: 15px 10px 0 0;
 }
-#finish_account_change .due_today {
-  margin: 20px 0;
+#finish_account_change .payment_item .value {
+  display: inline-block;
+  float: right;
 }
 #finish_account_change .due_today a {
   color: #00E8FA;
@@ -2445,27 +2457,35 @@ div#sub-nav ul li.title a {
   margin: 15px 0;
 }
 #finish_account_change button.finalize_change {
-  margin: 20px 0;
+  margin: 20px;
   font-size: 15px;
+  float: right;
+}
+#finish_account_change .change-cont {
+  margin: 0 auto;
+  width: 542px;
 }
 #finish_account_change .change_summary {
   border: 1px solid grey;
   min-height: 150px;
   padding: 10px;
+  margin: 0 auto;
 }
 #finish_account_change .change_summary .item_to_add {
-  height: 30px;
+  height: 32px;
+  border-bottom: 1px solid grey;
 }
 #finish_account_change .change_summary .item_to_add div {
   display: inline-block;
   float: left;
 }
 #finish_account_change .change_summary .item_to_add div.item_name {
-  margin: 5px 50px 0 20px;
+  border-right: 1px solid grey;
+  padding: 5px 95px;
   width: 170px;
 }
 #finish_account_change .change_summary .item_to_add div.item_cost {
-  margin: 5px 20px 0 70px;
+  padding: 5px 50px 5px 64px;
 }
 .sub_submenu_cont .sub_submenu_left_cont,
 .sub_submenu_cont .sub_submenu_right_cont,
