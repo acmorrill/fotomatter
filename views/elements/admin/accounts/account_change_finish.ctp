@@ -24,28 +24,36 @@
 	   setTimeout($('button.finalize_change').button(), 20);
    </script>
 <div id="finish_account_change">
-	<div class='payment_item current_bill'>
-		<span class='label'><?php echo __('Current Bill'); ?>:</span><span class='value'><?php echo $this->Number->currency($current_bill); ?></span>
-	</div>
 	<div class='pending_change'>
 		<p><?php echo __('Pending Additions:'); ?></p>	
 	</div>
-	<div class='change_summary rounded-corners'>
-		<?php $amount_to_add = 0; ?>
-		<?php foreach ($account_changes['checked'] as $id => $change): ?>
-			<?php $amount_to_add += $account_info['items'][$id]['AccountLineItem']['current_cost']; ?>
-			<div class='item_to_add'>
-				<div class='item_name'><?php echo $account_info['items'][$id]['AccountLineItem']['name']; ?></div>
-				<div class='item_cost'><?php echo $this->Number->currency($account_info['items'][$id]['AccountLineItem']['current_cost']); ?></div>
+	<div class='change-cont'>
+		<div class='change_summary'>
+			<?php $amount_to_add = 0; ?>
+			<?php foreach ($account_changes['checked'] as $id => $change): ?>
+				<?php $amount_to_add += $account_info['items'][$id]['AccountLineItem']['current_cost']; ?>
+				<div class='item_to_add'>
+					<div class='item_name'><?php echo $account_info['items'][$id]['AccountLineItem']['name']; ?></div>
+					<div class='item_cost'><?php echo $this->Number->currency($account_info['items'][$id]['AccountLineItem']['current_cost']); ?></div>
+				</div>
+			<?php endforeach; ?>
+		</div>
+		<div class='cc_info'>
+			<span class='cc_source'> (<?php echo $bill_today < $account_info['Account']['promo_credit_balance'] || empty($payment_profile['data']) ? __('Will be subtracted for fotomatter credit.', true) : sprintf(__('Will bill credit card ending in %s.', true), $payment_profile['data']['AuthnetProfile']['payment_cc_last_four']); ?><br><a href='#' onClick='changePaymentData()'>Change/Add Credit Card</a>)</span>
+		</div>
+		<div class='summary'>
+			<div class='payment_item current_bill'>
+				<span class='label'><?php echo __('Current Bill'); ?>:</span><span class='value'><?php echo $this->Number->currency($current_bill); ?></span>
 			</div>
-		<?php endforeach; ?>
+			<div class='payment_item new_bill'>
+				<span class='label'><?php echo __('New bill'); ?>:</span><span class='value'><?php echo $this->Number->currency($current_bill + $amount_to_add); ?></span>
+			</div>
+			<div class='payment_item due_today'>
+				<span class='label'><?php echo __('Due Today'); ?>:</span><span class='value'><?php echo $this->Number->currency($bill_today); ?></span>
+			</div>
+		</div>
 	</div>
-	<div class='payment_item due_today'>
-		<span class='label'><?php echo __('Due Today'); ?>:</span><span class='value'><?php echo $this->Number->currency($bill_today); ?><span class='cc_source'> (<?php echo $bill_today < $account_info['Account']['promo_credit_balance'] || empty($payment_profile['data']) ? __('Will be subtracted for fotomatter credit.', true) : sprintf(__('Will bill credit card ending in %s.', true), $payment_profile['data']['AuthnetProfile']['payment_cc_last_four']); ?><br><a href='#' onClick='changePaymentData()'>Change/Add Credit Card</a>)</span>
-	</div>
-	<div class='payment_item new_bill'>
-		<span class='label'><?php echo __('New bill'); ?></span><span class='value'><?php echo $this->Number->currency($current_bill + $amount_to_add); ?></span>
-	</div>
+	<div style='clear:both'></div>
 	<button class="finalize_change" onClick='finishChange()'><?php __('Finalize Change'); ?></button>
 	
 	<?php /*
