@@ -200,6 +200,16 @@
 
 #finish_account_change {
 	margin:20px 0;
+	.summary {
+		float:right;
+	}
+
+	.cc_info {
+		float:left;
+		margin:5px;
+		width:280px;
+	}
+
 	.payment_item {
 		.label {
 			font-size:18px;
@@ -207,10 +217,14 @@
 			color:@slightly_darker_white_text;
 			margin:15px 10px 0 0;
 		}
+		.value {
+			display:inline-block;
+			float:right;
+		}
+		margin:5px 10px;
 	}
 
 	.due_today {
-		margin:20px 0;
 		a {
 			color:@link_color;
 		}
@@ -224,29 +238,37 @@
 	}
 
 	button.finalize_change {
-		margin:20px 0;
+		margin:20px;
 		font-size:15px;
+		float:right;
+	}
+
+	.change-cont {
+		margin:0 auto;
+		width:542px;
 	}
 
 	.change_summary {
 		border:1px solid grey;
 		min-height:150px;
 		padding:10px;
-
+		margin:0 auto;
 		.item_to_add {
-			height:30px;
+			height:32px;
+			border-bottom:1px solid grey;
 			div {
 				display:inline-block;
 				float:left;
 			}
 
 			div.item_name {
-				margin:5px 50px 0 20px;
+				border-right:1px solid grey;
+				padding:5px 95px;
 				width:170px;
 			}
 
 			div.item_cost {
-				margin:5px 20px 0 70px;
+				padding:5px 50px 5px 64px
 			}
 		}
 	}
