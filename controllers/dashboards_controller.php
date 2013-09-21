@@ -10,6 +10,11 @@ class DashboardsController extends AppController {
      }
 
      public function admin_index() {
+		 $this->MajorError = ClassRegistry::init('MajorError');
+		 $this->MajorError->create_fake_major_errors();
+		 
+		 $this->MajorError->aggragate_errors();
+		 
 		 $this->HashUtil->set_new_hash('hash_five'); // DREW TODO - remove this
      }
 }

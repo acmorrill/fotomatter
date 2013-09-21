@@ -46,6 +46,8 @@ date_default_timezone_set('America/Denver');
 define("FORGOT_PASSWORD_SALT", 'a0YngDg079JmYJ5ahCxWV6PFovsyGn');
 define("CARDNUMBER_MASK", 'XXXXXXXXXXXX');
 
+define("OVERLORD_API_KEY", 'baYMbSR0EM0REmSheFHc0Qo2RUmEGoToNFnPWFcyAEUYRlaOgSynnI1F9DyI');
+
 // webroot abs path
 define("WEBROOT_ABS", ROOT.DS.APP_DIR.DS.'webroot');
 
