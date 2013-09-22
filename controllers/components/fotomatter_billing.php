@@ -84,7 +84,7 @@ class FotomatterBillingComponent extends Object {
 		curl_close($ch);
 				
    //     $this->log($request['Request'], 'client_billing');
-//        $this->log($response, 'client_billing');
+  //      $this->log($response, 'client_billing');
 		return $response;
     }
     

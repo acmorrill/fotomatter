@@ -39,7 +39,7 @@ class AccountsController extends AppController {
 	   $line_items = $this->Session->read('account_line_items');
 	   
 	   foreach($overlord_account_info['items'] as $item) {
-		   if ($item['AccountLineItem']['previous'] == false) {
+		   if ($item['AccountLineItem']['is_pay_fail'] == false) {
 			   continue;
 		   }
 		   
@@ -86,11 +86,13 @@ class AccountsController extends AppController {
        
        $line_item_id = $this->params['form']['id'];
        if ($this->params['form']['checked']) {
+		   $this->log('check', 'setItemCheck');
            if (isset($line_items['unchecked'][$line_item_id])) {
                unset($line_items['unchecked'][$line_item_id]);
            }
            $line_items['checked'][$line_item_id] = 'checked';
        } else {
+		   $this->log('uncheck', 'setItemCheck');
            if (isset($line_items['checked'][$line_item_id])) {
                unset($line_items['checked'][$line_item_id]);
            }
