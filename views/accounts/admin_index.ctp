@@ -120,11 +120,11 @@
 			var argsToSend = {};
 			argsToSend.id = $(this).attr('data_id');
 			if ($(this).hasClass('pending')) {
-				argsToSend.checked = false;
+				argsToSend.checked = 0;
 				$(this).removeClass('pending');
 				$(this).find('span').html('<?php echo __('Add'); ?>');
 			} else {
-				argsToSend.checked = true;
+				argsToSend.checked = 1;
 				$(this).addClass('pending');
 				$(this).find('span').html('<?php echo __('Added'); ?>');
 			}
@@ -202,11 +202,6 @@
 	});
 </script>
 <div class='clear' id="line_item_cont">
-	<ul>
-		<li>When billing runs when the credit card is declined it needs to see removed and removed_scheduled to the current date time.</li>
-		<li>when adding a feature and payment is declined it sill allowed the feature to be added.</li>
-	</ul>
-	
 	<?php echo $this->Session->flash(); ?>
 	<?php if($overlord_account_info['is_pay_fail']): ?>
 	<div class='pay_fail_message rounded-corners'>
