@@ -123,7 +123,7 @@ class AppModel extends LazyModel {
 		
 		$majorError = ClassRegistry::init("MajorError");
 		
-		$data['MajorError']['account_id'] = $this->SiteSetting->getVal('account_id');;
+		$data['MajorError']['account_id'] = $this->SiteSetting->getVal('account_id');
 		$location = '';
 		if (isset($stackTrace[1]['class'])) {
 			$location .= " --- Class: ".$stackTrace[1]['class']." --- ";
