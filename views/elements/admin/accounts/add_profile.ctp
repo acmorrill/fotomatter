@@ -3,12 +3,16 @@
     function send_form() {
         $.ajax({
               type: "POST",
-              url: "/admin/accounts/ajax_save_client_billing",
+              url: "/admin/accounts/ajax_save_client_billing/closeWhenDone:<?php echo $closeWhenDone?'true':'false'; ?>",
               data: $("#payment_details_client").serialize(),
               success: function(data) {
 
                   <?php if($closeWhenDone): ?>
-                      $(".ui-dialog-content").dialog('close');
+					   if(data.result !== undefined && data.result == false) {
+						   $(".ui-dialog-content").html(data.html);
+					   } else {
+							window.location.reload();
+					   }
                   <?php else: ?>
                       $(".ui-dialog-content").html(data.html);
                   <?php endif; ?>

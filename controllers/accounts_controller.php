@@ -1,7 +1,7 @@
 <?php
 class AccountsController extends AppController {
     
-   public $uses = array('GlobalCountry', 'GlobalCountryState');
+   public $uses = array('GlobalCountry', 'GlobalCountryState', 'Photo', 'SitePage', 'PhotoGallery');
    
    public $layout = 'admin/accounts';
    
@@ -13,7 +13,12 @@ class AccountsController extends AppController {
    
    public function admin_account_details() {
        $accountDetails = $this->FotomatterBilling->getAccountDetails();
+	   $photo_count = $this->Photo->find('count');
+	   $site_page_count = $this->SitePage->find('count');
+	   $photo_gallery_count = $this->PhotoGallery->find('count');
+	   
        $this->set('accountDetails', $accountDetails['data']);
+	   $this->set(compact('photo_count', 'site_page_count', 'photo_gallery_count'));
    }
     
     /**
@@ -22,7 +27,7 @@ class AccountsController extends AppController {
     */
    public function admin_index() {
        $overlord_account_info = $this->FotomatterBilling->get_info_account();
-	   
+	  
        $this->Session->delete('account_line_items');
        $this->Session->write('account_line_items', array('checked'=>array(), 'unchecked'=>array()));
        
@@ -152,13 +157,20 @@ class AccountsController extends AppController {
 			   } else {
 				   $this->params['named']['closeWhenDone'] = false;
 			   }
-               $return['html'] = $this->get_add_profile_form($this->data, $this->params['named']['closeWhenDone'], $e->getMessage());
+               $return['html'] = $this->get_add_profile_form($this->data,$this->params['named']['closeWhenDone'], $e->getMessage());
+			   $return['result'] = false;
                print(json_encode($return));
                exit();
            }
            
            $this->data['AuthnetProfile']['payment_cc_last_four'] = substr($this->data['AuthnetProfile']['payment_cardNumber'], -4, 4);
            $profile_id = $this->FotomatterBilling->save_payment_profile($this->data);
+		   
+		    if (empty($this->params['named']['closeWhenDone']) === false && $this->params['named']['closeWhenDone'] == 'true') {
+				$this->Session->setFlash(__('Your billing details have been successfully updated.', true), 'admin/flashMessage/success');
+				$this->return_json(array('result'=>true));
+				exit();
+			}
            
            $account_info = $this->Session->read('account_info');
            $account_info['Account']['authnet_profile_id'] = $profile_id;
@@ -211,8 +223,8 @@ class AccountsController extends AppController {
 		   return 0;
 	   }
 	   
-	   $days_difference = intval(($next_billing_date - $now) / (60 * 60 * 24));
-	 
+	   $days_difference = ($next_billing_date - $now) / (60 * 60 * 24);
+	  
 	   //figure out cost per day for features added
 	   $year_cost_for_features_added = $whole_month_cost * 12;
 	   $cost_per_day = $year_cost_for_features_added / 365;

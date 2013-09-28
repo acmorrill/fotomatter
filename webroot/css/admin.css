@@ -1521,6 +1521,27 @@ body {
 .outer-tag-chooser-cont div.tagsinput {
   margin: 10px 5px;
 }
+.fm_summary_cont {
+  width: 60%;
+  margin: 10px 0 5px;
+}
+.fm_summary_cont h3 {
+  margin: 15px;
+  font-size: 17px;
+  margin-top: 10px;
+  margin-bottom: 14px;
+  -moz-border-radius: 0;
+}
+.fm_summary_cont .container {
+  background-color: #222222;
+  min-height: 100px;
+}
+.fm_summary_cont.small {
+  width: 40%;
+}
+.fm_summary_cont.large {
+  width: 80%;
+}
 #top-navigation li {
   display: inline-block;
   vertical-align: bottom;
@@ -1815,6 +1836,34 @@ div#sub-nav ul li.title a {
 }
 .profile-outer-cont .profile_info p {
   margin: 10px 0;
+}
+form.fm_form {
+  margin: 10px;
+  display: inline-block;
+}
+form.fm_form label {
+  display: inline-block;
+  width: 100px;
+}
+form.fm_form .input {
+  margin: 5px 0;
+}
+form.fm_form .input input {
+  padding: 2px;
+  width: 180px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  border: 1px solid #222222;
+}
+form.fm_form .submit input {
+  width: auto;
+  padding: 5px 10px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
 }
 #connect_gallery_photos_cont {
   min-height: 200px;
@@ -2267,36 +2316,25 @@ div#sub-nav ul li.title a {
 #account-details {
   padding: 0px 15px;
 }
-#account-details fieldset {
-  padding: 15px 30px 20px;
-  margin: 15px 0;
-  border: 1px solid #AAAAAA;
-  color: #AAAAAA;
+#account-details .fm_summary_cont .table_header_darker {
+  border-radius: 0;
+  -moz-border-radius: 0;
+  height: 15px;
+  line-height: 20px;
 }
-#account-details fieldset.payment {
+#account-details .fm_summary_cont .container .info {
   display: inline-block;
+  margin: 15px 45px;
+  width: 240px;
 }
-#account-details fieldset.payment .payment-summary {
-  margin: 0 10px;
-  color: #AAAAAA;
-  font-size: 13px;
+#account-details .fm_summary_cont .container .info .label {
+  font-weight: bold;
 }
-#account-details fieldset.payment .payment-summary .payment-details {
-  display: inline-block;
-  margin: 0 60px;
+#account-details .fm_summary_cont .container table.list th {
+  background-color: #222222;
 }
-#account-details fieldset.payment .payment-summary .payment-details button {
-  margin: 0 10px;
-}
-#account-details fieldset.payment .payment-summary .edit-details {
-  display: inline-block;
-}
-#account-details fieldset.payment .payment-summary .edit-details button {
-  font-size: 12px;
-  margin: 0 10px;
-}
-#account-details fieldset.payment .payment-summary a.free-link {
-  display: block;
+#account-details form .input input {
+  border: 1px solid black;
 }
 #line_item_cont {
   padding: 10px;

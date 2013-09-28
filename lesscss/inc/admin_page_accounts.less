@@ -1,45 +1,46 @@
 #account-details {
     padding: 0px 15px;
    
-    fieldset {
-        padding: 15px 30px 20px;
-        margin: 15px 0;
-        border:1px solid @subdued_text;
-        color: @subdued_text;
-    }
+    .fm_summary_cont {
+		.table_header_darker {
+			border-radius:0;
+			-moz-border-radius:0;
+			height:15px;
+			line-height:20px;
+		}
+	}
 
-    fieldset.payment {
-        display:inline-block;
+	.fm_summary_cont {
+		.container {
+			.info {
+				.label {
+					font-weight:bold;
+				}
+			
+				display:inline-block;
+				margin:15px 45px;
+				width:240px;
+			}
+		}
+	}
 
-        .payment-summary {
-            margin:0 10px;
-            color:@subdued_text;
-            font-size:13px;
+	.fm_summary_cont {
+		.container {
+			table.list {
+				th {
+					background-color:@darker-background;
+				}
+			}
+		}
+	}
 
-            .payment-details {
-                button {
-                    margin: 0 10px;
-                }
-                display:inline-block;
-                margin:0 60px;
-            }
-            
-            .edit-details {
-                display:inline-block;
-                
-
-                button {
-                    font-size:12px;
-                    margin: 0 10px;
-					
-                }
-            }
-
-            a.free-link {
-                display:block;
-            }
-        }
-    }
+	form {
+		.input {
+			input {
+				border:1px solid black;
+			}
+		}
+	}
 }
 
 #line_item_cont {
@@ -273,8 +274,5 @@
 		}
 	}
 }
-
-
- 
 
 
