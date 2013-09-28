@@ -43,4 +43,5 @@ class CronJob extends AppModel {
 
 		return true;
 	}
+	
 }
