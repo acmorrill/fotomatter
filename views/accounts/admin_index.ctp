@@ -202,6 +202,7 @@
 	});
 </script>
 <div class='clear' id="line_item_cont">
+	<p>Adam TODO investigate adding feature in which no value is charged</p>
 	<?php echo $this->Session->flash(); ?>
 	<?php if($overlord_account_info['is_pay_fail']): ?>
 	<div class='pay_fail_message rounded-corners'>

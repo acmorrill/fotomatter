@@ -11,27 +11,27 @@ class FotomatterBillingComponent extends Object {
     }
 	
 	public function remove_item($line_item_id) {
-		$result = json_decode($this->send_api_request('billing_api/remove_item', array('line_item_id'=>$line_item_id)), true);
+		$result = json_decode($this->send_api_request('api_billing/remove_item', array('line_item_id'=>$line_item_id)), true);
 		return $result;
 	}
 	
 	public function undo_cancellation($line_item_id) {
-		$result = json_decode($this->send_api_request('billing_api/undo_cancellation', array('line_item_id'=>$line_item_id)), true);
+		$result = json_decode($this->send_api_request('api_billing/undo_cancellation', array('line_item_id'=>$line_item_id)), true);
 		return $result;
 	}
     
     public function getAccountDetails() {
-        $details = json_decode($this->send_api_request('billing_api/get_account_details', array()), true);
+        $details = json_decode($this->send_api_request('api_billing/get_account_details', array()), true);
         return $details;
     }
     
     public function getPaymentProfile() {
-        $result = json_decode($this->send_api_request('billing_api/get_payment_profile', array()), true);
+        $result = json_decode($this->send_api_request('api_billing/get_payment_profile', array()), true);
         return $result;
     }
     
     public function makeAccountChanges($changes) {
-        $result = json_decode($this->send_api_request('billing_api/makeAccountChanges', $changes), true);
+        $result = json_decode($this->send_api_request('api_billing/makeAccountChanges', $changes), true);
         if ($result['code']) {
             return true;
         }
@@ -39,7 +39,7 @@ class FotomatterBillingComponent extends Object {
     }
     
     public function save_payment_profile($profile_data) {
-        $save_result = json_decode($this->send_api_request('billing_api/save_payment_profile', $profile_data), true);
+        $save_result = json_decode($this->send_api_request('api_billing/save_payment_profile', $profile_data), true);
         if ($save_result['code']) {
             return $save_result['data']['authnet_profile_id'];
         }
@@ -47,7 +47,8 @@ class FotomatterBillingComponent extends Object {
     }
     
     public function get_info_account($params=array()) {
-        $result_of_find = json_decode($this->send_api_request('billing_api/get_info_account', $params), true);
+        $result_of_find = json_decode($this->send_api_request('api_billing/get_info_account', $params), true);
+		
         if($result_of_find['code']) {
             return $result_of_find['payload'];
         }
@@ -84,7 +85,6 @@ class FotomatterBillingComponent extends Object {
 		curl_close($ch);
 				
    //     $this->log($request['Request'], 'client_billing');
-  //      $this->log($response, 'client_billing');
 		return $response;
     }
     
