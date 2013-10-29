@@ -13,4 +13,12 @@ class DomainsController extends Appcontroller {
 	public function admin_index() {
 		
 	}
+	
+	public function search() {
+		print_r(json_decode(file_get_contents("php://input"), true));
+		print_r($this->params['form']);
+		exit();
+		
+		
+	}
 }
