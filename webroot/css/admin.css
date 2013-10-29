@@ -2313,6 +2313,42 @@ form.fm_form .submit input {
 #payable_orders_table tfoot tr td {
   text-align: right;
 }
+#domains-outer-cont {
+  margin: 10px 5px;
+}
+#domains-outer-cont .domain_result {
+  margin: 26px 0;
+  width: 630px;
+}
+#domains-outer-cont .direct_result {
+  margin: 4px 15px;
+  display: inline-block;
+}
+#domains-outer-cont .direct_result h3 {
+  font-size: 28px;
+}
+#domains-outer-cont .direct_result.avail span {
+  color: #7FFF74;
+}
+#domains-outer-cont .direct_result.not_avail span {
+  color: #FFA8A8;
+}
+#domains-outer-cont .search_box {
+  display: inline-block;
+  float: left;
+}
+#domains-outer-cont .search_box button {
+  font-size: 14px;
+}
+#domains-outer-cont .search_box input {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  padding: 5px;
+  width: 200px;
+}
 #account-details {
   padding: 0px 15px;
 }
