@@ -10,15 +10,18 @@ class DomainsController extends Appcontroller {
 	
 	public $layout = 'admin/accounts';
 	
+	public $components = array('FotomatterDomain');
+	
 	public function admin_index() {
 		
 	}
 	
 	public function search() {
-		print_r(json_decode(file_get_contents("php://input"), true));
-		print_r($this->params['form']);
+		if (isset($this->params['form']['q'])) {
+			$domains = $this->FotomatterDomain->check_availability($this->params['form']['q']);
+			$this->return_json($domains);
+		}
+		
 		exit();
-		
-		
 	}
 }
