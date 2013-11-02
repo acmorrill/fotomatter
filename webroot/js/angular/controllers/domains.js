@@ -21,6 +21,16 @@ var domains_index = function($scope, $http) {
 
 					$scope.domain_searched = domain_title;
 					$scope.domain_found = data[domain_title]['avail'];
+					var domains_to_display = [];
+					jQuery.each(data, function(key, domain) {
+						if (domain.avail) {
+							domain.name = key;
+							domains_to_display.push(domain);
+						}
+					});
+					
+					$scope.domains = domains_to_display;
+					
 					
 				});
 				

@@ -1542,6 +1542,21 @@ body {
 .fm_summary_cont.large {
   width: 80%;
 }
+.fm_info_notice {
+  padding: 16px 20px;
+  border: 1px solid #121212;
+  background-color: #222222;
+  width: 500px;
+  margin: 10px 0;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+}
 #top-navigation li {
   display: inline-block;
   vertical-align: bottom;
@@ -2319,6 +2334,9 @@ form.fm_form .submit input {
 #domains-outer-cont .domain_result {
   margin: 26px 0;
   width: 630px;
+}
+#domains-outer-cont .domain_result table tr td button {
+  font-size: 13px;
 }
 #domains-outer-cont .domain_header {
   min-height: 40px;
