@@ -1,4 +1,4 @@
-angular.module('fmAdmin', [])
+angular.module('fmAdmin.directives', [])
 	.directive('fmButton', function() {
 		return {
 			restrict: 'A',

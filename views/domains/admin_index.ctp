@@ -8,9 +8,13 @@
 			<h3>{{domain_searched}} is <span ng-show='domain_found == false'><?php echo __('not available'); ?></span><span ng-show='domain_found'><?php echo __('available'); ?></span></h3>
 		</div>
 	</div>
-		<div class='fm_info_notice'>
+	<div class='domain_result'>
+		<div ng-show='domains == undefined' class='fm_info_notice'>
 			<p><?php echo __('Give your site its own identity. Only fotomatter doesn\'t charge you anything extra to have a domain, just pay the cost of registration, and then its 
 				yours for a year. Use the search field above to get started.'); ?></p>
+		</div>
+		<div ng-show='domains !== undefined && domains.length == 0' class='fm_info_notice'>
+			<p><?php echo __('We could not find any domains available to match your search, please try again.'); ?></p>
 		</div>
 		<table ng-show='domains.length > 0' class='list'>
 			<tbody>
@@ -24,10 +28,9 @@
 					<td>{{domain.name}}</td>
 					<td>{{domain.price}}</td>
 					<td>{{domain.tld}}</td>
-					<td><button fm-button>Buy Now</button></td>
+					<td><button fm-button ng-click='buyDomain(domain)'>Buy Now</button></td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
-	
 </div>
