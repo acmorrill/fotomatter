@@ -1,4 +1,4 @@
-var domains_index = function($scope, $http) {
+var domains_index = function($scope, $modal) {
 	$scope.search = function() {
 		jQuery.ajax({
 			type: 'POST',
@@ -30,8 +30,6 @@ var domains_index = function($scope, $http) {
 					});
 					
 					$scope.domains = domains_to_display;
-					
-					
 				});
 				
 			},
@@ -42,7 +40,11 @@ var domains_index = function($scope, $http) {
 		});		
 	};
 	
-	
-	
+	$scope.buyDomain = function(domain) {
+		$modal.open({
+			templateUrl: '/domains/domain_checkout',
+			windowClass : 'ui-dialog ui-widget ui-widget-content'
+		});
+	};
 };
-domains_index.$inject = ['$scope', '$http'];
+//domains_index.$inject = ['$scope', '$modal'];

@@ -24,4 +24,8 @@ class DomainsController extends Appcontroller {
 		
 		exit();
 	}
+	
+	public function domain_checkout() {
+		$this->layout = 'ajax';
+	}
 }
