@@ -146,7 +146,7 @@ class FotomatterDomainComponent extends Object {
                 'city'=>$buying_account['Account']['city'],
                 'state'=>$buying_account['Account']['state'],
                 'email'=>$buying_account['Account']['email'],
-                'phone'=>'2083532813',
+                'phone'=>'2083532813', //TODO fix this
                 'fax'=>'2083532813',
                 'country'=>$buying_account['Account']['country']
             ),

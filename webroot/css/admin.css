@@ -1542,7 +1542,14 @@ body {
 .fm_summary_cont.large {
   width: 80%;
 }
-.modal {
+.modal.fade {
+  -webkit-transition: opacity .3s linear, top .3s ease-out;
+  -moz-transition: opacity .3s linear, top .3s ease-out;
+  -o-transition: opacity .3s linear, top .3s ease-out;
+  transition: opacity .3s linear, top .3s ease-out;
+  top: -25%;
+}
+.modal.ui-dialog {
   position: absolute;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -1550,10 +1557,12 @@ body {
   -o-border-radius: 5px;
   border-radius: 5px;
   background-color: #6F6F6F;
-  top: 0;
-  left: 30%;
+  top: 10%;
+  margin-left: -305px;
+  left: 50%;
+  width: 610px;
 }
-.modal .modal-header {
+.modal.ui-dialog .modal-header {
   padding: 9px 15px;
   border-bottom: 1px solid #eee;
 }
@@ -1830,6 +1839,9 @@ div#sub-nav ul li.title a {
   -moz-border-radius: 3px;
   border-radius: 3px;
   border: 1px solid #222222;
+}
+.profile-outer-cont input.ng-dirty.ng-invalid {
+  border: 2px solid red;
 }
 .profile-outer-cont select {
   padding: 2px;
