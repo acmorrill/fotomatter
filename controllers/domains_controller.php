@@ -6,11 +6,12 @@
  */
 class DomainsController extends Appcontroller {
 
-	public $uses = array();
+	public $uses = array('GlobalCountry');
 	
 	public $layout = 'admin/accounts';
 	
-	public $components = array('FotomatterDomain');
+	public $components = array('FotomatterDomain', 'FotomatterBilling');
+	
 	
 	public function admin_index() {
 		
@@ -27,5 +28,12 @@ class DomainsController extends Appcontroller {
 	
 	public function domain_checkout() {
 		$this->layout = 'ajax';
+		$countries = $this->GlobalCountry->get_available_countries();
+		$this->set(compact(array('countries')));
+	}
+	
+	public function get_account_details() {
+		$this->return_json($this->FotomatterBilling->getAccountDetails());
+		exit();
 	}
 }

@@ -1,6 +1,13 @@
 @modal_color: #6F6F6F;
 
-.modal {
+.modal.fade{
+	-webkit-transition:opacity .3s linear, top .3s ease-out;
+	-moz-transition:opacity .3s linear, top .3s ease-out;
+	-o-transition:opacity .3s linear, top .3s ease-out;
+	transition:opacity .3s linear, top .3s ease-out;top:-25%;
+}
+
+.modal.ui-dialog {
 	.modal-header  {
 		padding:9px 15px;
 		border-bottom:1px solid #eee;
@@ -10,6 +17,8 @@
 	position:absolute;
 	.rounded-corners(5px);
 	background-color:@modal_color;
-	top:0;
-	left:30%;
+	top:10%;
+	margin-left:-305px;
+	left:50%;
+	width:610px;
 }
