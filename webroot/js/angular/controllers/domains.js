@@ -53,12 +53,19 @@ domains_index.$inject = ['$scope', '$modal'];
 
 var domain_checkout = function($scope) {
 	$scope.currentStep = 'cc_profile';
+	$scope.profile = {};
+	$scope.cc_profile = {
+		loading: false
+	};
 	jQuery.ajax({
 		type: 'POST',
 		url: '/domains/get_account_details',
-		success: function(accountDetails) {
+		success: function(page_meta_data) {
 			$scope.$apply(function() {
-				$scope.profile = accountDetails.data.AuthnetProfile;
+				//Adam TODO solve type problem 
+				//console.log(typeof(page_meta_data.account_details.data.AuthnetProfile));
+				//console.log(page_meta_data.account_details.data);
+				//$scope.profile = page_meta_data.account_details.data.AuthnetProfile;
 			});	
 		},
 		error: function(data) {
@@ -70,11 +77,10 @@ var domain_checkout = function($scope) {
 	$scope.countryChange = function() {
 		jQuery.ajax({
 			type: 'GET',
-			url: '/admin/accounts/ajax_get_states_for_country/'+$scope.profile.billing_country,
+			url: '/admin/accounts/ajax_get_states_for_country/'+$scope.profile.billing_country + "/1",
 			success: function(data) {
 				$scope.$apply(function() {
-					$("#billing_state").html(data.html);
-					
+					$scope.states_for_selected_country = data;
 				});
 				setInterval(console.log($scope.profile), 10000);
 			},
@@ -87,8 +93,33 @@ var domain_checkout = function($scope) {
 	}
 	
 	$scope.submitPayment = function() {
-		console.log('here');
-		$scope.currentStep = 'domain_contact';
+		$scope.cc_profile.loading = true;
+		var profile_to_send = {};
+		profile_to_send.data = {};
+		profile_to_send.data.AuthnetProfile = {};
+		profile_to_send.data.AuthnetProfile = $scope.profile;
+		jQuery.ajax({
+			type: 'POST',
+			url: '/admin/accounts/ajax_save_client_billing',
+			data: profile_to_send,
+			success: function(data) {
+				$scope.$apply(function() {
+					$scope.cc_profile.loading = false;
+					if (data.result == false) {
+						$scope.errorMessage = data.message;
+					} else {
+						$scope.errorMessage = '';
+					}
+				});
+					
+			},
+			error: function(data) {
+				
+			},
+			dataType: 'json'
+		});
+		console.log($scope.profile);
+		//$scope.currentStep = 'domain_contact';
 	};
 	
 	

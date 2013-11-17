@@ -2355,6 +2355,25 @@ form.fm_form .submit input {
 #payable_orders_table tfoot tr td {
   text-align: right;
 }
+.profile-outer-cont.domains .saving_profile {
+  display: inline-block;
+  position: absolute;
+  left: 125px;
+}
+.profile-outer-cont.domains .saving_profile span {
+  position: relative;
+  bottom: 12px;
+}
+.profile-outer-cont.domains .error.flashMessage {
+  margin: 0px;
+}
+.profile-outer-cont.domains .cc_save_modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 5000px;
+}
 #domains-outer-cont {
   margin: 10px 5px;
 }

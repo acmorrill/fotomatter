@@ -33,7 +33,9 @@ class DomainsController extends Appcontroller {
 	}
 	
 	public function get_account_details() {
-		$this->return_json($this->FotomatterBilling->getAccountDetails());
+		$return = array();
+		$return['account_details'] = $this->FotomatterBilling->getAccountDetails();
+		$this->return_json($return);
 		exit();
 	}
 }
