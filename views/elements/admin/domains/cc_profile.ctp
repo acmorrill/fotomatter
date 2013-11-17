@@ -1,8 +1,6 @@
-<div ng-switch-when='cc_profile' class="profile-outer-cont">
-	<?php if (empty($error_message) === false): ?>
-		<?php echo $this->element('admin/flashMessage/error', array('message'=>$error_message)); ?>
-	<?php endif; ?>
+<div ng-switch-when='cc_profile' class="profile-outer-cont domains">
 	<h3><?php echo __('Add credit Card'); ?></h3>
+	<div ng-show="errorMessage != undefined && errorMessage != ''" class='error flashMessage rounded-corners-tiny'><i class='icon-warning-sign'></i><span>{{errorMessage}}</span></div>
     <form id="payment_details_client" action="#" onSubmit="send_form(); return false;">
         <div class="address">
             <input type='hidden' id='billing_id' ng-model="profile.id"  />
@@ -34,7 +32,7 @@
             </div>
             <div class="input">
                 <label for="billing_state"><?php echo __('State'); ?></label>
-                <select id="billing_state" ng-model="profile.billing_state">
+                <select id="billing_state" ng-model="profile.billing_state" ng-options="state.GlobalCountryState.state_name for state in states_for_selected_country ">
                     <?php echo $this->element('admin/accounts/state_list', array('country_code'=>'US')); ?>
                 </select>
             </div>
@@ -74,8 +72,13 @@
                 <label for="billing_csv"><?php echo __('Csv Code'); ?></label>
                 <input type="text" id="billing_csv" ng-model='profile.billing_csv' />
             </div>
-            <div class="input continue">
-                <input fm-button ng-click='submitPayment()' type="button" value="<?php echo __('Next'); ?>" /> 
+            <div style='position:relative' class="input continue">
+                <input fm-button ng-click='submitPayment()' type="button" value="<?php echo __('Next'); ?>" />
+				<div class='saving_profile'  ng-show="cc_profile.loading" >
+					<img src="/img/admin/icons/ajax-loader-light-grey.gif"/>
+					<span>Saving Profile</span>
+				</div>
+				<div ng-show="cc_profile.loading" class='cc_save_modal'></div>
             </div>
         </div>
     </form>
