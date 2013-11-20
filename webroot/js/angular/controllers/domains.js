@@ -53,7 +53,9 @@ domains_index.$inject = ['$scope', '$modal'];
 
 var domain_checkout = function($scope) {
 	$scope.currentStep = 'cc_profile';
-	$scope.profile = {};
+	$scope.profile = {
+		billing_firstname : ''
+	};
 	$scope.cc_profile = {
 		loading: false
 	};
@@ -62,10 +64,11 @@ var domain_checkout = function($scope) {
 		url: '/domains/get_account_details',
 		success: function(page_meta_data) {
 			$scope.$apply(function() {
+				console.log(page_meta_data);
 				//Adam TODO solve type problem 
 				//console.log(typeof(page_meta_data.account_details.data.AuthnetProfile));
 				//console.log(page_meta_data.account_details.data);
-				//$scope.profile = page_meta_data.account_details.data.AuthnetProfile;
+				$scope.profile = page_meta_data.account_details.data.AuthnetProfile;
 			});	
 		},
 		error: function(data) {
@@ -77,7 +80,7 @@ var domain_checkout = function($scope) {
 	$scope.countryChange = function() {
 		jQuery.ajax({
 			type: 'GET',
-			url: '/admin/accounts/ajax_get_states_for_country/'+$scope.profile.billing_country + "/1",
+			url: '/admin/accounts/ajax_get_states_for_country/'+$scope.profile.country_id + "/1",
 			success: function(data) {
 				$scope.$apply(function() {
 					$scope.states_for_selected_country = data;
@@ -95,12 +98,16 @@ var domain_checkout = function($scope) {
 	$scope.submitPayment = function() {
 		$scope.cc_profile.loading = true;
 		var profile_to_send = {};
+		
+		
+		$scope.profile.country_state_id = $scope.profile.country_state_id.GlobalCountryState.state_code_3;
 		profile_to_send.data = {};
 		profile_to_send.data.AuthnetProfile = {};
 		profile_to_send.data.AuthnetProfile = $scope.profile;
+		
 		jQuery.ajax({
 			type: 'POST',
-			url: '/admin/accounts/ajax_save_client_billing',
+			url: '/admin/domains/add_profile',
 			data: profile_to_send,
 			success: function(data) {
 				$scope.$apply(function() {
@@ -109,6 +116,7 @@ var domain_checkout = function($scope) {
 						$scope.errorMessage = data.message;
 					} else {
 						$scope.errorMessage = '';
+						$scope.currentStep = 'domain_contact';
 					}
 				});
 					
@@ -118,7 +126,7 @@ var domain_checkout = function($scope) {
 			},
 			dataType: 'json'
 		});
-		console.log($scope.profile);
+		
 		//$scope.currentStep = 'domain_contact';
 	};
 	
