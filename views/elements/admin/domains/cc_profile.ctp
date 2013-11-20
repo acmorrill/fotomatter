@@ -20,7 +20,7 @@
             </div>
             <div class="input">
                 <label for="billing_country"><?php echo __('Country'); ?></label>
-                <select ng-model='profile.billing_country' ng-change="countryChange()" id="billing_country">
+                <select ng-model='profile.country_id' ng-change="countryChange()" id="billing_country">
                     <?php foreach ($countries as $key => $country): ?>
                     <option value="<?php echo $country['GlobalCountry']['country_code_2']; ?>"><?php echo $country['GlobalCountry']['country_name']; ?></option>
                     <?php endforeach; ?>
@@ -32,7 +32,7 @@
             </div>
             <div class="input">
                 <label for="billing_state"><?php echo __('State'); ?></label>
-                <select id="billing_state" ng-model="profile.billing_state" ng-options="state.GlobalCountryState.state_name for state in states_for_selected_country ">
+                <select id="billing_state" ng-model="profile.country_state_id" ng-options="state.GlobalCountryState.state_name for state in states_for_selected_country ">
                     <?php echo $this->element('admin/accounts/state_list', array('country_code'=>'US')); ?>
                 </select>
             </div>
@@ -44,7 +44,7 @@
         <div class="payment">
             <div class="input">
                 <label for="billing_zip"><?php echo __('Card Number'); ?></label>
-                <input type="text" id="billing_cardNumber" ng-model='profile.billing_cardNumber' />
+                <input type="text" id="billing_cardNumber" ng-model='profile.payment_cardNumber' />
             </div>
             <div class="input exp_date">
                 <label for ="card_exp"><?php echo __('Expiration Date'); ?></label>
@@ -70,7 +70,7 @@
             </div>
             <div class="input">
                 <label for="billing_csv"><?php echo __('Csv Code'); ?></label>
-                <input type="text" id="billing_csv" ng-model='profile.billing_csv' />
+                <input type="text" id="billing_csv" ng-model='profile.payment_cardCode' />
             </div>
             <div style='position:relative' class="input continue">
                 <input fm-button ng-click='submitPayment()' type="button" value="<?php echo __('Next'); ?>" />
@@ -78,7 +78,6 @@
 					<img src="/img/admin/icons/ajax-loader-light-grey.gif"/>
 					<span>Saving Profile</span>
 				</div>
-				<div ng-show="cc_profile.loading" class='cc_save_modal'></div>
             </div>
         </div>
     </form>
