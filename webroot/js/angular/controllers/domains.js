@@ -46,7 +46,6 @@ var domains_index = function($scope, $modal) {
 			windowClass : 'ui-dialog ui-widget ui-widget-content',
 			controller : 'domain_checkout'
 		});
-		
 	};
 };
 domains_index.$inject = ['$scope', '$modal'];
@@ -64,11 +63,17 @@ var domain_checkout = function($scope) {
 		url: '/domains/get_account_details',
 		success: function(page_meta_data) {
 			$scope.$apply(function() {
-				console.log(page_meta_data);
 				//Adam TODO solve type problem 
 				//console.log(typeof(page_meta_data.account_details.data.AuthnetProfile));
 				//console.log(page_meta_data.account_details.data);
 				$scope.profile = page_meta_data.account_details.data.AuthnetProfile;
+				if ($scope.profile.length !== undefined && $scope.profile.length == 0) {
+					$scope.profile = {
+						billing_firstname : ''
+					};
+				}
+				
+				$scope.countryChange();
 			});	
 		},
 		error: function(data) {
@@ -84,8 +89,9 @@ var domain_checkout = function($scope) {
 			success: function(data) {
 				$scope.$apply(function() {
 					$scope.states_for_selected_country = data;
+					console.log($scope.profile);
 				});
-				setInterval(console.log($scope.profile), 10000);
+				//setInterval(console.log($scope.profile), 10000);
 			},
 			error: function(data) {
 				
@@ -99,11 +105,13 @@ var domain_checkout = function($scope) {
 		$scope.cc_profile.loading = true;
 		var profile_to_send = {};
 		
-		
-		$scope.profile.country_state_id = $scope.profile.country_state_id.GlobalCountryState.state_code_3;
 		profile_to_send.data = {};
 		profile_to_send.data.AuthnetProfile = {};
 		profile_to_send.data.AuthnetProfile = $scope.profile;
+		
+		if($scope.profile.country_state_id !== undefined) {
+			$scope.profile.country_state_id = $scope.profile.country_state_id;
+		}
 		
 		jQuery.ajax({
 			type: 'POST',
@@ -125,11 +133,8 @@ var domain_checkout = function($scope) {
 				
 			},
 			dataType: 'json'
-		});
-		
+		});	
 		//$scope.currentStep = 'domain_contact';
 	};
-	
-	
 }
 domain_checkout.$inject = ['$scope'];

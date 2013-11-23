@@ -5,3 +5,4 @@
 <script type="text/javascript" src="/js/angular/app.js"></script>
 <script type="text/javascript" src="/js/angular/controllers/domains.js"></script>
 <script type='text/javascript' src='/js/angular/directives/fm_ui_directives.js'></script>
+<script type='text/javascript' src='/js/angular/services/model_services.js'></script>
