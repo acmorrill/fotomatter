@@ -30,4 +30,22 @@
 
 <div class="clear"></div>
 
+<?php ob_start(); ?>
+<ol>This page is used to build the menu for the theme.
+	<li>Things to remember
+		<ol>
+			<li>Only the one level or two level menu is used at any given time</li>
+			<li>If </li>
+		</ol>
+	</li>
+	<li>It would good to not change the design of this page too much - be sure to give a design for all the elements</li>
+	<li>Notice there is a saving thing that popups in the corner on change - we need a design for this</li>
+</ol>
+<?php
+$html = ob_get_contents();
+ob_end_clean();
+	echo $this->Element('admin/richard_notes', array(
+	'html' => $html
+)); ?>
+
 

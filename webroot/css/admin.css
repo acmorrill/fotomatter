@@ -4,6 +4,45 @@
   -moz-border-radius: 7px;
   border-radius: 7px;
 }
+.richard_notes {
+  z-index: 10000000000000000000;
+  display: none;
+  background-color: #222;
+  position: fixed;
+  border: 3px solid #454545;
+  bottom: 50px;
+  left: 50px;
+  padding: 20px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  -khtml-border-radius: 10px;
+}
+.richard_notes ol {
+  margin-left: 30px;
+  line-height: 25px;
+}
+.richard_notes ol li {
+  list-style: initial !important;
+  list-style-type: decimal !important;
+}
+.richard_notes_toggle {
+  z-index: 10000000000000000000;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  width: 30px;
+  height: 30px;
+  background-color: #454545;
+  outline: 2px solid #303030;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+.richard_notes_toggle span {
+  display: inline-block;
+  margin-top: 6px;
+  margin-left: 5px;
+}
 .flashMessage {
   padding: 10px 20px 10px;
   margin: 10px 0;
