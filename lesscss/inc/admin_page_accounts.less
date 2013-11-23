@@ -1,50 +1,82 @@
 @domain_avail: #7FFF74;
 @domain_not_avail: #FFA8A8;
 
+.profile-outer-cont.domains {
+	 .saving_profile {
+		span {
+			position:relative;
+			bottom:12px;
+		}
+
+		display:inline-block;
+		position:absolute;
+		left:125px;
+	 }
+
+	 .error.flashMessage {
+		margin:0px;
+	 }
+
+}
+
 #domains-outer-cont {
 	margin:10px 5px;
 
 	.domain_result {
-		margin:26px 0;
+		margin:10px 0;
 		width:630px;
-	}
 
-	.direct_result {
-		margin:4px 15px;
-		display:inline-block;
-
-		h3 {
-			font-size:28px;
+		table {
+			width:660px;
+			tr {
+				td {
+					button {
+						font-size:13px;
+					}
+				}
+			}
 		}
 	}
 
-	.direct_result.avail {
-		span {
-			color:@domain_avail;
-		}
-	}
+	.domain_header {
+		min-height:40px;
+		.direct_result {
+			margin:4px 15px;
+			display:inline-block;
 
-	.direct_result.not_avail {
-		span {
-			color:@domain_not_avail;
-		}
-	}
-
-	.search_box {
-		display:inline-block;
-		float:left;
-		button {
-			font-size:14px;
+			h3 {
+				font-size:28px;
+			}
 		}
 
-		input {
-			.rounded-corners(3px);
-			padding:5px;
-			width:200px;
+		.direct_result.not_avail {
+			span {
+				color:@domain_not_avail;
+			}
+		}
+
+		.direct_result.avail {
+			span {
+				color:@domain_avail;
+			}
+		}
+
+		.search_box {
+			display:inline-block;
+			float:left;
+			button {
+				font-size:14px;
+			}
+
+			input {
+				.rounded-corners(3px);
+				padding:5px;
+				width:200px;
+			}
 		}
 	}
 }
-
+	
 #account-details {
     padding: 0px 15px;
    

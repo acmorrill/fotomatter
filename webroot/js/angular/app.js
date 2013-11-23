@@ -1,1 +1,1 @@
-angular.module('fmAdmin', []);
+angular.module('fmAdmin', ['ui.bootstrap', 'fmAdmin.directives']);
