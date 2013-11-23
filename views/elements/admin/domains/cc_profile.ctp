@@ -32,7 +32,7 @@
             </div>
             <div class="input">
                 <label for="billing_state"><?php echo __('State'); ?></label>
-                <select id="billing_state" ng-model="profile.country_state_id" ng-options="state.GlobalCountryState.state_name for state in states_for_selected_country ">
+                <select id="billing_state" ng-model="profile.country_state_id" ng-options="state.GlobalCountryState.state_code_3 as state.GlobalCountryState.state_name for state in states_for_selected_country">
                     <?php echo $this->element('admin/accounts/state_list', array('country_code'=>'US')); ?>
                 </select>
             </div>

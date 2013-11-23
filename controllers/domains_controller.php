@@ -40,7 +40,7 @@ class DomainsController extends Appcontroller {
            
            $this->data['AuthnetProfile']['payment_cc_last_four'] = substr($this->data['AuthnetProfile']['payment_cardNumber'], -4, 4);
            $this->data['AuthnetProfile']['id'] = $this->FotomatterBilling->save_payment_profile($this->data);
-		   $this->log($this->data, 'add_profile');
+		   
 		   if ($this->data['AuthnetProfile']['id'] != false) {
 			   $return['result'] = true;
 			   $return['data'] = $this->data;
