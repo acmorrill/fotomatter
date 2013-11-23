@@ -1581,6 +1581,45 @@ body {
 .fm_summary_cont.large {
   width: 80%;
 }
+.modal.fade {
+  -webkit-transition: opacity .3s linear, top .3s ease-out;
+  -moz-transition: opacity .3s linear, top .3s ease-out;
+  -o-transition: opacity .3s linear, top .3s ease-out;
+  transition: opacity .3s linear, top .3s ease-out;
+  top: -25%;
+}
+.modal.ui-dialog {
+  position: absolute;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  background-color: #6F6F6F;
+  top: 10%;
+  margin-left: -305px;
+  left: 50%;
+  width: 610px;
+}
+.modal.ui-dialog .modal-header {
+  padding: 9px 15px;
+  border-bottom: 1px solid #eee;
+}
+.fm_info_notice {
+  padding: 16px 20px;
+  border: 1px solid #121212;
+  background-color: #222222;
+  width: 500px;
+  margin: 10px 0;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+}
 #top-navigation li {
   display: inline-block;
   vertical-align: bottom;
@@ -1839,6 +1878,9 @@ div#sub-nav ul li.title a {
   -moz-border-radius: 3px;
   border-radius: 3px;
   border: 1px solid #222222;
+}
+.profile-outer-cont input.ng-dirty.ng-invalid {
+  border: 2px solid red;
 }
 .profile-outer-cont select {
   padding: 2px;
@@ -2352,34 +2394,55 @@ form.fm_form .submit input {
 #payable_orders_table tfoot tr td {
   text-align: right;
 }
+.profile-outer-cont.domains .saving_profile {
+  display: inline-block;
+  position: absolute;
+  left: 125px;
+}
+.profile-outer-cont.domains .saving_profile span {
+  position: relative;
+  bottom: 12px;
+}
+.profile-outer-cont.domains .error.flashMessage {
+  margin: 0px;
+}
 #domains-outer-cont {
   margin: 10px 5px;
 }
 #domains-outer-cont .domain_result {
-  margin: 26px 0;
+  margin: 10px 0;
   width: 630px;
 }
-#domains-outer-cont .direct_result {
+#domains-outer-cont .domain_result table {
+  width: 660px;
+}
+#domains-outer-cont .domain_result table tr td button {
+  font-size: 13px;
+}
+#domains-outer-cont .domain_header {
+  min-height: 40px;
+}
+#domains-outer-cont .domain_header .direct_result {
   margin: 4px 15px;
   display: inline-block;
 }
-#domains-outer-cont .direct_result h3 {
+#domains-outer-cont .domain_header .direct_result h3 {
   font-size: 28px;
 }
-#domains-outer-cont .direct_result.avail span {
-  color: #7FFF74;
-}
-#domains-outer-cont .direct_result.not_avail span {
+#domains-outer-cont .domain_header .direct_result.not_avail span {
   color: #FFA8A8;
 }
-#domains-outer-cont .search_box {
+#domains-outer-cont .domain_header .direct_result.avail span {
+  color: #7FFF74;
+}
+#domains-outer-cont .domain_header .search_box {
   display: inline-block;
   float: left;
 }
-#domains-outer-cont .search_box button {
+#domains-outer-cont .domain_header .search_box button {
   font-size: 14px;
 }
-#domains-outer-cont .search_box input {
+#domains-outer-cont .domain_header .search_box input {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   -ms-border-radius: 3px;

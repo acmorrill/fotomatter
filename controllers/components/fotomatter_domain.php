@@ -20,8 +20,8 @@ class FotomatterDomainComponent extends Object {
     private $_ttl_to_use = 3600;
    
     public function __construct() {
-        App::uses('HttpSocket', 'Network/Http');
-        $this->Http = new HttpSocket();
+		App::import('Core', 'HttpSocket');
+		$this->Http = new HttpSocket();
         
 		//Adam Todo test real api
         if (false && Configure::read('debug') == 0) {
@@ -61,14 +61,17 @@ class FotomatterDomainComponent extends Object {
         $domain_parts = explode('.', $domain_name);
         $keyword = '';
         $tld = '';
-        if (count($domain_parts) == 3) {
-            $keyword = $domain_parts[1];
+		if (count($domain_parts) == 3) {
+			$keyword = $domain_parts[1];
             $tld = $domain_parts[2];
-        } else {
-            $keyword = $domain_parts[0];
+		} else if (count($domain_parts) == 2) {
+			$keyword = $domain_parts[0];
             $tld = $domain_parts[1];
-        }
-        
+		} else {
+			$keyword = $domain_parts[0];
+			$tld = 'com';
+		}
+
         //$tld = '.' . $tld;
         $api_args = array(
             "keyword"=>$keyword,
@@ -80,15 +83,7 @@ class FotomatterDomainComponent extends Object {
             )
         );
         $api_results = json_decode($this->_send_request("/api/domain/check", 'POST', $api_args), true);
-        foreach ($api_results['domains'] as $suggested_domain => $domain)  {
-            if ($domain['tld'] == $tld) {
-                if (!$domain['avail']) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }   
+		return $api_results['domains'];
     }
     
     /**
@@ -151,7 +146,7 @@ class FotomatterDomainComponent extends Object {
                 'city'=>$buying_account['Account']['city'],
                 'state'=>$buying_account['Account']['state'],
                 'email'=>$buying_account['Account']['email'],
-                'phone'=>'2083532813',
+                'phone'=>'2083532813', //TODO fix this
                 'fax'=>'2083532813',
                 'country'=>$buying_account['Account']['country']
             ),
@@ -203,7 +198,8 @@ class FotomatterDomainComponent extends Object {
                'Api-Token'=>$this->_api_token
            )
        ));
-       return $api_result->body;
+	   
+       return $api_result;
     }
    
 }

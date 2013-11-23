@@ -126,8 +126,13 @@ class AccountsController extends AppController {
     * Return a html select options for the country id specified
     * @param type $country_id Will return states for this country id
     */
-   public function admin_ajax_get_states_for_country($country_code) {
+   public function admin_ajax_get_states_for_country($country_code, $return_json) {
        $states = $this->GlobalCountryState->get_states_by_country_code($country_code);
+	   if ($return_json) {
+		   $this->return_json($states);
+		   exit();
+	   }
+	   
        $result['html'] = $this->element('admin/accounts/state_list', array('country_code'=>$country_code));
        $this->return_json($result);
    }
@@ -158,6 +163,7 @@ class AccountsController extends AppController {
 				   $this->params['named']['closeWhenDone'] = false;
 			   }
                $return['html'] = $this->get_add_profile_form($this->data,$this->params['named']['closeWhenDone'], $e->getMessage());
+			   $return['message'] = $e->getMessage();
 			   $return['result'] = false;
                print(json_encode($return));
                exit();
