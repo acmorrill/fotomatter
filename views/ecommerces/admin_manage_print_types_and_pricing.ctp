@@ -76,3 +76,24 @@
 <?php else: ?>
 	<?php __('You have not added any print types yet.'); ?>
 <?php endif; ?>
+
+
+<?php ob_start(); ?>
+<ol>
+	<li>This page just list available print types you have created (and has a button to add them)</li>
+	<li><a href="/img/admin_screenshots/manage_print_types.jpg" target="_blank">screenshot</a></li>
+	<li>Things to remember
+		<ol>
+			<li>This page will need explanation text at the top (or somewhere)</li>
+			<li>We need a state for before the user has added any print types (with help making it obvious that they need to add one)</li>
+			<li>Don't forget a design for the add new print type page</li>
+			<li>This page needs a flash message</li>
+		</ol>
+	</li>
+</ol>
+<?php
+$html = ob_get_contents();
+ob_end_clean();
+	echo $this->Element('admin/richard_notes', array(
+	'html' => $html
+)); ?>

@@ -8,7 +8,7 @@
 	
 <?php ob_start(); ?>
 <ol>This page is used to select settings specific to your current theme. <br/>Every theme can any settings it wants (as long as it uses the available setting types)
-	<li>Here are all the theme setting options
+	<li>Here are all the theme setting options (this page has examples of each - make sure you are on the andrewmorrill theme to see settings)
 		<ol>
 			<li>Checkboxs</li>
 			<li>Color radio chooser</li>
@@ -21,7 +21,9 @@
 		</ol>
 	</li>
 	<li>It would good to not change the design of this page too much - be sure to give a design for all the elements</li>
-	<li>Notice there is a saving thing that popups in the corner on change - we need a design for this</li>
+	<li>Notice there is a saving thing that popups in the corner on change of any setting (this is an ajax save) - we need a design for this
+		<br/>There are other pages that have an ajax save - those pages should probobly have a similar looking save message
+	</li>
 </ol>
 <?php
 $html = ob_get_contents();

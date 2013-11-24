@@ -91,3 +91,22 @@
 	
 	<div class="clear"></div>
 </div>
+
+<?php ob_start(); ?>
+<ol>This page is used to both upload a custom logo and to resize and place the logo on the theme
+	<li>Things to remember
+		<ol>
+			<li>We can do any design we want "around" the actual spot where the theme and logo are shown (ie for the max width or max height - maybe ruler type style?)</li>
+			<li>The "inside" (ie logo and blue icon) can't change in size but can change in color and the width of the borders etc - the code is very complex though - so prob don't want to change is so much)</li>
+			<li>We need a design for the choose logo popup</li>
+			<li>We probobly want an explanation section for how to use the tool</li>
+			<li>This page has no flash message</li>
+		</ol>
+	</li>
+</ol>
+<?php
+$html = ob_get_contents();
+ob_end_clean();
+	echo $this->Element('admin/richard_notes', array(
+	'html' => $html
+)); ?>

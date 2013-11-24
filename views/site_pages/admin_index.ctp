@@ -78,3 +78,23 @@
 	<?php __('You do not have any pages yet.'); ?>
 <?php endif; ?>
 
+
+
+<?php ob_start(); ?>
+<ol>
+	<li>This page is where you can see all the pages you've already added</li>
+	<li>Things to remember
+		<ol>
+			<li>This page needs a flash message</li>
+			<li>We need style for the sorting etc</li>
+			<li>We need style for the add page button</li>
+			<li>Don't forget the page settings and configure pages :)</li>
+		</ol>
+	</li>
+</ol>
+<?php
+$html = ob_get_contents();
+ob_end_clean();
+	echo $this->Element('admin/richard_notes', array(
+	'html' => $html
+)); ?>

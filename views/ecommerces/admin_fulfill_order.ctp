@@ -96,3 +96,32 @@
 </div>
 
 
+
+<?php ob_start(); ?>
+<ol>
+	<li>This page shows the details of an order and lets you approve, void or refund it</li>
+	<li>Let me know if you need fake orders for this page</li>
+	<li>Things to remember
+		<ol>
+			<li>This page needs a flash message</li>
+			<li>The void can only happen before an order has finished on authnet side</li>
+			<li>After the void period only a refund can be done</li>
+			<li>After an order has been approved it can be payed on</li>
+			<li>An order can only be voided or refunded if it hasn't been approved</li>
+			<li>We need a design for all the states
+				<ol>
+					<li>new order state</li>
+					<li>voided state</li>
+					<li>refunded state</li>
+					<li>approved state</li>
+				</ol>
+			</li>
+		</ol>
+	</li>
+</ol>
+<?php
+$html = ob_get_contents();
+ob_end_clean();
+	echo $this->Element('admin/richard_notes', array(
+	'html' => $html
+)); ?>

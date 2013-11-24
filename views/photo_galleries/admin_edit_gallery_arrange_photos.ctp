@@ -44,3 +44,20 @@
 	</div>
 	<div style="clear: both;"></div>
 </div>
+
+
+<?php ob_start(); ?>
+<ol>
+	<li>This page is where you can arrange the photos already in a gallery</li>
+	<li>Things to remember
+		<ol>
+			<li>The whole page is ajax - so we may need something to show the saving state (currently the icon changes to busy)</li>
+		</ol>
+	</li>
+</ol>
+<?php
+$html = ob_get_contents();
+ob_end_clean();
+	echo $this->Element('admin/richard_notes', array(
+	'html' => $html
+)); ?>

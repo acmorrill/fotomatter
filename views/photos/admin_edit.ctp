@@ -326,3 +326,25 @@
 	
 	<?php echo $this->Form->end('Save'); ?>
 </div>
+
+<?php ob_start(); ?>
+<ol>
+	<li>This page is where edit the settings for an individual photo</li>
+	<li><a href="/img/admin_screenshots/edit_photo.jpg" target="_blank">Screenshot</a></li>
+	<li>Things to remember
+		<ol>
+			<li>This page needs a flash message</li>
+			<li>The choose available sizes section needs styling
+				<ol>
+					<li>The locked vs unlocked status needs style (locked the whole row is grayed out - see screenshot)</li>
+				</ol>
+			</li>
+		</ol>
+	</li>
+</ol>
+<?php
+$html = ob_get_contents();
+ob_end_clean();
+	echo $this->Element('admin/richard_notes', array(
+	'html' => $html
+)); ?>

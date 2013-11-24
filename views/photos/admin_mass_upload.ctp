@@ -327,3 +327,24 @@
 	{% } %}
 	</script>
 </div>
+
+
+<?php ob_start(); ?>
+<ol>
+	<li>This page is where you can upload a lot of photos at once (and assign them to galleries and tags)</li>
+	<li>Things to remember
+		<ol>
+			<li>This page needs a flash message</li>
+			<li>We need the style for when you are about to add photos</li>
+			<li>We need style for before you've added photos to upload (the Drag and drop help)</li>
+			<li>We need style for the uploading popup and the finished uploading popup</li>
+			<li>We need style for the upload error dialog box - ask adam about getting an example of this</li>
+		</ol>
+	</li>
+</ol>
+<?php
+$html = ob_get_contents();
+ob_end_clean();
+	echo $this->Element('admin/richard_notes', array(
+	'html' => $html
+)); ?>

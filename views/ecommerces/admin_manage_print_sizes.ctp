@@ -57,3 +57,33 @@
 <?php else: ?>
 	<?php __('You have not added any sizes yet.'); ?>
 <?php endif; ?>
+
+
+<?php ob_start(); ?>
+<ol>
+	<li>This page is where the user can decide what print sizes are available
+		<ol>
+			<li>This page will probobly need some help to explain what it is for - probobly at the top</li>
+			<li>The sizes are not actual print sizes - they are actually just the sizes that will be options for when you create types</li>
+			<li>FYI - restore defaults goes back to the starting sizes (this is the user doesn't have to think about this page if they don't want to)</li>
+		</ol>
+	</li>
+	<li>Things to remember
+		<ol>
+			<li>This needs a flash message</li>
+			<li>The confirm for restore defaults needs design</li>
+			<li>We need a design for both the edit available print size page and the add new print size page
+				<ol>
+					<li>For the print short side dimension drop down we need a "taken" state for sizes already used</li>
+					<li>This page needs a flash message</li>
+				</ol>
+			</li>
+		</ol>
+	</li>
+</ol>
+<?php
+$html = ob_get_contents();
+ob_end_clean();
+	echo $this->Element('admin/richard_notes', array(
+	'html' => $html
+)); ?>

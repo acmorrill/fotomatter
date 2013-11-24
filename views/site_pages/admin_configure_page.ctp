@@ -297,3 +297,20 @@
 	</div>
 	<div class="clear"></div>
 </div>
+
+
+<?php ob_start(); ?>
+<ol>
+	<li>This page where you can add page content</li>
+	<li>Things to remember
+		<ol>
+			<li>This page is quite complicated - we may want to talk about it before you design it</li>
+		</ol>
+	</li>
+</ol>
+<?php
+$html = ob_get_contents();
+ob_end_clean();
+	echo $this->Element('admin/richard_notes', array(
+	'html' => $html
+)); ?>
