@@ -161,6 +161,22 @@
 	</form>
 </div>
 
-<table>
-	
-</table>
+<?php ob_start(); ?>
+<ol>
+	<li>This page is where you can add a print type</li>
+	<li><a href="/img/admin_screenshots/add_print_type.jpg" target="_blank">screenshot</a></li>
+	<li>Things to remember
+		<ol>
+			<li>This page needs a flash message</li>
+			<li>This page will need explanation text at the top (or somewhere)</li>
+			<li>If a print type is not available at a size and format the whole line should be grayed out - we need a design for this</li>
+			<li>We probobly want to put the save button at the top and the bottom so its obvious</li>
+		</ol>
+	</li>
+</ol>
+<?php
+$html = ob_get_contents();
+ob_end_clean();
+	echo $this->Element('admin/richard_notes', array(
+	'html' => $html
+)); ?>

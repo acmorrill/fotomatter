@@ -35,11 +35,15 @@
 	<li>Things to remember
 		<ol>
 			<li>Only the one level or two level menu is used at any given time</li>
-			<li>If </li>
+			<li>If the theme doesn't use a menu type that menu type should be disabled, but visible - we need a design for this</li>
+			<li>The "inside" of the menu config containers shouldn't change too much as we'd have to redo javascript - they can look different we just don't want to do html changes</li>
+			<li>The "3rd level menu" can change completly or go away. (as well as the outer styles of each menu config "box")</li>
+			<li>We don't want the option configs (ie Add Menu Container etc) to change too much</li>
+			<li>Don't worry about a design for the "third" section - its not needed and will probobly go away</li>
+			<li>For both menu types there are "system" type items that can't be deleted and should be styled differently (currently the "mover" is slightly transparent)</li>
+			<li>When an ajax action is happening we need some kind of hint that its happening (saving) - it could be a save popup like on current theme settings) (currently it is a busy cursor icon)</li>
 		</ol>
 	</li>
-	<li>It would good to not change the design of this page too much - be sure to give a design for all the elements</li>
-	<li>Notice there is a saving thing that popups in the corner on change - we need a design for this</li>
 </ol>
 <?php
 $html = ob_get_contents();

@@ -455,3 +455,24 @@ $(function() {
 </div>
 
 <?php //debug($this->data); ?>
+
+<?php ob_start(); ?>
+<ol>
+	<li>This page is where you can connect photos to standard galleries</li>
+	<li>Things to remember
+		<ol>
+			<li>Don't forget the trash icon and popup</li>
+			<li>Don't forget the refresh icon</li>
+			<li>Don't forget the SML buttons</li>
+			<li>The buttons (newest first - photos not in gallery etc - are done by jquery ui and it would be good to not change them too much)</li>
+			<li>There is an infinite scroll on the Website Photos section - when new photos are loading there is a loading div - we need style for that</li>
+			<li>The whole page is ajax - so we may need something to show the saving state (currently the icon changes to busy)</li>
+		</ol>
+	</li>
+</ol>
+<?php
+$html = ob_get_contents();
+ob_end_clean();
+	echo $this->Element('admin/richard_notes', array(
+	'html' => $html
+)); ?>

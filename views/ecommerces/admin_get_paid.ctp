@@ -47,6 +47,25 @@
 	<!--DREW TODO - improve this section-->
 <?php endif; ?>
 
+	
+<?php ob_start(); ?>
+<ol>
+	<li>This page lets you get paid on orders you have made</li>
+	<li><a href="/img/admin_screenshots/get_paid.jpg" target="_blank">screenshot</a></li>
+	<li>Things to remember
+		<ol>
+			<li>This page needs a flash message</li>
+			<li>We need a design to contain the help message on the screenshot - to explain how getting paid works</li>
+		</ol>
+	</li>
+</ol>
+<?php
+$html = ob_get_contents();
+ob_end_clean();
+	echo $this->Element('admin/richard_notes', array(
+	'html' => $html
+)); ?>
+
 
 
 

@@ -54,3 +54,20 @@
 	</form>
 </div>
 
+
+<?php ob_start(); ?>
+<ol>
+	<li>This page is where the user can add or edit an available print size	</li>
+	<li>Things to remember
+		<ol>
+			<li>For the print short side dimension drop down we need a "taken" state for sizes already used</li>
+			<li>This page needs a flash message</li>
+		</ol>
+	</li>
+</ol>
+<?php
+$html = ob_get_contents();
+ob_end_clean();
+	echo $this->Element('admin/richard_notes', array(
+	'html' => $html
+)); ?>

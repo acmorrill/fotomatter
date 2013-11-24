@@ -42,7 +42,6 @@
 //	debug($current_background_width);
 //	debug($current_background_height);
 //	debug($current_background_web_path);
-	debug('came here 1');
 	
 	
 	$max_background_image_width = 1600;
@@ -180,3 +179,23 @@
 		<p><?php __('The current theme does not have a dynamic background.'); ?></p>
 	<?php endif; ?>
 </div>
+
+
+
+<?php ob_start(); ?>
+<ol>
+	<li>This page is fairly buggy - shouldn't take to long to fix, but you may want to call me talk about this page - so you know how it works</li>
+	<li>Things to remember
+		<ol>
+			<li>You should be on andrewmorrill theme to see this page as its the only theme of this type</li>
+			<li>This page has no flash message, but needs a ajax save thing like some of the other pages (currently this is a busy cursor on save)</li>
+			<li>Not all themes have this option - this is only for themes that use a dynamic background creator (like my theme) - for other themes we need a design to just say what it is and that its not available for the theme</li>
+		</ol>
+	</li>
+</ol>
+<?php
+$html = ob_get_contents();
+ob_end_clean();
+	echo $this->Element('admin/richard_notes', array(
+	'html' => $html
+)); ?>

@@ -14,6 +14,7 @@
 					<li>Total Pages (ie 30/50)</li>
 				</ol>
 			</li>
+			<li>We may want some getting started stuff on the dashboard - so if they haven't added any photos - then a link to add photos is there</li>
 			<li>Maybe Don't do - A log of recent logins (for security)</li>
 			<li>Your current site - with line to edit theme</li>
 			<li>Maybe Don't do - Recent Orders</li>

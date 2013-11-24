@@ -72,3 +72,24 @@
 	<?php __('You do not have any photos yet.'); ?>
 <?php endif; ?>
 
+
+<?php ob_start(); ?>
+<ol>
+	<li>This page is where you see all the photos currently uploaded to your site</li>
+	<li>Things to remember
+		<ol>
+			<li>We need both an edit and delete action (need to add the delete)</li>
+			<li>We need the pagination, sorting etc styled</li>
+			<li>We don't necessarily have to have all the columns</li>
+			<li>This page needs a flash message</li>
+			<li>Don't forget the photo edit page and add pages :)</li>
+			<li>The add photos link shouldn't be in the menu - its needs to be a prominent button somewhere (possible the same button is also on the dashboard if no images have been uploaded)</li>
+		</ol>
+	</li>
+</ol>
+<?php
+$html = ob_get_contents();
+ob_end_clean();
+	echo $this->Element('admin/richard_notes', array(
+	'html' => $html
+)); ?>

@@ -46,3 +46,32 @@
 <?php else: ?>
 	<?php __('You do not have any orders yet.'); ?>
 <?php endif; ?>
+
+<?php ob_start(); ?>
+<ol>
+	<li>This page just lists your orders and their current status - you can fullfill orders from this page</li>
+	<li><a href="/img/admin_screenshots/order_management.jpg" target="_blank">screenshot</a></li>
+	<li>Things to remember
+		<ol>
+			<li>This page needs a flash message</li>
+			<li>We need a design for the pagination</li>
+			<li>We need a design for the column that is currently sorting</li>
+			<li>We need a design for the sort direction</li>
+			<li>Don't forget a design for the fulfill page</li>
+			<li>If you don't have fake orders ask me and I'll run a script to add some</li>
+			<li>We need a design for before the user has any orders</li>
+			<li>If the user has not purchased ecommerce the whole page should be grayed out and there should be an upsell type graphic
+				<ol>
+					<li>We need a similar up sell type graphic on other pages as well</li>
+					<li>The upsell graphic is basically just something you click that immediatly goes to the page to add the feature and ask you for a credit card if we don't already have it)</li>
+				</ol>
+			</li>
+		</ol>
+	</li>
+</ol>
+<?php
+$html = ob_get_contents();
+ob_end_clean();
+	echo $this->Element('admin/richard_notes', array(
+	'html' => $html
+)); ?>

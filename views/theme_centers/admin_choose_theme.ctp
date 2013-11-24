@@ -6,6 +6,7 @@
 	<li>When you change current theme - get flash message that says your theme changed</li>
 	<li>Do a modal popup for zoom to theme</li>
 	<li>Current Theme should be highlighted somehow</li>
+	<li>We should maybe have a link to a live demo for each theme (which we will have for the frontend site)</li>
 </ol>
 <?php
 $html = ob_get_contents();

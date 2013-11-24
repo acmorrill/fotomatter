@@ -78,3 +78,27 @@
 	<?php __('You do not have any galleries yet.'); ?>
 <?php endif; ?>
 
+
+
+<?php ob_start(); ?>
+<ol>
+	<li>This page lists all the galleries you currently have - and also lets you reorder them.</li>
+	<li>Things to remember
+		<ol>
+			<li>This page needs a flash message</li>
+			<li>design for currently sorting column</li>
+			<li>design for sorting direction</li>
+			<li>design add standard and smart gallery button</li>
+			<li>Don't forget the edit, connect, arrange, and smart gallery settings pages</li>
+			<li>Smart galleries don't have the "connect" and "arrange" links - just a Smart Gallery Settings link</li>
+			<li>We probobly want to add a gallery type to the table (smart or standard) - also, maybe smart gallery should be styled a little different in the list?</li>
+			<li>We don't necessarily need modified, created etc</li>
+		</ol>
+	</li>
+</ol>
+<?php
+$html = ob_get_contents();
+ob_end_clean();
+	echo $this->Element('admin/richard_notes', array(
+	'html' => $html
+)); ?>
