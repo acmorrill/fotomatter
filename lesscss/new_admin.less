@@ -1,0 +1,70 @@
+@import url("inc/admin_reset.less");
+@import url("new_inc/vars.less");
+
+
+
+
+#header {
+	z-index: @header;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	background: @top_white;
+	height: @header_height;
+	width: 100%;
+	outline: 1px solid red;
+	.logo {
+		position: absolute;
+		bottom: 15px;
+		left: 58px;
+		img {
+			width: 200px;
+		}
+	}
+	#top-navigation {
+		position: absolute;
+		left: 316px;
+		width: 3000px;
+		bottom: 0px;
+		li {
+			a {
+				color: gray;
+			}
+			width: 200px;
+			height: 45px;
+			display: inline-block;
+			vertical-align: top;
+			&.dashboard {
+				background: @dashboard_off;
+				&.active {
+
+				}
+			}
+			&.theme_center {
+
+			}
+			&.e-commerce {
+
+			}
+			&.galleries {
+
+			}
+			&.photos {
+
+			}
+			&.pages {
+
+			}
+			&.site_settings {
+
+			}
+		}
+	}
+}
+
+
+#main {
+	position: relative;
+	left: 0px;
+	top: @header_height;
+}
