@@ -1,0 +1,172 @@
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.no_select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+#header {
+  z-index: 100;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  background: #f4f9f5;
+  height: 94px;
+  width: 100%;
+  outline: 1px solid red;
+}
+#header .logo {
+  position: absolute;
+  bottom: 15px;
+  left: 58px;
+}
+#header .logo img {
+  width: 200px;
+}
+#header #top-navigation {
+  position: absolute;
+  left: 316px;
+  width: 3000px;
+  bottom: 0px;
+}
+#header #top-navigation li {
+  width: 200px;
+  height: 45px;
+  display: inline-block;
+  vertical-align: top;
+}
+#header #top-navigation li a {
+  color: gray;
+}
+#header #top-navigation li.dashboard {
+  background: #51595d;
+}
+#main {
+  position: relative;
+  left: 0px;
+  top: 94px;
+}
