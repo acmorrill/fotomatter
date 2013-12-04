@@ -32,7 +32,7 @@
 	}, 50);
     
 </script>
-<div class="profile-outer-cont">
+<div class="profile-outer-cont fm_form">
 	<?php if (empty($error_message) === false): ?>
 		<?php echo $this->element('admin/flashMessage/error', array('message'=>$error_message)); ?>
 	<?php endif; ?>
