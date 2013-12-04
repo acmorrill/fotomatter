@@ -5,6 +5,7 @@
 	</a>
 </div>
 <div ng-switch on='currentStep' class="ui-dialog-content ui-widget-content" style="width:auto; min-height: 0px; height: 515.03125px;" scrolltop="0" scrollleft="0">
+	<?php echo $this->element('admin/domains/loading'); ?>
 	<?php echo $this->element('admin/domains/cc_profile', array('countries'=>$countries)); ?>
 	<?php echo $this->element("admin/domains/domain_contact"); ?>
 </div>
