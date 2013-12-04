@@ -1,4 +1,4 @@
-<div ng-switch-when='cc_profile' class="profile-outer-cont domains">
+<div ng-switch-when='cc_profile' class="profile-outer-cont domains fm_form">
 	<h3><?php echo __('Add credit Card'); ?></h3>
 	<div ng-show="errorMessage != undefined && errorMessage != ''" class='error flashMessage rounded-corners-tiny'><i class='icon-warning-sign'></i><span>{{errorMessage}}</span></div>
     <form id="payment_details_client" action="#" onSubmit="send_form(); return false;">
