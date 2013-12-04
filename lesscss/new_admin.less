@@ -1,8 +1,13 @@
+@import url("new_inc/fonts.less");
 @import url("inc/admin_reset.less");
 @import url("new_inc/vars.less");
+@import url("new_inc/functions.less");
 
 
 
+body {
+	background: #333;
+}
 
 #header {
 	z-index: @header;
@@ -12,7 +17,6 @@
 	background: @top_white;
 	height: @header_height;
 	width: 100%;
-	outline: 1px solid red;
 	.logo {
 		position: absolute;
 		bottom: 15px;
@@ -22,41 +26,142 @@
 		}
 	}
 	#top-navigation {
+		.Code-Pro-LC;
 		position: absolute;
 		left: 316px;
 		width: 3000px;
 		bottom: 0px;
 		li {
-			a {
-				color: gray;
-			}
-			width: 200px;
+			position: relative;
+			width: @menu_width;
 			height: 45px;
 			display: inline-block;
 			vertical-align: top;
-			&.dashboard {
+			> a {
+				display: block;
+				color: @top_gray;
+				text-decoration: none;
+				margin-top: 18px;
+				margin-left: 3px;
+				font-size: 14px;
+			}
+			.tab_bottom {
+				position: absolute;
+				bottom: 0px;
+				left: 0px;
+				height: 2px;
+				background: @top_white;
+				width: @menu_width;
+			}
+			.tab_bottom_triangle, .active_color { display: none; }
+			.tab_left_cover {
+				position: absolute;
+				top: 0px;
+				left: -@menu_height;
+			}
+			.angle_white {
+				position: absolute;
+				width: 47px;
+				height: 47px;
+				left: -46px;
+				top: -2px;
+				background: url(/img/admin/main_menu/menu_angle_white.svg) top left no-repeat;
+			}
+			&.dashboard { // DREW TODO - start here tomorrow
 				background: @dashboard_off;
 				&.active {
-
+					.tab_bottom {
+						width: @menu_width;
+						left: 0;
+						.active_color { width: @menu_width + 10px; }
+					}
+				}
+				> a {
+					margin-left: 36px;
 				}
 			}
 			&.theme_center {
-
+				.vertical_gradient(@tab2_top, @tab2_bottom);
+				.tab_left_cover {
+					.top_right_triangle(@menu_height, @tab2_top);
+				}
 			}
 			&.e-commerce {
-
+				.vertical_gradient(@tab3_top, @tab3_bottom);
+				.tab_left_cover {
+					.top_right_triangle(@menu_height, @tab3_top);
+				}
 			}
 			&.galleries {
-
+				.vertical_gradient(@tab4_top, @tab4_bottom);
+				.tab_left_cover {
+					.top_right_triangle(@menu_height, @tab4_top);
+				}
 			}
 			&.photos {
-
+				.vertical_gradient(@tab5_top, @tab5_bottom);
+				.tab_left_cover {
+					.top_right_triangle(@menu_height, @tab5_top);
+				}
 			}
 			&.pages {
-
+				.vertical_gradient(@tab6_top, @tab6_bottom);
+				.tab_left_cover {
+					.top_right_triangle(@menu_height, @tab6_top);
+				}
 			}
 			&.site_settings {
 
+			}
+			&.active {
+				background: url(/img/admin/main_menu/main_menu_active_bg.jpg) top left repeat-x;
+				background-size: 4px 55px;
+				width: @menu_active_width;
+				a {
+					color: @top_white;
+				}
+				.tab_left_cover {
+					position: absolute;
+					top: 0px;
+					left: -@menu_height;
+					width: @menu_height;
+					height: 45px;
+					background: url(/img/admin/main_menu/main_menu_active_bg.jpg) top left repeat-x;
+					border: 0px;
+				}
+				.angle_white {
+					position: absolute;
+					width: 2px;
+					height: 100%;
+					left: -45px;
+					top: 0px;
+					background: @top_white;
+				}
+				.tab_bottom {
+					width: @menu_active_width + @menu_height;
+					left: -@menu_height;
+					height: 10px;
+					bottom: -10px;
+					background: url(/img/admin/main_menu/main_menu_active_bg.jpg) bottom left repeat-x;
+					.tab_bottom_triangle, .active_color { display: block; }
+					.tab_bottom_triangle {
+						position: absolute;
+						right: -10px;
+						.bottom_right_triangle(10px, @tab_on_bottom);
+					}
+					.active_color {
+						position: absolute;
+						width: @menu_active_width + @menu_height + 10px;
+						height: 4px;
+						bottom: -4px;
+						background-color: @tab2_on_color;
+						.active_color_triangle {
+							position: absolute;
+							right: -4px;
+							.bottom_right_triangle(4px, @tab2_on_color);
+						}
+					}
+				}
 			}
 		}
 	}
