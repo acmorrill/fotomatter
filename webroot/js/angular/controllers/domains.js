@@ -50,14 +50,20 @@ var domains_index = function($scope, $modal) {
 };
 domains_index.$inject = ['$scope', '$modal'];
 
-var domain_checkout = function($scope) {
-	$scope.currentStep = 'cc_profile';
+var domain_checkout = function($scope, AuthnetProfile) {
+	
 	$scope.profile = {
 		billing_firstname : ''
 	};
 	$scope.cc_profile = {
 		loading: false
 	};
+	
+	$scope.setStep = function(step_name) {
+		$scope.currentStep = step_name;
+	};
+	$scope.setStep('loading');
+	
 	jQuery.ajax({
 		type: 'POST',
 		url: '/domains/get_account_details',
@@ -66,14 +72,14 @@ var domain_checkout = function($scope) {
 				//Adam TODO solve type problem 
 				//console.log(typeof(page_meta_data.account_details.data.AuthnetProfile));
 				//console.log(page_meta_data.account_details.data);
-				$scope.profile = page_meta_data.account_details.data.AuthnetProfile;
-				if ($scope.profile.length !== undefined && $scope.profile.length == 0) {
-					$scope.profile = {
-						billing_firstname : ''
-					};
-				}
-				
+				$scope.profile = AuthnetProfile.initObject(page_meta_data.account_details.data.AuthnetProfile);
 				$scope.countryChange();
+				
+				if (typeof(page_meta_data.account_details.data.AuthnetProfile) === 'object') {
+					$scope.setStep('domain_contact');
+				} else {
+					$scope.setStep('cc_profile');
+				}
 			});	
 		},
 		error: function(data) {
@@ -89,7 +95,6 @@ var domain_checkout = function($scope) {
 			success: function(data) {
 				$scope.$apply(function() {
 					$scope.states_for_selected_country = data;
-					console.log($scope.profile);
 				});
 				//setInterval(console.log($scope.profile), 10000);
 			},
@@ -124,7 +129,7 @@ var domain_checkout = function($scope) {
 						$scope.errorMessage = data.message;
 					} else {
 						$scope.errorMessage = '';
-						$scope.currentStep = 'domain_contact';
+						$scope.setStep('domain_contact');
 					}
 				});
 					
@@ -137,4 +142,4 @@ var domain_checkout = function($scope) {
 		//$scope.currentStep = 'domain_contact';
 	};
 }
-domain_checkout.$inject = ['$scope'];
+domain_checkout.$inject = ['$scope','AuthnetProfile'];

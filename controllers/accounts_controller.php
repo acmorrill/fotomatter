@@ -152,7 +152,7 @@ class AccountsController extends AppController {
                
                $this->Validation->validate('not_empty', $this->data['AuthnetProfile'], 'billing_zip', __('You must provide your zip code.', true));
                $this->Validation->validate('valid_cc_no_type', $this->data['AuthnetProfile']['payment_cardNumber'], 'billing_cardNumber', __('Your credit card was not entered or not in a valid format.', true));
-               $this->data['AuthnetProfile']['str_date'] = '01/' . $this->data['AuthnetProfile']['expiration']['month'] . '/' . $this->data['AuthnetProfile']['expiration']['year'];
+               $this->data['AuthnetProfile']['str_date'] = $this->data['AuthnetProfile']['expiration']['month'] . '/31' . '/' . $this->data['AuthnetProfile']['expiration']['year'];
                $this->Validation->validate('date_is_future', $this->data['AuthnetProfile'], 'str_date', __('Your date provided was invalid or not in the future.', true)); //Ok in theory this should never be hit cause they are selects
                $this->Validation->validate('not_empty', $this->data['AuthnetProfile'], 'payment_cardCode', __('Your csv code was either blank or invalid.', true));
            
