@@ -152,6 +152,11 @@ class AppController extends Controller {
 		exit();
 	}
 	
+	function get_json_from_input() {
+		App::import('Sanitize');
+		return Sanitize::clean(json_decode(file_get_contents("php://input"), true));
+	}
+	
 	
     /**
      * isAuthorized

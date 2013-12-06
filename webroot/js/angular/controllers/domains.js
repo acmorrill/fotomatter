@@ -1,43 +1,12 @@
-var domains_index = function($scope, $modal) {
+var domains_index = function($scope, $modal, $http, domainUtil, errorUtil) {
 	$scope.search = function() {
-		jQuery.ajax({
-			type: 'POST',
-			url: '/domains/search',
-			data : {
-				q : $scope.query
-			},
-			success: function(data) {
-				$scope.$apply(function() {
-					var domain_pieces = $scope.query.split('.');
-					var domain_title = '';
-
-					if (domain_pieces.length === 3) {
-						domain_title = domain_pieces[1] + '.' + domain_pieces[2];
-					} else if(domain_pieces.length === 2) {
-						domain_title = domain_pieces[0] + '.' + domain_pieces[1];
-					} else {
-						domain_title = domain_pieces[0] + '.com';
-					}
-
-					$scope.domain_searched = domain_title;
-					$scope.domain_found = data[domain_title]['avail'];
-					var domains_to_display = [];
-					jQuery.each(data, function(key, domain) {
-						if (domain.avail) {
-							domain.name = key;
-							domains_to_display.push(domain);
-						}
-					});
-					
-					$scope.domains = domains_to_display;
-				});
-				
-			},
-			error: function(data) {
-				
-			},
-			dataType: 'json'
-		});		
+		domainUtil.domainSearch($scope.query)
+			.success(function(data) {
+				$scope.domain_searched = domainUtil.getActualDomainSearched($scope.query);
+				$scope.domain_found = data[$scope.domain_searched]['avail'];
+				$scope.domains = domainUtil.parseSearchResult(data);
+			})
+			.error(errorUtil.handleError);
 	};
 	
 	$scope.buyDomain = function(domain) {
@@ -48,9 +17,9 @@ var domains_index = function($scope, $modal) {
 		});
 	};
 };
-domains_index.$inject = ['$scope', '$modal'];
+domains_index.$inject = ['$scope', '$modal', '$http', 'domainUtil', 'errorUtil'];
 
-var domain_checkout = function($scope, AuthnetProfile) {
+var domain_checkout = function($scope, AuthnetProfile, $http) {
 	
 	$scope.profile = {
 		billing_firstname : ''
@@ -64,37 +33,26 @@ var domain_checkout = function($scope, AuthnetProfile) {
 	};
 	$scope.setStep('loading');
 	
-	jQuery.ajax({
-		type: 'POST',
-		url: '/domains/get_account_details',
-		success: function(page_meta_data) {
-			$scope.$apply(function() {
-				//Adam TODO solve type problem 
-				//console.log(typeof(page_meta_data.account_details.data.AuthnetProfile));
-				//console.log(page_meta_data.account_details.data);
-				$scope.profile = AuthnetProfile.initObject(page_meta_data.account_details.data.AuthnetProfile);
-				$scope.countryChange();
-				
-				if (typeof(page_meta_data.account_details.data.AuthnetProfile) === 'object') {
-					$scope.setStep('domain_contact');
-				} else {
-					$scope.setStep('cc_profile');
-				}
-			});	
-		},
-		error: function(data) {
-			
-		},
-		dataType: 'json'
-	});
+	$http.get('/domains/get_account_details')
+		.success(function(page_meta_data) {
+			$scope.profile = AuthnetProfile.initObject(page_meta_data.account_details.data.AuthnetProfile);
+			$scope.countryChange('states_for_selected_country');
+
+			if (typeof(page_meta_data.account_details.data.AuthnetProfile) === 'object') {
+				$scope.setStep('domain_contact');
+			} else {
+				$scope.setStep('cc_profile');
+			}
+		});
 	
-	$scope.countryChange = function() {
+	//initial logic end for opening domain checkout
+	$scope.countryChange = function(scope_var_for_state_list) {
 		jQuery.ajax({
 			type: 'GET',
 			url: '/admin/accounts/ajax_get_states_for_country/'+$scope.profile.country_id + "/1",
 			success: function(data) {
 				$scope.$apply(function() {
-					$scope.states_for_selected_country = data;
+					$scope[scope_var_for_state_list] = data;
 				});
 				//setInterval(console.log($scope.profile), 10000);
 			},
@@ -142,4 +100,4 @@ var domain_checkout = function($scope, AuthnetProfile) {
 		//$scope.currentStep = 'domain_contact';
 	};
 }
-domain_checkout.$inject = ['$scope','AuthnetProfile'];
+domain_checkout.$inject = ['$scope','AuthnetProfile', '$http'];

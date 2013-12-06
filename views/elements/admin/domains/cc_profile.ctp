@@ -1,7 +1,7 @@
 <div ng-switch-when='cc_profile' class="profile-outer-cont domains fm_form">
 	<h3><?php echo __('Add credit Card'); ?></h3>
 	<div ng-show="errorMessage != undefined && errorMessage != ''" class='error flashMessage rounded-corners-tiny'><i class='icon-warning-sign'></i><span>{{errorMessage}}</span></div>
-    <form id="payment_details_client" action="#" onSubmit="send_form(); return false;">
+    <form id="payment_details_client" class='fm_form' action="#" onSubmit="send_form(); return false;">
         <div class="address">
             <input type='hidden' id='billing_id' ng-model="profile.id"  />
             <input type='hidden' id='billing_id' ng-model="profile.created" />
@@ -20,7 +20,7 @@
             </div>
             <div class="input">
                 <label for="billing_country"><?php echo __('Country'); ?></label>
-                <select ng-model='profile.country_id' ng-change="countryChange()" id="billing_country">
+                <select ng-model='profile.country_id' ng-change="countryChange('states_for_selected_country')" id="billing_country">
                     <?php foreach ($countries as $key => $country): ?>
                     <option value="<?php echo $country['GlobalCountry']['country_code_2']; ?>"><?php echo $country['GlobalCountry']['country_name']; ?></option>
                     <?php endforeach; ?>
