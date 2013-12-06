@@ -61,6 +61,7 @@ class DomainsController extends Appcontroller {
    }
 	
 	public function search() {
+		$this->params['form'] = $this->get_json_from_input();
 		if (isset($this->params['form']['q'])) {
 			$domains = $this->FotomatterDomain->check_availability($this->params['form']['q']);
 			$this->return_json($domains);

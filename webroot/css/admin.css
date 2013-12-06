@@ -1856,11 +1856,6 @@ div#sub-nav ul li.title a {
   margin: 10px 0;
   color: #fff;
 }
-.profile-outer-cont label {
-  width: 80px;
-  display: inline-block;
-  font-size: 13px;
-}
 .profile-outer-cont .payment {
   margin: 35px 0 0 0;
 }
@@ -1872,15 +1867,7 @@ div#sub-nav ul li.title a {
 .profile-outer-cont input.ng-dirty.ng-invalid {
   border: 2px solid red;
 }
-.profile-outer-cont select {
-  padding: 2px;
-  width: 210px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  border: 1px solid #222222;
-}
-.profile-outer-cont .exp_date select {
+.profile-outer-cont .input.exp_date select {
   width: 103px;
 }
 .profile-outer-cont .continue.input {
@@ -1924,6 +1911,14 @@ form.fm_form label {
 }
 form.fm_form .input {
   margin: 5px 0;
+}
+form.fm_form .input select {
+  padding: 2px;
+  width: 210px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  border: 1px solid #222222;
 }
 form.fm_form .input input {
   padding: 2px;
