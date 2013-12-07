@@ -180,12 +180,20 @@ body {
   vertical-align: top;
 }
 #header #top-navigation li > a {
+  height: 43px;
   display: block;
+  position: relative;
   color: #cececf;
   text-decoration: none;
+  font-size: 14px;
+}
+#header #top-navigation li > a span {
+  display: inline-block;
   margin-top: 15px;
   margin-left: 10px;
-  font-size: 14px;
+}
+#header #top-navigation li:hover > a {
+  color: #f4f9f5;
 }
 #header #top-navigation li .tab_bottom {
   position: absolute;
@@ -227,14 +235,25 @@ body {
 #header #top-navigation li.dashboard {
   background: #51595d;
 }
+#header #top-navigation li.dashboard:hover {
+  background: #596165;
+}
 #header #top-navigation li.dashboard.active .tab_bottom {
   width: 184px;
   left: 0;
 }
 #header #top-navigation li.dashboard.active .tab_bottom .active_color {
   width: 194px;
+  background-color: orange;
 }
-#header #top-navigation li.dashboard > a {
+#header #top-navigation li.dashboard.active .tab_bottom .active_color .active_color_triangle {
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-width: 4px 0 0 4px;
+  border-color: transparent transparent transparent orange;
+}
+#header #top-navigation li.dashboard > a span {
   margin-left: 36px;
 }
 #header #top-navigation li.theme_center {
@@ -249,7 +268,29 @@ body {
 #header #top-navigation li.theme_center .tab_left_cover {
   background-position: 0px 0px;
 }
-#header #top-navigation li.theme_center > a {
+#header #top-navigation li.theme_center:hover {
+  background-color: #3f3e3b;
+  background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0,#3f3e3b),color-stop(1,#504f4d));
+  background-image: -o-linear-gradient(bottom,#3f3e3b 0%,#504f4d 100%);
+  background-image: -moz-linear-gradient(bottom,#3f3e3b 0%,#504f4d 100%);
+  background-image: -webkit-linear-gradient(bottom,#3f3e3b 0%,#504f4d 100%);
+  background-image: -ms-linear-gradient(bottom,#3f3e3b 0%,#504f4d 100%);
+  background-image: linear-gradient(to bottom,#3f3e3b 0%,#504f4d 100%);
+}
+#header #top-navigation li.theme_center:hover .tab_left_cover {
+  background-position: -50px 0px;
+}
+#header #top-navigation li.theme_center.active .tab_bottom .active_color {
+  background-color: #2ac0de;
+}
+#header #top-navigation li.theme_center.active .tab_bottom .active_color .active_color_triangle {
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-width: 4px 0 0 4px;
+  border-color: transparent transparent transparent #2ac0de;
+}
+#header #top-navigation li.theme_center > a span {
   margin-left: 7px;
 }
 #header #top-navigation li.e-commerce {
@@ -264,7 +305,29 @@ body {
 #header #top-navigation li.e-commerce .tab_left_cover {
   background-position: 0px -46px;
 }
-#header #top-navigation li.e-commerce > a {
+#header #top-navigation li.e-commerce:hover {
+  background-color: #363532;
+  background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0,#363532),color-stop(1,#464543));
+  background-image: -o-linear-gradient(bottom,#363532 0%,#464543 100%);
+  background-image: -moz-linear-gradient(bottom,#363532 0%,#464543 100%);
+  background-image: -webkit-linear-gradient(bottom,#363532 0%,#464543 100%);
+  background-image: -ms-linear-gradient(bottom,#363532 0%,#464543 100%);
+  background-image: linear-gradient(to bottom,#363532 0%,#464543 100%);
+}
+#header #top-navigation li.e-commerce:hover .tab_left_cover {
+  background-position: -50px -46px;
+}
+#header #top-navigation li.e-commerce.active .tab_bottom .active_color {
+  background-color: red;
+}
+#header #top-navigation li.e-commerce.active .tab_bottom .active_color .active_color_triangle {
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-width: 4px 0 0 4px;
+  border-color: transparent transparent transparent red;
+}
+#header #top-navigation li.e-commerce > a span {
   margin-left: 18px;
 }
 #header #top-navigation li.galleries {
@@ -279,7 +342,29 @@ body {
 #header #top-navigation li.galleries .tab_left_cover {
   background-position: 0px -93px;
 }
-#header #top-navigation li.galleries > a {
+#header #top-navigation li.galleries:hover {
+  background-color: #383735;
+  background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0,#383735),color-stop(1,#464543));
+  background-image: -o-linear-gradient(bottom,#383735 0%,#464543 100%);
+  background-image: -moz-linear-gradient(bottom,#383735 0%,#464543 100%);
+  background-image: -webkit-linear-gradient(bottom,#383735 0%,#464543 100%);
+  background-image: -ms-linear-gradient(bottom,#383735 0%,#464543 100%);
+  background-image: linear-gradient(to bottom,#383735 0%,#464543 100%);
+}
+#header #top-navigation li.galleries:hover .tab_left_cover {
+  background-position: -50px -93px;
+}
+#header #top-navigation li.galleries.active .tab_bottom .active_color {
+  background-color: green;
+}
+#header #top-navigation li.galleries.active .tab_bottom .active_color .active_color_triangle {
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-width: 4px 0 0 4px;
+  border-color: transparent transparent transparent green;
+}
+#header #top-navigation li.galleries > a span {
   margin-left: 30px;
 }
 #header #top-navigation li.photos {
@@ -294,7 +379,29 @@ body {
 #header #top-navigation li.photos .tab_left_cover {
   background-position: 0px -139px;
 }
-#header #top-navigation li.photos > a {
+#header #top-navigation li.photos:hover {
+  background-color: #383435;
+  background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0,#383435),color-stop(1,#444041));
+  background-image: -o-linear-gradient(bottom,#383435 0%,#444041 100%);
+  background-image: -moz-linear-gradient(bottom,#383435 0%,#444041 100%);
+  background-image: -webkit-linear-gradient(bottom,#383435 0%,#444041 100%);
+  background-image: -ms-linear-gradient(bottom,#383435 0%,#444041 100%);
+  background-image: linear-gradient(to bottom,#383435 0%,#444041 100%);
+}
+#header #top-navigation li.photos:hover .tab_left_cover {
+  background-position: -50px -139px;
+}
+#header #top-navigation li.photos.active .tab_bottom .active_color {
+  background-color: yellow;
+}
+#header #top-navigation li.photos.active .tab_bottom .active_color .active_color_triangle {
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-width: 4px 0 0 4px;
+  border-color: transparent transparent transparent yellow;
+}
+#header #top-navigation li.photos > a span {
   margin-left: 39px;
 }
 #header #top-navigation li.pages {
@@ -309,18 +416,43 @@ body {
 #header #top-navigation li.pages .tab_left_cover {
   background-position: 0px -183px;
 }
-#header #top-navigation li.pages > a {
+#header #top-navigation li.pages:hover {
+  background-color: #312d2e;
+  background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0,#312d2e),color-stop(1,#3c393a));
+  background-image: -o-linear-gradient(bottom,#312d2e 0%,#3c393a 100%);
+  background-image: -moz-linear-gradient(bottom,#312d2e 0%,#3c393a 100%);
+  background-image: -webkit-linear-gradient(bottom,#312d2e 0%,#3c393a 100%);
+  background-image: -ms-linear-gradient(bottom,#312d2e 0%,#3c393a 100%);
+  background-image: linear-gradient(to bottom,#312d2e 0%,#3c393a 100%);
+}
+#header #top-navigation li.pages:hover .tab_left_cover {
+  background-position: -50px -183px;
+}
+#header #top-navigation li.pages.active .tab_bottom .active_color {
+  background-color: purple;
+}
+#header #top-navigation li.pages.active .tab_bottom .active_color .active_color_triangle {
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-width: 4px 0 0 4px;
+  border-color: transparent transparent transparent purple;
+}
+#header #top-navigation li.pages > a span {
   margin-left: 32px;
 }
-#header #top-navigation li.active {
+#header #top-navigation li.active,
+#header #top-navigation li.active:hover {
   background: url(/img/admin/main_menu/main_menu_active_bg.jpg) top left repeat-x;
   background-size: 4px 55px;
   width: 184px;
 }
-#header #top-navigation li.active a {
+#header #top-navigation li.active a,
+#header #top-navigation li.active:hover a {
   color: #f4f9f5;
 }
-#header #top-navigation li.active .tab_left_cover {
+#header #top-navigation li.active .tab_left_cover,
+#header #top-navigation li.active:hover .tab_left_cover {
   position: absolute;
   top: 0px;
   width: 43px;
@@ -329,7 +461,8 @@ body {
   background: url(/img/admin/main_menu/main_menu_active_bg.jpg) top left repeat-x;
   border: 0px;
 }
-#header #top-navigation li.active .angle_white {
+#header #top-navigation li.active .angle_white,
+#header #top-navigation li.active:hover .angle_white {
   position: absolute;
   width: 2px;
   height: 100%;
@@ -337,7 +470,8 @@ body {
   top: 0px;
   background: #f4f9f5;
 }
-#header #top-navigation li.active .tab_bottom {
+#header #top-navigation li.active .tab_bottom,
+#header #top-navigation li.active:hover .tab_bottom {
   width: 227px;
   left: -43px;
   height: 10px;
@@ -345,10 +479,13 @@ body {
   background: url(/img/admin/main_menu/main_menu_active_bg.jpg) bottom left repeat-x;
 }
 #header #top-navigation li.active .tab_bottom .tab_bottom_triangle,
-#header #top-navigation li.active .tab_bottom .active_color {
+#header #top-navigation li.active .tab_bottom .active_color,
+#header #top-navigation li.active:hover .tab_bottom .tab_bottom_triangle,
+#header #top-navigation li.active:hover .tab_bottom .active_color {
   display: block;
 }
-#header #top-navigation li.active .tab_bottom .tab_bottom_triangle {
+#header #top-navigation li.active .tab_bottom .tab_bottom_triangle,
+#header #top-navigation li.active:hover .tab_bottom .tab_bottom_triangle {
   position: absolute;
   right: -10px;
   width: 0px;
@@ -357,21 +494,17 @@ body {
   border-width: 10px 0 0 10px;
   border-color: transparent transparent transparent #2c2e30;
 }
-#header #top-navigation li.active .tab_bottom .active_color {
+#header #top-navigation li.active .tab_bottom .active_color,
+#header #top-navigation li.active:hover .tab_bottom .active_color {
   position: absolute;
   width: 237px;
   height: 4px;
   bottom: -4px;
-  background-color: #2ac0de;
 }
-#header #top-navigation li.active .tab_bottom .active_color .active_color_triangle {
+#header #top-navigation li.active .tab_bottom .active_color .active_color_triangle,
+#header #top-navigation li.active:hover .tab_bottom .active_color .active_color_triangle {
   position: absolute;
   right: -4px;
-  width: 0px;
-  height: 0px;
-  border-style: solid;
-  border-width: 4px 0 0 4px;
-  border-color: transparent transparent transparent #2ac0de;
 }
 #main {
   position: relative;
