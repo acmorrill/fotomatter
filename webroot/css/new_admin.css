@@ -470,8 +470,7 @@ body {
   top: 0px;
   background: #f4f9f5;
 }
-#header #top-navigation li.active .tab_bottom,
-#header #top-navigation li.active:hover .tab_bottom {
+#header #top-navigation li.active .tab_bottom {
   width: 227px;
   left: -43px;
   height: 10px;
@@ -479,13 +478,10 @@ body {
   background: url(/img/admin/main_menu/main_menu_active_bg.jpg) bottom left repeat-x;
 }
 #header #top-navigation li.active .tab_bottom .tab_bottom_triangle,
-#header #top-navigation li.active .tab_bottom .active_color,
-#header #top-navigation li.active:hover .tab_bottom .tab_bottom_triangle,
-#header #top-navigation li.active:hover .tab_bottom .active_color {
+#header #top-navigation li.active .tab_bottom .active_color {
   display: block;
 }
-#header #top-navigation li.active .tab_bottom .tab_bottom_triangle,
-#header #top-navigation li.active:hover .tab_bottom .tab_bottom_triangle {
+#header #top-navigation li.active .tab_bottom .tab_bottom_triangle {
   position: absolute;
   right: -10px;
   width: 0px;
@@ -494,15 +490,13 @@ body {
   border-width: 10px 0 0 10px;
   border-color: transparent transparent transparent #2c2e30;
 }
-#header #top-navigation li.active .tab_bottom .active_color,
-#header #top-navigation li.active:hover .tab_bottom .active_color {
+#header #top-navigation li.active .tab_bottom .active_color {
   position: absolute;
   width: 237px;
   height: 4px;
   bottom: -4px;
 }
-#header #top-navigation li.active .tab_bottom .active_color .active_color_triangle,
-#header #top-navigation li.active:hover .tab_bottom .active_color .active_color_triangle {
+#header #top-navigation li.active .tab_bottom .active_color .active_color_triangle {
   position: absolute;
   right: -4px;
 }

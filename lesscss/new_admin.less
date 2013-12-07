@@ -236,27 +236,27 @@ body {
 						top: 0px;
 						background: @top_white;
 					}
-					.tab_bottom {
-						width: @menu_active_width + @menu_height;
-						left: -@menu_height;
-						height: 10px;
-						bottom: -10px;
-						background: url(/img/admin/main_menu/main_menu_active_bg.jpg) bottom left repeat-x;
-						.tab_bottom_triangle, .active_color { display: block; }
-						.tab_bottom_triangle {
+				}
+				.tab_bottom {
+					width: @menu_active_width + @menu_height;
+					left: -@menu_height;
+					height: 10px;
+					bottom: -10px;
+					background: url(/img/admin/main_menu/main_menu_active_bg.jpg) bottom left repeat-x;
+					.tab_bottom_triangle, .active_color { display: block; }
+					.tab_bottom_triangle {
+						position: absolute;
+						right: -10px;
+						.bottom_right_triangle(10px, @tab_on_bottom);
+					}
+					.active_color {
+						position: absolute;
+						width: @menu_active_width + @menu_height + 10px;
+						height: 4px;
+						bottom: -4px;
+						.active_color_triangle {
 							position: absolute;
-							right: -10px;
-							.bottom_right_triangle(10px, @tab_on_bottom);
-						}
-						.active_color {
-							position: absolute;
-							width: @menu_active_width + @menu_height + 10px;
-							height: 4px;
-							bottom: -4px;
-							.active_color_triangle {
-								position: absolute;
-								right: -4px;
-							}
+							right: -4px;
 						}
 					}
 				}
