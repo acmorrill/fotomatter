@@ -6,35 +6,35 @@
 		}
 	?>
 	<li class='dashboard <?php if ($curr_page == 'dashboard'): ?> active<?php endif; ?>'>
-		<a href='/admin/dashboards'><?php __("Dashboard"); ?></a>
+		<a href='/admin/dashboards'><span><?php __("Dashboard"); ?></span></a>
 		<div class="tab_bottom"><div class="tab_bottom_triangle"></div><div class="active_color"><div class="active_color_triangle"></div></div></div>
 	</li><!--
 	--><li class='theme_center <?php if ($curr_page == 'theme_center'): ?> active<?php endif; ?>'>
-		<a href='/admin/theme_centers'><?php __("Theme Center"); ?></a>
+		<a href='/admin/theme_centers'><span><?php __("Theme Center"); ?></span></a>
 		<div class="tab_left_cover"></div>
 		<div class="angle_white"></div>
 		<div class="tab_bottom"><div class="tab_bottom_triangle"></div><div class="active_color"><div class="active_color_triangle"></div></div></div>
 	</li><!--
 	--><li class='e-commerce <?php if ($curr_page == 'sell'): ?> active<?php endif; ?>'>
-		<a href='/admin/ecommerces'><?php __("Ecommerce"); ?></a>
+		<a href='/admin/ecommerces'><span><?php __("Ecommerce"); ?></span></a>
 		<div class="tab_left_cover"></div>
 		<div class="angle_white"></div>
 		<div class="tab_bottom"><div class="tab_bottom_triangle"></div><div class="active_color"><div class="active_color_triangle"></div></div></div>
 	</li><!--
 	--><li class='galleries <?php if ($curr_page == 'galleries'): ?> active<?php endif; ?>'>
-		<a href='/admin/photo_galleries'><?php __("Galleries"); ?></a>
+		<a href='/admin/photo_galleries'><span><?php __("Galleries"); ?></span></a>
 		<div class="tab_left_cover"></div>
 		<div class="angle_white"></div>
 		<div class="tab_bottom"><div class="tab_bottom_triangle"></div><div class="active_color"><div class="active_color_triangle"></div></div></div>
 	</li><!--
 	--><li class='photos <?php if ($curr_page == 'photos'): ?> active<?php endif; ?>'>
-		<a href='/admin/photos'><?php __("Photos"); ?></a>
+		<a href='/admin/photos'><span><?php __("Photos"); ?></span></a>
 		<div class="tab_left_cover"></div>
 		<div class="angle_white"></div>
 		<div class="tab_bottom"><div class="tab_bottom_triangle"></div><div class="active_color"><div class="active_color_triangle"></div></div></div>
 	</li><!--
 	--><li class='pages <?php if ($curr_page == 'pages'): ?> active<?php endif; ?>'>
-		<a href='/admin/site_pages'><?php __("Pages"); ?></a>
+		<a href='/admin/site_pages'><span><?php __("Pages"); ?></span></a>
 		<div class="tab_left_cover"></div>
 		<div class="angle_white"></div>
 		<div class="tab_bottom"><div class="tab_bottom_triangle"></div><div class="active_color"><div class="active_color_triangle"></div></div></div>
