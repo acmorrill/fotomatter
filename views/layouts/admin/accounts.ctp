@@ -9,40 +9,35 @@
 </head>
 <body>
 <div id="main">
-	<div class="top_links">
-
+	<div id="header">
+		<?php echo $this->Element('admin/logo'); ?>
+		<?php echo $this->Element('admin/menu', array( 'curr_page' => 'accounts' )); ?>
 	</div>
-	<div class="below_links">
-		<div id="header">
-			<?php echo $this->Element('admin/logo'); ?>
-			<?php echo $this->Element('admin/menu', array( 'curr_page' => 'accounts' )); ?>
-		</div>
-		<div id="middle" class="rounded-corners">
-                        <?php 
-				$subnav = array(); 
+	<div id="middle" class="rounded-corners">
+					<?php 
+			$subnav = array(); 
 
-				$subnav['title'] = array(
-					'name' => 'Upgrade Account',
-					'url' => "/admin/accounts"
-				);
-				$subnav['pages'][] = array(
-					'name' => __('Account Details', true),
-					'url' => "/admin/accounts/account_details/"
-				);
-				$subnav['pages'][] = array(
-					'name'=> __('Domains', true),
-					'url'=>"/admin/domains"
-				);
-				echo $this->Element('/admin/submenu', array( 'subnav' => $subnav )); 
-			?>
-			<?php echo $this->Session->flash(); ?>
-			<br/><br/>
-			<?php echo $content_for_layout; ?>
-		</div>
-		<div id="footer"></div>
+			$subnav['title'] = array(
+				'name' => 'Upgrade Account',
+				'url' => "/admin/accounts"
+			);
+			$subnav['pages'][] = array(
+				'name' => __('Account Details', true),
+				'url' => "/admin/accounts/account_details/"
+			);
+			$subnav['pages'][] = array(
+				'name'=> __('Domains', true),
+				'url'=>"/admin/domains"
+			);
+			echo $this->Element('/admin/submenu', array( 'subnav' => $subnav )); 
+		?>
+		<?php echo $this->Session->flash(); ?>
+		<br/><br/>
+		<?php echo $content_for_layout; ?>
 	</div>
+	<div id="footer"></div>
 </div>
-
+<div id="admin_background"></div>
 
 </body>
 </html>

@@ -49,6 +49,7 @@
 	</div>
 	<div id="footer"></div>
 </div>
+<div id="admin_background"></div>
 
 
 </body>
