@@ -16,7 +16,7 @@
 		<div class="tab_bottom"><div class="tab_bottom_triangle"></div><div class="active_color"><div class="active_color_triangle"></div></div></div>
 	</li><!--
 	--><li class='e-commerce <?php if ($curr_page == 'sell'): ?> active<?php endif; ?>'>
-		<a href='/admin/ecommerces'><?php __("e-commerce"); ?></a>
+		<a href='/admin/ecommerces'><?php __("Ecommerce"); ?></a>
 		<div class="tab_left_cover"></div>
 		<div class="angle_white"></div>
 		<div class="tab_bottom"><div class="tab_bottom_triangle"></div><div class="active_color"><div class="active_color_triangle"></div></div></div>
@@ -38,11 +38,13 @@
 		<div class="tab_left_cover"></div>
 		<div class="angle_white"></div>
 		<div class="tab_bottom"><div class="tab_bottom_triangle"></div><div class="active_color"><div class="active_color_triangle"></div></div></div>
+		<div class="last_tab">&nbsp;</div>
 	</li><!--
-	--><li class='site_settings <?php if ($curr_page == 'site_settings'): ?> active<?php endif; ?>'>
+	-->
+<!--	<li class='site_settings <?php if ($curr_page == 'site_settings'): ?> active<?php endif; ?>'>
 		<a href='/admin/accounts'><?php __("Site Settings"); ?></a>
 		<div class="tab_left_cover"></div>
 		<div class="angle_white"></div>
 		<div class="tab_bottom"><div class="tab_bottom_triangle"></div><div class="active_color"><div class="active_color_triangle"></div></div></div>
-	</li>
+	</li>-->
 </ul>

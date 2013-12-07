@@ -1,17 +1,17 @@
 .vertical_gradient(@top_color, @bottom_color) {
 	background-color: @top_color;
-	//background-image: -webkit-gradient(
-	//	linear,
-	//	left top,
-	//	left bottom,
-	//	color-stop(0, @top_color),
-	//	color-stop(1, @bottom_color)
-	//);
-	//background-image: -o-linear-gradient(bottom, @top_color 0%, @bottom_color 100%);
-	//background-image: -moz-linear-gradient(bottom, @top_color 0%, @bottom_color 100%);
-	//background-image: -webkit-linear-gradient(bottom, @top_color 0%, @bottom_color 100%);
-	//background-image: -ms-linear-gradient(bottom, @top_color 0%, @bottom_color 100%);
-	//background-image: linear-gradient(to bottom, @top_color 0%, @bottom_color 100%);
+	background-image: -webkit-gradient(
+		linear,
+		left top,
+		left bottom,
+		color-stop(0, @top_color),
+		color-stop(1, @bottom_color)
+	);
+	background-image: -o-linear-gradient(bottom, @top_color 0%, @bottom_color 100%);
+	background-image: -moz-linear-gradient(bottom, @top_color 0%, @bottom_color 100%);
+	background-image: -webkit-linear-gradient(bottom, @top_color 0%, @bottom_color 100%);
+	background-image: -ms-linear-gradient(bottom, @top_color 0%, @bottom_color 100%);
+	background-image: linear-gradient(to bottom, @top_color 0%, @bottom_color 100%);
 }
 
 .bottom_right_triangle(@size, @color) {
