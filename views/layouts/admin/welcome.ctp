@@ -8,21 +8,17 @@
 </head>
 <body>
 <div id="main">
-	<div class="top_links">
-
+	<div id="header">
+		<?php //echo $this->Element('admin/logo'); ?>
 	</div>
-	<div class="below_links">
-		<div id="header">
-			<?php //echo $this->Element('admin/logo'); ?>
-		</div>
-		<div id="middle" class="rounded-corners">
-			<?php echo $this->Session->flash(); ?>
-			<br/><br/>
-			<?php echo $content_for_layout; ?>
-		</div>
-		<div id="footer"></div>
+	<div id="middle" class="rounded-corners">
+		<?php echo $this->Session->flash(); ?>
+		<br/><br/>
+		<?php echo $content_for_layout; ?>
 	</div>
+	<div id="footer"></div>
 </div>
+<div id="admin_background"></div>
 
 
 </body>
