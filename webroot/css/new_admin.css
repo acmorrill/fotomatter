@@ -172,11 +172,11 @@ body {
   bottom: 0px;
 }
 #header #top-navigation ul {
-  width: 1104px;
+  width: 991px;
 }
 #header #top-navigation li {
   position: relative;
-  width: 184px;
+  width: 165px;
   height: 45px;
   display: inline-block;
   vertical-align: top;
@@ -203,7 +203,7 @@ body {
   left: 0px;
   height: 2px;
   background: #f4f9f5;
-  width: 184px;
+  width: 165px;
 }
 #header #top-navigation li .tab_bottom_triangle,
 #header #top-navigation li .active_color {
@@ -241,11 +241,11 @@ body {
   background: #596165;
 }
 #header #top-navigation li.dashboard.active .tab_bottom {
-  width: 184px;
+  width: 165px;
   left: 0;
 }
 #header #top-navigation li.dashboard.active .tab_bottom .active_color {
-  width: 194px;
+  width: 175px;
   background-color: orange;
 }
 #header #top-navigation li.dashboard.active .tab_bottom .active_color .active_color_triangle {
@@ -256,7 +256,7 @@ body {
   border-color: transparent transparent transparent orange;
 }
 #header #top-navigation li.dashboard > a span {
-  margin-left: 36px;
+  margin-left: 24px;
 }
 #header #top-navigation li.theme_center {
   background-color: #373633;
@@ -293,7 +293,7 @@ body {
   border-color: transparent transparent transparent #2ac0de;
 }
 #header #top-navigation li.theme_center > a span {
-  margin-left: 7px;
+  margin-left: 0px;
 }
 #header #top-navigation li.e-commerce {
   background-color: #2e2d2a;
@@ -330,7 +330,7 @@ body {
   border-color: transparent transparent transparent red;
 }
 #header #top-navigation li.e-commerce > a span {
-  margin-left: 18px;
+  margin-left: 3px;
 }
 #header #top-navigation li.galleries {
   background-color: #302f2d;
@@ -367,7 +367,7 @@ body {
   border-color: transparent transparent transparent green;
 }
 #header #top-navigation li.galleries > a span {
-  margin-left: 30px;
+  margin-left: 18px;
 }
 #header #top-navigation li.photos {
   background-color: #302c2d;
@@ -404,7 +404,7 @@ body {
   border-color: transparent transparent transparent yellow;
 }
 #header #top-navigation li.photos > a span {
-  margin-left: 39px;
+  margin-left: 23px;
 }
 #header #top-navigation li.pages {
   background-color: #292526;
@@ -441,13 +441,13 @@ body {
   border-color: transparent transparent transparent purple;
 }
 #header #top-navigation li.pages > a span {
-  margin-left: 32px;
+  margin-left: 26px;
 }
 #header #top-navigation li.active,
 #header #top-navigation li.active:hover {
   background: url(/img/admin/main_menu/main_menu_active_bg.jpg) top left repeat-x;
   background-size: 4px 55px;
-  width: 184px;
+  width: 165px;
 }
 #header #top-navigation li.active a,
 #header #top-navigation li.active:hover a {
@@ -473,7 +473,7 @@ body {
   background: #f4f9f5;
 }
 #header #top-navigation li.active .tab_bottom {
-  width: 227px;
+  width: 208px;
   left: -43px;
   height: 10px;
   bottom: -10px;
@@ -494,7 +494,7 @@ body {
 }
 #header #top-navigation li.active .tab_bottom .active_color {
   position: absolute;
-  width: 237px;
+  width: 218px;
   height: 4px;
   bottom: -4px;
 }
@@ -502,13 +502,20 @@ body {
   position: absolute;
   right: -4px;
 }
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1366px) {
   #header .logo {
-    left: 0px;
-    bottom: 45px;
+    left: 13px;
   }
   #header #top-navigation {
-    left: 200px;
+    left: 228px;
+  }
+}
+@media only screen and (max-width: 1280px) {
+  #header .logo {
+    bottom: 50px;
+  }
+  #header #top-navigation {
+    left: 2px;
   }
 }
 #extra_buttons {

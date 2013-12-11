@@ -33,7 +33,7 @@ body {
 		//left: 228px;
 		bottom: 0px;
 		ul {
-			width: 1104px;
+			width: 991px;
 		}
 		li {
 			position: relative;
@@ -110,7 +110,7 @@ body {
 						}
 					}
 				}
-				> a span { margin-left: 36px; }
+				> a span { margin-left: 24px; }
 			}
 			&.theme_center {
 				.vertical_gradient(@tab2_top, @tab2_bottom);
@@ -130,7 +130,7 @@ body {
 						}
 					}
 				}
-				> a span { margin-left: 7px; }
+				> a span { margin-left: 0px; }
 			}
 			&.e-commerce {
 				.vertical_gradient(@tab3_top, @tab3_bottom);
@@ -150,7 +150,7 @@ body {
 						}
 					}
 				}
-				> a span { margin-left: 18px; }
+				> a span { margin-left: 3px; }
 			}
 			&.galleries {
 				.vertical_gradient(@tab4_top, @tab4_bottom);
@@ -170,7 +170,7 @@ body {
 						}
 					}
 				}
-				> a span { margin-left: 30px; }
+				> a span { margin-left: 18px; }
 			}
 			&.photos {
 				.vertical_gradient(@tab5_top, @tab5_bottom);
@@ -190,7 +190,7 @@ body {
 						}
 					}
 				}
-				> a span { margin-left: 39px; }
+				> a span { margin-left: 23px; }
 			}
 			&.pages {
 				.vertical_gradient(@tab6_top, @tab6_bottom);
@@ -210,7 +210,7 @@ body {
 						}
 					}
 				}
-				> a span { margin-left: 32px; }
+				> a span { margin-left: 26px; }
 			}
 			&.active {
 				&, &:hover { 
@@ -265,14 +265,17 @@ body {
 }
 
 // responsive changes
+@media only screen and (max-width : 1366px) {
+	#header {
+		.logo { left: 13px; }
+		#top-navigation { left: 228px; }
+	}
+}
 @media only screen and (max-width : 1280px) {
 	#header {
-		.logo {
-			left: 0px;
-			bottom: 45px;
-		}
-		#top-navigation {
-			left: 200px;
+		.logo { bottom: 50px; }
+		#top-navigation { 
+			left: 2px; 
 		}
 	}
 }
