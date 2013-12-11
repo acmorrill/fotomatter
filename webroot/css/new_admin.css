@@ -502,22 +502,6 @@ body {
   position: absolute;
   right: -4px;
 }
-@media only screen and (max-width: 1366px) {
-  #header .logo {
-    left: 13px;
-  }
-  #header #top-navigation {
-    left: 228px;
-  }
-}
-@media only screen and (max-width: 1280px) {
-  #header .logo {
-    bottom: 50px;
-  }
-  #header #top-navigation {
-    left: 2px;
-  }
-}
 #extra_buttons {
   position: absolute;
   height: 49px;
@@ -546,10 +530,9 @@ body {
 }
 #main {
   position: relative;
-  left: 0px;
+  left: 354px;
   top: 94px;
   padding-top: 100px;
-  padding-left: 348px;
   height: 100%;
   z-index: 50;
 }
@@ -567,8 +550,9 @@ body {
 }
 #sub-nav {
   position: fixed;
-  top: 200px;
-  left: 61px;
+  top: 150px;
+  left: 60px;
+  z-index: 100;
 }
 #sub-nav ul li {
   position: relative;
@@ -593,6 +577,7 @@ body {
   height: 100%;
 }
 #sub-nav ul li table td {
+  color: #6b6a6c;
   vertical-align: middle;
   text-align: left;
 }
@@ -603,8 +588,11 @@ body {
   padding-right: 15px;
   line-height: 16px;
 }
+#sub-nav ul li table td.third {
+  width: 25px;
+  text-align: middle;
+}
 #sub-nav ul li a {
-  color: #6b6a6c;
   cursor: pointer;
   height: 100%;
   width: 100%;
@@ -622,9 +610,70 @@ body {
   vertical-align: middle;
   font-size: 22px;
 }
-#sub-nav ul li a span {
-  width: 40px;
+#sub-nav ul li a .circle {
+  display: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #2ac0de;
 }
-#sub-nav ul li:hover a {
+#sub-nav ul li:hover td {
   color: #f4f9f5;
+}
+#sub-nav ul li.selected .circle {
+  display: inline-block;
+}
+#sub-nav ul li.selected td {
+  color: #f4f9f5;
+}
+@media only screen and (max-width: 1366px) {
+  #main {
+    left: 290px;
+  }
+  #header .logo {
+    left: 13px;
+  }
+  #header #top-navigation {
+    left: 228px;
+  }
+  #sub-nav {
+    left: 0px;
+  }
+}
+@media only screen and (max-width: 1280px) {
+  #main {
+    left: 75px;
+  }
+  #header .logo {
+    bottom: 50px;
+  }
+  #header #top-navigation {
+    left: 2px;
+  }
+  #sub-nav {
+    left: 0px;
+    width: 48px;
+    overflow: hidden;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+  }
+  #sub-nav:hover {
+    width: 257px;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+  }
+  #sub-nav:hover ul li .subnav_bg {
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    -moz-opacity: 1;
+    -khtml-opacity: 1;
+    opacity: 1;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+  }
 }
