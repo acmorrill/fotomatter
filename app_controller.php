@@ -62,7 +62,7 @@ class AppController extends Controller {
 		$this->is_mobile = false;
 		if ($this->MobileDetect->isMobile()) {
 			$this->is_mobile = true;
-			$this->autoRender = false;
+			//$this->autoRender = false;
 		}
 //		$this->is_mobile = true; // DREW TODO - remove this
 		$this->set('is_mobile', $this->is_mobile);
