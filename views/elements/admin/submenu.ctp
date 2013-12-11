@@ -1,3 +1,25 @@
+<script type="text/javascript">
+//	var subnav = jQuery('#sub-nav');
+//	var window = jQuery(window);
+//	jQuery(document).ready(function() {
+//		console.log ("came freaking here");
+//		subnav.hover(
+//			function() {
+//				console.log ("came into hover 1");
+//				if (window.width <= 1280) {
+//					subnav.css('width', 'auto');
+//				}
+//			}, 
+//			function() {
+//				console.log ("came into hover 2");
+//				if (window.width <= 1280) {
+//					subnav.css('width', '');
+//				}
+//			}
+//		);
+//	});
+</script>
+
 <div id="sub-nav">
 	<ul>
 		<?php /*
@@ -6,7 +28,13 @@
 		</li>
 		<li class="spacer">&nbsp;</li> */ ?>
 		<?php $count = 1; foreach ($subnav['pages'] as $subnav_page): ?>
-			<li class="<?php if ($count === 1): ?> first<?php endif; ?> <?php if ($this->Util->startsWith(trim($subnav_page['url'], '/'), trim($this->here, '/'))): ?> selected<?php endif; ?>">
+			<?php 
+				$selected = '';
+				if ($this->Util->startsWith(trim($subnav_page['url'], '/'), trim($this->here, '/'))) {
+					$selected = 'selected';
+				}
+			?>	
+			<li class="<?php if ($count === 1): ?> first<?php endif; ?> <?php echo $selected; ?>">
 				<div class="subnav_bg"></div>
 				<?php //echo $subnav_page['url']; ?>
 				<a href="<?php echo $subnav_page['url']; ?>">
@@ -17,6 +45,9 @@
 							</td>
 							<td class="second">
 								<?php echo $subnav_page['name']; ?>
+							</td>
+							<td class="third">
+								<span class="circle"></span>
 							</td>
 						</tr>
 					</table>
