@@ -1,5 +1,6 @@
 <div ng-switch-when='domain_contact' class='domain_contact'>
 	<h3><?php echo __('Domain Contact Information'); ?></h3>
+	<div ng-show="errorMessage != undefined && errorMessage != ''" class='error flashMessage rounded-corners-tiny'><i class='icon-warning-sign'></i><span>{{errorMessage}}</span></div>
 	<form class='fm_form'>
 		<div class="input">
 			<label for="contact_first_name"><?php echo __('First Name'); ?></label>
@@ -50,6 +51,9 @@
 		<div class='input'>
 			<label for='contact_fax'><?php echo __('Fax'); ?></label>
 			<input type='text' id='contact_fax' ng-model='contact.fax'
+		</div>
+		<div style='position:relative' class="input continue">
+			<input fm-button ng-click='submitContact()' type="button" value="<?php echo __('Next'); ?>" />
 		</div>
 	</form>
 	<button ng-click='setStep("cc_profile")'>Credit Card Profile</button>
