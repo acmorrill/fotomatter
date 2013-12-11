@@ -502,10 +502,28 @@ body {
 #extra_buttons {
   position: absolute;
   height: 49px;
-  min-width: 50px;
-  border: 1px solid red;
+  min-width: 25px;
   top: -49px;
   right: 47px;
+  margin-right: 10px;
+}
+#extra_buttons a {
+  font-family: Code-Pro-LC;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 13px;
+  color: #333333;
+  float: right;
+  cursor: pointer;
+  margin-left: 47px;
+  margin-top: 13px;
+  vertical-align: middle;
+  text-decoration: none;
+}
+#extra_buttons a i {
+  font-size: 22px;
+  vertical-align: middle;
+  margin-right: 10px;
 }
 #main {
   position: relative;
