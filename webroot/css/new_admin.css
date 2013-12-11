@@ -169,7 +169,6 @@ body {
   font-style: normal;
   position: absolute;
   left: 316px;
-  width: 3000px;
   bottom: 0px;
 }
 #header #top-navigation li {
@@ -500,11 +499,20 @@ body {
   position: absolute;
   right: -4px;
 }
+#extra_buttons {
+  position: absolute;
+  height: 49px;
+  min-width: 50px;
+  border: 1px solid red;
+  top: -49px;
+  right: 47px;
+}
 #main {
   position: relative;
   left: 0px;
   top: 94px;
   padding-top: 100px;
+  padding-left: 100px;
   height: 100%;
   z-index: 50;
 }
