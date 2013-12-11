@@ -1,0 +1,22 @@
+#main {
+	position: relative;
+	left: 0px;
+	top: @header_height;
+	padding-top: 100px;
+	padding-left: 100px;
+	height: 100%;
+	z-index: @content;
+}
+
+#admin_background {
+	position: fixed;
+	top: @header_height;
+	left: -20%;
+	height: 100%;
+	width: 140%;
+	background-image: url(/img/admin/general/admin_background.jpg);
+	background-color: @content_bg_color;
+	background-size: 100% auto;
+	background-repeat: no-repeat;
+	z-index: @background;
+}
