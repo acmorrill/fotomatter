@@ -502,6 +502,15 @@ body {
   position: absolute;
   right: -4px;
 }
+@media only screen and (max-width: 800px) {
+  #header .logo {
+    left: 0px;
+    bottom: 45px;
+  }
+  #header #top-navigation {
+    left: 200px;
+  }
+}
 #extra_buttons {
   position: absolute;
   height: 49px;
