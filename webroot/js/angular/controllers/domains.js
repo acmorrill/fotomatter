@@ -19,14 +19,7 @@ var domains_index = function($scope, $modal, $http, domainUtil, errorUtil) {
 };
 domains_index.$inject = ['$scope', '$modal', '$http', 'domainUtil', 'errorUtil'];
 
-var domain_checkout = function($scope, AuthnetProfile, $http) {
-	
-	$scope.profile = {
-		billing_firstname : ''
-	};
-	$scope.cc_profile = {
-		loading: false
-	};
+var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil) {
 	
 	$scope.setStep = function(step_name) {
 		$scope.currentStep = step_name;
@@ -65,7 +58,7 @@ var domain_checkout = function($scope, AuthnetProfile, $http) {
 	}
 	
 	$scope.submitPayment = function() {
-		$scope.cc_profile.loading = true;
+		$scope.loading = true;
 		var profile_to_send = {};
 		
 		profile_to_send.data = {};
@@ -82,7 +75,7 @@ var domain_checkout = function($scope, AuthnetProfile, $http) {
 			data: profile_to_send,
 			success: function(data) {
 				$scope.$apply(function() {
-					$scope.cc_profile.loading = false;
+					$scope.loading = false;
 					if (data.result == false) {
 						$scope.errorMessage = data.message;
 					} else {
@@ -99,5 +92,13 @@ var domain_checkout = function($scope, AuthnetProfile, $http) {
 		});	
 		//$scope.currentStep = 'domain_contact';
 	};
+	
+	$scope.submitContact = function() {
+		debugger;
+		if (generalUtil.is_empty(scope.contact.first_name)) {
+			scope.errorMessage = 'First name is required';
+			return;
+		}
+	};
 }
-domain_checkout.$inject = ['$scope','AuthnetProfile', '$http'];
+domain_checkout.$inject = ['$scope','AuthnetProfile', '$http', 'generalUtil'];

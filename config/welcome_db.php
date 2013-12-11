@@ -35,8 +35,6 @@ require(ROOT."/db_configs.php");
 
 
 
-
-
 ///////////////////////////////////////////////////////////////////////////////////
 // if we have the welcome cookie hash then try and see if we can use it
 if (isset($_COOKIE['welcome_hash'])) {

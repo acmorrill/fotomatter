@@ -41,6 +41,17 @@ angular.module('fmAdmin.utilServices', [])
 			});
 			return domains_to_display;
 		};
+		
+	})
+	.service('generalUtil', function() {
+		var self = this;
+		
+		self.is_empty = function(value) {
+			if (value === null || value === undefined || value === '') {
+				return true;
+			}
+			return false;	
+		};
 	})
 	.service('errorUtil', function() {
 		var self = this;
