@@ -74,10 +74,6 @@
             </div>
             <div style='position:relative' class="input continue">
                 <input fm-button ng-click='submitPayment()' type="button" value="<?php echo __('Next'); ?>" />
-				<div class='saving_profile'  ng-show="cc_profile.loading" >
-					<img src="/img/admin/icons/ajax-loader-light-grey.gif"/>
-					<span>Saving Profile</span>
-				</div>
             </div>
         </div>
     </form>
