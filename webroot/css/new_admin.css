@@ -171,6 +171,9 @@ body {
   left: 316px;
   bottom: 0px;
 }
+#header #top-navigation ul {
+  width: 1104px;
+}
 #header #top-navigation li {
   position: relative;
   width: 184px;
