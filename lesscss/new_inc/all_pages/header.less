@@ -7,6 +7,7 @@ body {
 	background: #333;
 }
 
+
 #header {
 	z-index: @header;
 	position: fixed;
@@ -262,6 +263,22 @@ body {
 		}
 	}
 }
+
+// responsive changes
+@media only screen and (max-width : 1280px) {
+	#header {
+		.logo {
+			left: 0px;
+			bottom: 45px;
+		}
+		#top-navigation {
+			left: 200px;
+		}
+	}
+}
+
+
+
 
 #extra_buttons {
 	position: absolute;
