@@ -582,9 +582,11 @@ body {
   text-align: left;
 }
 #sub-nav ul li table td.first {
-  width: 53px;
+  width: 48px;
+  text-align: center;
 }
 #sub-nav ul li table td.second {
+  height: 100%;
   padding-right: 15px;
   line-height: 16px;
 }
@@ -592,11 +594,21 @@ body {
   width: 25px;
   text-align: middle;
 }
+#sub-nav ul li table td i {
+  vertical-align: middle;
+  font-size: 22px;
+}
+#sub-nav ul li table td .circle {
+  display: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #2ac0de;
+}
 #sub-nav ul li a {
   cursor: pointer;
   height: 100%;
   width: 100%;
-  display: inline-block;
   font-family: Code-Pro-LC;
   font-weight: normal;
   font-style: normal;
@@ -604,18 +616,15 @@ body {
   vertical-align: middle;
   text-decoration: none;
 }
-#sub-nav ul li a i {
-  margin-left: 10px;
-  margin-right: 10px;
-  vertical-align: middle;
-  font-size: 22px;
+#sub-nav ul li a div {
+  outline: 1px solid transparent;
+  height: 73px;
+  width: 100%;
 }
-#sub-nav ul li a .circle {
-  display: none;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background-color: #2ac0de;
+#sub-nav ul li a div > p {
+  display: table-cell;
+  height: 73px;
+  vertical-align: middle;
 }
 #sub-nav ul li:hover td {
   color: #f4f9f5;

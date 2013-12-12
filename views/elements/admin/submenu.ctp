@@ -37,21 +37,23 @@
 			<li class="<?php if ($count === 1): ?> first<?php endif; ?> <?php echo $selected; ?>">
 				<div class="subnav_bg"></div>
 				<?php //echo $subnav_page['url']; ?>
-				<a href="<?php echo $subnav_page['url']; ?>">
-					<table>
-						<tr>
-							<td class="first">
-								<i class="icon-reorder"></i>
-							</td>
-							<td class="second">
-								<?php echo $subnav_page['name']; ?>
-							</td>
-							<td class="third">
-								<span class="circle"></span>
-							</td>
-						</tr>
-					</table>
-				</a>	
+				<table>
+					<tr>
+						<td class="first">
+							<i class="icon-reorder"></i>
+						</td>
+						<td class="second">
+							<a href="<?php echo $subnav_page['url']; ?>">
+								<div>
+									<p><?php echo $subnav_page['name']; ?></p>
+								</div>
+							</a>	
+						</td>
+						<td class="third">
+							<span class="circle"></span>
+						</td>
+					</tr>
+				</table>
 			</li>
 		<?php $count++; endforeach; ?>
 	</ul>
