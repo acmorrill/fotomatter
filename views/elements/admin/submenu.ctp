@@ -39,7 +39,7 @@
 				<?php //echo $subnav_page['url']; ?>
 				<table>
 					<tr>
-						<td class="first">
+						<td class="first" onclick="">
 							<i class="icon-reorder"></i>
 						</td>
 						<td class="second">
