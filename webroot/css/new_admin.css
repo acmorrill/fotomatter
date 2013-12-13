@@ -565,3 +565,44 @@ body {
   background-repeat: no-repeat;
   z-index: 1;
 }
+form.fm_form {
+  margin: 10px;
+  display: inline-block;
+}
+form.fm_form h3 {
+  font-weight: bold;
+  margin: 10px 0;
+  color: #fff;
+}
+form.fm_form label {
+  width: 80px;
+  display: inline-block;
+  font-size: 13px;
+}
+form.fm_form .input {
+  margin: 5px 0;
+}
+form.fm_form .input select {
+  padding: 2px;
+  width: 210px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  border: 1px solid #222222;
+}
+form.fm_form .input input {
+  padding: 2px;
+  width: 180px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  border: 1px solid #222222;
+}
+form.fm_form .submit input {
+  width: auto;
+  padding: 5px 10px;
+}
+form.fm_form button.ui-button {
+  padding: .4em 1em;
+  font-size: 13px;
+}

@@ -1,13 +1,15 @@
 angular.module('fmAdmin.utilServices', [])
-	.service('domainUtil', function($http) {
+	.service('domainUtil', function($http, errorUtil) {
 	
 		var self = this;
 		
 		self.domainSearch = function(query) {
-			return $http.post('/domains/search',
+			var promiseResult = $http.post('/domains/search',
 				{
 					q: query
 				});
+			promiseResult.error = errorUtil.handleError;
+			return promiseResult;
 		};
 		
 		/**
@@ -42,15 +44,26 @@ angular.module('fmAdmin.utilServices', [])
 			return domains_to_display;
 		};
 		
+		self.populateDomainContact = function(contact, payment_profile) {
+			console.log(contact);
+			console.log(payment_profile);
+		};
 	})
-	.service('generalUtil', function() {
+	.service('generalUtil', function($http, errorUtil) {
 		var self = this;
 		
+
 		self.is_empty = function(value) {
 			if (value === null || value === undefined || value === '') {
 				return true;
 			}
 			return false;	
+		};
+		
+		self.getStatesForCountry = function(country_id) {
+			var result = $http.get('/admin/accounts/ajax_get_states_for_country/' + country_id + '/1');
+			result.error = errorUtil.handleError;
+			return result;
 		};
 	})
 	.service('errorUtil', function() {

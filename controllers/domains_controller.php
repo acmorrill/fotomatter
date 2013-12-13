@@ -18,6 +18,9 @@ class DomainsController extends Appcontroller {
 	}
 	
 	public function admin_add_profile() {
+		$json_result = $this->get_json_from_input();
+		$this->data = $json_result['data'];
+		
        if (empty($this->data) == false) {
            try {
                $this->Validation->validate('not_empty', $this->data['AuthnetProfile'], 'billing_firstname', __('You must provide your first name.', true));
