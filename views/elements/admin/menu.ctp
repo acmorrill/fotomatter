@@ -15,7 +15,7 @@
 			<div class="tab_bottom"><div class="tab_bottom_triangle"></div><div class="active_color"><div class="active_color_triangle"></div></div></div>
 		</li><!--
 		--><li class='theme_center <?php if ($curr_page == 'theme_center'): ?> active<?php endif; ?>'>
-			<a href='/admin/theme_centers'><span><?php __("Theme Center"); ?></span></a>
+			<a href='/admin/theme_centers/choose_theme'><span><?php __("Theme Center"); ?></span></a>
 			<div class="tab_left_cover"></div>
 			<div class="angle_white"></div>
 			<div class="tab_bottom"><div class="tab_bottom_triangle"></div><div class="active_color"><div class="active_color_triangle"></div></div></div>
