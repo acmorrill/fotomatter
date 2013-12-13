@@ -53,8 +53,8 @@
 			<input type='text' id='contact_fax' ng-model='contact.fax'
 		</div>
 		<div style='position:relative' class="input continue">
-			<input fm-button ng-click='submitContact()' type="button" value="<?php echo __('Next'); ?>" />
+			<button fm-button ng-click='setStep("cc_profile")'><?php echo __('Edit Payment Details'); ?></button>
+			<button fm-button ng-click='submitContact()'><?php echo __('Next'); ?></button>
 		</div>
 	</form>
-	<button ng-click='setStep("cc_profile")'>Credit Card Profile</button>
 </div>
