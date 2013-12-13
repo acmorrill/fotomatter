@@ -687,3 +687,316 @@ body {
     transition: all 0.5s ease;
   }
 }
+form.fm_form {
+  margin: 10px;
+  display: inline-block;
+}
+form.fm_form h3 {
+  font-weight: bold;
+  margin: 10px 0;
+  color: #fff;
+}
+form.fm_form label {
+  width: 80px;
+  display: inline-block;
+  font-size: 13px;
+}
+form.fm_form .input {
+  margin: 5px 0;
+}
+form.fm_form .input select {
+  padding: 2px;
+  width: 210px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  border: 1px solid #222222;
+}
+form.fm_form .input input {
+  padding: 2px;
+  width: 180px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  border: 1px solid #222222;
+}
+form.fm_form .submit input {
+  width: auto;
+  padding: 5px 10px;
+}
+form.fm_form button.ui-button {
+  padding: .4em 1em;
+  font-size: 13px;
+}
+.profile-outer-cont.domains .saving_profile {
+  display: inline-block;
+  position: absolute;
+  left: 125px;
+}
+.profile-outer-cont.domains .saving_profile span {
+  position: relative;
+  bottom: 12px;
+}
+.profile-outer-cont.domains .error.flashMessage {
+  margin: 0px;
+}
+#domains-outer-cont {
+  margin: 10px 5px;
+}
+#domains-outer-cont .domain_result {
+  margin: 10px 0;
+  width: 630px;
+}
+#domains-outer-cont .domain_result table {
+  width: 660px;
+}
+#domains-outer-cont .domain_result table tr td button {
+  font-size: 13px;
+}
+#domains-outer-cont .domain_header {
+  min-height: 40px;
+}
+#domains-outer-cont .domain_header .direct_result {
+  margin: 4px 15px;
+  display: inline-block;
+}
+#domains-outer-cont .domain_header .direct_result h3 {
+  font-size: 28px;
+}
+#domains-outer-cont .domain_header .direct_result.not_avail span {
+  color: #FFA8A8;
+}
+#domains-outer-cont .domain_header .direct_result.avail span {
+  color: #7FFF74;
+}
+#domains-outer-cont .domain_header .search_box {
+  display: inline-block;
+  float: left;
+}
+#domains-outer-cont .domain_header .search_box button {
+  font-size: 14px;
+}
+#domains-outer-cont .domain_header .search_box input {
+  padding: 5px;
+  width: 200px;
+}
+.domain_contact .fm_form {
+  display: block;
+}
+.loading {
+  position: absolute;
+  top: 29%;
+  left: 47%;
+}
+#account-details {
+  padding: 0px 15px;
+}
+#account-details .fm_summary_cont .table_header_darker {
+  border-radius: 0;
+  -moz-border-radius: 0;
+  height: 15px;
+  line-height: 20px;
+}
+#account-details .fm_summary_cont .container .info {
+  display: inline-block;
+  margin: 15px 45px;
+  width: 240px;
+}
+#account-details .fm_summary_cont .container .info .label {
+  font-weight: bold;
+}
+#account-details .fm_summary_cont .container table.list th {
+  background-color: ;
+}
+#account-details form .input input {
+  border: 1px solid black;
+}
+#line_item_cont {
+  padding: 10px;
+}
+#line_item_cont .pay_fail_message {
+  border: 1px solid grey;
+  padding: 20px;
+  margin: 15px 1px 25px;
+  width: 33%;
+  background-color: #460E00;
+  color: #FFF4F1;
+}
+#line_item_cont .body_container {
+  width: 650px;
+  display: inline-block;
+  float: left;
+  margin: 0 40px 0 0;
+}
+#line_item_cont .account-details.finish-shown .finish-outer-cont {
+  border-bottom: 1px solid white;
+}
+#line_item_cont .account-details.finish-shown .details {
+  margin: 20px 0 0 0;
+}
+#line_item_cont .account-details {
+  display: none;
+  border: 1px solid grey;
+  width: 300px;
+  min-height: 100px;
+  float: left;
+  display: inline-block;
+  background-color: #454545;
+  padding: 15px;
+}
+#line_item_cont .account-details p {
+  font-size: 28px;
+}
+#line_item_cont .account-details button {
+  margin: 25px 0 20px;
+  background: none ;
+  color: ;
+}
+#line_item_cont .account-details button:hover {
+  background: none ;
+}
+#line_item_cont .account-details .details .detail {
+  margin: 20px 0;
+}
+#line_item_cont .account-details .details .detail span.title {
+  font-weight: bold;
+  margin: 0 10px 0 0;
+}
+#line_item_cont .account-details .details .detail span.pending_total {
+  color: ;
+}
+#line_item_cont .finish input {
+  display: none;
+}
+#line_item_cont .line_item.line_not_added .bar {
+  background-color: #292929;
+}
+#line_item_cont .line_item.line_not_added .bar .bar-right span.toggle {
+  color: #5E5E5E;
+}
+#line_item_cont .line_item.line_not_added .bar .bar-right i {
+  color: #5E5E5E;
+}
+#line_item_cont .line_item.line_not_added .bar h5 {
+  color: #5E5E5E;
+}
+#line_item_cont .line_item .bar {
+  border: 1px solid black;
+  padding: 7px 3px 7px 7px;
+  background-color: #454545;
+}
+#line_item_cont .line_item .bar div.bar-right {
+  float: right;
+  cursor: pointer;
+}
+#line_item_cont .line_item .bar div.bar-right span {
+  margin: 0;
+}
+#line_item_cont .line_item .bar div.bar-right i {
+  margin: 0 5px;
+}
+#line_item_cont .line_item .bar div.bar-right button.ui-button {
+  min-width: 80px;
+}
+#line_item_cont .line_item .bar div.bar-right button.ui-button span {
+  font-size: 14px;
+  padding: 3px;
+}
+#line_item_cont .line_item .bar h5 {
+  display: inline-block;
+  margin: 7px;
+}
+#line_item_cont .line_item .item_ad_area {
+  width: 99%;
+  height: 300px;
+  background-color: #787878;
+  margin: 0px auto;
+  display: none;
+}
+.promo_notify {
+  margin: 15px 10px;
+}
+.promo_notify h3 {
+  font-weight: bold;
+  font-size: 20px;
+  color: #fff;
+}
+.promo_notify p {
+  margin: 18px 2px;
+}
+.promo_notify span.title {
+  color: ;
+}
+.promo_notify .promo_credit_balance,
+.promo_notify .due_today {
+  margin: 0 10px;
+}
+.promo_notify .actions button {
+  font-size: 15px;
+  font-weight: bold;
+  color: #464646;
+}
+#finish_account_change {
+  margin: 20px 0;
+}
+#finish_account_change .summary {
+  float: right;
+}
+#finish_account_change .cc_info {
+  float: left;
+  margin: 5px;
+  width: 280px;
+}
+#finish_account_change .payment_item {
+  margin: 5px 10px;
+}
+#finish_account_change .payment_item .label {
+  font-size: 18px;
+  font-weight: bold;
+  color: ;
+  margin: 15px 10px 0 0;
+}
+#finish_account_change .payment_item .value {
+  display: inline-block;
+  float: right;
+}
+#finish_account_change .due_today a {
+  color: ;
+}
+#finish_account_change .pending_change {
+  font-size: 18px;
+  font-weight: bold;
+  color: ;
+  margin: 15px 0;
+}
+#finish_account_change button.finalize_change {
+  margin: 20px;
+  font-size: 15px;
+  float: right;
+}
+#finish_account_change .change-cont {
+  margin: 0 auto;
+  width: 542px;
+}
+#finish_account_change .change_summary {
+  border: 1px solid grey;
+  min-height: 150px;
+  padding: 10px;
+  margin: 0 auto;
+}
+#finish_account_change .change_summary .item_to_add {
+  height: 32px;
+  border-bottom: 1px solid grey;
+}
+#finish_account_change .change_summary .item_to_add div {
+  display: inline-block;
+  float: left;
+}
+#finish_account_change .change_summary .item_to_add div.item_name {
+  border-right: 1px solid grey;
+  padding: 5px 95px;
+  width: 170px;
+}
+#finish_account_change .change_summary .item_to_add div.item_cost {
+  padding: 5px 50px 5px 64px;
+}

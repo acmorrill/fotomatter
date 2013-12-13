@@ -1,5 +1,5 @@
 angular.module('fmAdmin.utilServices', [])
-	.service('domainUtil', function($http, errorUtil) {
+	.service('domainUtil', function($http, errorUtil, generalUtil) {
 	
 		var self = this;
 		
@@ -38,6 +38,7 @@ angular.module('fmAdmin.utilServices', [])
 			jQuery.each(data, function(key, domain) {
 				if (domain.avail) {
 					domain.name = key;
+					domain.price = accounting.formatMoney(domain.price);
 					domains_to_display.push(domain);
 				}
 			});
@@ -45,8 +46,12 @@ angular.module('fmAdmin.utilServices', [])
 		};
 		
 		self.populateDomainContact = function(contact, payment_profile) {
-			console.log(contact);
-			console.log(payment_profile);
+			contact.first_name = payment_profile.billing_firstname;
+			contact.last_name = payment_profile.billing_lastname;
+			contact.address_1 = payment_profile.billing_address;
+			contact.country_id = payment_profile.country_id;
+			contact.city = payment_profile.billing_city;
+			contact.zip = payment_profile.billing_zip;
 		};
 	})
 	.service('generalUtil', function($http, errorUtil) {
