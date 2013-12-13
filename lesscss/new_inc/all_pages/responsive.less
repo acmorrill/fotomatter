@@ -1,0 +1,47 @@
+@media only screen and (max-width : 1366px) {
+	#main { left: 290px; }
+	#header {
+		.logo { left: 13px; }
+		#top-navigation { left: 228px; }
+	}
+	#sub-nav {
+		left: 0px;
+	}
+}
+@media only screen and (max-width : 1280px) {
+	#main { left: 75px; }
+	#header {
+		.logo { bottom: 50px; left: 37px; }
+		#top-navigation { 
+			left: 2px; 
+		}
+	}
+	#sub-nav {
+		left: 0px;
+		width: @sub_nav_mobile_width;
+		overflow: hidden;
+		&:hover {
+			width: @sub_nav_width;
+			-webkit-transition: all 0.3s ease;
+			-moz-transition: all 0.3s ease;
+			-o-transition: all 0.3s ease;
+			transition: all 0.3s ease;
+			ul li .subnav_bg {
+				.el_opacity(1, 100);
+				-webkit-transition: all 0.5s ease;
+				-moz-transition: all 0.5s ease;
+				-o-transition: all 0.5s ease;
+				transition: all 0.5s ease;
+			}
+		}
+		-webkit-transition: all 0.3s ease;
+		-moz-transition: all 0.3s ease;
+		-o-transition: all 0.3s ease;
+		transition: all 0.3s ease;
+		
+		// just for phone mobile
+		//ul li {
+		//	height: 40px;
+		//}
+	}
+}
