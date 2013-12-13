@@ -1,0 +1,81 @@
+.profile-outer-cont.domains {
+	 .saving_profile {
+		span {
+			position:relative;
+			bottom:12px;
+		}
+
+		display:inline-block;
+		position:absolute;
+		left:125px;
+	 }
+
+	 .error.flashMessage {
+		margin:0px;
+	 }
+}
+
+#domains-outer-cont {
+	margin:10px 5px;
+
+	.domain_result {
+		margin:10px 0;
+		width:630px;
+
+		table {
+			width:660px;
+			tr {
+				td {
+					button {
+						font-size:13px;
+					}
+				}
+			}
+		}
+	}
+
+	.domain_header {
+		min-height:40px;
+		.direct_result {
+			margin:4px 15px;
+			display:inline-block;
+
+			h3 {
+				font-size:28px;
+			}
+		}
+
+		.direct_result.not_avail {
+			span {
+				color:@red;
+			}
+		}
+
+		.direct_result.avail {
+			span {
+				color:@green;
+			}
+		}
+
+		.search_box {
+			display:inline-block;
+			float:left;
+			button {
+				font-size:14px;
+			}
+
+			input {
+				.rounded-corners(3px);
+				padding:5px;
+				width:200px;
+			}
+		}
+	}
+}
+
+.domain_contact {
+	.fm_form {
+		display:block;
+	}
+}
+
