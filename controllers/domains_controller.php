@@ -62,11 +62,24 @@ class DomainsController extends Appcontroller {
        $this->major_error('admin_ajax_save_client_billing was called without data');
        exit();
    }
+   
+   public function admin_purchase() {
+	   $this->params['form'] = $this->get_json_from_input();
+	   debug($this->params['form']);
+	   
+	   
+	   
+	   
+	   exit();
+   }
 	
-	public function search() {
+	public function admin_search() {
 		$this->params['form'] = $this->get_json_from_input();
 		if (isset($this->params['form']['q'])) {
 			$domains = $this->FotomatterDomain->check_availability($this->params['form']['q']);
+			foreach($domains as $key => $domain) {
+				$domains[$key]['price'] += DOMAIN_MARKUP_DOLLAR;
+			}
 			$this->return_json($domains);
 		}
 		
@@ -82,6 +95,7 @@ class DomainsController extends Appcontroller {
 	public function get_account_details() {
 		$return = array();
 		$return['account_details'] = $this->FotomatterBilling->getAccountDetails();
+		$return['domain_markup_price'] = DOMAIN_MARKUP_DOLLAR;
 		$this->return_json($return);
 		exit();
 	}

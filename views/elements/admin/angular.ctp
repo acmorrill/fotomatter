@@ -7,3 +7,9 @@
 <script type='text/javascript' src='/js/angular/directives/fm_ui_directives.js'></script>
 <script type='text/javascript' src='/js/angular/services/model_services.js'></script>
 <script type='text/javascript' src='/js/angular/services/util_services.js'></script>
+<script type='text/javascript'>
+	angular.module('fmAdmin.constants', []).
+			value('serverConstants', {
+				REQUEST_URI : '<?php echo $_SERVER['REQUEST_URI']; ?>'
+			}); 
+</script>
