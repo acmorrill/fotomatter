@@ -50,7 +50,7 @@
 		</div>
 		<div class='input'>
 			<label for='contact_fax'><?php echo __('Fax'); ?></label>
-			<input type='text' id='contact_fax' ng-model='contact.fax'
+			<input type='text' id='contact_fax' ng-model='contact.fax' />
 		</div>
 		<div style='position:relative' class="input continue">
 			<button fm-button ng-click='setStep("cc_profile")'><?php echo __('Edit Payment Details'); ?></button>

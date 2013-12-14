@@ -12,16 +12,19 @@ var domains_index = function($scope, $modal, $http, domainUtil, errorUtil) {
 		var modal = $modal.open({
 			templateUrl: '/domains/domain_checkout',
 			windowClass : 'ui-dialog ui-widget ui-widget-content',
-			controller : 'domain_checkout'
+			controller : 'domain_checkout',
+			resolve: {
+				domain: function() {
+					return domain;
+				}
+			}
 		});
-		$scope.domain_to_purchase = domain;
 	};
 };
 domains_index.$inject = ['$scope', '$modal', '$http', 'domainUtil', 'errorUtil'];
 
-var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domainUtil, $modalInstance) {
-	
-	//console.log($scope.$eval('domain_to_purchase'))
+var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domainUtil, $modalInstance, domain) {
+	$scope.domain_to_purchase = domain;
 	$scope.setStep = function(step_name) {
 		$scope.currentStep = step_name;
 	};
@@ -130,7 +133,8 @@ var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domai
 		
 		$scope.errorMessage = '';
 		$scope.setStep('confirm');
+		
 		return;
 	};
 }
-domain_checkout.$inject = ['$scope','AuthnetProfile', '$http', 'generalUtil', 'domainUtil', '$modalInstance'];
+domain_checkout.$inject = ['$scope','AuthnetProfile', '$http', 'generalUtil', 'domainUtil', '$modalInstance', 'domain'];
