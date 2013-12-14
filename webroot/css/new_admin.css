@@ -783,6 +783,28 @@ form.fm_form button.ui-button {
 .domain_contact .fm_form {
   display: block;
 }
+.domain_confirmation .domain_confirm_details {
+  margin: 40px 5px;
+}
+.domain_confirmation .domain_confirm_details .confirm_line {
+  margin: 5px 0;
+}
+.domain_confirmation .domain_confirm_details .confirm_line .label {
+  font-weight: bold;
+  display: inline-block;
+  float: left;
+  margin: 0 7px 0 0;
+  color: #fff;
+}
+.domain_confirmation .domain_confirm_details .confirm_line .label:after {
+  content: ':';
+}
+.domain_confirmation .input.continue {
+  margin: 5px 0;
+}
+.domain_confirmation .input.continue button {
+  font-size: 13px;
+}
 .loading {
   position: absolute;
   top: 29%;

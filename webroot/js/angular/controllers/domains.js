@@ -1,7 +1,9 @@
 var domains_index = function($scope, $modal, $http, domainUtil, errorUtil) {
 	$scope.search = function() {
 		domainUtil.domainSearch($scope.query)
-			.success(function(data) {
+			.success(function(data, status) {
+				if (status !== 200) return;
+				
 				$scope.domain_searched = domainUtil.getActualDomainSearched($scope.query);
 				$scope.domain_found = data[$scope.domain_searched]['avail'];
 				$scope.domains = domainUtil.parseSearchResult(data);
@@ -25,6 +27,7 @@ domains_index.$inject = ['$scope', '$modal', '$http', 'domainUtil', 'errorUtil']
 
 var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domainUtil, $modalInstance, domain) {
 	$scope.domain_to_purchase = domain;
+
 	$scope.setStep = function(step_name) {
 		$scope.currentStep = step_name;
 	};
@@ -135,6 +138,10 @@ var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domai
 		$scope.setStep('confirm');
 		
 		return;
+	};
+	
+	$scope.submitPurchase = function() {
+		domainUtil.purchase($scope.domain_to_purchase, $scope.contact);
 	};
 }
 domain_checkout.$inject = ['$scope','AuthnetProfile', '$http', 'generalUtil', 'domainUtil', '$modalInstance', 'domain'];

@@ -1,10 +1,10 @@
-angular.module('fmAdmin.utilServices', [])
+angular.module('fmAdmin.utilServices', ['fmAdmin.constants'])
 	.service('domainUtil', function($http, errorUtil, generalUtil) {
 	
 		var self = this;
 		
 		self.domainSearch = function(query) {
-			var promiseResult = $http.post('/domains/search',
+			var promiseResult = $http.post('/admin/domains/search',
 				{
 					q: query
 				});
@@ -53,6 +53,15 @@ angular.module('fmAdmin.utilServices', [])
 			contact.city = payment_profile.billing_city;
 			contact.zip = payment_profile.billing_zip;
 		};
+		
+		self.purchase = function(domain, contact) {
+			var toPost = {
+				domain: domain,
+			    contact: contact
+			};
+			
+			var httpPromise = $http.post("/admin/domains/purchase", toPost);
+		};
 	})
 	.service('generalUtil', function($http, errorUtil) {
 		var self = this;
@@ -68,14 +77,22 @@ angular.module('fmAdmin.utilServices', [])
 		self.getStatesForCountry = function(country_id) {
 			var result = $http.get('/admin/accounts/ajax_get_states_for_country/' + country_id + '/1');
 			result.error = errorUtil.handleError;
+			
+			result.then(errorUtil.then);
 			return result;
 		};
 	})
-	.service('errorUtil', function() {
+	.service('errorUtil', function(serverConstants) {
 		var self = this;
 		
 		self.handleError = function(serverResponse, code) {
 			major_error_recover('http request failed with a ' + code);
+		};
+		
+		self.then = function(response) {
+			if(response.status === 403) {
+				window.location.replace("/admin/users/login?ajax_autoredirect=" + serverConstants.REQUEST_URI);
+			}
 		};
 	});
 	

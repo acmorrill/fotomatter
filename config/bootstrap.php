@@ -48,6 +48,8 @@ define("CARDNUMBER_MASK", 'XXXXXXXXXXXX');
 
 define("OVERLORD_API_KEY", 'baYMbSR0EM0REmSheFHc0Qo2RUmEGoToNFnPWFcyAEUYRlaOgSynnI1F9DyI');
 
+define('DOMAIN_MARKUP_DOLLAR', '3');
+
 // webroot abs path
 define("WEBROOT_ABS", ROOT.DS.APP_DIR.DS.'webroot');
 
