@@ -20,7 +20,7 @@
 //	});
 </script>
 
-<div id="sub-nav">
+<div id="sub-nav" class=" <?php if (isset($curr_page)) { echo $curr_page; } ?>" >
 	<ul>
 		<?php /*
 		<li class="title" id="title-description">

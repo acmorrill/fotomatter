@@ -1,11 +1,15 @@
 #main {
 	position: relative;
-	left: 354px;
-	top: @header_height;
+	margin-left: 317px;
 	padding-top: 100px;
-	//padding-left: 348px;
+	padding-left: 40px;
+	padding-right: 40px;
+	top: @header_height;
 	height: 100%;
 	z-index: @content;
+	&.no_subnav {
+		margin-left: 0px;
+	}
 }
 
 #admin_background {
@@ -18,5 +22,6 @@
 	background-color: @content_bg_color;
 	background-size: 100% auto;
 	background-repeat: no-repeat;
+	background-position: -50px -50px;
 	z-index: @background;
 }
