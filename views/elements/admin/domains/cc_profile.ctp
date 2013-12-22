@@ -20,7 +20,7 @@
             </div>
             <div class="input">
                 <label for="billing_country"><?php echo __('Country'); ?></label>
-                <select ng-model='profile.country_id' ng-change="countryChange('states_for_selected_country')" id="billing_country">
+                <select ng-model='profile.country_id' ng-change="countryChange('states_for_selected_country', profile.country_id)" id="billing_country">
                     <?php foreach ($countries as $key => $country): ?>
                     <option value="<?php echo $country['GlobalCountry']['country_code_2']; ?>"><?php echo $country['GlobalCountry']['country_name']; ?></option>
                     <?php endforeach; ?>

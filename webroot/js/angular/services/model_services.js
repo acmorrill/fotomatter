@@ -1,5 +1,5 @@
-angular.module('fmAdmin.modelServices', [])
-	.service('AuthnetProfile', function() {
+angular.module('fmAdmin.modelServices', ['fmAdmin.utilServices'])
+	.service('AuthnetProfile', function($http, errorUtil) {
 	
 			
 			var self = this;
@@ -58,8 +58,13 @@ angular.module('fmAdmin.modelServices', [])
 					obj.expiration.year = now.getFullYear().toString();
 				}
 				
-				return obj;
-								
-		};
+				return obj;				
+			};
+			
+			self.save = function(profile_to_send) {
+				var promiseResult = $http.post('/admin/domains/add_profile', profile_to_send);
+				promiseResult.error = errorUtil.handleError;
+				return promiseResult;
+			};
 	});
 	
