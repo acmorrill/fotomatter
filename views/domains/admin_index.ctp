@@ -1,4 +1,5 @@
 <div id="domains-outer-cont" class='domains-outer-cont' ng-controller='domains_index'>
+	<input type='hidden' ng-model='domain_mark_up' value='<?php echo DOMAIN_MARKUP_DOLLAR; ?>' />
 	<div class='domain_header'>
 		<div class='search_box'>
 			<input ng-model='query' placeholder='<?php __('Search for New Domains'); ?>' class='domain_field' ng-model='domain_field' />
