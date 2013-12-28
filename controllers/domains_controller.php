@@ -10,7 +10,7 @@ class DomainsController extends Appcontroller {
 	
 	public $layout = 'admin/accounts';
 	
-	public $components = array('FotomatterDomain', 'FotomatterBilling');
+	public $components = array('FotomatterDomain', 'FotomatterBilling', 'FotomatterDomainManagement');
 	
 	
 	public function admin_index() {
@@ -21,6 +21,7 @@ class DomainsController extends Appcontroller {
 		$json_result = $this->get_json_from_input();
 		$this->data = $json_result['data'];
 		
+		//Adam Todo consoldate logic with that in the accounts controller
        if (empty($this->data) == false) {
            try {
                $this->Validation->validate('not_empty', $this->data['AuthnetProfile'], 'billing_firstname', __('You must provide your first name.', true));
@@ -64,10 +65,30 @@ class DomainsController extends Appcontroller {
    }
    
    public function admin_purchase() {
-	   $inputFromClient = $this->get_json_from_input();
+	  $inputFromClient = $this->get_json_from_input();
 	   //Adam Todo check for missing fields
 	  $this->log($inputFromClient, 'domainSubmit'); 
+	  
+	  //check input
+	  try {
+		  // $this->Validation->validate('not_empty', $this->data['AuthnetProfile'], 'billing_firstname', __('You must provide your first name.', true));
+		  $this->Validation->validate('not_empty', $inputFromClient['contact'], 'first_name', __('You must provide your first name.', true));
+		  $this->Validation->validate('not_empty', $inputFromClient['contact'], 'last_name', __('You must provide your last name.', true));
+		  $this->Validation->validate('not_empty', $inputFromClient['contact'], 'address_1', __('You must provide your address.', true));
+		  $this->Validation->validate('not_empty', $inputFromClient['contact'], 'country_id', __('You must provide your country.', true));
+		  $this->Validation->validate('not_empty', $inputFromClient['contact'], 'city', __('You must provide your city.', true));
+		  $this->Validation->validate('not_empty', $inputFromClient['contact'], 'zip', __('You must provide your zip.', true));
+		  $this->Validation->validate('not_empty', $inputFromClient['contact'], 'country_state_id', __('You must provide your state.', true));
+		  $this->Validation->validate('not_empty', $inputFromClient['contact'], 'phone', __('You must provide your phone.', true));
+		  $this->Validation->validate('not_empty', $inputFromClient['domain'], 'name', __('You must provide the domain name you want to purchase.', true)); 
+	  } catch(Exception $e) {
+		  $return['message'] = $e->getMessage();
+		  $return['result'] = false;
+		  $this->return_json($return);
+		  exit();
+	  }
 	   
+	  $this->FotomatterDomainManagement->charge_domain($inputFromClient['domain']);
 	//   $this->FotomatterDomain->buy_domain($inputFromClient['contact'], $inputFromClient['domain']);
 	   
 	   
@@ -80,8 +101,8 @@ class DomainsController extends Appcontroller {
 	public function admin_search() {
 		$this->params['form'] = $this->get_json_from_input();
 		if (isset($this->params['form']['q'])) {
-			$domains = $this->FotomatterDomain->check_availability($this->params['form']['q']);
-			debug($domains);
+			$domains = $this->FotomatterDomain->check_availability($this->params['form']['q'], true);
+
 			foreach($domains as $key => $domain) {
 				$domains[$key]['price'] += DOMAIN_MARKUP_DOLLAR;
 			}

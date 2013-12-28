@@ -696,21 +696,6 @@ body {
     transition: all 0.5s ease;
   }
 }
-<<<<<<< HEAD
-#theme_chooser_container .theme_item_container {
-  display: inline-block;
-  vertical-align: top;
-  width: 49%;
-  max-width: 445px;
-  overflow: hidden;
-  height: 372px;
-}
-#theme_chooser_container .theme_item_container .theme_item_inner_container {
-  outline: 1px solid blue;
-  width: 386px;
-  margin-left: auto;
-  margin-right: auto;
-=======
 form.fm_form {
   margin: 10px;
   display: inline-block;
@@ -751,6 +736,20 @@ form.fm_form .submit input {
 form.fm_form button.ui-button {
   padding: .4em 1em;
   font-size: 13px;
+}
+#theme_chooser_container .theme_item_container {
+  display: inline-block;
+  vertical-align: top;
+  width: 49%;
+  max-width: 445px;
+  overflow: hidden;
+  height: 372px;
+}
+#theme_chooser_container .theme_item_container .theme_item_inner_container {
+  outline: 1px solid blue;
+  width: 386px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .profile-outer-cont.domains .saving_profile {
   display: inline-block;
@@ -1045,5 +1044,4 @@ form.fm_form button.ui-button {
 }
 #finish_account_change .change_summary .item_to_add div.item_cost {
   padding: 5px 50px 5px 64px;
->>>>>>> dbb3b72c866e79457267e3e287ee986955bbcc92
 }
