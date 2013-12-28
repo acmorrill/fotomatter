@@ -57,22 +57,40 @@ class FotomatterDomainComponent extends Object {
      * @return bool true of false depending on domain availability
      * 
      */
-    public function check_availability($domainObj) {
+      public function check_availability($domain_name, $return_list) {
+        $domain_parts = explode('.', $domain_name);
+        $keyword = '';
+        $tld = '';
+		if (count($domain_parts) == 3) {
+			$keyword = $domain_parts[1];
+            $tld = $domain_parts[2];
+		} else if (count($domain_parts) == 2) {
+			$keyword = $domain_parts[0];
+            $tld = $domain_parts[1];
+		} else {
+			$keyword = $domain_parts[0];
+			$tld = 'com';
+		}
+
+        //$tld = '.' . $tld;
         $api_args = array(
-            "keyword"=>$domainObj['name'],
+            "keyword"=>$keyword,
             'tld'=>array(
-                $domainObj['tld']
+                $tld
             ),
             'services'=>array(
                 'availability'
             )
         );
         $api_results = json_decode($this->_send_request("/api/domain/check", 'POST', $api_args), true);
-		foreach($api_results['domains'] as $domain_name => $domain_info) {
-			if ($domain_name == $api_args['keyword']) {
-				if ($domain_info['avail']) {
-					return true;
-				}
+		if ($return_list){
+			return $api_results['domains'];
+		}
+		
+		$domain_searched = $keyword . '.' . $tld;
+		foreach($api_results as $domain_name => $domain_info) {
+			if ($domain_name == $domain_searched) {
+				return true;
 			}
 		}
 		return false;

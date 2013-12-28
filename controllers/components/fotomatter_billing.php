@@ -57,10 +57,10 @@ class FotomatterBillingComponent extends Object {
         $this->MajorError->major_error('Remote find from overlord returned with error.', $params);
         return false;
         //overlord returned an error so store it
-    }
-    
-     private function send_api_request($api, $params=array()) {
-		$request['Request']['data'] = $this->clear_values($params);
+	}
+	
+	private function send_api_request($api, $params=array()) {
+		$request['Request']['data'] = $params;
         
         $url_to_use = $this->server_url . '/' .$api;
         $request['Request']['Server_params']['url'] = $url_to_use;

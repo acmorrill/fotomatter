@@ -1,4 +1,40 @@
-@import url("site_page_elements.css");
+#configure_page_cont .para_image_cont .image_cont {
+  margin: 22px;
+  margin-top: 0px;
+}
+#configure_page_cont .para_image_cont .left {
+  margin-right: 32px;
+}
+#configure_page_cont .para_image_cont .right {
+  margin-left: 32px;
+}
+#configure_page_cont .para_header_image_cont .image_size_text {
+  padding: 5px;
+  font-size: 12px;
+  text-align: center;
+}
+#configure_page_cont .para_header_image_cont .image_upload {
+  text-align: center;
+  margin-bottom: 4px;
+}
+#configure_page_cont .avail_page_elements_cont .para_header_image_icon {
+  background: url('/img/admin/icons/page_element_icons/para_header_image_icon.jpg');
+}
+#configure_page_cont .avail_page_elements_cont .para_header_image_icon:hover {
+  background: url('/img/admin/icons/page_element_icons/para_header_image_icon_hover.jpg');
+}
+#configure_page_cont .avail_page_elements_cont .image_icon {
+  background: url('/img/admin/icons/page_element_icons/image_icon.jpg');
+}
+#configure_page_cont .avail_page_elements_cont .image_icon:hover {
+  background: url('/img/admin/icons/page_element_icons/image_icon_hover.jpg');
+}
+#configure_page_cont .image_element_image_cont .page_element_top_section {
+  text-align: center;
+}
+#configure_page_cont .image_element_image_cont .page_element_top_section .image_element_image_upload {
+  display: inline-block;
+}
 .rounded-corners-small {
   -webkit-border-radius: 7px;
   -moz-border-radius: 7px;
