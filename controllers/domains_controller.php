@@ -64,8 +64,12 @@ class DomainsController extends Appcontroller {
    }
    
    public function admin_purchase() {
-	   $this->params['form'] = $this->get_json_from_input();
-	   debug($this->params['form']);
+	   $inputFromClient = $this->get_json_from_input();
+	   //Adam Todo check for missing fields
+	  $this->log($inputFromClient, 'domainSubmit'); 
+	   
+	//   $this->FotomatterDomain->buy_domain($inputFromClient['contact'], $inputFromClient['domain']);
+	   
 	   
 	   
 	   
@@ -77,6 +81,7 @@ class DomainsController extends Appcontroller {
 		$this->params['form'] = $this->get_json_from_input();
 		if (isset($this->params['form']['q'])) {
 			$domains = $this->FotomatterDomain->check_availability($this->params['form']['q']);
+			debug($domains);
 			foreach($domains as $key => $domain) {
 				$domains[$key]['price'] += DOMAIN_MARKUP_DOLLAR;
 			}

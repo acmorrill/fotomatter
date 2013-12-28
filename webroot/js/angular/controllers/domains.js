@@ -40,7 +40,6 @@ var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domai
 			$scope.contact = {};
 			$scope.countryChange('states_for_selected_country', $scope.profile.country_id);
 
-
 			if (jQuery.isEmptyObject(page_meta_data.account_details.data.AuthnetProfile) === false) {
 				$scope.setStep('domain_contact');
 				domainUtil.populateDomainContact($scope.contact, $scope.profile);
