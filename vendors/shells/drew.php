@@ -47,11 +47,12 @@ class DrewShell extends Shell {
 			),
 			'b' => array(
 				'start_equity' => 37.5,
-				'hours' => 11,
+				'hours' => 14,
 			),
 			'c' => array(
 				'start_equity' => 25,
-				'hours' => 8,
+				'hours' => 9
+				,
 			),
 		);
 		$this->calc_equity($phase_1, .7);

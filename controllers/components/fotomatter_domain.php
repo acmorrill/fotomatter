@@ -57,33 +57,25 @@ class FotomatterDomainComponent extends Object {
      * @return bool true of false depending on domain availability
      * 
      */
-    public function check_availability($domain_name) {
-        $domain_parts = explode('.', $domain_name);
-        $keyword = '';
-        $tld = '';
-		if (count($domain_parts) == 3) {
-			$keyword = $domain_parts[1];
-            $tld = $domain_parts[2];
-		} else if (count($domain_parts) == 2) {
-			$keyword = $domain_parts[0];
-            $tld = $domain_parts[1];
-		} else {
-			$keyword = $domain_parts[0];
-			$tld = 'com';
-		}
-
-        //$tld = '.' . $tld;
+    public function check_availability($domainObj) {
         $api_args = array(
-            "keyword"=>$keyword,
+            "keyword"=>$domainObj['name'],
             'tld'=>array(
-                $tld
+                $domainObj['tld']
             ),
             'services'=>array(
                 'availability'
             )
         );
         $api_results = json_decode($this->_send_request("/api/domain/check", 'POST', $api_args), true);
-		return $api_results['domains'];
+		foreach($api_results['domains'] as $domain_name => $domain_info) {
+			if ($domain_name == $api_args['keyword']) {
+				if ($domain_info['avail']) {
+					return true;
+				}
+			}
+		}
+		return false;
     }
     
     /**
@@ -109,77 +101,45 @@ class FotomatterDomainComponent extends Object {
      * @param account_id Id of the account that will own the domain
      * @param the domain that we should attempt to buy
      */
-    public function buy_domain($account_id, $domain) {
-        if ($this->check_availability($domain) === false) {
+    public function buy_domain($contact_info, $domainObj) {
+        if ($this->check_availability($domainObj) === false) {
             return false;
         }
-        
-        //find the account thats going to buy the domain
-        $this->Account = ClassRegistry::init("Account");
-        $buying_account = $this->Account->find('first', array(
-            'conditions'=>array(
-                'Account.id'=>$account_id
-            )
-        ));
-        
-        //return false if the account can't be found
-        if (empty($buying_account)) {
-            return false;
-        }
-        
-        
-        
+		
+		$this->SiteSetting = ClassRegistry::init("SiteSetting");
+		$site_email = $this->SiteSetting->getVal('account_email', '');
+		
         //formulate the api call
         $order = array(
             'order_type'=>'domain/create',
-            'domain_name'=>$domain,
+            'domain_name'=>$domainObj['name'],
             'nameservers'=>$this->_dns_servers,
             'contacts'=>array(
                 'type'=>array(
                     'registrant','administrative','billing','technical'
                 ),
-                'first_name'=>$buying_account['Account']['first_name'],
-                'last_name'=>$buying_account['Account']['last_name'],
-                'organization'=>$buying_account['Account']['site_domain'],
-                'address_1'=>$buying_account['Account']['address1'],
-                'address_2'=>$buying_account['Account']['address2'],
-                'city'=>$buying_account['Account']['city'],
-                'state'=>$buying_account['Account']['state'],
-                'email'=>$buying_account['Account']['email'],
-                'phone'=>'2083532813', //TODO fix this
-                'fax'=>'2083532813',
-                'country'=>$buying_account['Account']['country']
+                'first_name'=>$contact_info['first_name'],
+                'last_name'=>$contact_info['last_name'],
+                'organization'=>empty($contact_info['organization']) == false ? $contact_info['organization'] : '',
+                'address_1'=>$contact_info['address_1'],
+                'address_2'=>empty($contact_info['address_2']) == false ? $contact_info['address_2'] : '',
+                'city'=>$contact_info['city'],
+                'state'=>$contact_info['country_state_id'],
+                'email'=>$site_email,
+                'phone'=>$contact_info['phone'], //TODO fix this
+                'fax'=>empty($contact_info['fax']) == false ? $contact_info['fax'] : '',
+                'country'=>$contact_info['country_id']
             ),
             'period'=>1,
         );
         $api_args['items'][] = $order;
+	
         $api_results = json_decode($this->_send_request("/api/order", "POST", $api_args), true);
+		
         if ($api_results['result']['code'] != '100') {
             return false;
         }
-        
-        //add the domain to rackspace dns
-        App::uses('CloudDomains', 'Lib/rackspace');
-        $this->CloudDomains = new CloudDomains();
-        if ($this->CloudDomains->add_domain($domain, $buying_account['Account']['email'], $this->_ttl_to_use) == false) {
-            $this->Account->major_error('failed to park domain ('.$domain.') after buying it', $buying_account);
-            return false;
-        }
-        
-        //insert db record
-        $this->AccountDomain = ClassRegistry::init("AccountDomain");
-        $ad['AccountDomain'] = array(
-            'account_id'=>$buying_account['Account']['id'],
-            'url'=>$domain,
-            'ttl'=>$this->_ttl_to_use
-        );
-        $this->AccountDomain->create();
-        //Adam todo theses will need to be deleted if the account is deleted
-        if ($this->AccountDomain->save($ad) == false) {
-            $this->AccountDomain->major_error('failed to save Accountdomain record after buying domain('.$domain.')', $buying_account);
-            return false;
-        }
-        return true;
+		return true;
     }
     
     
@@ -189,6 +149,8 @@ class FotomatterDomainComponent extends Object {
      * @param request_args array Parameter required for api call.. see docs here https://www.name.com/files/name_api_documentation.pdf
      */
     private function _send_request($api_call, $request_type='GET', $request_args) {
+		$this->log($this->_api_url . $api_call, 'domain_log');
+		$this->log($request_args, 'domain_log');
        $api_result = $this->Http->request(array(
           'method'=>$request_type,
            'uri'=>$this->_api_url .  $api_call,
@@ -198,6 +160,7 @@ class FotomatterDomainComponent extends Object {
                'Api-Token'=>$this->_api_token
            )
        ));
+	   $this->log($api_result, 'domain_log');
 	   
        return $api_result;
     }
