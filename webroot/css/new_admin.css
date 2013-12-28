@@ -246,14 +246,14 @@ body {
 }
 #header #top-navigation li.dashboard.active .tab_bottom .active_color {
   width: 175px;
-  background-color: orange;
+  background-color: #2ac0de;
 }
 #header #top-navigation li.dashboard.active .tab_bottom .active_color .active_color_triangle {
   width: 0px;
   height: 0px;
   border-style: solid;
   border-width: 4px 0 0 4px;
-  border-color: transparent transparent transparent orange;
+  border-color: transparent transparent transparent #2ac0de;
 }
 #header #top-navigation li.dashboard > a span {
   margin-left: 24px;
@@ -320,14 +320,14 @@ body {
   background-position: -50px -46px;
 }
 #header #top-navigation li.e-commerce.active .tab_bottom .active_color {
-  background-color: red;
+  background-color: #2ac0de;
 }
 #header #top-navigation li.e-commerce.active .tab_bottom .active_color .active_color_triangle {
   width: 0px;
   height: 0px;
   border-style: solid;
   border-width: 4px 0 0 4px;
-  border-color: transparent transparent transparent red;
+  border-color: transparent transparent transparent #2ac0de;
 }
 #header #top-navigation li.e-commerce > a span {
   margin-left: 3px;
@@ -357,14 +357,14 @@ body {
   background-position: -50px -93px;
 }
 #header #top-navigation li.galleries.active .tab_bottom .active_color {
-  background-color: green;
+  background-color: #2ac0de;
 }
 #header #top-navigation li.galleries.active .tab_bottom .active_color .active_color_triangle {
   width: 0px;
   height: 0px;
   border-style: solid;
   border-width: 4px 0 0 4px;
-  border-color: transparent transparent transparent green;
+  border-color: transparent transparent transparent #2ac0de;
 }
 #header #top-navigation li.galleries > a span {
   margin-left: 18px;
@@ -394,14 +394,14 @@ body {
   background-position: -50px -139px;
 }
 #header #top-navigation li.photos.active .tab_bottom .active_color {
-  background-color: yellow;
+  background-color: #2ac0de;
 }
 #header #top-navigation li.photos.active .tab_bottom .active_color .active_color_triangle {
   width: 0px;
   height: 0px;
   border-style: solid;
   border-width: 4px 0 0 4px;
-  border-color: transparent transparent transparent yellow;
+  border-color: transparent transparent transparent #2ac0de;
 }
 #header #top-navigation li.photos > a span {
   margin-left: 23px;
@@ -431,14 +431,14 @@ body {
   background-position: -50px -183px;
 }
 #header #top-navigation li.pages.active .tab_bottom .active_color {
-  background-color: purple;
+  background-color: #2ac0de;
 }
 #header #top-navigation li.pages.active .tab_bottom .active_color .active_color_triangle {
   width: 0px;
   height: 0px;
   border-style: solid;
   border-width: 4px 0 0 4px;
-  border-color: transparent transparent transparent purple;
+  border-color: transparent transparent transparent #2ac0de;
 }
 #header #top-navigation li.pages > a span {
   margin-left: 26px;
@@ -530,11 +530,16 @@ body {
 }
 #main {
   position: relative;
-  left: 354px;
-  top: 94px;
+  margin-left: 317px;
   padding-top: 100px;
+  padding-left: 40px;
+  padding-right: 40px;
+  top: 94px;
   height: 100%;
   z-index: 50;
+}
+#main.no_subnav {
+  margin-left: 0px;
 }
 #admin_background {
   position: fixed;
@@ -546,6 +551,7 @@ body {
   background-color: #0d0d0e;
   background-size: 100% auto;
   background-repeat: no-repeat;
+  background-position: -50px -50px;
   z-index: 1;
 }
 #sub-nav {
@@ -635,9 +641,12 @@ body {
 #sub-nav ul li.selected td {
   color: #f4f9f5;
 }
+#sub-nav.sell ul li table td .circle {
+  background-color: #2ac0de;
+}
 @media only screen and (max-width: 1366px) {
   #main {
-    left: 290px;
+    margin-left: 253px;
   }
   #header .logo {
     left: 13px;
@@ -651,7 +660,7 @@ body {
 }
 @media only screen and (max-width: 1280px) {
   #main {
-    left: 75px;
+    margin-left: 38px;
   }
   #header .logo {
     bottom: 50px;
@@ -687,6 +696,21 @@ body {
     transition: all 0.5s ease;
   }
 }
+<<<<<<< HEAD
+#theme_chooser_container .theme_item_container {
+  display: inline-block;
+  vertical-align: top;
+  width: 49%;
+  max-width: 445px;
+  overflow: hidden;
+  height: 372px;
+}
+#theme_chooser_container .theme_item_container .theme_item_inner_container {
+  outline: 1px solid blue;
+  width: 386px;
+  margin-left: auto;
+  margin-right: auto;
+=======
 form.fm_form {
   margin: 10px;
   display: inline-block;
@@ -1021,4 +1045,5 @@ form.fm_form button.ui-button {
 }
 #finish_account_change .change_summary .item_to_add div.item_cost {
   padding: 5px 50px 5px 64px;
+>>>>>>> dbb3b72c866e79457267e3e287ee986955bbcc92
 }

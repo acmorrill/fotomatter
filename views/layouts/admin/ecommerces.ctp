@@ -10,7 +10,8 @@
 <div id="main">
 	<div id="header">
 		<?php echo $this->Element('admin/logo'); ?>
-		<?php echo $this->Element('admin/menu', array( 'curr_page' => 'sell' )); ?>
+		<?php $curr_page = 'sell'; ?>
+		<?php echo $this->Element('admin/menu', array( 'curr_page' => $curr_page )); ?>
 	</div>
 	<div id="middle" class="rounded-corners">
 		<?php 
@@ -37,7 +38,7 @@
 				'url' => "/admin/ecommerces/get_paid/"
 			);
 
-			echo $this->Element('/admin/submenu', array( 'subnav' => $subnav ));
+			echo $this->Element('/admin/submenu', array( 'subnav' => $subnav, 'curr_page' => $curr_page ));
 		?>
 		<?php echo $this->Session->flash(); ?>
 		<br/><br/>

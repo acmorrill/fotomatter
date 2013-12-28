@@ -21,7 +21,7 @@
 			<div class="tab_bottom"><div class="tab_bottom_triangle"></div><div class="active_color"><div class="active_color_triangle"></div></div></div>
 		</li><!--
 		--><li class='e-commerce <?php if ($curr_page == 'sell'): ?> active<?php endif; ?>'>
-			<a href='/admin/ecommerces'><span><?php __("E-commerce"); ?></span></a>
+			<a href='/admin/ecommerces/manage_print_sizes'><span><?php __("E-commerce"); ?></span></a>
 			<div class="tab_left_cover"></div>
 			<div class="angle_white"></div>
 			<div class="tab_bottom"><div class="tab_bottom_triangle"></div><div class="active_color"><div class="active_color_triangle"></div></div></div>
