@@ -7,6 +7,7 @@ class ThemeRendererComponent extends Object {
 	
 	public function startup(&$controller) {
 		$theme_config = $this->_process_theme_config();
+		
 		// add in the current theme settings to the config
 			$avail_settings_list = $theme_config['admin_config']['theme_avail_custom_settings']['settings'];
 			$this->Theme = ClassRegistry::init('Theme');
@@ -38,6 +39,7 @@ class ThemeRendererComponent extends Object {
 			
 		// check to see if current action needs to have theme rendering done to it
 		$theme_layout_data = $theme_config['theme_controller_action_layouts'];
+		
 		if ($controller->is_mobile === true) {
 			$theme_layout_data = $theme_config['theme_controller_action_mobile_layouts'];
 		}
@@ -54,9 +56,10 @@ class ThemeRendererComponent extends Object {
 				header('HTTP/1.0 404 Not Found');
 				exit();
 			}
-			
+			//$theme_layout_data[$controller->name][$controller->action] = 'gallery';
 			$layout_view_data = $theme_layout_data[$controller->name][$controller->action];
 			$controller->layout = $layout_view_data['layout'];
+			
 			if (!empty($layout_view_data['view'])) {
 				$controller->theme_view = $layout_view_data['view'];
 			}
@@ -110,9 +113,26 @@ class ThemeRendererComponent extends Object {
 					unset($theme_config);
 				}
 			}
-
+			
+			$this->Theme = ClassRegistry::init("Theme");
+			if ($this->Theme->current_is_child_theme()) {
+				$parent_theme_config_file_path = PARENT_THEME_PATH.DS.'theme_config.php';
+				$parent_theme_config = array();
+				
+				if (file_exists($parent_theme_config_file_path)) {
+					require($parent_theme_config_file_path);
+					if(isset($theme_config)) {
+						$parent_theme_config = $theme_config;
+						unset($theme_config);
+					}
+					$default_theme_config = $this->_merge_arrays($default_theme_config, $parent_theme_config);
+				}
+			} 
+			
 			// merge with global theme settings
+			
 			$this->merged_theme_config = $this->_merge_arrays($default_theme_config, $current_theme_config);
+			
 		}
 
 		
@@ -121,7 +141,7 @@ class ThemeRendererComponent extends Object {
 		
 		return $this->merged_theme_config;
 	}
-	
+		
 	private function _merge_arrays($Arr1, $Arr2) {
 		foreach($Arr2 as $key => $Value) {
 			if(array_key_exists($key, $Arr1) && is_array($Value)) {
