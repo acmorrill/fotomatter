@@ -28,6 +28,8 @@ class SitePagesController extends AppController {
 	
 	public function landing_page() {
 		$this->ThemeRenderer->render($this);
+		
+		//debug($this->theme_config);
 	}
 	public function custom_page($site_page_id) {
 		$site_page = $this->SitePage->find('first', array(
