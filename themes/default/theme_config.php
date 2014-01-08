@@ -6,7 +6,7 @@ $theme_config = array(
 	'theme_include_helpers' => array(),
 	'theme_controller_action_layouts' => array(
 		'Default' => array(
-			'layout' => false,
+			'layout' => false, //we are not sure if this works, but are ignoring for now as best practice is to not use
 		),
 		'SitePages' => array(
 			'landing_page' => array(
@@ -272,3 +272,12 @@ $theme_config = array(
 		)
 	)
 );
+
+/**
+ * to create a theme
+ * 
+ * * Run cake theme add_theme (Todo paste example command)
+ * * Make sure to copy all of logo_config section 
+ * * All css must be named the same as the theme, to account for css cache. 
+ * * Make sure all less that is not the main for the theme is a folder so it doesn't get compiled
+ */
