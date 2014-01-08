@@ -751,6 +751,9 @@ form.fm_form button.ui-button {
   margin-left: auto;
   margin-right: auto;
 }
+#theme_chooser_container .theme_item_container .theme_item_inner_container .theme_item_inner_container_text {
+  display: inline-block;
+}
 .profile-outer-cont.domains .saving_profile {
   display: inline-block;
   position: absolute;
