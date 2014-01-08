@@ -160,9 +160,9 @@ class Theme extends AppModel {
 				exec('ln -s '.ROOT.DS.'app/themes/'.$theme_name.'/webroot '.ROOT.DS.'parent_theme_webroot');
 				exec('ln -s '.ROOT.DS.'app/themes/default/webroot '.ROOT.DS.'default_theme_webroot');
 			} else {
-				exec('ln -s '.PATH_TO_THEMES.DS.$new_theme['ParentTheme']['ref_name'].DS.'subthemes'.DS.$theme_name.' '.ROOT.DS.'current_theme_webroot');
-				exec('ln -s '.PATH_TO_THEMES.DS.$new_theme['ParentTheme']['ref_name'].' '.ROOT.DS.'parent_theme_webroot');
-				exec('ln -s '.PATH_TO_THEMES.DS.'default '.ROOT.DS.'default_theme_webroot');
+				exec('ln -s '.PATH_TO_THEMES.DS.$new_theme['ParentTheme']['ref_name'].DS.'subthemes'.DS.$theme_name.'/webroot '.ROOT.DS.'current_theme_webroot');
+				exec('ln -s '.PATH_TO_THEMES.DS.$new_theme['ParentTheme']['ref_name'].'/webroot '.ROOT.DS.'parent_theme_webroot');
+				exec('ln -s '.PATH_TO_THEMES.DS.'default/webroot '.ROOT.DS.'default_theme_webroot');
 			}
 		} else {
 			exec('ln -s '.ROOT.DS.'app/themes/default/webroot '.ROOT.DS.'current_theme_webroot');
