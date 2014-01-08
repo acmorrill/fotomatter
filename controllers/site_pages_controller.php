@@ -76,7 +76,7 @@ class SitePagesController extends AppController {
 			$SitePagesSitePageElement_data['SitePagesSitePageElement']['id'] = $site_pages_site_page_element_id;
 			$SitePagesSitePageElement_data['SitePagesSitePageElement']['config'] = $parsed_element_data;
 			
-			$this->log($SitePagesSitePageElement_data, 'SitePagesSitePageElement_data');
+			//$this->log($SitePagesSitePageElement_data, 'SitePagesSitePageElement_data');
 			
 			if (!$this->SitePagesSitePageElement->save($SitePagesSitePageElement_data)) {
 				$returnArr['code'] = -1;
