@@ -63,6 +63,35 @@ class Theme extends AppModel {
 		return $curr_theme['Theme']['id'];
 	}
 	
+	public function add_theme_display_name($theme_name, $add_theme_display_name, $parent_theme_name = null) {
+		$parent_theme_id = 0;
+		if (!empty($parent_theme_name)) {
+			$parent_theme = $this->find('first', array(
+				'conditions' => array(
+					'Theme.ref_name' => $parent_theme_name
+				),
+				'fields' => array('id'),
+				'contain' => false
+			));
+			
+			if ($parent_theme) {
+				$parent_theme_id = $parent_theme['Theme']['id'];
+			}
+		}
+		
+		$data['Theme'] = array();
+		$data['Theme']['display_name'] = $add_theme_display_name;
+		$data['Theme']['theme_id'] = $parent_theme_id;
+		$data['Theme']['ref_name'] = $theme_name;
+		
+		$this->create();
+		if ($this->save($data)) {
+			return $this->id;
+		} else {
+			return false;
+		}
+	}
+	
 	
 	public function add_theme($theme_name, $parent_theme_name = null) {
 		$parent_theme_id = 0;
@@ -131,9 +160,9 @@ class Theme extends AppModel {
 				exec('ln -s '.ROOT.DS.'app/themes/'.$theme_name.'/webroot '.ROOT.DS.'parent_theme_webroot');
 				exec('ln -s '.ROOT.DS.'app/themes/default/webroot '.ROOT.DS.'default_theme_webroot');
 			} else {
-				exec('ln -s '.PATH_TO_THEMES.DS.$new_theme['ParentTheme']['ref_name'].DS.'subthemes'.DS.$theme_name.' '.ROOT.DS.'current_theme_webroot');
-				exec('ln -s '.PATH_TO_THEMES.DS.$new_theme['ParentTheme']['ref_name'].' '.ROOT.DS.'parent_theme_webroot');
-				exec('ln -s '.PATH_TO_THEMES.DS.'default '.ROOT.DS.'default_theme_webroot');
+				exec('ln -s '.PATH_TO_THEMES.DS.$new_theme['ParentTheme']['ref_name'].DS.'subthemes'.DS.$theme_name.'/webroot '.ROOT.DS.'current_theme_webroot');
+				exec('ln -s '.PATH_TO_THEMES.DS.$new_theme['ParentTheme']['ref_name'].'/webroot '.ROOT.DS.'parent_theme_webroot');
+				exec('ln -s '.PATH_TO_THEMES.DS.'default/webroot '.ROOT.DS.'default_theme_webroot');
 			}
 		} else {
 			exec('ln -s '.ROOT.DS.'app/themes/default/webroot '.ROOT.DS.'current_theme_webroot');
@@ -190,6 +219,29 @@ class Theme extends AppModel {
 			return $theme['ParentTheme'];
 		} else {
 			return false;
+		}
+	}
+	
+	public function current_is_child_theme() {
+		if (CURRENT_THEME_PATH == PARENT_THEME_PATH) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	public function display_name_exists($display_name) {
+		$theme = $this->find('first', array(
+			'conditions'=>array(
+				'Theme.display_name'=>$display_name
+			),
+			'fields'=> array('id'),
+			'contain'=>false
+		));
+		if (empty($theme)) {
+			return false;
+		} else {
+			return true;
 		}
 	}
 	
