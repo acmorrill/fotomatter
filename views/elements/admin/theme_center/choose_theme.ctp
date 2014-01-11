@@ -99,17 +99,19 @@ if (!isset($switch_text)) {
 							</div>
 						</div>
 						<div style="clear: both;"></div>
-						<h2><?php echo $curr_theme['Theme']['display_name']; ?></h2>
-						<?php if ($curr_theme['Theme']['ref_name'] != $current_theme): ?>
-							<form class="usable_form" action="<?php echo $this->here; ?>" method="post">
-								<input type="hidden" name="data[new_theme_id]" value="<?php echo $curr_theme['Theme']['id']; ?>" />
-								<input type="submit" value="<?php echo $switch_text; ?>" />
-							</form>
-						<?php else: ?>
-							<form>
-								<input type="submit" value="<?php __('Current Theme'); ?>" />
-							</form>
-						<?php endif; ?>
+						<div class="theme_item_inner_container_text">
+							<h2><?php echo $curr_theme['Theme']['display_name']; ?></h2>
+							<?php if ($curr_theme['Theme']['ref_name'] != $current_theme): ?>
+								<form class="usable_form" action="<?php echo $this->here; ?>" method="post">
+									<input type="hidden" name="data[new_theme_id]" value="<?php echo $curr_theme['Theme']['id']; ?>" />
+									<input class="theme_button_switch_theme button" type="submit" value="<?php echo $switch_text; ?> &rsaquo;" />
+								</form>
+							<?php else: ?>
+								<form class="theme_button_current_theme">
+									<input class="button_active" type="submit" value="<?php __('Current Theme'); ?> &rsaquo;" />
+								</form>
+							<?php endif; ?>
+						</div>
 					</div>
 				</div>
 		<?php $count++; endforeach; ?>
