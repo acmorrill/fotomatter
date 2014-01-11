@@ -84,7 +84,7 @@
 	</div>
 	
 	<div class="custom_ui" style="margin: 5px; margin-bottom: 15px;">
-		<input id="change_logo_button" class="add_button" type="submit" value="<?php __('Choose Different Logo'); ?>" />
+		<div id="change_logo_button" class="add_button" type="submit"><div class="content"><?php __('Choose Different Logo'); ?></div><div class="right_arrow_lines"><div></div></div></div>
 	</div>
 	<?php echo $this->Element('admin/theme_center/configure_logo/theme_logo_size'); ?>
 	
