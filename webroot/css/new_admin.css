@@ -752,6 +752,7 @@ form.fm_form button.ui-button {
   margin-right: auto;
 }
 #theme_chooser_container .theme_item_container .theme_item_inner_container .theme_item_inner_container_text {
+<<<<<<< HEAD
   float: left;
   color: #f4f9f5;
 }
@@ -769,6 +770,9 @@ form.fm_form button.ui-button {
 }
 #theme_chooser_container .theme_item_container .theme_item_inner_container input.button:hover {
   background: none repeat scroll 0 0 #515995 d;
+=======
+  display: inline-block;
+>>>>>>> 06eca25b4c125f8d0bd6294fc720816e1627d236
 }
 .profile-outer-cont.domains .saving_profile {
   display: inline-block;
