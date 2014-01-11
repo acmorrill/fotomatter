@@ -1,11 +1,12 @@
 <?php
 class ThemeCentersController extends AppController {
     public $name = 'ThemeCenters';
-	public $uses = array('ThemeGlobalSetting', 'SiteSetting', 'ThemeHiddenSetting', 'Theme', 'ThemeUserSetting');
+	public $uses = array('ThemeGlobalSetting', 'SiteSetting', 'ThemeHiddenSetting', 'Theme', 'ThemeUserSetting', 'ThemeHiddenSetting');
 	public $helpers = array(
 		'Page',
 		'Gallery',
-		'ThemeMenu'
+		'ThemeMenu',
+		'ThemeHiddenSetting',
 	);
 	
 	
@@ -104,6 +105,31 @@ class ThemeCentersController extends AppController {
 		
 		$returnArr = array();
 		$returnArr['code'] = 1;
+		$using_custom_background_image = ($this->params['form']['using_custom_background_image'] == 'true') ? true : false ;
+		
+		
+		/////////////////////////////////////////////////////////////////////////////////////////////////////
+		// get the javascript needed for admin current drag/resize status for next load (save to theme config)
+		$current_background_width = $this->params['form']['current_background_width'];
+		$current_background_height = $this->params['form']['current_background_height'];
+		$current_background_left = $this->params['form']['current_background_left'];
+		$current_background_top = $this->params['form']['current_background_top'];
+		if (empty($current_background_width) || empty($current_background_height) || empty($current_background_left) || empty($current_background_top)) {
+			$this->major_error('one of the current background paths was empty in ajax_create_merged_bg_and_save_bg_config', array(), 'high');
+		}
+		if ($using_custom_background_image == true) {
+			$this->ThemeHiddenSetting->setVal('uploaded_admin_current_background_width', $current_background_width);
+			$this->ThemeHiddenSetting->setVal('uploaded_admin_current_background_height', $current_background_height);
+			$this->ThemeHiddenSetting->setVal('uploaded_admin_current_background_left', $current_background_left);
+			$this->ThemeHiddenSetting->setVal('uploaded_admin_current_background_top', $current_background_top);
+		} else {
+			$this->ThemeHiddenSetting->setVal('default_admin_current_background_width', $current_background_width);
+			$this->ThemeHiddenSetting->setVal('default_admin_current_background_height', $current_background_height);
+			$this->ThemeHiddenSetting->setVal('default_admin_current_background_left', $current_background_left);
+			$this->ThemeHiddenSetting->setVal('default_admin_current_background_top', $current_background_top);
+		}
+		
+		
 		
 		$overlay_abs_path = $this->params['form']['overlay_abs_path'];
 		$current_background_abs_path = $this->params['form']['current_background_abs_path'];
@@ -111,7 +137,28 @@ class ThemeCentersController extends AppController {
 		$final_background_height = $this->params['form']['final_background_height'];
 		$final_background_left = $this->params['form']['final_background_left'];
 		$final_background_top = $this->params['form']['final_background_top'];
-		$using_custom_background_image = ($this->params['form']['using_custom_background_image'] == 'true') ? true : false ;
+
+		if (empty($overlay_abs_path)) {
+			$this->major_error('overlay_abs_path empty', array(), 'high');
+		}
+		if (empty($current_background_abs_path)) {
+			$this->major_error('current_background_abs_path empty', array(), 'high');
+		}
+		if (empty($final_background_width)) {
+			$this->major_error('final_background_width empty', array(), 'high');
+		}
+		if (empty($final_background_height)) {
+			$this->major_error('final_background_height empty', array(), 'high');
+		}
+		if (empty($final_background_left)) {
+			$this->major_error('final_background_left empty', array(), 'high');
+		}
+		if (empty($final_background_top)) {
+			$this->major_error('final_background_top empty', array(), 'high');
+		}
+		if (empty($using_custom_background_image)) {
+			$this->major_error('using_custom_background_image empty', array(), 'high');
+		}
 		
 		$palette_background_size = getimagesize($overlay_abs_path);
 		list($orig_palette_background_width, $orig_palette_background_height, $palette_background_size_type, $palette_background_size_attr) = $palette_background_size;
@@ -171,6 +218,7 @@ class ThemeCentersController extends AppController {
         $offset = 0; 
         imageconvolution($imgBanner, $matrix, $divisor, $offset);
 		
+		
 		imagejpeg($imgBanner, $dest_save_path, 100);
 		
 		if ($using_custom_background_image == true) {
@@ -189,8 +237,6 @@ class ThemeCentersController extends AppController {
 			$this->ThemeHiddenSetting->setVal('default_bg_final_background_top', $final_background_top);
 		}
 		
-		
-		$returnArr['extra'] = 'this is some extra';
 		
 //		$this->log(json_encode($returnArr), 'test');
 		
