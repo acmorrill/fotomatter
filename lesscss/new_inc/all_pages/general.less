@@ -25,3 +25,20 @@
 	background-position: -50px -50px;
 	z-index: @background;
 }
+
+
+.right_arrow_lines {
+	display: inline-block;
+	vertical-align: top;
+	position: relative;
+	.right_facing_triangle(10, @gray_text);
+	margin-top: 11px;
+	margin-left: 20px;
+	div {
+		position: absolute;
+		top: -10px;
+		left: -13px;
+		.right_facing_triangle(10, @off_black);
+		//.el_opacity(.6, 60);
+	}
+}

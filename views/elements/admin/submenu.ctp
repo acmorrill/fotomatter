@@ -40,7 +40,7 @@
 				<table>
 					<tr>
 						<td class="first" onclick="">
-							<i class="icon-reorder"></i>
+							<i class="icon-<?php echo (isset($subnav_page['icon_css'])) ? $subnav_page['icon_css'] : ''; ?>"></i>
 						</td>
 						<td class="second">
 							<a href="<?php echo $subnav_page['url']; ?>">

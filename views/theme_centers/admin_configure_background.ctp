@@ -1,61 +1,62 @@
-<?php 
+  <?php 
 	// DREW TODO - get rid of rounding errors in the javascript logic
 
 	$background_config = $theme_config['admin_config']['theme_background_config'];
 	$theme_has_dynamic_background = $background_config['theme_has_dynamic_background'];
 	
-	//debug($background_config);
-	$overlay_web_path = $background_config['overlay_image']['web_path'];
-	$overlay_abs_path = $background_config['overlay_image']['absolute_path'];
-	$default_bg_web_path = $background_config['default_bg_image']['web_path'];
-	$default_bg_abs_path = $background_config['default_bg_image']['absolute_path'];
-	$uploaded_bg_abs_path = $this->Theme->get_theme_uploaded_background_abs_path();
-	$uploaded_bg_web_path = $this->Theme->get_theme_uploaded_background_web_path();
-	
-//	debug($overlay_web_path);
-//	debug($overlay_abs_path);
-//	debug($default_bg_web_path);
-//	debug($default_bg_abs_path);
-//	debug($uploaded_bg_abs_path);
-//	debug($uploaded_bg_web_path);
-	
-	
-	$using_custom_background_image = $this->Theme->get_theme_hidden_setting('using_custom_background_image', false);
-	if ($uploaded_bg_abs_path === false) {
-		$using_custom_background_image = false;
-	}
-	if ($using_custom_background_image) {
-		$current_background_web_path = $uploaded_bg_web_path;
-		$current_background_abs_path = $uploaded_bg_abs_path;
-	} else {
-		$current_background_web_path = $default_bg_web_path;
-		$current_background_abs_path = $default_bg_abs_path;
-	}
+	if ($theme_has_dynamic_background === true) {
+		///////////////////////////////////////////////////////////////////////
+		// get the paths 
+		// overlay: the paths to the overlay png
+		// default: the starting background image to use if user has not uploaded one
+		// uploaded: the path to the user uploaded background image
+		$overlay_web_path = $background_config['overlay_image']['web_path'];
+		$overlay_abs_path = $background_config['overlay_image']['absolute_path'];
+		$default_bg_web_path = $background_config['default_bg_image']['web_path'];
+		$default_bg_abs_path = $background_config['default_bg_image']['absolute_path'];
+		$uploaded_bg_abs_path = $this->Theme->get_theme_uploaded_background_abs_path();
+		$uploaded_bg_web_path = $this->Theme->get_theme_uploaded_background_web_path();
 
-	$current_background_size = getimagesize($current_background_abs_path);
-	list($orig_background_width, $orig_background_height, $current_background_size_type, $current_background_size_attr) = $current_background_size;
-	
-	$palette_background_size = getimagesize($overlay_abs_path);
-	list($orig_palette_background_width, $orig_palette_background_height, $palette_background_size_type, $palette_background_size_attr) = $palette_background_size;
-	
-	
-//	debug($current_background_width);
-//	debug($current_background_height);
-//	debug($current_background_web_path);
-	
-	
-	$max_background_image_width = 1600;
-	$max_background_image_height = 1200;
-	$max_palette_width = $max_background_image_width/2;
-	$max_palette_height = $max_background_image_height/2;
-	
-	$current_background_width = $orig_background_width/2;
-	$current_background_height = $orig_background_height/2;
-	$palette_background_width = $orig_palette_background_width/4;
-	$palette_background_height = $orig_palette_background_height/4;
-	
-	$palette_start_left = ($max_palette_width/2)-($palette_background_width/2);
-	$palette_start_top = ($max_palette_height/2)-($palette_background_height/2);
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// using_custom background_image: means the user has uploaded a custom image for the background
+		$using_custom_background_image = $this->Theme->get_theme_hidden_setting('using_custom_background_image', false);
+		if ($uploaded_bg_abs_path === false) {
+			$using_custom_background_image = false;
+		}
+		// populate the current_background starting image
+		if ($using_custom_background_image) {
+			$current_background_web_path = $uploaded_bg_web_path;
+			$current_background_abs_path = $uploaded_bg_abs_path;
+		} else {
+			$current_background_web_path = $default_bg_web_path;
+			$current_background_abs_path = $default_bg_abs_path;
+		}
+
+		
+		// get sizes for background image (starting image)
+		$current_background_size = getimagesize($current_background_abs_path);
+		list($orig_background_width, $orig_background_height, $current_background_size_type, $current_background_size_attr) = $current_background_size;
+
+		// get size for starting png pallete image
+		$palette_background_size = getimagesize($overlay_abs_path);
+		list($orig_palette_background_width, $orig_palette_background_height, $palette_background_size_type, $palette_background_size_attr) = $palette_background_size;
+
+
+		// set some constants
+		$max_background_image_width = 1600;
+		$max_background_image_height = 1200;
+		$max_palette_width = $max_background_image_width/2;
+		$max_palette_height = $max_background_image_height/2;
+
+		$current_background_width = $orig_background_width/2;
+		$current_background_height = $orig_background_height/2;
+		$palette_background_width = $orig_palette_background_width/4;
+		$palette_background_height = $orig_palette_background_height/4;
+
+		$palette_start_left = ($max_palette_width/2)-($palette_background_width/2);
+		$palette_start_top = ($max_palette_height/2)-($palette_background_height/2);
+	}
 ?>
 
 <script type="text/javascript">
@@ -87,6 +88,7 @@
 		var final_background_left = (orig_palette_background_width * small_background_left) / current_background_width;
 		var final_background_top = (orig_palette_background_height * small_background_top) / current_background_height;
 
+		// user has or has not uploaded a custom background image
 		var using_custom_background_image = <?php echo ($using_custom_background_image == true) ? 'true' : 'false'; ?>;
 		
 		jQuery.ajax({
@@ -99,6 +101,10 @@
 				'final_background_height': final_background_height,
 				'final_background_left': final_background_left,
 				'final_background_top': final_background_top,
+				'current_background_width': current_background_width,
+				'current_background_height': current_background_height,
+				'current_background_left': current_background_left,
+				'current_background_top': current_background_top,
 				'using_custom_background_image': using_custom_background_image
 			},
 			success: function(the_data) {
@@ -153,12 +159,33 @@
 	});
 </script>
 <div id="configure_theme_background" class="content_only_page">
+	<div class="custom_ui">
+		<div id="upload_background_button" class="add_button" type="submit"><div class="content"><?php __('Upload Background Image'); ?></div><div class="right_arrow_lines"><div></div></div></div>
+	</div>
 	<?php if ($theme_has_dynamic_background === true): ?>
 		<?php // DREW TODO - make the below div have the default bg color of the theme ?>
 		<div id="theme_background_palette" style="background-color: white; position: relative; outline: 1px solid green; width: <?php echo $max_palette_width; ?>px; height: <?php echo $max_palette_height; ?>px;">
-			<img class="theme_background_image" src="<?php echo $current_background_web_path; ?>" style="display: inline-block; position: absolute; left: <?php echo ($max_palette_width/2)-($current_background_width/2); ?>px; top: <?php echo ($max_palette_height/2)-($current_background_height/2); ?>px; width: <?php echo $current_background_width; ?>px; height: <?php echo $current_background_height; ?>px;" />
+			<?php
+				$start_left = ($max_palette_width/2)-($current_background_width/2);
+				$start_top = ($max_palette_height/2)-($current_background_height/2);
+				$start_width = $current_background_width;
+				$start_height = $current_background_height;
+				
+				if ($using_custom_background_image == true) {
+					$start_left = $this->ThemeHiddenSetting->getVal('uploaded_admin_current_background_left', $start_left);
+					$start_top = $this->ThemeHiddenSetting->getVal('uploaded_admin_current_background_top', $start_top);
+					$start_width = $this->ThemeHiddenSetting->getVal('uploaded_admin_current_background_width', $start_width);
+					$start_height = $this->ThemeHiddenSetting->getVal('uploaded_admin_current_background_height', $start_height);
+				} else {
+					$start_left = $this->ThemeHiddenSetting->getVal('default_admin_current_background_left', $start_left);
+					$start_top = $this->ThemeHiddenSetting->getVal('default_admin_current_background_top', $start_top);
+					$start_width = $this->ThemeHiddenSetting->getVal('default_admin_current_background_width', $start_width);
+					$start_height = $this->ThemeHiddenSetting->getVal('default_admin_current_background_height', $start_height);
+				}
+			?>
+			<img class="theme_background_image" src="<?php echo $current_background_web_path; ?>" style="display: inline-block; position: absolute; left: <?php echo $start_left; ?>px; top: <?php echo $start_top; ?>px; width: <?php echo $start_width; ?>px; height: <?php echo $start_height; ?>px;" />
 			<img class="theme_overlay_image" src="<?php echo $overlay_web_path; ?>" style="display: inline-block; position: absolute; left: <?php echo $palette_start_left; ?>px; top: <?php echo $palette_start_top; ?>px; width: <?php echo $palette_background_width; ?>px; height: <?php echo $palette_background_height; ?>px;" />
-			<div class="theme_background_image_cont" style="cursor: move; outline: 1px solid blue; display: inline-block; position: absolute; left: <?php echo ($max_palette_width/2)-($current_background_width/2); ?>px; top: <?php echo ($max_palette_height/2)-($current_background_height/2); ?>px; width: <?php echo $current_background_width; ?>px; height: <?php echo $current_background_height; ?>px;"></div>
+			<div class="theme_background_image_cont" style="cursor: move; outline: 1px solid blue; display: inline-block; position: absolute; left: <?php echo $start_left; ?>px; top: <?php echo $start_top; ?>px; width: <?php echo $start_width; ?>px; height: <?php echo $start_height; ?>px;"></div>
 		</div>
 		
 	<?php // DREW TODO - put a note on this page that to see the background image change the user must hard refresh the browser (or use a no cache header for that image) ?>
@@ -184,7 +211,7 @@
 
 <?php ob_start(); ?>
 <ol>
-	<li>This page is fairly buggy - shouldn't take to long to fix, but you may want to call me talk about this page - so you know how it works</li>
+	<li>This page is fairly buggy - shouldn't take too long to fix, but you may want to call me talk about this page - so you know how it works</li>
 	<li>Things to remember
 		<ol>
 			<li>You should be on andrewmorrill theme to see this page as its the only theme of this type</li>
