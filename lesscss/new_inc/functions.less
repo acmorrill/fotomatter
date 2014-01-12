@@ -29,6 +29,14 @@
 	border-color: transparent @color transparent transparent;
 }
 
+.right_facing_triangle(@size, @color) {
+	width: 0px;
+	height: 0px;
+	border-style: solid;
+	border-width: 10px 0 10px 11px;
+	border-color: transparent transparent transparent @color;
+}
+
 .el_opacity(@opacity, @ms_opacity) {
 	/* IE 8 */
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=@{ms_opacity})";
