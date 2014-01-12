@@ -11,25 +11,48 @@
 			width: 386px;
 			margin-left: auto;
 			margin-right: auto;
-			.theme_item_inner_container_text{	
+			.add_text{	
 			float:left; 
 			color: @top_white;
 			}
-			.theme_button_switch_theme{
+			.button_switch_theme{
 				float: right;
 			}
-			.theme_button_current_theme{
+			.button_current_theme{
 				float: right;
-			}
-			input.button_active{
-				background: none repeat scroll 0 0 @selected;
-			}
-			input.button:active{
-				background: none repeat scroll 0 0 @selected;
-			}
-			input.button:hover{
-				background: none repeat scroll 0 0 @selected;
 			}
 		}
+		.add_button {
+		float:right; 
+		color: @top_white;
+		cursor: pointer;
+		display: inline-block;
+		vertical-align: top;
+		border: 1px solid transparent;
+		height: 40px;
+		padding-left: 10px;
+		padding-right: 10px;
+		.content {
+			display: inline-block;
+			vertical-align: top;
+			margin-top: 14px;
+			color: @gray_text;
+		}
+		.Code-Pro-LC;
+		//.el_opacity(.6, 60);
+		font-size: 18px;
+		background-color: @off_black;
+		&:hover {
+			.content {
+				color: @white;
+			}
+			.right_arrow_lines {
+				.right_facing_triangle(10, @white);
+				div {
+					.right_facing_triangle(10, @off_black);
+				}
+			}
+		}
+	}
 	}
 }
