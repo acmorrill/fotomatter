@@ -5,6 +5,7 @@
 	$logo_max_height = $logo_context_height = isset($theme_config['admin_config']['logo_config']['available_space']['height']) ? $theme_config['admin_config']['logo_config']['available_space']['height'] : 200;
 
 	$avail_space_screenshot_web_path = '';
+	
 	$padding = isset($theme_config['admin_config']['logo_config']['available_space_screenshot']['padding']) ? $theme_config['admin_config']['logo_config']['available_space_screenshot']['padding'] : '0px';
 	if (!empty($theme_config['admin_config']['logo_config']['available_space_screenshot']['absolute_path'])) {
 		$avail_space_screenshot_web_path = $theme_config['admin_config']['logo_config']['available_space_screenshot']['web_path'];

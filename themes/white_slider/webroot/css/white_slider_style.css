@@ -136,6 +136,9 @@ table {
   float: left;
   margin-left: 1px;
 }
+#logo_cont #mainName {
+  position: absolute;
+}
 #main_nav {
   float: right;
   font-family: 'PT Sans', sans-serif;
