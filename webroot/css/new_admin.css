@@ -765,23 +765,28 @@ form.fm_form button.ui-button {
   width: 49%;
   max-width: 445px;
   overflow: hidden;
-  height: 372px;
+  height: 400px;
 }
 #theme_chooser_container .theme_item_container .theme_item_inner_container {
   outline: 1px solid blue;
-  width: 386px;
+  width: 401px;
   margin-left: auto;
   margin-right: auto;
 }
 #theme_chooser_container .theme_item_container .theme_item_inner_container .add_text {
   float: left;
   color: #f4f9f5;
+  margin-top: 22px;
+  width: 250px;
+  word-wrap: break-word;
 }
 #theme_chooser_container .theme_item_container .theme_item_inner_container .button_switch_theme {
   float: right;
+  margin-top: 14px;
 }
 #theme_chooser_container .theme_item_container .theme_item_inner_container .button_current_theme {
   float: right;
+  margin-top: 14px;
 }
 #theme_chooser_container .theme_item_container .add_button {
   float: right;
