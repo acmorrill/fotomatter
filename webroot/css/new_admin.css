@@ -554,6 +554,28 @@ body {
   background-position: -50px -50px;
   z-index: 1;
 }
+.right_arrow_lines {
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-width: 10px 0 10px 11px;
+  border-color: transparent transparent transparent #7d888e;
+  margin-top: 11px;
+  margin-left: 20px;
+}
+.right_arrow_lines div {
+  position: absolute;
+  top: -10px;
+  left: -13px;
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-width: 10px 0 10px 11px;
+  border-color: transparent transparent transparent #181818;
+}
 #sub-nav {
   position: fixed;
   top: 150px;
@@ -583,9 +605,14 @@ body {
   height: 100%;
 }
 #sub-nav ul li table td {
-  color: #6b6a6c;
   vertical-align: middle;
   text-align: left;
+}
+#sub-nav ul li table td,
+#sub-nav ul li table td a,
+#sub-nav ul li table td div,
+#sub-nav ul li table td p {
+  color: #6b6a6c;
 }
 #sub-nav ul li table td.first {
   width: 48px;
@@ -632,13 +659,19 @@ body {
   height: 73px;
   vertical-align: middle;
 }
-#sub-nav ul li:hover td {
+#sub-nav ul li:hover td,
+#sub-nav ul li:hover td a,
+#sub-nav ul li:hover td div,
+#sub-nav ul li:hover td p {
   color: #f4f9f5;
 }
 #sub-nav ul li.selected .circle {
   display: inline-block;
 }
-#sub-nav ul li.selected td {
+#sub-nav ul li.selected td,
+#sub-nav ul li.selected td a,
+#sub-nav ul li.selected td div,
+#sub-nav ul li.selected td p {
   color: #f4f9f5;
 }
 #sub-nav.sell ul li table td .circle {
@@ -752,7 +785,6 @@ form.fm_form button.ui-button {
   margin-right: auto;
 }
 #theme_chooser_container .theme_item_container .theme_item_inner_container .theme_item_inner_container_text {
-<<<<<<< HEAD
   float: left;
   color: #f4f9f5;
 }
@@ -770,9 +802,6 @@ form.fm_form button.ui-button {
 }
 #theme_chooser_container .theme_item_container .theme_item_inner_container input.button:hover {
   background: none repeat scroll 0 0 #515995 d;
-=======
-  display: inline-block;
->>>>>>> 06eca25b4c125f8d0bd6294fc720816e1627d236
 }
 #upload_background_button {
   margin-bottom: 40px;
@@ -808,28 +837,6 @@ form.fm_form button.ui-button {
   border-color: transparent transparent transparent #ffffff;
 }
 .custom_ui .add_button:hover .right_arrow_lines div {
-  width: 0px;
-  height: 0px;
-  border-style: solid;
-  border-width: 10px 0 10px 11px;
-  border-color: transparent transparent transparent #181818;
-}
-.right_arrow_lines {
-  display: inline-block;
-  vertical-align: top;
-  position: relative;
-  width: 0px;
-  height: 0px;
-  border-style: solid;
-  border-width: 10px 0 10px 11px;
-  border-color: transparent transparent transparent #7d888e;
-  margin-top: 11px;
-  margin-left: 20px;
-}
-.right_arrow_lines div {
-  position: absolute;
-  top: -10px;
-  left: -13px;
   width: 0px;
   height: 0px;
   border-style: solid;
