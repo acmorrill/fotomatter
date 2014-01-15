@@ -59,6 +59,43 @@ class ThemeHelper extends AppHelper {
 		return $the_uploaded_image_web_path;
 	}
 	
+	public function get_theme_merged_background_abs_path($theme_name = null) {
+		if (!isset($theme_name)) {
+			$theme_name = $this->get_theme_name();
+		}
+		
+		$this->Theme = ClassRegistry::init('Theme', 'Model');
+		
+		$the_uploaded_image_path = $this->Theme->get_theme_merged_background_abs_path($theme_name);
+		
+		if (!file_exists($the_uploaded_image_path)) {
+			return false;
+		}
+		
+		return $the_uploaded_image_path;
+	}
+	
+	public function get_theme_merged_background_web_path($theme_name = null) {
+		if (!isset($theme_name)) {
+			$theme_name = $this->get_theme_name();
+		}
+		
+		$this->Theme = ClassRegistry::init('Theme', 'Model');
+		
+		$the_merged_image_web_path = $this->Theme->get_theme_merged_background_web_path($theme_name);
+		
+		
+		return $the_merged_image_web_path;
+	}
+	
+	public function has_uploaded_custom_background($theme_name = null) {
+		if (!isset($theme_name)) {
+			$theme_name = $this->get_theme_name();
+		}
+		
+		return file_exists(UPLOADED_BACKGROUND_PATH);
+	}
+	
 	public function get_theme_name() {
 		$this->SiteSetting = ClassRegistry::init('SiteSetting', 'Model');
 		
