@@ -64,7 +64,9 @@ class ThemeCentersController extends AppController {
 	}
 	
 	public function admin_configure_background() {
+		$use_theme_background = $this->ThemeGlobalSetting->getVal('use_theme_background', true);
 		
+		$this->set(compact('use_theme_background'));
 	}
 	
 	
@@ -279,6 +281,14 @@ class ThemeCentersController extends AppController {
 			$upload_data['type'] = $this->params['form']['hidden_logo_file_chooser']['type'];
 			$upload_data['size'] = $this->params['form']['hidden_logo_file_chooser']['size'];
 			
+			
+			if ($upload_data['size'] > 307200) { // fail if logo image bigger than 300k
+				$this->Session->setFlash(__('Exceeded maximum logo upload size of 300 kilobytes.', true));
+				$this->redirect('/admin/theme_centers/configure_logo/');
+				exit();
+			}
+			
+			
 			$logo_file_data = getimagesize($upload_data['tmp_name']);
 			if ($logo_file_data !== false) {
 				list($width, $height, $type, $attr) = $logo_file_data;
@@ -306,7 +316,7 @@ class ThemeCentersController extends AppController {
 					
 					$this->ThemeGlobalSetting->setVal('use_theme_logo', false);
 					$this->Session->setFlash(__('Successfully uploaded logo', true));
-				} else{
+				} else {
 					$this->major_error('failed to move_uploaded_file of an uploaded logo');
 					$this->Session->setFlash(__('Failed to upload logo file', true));
 				}
@@ -321,6 +331,55 @@ class ThemeCentersController extends AppController {
 		$this->redirect('/admin/theme_centers/configure_logo/');
 	}
 	
+	public function admin_upload_background_file() {
+		if (isset($this->params['form']['hidden_background_file_chooser'])) {
+			$upload_data['name'] = $this->params['form']['hidden_background_file_chooser']['name'];
+			$upload_data['tmp_name'] = $this->params['form']['hidden_background_file_chooser']['tmp_name'];
+			$upload_data['type'] = $this->params['form']['hidden_background_file_chooser']['type'];
+			$upload_data['size'] = $this->params['form']['hidden_background_file_chooser']['size'];
+			
+			
+			if ($upload_data['size'] > 2097152) { // fail if background image bigger than 2 megs
+				$this->Session->setFlash(__('Exceeded maximum background upload size of 2 megabytes.', true));
+				$this->redirect('/admin/theme_centers/configure_background/');
+				exit();
+			}
+			
+			
+			$background_file_data = getimagesize($upload_data['tmp_name']);
+			if ($background_file_data !== false) {
+				list($width, $height, $type, $attr) = $background_file_data;
+	
+				$filename_info = pathinfo($upload_data['name']);
+				$is_jpeg_extension = isset($filename_info['extension']) && ($filename_info['extension'] == 'jpg' || $filename_info['extension'] == 'jpeg');
+				$is_jpeg_mime_type = isset($upload_data['type']) && ($upload_data['type'] == 'image/jpg' || $upload_data['type'] == 'image/jpeg');
+				if (!$is_jpeg_extension && !$is_jpeg_mime_type) {
+					$this->major_error('Tried to upload a non jpg image.');
+					$this->Session->setFlash(__('Only jpg images can be uploaded as the a theme background', true));
+					$this->redirect('/admin/theme_centers/configure_background/');
+					exit();
+				}
+				
+				if(move_uploaded_file($upload_data['tmp_name'], UPLOADED_BACKGROUND_PATH)) {
+					chmod(UPLOADED_BACKGROUND_PATH, 0776);
+					
+					$this->ThemeGlobalSetting->setVal('use_theme_background', true); // use theme background is used for seeing of we are using the theme default background image
+					$this->Session->setFlash(__('Successfully uploaded background', true));
+				} else{
+					$this->major_error('failed to move_uploaded_file of an uploaded background');
+					$this->Session->setFlash(__('Failed to upload background file', true));
+				}
+				
+				
+			} else {
+				$this->major_error('failed to getimagesize of an uploaded background');
+				$this->Session->setFlash(__('Could not upload the background file', true));
+			}
+		}
+		
+		$this->redirect('/admin/theme_centers/configure_background/');
+	}
+	
 	public function admin_set_use_theme_logo() {
 		
 		if (isset($this->params['form']['change_logo_choice'])) {
@@ -332,6 +391,24 @@ class ThemeCentersController extends AppController {
 		} else {
 			$this->major_error('failed to admin_set_use_theme_logo');
 			$this->Session->setFlash(__('Could not change the logo that is used', true));
+		}
+		
+		
+		$this->redirect('/admin/theme_centers/configure_logo/');
+		exit();
+	}
+	
+	public function admin_set_use_theme_background() {
+		
+		if (isset($this->params['form']['change_background_choice'])) {
+			if ($this->params['form']['change_background_choice'] == 'custom_background') {
+				$this->ThemeGlobalSetting->setVal('use_theme_background', true);
+			} else {
+				$this->ThemeGlobalSetting->setVal('use_theme_background', false);
+			}
+		} else {
+			$this->major_error('failed to admin_set_use_theme_background');
+			$this->Session->setFlash(__('Could not change the background that is used', true));
 		}
 		
 		

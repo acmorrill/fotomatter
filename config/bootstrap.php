@@ -72,10 +72,12 @@ define("SITE_LOGO_CACHES_WEB_PATH", DS.'caches');
 // site background paths
 define("SITE_BACKGROUND_PATH", ROOT.DS.'site_background');
 define("SITE_THEME_UPLOADED_IMAGES", SITE_BACKGROUND_PATH.DS.'theme_uploaded_images');
+define("UPLOADED_BACKGROUND_PATH", SITE_THEME_UPLOADED_IMAGES.DS.'base_uploaded_background.png');
 define("SITE_THEME_MERGED_FINAL_IMAGES", SITE_BACKGROUND_PATH.DS.'theme_merged_final_images');
 //define("SITE_BACKGROUND_WEB_PATH", DS.'site_background');
 define("SITE_THEME_UPLOADED_IMAGES_WEB_PATH", DS.'theme_uploaded_images');
 define("SITE_THEME_MERGED_FINAL_IMAGES_WEB_PATH", DS.'theme_merged_final_images');
+define("UPLOADED_BACKGROUND_WEB_PATH", SITE_THEME_UPLOADED_IMAGES_WEB_PATH.DS.'base_uploaded_background.png');
 
 // paths for schema directories
 define("LOCAL_SCHEMA_PATH", ROOT.DS.APP_DIR.DS.'config'.DS.'versioning'.DS.'local'.DS.'schema');   
