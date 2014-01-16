@@ -605,9 +605,14 @@ body {
   height: 100%;
 }
 #sub-nav ul li table td {
-  color: #6b6a6c;
   vertical-align: middle;
   text-align: left;
+}
+#sub-nav ul li table td,
+#sub-nav ul li table td a,
+#sub-nav ul li table td div,
+#sub-nav ul li table td p {
+  color: #6b6a6c;
 }
 #sub-nav ul li table td.first {
   width: 48px;
@@ -654,13 +659,19 @@ body {
   height: 73px;
   vertical-align: middle;
 }
-#sub-nav ul li:hover td {
+#sub-nav ul li:hover td,
+#sub-nav ul li:hover td a,
+#sub-nav ul li:hover td div,
+#sub-nav ul li:hover td p {
   color: #f4f9f5;
 }
 #sub-nav ul li.selected .circle {
   display: inline-block;
 }
-#sub-nav ul li.selected td {
+#sub-nav ul li.selected td,
+#sub-nav ul li.selected td a,
+#sub-nav ul li.selected td div,
+#sub-nav ul li.selected td p {
   color: #f4f9f5;
 }
 #sub-nav.sell ul li table td .circle {
