@@ -219,26 +219,27 @@
 	}
 </style>
 
-
-<div id="change_background_dialog">
-	<form id="choose_background_form" method="POST" action="/admin/theme_centers/set_use_theme_background/">
-		<input type="radio" name="change_background_choice" value="theme_background" <?php if ($use_theme_background): ?>checked="checked"<?php endif; ?> /><span class="cache_sample_image_cont"><img src="<?php echo $merged_bg_web_path; ?>.jpg" /></span>
-		<?php if ($this->Theme->has_uploaded_custom_background()): ?>
-			<input type="radio" name="change_background_choice" value="custom_background" <?php if (!$use_theme_background): ?>checked="checked"<?php endif; ?> /><span class="cache_sample_image_cont"><img src="<?php echo UPLOADED_BACKGROUND_WEB_PATH; ?>" /></span>
-		<?php endif; ?>
-	</form>
-	<form id="upload_background_file_form" method="POST" action="/admin/theme_centers/upload_background_file/" enctype="multipart/form-data">
-		<input style="display: none;" id="hidden_background_file_chooser" name="hidden_background_file_chooser" type="file" accept="image/jpeg" />
-	</form>
-</div>
+<?php if ($theme_has_dynamic_background === true): ?>
+	<div id="change_background_dialog">
+		<form id="choose_background_form" method="POST" action="/admin/theme_centers/set_use_theme_background/">
+			<input type="radio" name="change_background_choice" value="theme_background" <?php if ($use_theme_background): ?>checked="checked"<?php endif; ?> /><span class="cache_sample_image_cont"><img src="<?php echo $merged_bg_web_path; ?>.jpg" /></span>
+			<?php if ($this->Theme->has_uploaded_custom_background()): ?>
+				<input type="radio" name="change_background_choice" value="custom_background" <?php if (!$use_theme_background): ?>checked="checked"<?php endif; ?> /><span class="cache_sample_image_cont"><img src="<?php echo UPLOADED_BACKGROUND_WEB_PATH; ?>" /></span>
+			<?php endif; ?>
+		</form>
+		<form id="upload_background_file_form" method="POST" action="/admin/theme_centers/upload_background_file/" enctype="multipart/form-data">
+			<input style="display: none;" id="hidden_background_file_chooser" name="hidden_background_file_chooser" type="file" accept="image/jpeg" />
+		</form>
+	</div>
+<?php endif; ?>
 
 
 
 <div id="configure_theme_background" class="content_only_page">
-	<div class="custom_ui">
-		<div id="upload_background_button" class="add_button" type="submit"><div class="content"><?php __('Upload Background Image'); ?></div><div class="right_arrow_lines"><div></div></div></div>
-	</div>
 	<?php if ($theme_has_dynamic_background === true): ?>
+		<div class="custom_ui">
+			<div id="upload_background_button" class="add_button" type="submit"><div class="content"><?php __('Upload Background Image'); ?></div><div class="right_arrow_lines"><div></div></div></div>
+		</div>
 		<?php // DREW TODO - make the below div have the default bg color of the theme ?>
 		<div id="theme_background_palette" style="background-color: white; position: relative; outline: 1px solid green; width: <?php echo $max_palette_width; ?>px; height: <?php echo $max_palette_height; ?>px;">
 			<?php
