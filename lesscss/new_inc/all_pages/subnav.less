@@ -22,7 +22,9 @@
 				width: 100%;
 				height: 100%;
 				td { 
-					color: @sub_menu_off_color;
+					&, a, div, p {
+						color: @sub_menu_off_color;
+					}
 					vertical-align: middle; 
 					text-align: left;
 					&.first {
@@ -73,7 +75,9 @@
 			}
 			&:hover {
 				td {
-					color: @top_white;
+					&, a, div, p {
+						color: @top_white;
+					}
 				}
 			}
 			&.selected {
@@ -81,7 +85,9 @@
 					display: inline-block;
 				}
 				td {
-					color: @top_white;
+					&, a, div, p {
+						color: @top_white;
+					}
 				}
 			}
 		}

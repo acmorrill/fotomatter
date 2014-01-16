@@ -10,24 +10,23 @@
 		// overlay: the paths to the overlay png
 		// default: the starting background image to use if user has not uploaded one
 		// uploaded: the path to the user uploaded background image
+		// merged: the version that is used on the frontend
 		$overlay_web_path = $background_config['overlay_image']['web_path'];
 		$overlay_abs_path = $background_config['overlay_image']['absolute_path'];
 		$default_bg_web_path = $background_config['default_bg_image']['web_path'];
 		$default_bg_abs_path = $background_config['default_bg_image']['absolute_path'];
-		$uploaded_bg_abs_path = $this->Theme->get_theme_uploaded_background_abs_path();
-		$uploaded_bg_web_path = $this->Theme->get_theme_uploaded_background_web_path();
+//		$uploaded_bg_abs_path = $this->Theme->get_theme_uploaded_background_abs_path();
+//		$uploaded_bg_web_path = $this->Theme->get_theme_uploaded_background_web_path();
+		$merged_bg_abs_path = $this->Theme->get_theme_merged_background_abs_path();
+		$merged_bg_web_path = $this->Theme->get_theme_merged_background_web_path();
 
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////
-		// using_custom background_image: means the user has uploaded a custom image for the background
-		$using_custom_background_image = $this->Theme->get_theme_hidden_setting('using_custom_background_image', false);
-		if ($uploaded_bg_abs_path === false) {
-			$using_custom_background_image = false;
-		}
+		// use_theme_background: means the user has uploaded a custom image for the background
 		// populate the current_background starting image
-		if ($using_custom_background_image) {
-			$current_background_web_path = $uploaded_bg_web_path;
-			$current_background_abs_path = $uploaded_bg_abs_path;
+		if ($use_theme_background == true) {
+			$current_background_web_path = UPLOADED_BACKGROUND_WEB_PATH;
+			$current_background_abs_path = UPLOADED_BACKGROUND_PATH;
 		} else {
 			$current_background_web_path = $default_bg_web_path;
 			$current_background_abs_path = $default_bg_abs_path;
@@ -89,7 +88,7 @@
 		var final_background_top = (orig_palette_background_height * small_background_top) / current_background_height;
 
 		// user has or has not uploaded a custom background image
-		var using_custom_background_image = <?php echo ($using_custom_background_image == true) ? 'true' : 'false'; ?>;
+		var using_custom_background_image = <?php echo ($use_theme_background == true) ? 'true' : 'false'; ?>;
 		
 		jQuery.ajax({
 			type: 'post',
@@ -156,13 +155,91 @@
 				//console.log (position);
 			}
 		});
+		
+		
+		
+		jQuery('#change_background_dialog').dialog({
+			autoOpen: false,
+			title: "<?php __('Choose Background'); ?>",
+			buttons: [
+				{
+					text: "<?php __('Use Selected'); ?>",
+					click: function() {
+						jQuery('#choose_background_form').submit();
+						jQuery(this).dialog('close');
+					}
+				},
+				{
+					text: "<?php __('Upload New'); ?>",
+					click: function() {
+						jQuery('#hidden_background_file_chooser').click();
+						jQuery(this).dialog('close');
+					}
+				}
+			],
+			minWidth: 500,
+			minHeight: 200,
+			modal: true,
+			resizable: false
+		});
+			
+		jQuery('#hidden_background_file_chooser').change(function() {
+			jQuery('#upload_background_file_form').submit();
+		});
+			
+		jQuery('#upload_background_button').click(function() {
+			jQuery('#change_background_dialog').dialog('open');
+		});
+		
 	});
+	
+	
+	
+	
+	
 </script>
-<div id="configure_theme_background" class="content_only_page">
-	<div class="custom_ui">
-		<div id="upload_background_button" class="add_button" type="submit"><div class="content"><?php __('Upload Background Image'); ?></div><div class="right_arrow_lines"><div></div></div></div>
+
+
+<style type="text/css">
+	.cache_sample_image_cont {
+		width: 150px;
+		height: 80px;
+		display: inline-block;
+		vertical-align: middle;
+		text-align: center;
+		border: 1px solid black;
+		background: #333;
+		margin-left: 10px;
+		margin-bottom: 10px;
+		padding: 5px;
+	}
+	.cache_sample_image_cont img {
+		max-width: 100px;
+		max-height: 80px;
+	}
+</style>
+
+<?php if ($theme_has_dynamic_background === true): ?>
+	<div id="change_background_dialog">
+		<form id="choose_background_form" method="POST" action="/admin/theme_centers/set_use_theme_background/">
+			<input type="radio" name="change_background_choice" value="theme_background" <?php if ($use_theme_background): ?>checked="checked"<?php endif; ?> /><span class="cache_sample_image_cont"><img src="<?php echo $merged_bg_web_path; ?>.jpg" /></span>
+			<?php if ($this->Theme->has_uploaded_custom_background()): ?>
+				<input type="radio" name="change_background_choice" value="custom_background" <?php if (!$use_theme_background): ?>checked="checked"<?php endif; ?> /><span class="cache_sample_image_cont"><img src="<?php echo UPLOADED_BACKGROUND_WEB_PATH; ?>" /></span>
+			<?php endif; ?>
+		</form>
+		<form id="upload_background_file_form" method="POST" action="/admin/theme_centers/upload_background_file/" enctype="multipart/form-data">
+			<input style="display: none;" id="hidden_background_file_chooser" name="hidden_background_file_chooser" type="file" accept="image/jpeg" />
+		</form>
 	</div>
+<?php endif; ?>
+
+
+
+<div id="configure_theme_background" class="content_only_page">
 	<?php if ($theme_has_dynamic_background === true): ?>
+		<div class="custom_ui">
+			<div id="upload_background_button" class="add_button" type="submit"><div class="content"><?php __('Upload Background Image'); ?></div><div class="right_arrow_lines"><div></div></div></div>
+		</div>
 		<?php // DREW TODO - make the below div have the default bg color of the theme ?>
 		<div id="theme_background_palette" style="background-color: white; position: relative; outline: 1px solid green; width: <?php echo $max_palette_width; ?>px; height: <?php echo $max_palette_height; ?>px;">
 			<?php
@@ -171,7 +248,7 @@
 				$start_width = $current_background_width;
 				$start_height = $current_background_height;
 				
-				if ($using_custom_background_image == true) {
+				if ($use_theme_background == true) {
 					$start_left = $this->ThemeHiddenSetting->getVal('uploaded_admin_current_background_left', $start_left);
 					$start_top = $this->ThemeHiddenSetting->getVal('uploaded_admin_current_background_top', $start_top);
 					$start_width = $this->ThemeHiddenSetting->getVal('uploaded_admin_current_background_width', $start_width);

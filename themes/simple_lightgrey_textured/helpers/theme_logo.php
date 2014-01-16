@@ -6,14 +6,13 @@ class ThemeLogoHelper extends AbstractThemeLogoHelper {
 	protected function _create_theme_base_logo($base_logo_file_path) {
 		$firstname = $this->_get_logo_firstname();
 		$lastname = $this->_get_logo_lastname();
-		
+		$company_name = $this->_get_logo_companyname();
 		
 		// DREW TODO - further tweak this logo to make the first letters of each word a little bigger and a little lower
 		$font_size = 30;
 		$padding = 20;
 		$font_file = GLOBAL_TTF_FONT_PATH.DS."MarcellusSC-Regular.ttf";
 		$drop_shadow_offset = 3;
-		
 		
 		$string = $firstname.' '.$lastname;
 		$string_pixel_width_arr = imagettfbbox($font_size, 0, $font_file, $string);
