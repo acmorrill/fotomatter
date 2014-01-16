@@ -191,6 +191,7 @@
 			jQuery('#change_background_dialog').dialog('open');
 		});
 		
+		reload_size_change_background();
 	});
 	
 	
@@ -222,9 +223,9 @@
 <?php if ($theme_has_dynamic_background === true): ?>
 	<div id="change_background_dialog">
 		<form id="choose_background_form" method="POST" action="/admin/theme_centers/set_use_theme_background/">
-			<input type="radio" name="change_background_choice" value="theme_background" <?php if ($use_theme_background): ?>checked="checked"<?php endif; ?> /><span class="cache_sample_image_cont"><img src="<?php echo $merged_bg_web_path; ?>.jpg" /></span>
+			<input type="radio" name="change_background_choice" value="theme_background" <?php if ($use_theme_background == false): ?>checked="checked"<?php endif; ?> /><span class="cache_sample_image_cont"><img src="<?php echo $default_bg_web_path; ?>" /></span>
 			<?php if ($this->Theme->has_uploaded_custom_background()): ?>
-				<input type="radio" name="change_background_choice" value="custom_background" <?php if (!$use_theme_background): ?>checked="checked"<?php endif; ?> /><span class="cache_sample_image_cont"><img src="<?php echo UPLOADED_BACKGROUND_WEB_PATH; ?>" /></span>
+				<input type="radio" name="change_background_choice" value="custom_background" <?php if ($use_theme_background == true): ?>checked="checked"<?php endif; ?> /><span class="cache_sample_image_cont"><img src="<?php echo UPLOADED_BACKGROUND_WEB_PATH; ?>" /></span>
 			<?php endif; ?>
 		</form>
 		<form id="upload_background_file_form" method="POST" action="/admin/theme_centers/upload_background_file/" enctype="multipart/form-data">
