@@ -777,27 +777,51 @@ form.fm_form button.ui-button {
   max-width: 445px;
   overflow: hidden;
   height: 400px;
+  margin-right: 20px;
 }
-#theme_chooser_container .theme_item_container .theme_item_inner_container {
-  outline: 1px solid blue;
-  width: 401px;
+#theme_chooser_container .theme_item_container .current {
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+  -moz-opacity: .6;
+  -khtml-opacity: .6;
+  opacity: .6;
+}
+#theme_chooser_container .theme_item_container .theme_item_outer_container {
+  display: table;
+  height: 100%;
+}
+#theme_chooser_container .theme_item_container .theme_item_outer_container .theme_item_inner_container {
+  display: table-cell;
+  vertical-align: middle;
   margin-left: auto;
   margin-right: auto;
+  width: 400px;
 }
-#theme_chooser_container .theme_item_container .theme_item_inner_container .add_text {
+#theme_chooser_container .theme_item_container .theme_item_outer_container .theme_item_inner_container .container_rectangular_box {
+  float: right;
+  background-color: #181818;
+  background-color: rgba(49,44,41,0.6);
+  display: inline-block;
+  border: 1px solid transparent;
+  margin-top: 10px;
+  width: 396px;
+}
+#theme_chooser_container .theme_item_container .theme_item_outer_container .theme_item_inner_container .add_text {
   float: left;
   color: #f4f9f5;
   margin-top: 22px;
-  width: 250px;
+  margin-left: 20px;
+  width: 225px;
   word-wrap: break-word;
 }
-#theme_chooser_container .theme_item_container .theme_item_inner_container .button_switch_theme {
+#theme_chooser_container .theme_item_container .theme_item_outer_container .theme_item_inner_container .button_switch_theme {
   float: right;
-  margin-top: 14px;
+  margin-top: 7px;
+  margin-bottom: 7px;
 }
-#theme_chooser_container .theme_item_container .theme_item_inner_container .button_current_theme {
+#theme_chooser_container .theme_item_container .theme_item_outer_container .theme_item_inner_container .button_current_theme {
   float: right;
-  margin-top: 14px;
+  margin-top: 7px;
+  margin-bottom: 7px;
 }
 #theme_chooser_container .theme_item_container .add_button {
   float: right;
@@ -814,6 +838,7 @@ form.fm_form button.ui-button {
   font-style: normal;
   font-size: 18px;
   background-color: #181818;
+  background-color: rgba(44,46,47,0.6);
 }
 #theme_chooser_container .theme_item_container .add_button .content {
   display: inline-block;

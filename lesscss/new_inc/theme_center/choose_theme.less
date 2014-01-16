@@ -6,31 +6,51 @@
 		max-width: 445px;
 		overflow: hidden;
 		height: 400px;
-		.theme_item_inner_container {
-			outline: 1px solid blue;
-			width:401px;
-			margin-left: auto;
-			margin-right: auto;
-			.add_text{	
-				float:left; 
-				color: @top_white;
-				margin-top: 22px;
-				width:250px;
-				word-wrap: break-word;
-			}
-			.button_switch_theme{
-				float: right;
-				margin-top: 14px;
-			}
-			.button_current_theme{
-				float: right;
-				margin-top: 14px;
-			}
-			/*&:active {
-				.content{
-					color: @green;
+		margin-right:20px;
+		//outline: 15px solid pink;
+		.current{
+			.el_opacity(.6, 60);
+		}
+		.theme_item_outer_container {
+			display:table;
+			//width:100%;
+			height:100%;
+			.theme_item_inner_container {
+				display:table-cell;
+				vertical-align: middle;
+				margin-left: auto;
+				margin-right: auto;
+				width:400px;
+				.container_rectangular_box{
+					//.el_opacity(.6, 60);
+					float: right;
+					background-color:@off_black;
+					background-color:rgba(49,44,41,.6);
+					display: inline-block;
+					border: 1px solid transparent;
+					margin-top:10px;
+					width: 396px;
+					//outline:1px solid red;
+				}				
+				.add_text{	
+					float:left; 
+					color: @top_white;
+					margin-top: 22px;
+					margin-left:20px;
+					width:225px;
+					word-wrap: break-word;
 				}
-			}*/
+				.button_switch_theme{
+					float: right;
+					margin-top: 7px;
+					margin-bottom: 7px;
+				}
+				.button_current_theme{
+					float: right;
+					margin-top: 7px;
+					margin-bottom: 7px;
+				}
+			}
 		}
 		.add_button {
 			float:right; 
@@ -52,12 +72,13 @@
 		//.el_opacity(.6, 60);
 		font-size: 18px;
 		background-color: @off_black;
+		background-color: rgba(44,46,47,.6);
 		&:hover {
 			.content {
 				color: @white;
 			}
 			.right_arrow_lines {
-				.right_facing_triangle(10, @white);
+				.right_facing_triangle(10, @white);				
 				div {
 					.right_facing_triangle(10, @off_black);
 					}
