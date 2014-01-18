@@ -48,13 +48,17 @@
   display: inline-block;
   border-right: 1px solid white;
 }
-#grezzo_listing_actual_container img.blank,
-#grezzo_scroll_control_inner img.blank {
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=5)";
-  filter: alpha(opacity=5);
-  -moz-opacity: 0.05;
-  -khtml-opacity: 0.05;
-  opacity: 0.05;
+#gallary-container .jcarousel-wrapper {
+  margin: 20px auto;
+  position: relative;
+}
+#gallary-container .jcarousel-wrapper ul {
+  list-style-type: none;
+  width: 2000em;
+  position: absolute;
+}
+#gallary-container .jcarousel-wrapper ul li {
+  float: left;
 }
 #grezzo_listing_actual_container_loading {
   width: 44px;

@@ -25,22 +25,32 @@
 	}
 }
 
-#grezzo_listing_actual_container img.blank, #grezzo_scroll_control_inner img.blank {
-			/* IE 8 */
-		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=5)";
+#gallary-container {
+	.jcarousel-wrapper {
+		margin: 20px auto;
+		position: relative;
 
-		/* IE 5-7 */
-		filter: alpha(opacity=5);
+		ul {
+			list-style-type: none;
+			width:2000em;
+			position:absolute;
 
-		/* Netscape */
-		-moz-opacity: 0.05;
 
-		/* Safari 1.x */
-		-khtml-opacity: 0.05;
+			li {
+				float:left;
+			}
+		}
+	}
 
-		/* Good browsers */
-		opacity: 0.05;
 }
+
+
+
+
+/** Carousel **/
+
+
+
 
 #grezzo_listing_actual_container_loading {
 	width: 44px;
