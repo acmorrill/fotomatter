@@ -784,11 +784,7 @@ form.fm_form button.ui-button {
   margin-left: auto;
   margin-right: auto;
 }
-<<<<<<< HEAD
-#theme_chooser_container .theme_item_container .theme_item_inner_container .theme_item_inner_container_text {
-=======
 #theme_chooser_container .theme_item_container .theme_item_inner_container .add_text {
->>>>>>> 1ea5def6974960edeae7be1130f911156e179064
   float: left;
   color: #f4f9f5;
 }
@@ -798,25 +794,9 @@ form.fm_form button.ui-button {
 #theme_chooser_container .theme_item_container .theme_item_inner_container .button_current_theme {
   float: right;
 }
-<<<<<<< HEAD
-#theme_chooser_container .theme_item_container .theme_item_inner_container input.button_active {
-  background: none repeat scroll 0 0 #515995 d;
-}
-#theme_chooser_container .theme_item_container .theme_item_inner_container input.button:active {
-  background: none repeat scroll 0 0 #515995 d;
-}
-#theme_chooser_container .theme_item_container .theme_item_inner_container input.button:hover {
-  background: none repeat scroll 0 0 #515995 d;
-}
-#upload_background_button {
-  margin-bottom: 40px;
-}
-.custom_ui .add_button {
-=======
 #theme_chooser_container .theme_item_container .add_button {
   float: right;
   color: #f4f9f5;
->>>>>>> 1ea5def6974960edeae7be1130f911156e179064
   cursor: pointer;
   display: inline-block;
   vertical-align: top;
@@ -853,8 +833,6 @@ form.fm_form button.ui-button {
   border-width: 10px 0 10px 11px;
   border-color: transparent transparent transparent #181818;
 }
-<<<<<<< HEAD
-=======
 #upload_background_button {
   margin-bottom: 40px;
 }
@@ -895,7 +873,6 @@ form.fm_form button.ui-button {
   border-width: 10px 0 10px 11px;
   border-color: transparent transparent transparent #181818;
 }
->>>>>>> 1ea5def6974960edeae7be1130f911156e179064
 .profile-outer-cont.domains .saving_profile {
   display: inline-block;
   position: absolute;
