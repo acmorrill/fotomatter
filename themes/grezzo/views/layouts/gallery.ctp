@@ -68,8 +68,8 @@
 			var in_callback = false;
 			var cease_fire = false;
 			var last_photo_id = undefined;
-			var photos_on_page = JSON.parse('<?php echo json_encode($photos); ?>');
 			
+			var is_landing_page = <?php echo empty($is_landing_page) ? 'false':'true'; ?>;
 			function endless_scroll_callback() {
 				if (in_callback == true) {
 					return;
