@@ -69,7 +69,7 @@
 			var cease_fire = false;
 			var last_photo_id = undefined;
 			var photos_on_page = JSON.parse('<?php echo json_encode($photos); ?>');
-			var is_landing_page = <?php echo empty($is_landing_page) ? 'false':'true'; ?>;
+			///var is_landing_page = <?php echo empty($is_landing_page) ? 'false':'true'; ?>;
 			function endless_scroll_callback() {
 				if (in_callback == true) {
 					return;
@@ -191,6 +191,7 @@
 			}
 			
 			function show_image_data(next_image) {
+				return;
 				if (is_landing_page == false) {
 					$('#image_info_container').show();
 					var current_photo = photos_on_page[next_image.attr('photo_id')];
