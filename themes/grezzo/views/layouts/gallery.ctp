@@ -13,8 +13,11 @@
 	</head>
 	<body>
 		<?php 
+			
+			$is_landing_page = false;
 			if (!isset($photos)) {
 				// treat the landing page as the first gallery
+				$is_landing_page = true;
 				$curr_gallery = $this->Gallery->get_first_gallery(); 
 				if (isset($curr_gallery['PhotoGallery']['id'])) {
 					$gallery_id = $curr_gallery['PhotoGallery']['id'];
@@ -23,31 +26,50 @@
 				}
 				$photos = $this->Gallery->get_gallery_photos($gallery_id, 15);
 			}
+			
+			$photo_tmp = array();
+			foreach($photos as $photo) {
+				$photo['Photo']['tag_attributes'] = addslashes($photo['Photo']['tag_attributes']);
+				$photo_tmp[$photo['Photo']['id']] = $photo;
+			}
+			$photos = $photo_tmp;
 		?>
 		<div id='outer_nav'>
 			<?php echo $this->Element('nameTitle'); ?>
 			<?php echo $this->Element('menu/two_level_navbar'); ?>
 		</div>
-		<div id="grezzo_listing_actual_container_loading"><?php echo nl2br(str_replace(' ', "\n", __('L O A D I N G', true))); ?></div>
-		<div id="grezzo_listing_actual_container"><img class="blank" src="/images/large_blank.png" width="1600" height="500" /><!--
-			--><?php echo $this->Element('gallery/gallery_image_lists/simple_list', array(
-				'photos' => $photos,
-				'height' => '500',
-				'width' => '2000',
-				'sharpness' => '.4'
-			)); ?><img class="blank" src="/images/large_blank.png" width="1600" height="500" /></div>
-		<div id="grezzo_scroll_hide" class=""></div>
-		<div id="right_arrow" class="navigation_arrow">
+		<div id='gallery_outer_cont'>
+			<div id="grezzo_listing_actual_container_loading"><?php echo nl2br(str_replace(' ', "\n", __('L O A D I N G', true))); ?></div>
+			<div id="grezzo_listing_actual_container"><img class="blank" src="/images/large_blank.png" width="1600" height="500" /><!--
+				--><?php echo $this->Element('gallery/gallery_image_lists/simple_list', array(
+					'photos' => $photos,
+					'height' => '500',
+					'width' => '2000',
+					'sharpness' => '.4'
+				)); ?><img class="blank" src="/images/large_blank.png" width="1600" height="500" /></div>
+			<div id="grezzo_scroll_hide" class=""></div>
+			<div id="right_arrow" class="navigation_arrow">
 
+			</div>
+			<div id="left_arrow" class="navigation_arrow">
 		</div>
-		<div id="left_arrow" class="navigation_arrow">
+		
 
-		</div>
+		</div><br />
+		<?php if ($is_landing_page == false): ?>
+			<div id='image_info_container'>
+				Photo Name <span class='title'></span>
+					
+			</div>
+		<?php endif; ?>
+			
 		
 		<script type="text/javascript">
 			var in_callback = false;
 			var cease_fire = false;
 			var last_photo_id = undefined;
+			var photos_on_page = JSON.parse('<?php echo json_encode($photos); ?>');
+			var is_landing_page = <?php echo empty($is_landing_page) ? 'false':'true'; ?>;
 			function endless_scroll_callback() {
 				if (in_callback == true) {
 					return;
@@ -153,7 +175,6 @@
 					}
 				}
 
-
 				
 				// center the next image
 				if (next_image != undefined && next_image.length > 0 && !next_image.hasClass('blank')) {
@@ -165,6 +186,19 @@
 					jQuery('#grezzo_listing_actual_container').scrollTo(new_scroll_left + 'px', 400, {easing: 'linear'});
 					calculate_scroll_control_div_width_and_pos();
 					calculate_control_container_scroll();
+					show_image_data(next_image);
+				}
+			}
+			
+			function show_image_data(next_image) {
+				if (is_landing_page == false) {
+					$('#image_info_container').show();
+					var current_photo = photos_on_page[next_image.attr('photo_id')];
+					$("#image_info_container .title").html(current_photo['Photo']['display_title']);
+					
+					
+					
+					
 				}
 			}
 			
@@ -357,6 +391,7 @@
 					loader: '',
 					insertAfter: '',
 					callback: function (i) {
+						
 						endless_scroll_callback();
 					}
 				});
