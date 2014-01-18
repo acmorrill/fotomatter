@@ -64,7 +64,7 @@ class ThemeCentersController extends AppController {
 	}
 	
 	public function admin_configure_background() {
-		$use_theme_background = $this->ThemeGlobalSetting->getVal('use_theme_background', true);
+		$use_theme_background = $this->ThemeHiddenSetting->getVal('use_theme_background', true);
 		
 		$this->set(compact('use_theme_background'));
 	}
@@ -162,115 +162,20 @@ class ThemeCentersController extends AppController {
 			$this->major_error('using_custom_background_image empty', array(), 'high');
 		}
 		
-		$palette_background_size = getimagesize($overlay_abs_path);
-		list($orig_palette_background_width, $orig_palette_background_height, $palette_background_size_type, $palette_background_size_attr) = $palette_background_size;
 		
-		$current_background_size = getimagesize($current_background_abs_path);
-		list($orig_background_width, $orig_background_height, $current_background_size_type, $current_background_size_attr) = $current_background_size;
+		$this->Theme->create_theme_merged_background(
+				$overlay_abs_path, 
+				$current_background_abs_path, 
+				$final_background_width, 
+				$final_background_height, 
+				$final_background_left,
+				$final_background_top,
+				$using_custom_background_image
+		);
 		
-		
-		$imgOverlay = imagecreatefrompng($overlay_abs_path);
-		$imgAvatar = $this->_resize_image($current_background_abs_path, $final_background_width, $final_background_height);
-
-		
-		$dst_x = -$final_background_left;
-		$dst_y = -$final_background_top;
-		$src_x = 0;
-		$src_y = 0;
-		$dst_w = imagesx($imgAvatar);
-		$dst_h = imagesy($imgAvatar);
-		$src_w = imagesx($imgAvatar);
-		$src_h = imagesy($imgAvatar);
-
-		$o_width = imagesx($imgOverlay);
-		$o_height = imagesy($imgOverlay);
-
-		$imgBanner = imagecreatetruecolor($o_width, $o_height);
-		$backgroundColor = imagecolorallocate($imgBanner, 255, 255, 255); // DREW TODO use the color from the theme
-		imagefill($imgBanner, 0, 0, $backgroundColor);
-		
-		
-//		$this->log('dst_x: '.$dst_x, 'sizes');
-//		$this->log('dst_y: '.$dst_y, 'sizes');
-//		$this->log('src_x: '.$src_x, 'sizes');
-//		$this->log('src_y: '.$src_y, 'sizes');
-//		$this->log('dst_w: '.$dst_w, 'sizes');
-//		$this->log('dst_h: '.$dst_h, 'sizes');
-//		$this->log('src_w: '.$src_w, 'sizes');
-//		$this->log('src_h: '.$src_h, 'sizes');
-		
-		
-		imagecopyresampled($imgBanner, $imgAvatar, $dst_x, $dst_y, $src_x, $src_x, $dst_w, $dst_h, $src_w, $src_h);
-		imagecopyresampled($imgBanner, $imgOverlay, 0, 0, 0, 0, $o_width, $o_height, $o_width, $o_height);
-
-		$theme_name = $this->SiteSetting->getVal('current_theme', false);
-		
-		$dest_save_path = SITE_THEME_MERGED_FINAL_IMAGES.DS.$theme_name.'.jpg';
-		if (file_exists($dest_save_path)) {
-			unlink($dest_save_path);
-		}
-
-		// sharpen the bg image before output -- DREW TODO - maybe try and make the sharpening better
-		$matrix = array(
-            array(-1, -1, -1),
-            array(-1, 16, -1),
-            array(-1, -1, -1),
-        );
-        $divisor = array_sum(array_map('array_sum', $matrix));
-        $offset = 0; 
-        imageconvolution($imgBanner, $matrix, $divisor, $offset);
-		
-		
-		imagejpeg($imgBanner, $dest_save_path, 100);
-		
-		if ($using_custom_background_image == true) {
-			$this->ThemeHiddenSetting->setVal('uploaded_bg_overlay_abs_path', $overlay_abs_path);
-			$this->ThemeHiddenSetting->setVal('uploaded_bg_current_background_abs_path', $current_background_abs_path);
-			$this->ThemeHiddenSetting->setVal('uploaded_bg_final_background_width', $final_background_width);
-			$this->ThemeHiddenSetting->setVal('uploaded_bg_final_background_height', $final_background_height);
-			$this->ThemeHiddenSetting->setVal('uploaded_bg_final_background_left', $final_background_left);
-			$this->ThemeHiddenSetting->setVal('uploaded_bg_final_background_top', $final_background_top);
-		} else {
-			$this->ThemeHiddenSetting->setVal('default_bg_overlay_abs_path', $overlay_abs_path);
-			$this->ThemeHiddenSetting->setVal('default_bg_current_background_abs_path', $current_background_abs_path);
-			$this->ThemeHiddenSetting->setVal('default_bg_final_background_width', $final_background_width);
-			$this->ThemeHiddenSetting->setVal('default_bg_final_background_height', $final_background_height);
-			$this->ThemeHiddenSetting->setVal('default_bg_final_background_left', $final_background_left);
-			$this->ThemeHiddenSetting->setVal('default_bg_final_background_top', $final_background_top);
-		}
-		
-		
-//		$this->log(json_encode($returnArr), 'test');
 		
 		echo json_encode($returnArr);
 		exit();
-	}
-	
-	private function _resize_image($file, $w, $h, $crop=FALSE) {
-		list($width, $height) = getimagesize($file);
-		$r = $width / $height;
-		if ($crop) {
-			if ($width > $height) {
-				$width = ceil($width-($width*($r-$w/$h)));
-			} else {
-				$height = ceil($height-($height*($r-$w/$h)));
-			}
-			$newwidth = $w;
-			$newheight = $h;
-		} else {
-			if ($w/$h > $r) {
-				$newwidth = $h*$r;
-				$newheight = $h;
-			} else {
-				$newheight = $w/$r;
-				$newwidth = $w;
-			}
-		}
-		$src = imagecreatefromjpeg($file);
-		$dst = imagecreatetruecolor($newwidth, $newheight);
-		imagecopyresampled($dst, $src, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
-
-		return $dst;
 	}
 	
 	
@@ -363,14 +268,13 @@ class ThemeCentersController extends AppController {
 				if(move_uploaded_file($upload_data['tmp_name'], UPLOADED_BACKGROUND_PATH)) {
 					chmod(UPLOADED_BACKGROUND_PATH, 0776);
 					
-					$this->ThemeGlobalSetting->setVal('use_theme_background', true); // use theme background is used for seeing of we are using the theme default background image
+					$this->ThemeHiddenSetting->setVal('use_theme_background', true); // use theme background is used for seeing of we are using the theme default background image
 					$this->Session->setFlash(__('Successfully uploaded background', true));
+					$this->ThemeHiddenSetting->clear_theme_background_position_cache();
 				} else{
 					$this->major_error('failed to move_uploaded_file of an uploaded background');
 					$this->Session->setFlash(__('Failed to upload background file', true));
 				}
-				
-				
 			} else {
 				$this->major_error('failed to getimagesize of an uploaded background');
 				$this->Session->setFlash(__('Could not upload the background file', true));
@@ -402,17 +306,20 @@ class ThemeCentersController extends AppController {
 		
 		if (isset($this->params['form']['change_background_choice'])) {
 			if ($this->params['form']['change_background_choice'] == 'custom_background') {
-				$this->ThemeGlobalSetting->setVal('use_theme_background', true);
+				$this->ThemeHiddenSetting->setVal('use_theme_background', true);
 			} else {
-				$this->ThemeGlobalSetting->setVal('use_theme_background', false);
+				$this->ThemeHiddenSetting->setVal('use_theme_background', false);
 			}
+			
+			$this->ThemeHiddenSetting->clear_theme_background_position_cache();
 		} else {
 			$this->major_error('failed to admin_set_use_theme_background');
 			$this->Session->setFlash(__('Could not change the background that is used', true));
 		}
 		
 		
-		$this->redirect('/admin/theme_centers/configure_logo/');
+		
+		$this->redirect('/admin/theme_centers/configure_background/');
 		exit();
 	}
 	
