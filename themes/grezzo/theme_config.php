@@ -4,9 +4,15 @@ $theme_config = array(
 	'theme_controller_action_layouts'=>array(
 		'SitePages'=>array(
 			'landing_page'=>array(
-				'layout'=>'landing',
+				'layout'=>'gallery',
 				'view'=>false
 			)
+		),
+		'PhotoGalleries' => array(
+			'view_gallery' => array(
+				'layout' => 'gallery',
+				'view' => false,
+			),
 		)
 	),
 	'admin_config'=>array(

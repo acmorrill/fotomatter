@@ -1,28 +1,35 @@
-#grezzo_listing_actual_container {
-	position: absolute;
-	height: 515px;
-/*	outline: 1px solid red;*/
-	top: 100px;
-	width: 100%;
-	margin: 0px;
-	white-space: nowrap;
-	vertical-align: top;
-	overflow-x: scroll;
-	overflow-y: visible;
-
-	.endless_loading {
+#gallery_outer_cont {
+	position:relative;
+	#grezzo_listing_actual_container {
 		position: absolute;
-		top: 0px; right: 0px;
-		outline: 1px solid red;
-		color: red;
-	}
-	img {
+		height: 515px;
+	/*	outline: 1px solid red;*/
+		top: 100px;
+		width: 100%;
+		margin: 0px;
+		white-space: nowrap;
 		vertical-align: top;
-		display: inline-block;
-		border-right: 1px solid white;
+		overflow-x: scroll;
+		overflow-y: visible;
+
+		.endless_loading {
+			position: absolute;
+			top: 0px; right: 0px;
+			outline: 1px solid red;
+			color: red;
+		}
+		img {
+			vertical-align: top;
+			display: inline-block;
+			border-right: 1px solid white;
+		}
+		img.blank {
+		}
 	}
-	img.blank {
-	}
+}
+
+#image_info_container {
+	display:none;
 }
 
 #grezzo_listing_actual_container img.blank, #grezzo_scroll_control_inner img.blank {

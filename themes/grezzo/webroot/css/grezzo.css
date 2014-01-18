@@ -25,7 +25,10 @@
 #outer_nav #main_nav ul li ul li {
   float: none;
 }
-#grezzo_listing_actual_container {
+#gallery_outer_cont {
+  position: relative;
+}
+#gallery_outer_cont #grezzo_listing_actual_container {
   position: absolute;
   height: 515px;
   top: 100px;
@@ -36,17 +39,20 @@
   overflow-x: scroll;
   overflow-y: visible;
 }
-#grezzo_listing_actual_container .endless_loading {
+#gallery_outer_cont #grezzo_listing_actual_container .endless_loading {
   position: absolute;
   top: 0px;
   right: 0px;
   outline: 1px solid red;
   color: red;
 }
-#grezzo_listing_actual_container img {
+#gallery_outer_cont #grezzo_listing_actual_container img {
   vertical-align: top;
   display: inline-block;
   border-right: 1px solid white;
+}
+#image_info_container {
+  display: none;
 }
 #grezzo_listing_actual_container img.blank,
 #grezzo_scroll_control_inner img.blank {
