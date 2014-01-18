@@ -9,7 +9,9 @@
 		margin-right:20px;
 		//outline: 15px solid pink;
 		.current{
-			.el_opacity(.6, 60);
+			.el_opacity(.0, 0); 
+			//background-color:rgba(30,30,31,.36);
+			//background-color:@off_black;
 		}
 		.theme_item_outer_container {
 			display:table;
@@ -25,7 +27,7 @@
 					//.el_opacity(.6, 60);
 					float: right;
 					background-color:@off_black;
-					background-color:rgba(49,44,41,.6);
+					background-color:rgba(30,30,31,.36);
 					display: inline-block;
 					border: 1px solid transparent;
 					margin-top:10px;
@@ -45,13 +47,32 @@
 					margin-top: 7px;
 					margin-bottom: 7px;
 				}
+				.hight_light{
+					.el_opacity(.7, 70);
+					&:hover{
+						.el_opacity(1.0, 100);
+					}
+				}
 				.button_current_theme{
 					float: right;
 					margin-top: 7px;
 					margin-bottom: 7px;
+					background-color: @grey_hover;
+					background-color: rgba(81,89,93,.24);
+					.el_opacity(1.0, 100);
+					.content {
+						color: @white;
+					}
+					.right_arrow_lines {
+						.right_facing_triangle(10, @white);				
+						div {
+							.right_facing_triangle(10, @off_black);
+							//This will be replaced with an image.
+						}
+					}
 				}
 			}
-		}
+		}	
 		.add_button {
 			float:right; 
 			color: @top_white;
@@ -62,25 +83,26 @@
 			height: 40px;
 			padding-left: 10px;
 			padding-right: 10px;
-		.content {
-			display: inline-block;
-			vertical-align: top;
-			margin-top: 14px;
-			color: @gray_text;
-		}
-		.Code-Pro-LC;
-		//.el_opacity(.6, 60);
-		font-size: 18px;
-		background-color: @off_black;
-		background-color: rgba(44,46,47,.6);
-		&:hover {
 			.content {
-				color: @white;
+				display: inline-block;
+				vertical-align: top;
+				margin-top: 11px;
+				color: @gray_text;
 			}
-			.right_arrow_lines {
-				.right_facing_triangle(10, @white);				
-				div {
-					.right_facing_triangle(10, @off_black);
+			font-size: 18px;
+			background-color: @off_black;
+			background-color: rgba(81,89,93,.45);
+			&:hover {
+				background-color: @grey_hover;
+				background-color: rgba(81,89,93,.24);
+				.content {
+					color: @white;
+				}
+				.right_arrow_lines {
+					.right_facing_triangle(10, @white);				
+					div {
+						.right_facing_triangle(10, @off_black);
+						//This will be replaced with an image.
 					}
 				}
 			}
