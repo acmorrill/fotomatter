@@ -217,15 +217,10 @@ class PhotoGalleriesController extends AppController {
 		$this->return_json($returnArr);
 	}
 	
-	public function ajax_get_gallery_photos_after($gallery_id, $last_photo_id, $limit) {
+	public function ajax_get_gallery_photos_after($gallery_id, $last_photo_id, $limit=30) {
 		// DREW TODO - make this function use smart gallery finding code
 		// START HERE TOMORROW
 		// $found_photo_ids = $this->PhotoGallery->get_smart_gallery_photo_ids($smart_settings);
-		
-		if (empty($limit)) {
-			$limit = 30;
-		}
-		
 
 		$last_photo = $this->PhotoGalleriesPhoto->find('first', array(
 			'conditions' => array(
