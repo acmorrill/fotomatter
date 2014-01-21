@@ -1,3 +1,4 @@
+@import url('inc/custom_page.less');
 #logo_cont {
   float: left;
   display: inline-block;
@@ -18,6 +19,10 @@
   list-style-type: none;
   float: left;
   padding: 5px;
+  color: #fff;
+}
+#outer_nav #main_nav ul li a {
+  color: #fff;
 }
 #outer_nav #main_nav ul li ul {
   display: none;
@@ -25,13 +30,17 @@
 #outer_nav #main_nav ul li ul li {
   float: none;
 }
-#gallery_outer_cont {
+#page_content {
+  position: relative;
+  height: 850px;
+  top: 100px;
+}
+#page_content #gallery_outer_cont {
+  height: 515px;
   position: relative;
 }
-#gallery_outer_cont #grezzo_listing_actual_container {
+#page_content #gallery_outer_cont #grezzo_listing_actual_container {
   position: absolute;
-  height: 515px;
-  top: 100px;
   width: 100%;
   margin: 0px;
   white-space: nowrap;
@@ -39,20 +48,62 @@
   overflow-x: scroll;
   overflow-y: visible;
 }
-#gallery_outer_cont #grezzo_listing_actual_container .endless_loading {
+#page_content #gallery_outer_cont #grezzo_listing_actual_container .endless_loading {
   position: absolute;
   top: 0px;
   right: 0px;
   outline: 1px solid red;
   color: red;
 }
-#gallery_outer_cont #grezzo_listing_actual_container img {
+#page_content #gallery_outer_cont #grezzo_listing_actual_container img {
   vertical-align: top;
   display: inline-block;
   border-right: 1px solid white;
 }
-#image_info_container {
+#page_content #image_info_container {
+  position: absolute;
+  width: 300px;
+  bottom: 95px;
+  left: 50%;
+  width: 750px;
+  margin: 0 0 0 -375px;
+}
+#page_content #image_info_container #gallery_name {
   display: none;
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  padding: 5px;
+}
+#page_content #image_info_container #gallery_name h2 {
+  max-width: 300px;
+  margin: 0 auto;
+}
+#page_content #image_info_container .image_info {
+  display: none;
+}
+#page_content #image_info_container .image_info .photo_details {
+  float: left;
+  width: 500px;
+  margin-top: 15px;
+  margin-left: 10px;
+}
+#page_content #image_info_container .image_info .photo_details h4 {
+  margin: 0 0 20px 0;
+}
+#page_content #image_info_container .image_info .photo_details p {
+  height: 75px;
+}
+#page_content #image_info_container .image_info .side_control_options {
+  float: right;
+  margin-top: 15px;
+  margin-right: 10px;
+}
+#page_content #image_info_container .image_info .side_control_options button {
+  display: block;
+  margin: 5px 2px;
+  padding: 5px 30px;
+  width: 150px;
 }
 #grezzo_listing_actual_container img.blank,
 #grezzo_scroll_control_inner img.blank {
@@ -125,7 +176,7 @@
   height: 15px;
   width: 100%;
   background-color: white;
-  top: 600px;
+  top: 500px;
 }
 body {
   padding: 0;

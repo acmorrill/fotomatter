@@ -576,6 +576,7 @@ class Photo extends AppModel {
 		));
 		
 		
+		
 		/////////////////////////////////////
 		// set the default data
 		foreach ($photo_sellable_prints as &$photo_sellable_print) {
