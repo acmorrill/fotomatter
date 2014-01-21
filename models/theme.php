@@ -169,6 +169,11 @@ class Theme extends AppModel {
 			exec('ln -s '.ROOT.DS.'app/themes/default/webroot '.ROOT.DS.'parent_theme_webroot');
 			exec('ln -s '.ROOT.DS.'app/themes/default/webroot '.ROOT.DS.'default_theme_webroot');
 		}
+		
+		
+		////////////////////////////////////////////////////////////////////
+		// check to see if the theme needs to run anything on change
+		
 	}
 	
 	public function change_to_theme_by_id($theme_id) {

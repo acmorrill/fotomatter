@@ -44,7 +44,7 @@ class ThemeMenuHelper extends AppHelper {
 				),
 			),
 		));
-		
+	
 		return $two_level_menu_items;
 	}
 

@@ -15,6 +15,7 @@
 		<?php 
 			
 			$is_landing_page = false;
+			
 			if (!isset($photos)) {
 				// treat the landing page as the first gallery
 				$is_landing_page = true;
@@ -38,31 +39,44 @@
 			<?php echo $this->Element('nameTitle'); ?>
 			<?php echo $this->Element('menu/two_level_navbar'); ?>
 		</div>
-		<div id='gallery_outer_cont'>
-			<div id="grezzo_listing_actual_container_loading"><?php echo nl2br(str_replace(' ', "\n", __('L O A D I N G', true))); ?></div>
-			<div id="grezzo_listing_actual_container"><img class="blank" src="/images/large_blank.png" width="1600" height="500" /><!--
-				--><?php echo $this->Element('gallery/gallery_image_lists/simple_list', array(
-					'photos' => $photos,
-					'height' => '500',
-					'width' => '2000',
-					'sharpness' => '.4'
-				)); ?><img class="blank" src="/images/large_blank.png" width="1600" height="500" /></div>
-			<div id="grezzo_scroll_hide" class=""></div>
-			<div id="right_arrow" class="navigation_arrow">
+		<div id='page_content'>
+			<div id='gallery_outer_cont'>
+				<div id="grezzo_listing_actual_container_loading"><?php echo nl2br(str_replace(' ', "\n", __('L O A D I N G', true))); ?></div>
+				<div id="grezzo_listing_actual_container">
+					<img class="blank" src="/images/large_blank.png" width="1600" height="500" /><!--
+					--><?php echo $this->Element('gallery/gallery_image_lists/simple_list', array(
+						'photos' => $photos,
+						'height' => '500',
+						'width' => '2000',
+						'sharpness' => '.4'
+					)); ?>
+					<img class="blank" src="/images/large_blank.png" width="1600" height="500" /></div>
 
+				<div id="grezzo_scroll_hide" class=""></div>
+				<div id="right_arrow" class="navigation_arrow">
+
+				</div>
+				<div id="left_arrow" class="navigation_arrow"></div>
 			</div>
-			<div id="left_arrow" class="navigation_arrow">
-		</div>
-		
-
-		</div><br />
-		<?php if ($is_landing_page == false): ?>
 			<div id='image_info_container'>
-				Photo Name <span class='title'></span>
-					
-			</div>
-		<?php endif; ?>
-			
+				<div id='gallery_name'>
+					<h2><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></h2>
+				</div>
+				<?php foreach ($photos as $photo): ?>
+					<div image_info_id='<?php echo $photo['Photo']['id']; ?>' class='image_info'>
+						<div class='photo_details'>
+							<h4><?php echo $photo['Photo']['display_title'];  ?></h4>
+							<p><?php echo $photo['Photo']['description']; ?></p>
+						</div>
+						<?php /* Adam Todo: if ecommerce is not turned on then these need to be hidden */ ?>
+						<div class='side_control_options'>
+							<button class='select_size'><?php __('Select Size'); ?></button>
+							<button class='add_to_cart'><?php __('Add To Cart'); ?></button>
+						</div>
+					</div>
+				<?php endforeach; ?>
+			</div>			
+		</div>
 		
 		<script type="text/javascript">
 			var in_callback = false;
@@ -191,15 +205,10 @@
 			}
 			
 			function show_image_data(next_image) {
-				return;
 				if (is_landing_page == false) {
-					$('#image_info_container').show();
-					var current_photo = photos_on_page[next_image.attr('photo_id')];
-					$("#image_info_container .title").html(current_photo['Photo']['display_title']);
-					
-					
-					
-					
+					jQuery('#gallery_name').show();
+					jQuery('#image_info_container .image_info').hide();
+					jQuery('#image_info_container .image_info[image_info_id=' + next_image.attr('photo_id') + ']').show();
 				}
 			}
 			
