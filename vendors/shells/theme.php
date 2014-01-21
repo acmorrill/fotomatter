@@ -46,7 +46,7 @@ class ThemeShell extends Shell {
 	public function add_theme() {
 		if (!isset($this->args[0])) {
 			$this->hr();
-			$this->out('You must pass a name for the new theme followed optionally by the parent theme ref_name');
+			$this->out('You must pass a name for the new theme followed by the theme display name and then followed optionally by the parent theme ref_name');
 			$this->hr();
 			$all_themes = $this->Theme->find('all', array(
 				'contain' => false
@@ -59,7 +59,7 @@ class ThemeShell extends Shell {
 		
 		if (!isset($this->args[1])) {
 			$this->hr();
-			$this->out('You must pass a name for the new theme followed optionally by the parent theme ref_name');
+			$this->out('You must pass a name for the new theme followed by the theme display name and then followed optionally by the parent theme ref_name');
 			$this->hr();
 			$all_themes = $this->Theme->find('all', array(
 				'contain' => false

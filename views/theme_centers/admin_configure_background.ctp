@@ -59,17 +59,6 @@
 
 		$palette_start_left = ($max_palette_width/2)-($palette_background_width/2);
 		$palette_start_top = ($max_palette_height/2)-($palette_background_height/2);
-		
-		
-//		$this->Theme->create_theme_merged_background(
-//				$overlay_abs_path, 
-//				$current_background_abs_path, 
-//				$final_background_width, 
-//				$final_background_height, 
-//				$final_background_left,
-//				$final_background_top,
-//				$using_custom_background_image
-//		);
 	}
 ?>
 
@@ -205,8 +194,6 @@
 		jQuery('#upload_background_button').click(function() {
 			jQuery('#change_background_dialog').dialog('open');
 		});
-		
-		reload_size_change_background();
 	});
 	
 	
@@ -262,10 +249,6 @@
 				$start_bounding_box_width = floor($max_palette_width - (.3 * $max_palette_width));
 				$start_bounding_box_height = floor($max_palette_height - (.3 * $max_palette_height));
 
-		//		debug($current_background_width);
-		//		debug($current_background_height);
-		//		debug($start_bounding_box_width);
-		//		debug($start_bounding_box_height);
 
 				$W_width = $start_bounding_box_width;
 				$W_height = round(($W_width * $current_background_height) / $current_background_width);
@@ -298,6 +281,25 @@
 					$start_width = $this->ThemeHiddenSetting->getVal('default_admin_current_background_width', $start_width);
 					$start_height = $this->ThemeHiddenSetting->getVal('default_admin_current_background_height', $start_height);
 				}
+		
+
+				////////////////////////////////////////////////////////////////////////////////////////
+				/// recreate the background image on load so don't have to rely on ajax finishing
+				$small_background_left = $palette_start_left - $start_left;
+				$small_background_top = $palette_start_top - $start_top;
+				$final_background_width = ($orig_palette_background_width * $start_width) / $palette_background_width;
+				$final_background_height = ($orig_palette_background_height * $start_height) / $palette_background_height;
+				$final_background_left = ($final_background_width * $small_background_left) / $start_width;
+				$final_background_top = ($final_background_height * $small_background_top) / $start_height;
+				$this->Theme->create_theme_merged_background(
+					$overlay_abs_path, 
+					$current_background_abs_path, 
+					$final_background_width, 
+					$final_background_height, 
+					$final_background_left,
+					$final_background_top,
+					$use_theme_background
+				);
 			?>
 			<img class="theme_background_image" src="<?php echo $current_background_web_path; ?><?php echo $image_cache_ending; ?>" style="display: inline-block; position: absolute; left: <?php echo $start_left; ?>px; top: <?php echo $start_top; ?>px; width: <?php echo $start_width; ?>px; height: <?php echo $start_height; ?>px;" />
 			<img class="theme_overlay_image" src="<?php echo $overlay_web_path; ?><?php echo $image_cache_ending; ?>" style="display: inline-block; position: absolute; left: <?php echo $palette_start_left; ?>px; top: <?php echo $palette_start_top; ?>px; width: <?php echo $palette_background_width; ?>px; height: <?php echo $palette_background_height; ?>px;" />
