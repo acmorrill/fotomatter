@@ -1,36 +1,94 @@
-#gallery_outer_cont {
+#page_content {
 	position:relative;
-	#grezzo_listing_actual_container {
-		position: absolute;
-		height: 515px;
-	/*	outline: 1px solid red;*/
-		top: 100px;
-		width: 100%;
-		margin: 0px;
-		white-space: nowrap;
-		vertical-align: top;
-		overflow-x: scroll;
-		overflow-y: visible;
-
-		.endless_loading {
+	height:850px;
+	top:100px;
+	#gallery_outer_cont {
+		height:515px;
+		position:relative;
+		#grezzo_listing_actual_container {
 			position: absolute;
-			top: 0px; right: 0px;
-			outline: 1px solid red;
-			color: red;
-		}
-		img {
+			
+		/*	outline: 1px solid red;*/
+			
+			width: 100%;
+			margin: 0px;
+			white-space: nowrap;
 			vertical-align: top;
-			display: inline-block;
-			border-right: 1px solid white;
+			overflow-x: scroll;
+			overflow-y: visible;
+
+			.endless_loading {
+				position: absolute;
+				top: 0px; right: 0px;
+				outline: 1px solid red;
+				color: red;
+			}
+			img {
+				vertical-align: top;
+				display: inline-block;
+				border-right: 1px solid white;
+			}
+			img.blank {
+			}
 		}
-		img.blank {
-		}
+	}
+
+
+	#image_info_container {
+		position:absolute;
+		width:300px;
+		bottom:95px;
+		left:50%;
+		width:750px;
+		margin:0 0 0 -375px;
+			#gallery_name {
+
+				
+				display:none;
+				background-color: @top_header_color;
+				color: @top_header_text_color;
+				text-align:center;
+				padding:5px;
+				h2 {
+					max-width: 300px;
+					margin:0 auto;
+				}
+
+			}
+			.image_info {
+				display:none;
+
+				@div_margin_top = 15px;
+				@div_margin_side = 10px;
+				.photo_details {
+					float:left;
+					width:500px;
+					margin-top: @div_margin_top;
+					margin-left: @div_margin_side;
+					h4 {
+						margin:0 0 20px 0;
+					}
+					p {
+						height:75px;
+					}
+				}
+
+				.side_control_options {
+					float:right;
+					margin-top: @div_margin_top;
+					margin-right:@div_margin_side;
+
+					button {
+						display:block;
+						margin:5px 2px;
+						padding:5px 30px;
+						width:150px;
+					}
+				}
+			}
 	}
 }
 
-#image_info_container {
-	display:none;
-}
 
 #grezzo_listing_actual_container img.blank, #grezzo_scroll_control_inner img.blank {
 			/* IE 8 */
@@ -117,6 +175,6 @@
 	height: 15px;
 	width: 100%;
 	background-color: white;
-	top: 600px;
+	top: 500px;
 }
 
