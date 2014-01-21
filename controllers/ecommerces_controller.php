@@ -501,7 +501,7 @@ class EcommercesController extends AppController {
 	
 	public function view_cart() {
 //		$this->Cart->create_fake_cart_items(); // DREW TODO - delete this line
-		$this->Cart->create_fake_cart_items_laptop(); // DREW TODO - delete this line
+		//$this->Cart->create_fake_cart_items_laptop(); // DREW TODO - delete this line
 		
 		$this->ThemeRenderer->render($this);
 	}
