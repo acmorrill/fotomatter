@@ -59,6 +59,17 @@
 
 		$palette_start_left = ($max_palette_width/2)-($palette_background_width/2);
 		$palette_start_top = ($max_palette_height/2)-($palette_background_height/2);
+		
+		
+//		$this->Theme->create_theme_merged_background(
+//				$overlay_abs_path, 
+//				$current_background_abs_path, 
+//				$final_background_width, 
+//				$final_background_height, 
+//				$final_background_left,
+//				$final_background_top,
+//				$using_custom_background_image
+//		);
 	}
 ?>
 

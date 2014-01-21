@@ -55,14 +55,15 @@ $all_themes = $this->Theme->get_all_available_themes();
 	
 	<?php //debug($all_themes); ?>
 	
+
 	<script type="text/javascript">
-//		jQuery(document).ready(function() {
-//			jQuery('#theme_list_container .theme_item_container .screenshot_zoom').jqzoom({
-//				zoomType: 'innerzoom'
-//			});
-//		});
+		jQuery(document).ready(function() {
+			jQuery('.button_switch_theme').click(function() {
+				var switch_to_theme_id = jQuery(this).attr('data-current-theme-id');
+				jQuery("#choose_theme_"+switch_to_theme_id+"_form").submit();
+			});
+		});
 	</script>
-	
 	
 	
 	
@@ -103,9 +104,13 @@ $all_themes = $this->Theme->get_all_available_themes();
 										<h2><?php echo $curr_theme['Theme']['display_name']; ?></h2>
 									</div>
 									<?php if (!$is_current_theme): ?>
-										<div class="usable_form" action="<?php echo $this->here; ?>" method="post">
+										<form id="choose_theme_<?php echo $curr_theme['Theme']['id']; ?>_form" action="/admin/theme_centers/choose_theme" method="POST">
 											<input type="hidden" name="data[new_theme_id]" value="<?php echo $curr_theme['Theme']['id']; ?>" />
-											<div class="button_switch_theme add_button" type="submit" value=""><div class="content"><?php __('Select'); ?></div><div class="right_arrow_lines"><div></div></div></div>
+										</form>
+										<div class="usable_form" action="<?php echo $this->here; ?>" method="post">
+											<div class="button_switch_theme add_button" data-current-theme-id="<?php echo $curr_theme['Theme']['id']; ?>">
+												<div class="content"><?php __('Select'); ?></div><div class="right_arrow_lines"><div></div></div>
+											</div>
 										</div>
 									<?php else: ?>
 										<div class="button_current_theme add_button">
