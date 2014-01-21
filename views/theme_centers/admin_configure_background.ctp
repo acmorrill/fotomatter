@@ -1,6 +1,8 @@
-  <?php 
+<?php 
 	// DREW TODO - get rid of rounding errors in the javascript logic
 
+	$image_cache_ending = "?r=".rand(1000, 10000);
+  
 	$background_config = $theme_config['admin_config']['theme_background_config'];
 	$theme_has_dynamic_background = $background_config['theme_has_dynamic_background'];
 	
@@ -47,6 +49,8 @@
 		$max_background_image_height = 1200;
 		$max_palette_width = $max_background_image_width/2;
 		$max_palette_height = $max_background_image_height/2;
+		$start_bounding_box_width = floor($max_palette_width - (.3 * $max_palette_width));
+		$start_bounding_box_height = floor($max_palette_height - (.3 * $max_palette_height));
 
 		$current_background_width = $orig_background_width/2;
 		$current_background_height = $orig_background_height/2;
@@ -223,9 +227,9 @@
 <?php if ($theme_has_dynamic_background === true): ?>
 	<div id="change_background_dialog">
 		<form id="choose_background_form" method="POST" action="/admin/theme_centers/set_use_theme_background/">
-			<input type="radio" name="change_background_choice" value="theme_background" <?php if ($use_theme_background == false): ?>checked="checked"<?php endif; ?> /><span class="cache_sample_image_cont"><img src="<?php echo $default_bg_web_path; ?>" /></span>
+			<input type="radio" name="change_background_choice" value="theme_background" <?php if ($use_theme_background == false): ?>checked="checked"<?php endif; ?> /><span class="cache_sample_image_cont"><img src="<?php echo $default_bg_web_path; ?><?php echo $image_cache_ending; ?>" /></span>
 			<?php if ($this->Theme->has_uploaded_custom_background()): ?>
-				<input type="radio" name="change_background_choice" value="custom_background" <?php if ($use_theme_background == true): ?>checked="checked"<?php endif; ?> /><span class="cache_sample_image_cont"><img src="<?php echo UPLOADED_BACKGROUND_WEB_PATH; ?>" /></span>
+				<input type="radio" name="change_background_choice" value="custom_background" <?php if ($use_theme_background == true): ?>checked="checked"<?php endif; ?> /><span class="cache_sample_image_cont"><img src="<?php echo UPLOADED_BACKGROUND_WEB_PATH; ?><?php echo $image_cache_ending; ?>" /></span>
 			<?php endif; ?>
 		</form>
 		<form id="upload_background_file_form" method="POST" action="/admin/theme_centers/upload_background_file/" enctype="multipart/form-data">
@@ -244,10 +248,33 @@
 		<?php // DREW TODO - make the below div have the default bg color of the theme ?>
 		<div id="theme_background_palette" style="background-color: white; position: relative; outline: 1px solid green; width: <?php echo $max_palette_width; ?>px; height: <?php echo $max_palette_height; ?>px;">
 			<?php
-				$start_left = ($max_palette_width/2)-($current_background_width/2);
-				$start_top = ($max_palette_height/2)-($current_background_height/2);
-				$start_width = $current_background_width;
-				$start_height = $current_background_height;
+				$start_bounding_box_width = floor($max_palette_width - (.3 * $max_palette_width));
+				$start_bounding_box_height = floor($max_palette_height - (.3 * $max_palette_height));
+
+		//		debug($current_background_width);
+		//		debug($current_background_height);
+		//		debug($start_bounding_box_width);
+		//		debug($start_bounding_box_height);
+
+				$W_width = $start_bounding_box_width;
+				$W_height = round(($W_width * $current_background_height) / $current_background_width);
+				$H_height = $start_bounding_box_height;
+				$H_width = round(($H_height * $current_background_width) / $current_background_height);
+
+				$use_height = ($H_height * $H_width) < ($W_width * $W_height);
+
+				if ($use_height) {
+					$start_width = $H_width;
+					$start_height = $H_height;
+				} else {
+					$start_width = $W_width;
+					$start_height = $W_height;
+				}
+			
+			
+				$start_left = ($max_palette_width/2)-($start_width/2);
+				$start_top = ($max_palette_height/2)-($start_height/2);
+				
 				
 				if ($use_theme_background == true) {
 					$start_left = $this->ThemeHiddenSetting->getVal('uploaded_admin_current_background_left', $start_left);
@@ -261,8 +288,8 @@
 					$start_height = $this->ThemeHiddenSetting->getVal('default_admin_current_background_height', $start_height);
 				}
 			?>
-			<img class="theme_background_image" src="<?php echo $current_background_web_path; ?>" style="display: inline-block; position: absolute; left: <?php echo $start_left; ?>px; top: <?php echo $start_top; ?>px; width: <?php echo $start_width; ?>px; height: <?php echo $start_height; ?>px;" />
-			<img class="theme_overlay_image" src="<?php echo $overlay_web_path; ?>" style="display: inline-block; position: absolute; left: <?php echo $palette_start_left; ?>px; top: <?php echo $palette_start_top; ?>px; width: <?php echo $palette_background_width; ?>px; height: <?php echo $palette_background_height; ?>px;" />
+			<img class="theme_background_image" src="<?php echo $current_background_web_path; ?><?php echo $image_cache_ending; ?>" style="display: inline-block; position: absolute; left: <?php echo $start_left; ?>px; top: <?php echo $start_top; ?>px; width: <?php echo $start_width; ?>px; height: <?php echo $start_height; ?>px;" />
+			<img class="theme_overlay_image" src="<?php echo $overlay_web_path; ?><?php echo $image_cache_ending; ?>" style="display: inline-block; position: absolute; left: <?php echo $palette_start_left; ?>px; top: <?php echo $palette_start_top; ?>px; width: <?php echo $palette_background_width; ?>px; height: <?php echo $palette_background_height; ?>px;" />
 			<div class="theme_background_image_cont" style="cursor: move; outline: 1px solid blue; display: inline-block; position: absolute; left: <?php echo $start_left; ?>px; top: <?php echo $start_top; ?>px; width: <?php echo $start_width; ?>px; height: <?php echo $start_height; ?>px;"></div>
 		</div>
 		
