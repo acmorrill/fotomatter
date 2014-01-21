@@ -6,6 +6,10 @@ $theme_config = array(
 			'landing_page'=>array(
 				'layout'=>'gallery',
 				'view'=>false
+			),
+			'custom_page'=>array(
+				'layout'=>'custom_page',
+				'view'=>'custom_page'
 			)
 		),
 		'PhotoGalleries' => array(
