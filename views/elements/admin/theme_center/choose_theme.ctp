@@ -28,7 +28,6 @@ $all_themes = $this->Theme->get_all_available_themes();
 							<?php 
 								$large_image_abs_path = ROOT.DS.APP_DIR.DS.'webroot'.DS.'img'.DS.'theme_screenshots'.DS.$curr_theme['Theme']['ref_name'].'_large.jpg';
 								$small_image_abs_path = ROOT.DS.APP_DIR.DS.'webroot'.DS.'img'.DS.'theme_screenshots'.DS.$curr_theme['Theme']['ref_name'].'_small.jpg';
-
 								$large_image_web_path = '/img/theme_screenshots/'.$curr_theme['Theme']['ref_name'].'_large.jpg';
 								$small_image_web_path = '/img/theme_screenshots/'.$curr_theme['Theme']['ref_name'].'_small.jpg';
 
@@ -42,7 +41,7 @@ $all_themes = $this->Theme->get_all_available_themes();
 									$small_image_web_path = $small_default_web_path;
 								}
 							?>
-							<div class="screenshot_container hight_light">
+							<div class="screenshot_container">
 								<div class="screenshot_inner_container">
 									<a href="<?php echo $large_image_web_path; ?>" class="screenshot_zoom" title="<?php echo $curr_theme['Theme']['display_name']; ?>" rel="gal1">
 										<img src="<?php echo $small_image_web_path; ?>" title="<?php echo $curr_theme['Theme']['ref_name']; ?>">
@@ -51,23 +50,31 @@ $all_themes = $this->Theme->get_all_available_themes();
 								</div>
 							</div>
 							<div style="clear: both;"></div>
-								<div class="container_rectangular_box">
-									<div class="add_text">
-										<h2><?php echo $curr_theme['Theme']['display_name']; ?></h2>
+							<div class="container_rectangular_box">
+								<div class="add_text">
+									<table>
+										<tbody>
+											<tr>
+												<td>
+													<h2><?php echo $curr_theme['Theme']['display_name']; ?></h2>
+												</td>	
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<?php if (!$is_current_theme): ?>
+									<form id="choose_theme_<?php echo $curr_theme['Theme']['id']; ?>_form" action="/admin/theme_centers/choose_theme" method="POST">
+										<input type="hidden" name="data[new_theme_id]" value="<?php echo $curr_theme['Theme']['id']; ?>" />
+									</form>
+									<div class="usable_form" action="<?php echo $this->here; ?>" method="post">
+										<div class="button_switch_theme add_button" data-current-theme-id="<?php echo $curr_theme['Theme']['id']; ?>">
+											<div class="content"><?php __('Select'); ?></div><div class="right_arrow_lines"><div></div></div>
+										</div>
 									</div>
-									<?php if (!$is_current_theme): ?>
-										<form id="choose_theme_<?php echo $curr_theme['Theme']['id']; ?>_form" action="/admin/theme_centers/choose_theme" method="POST">
-											<input type="hidden" name="data[new_theme_id]" value="<?php echo $curr_theme['Theme']['id']; ?>" />
-										</form>
-										<div class="usable_form" action="<?php echo $this->here; ?>" method="post">
-											<div class="button_switch_theme add_button" data-current-theme-id="<?php echo $curr_theme['Theme']['id']; ?>">
-												<div class="content"><?php __('Select'); ?></div><div class="right_arrow_lines"><div></div></div>
-											</div>
-										</div>
-									<?php else: ?>
-										<div class="button_current_theme add_button">
-											<div type="submit" value=""><div class="content"><?php __('Selected'); ?></div><div class="right_arrow_lines"><div></div></div></div>
-										</div>
+								<?php else: ?>
+									<div class="button_current_theme add_button">
+										<div type="submit" value=""><div class="content"><?php __('Current'); ?></div><div class="right_arrow_lines"><div></div></div></div>
+									</div>
 								<?php endif; ?>
 							</div>
 						</div>
