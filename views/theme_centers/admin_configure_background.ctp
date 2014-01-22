@@ -19,8 +19,8 @@
 		$default_bg_abs_path = $background_config['default_bg_image']['absolute_path'];
 //		$uploaded_bg_abs_path = $this->Theme->get_theme_uploaded_background_abs_path();
 //		$uploaded_bg_web_path = $this->Theme->get_theme_uploaded_background_web_path();
-		$merged_bg_abs_path = $this->Theme->get_theme_merged_background_abs_path();
-		$merged_bg_web_path = $this->Theme->get_theme_merged_background_web_path();
+//		$merged_bg_abs_path = $this->Theme->get_theme_merged_background_abs_path();
+//		$merged_bg_web_path = $this->Theme->get_theme_merged_background_web_path();
 
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,12 +46,11 @@
 
 		// set some constants
 		$max_background_image_width = 1600;
-		$max_background_image_height = 1200;
+		$max_background_image_height =  1200;
 		$max_palette_width = $max_background_image_width/2;
 		$max_palette_height = $max_background_image_height/2;
-		$start_bounding_box_width = floor($max_palette_width - (.3 * $max_palette_width));
-		$start_bounding_box_height = floor($max_palette_height - (.3 * $max_palette_height));
 
+		
 		$current_background_width = $orig_background_width/2;
 		$current_background_height = $orig_background_height/2;
 		$palette_background_width = $orig_palette_background_width/4;
@@ -59,6 +58,64 @@
 
 		$palette_start_left = ($max_palette_width/2)-($palette_background_width/2);
 		$palette_start_top = ($max_palette_height/2)-($palette_background_height/2);
+		
+		
+		
+		
+		$start_bounding_box_width = floor($max_palette_width - (.3 * $max_palette_width));
+		$start_bounding_box_height = floor($max_palette_height - (.3 * $max_palette_height));
+
+
+		$W_width = $start_bounding_box_width;
+		$W_height = round(($W_width * $current_background_height) / $current_background_width);
+		$H_height = $start_bounding_box_height;
+		$H_width = round(($H_height * $current_background_width) / $current_background_height);
+
+		$use_height = ($H_height * $H_width) < ($W_width * $W_height);
+
+		if ($use_height) {
+			$start_width = $H_width;
+			$start_height = $H_height;
+		} else {
+			$start_width = $W_width;
+			$start_height = $W_height;
+		}
+
+
+		$start_left = ($max_palette_width/2)-($start_width/2);
+		$start_top = ($max_palette_height/2)-($start_height/2);
+
+
+		if ($use_theme_background == true) {
+			$start_left = $this->ThemeHiddenSetting->getVal('uploaded_admin_current_background_left', $start_left);
+			$start_top = $this->ThemeHiddenSetting->getVal('uploaded_admin_current_background_top', $start_top);
+			$start_width = $this->ThemeHiddenSetting->getVal('uploaded_admin_current_background_width', $start_width);
+			$start_height = $this->ThemeHiddenSetting->getVal('uploaded_admin_current_background_height', $start_height);
+		} else {
+			$start_left = $this->ThemeHiddenSetting->getVal('default_admin_current_background_left', $start_left);
+			$start_top = $this->ThemeHiddenSetting->getVal('default_admin_current_background_top', $start_top);
+			$start_width = $this->ThemeHiddenSetting->getVal('default_admin_current_background_width', $start_width);
+			$start_height = $this->ThemeHiddenSetting->getVal('default_admin_current_background_height', $start_height);
+		}
+
+
+		////////////////////////////////////////////////////////////////////////////////////////
+		/// recreate the background image on load so don't have to rely on ajax finishing
+		$small_background_left = $palette_start_left - $start_left;
+		$small_background_top = $palette_start_top - $start_top;
+		$final_background_width = ($orig_palette_background_width * $start_width) / $palette_background_width;
+		$final_background_height = ($orig_palette_background_height * $start_height) / $palette_background_height;
+		$final_background_left = ($final_background_width * $small_background_left) / $start_width;
+		$final_background_top = ($final_background_height * $small_background_top) / $start_height;
+		$this->Theme->create_theme_merged_background(
+			$overlay_abs_path, 
+			$current_background_abs_path, 
+			$final_background_width, 
+			$final_background_height, 
+			$final_background_left,
+			$final_background_top,
+			$use_theme_background
+		);
 	}
 ?>
 
@@ -111,7 +168,7 @@
 				'using_custom_background_image': using_custom_background_image
 			},
 			success: function(the_data) {
-				console.log ("came into success");
+//				console.log ("came into success");
 				//console.log (data);
 			},
 			complete: function() {
@@ -246,60 +303,7 @@
 		<?php // DREW TODO - make the below div have the default bg color of the theme ?>
 		<div id="theme_background_palette" style="background-color: white; position: relative; outline: 1px solid green; width: <?php echo $max_palette_width; ?>px; height: <?php echo $max_palette_height; ?>px;">
 			<?php
-				$start_bounding_box_width = floor($max_palette_width - (.3 * $max_palette_width));
-				$start_bounding_box_height = floor($max_palette_height - (.3 * $max_palette_height));
-
-
-				$W_width = $start_bounding_box_width;
-				$W_height = round(($W_width * $current_background_height) / $current_background_width);
-				$H_height = $start_bounding_box_height;
-				$H_width = round(($H_height * $current_background_width) / $current_background_height);
-
-				$use_height = ($H_height * $H_width) < ($W_width * $W_height);
-
-				if ($use_height) {
-					$start_width = $H_width;
-					$start_height = $H_height;
-				} else {
-					$start_width = $W_width;
-					$start_height = $W_height;
-				}
-			
-			
-				$start_left = ($max_palette_width/2)-($start_width/2);
-				$start_top = ($max_palette_height/2)-($start_height/2);
-				
-				
-				if ($use_theme_background == true) {
-					$start_left = $this->ThemeHiddenSetting->getVal('uploaded_admin_current_background_left', $start_left);
-					$start_top = $this->ThemeHiddenSetting->getVal('uploaded_admin_current_background_top', $start_top);
-					$start_width = $this->ThemeHiddenSetting->getVal('uploaded_admin_current_background_width', $start_width);
-					$start_height = $this->ThemeHiddenSetting->getVal('uploaded_admin_current_background_height', $start_height);
-				} else {
-					$start_left = $this->ThemeHiddenSetting->getVal('default_admin_current_background_left', $start_left);
-					$start_top = $this->ThemeHiddenSetting->getVal('default_admin_current_background_top', $start_top);
-					$start_width = $this->ThemeHiddenSetting->getVal('default_admin_current_background_width', $start_width);
-					$start_height = $this->ThemeHiddenSetting->getVal('default_admin_current_background_height', $start_height);
-				}
-		
-
-				////////////////////////////////////////////////////////////////////////////////////////
-				/// recreate the background image on load so don't have to rely on ajax finishing
-				$small_background_left = $palette_start_left - $start_left;
-				$small_background_top = $palette_start_top - $start_top;
-				$final_background_width = ($orig_palette_background_width * $start_width) / $palette_background_width;
-				$final_background_height = ($orig_palette_background_height * $start_height) / $palette_background_height;
-				$final_background_left = ($final_background_width * $small_background_left) / $start_width;
-				$final_background_top = ($final_background_height * $small_background_top) / $start_height;
-				$this->Theme->create_theme_merged_background(
-					$overlay_abs_path, 
-					$current_background_abs_path, 
-					$final_background_width, 
-					$final_background_height, 
-					$final_background_left,
-					$final_background_top,
-					$use_theme_background
-				);
+				//list($start_left, $start_top, $start_width, $start_height) = $this->Theme->get_theme_dynamic_background_starting_position();
 			?>
 			<img class="theme_background_image" src="<?php echo $current_background_web_path; ?><?php echo $image_cache_ending; ?>" style="display: inline-block; position: absolute; left: <?php echo $start_left; ?>px; top: <?php echo $start_top; ?>px; width: <?php echo $start_width; ?>px; height: <?php echo $start_height; ?>px;" />
 			<img class="theme_overlay_image" src="<?php echo $overlay_web_path; ?><?php echo $image_cache_ending; ?>" style="display: inline-block; position: absolute; left: <?php echo $palette_start_left; ?>px; top: <?php echo $palette_start_top; ?>px; width: <?php echo $palette_background_width; ?>px; height: <?php echo $palette_background_height; ?>px;" />

@@ -64,7 +64,8 @@ class ThemeCentersController extends AppController {
 	}
 	
 	public function admin_configure_background() {
-		$use_theme_background = $this->ThemeHiddenSetting->getVal('use_theme_background', true);
+		$use_theme_background = $this->ThemeHiddenSetting->getVal('use_theme_background', false);
+		
 		
 		$this->set(compact('use_theme_background'));
 	}
@@ -73,6 +74,8 @@ class ThemeCentersController extends AppController {
 	public function admin_choose_theme() {
 		if (!empty($this->data['new_theme_id'])) {
 			$this->Theme->change_to_theme_by_id($this->data['new_theme_id']);
+			$new_theme_config = $this->ThemeRenderer->_process_theme_config_with_user_settings(true);
+			$this->Theme->after_change_to_theme($new_theme_config);
 		}
 	}
 	

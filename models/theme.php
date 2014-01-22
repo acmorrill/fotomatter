@@ -159,22 +159,137 @@ class Theme extends AppModel {
 				exec('ln -s '.ROOT.DS.'app/themes/'.$theme_name.'/webroot '.ROOT.DS.'current_theme_webroot');
 				exec('ln -s '.ROOT.DS.'app/themes/'.$theme_name.'/webroot '.ROOT.DS.'parent_theme_webroot');
 				exec('ln -s '.ROOT.DS.'app/themes/default/webroot '.ROOT.DS.'default_theme_webroot');
+				$GLOBALS['CURRENT_THEME_PATH'] = PATH_TO_THEMES.DS.$theme_name;
+				$GLOBALS['PARENT_THEME_PATH'] = PATH_TO_THEMES.DS.$theme_name;
 			} else {
 				exec('ln -s '.PATH_TO_THEMES.DS.$new_theme['ParentTheme']['ref_name'].DS.'subthemes'.DS.$theme_name.'/webroot '.ROOT.DS.'current_theme_webroot');
 				exec('ln -s '.PATH_TO_THEMES.DS.$new_theme['ParentTheme']['ref_name'].'/webroot '.ROOT.DS.'parent_theme_webroot');
 				exec('ln -s '.PATH_TO_THEMES.DS.'default/webroot '.ROOT.DS.'default_theme_webroot');
+				$GLOBALS['CURRENT_THEME_PATH'] = PATH_TO_THEMES.DS.$the_theme['ParentTheme']['ref_name'].DS.'subthemes'.DS.$theme_name;
+				$GLOBALS['PARENT_THEME_PATH'] = PATH_TO_THEMES.DS.$the_theme['ParentTheme']['ref_name'];
 			}
 		} else {
 			exec('ln -s '.ROOT.DS.'app/themes/default/webroot '.ROOT.DS.'current_theme_webroot');
 			exec('ln -s '.ROOT.DS.'app/themes/default/webroot '.ROOT.DS.'parent_theme_webroot');
 			exec('ln -s '.ROOT.DS.'app/themes/default/webroot '.ROOT.DS.'default_theme_webroot');
+			$GLOBALS['CURRENT_THEME_PATH'] = PATH_TO_THEMES.DS.'default';
+			$GLOBALS['PARENT_THEME_PATH'] = PATH_TO_THEMES.DS.'default';
 		}
-		
-		
-		////////////////////////////////////////////////////////////////////
-		// check to see if the theme needs to run anything on change
-		
 	}
+	
+	public function after_change_to_theme($new_theme_config) {
+		if (!empty($new_theme_config['admin_config']['theme_background_config']['theme_has_dynamic_background'])) {
+			$theme_background_config = $new_theme_config['admin_config']['theme_background_config'];
+			
+			$this->ThemeHiddenSetting = ClassRegistry::init('ThemeHiddenSetting');
+			$use_theme_background = $this->ThemeHiddenSetting->getVal('use_theme_background', false);
+			
+			
+			$overlay_abs_path = $theme_background_config['overlay_image']['absolute_path'];
+			$default_bg_web_path = $theme_background_config['default_bg_image']['web_path'];
+			$default_bg_abs_path = $theme_background_config['default_bg_image']['absolute_path'];
+	//		$uploaded_bg_abs_path = $this->Theme->get_theme_uploaded_background_abs_path();
+	//		$uploaded_bg_web_path = $this->Theme->get_theme_uploaded_background_web_path();
+	//		$merged_bg_abs_path = $this->Theme->get_theme_merged_background_abs_path();
+	//		$merged_bg_web_path = $this->Theme->get_theme_merged_background_web_path();
+
+
+			/////////////////////////////////////////////////////////////////////////////////////////////////////////
+			// use_theme_background: means the user has uploaded a custom image for the background
+			// populate the current_background starting image
+			if ($use_theme_background == true) {
+				$current_background_web_path = UPLOADED_BACKGROUND_WEB_PATH;
+				$current_background_abs_path = UPLOADED_BACKGROUND_PATH;
+			} else {
+				$current_background_web_path = $default_bg_web_path;
+				$current_background_abs_path = $default_bg_abs_path;
+			}
+
+
+			// get sizes for background image (starting image)
+			$current_background_size = getimagesize($current_background_abs_path);
+			list($orig_background_width, $orig_background_height, $current_background_size_type, $current_background_size_attr) = $current_background_size;
+
+			// get size for starting png pallete image
+			$palette_background_size = getimagesize($overlay_abs_path);
+			list($orig_palette_background_width, $orig_palette_background_height, $palette_background_size_type, $palette_background_size_attr) = $palette_background_size;
+
+
+			// set some constants
+			$max_background_image_width = 1600;
+			$max_background_image_height =  1200;
+			$max_palette_width = $max_background_image_width/2;
+			$max_palette_height = $max_background_image_height/2;
+
+
+			$current_background_width = $orig_background_width/2;
+			$current_background_height = $orig_background_height/2;
+			$palette_background_width = $orig_palette_background_width/4;
+			$palette_background_height = $orig_palette_background_height/4;
+
+			$palette_start_left = ($max_palette_width/2)-($palette_background_width/2);
+			$palette_start_top = ($max_palette_height/2)-($palette_background_height/2);
+
+
+
+
+			$start_bounding_box_width = floor($max_palette_width - (.3 * $max_palette_width));
+			$start_bounding_box_height = floor($max_palette_height - (.3 * $max_palette_height));
+
+
+			$W_width = $start_bounding_box_width;
+			$W_height = round(($W_width * $current_background_height) / $current_background_width);
+			$H_height = $start_bounding_box_height;
+			$H_width = round(($H_height * $current_background_width) / $current_background_height);
+
+			$use_height = ($H_height * $H_width) < ($W_width * $W_height);
+
+			if ($use_height) {
+				$start_width = $H_width;
+				$start_height = $H_height;
+			} else {
+				$start_width = $W_width;
+				$start_height = $W_height;
+			}
+
+
+			$start_left = ($max_palette_width/2)-($start_width/2);
+			$start_top = ($max_palette_height/2)-($start_height/2);
+
+
+			if ($use_theme_background == true) {
+				$start_left = $this->ThemeHiddenSetting->getVal('uploaded_admin_current_background_left', $start_left);
+				$start_top = $this->ThemeHiddenSetting->getVal('uploaded_admin_current_background_top', $start_top);
+				$start_width = $this->ThemeHiddenSetting->getVal('uploaded_admin_current_background_width', $start_width);
+				$start_height = $this->ThemeHiddenSetting->getVal('uploaded_admin_current_background_height', $start_height);
+			} else {
+				$start_left = $this->ThemeHiddenSetting->getVal('default_admin_current_background_left', $start_left);
+				$start_top = $this->ThemeHiddenSetting->getVal('default_admin_current_background_top', $start_top);
+				$start_width = $this->ThemeHiddenSetting->getVal('default_admin_current_background_width', $start_width);
+				$start_height = $this->ThemeHiddenSetting->getVal('default_admin_current_background_height', $start_height);
+			}
+
+
+			////////////////////////////////////////////////////////////////////////////////////////
+			/// recreate the background image on load so don't have to rely on ajax finishing
+			$small_background_left = $palette_start_left - $start_left;
+			$small_background_top = $palette_start_top - $start_top;
+			$final_background_width = ($orig_palette_background_width * $start_width) / $palette_background_width;
+			$final_background_height = ($orig_palette_background_height * $start_height) / $palette_background_height;
+			$final_background_left = ($final_background_width * $small_background_left) / $start_width;
+			$final_background_top = ($final_background_height * $small_background_top) / $start_height;
+			$this->create_theme_merged_background(
+				$overlay_abs_path, 
+				$current_background_abs_path, 
+				$final_background_width, 
+				$final_background_height, 
+				$final_background_left,
+				$final_background_top,
+				$use_theme_background
+			);
+		}
+	}
+	
 	
 	public function change_to_theme_by_id($theme_id) {
 		$new_theme = $this->find('first', array(
@@ -234,7 +349,7 @@ class Theme extends AppModel {
 	}
 	
 	public function current_is_child_theme() {
-		if (CURRENT_THEME_PATH == PARENT_THEME_PATH) {
+		if ($GLOBALS['CURRENT_THEME_PATH'] == $GLOBALS['PARENT_THEME_PATH']) {
 			return false;
 		} else {
 			return true;

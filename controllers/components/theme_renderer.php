@@ -6,33 +6,8 @@ class ThemeRendererComponent extends Object {
 	}
 	
 	public function startup(&$controller) {
-		$theme_config = $this->_process_theme_config();
-		
-		// add in the current theme settings to the config
-			$avail_settings_list = $theme_config['admin_config']['theme_avail_custom_settings']['settings'];
-			$this->Theme = ClassRegistry::init('Theme');
-			$this->ThemeUserSetting = ClassRegistry::init('ThemeUserSetting');
-			$theme_id = $this->Theme->get_current_theme_id();
-			$theme_user_settings = $this->ThemeUserSetting->find('all', array(
-				'conditions' => array(
-					'ThemeUserSetting.theme_id' => $theme_id
-				),
-				'contain' => false
-			));
-			$settings_by_name = array();
-			if (!empty($theme_user_settings)) {
-				$settings_by_name = Set::combine($theme_user_settings, '{n}.ThemeUserSetting.name', '{n}.ThemeUserSetting.value');
-			}
-			foreach ($avail_settings_list as $key => $curr_setting) {
-				if (isset($settings_by_name[$key])) {
-					$avail_settings_list[$key]['current_value'] = $settings_by_name[$key];
-				} else if (isset($curr_setting['default_value'])) {
-					$avail_settings_list[$key]['current_value'] = $curr_setting['default_value'];
-				} else {
-					$avail_settings_list[$key]['current_value'] = '';
-				}
-			}
-			$theme_config['admin_config']['theme_avail_custom_settings']['settings'] = $avail_settings_list;
+		$theme_config = $this->_process_theme_config_with_user_settings();
+
 		// save the config for the view
 			$controller->set(compact('theme_config'));
 		
@@ -64,8 +39,8 @@ class ThemeRendererComponent extends Object {
 				$controller->theme_view = $layout_view_data['view'];
 			}
 			
-			$controller->theme_config = $theme_config;
 		}
+		$controller->theme_config = $theme_config;
 	}
 	
 	public function render(&$controller) {
@@ -95,8 +70,40 @@ class ThemeRendererComponent extends Object {
 	 * public function read the default theme config and the current theme config - 
 	 * --- then merge the configs and set view vars 
 	 */
-	public function _process_theme_config() {
-		if (!isset($this->merged_theme_config)) {
+	public function _process_theme_config_with_user_settings($skip_cache = false) {
+		$theme_config = $this->_process_theme_config($skip_cache);
+		
+		// add in the current theme settings to the config
+			$avail_settings_list = $theme_config['admin_config']['theme_avail_custom_settings']['settings'];
+			$this->Theme = ClassRegistry::init('Theme');
+			$this->ThemeUserSetting = ClassRegistry::init('ThemeUserSetting');
+			$theme_id = $this->Theme->get_current_theme_id();
+			$theme_user_settings = $this->ThemeUserSetting->find('all', array(
+				'conditions' => array(
+					'ThemeUserSetting.theme_id' => $theme_id
+				),
+				'contain' => false
+			));
+			$settings_by_name = array();
+			if (!empty($theme_user_settings)) {
+				$settings_by_name = Set::combine($theme_user_settings, '{n}.ThemeUserSetting.name', '{n}.ThemeUserSetting.value');
+			}
+			foreach ($avail_settings_list as $key => $curr_setting) {
+				if (isset($settings_by_name[$key])) {
+					$avail_settings_list[$key]['current_value'] = $settings_by_name[$key];
+				} else if (isset($curr_setting['default_value'])) {
+					$avail_settings_list[$key]['current_value'] = $curr_setting['default_value'];
+				} else {
+					$avail_settings_list[$key]['current_value'] = '';
+				}
+			}
+			$theme_config['admin_config']['theme_avail_custom_settings']['settings'] = $avail_settings_list;
+		
+		return $theme_config;
+	}
+	
+	public function _process_theme_config($skip_cache = false) {
+		if (!isset($this->merged_theme_config) || $skip_cache == true) {
 			$default_theme_config = array();
 			require(DEFAULT_THEME_PATH.DS.'theme_config.php');
 			if (isset($theme_config)) {
@@ -104,7 +111,7 @@ class ThemeRendererComponent extends Object {
 				unset($theme_config);
 			}
 
-			$curr_theme_config_file_path = CURRENT_THEME_PATH.DS.'theme_config.php';
+			$curr_theme_config_file_path = $GLOBALS['CURRENT_THEME_PATH'].DS.'theme_config.php';
 			$current_theme_config = array();
 			if (file_exists($curr_theme_config_file_path)) {
 				require($curr_theme_config_file_path);
@@ -116,7 +123,7 @@ class ThemeRendererComponent extends Object {
 			
 			$this->Theme = ClassRegistry::init("Theme");
 			if ($this->Theme->current_is_child_theme()) {
-				$parent_theme_config_file_path = PARENT_THEME_PATH.DS.'theme_config.php';
+				$parent_theme_config_file_path = $GLOBALS['PARENT_THEME_PATH'].DS.'theme_config.php';
 				$parent_theme_config = array();
 				
 				if (file_exists($parent_theme_config_file_path)) {
