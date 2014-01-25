@@ -29,6 +29,7 @@ class SitePagesController extends AppController {
 	public function landing_page() {
 		$this->ThemeRenderer->render($this);
 	}
+	
 	public function custom_page($site_page_id) {
 		$site_page = $this->SitePage->find('first', array(
 			'conditions' => array(
@@ -40,14 +41,11 @@ class SitePagesController extends AppController {
 				)
 			)
 		));
-		
-
-		$this->set(compact('site_page_id'));
-		
+	
+		$this->set(compact('site_page_id', 'site_page'));
 		$this->ThemeRenderer->render($this);
 	}
 
-	
 	public function admin_index() {
 		$this->HashUtil->set_new_hash('site_pages');
 		

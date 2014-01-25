@@ -1,9 +1,28 @@
 @import url('inc/colors.less');
 @import url('inc/header.less');
 @import url('inc/gallery.less');
+@import url('inc/chosen.less');
+@import url('inc/add_to_cart');
 @import url('inc/custom_page.less');
 
 body {
 	padding:0;
 	margin:0;
+}
+
+#image_slider_progressbar {
+	position: absolute;
+	top: 300px;
+	left: 50%;
+	width: 650px;
+	height: 30px;
+	margin: 0px;
+	margin-left: -325px;
+	outline: 1px solid #595959;
+	z-index: 1001;
+}
+
+#image_slider_progressbar .ui-progressbar-value {
+	height: 100%;
+	background-color: #595959;
 }

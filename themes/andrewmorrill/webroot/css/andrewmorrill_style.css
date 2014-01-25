@@ -604,7 +604,6 @@ td.priceAndDiscountCode.price {
   font-size: 11px;
 }
 #add_to_cart_buttons_cont .submit_button_cont {
-  background: grey;
   display: inline-block;
   vertical-align: top;
   cursor: pointer;
