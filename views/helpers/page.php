@@ -37,4 +37,14 @@ class PageHelper extends AppHelper {
 		return $all_pages;
 	}
 	
+	public function get_site_page_by_id($site_page_id) {
+		$this->SitePage = ClassRegistry::init("SitePage");
+		return $this->SitePage->find('first', array(
+			'conditions'=>array(
+				'SitePage.id'=>$site_page_id
+			),
+			'contain'=>false
+		));
+	}
+	
 }
