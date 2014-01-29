@@ -68,14 +68,23 @@
 						margin:0 0 20px 0;
 					}
 					p {
-						height:75px;
+						height:150px;
+						overflow:auto;
+						padding:0 15px 0 5px;
 					}
 				}
 
 				.side_control_options {
 					float:right;
 					margin-top: @div_margin_top;
-					margin-right:@div_margin_side;
+				
+					#add_to_cart_buttons_cont {
+						height:200px;
+						overflow:auto;
+						overflow-x:hidden;
+						padding-right:30px;
+						
+					}
 
 					button {
 						display:block;

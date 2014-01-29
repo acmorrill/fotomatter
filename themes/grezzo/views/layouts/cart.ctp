@@ -13,9 +13,8 @@
 			<?php echo $this->Element('menu/two_level_navbar'); ?>
 		</div>
 		<div style="clear:both"></div>
-		<div id="custom-page">
+		<div id="cart">
 			<div class="page-content">
-				
 				<?php echo $content_for_layout; ?>
 				<?php echo $this->Element('footer'); ?>
 			</div>

@@ -176,6 +176,9 @@ div.standardContent img {
   float: right;
   margin: 0px 0px 16px 16px;
 }
+div.standardContent img.left {
+  margin: 0px 16px 16px 0;
+}
 div#zoomWidget img {
   margin: 0px 0px 0px 5px;
   float: none;
