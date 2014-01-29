@@ -426,6 +426,7 @@ class Theme extends AppModel {
 			$current_inverted
 	) {
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+		$this->ThemeHiddenSetting = ClassRegistry::init('ThemeHiddenSetting');
 		$theme_name = $this->SiteSetting->getVal('current_theme', false);
 		
 		
@@ -530,7 +531,6 @@ class Theme extends AppModel {
 		
 		imagejpeg($imgBanner, $dest_save_path, 100);
 		
-		$this->ThemeHiddenSetting = ClassRegistry::init('ThemeHiddenSetting');
 		if ($using_custom_background_image == true) {
 			$this->ThemeHiddenSetting->setVal('uploaded_bg_overlay_abs_path', $overlay_abs_path);
 			$this->ThemeHiddenSetting->setVal('uploaded_bg_current_background_abs_path', $current_background_abs_path);
