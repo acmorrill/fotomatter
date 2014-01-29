@@ -95,10 +95,17 @@ class UtilShell extends Shell {
 						),
 						'webroot' => array('css' => array('r' => ':www-data'))
 					),
+					'test_bg_theme' => array(
+						'subthemes' => array(
+							'difandrew' => array('webroot' => array('css' => array('r' => ':www-data'))),
+						),
+						'webroot' => array('css' => array('r' => ':www-data'))
+					),
 					'default' => array('webroot' => array('css' => array('r' => ':www-data'))),
 					'simple_lightgrey_textured' => array('webroot' => array('css' => array('r' => ':www-data'))),
 					'white_angular' => array('webroot' => array('css' => array('r' => ':www-data'))),
 					'white_slider' => array('webroot' => array('css' => array('r' => ':www-data'))),
+					'grezzo' => array('webroot' => array('css' => array('r' => ':www-data'))),
 				),
 				'webroot' => array(
 					'css' => array('r' => ':www-data'),
