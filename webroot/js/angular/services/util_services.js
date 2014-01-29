@@ -59,14 +59,13 @@ angular.module('fmAdmin.utilServices', ['fmAdmin.constants'])
 				domain: domain,
 			    contact: contact
 			};
-			
+			toPost.domain.price = accounting.unformat(domain.price);
 			var httpPromise = $http.post("/admin/domains/purchase", toPost);
 		};
 	})
 	.service('generalUtil', function($http, errorUtil) {
 		var self = this;
 		
-
 		self.is_empty = function(value) {
 			if (value === null || value === undefined || value === '') {
 				return true;
