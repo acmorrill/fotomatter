@@ -29,7 +29,6 @@
 				container.find('.image_size_text').text('('+ucwords(curr_size)+')');
 			});
 			
-			
 			// setup the image file upload
 			$('.image_upload', page_element_cont).fileupload({
 				url: '/admin/photos/process_mass_photos/',
