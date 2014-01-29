@@ -21,6 +21,7 @@
 //		$uploaded_bg_web_path = $this->Theme->get_theme_uploaded_background_web_path();
 //		$merged_bg_abs_path = $this->Theme->get_theme_merged_background_abs_path();
 //		$merged_bg_web_path = $this->Theme->get_theme_merged_background_web_path();
+		$bg_edit_path = $this->Theme->get_theme_bd_edited_web_path();
 
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -29,7 +30,6 @@
 		if ($use_theme_background == true) {
 			$current_background_web_path = UPLOADED_BACKGROUND_WEB_PATH;
 			$current_background_abs_path = UPLOADED_BACKGROUND_PATH;
-			//$bg_edit_path = 
 		} else {
 			$current_background_web_path = $default_bg_web_path;
 			$current_background_abs_path = $default_bg_abs_path;
@@ -179,6 +179,7 @@
 		// user has or has not uploaded a custom background image
 		var using_custom_background_image = <?php echo ($use_theme_background == true) ? 'true' : 'false'; ?>;
 		
+		var theme_background_image = $("#theme_background_palette .theme_background_image");
 		jQuery.ajax({
 			type: 'post',
 			url: '/admin/theme_centers/ajax_create_merged_bg_and_save_bg_config/',
@@ -205,6 +206,10 @@
 			},
 			complete: function() {
 //				console.log ("complete");
+				d = new Date();
+				var start_src = theme_background_image.attr('start-src') + "?t="+d.getTime();
+				console.log (start_src);
+				theme_background_image.attr("src", start_src);
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 //				console.log ("error");
@@ -346,7 +351,7 @@
 			<label>Brightness:</label>
 			<select id="bg_brightness">
 				<?php for ($i = -255; $i <= 255; $i++): ?>
-					<option value="<?php echo $i; ?>" <?php if ($current_brightness === $i): ?>selected="selected"<?php endif; ?>>
+					<option value="<?php echo $i; ?>" <?php if ($current_brightness == $i): ?>selected="selected"<?php endif; ?>>
 						<?php if ($i < 0): ?>
 							<?php echo $i; ?>
 						<?php elseif ($i === 0): ?>
@@ -360,7 +365,7 @@
 			<label>Contrast:</label>
 			<select id="bg_contrast">
 				<?php for ($i = -100; $i <= 100; $i++): ?>
-					<option value="<?php echo $i; ?>" <?php if ($current_contrast === $i): ?>selected="selected"<?php endif; ?>>
+					<option value="<?php echo $i; ?>" <?php if ($current_contrast == $i): ?>selected="selected"<?php endif; ?>>
 						<?php if ($i < 0): ?>
 							<?php echo $i; ?>
 						<?php elseif ($i === 0): ?>
@@ -373,8 +378,8 @@
 			</select><br />
 			<label>Desaturation:</label>
 			<select id="bg_desaturation">
-				<?php for ($i = -100; $i <= 100; $i++): ?>
-					<option value="<?php echo $i; ?>" <?php if ($current_desaturation === $i): ?>selected="selected"<?php endif; ?>>
+				<?php for ($i = 0; $i <= 100; $i++): ?>
+					<option value="<?php echo $i; ?>" <?php if ($current_desaturation == $i): ?>selected="selected"<?php endif; ?>>
 						<?php if ($i < 0): ?>
 							<?php echo $i; ?>
 						<?php elseif ($i === 0): ?>
@@ -393,7 +398,7 @@
 			<?php
 				//list($start_left, $start_top, $start_width, $start_height) = $this->Theme->get_theme_dynamic_background_starting_position();
 			?>
-			<img class="theme_background_image" src="<?php echo $current_background_web_path; ?><?php echo $image_cache_ending; ?>" style="display: inline-block; position: absolute; left: <?php echo $start_left; ?>px; top: <?php echo $start_top; ?>px; width: <?php echo $start_width; ?>px; height: <?php echo $start_height; ?>px;" />
+			<img class="theme_background_image" start-src="<?php echo $bg_edit_path; ?>" src="<?php echo $bg_edit_path; ?><?php echo $image_cache_ending; ?>" style="display: inline-block; position: absolute; left: <?php echo $start_left; ?>px; top: <?php echo $start_top; ?>px; width: <?php echo $start_width; ?>px; height: <?php echo $start_height; ?>px;" />
 			<img class="theme_overlay_image" src="<?php echo $overlay_web_path; ?><?php echo $image_cache_ending; ?>" style="display: inline-block; position: absolute; left: <?php echo $palette_start_left; ?>px; top: <?php echo $palette_start_top; ?>px; width: <?php echo $palette_background_width; ?>px; height: <?php echo $palette_background_height; ?>px;" />
 			<div class="theme_background_image_cont" style="cursor: move; outline: 1px solid blue; display: inline-block; position: absolute; left: <?php echo $start_left; ?>px; top: <?php echo $start_top; ?>px; width: <?php echo $start_width; ?>px; height: <?php echo $start_height; ?>px;"></div>
 		</div>
