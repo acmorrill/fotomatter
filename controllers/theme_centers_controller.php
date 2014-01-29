@@ -114,6 +114,17 @@ class ThemeCentersController extends AppController {
 		
 		
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
+		// grab the image manipulation specs
+		$current_brightness = $this->params['form']['current_brightness'];
+		$current_contrast = $this->params['form']['current_contrast'];
+		$current_desaturation = $this->params['form']['current_desaturation'];
+		$current_inverted = $this->params['form']['current_inverted'];
+		if (!isset($current_brightness) || !isset($current_contrast) || !isset($current_desaturation) || !isset($current_inverted)) {
+			$this->major_error('image manipulation variables not passed correctly', array(), 'high');
+		}
+		
+		
+		/////////////////////////////////////////////////////////////////////////////////////////////////////
 		// get the javascript needed for admin current drag/resize status for next load (save to theme config)
 		$current_background_width = $this->params['form']['current_background_width'];
 		$current_background_height = $this->params['form']['current_background_height'];
@@ -173,7 +184,11 @@ class ThemeCentersController extends AppController {
 				$final_background_height, 
 				$final_background_left,
 				$final_background_top,
-				$using_custom_background_image
+				$using_custom_background_image,
+				$current_brightness,
+				$current_contrast,
+				$current_desaturation,
+				$current_inverted
 		);
 		
 		

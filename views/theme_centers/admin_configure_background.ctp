@@ -29,6 +29,7 @@
 		if ($use_theme_background == true) {
 			$current_background_web_path = UPLOADED_BACKGROUND_WEB_PATH;
 			$current_background_abs_path = UPLOADED_BACKGROUND_PATH;
+			//$bg_edit_path = 
 		} else {
 			$current_background_web_path = $default_bg_web_path;
 			$current_background_abs_path = $default_bg_abs_path;
@@ -98,6 +99,13 @@
 			$start_height = $this->ThemeHiddenSetting->getVal('default_admin_current_background_height', $start_height);
 		}
 
+		
+		////////////////////////////////////////////////////////////////////////////////////////
+		// get current gd edit settings
+		$current_brightness = $this->ThemeHiddenSetting->getVal('current_brightness', 0);
+		$current_contrast = $this->ThemeHiddenSetting->getVal('current_contrast', 0);
+		$current_desaturation = $this->ThemeHiddenSetting->getVal('current_desaturation', 0);
+		$current_inverted = $this->ThemeHiddenSetting->getVal('current_inverted', 0);
 
 		////////////////////////////////////////////////////////////////////////////////////////
 		/// recreate the background image on load so don't have to rely on ajax finishing
@@ -114,13 +122,33 @@
 			$final_background_height, 
 			$final_background_left,
 			$final_background_top,
-			$use_theme_background
+			$use_theme_background,
+			$current_brightness,
+			$current_contrast,
+			$current_desaturation,
+			$current_inverted
 		);
 	}
 ?>
 
 <script type="text/javascript">
+	var brightness_cont;
+	var contrast_cont;
+	var desaturation_cont;
+	var inverted_cont;
 	function reload_size_change_background() {
+		var current_brightness = brightness_cont.val();
+		var current_contrast = contrast_cont.val();
+		var current_desaturation = desaturation_cont.val();
+		var current_inverted = inverted_cont.prop('checked') ? 1 : 0;
+//		console.log ("============================");
+//		console.log (current_brightness);
+//		console.log (current_contrast);
+//		console.log (current_desaturation);
+//		console.log (current_inverted);
+//		console.log ("============================");
+		
+		
 		var current_background_width = jQuery('#theme_background_palette .theme_background_image_cont').width();
 		var current_background_height = jQuery('#theme_background_palette .theme_background_image_cont').height();
 		var current_background_position = jQuery('#theme_background_palette .theme_background_image_cont').position();
@@ -165,7 +193,11 @@
 				'current_background_height': current_background_height,
 				'current_background_left': current_background_left,
 				'current_background_top': current_background_top,
-				'using_custom_background_image': using_custom_background_image
+				'using_custom_background_image': using_custom_background_image,
+				'current_brightness': current_brightness,
+				'current_contrast': current_contrast,
+				'current_desaturation': current_desaturation,
+				'current_inverted': current_inverted
 			},
 			success: function(the_data) {
 //				console.log ("came into success");
@@ -189,9 +221,14 @@
 	}
 	
 	jQuery(document).ready(function() {
+		brightness_cont = jQuery('#bg_brightness');
+		contrast_cont = jQuery('#bg_contrast');
+		desaturation_cont = jQuery('#bg_desaturation');
+		inverted_cont = jQuery('#bg_inverted');
+	
 		jQuery('#theme_background_palette .theme_background_image_cont').resizable({
 			aspectRatio: true,
-			containment: "parent",
+			//containment: "parent",
 			handles: 'se', // DREW TODO - maybe add more but need to test all of them
 			stop: function() {
 				reload_size_change_background();
@@ -202,7 +239,7 @@
 				jQuery('#theme_background_palette .theme_background_image').css('width', size.width).css('height', size.height);
 			}
 		}).draggable({
-			containment: "#theme_background_palette",
+			//containment: "#theme_background_palette",
 			//handle: '.theme_background_image',
 			cursor: 'move',
 			scroll: false,
@@ -251,6 +288,13 @@
 		jQuery('#upload_background_button').click(function() {
 			jQuery('#change_background_dialog').dialog('open');
 		});
+		
+		
+		jQuery('#bg_brightness, #bg_contrast, #bg_desaturation, #bg_inverted').change(function() {
+			console.log ("cam eghere sucka");
+			reload_size_change_background();
+		});
+		
 	});
 	
 	
@@ -293,15 +337,59 @@
 	</div>
 <?php endif; ?>
 
-
-
 <div id="configure_theme_background" class="content_only_page">
 	<?php if ($theme_has_dynamic_background === true): ?>
 		<div class="custom_ui">
 			<div id="upload_background_button" class="add_button" type="submit"><div class="content"><?php __('Upload Background Image'); ?></div><div class="right_arrow_lines"><div></div></div></div>
 		</div>
+		<div class="bg_effects_controls" style="margin-bottom: 40px;">
+			<label>Brightness:</label>
+			<select id="bg_brightness">
+				<?php for ($i = -255; $i <= 255; $i++): ?>
+					<option value="<?php echo $i; ?>" <?php if ($current_brightness === $i): ?>selected="selected"<?php endif; ?>>
+						<?php if ($i < 0): ?>
+							<?php echo $i; ?>
+						<?php elseif ($i === 0): ?>
+							Unchanged
+						<?php elseif ($i > 0): ?>
+							+<?php echo $i; ?>
+						<?php endif; ?>
+					</option>
+				<?php endfor; ?>
+			</select><br />
+			<label>Contrast:</label>
+			<select id="bg_contrast">
+				<?php for ($i = -100; $i <= 100; $i++): ?>
+					<option value="<?php echo $i; ?>" <?php if ($current_contrast === $i): ?>selected="selected"<?php endif; ?>>
+						<?php if ($i < 0): ?>
+							<?php echo $i; ?>
+						<?php elseif ($i === 0): ?>
+							Unchanged
+						<?php elseif ($i > 0): ?>
+							+<?php echo $i; ?>
+						<?php endif; ?>
+					</option>
+				<?php endfor; ?>
+			</select><br />
+			<label>Desaturation:</label>
+			<select id="bg_desaturation">
+				<?php for ($i = -100; $i <= 100; $i++): ?>
+					<option value="<?php echo $i; ?>" <?php if ($current_desaturation === $i): ?>selected="selected"<?php endif; ?>>
+						<?php if ($i < 0): ?>
+							<?php echo $i; ?>
+						<?php elseif ($i === 0): ?>
+							Unchanged
+						<?php elseif ($i > 0): ?>
+							+<?php echo $i; ?>
+						<?php endif; ?>
+					</option>
+				<?php endfor; ?>
+			</select><br />
+			<label>Inverted:</label>
+			<input type="checkbox" id="bg_inverted" <?php if ($current_inverted == 1): ?>checked="checked"<?php endif; ?> /><br />
+		</div>
 		<?php // DREW TODO - make the below div have the default bg color of the theme ?>
-		<div id="theme_background_palette" style="background-color: white; position: relative; outline: 1px solid green; width: <?php echo $max_palette_width; ?>px; height: <?php echo $max_palette_height; ?>px;">
+		<div id="theme_background_palette" style="overflow: hidden; background-color: white; position: relative; outline: 1px solid green; width: <?php echo $max_palette_width; ?>px; height: <?php echo $max_palette_height; ?>px;">
 			<?php
 				//list($start_left, $start_top, $start_width, $start_height) = $this->Theme->get_theme_dynamic_background_starting_position();
 			?>
