@@ -419,8 +419,15 @@ class Theme extends AppModel {
 			$final_background_height, 
 			$final_background_left,
 			$final_background_top,
-			$using_custom_background_image
+			$using_custom_background_image,
+			$current_brightness,
+			$current_contrast,
+			$current_desaturation,
+			$current_inverted
 	) {
+		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+		$theme_name = $this->SiteSetting->getVal('current_theme', false);
+		
 		
 		$palette_background_size = getimagesize($overlay_abs_path);
 		list($orig_palette_background_width, $orig_palette_background_height, $palette_background_size_type, $palette_background_size_attr) = $palette_background_size;
@@ -431,7 +438,45 @@ class Theme extends AppModel {
 		
 		$imgOverlay = imagecreatefrompng($overlay_abs_path);
 		$imgAvatar = $this->_resize_image($current_background_abs_path, $final_background_width, $final_background_height);
+		
+		///////////////////////////////////////////////////////////////////////////////////////////////
+		// apply filters to image (desaturation, desat, contrast etc)
+//		$current_brightness,
+//		$current_contrast,
+//		$current_desaturation,
+//		$current_inverted
+		
+		if ($current_desaturation != 0) {
+			if (imagecopymergegray ( $imgAvatar, $imgAvatar , 0, 0, 0, 0, imagesx($imgAvatar), imagesy($imgAvatar), $current_desaturation ) === false) {
+				// DREW TODO - put in a major error here
+			} else {
+				$this->ThemeHiddenSetting->setVal('current_desaturation', $current_desaturation);
+			}
+		}
+		if ($current_brightness != 0) {
+			if(imagefilter($imgAvatar, IMG_FILTER_BRIGHTNESS, $current_brightness) === false) { // -255 = min brightness, 0 = no change, +255 = max brightness
+				// DREW TODO - put in a major error here
+			} else {
+				$this->ThemeHiddenSetting->setVal('current_brightness', $current_brightness);
+			}
+		}
+		if ($current_contrast != 0) {
+			if(imagefilter($imgAvatar, IMG_FILTER_CONTRAST, $current_contrast) === false) { // -100 = max contrast, 0 = no change, +100 = min contrast (note the direction!)
+				// DREW TODO - put in a major error here
+			} else {
+				$this->ThemeHiddenSetting->setVal('current_contrast', $current_contrast);
+			}
+		}
+		if ($current_inverted == 1) {
+			$this->ThemeHiddenSetting->setVal('current_inverted', $current_inverted);
+		}
+		$bg_edit_save_path = SITE_THEME_BG_EDITED_IMAGES.DS.$theme_name.'.jpg';
+		if (file_exists($bg_edit_save_path)) {
+			unlink($bg_edit_save_path);
+		}
+		imagejpeg($imgAvatar, $bg_edit_save_path, 100);
 
+		
 		
 		$dst_x = -$final_background_left;
 		$dst_y = -$final_background_top;
@@ -459,26 +504,28 @@ class Theme extends AppModel {
 //		$this->log('src_h: '.$src_h, 'sizes');
 		
 		
+		
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// sharpen the bg image before output -- DREW TODO - maybe try and make the sharpening better
+		$matrix = array(
+			array(-1, -1, -1),
+			array(-1, 16, -1),
+			array(-1, -1, -1),
+		);
+		$divisor = array_sum(array_map('array_sum', $matrix));
+		$offset = 0; 
+		imageconvolution($imgAvatar, $matrix, $divisor, $offset);
+		
+		
 		imagecopyresampled($imgBanner, $imgAvatar, $dst_x, $dst_y, $src_x, $src_x, $dst_w, $dst_h, $src_w, $src_h);
 		imagecopyresampled($imgBanner, $imgOverlay, 0, 0, 0, 0, $o_width, $o_height, $o_width, $o_height);
 
-		$this->SiteSetting = ClassRegistry::init('SiteSetting');
-		$theme_name = $this->SiteSetting->getVal('current_theme', false);
 		
 		$dest_save_path = SITE_THEME_MERGED_FINAL_IMAGES.DS.$theme_name.'.jpg';
 		if (file_exists($dest_save_path)) {
 			unlink($dest_save_path);
 		}
 
-		// sharpen the bg image before output -- DREW TODO - maybe try and make the sharpening better
-		$matrix = array(
-            array(-1, -1, -1),
-            array(-1, 16, -1),
-            array(-1, -1, -1),
-        );
-        $divisor = array_sum(array_map('array_sum', $matrix));
-        $offset = 0; 
-        imageconvolution($imgBanner, $matrix, $divisor, $offset);
 		
 		
 		imagejpeg($imgBanner, $dest_save_path, 100);
@@ -499,6 +546,10 @@ class Theme extends AppModel {
 			$this->ThemeHiddenSetting->setVal('default_bg_final_background_left', $final_background_left);
 			$this->ThemeHiddenSetting->setVal('default_bg_final_background_top', $final_background_top);
 		}
+	}
+	
+	public function gd_modify_background_image() {
+		
 	}
 	
 	private function _resize_image($file, $w, $h, $crop=FALSE) {
