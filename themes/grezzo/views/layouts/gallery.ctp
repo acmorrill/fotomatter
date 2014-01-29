@@ -75,6 +75,7 @@
 							<?php echo $this->Element('cart_elements/add_to_cart', array(
 								'photo_id'=>$photo['Photo']['id'],
 							)); ?>
+							
 						</div>
 					</div>
 				<?php endforeach; ?>
