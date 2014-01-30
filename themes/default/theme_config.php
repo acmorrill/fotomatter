@@ -281,4 +281,5 @@ $theme_config = array(
  * * All css must be named the same as the theme, to account for css cache. 
  * * Make sure all less that is not the main for the theme is a folder so it doesn't get compiled
  * * Make sure that the link around the main image is set to position absolute in your themes css, otherwise the logo positioning won't work
+ * * Add the webroot to the permissions list in the util shell
  */
