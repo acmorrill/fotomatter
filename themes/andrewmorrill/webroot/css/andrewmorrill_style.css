@@ -449,9 +449,15 @@ div.dropDownBoxContent {
 }
 .galleryContent {
   position: absolute;
-  left: 134px;
-  top: 108px;
-  width: 530px;
+  left: 104px;
+  top: 91px;
+  width: 560px;
+  min-height: 430px;
+  background-color: #f3f4f6;
+}
+.galleryContent .galleryContentInner {
+  margin-left: 30px;
+  margin-top: 25px;
 }
 .galleryContent table {
   margin-top: 4px;
