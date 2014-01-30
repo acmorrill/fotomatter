@@ -75,7 +75,7 @@ class ThemeCentersController extends AppController {
 		if (!empty($this->data['new_theme_id'])) {
 			$this->Theme->change_to_theme_by_id($this->data['new_theme_id']);
 			$new_theme_config = $this->ThemeRenderer->_process_theme_config_with_user_settings(true);
-			$this->Theme->after_change_to_theme($new_theme_config);
+			$this->Theme->get_theme_background_config_values($new_theme_config);
 		}
 	}
 	

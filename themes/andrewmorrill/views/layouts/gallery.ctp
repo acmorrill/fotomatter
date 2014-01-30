@@ -64,89 +64,91 @@ if(!isset($HTTP_COOKIE_VARS["usersAvailScreenWidth"]) || !isset($HTTP_COOKIE_VAR
 		<?php echo $this->Element('nameTitle'); ?>
 		<?php //echo $this->Element('newsLetter'); ?>
 		<div class="galleryContent">
-			<br />
-			<h1><?php echo "<b>",$curr_gallery['PhotoGallery']['display_name'],"</b>"; ?></h1>
-			<p><?php echo $curr_gallery['PhotoGallery']['description']; ?><br /></p>
-			<img src="/images/misc/horiz_gradientline.png">
-				<?php if (count($photos) > 0): ?>
-					<?php echo $this->Element('gallery/pagination_links', array('extra_css' => 'margin-top: 10px; margin-bottom: 10px;')); ?>
-					<?php echo $this->Element('gallery/gallery_image_lists/2_column', array('gallery_id' => $curr_gallery['PhotoGallery']['id'], 'photos' => $photos, 'top_message' => __('click on a thumbnail image to enlarge . . .', true), 'image_max_size' => 185)); ?>
-					<?php echo $this->Element('gallery/pagination_links', array('extra_css' => 'margin-top: 10px; margin-bottom: 10px;')); ?>
-				<?php else: ?>
-					<h4 style="font-weight: bold; font-style: italic; margin: 10px;"><?php __('This gallery does not have any images yet'); ?></h4><?php // DREW TODO - make this seccion look good ?>
-				<?php endif; ?>
-			
-<?php /*
-<?php 
-	//Include the PS_Pagination class
-	echo $this->Element('ps_pagination');
-?>
-<?php				
-				//Connect to mysql db
-				//$con;
-				$pagerSql = "SELECT * FROM allimages WHERE galleries LIKE '%$gallery%' ORDER BY position ASC";
-				$extraParams = "gallery=$gallery";
-				//Create a PS_Pagination object
-				$pager = new PS_Pagination($con, $pagerSql, 6, 5, $extraParams);
+			<div class="galleryContentInner">
+				<br />
+				<h1><?php echo "<b>",$curr_gallery['PhotoGallery']['display_name'],"</b>"; ?></h1>
+				<p><?php echo $curr_gallery['PhotoGallery']['description']; ?><br /></p>
+				<img src="/images/misc/horiz_gradientline.png">
+					<?php if (count($photos) > 0): ?>
+						<?php echo $this->Element('gallery/pagination_links', array('extra_css' => 'margin-top: 10px; margin-bottom: 10px;')); ?>
+						<?php echo $this->Element('gallery/gallery_image_lists/2_column', array('gallery_id' => $curr_gallery['PhotoGallery']['id'], 'photos' => $photos, 'top_message' => __('click on a thumbnail image to enlarge . . .', true), 'image_max_size' => 185)); ?>
+						<?php echo $this->Element('gallery/pagination_links', array('extra_css' => 'margin-top: 10px; margin-bottom: 10px;')); ?>
+					<?php else: ?>
+						<h4 style="font-weight: bold; font-style: italic; margin: 10px;"><?php __('This gallery does not have any images yet'); ?></h4><?php // DREW TODO - make this seccion look good ?>
+					<?php endif; ?>
+
+	<?php /*
+	<?php 
+		//Include the PS_Pagination class
+		echo $this->Element('ps_pagination');
+	?>
+	<?php				
+					//Connect to mysql db
+					//$con;
+					$pagerSql = "SELECT * FROM allimages WHERE galleries LIKE '%$gallery%' ORDER BY position ASC";
+					$extraParams = "gallery=$gallery";
+					//Create a PS_Pagination object
+					$pager = new PS_Pagination($con, $pagerSql, 6, 5, $extraParams);
 
 
-				//The paginate() function returns a mysql
-				//result set for the current page
-				$pagerResult = $pager->paginate();
-				$currImage =  mysql_fetch_array($pagerResult);
-				$numImages = mysql_num_rows($pagerResult);
-				$colSpan = 1;
-				
-				//Display the navigation
-				if ($pager->hasEnoughForPages()) 
-					echo "<div class=\"paginationDiv\">".$pager->renderFullNav()."</div><br/>";
-?>
-			<table width="100%" border="0" cellspacing="10" cellpadding="5" align="center">
-				<tr>
-					<td colspan="2" align="left" valign="bottom"><h4 style="font-size: 14px;"><i><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;click on a thumbnail image to enlarge . . .</b></i></h4></td>
-				</tr>
-<?php
-				if ($gallery == "panoramics") {
-					$numPerRow = 1;
-				}
-				while ($currImage) {
-					echo "\t\t\t\t<tr>\n";
-					
-					if ($numImages < $numPerRow) {
-						// this code needs more tweaking to work with any num rows.
-						$numPerRow--;
-						$colSpan++;
+					//The paginate() function returns a mysql
+					//result set for the current page
+					$pagerResult = $pager->paginate();
+					$currImage =  mysql_fetch_array($pagerResult);
+					$numImages = mysql_num_rows($pagerResult);
+					$colSpan = 1;
+
+					//Display the navigation
+					if ($pager->hasEnoughForPages()) 
+						echo "<div class=\"paginationDiv\">".$pager->renderFullNav()."</div><br/>";
+	?>
+				<table width="100%" border="0" cellspacing="10" cellpadding="5" align="center">
+					<tr>
+						<td colspan="2" align="left" valign="bottom"><h4 style="font-size: 14px;"><i><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;click on a thumbnail image to enlarge . . .</b></i></h4></td>
+					</tr>
+	<?php
+					if ($gallery == "panoramics") {
+						$numPerRow = 1;
 					}
-					for ($count = 0; $count < $numPerRow; $count++) {
-						echo "\t\t\t\t\t<td colspan=\"$colSpan\" align=\"center\" valign=\"middle\">\n";
-						echo "\t\t\t\t\t\t<div class=\"galleries\">\n";
-						$photoUrl = "\"/photos/view_photo?id=".$currImage['id']."&gallery=$gallery\"";
-						print ("\t\t\t\t\t\t\t<a href=".$photoUrl.">");
-						$imgSrc = $thumbPhotoPath.$currImage['title'];
-						print ("<img src=\"/".$imgSrc."\" alt=\"$currImage[altText]\"></a>\n");
-						print ("\t\t\t\t\t\t\t<div class=\"galleriesLink\"><a href=".$photoUrl.">");
-						print ("\"".$currImage['displayTitle']."\""."</a><br/>".$currImage['displaySubtitle']."</div>\n");
-						echo "\t\t\t\t\t\t</div>\n";
-						echo "\t\t\t\t\t</td>\n";
-						if (!($currImage = mysql_fetch_array($pagerResult))) {
-							break;
-						} else {
-							$numImages--;
+					while ($currImage) {
+						echo "\t\t\t\t<tr>\n";
+
+						if ($numImages < $numPerRow) {
+							// this code needs more tweaking to work with any num rows.
+							$numPerRow--;
+							$colSpan++;
 						}
+						for ($count = 0; $count < $numPerRow; $count++) {
+							echo "\t\t\t\t\t<td colspan=\"$colSpan\" align=\"center\" valign=\"middle\">\n";
+							echo "\t\t\t\t\t\t<div class=\"galleries\">\n";
+							$photoUrl = "\"/photos/view_photo?id=".$currImage['id']."&gallery=$gallery\"";
+							print ("\t\t\t\t\t\t\t<a href=".$photoUrl.">");
+							$imgSrc = $thumbPhotoPath.$currImage['title'];
+							print ("<img src=\"/".$imgSrc."\" alt=\"$currImage[altText]\"></a>\n");
+							print ("\t\t\t\t\t\t\t<div class=\"galleriesLink\"><a href=".$photoUrl.">");
+							print ("\"".$currImage['displayTitle']."\""."</a><br/>".$currImage['displaySubtitle']."</div>\n");
+							echo "\t\t\t\t\t\t</div>\n";
+							echo "\t\t\t\t\t</td>\n";
+							if (!($currImage = mysql_fetch_array($pagerResult))) {
+								break;
+							} else {
+								$numImages--;
+							}
+						}
+						echo "\t\t\t\t</tr>\n";
 					}
-					echo "\t\t\t\t</tr>\n";
-				}
-?>
-			</table>
-<?php if ($pager->hasEnoughForPages()) echo "<div class=\"paginationDiv\" style=\"margin-bottom: 14px;\">".$pager->renderFullNav()."</div>"; ?>
-			
- */ ?>
-			
-			
-			
-			
-			<img src="/images/misc/horiz_gradientline.png">
-			<?php echo $this->Element('footer'); ?>
+	?>
+				</table>
+	<?php if ($pager->hasEnoughForPages()) echo "<div class=\"paginationDiv\" style=\"margin-bottom: 14px;\">".$pager->renderFullNav()."</div>"; ?>
+
+	 */ ?>
+
+
+
+
+				<img src="/images/misc/horiz_gradientline.png">
+				<?php echo $this->Element('footer'); ?>
+			</div>
 		</div>
 		
 		<div id="navChain" class="lowercase">

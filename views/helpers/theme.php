@@ -42,14 +42,6 @@ class ThemeHelper extends AppHelper {
 		return $the_uploaded_image_path;
 	}
 	
-	public function get_theme_bd_edited_web_path($theme_name = null) {
-		if (!isset($theme_name)) {
-			$theme_name = $this->get_theme_name();
-		}
-		
-		return SITE_THEME_BG_EDITED_IMAGES_WEB_PATH.DS.$theme_name.'.jpg';
-	}
-	
 	public function get_theme_uploaded_background_web_path($theme_name = null) {
 		if (!isset($theme_name)) {
 			$theme_name = $this->get_theme_name();
