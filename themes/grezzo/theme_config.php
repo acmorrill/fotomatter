@@ -17,6 +17,28 @@ $theme_config = array(
 				'layout' => 'gallery',
 				'view' => false,
 			),
+		),
+		'Ecommerces' => array(
+			'view_cart' => array(
+				'layout' => 'cart',
+				'view' => 'view_cart',
+			),
+			'checkout_login_or_guest' => array(
+				'layout' => 'cart',
+				'view' => 'checkout_login_or_guest',
+			),
+			'checkout_get_address' => array(
+				'layout' => 'cart',
+				'view' => 'checkout_get_address',
+			),
+			'checkout_finalize_payment' => array(
+				'layout' => 'cart',
+				'view' => 'checkout_finalize_payment',
+			),
+			'checkout_thankyou' => array(
+				'layout' => 'cart',
+				'view' => 'checkout_thankyou',
+			),
 		)
 	),
 	'admin_config'=>array(

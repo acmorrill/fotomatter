@@ -177,119 +177,159 @@ class Theme extends AppModel {
 		}
 	}
 	
-	public function after_change_to_theme($new_theme_config) {
-		if (!empty($new_theme_config['admin_config']['theme_background_config']['theme_has_dynamic_background'])) {
-			$theme_background_config = $new_theme_config['admin_config']['theme_background_config'];
+	
+	
+	
+	public function get_theme_background_config_values($theme_config) {
+		$background_settings = array();
+		
+		
 			
-			$this->ThemeHiddenSetting = ClassRegistry::init('ThemeHiddenSetting');
-			$use_theme_background = $this->ThemeHiddenSetting->getVal('use_theme_background', false);
-			
-			
-			$overlay_abs_path = $theme_background_config['overlay_image']['absolute_path'];
-			$default_bg_web_path = $theme_background_config['default_bg_image']['web_path'];
-			$default_bg_abs_path = $theme_background_config['default_bg_image']['absolute_path'];
-	//		$uploaded_bg_abs_path = $this->Theme->get_theme_uploaded_background_abs_path();
-	//		$uploaded_bg_web_path = $this->Theme->get_theme_uploaded_background_web_path();
-	//		$merged_bg_abs_path = $this->Theme->get_theme_merged_background_abs_path();
-	//		$merged_bg_web_path = $this->Theme->get_theme_merged_background_web_path();
+		$this->ThemeHiddenSetting = ClassRegistry::init('ThemeHiddenSetting');
+		$background_settings['use_theme_background'] = $this->ThemeHiddenSetting->getVal('use_theme_background', false);
+		
+		
+		
+		
+		$background_settings['image_cache_ending'] = "?r=".rand(1000, 10000);
+  
+		$background_settings['background_config'] = $theme_config['admin_config']['theme_background_config'];
+		$background_settings['theme_has_dynamic_background'] = $background_settings['background_config']['theme_has_dynamic_background'];
+
+		if ($background_settings['theme_has_dynamic_background'] === true) {
+			///////////////////////////////////////////////////////////////////////
+			// get the paths 
+			// overlay: the paths to the overlay png
+			// default: the starting background image to use if user has not uploaded one
+			// uploaded: the path to the user uploaded background image
+			// merged: the version that is used on the frontend
+			$background_settings['overlay_web_path'] = $background_settings['background_config']['overlay_image']['web_path'];
+			$background_settings['overlay_abs_path'] = $background_settings['background_config']['overlay_image']['absolute_path'];
+			$background_settings['default_bg_web_path'] = $background_settings['background_config']['default_bg_image']['web_path'];
+			$background_settings['default_bg_abs_path'] = $background_settings['background_config']['default_bg_image']['absolute_path'];
+	//		$background_settings['uploaded_bg_abs_path = $background_settings['this->Theme->get_theme_uploaded_background_abs_path();
+	//		$background_settings['uploaded_bg_web_path = $background_settings['this->Theme->get_theme_uploaded_background_web_path();
+	//		$background_settings['merged_bg_abs_path = $background_settings['this->Theme->get_theme_merged_background_abs_path();
+	//		$background_settings['merged_bg_web_path = $background_settings['this->Theme->get_theme_merged_background_web_path();
+			$background_settings['bg_edit_path'] = $this->get_theme_bd_edited_web_path();
 
 
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////
 			// use_theme_background: means the user has uploaded a custom image for the background
 			// populate the current_background starting image
-			if ($use_theme_background == true) {
-				$current_background_web_path = UPLOADED_BACKGROUND_WEB_PATH;
-				$current_background_abs_path = UPLOADED_BACKGROUND_PATH;
+			if ($background_settings['use_theme_background'] == true) {
+				$background_settings['current_background_web_path'] = UPLOADED_BACKGROUND_WEB_PATH;
+				$background_settings['current_background_abs_path'] = UPLOADED_BACKGROUND_PATH;
 			} else {
-				$current_background_web_path = $default_bg_web_path;
-				$current_background_abs_path = $default_bg_abs_path;
+				$background_settings['current_background_web_path'] = $background_settings['default_bg_web_path'];
+				$background_settings['current_background_abs_path'] = $background_settings['default_bg_abs_path'];
 			}
 
 
 			// get sizes for background image (starting image)
-			$current_background_size = getimagesize($current_background_abs_path);
-			list($orig_background_width, $orig_background_height, $current_background_size_type, $current_background_size_attr) = $current_background_size;
+			$current_background_size = getimagesize($background_settings['current_background_abs_path']);
+			list($background_settings['orig_background_width'], $background_settings['orig_background_height'], $current_background_size_type, $current_background_size_attr) = $current_background_size;
 
 			// get size for starting png pallete image
-			$palette_background_size = getimagesize($overlay_abs_path);
-			list($orig_palette_background_width, $orig_palette_background_height, $palette_background_size_type, $palette_background_size_attr) = $palette_background_size;
+			$palette_background_size = getimagesize($background_settings['overlay_abs_path']);
+			list($background_settings['orig_palette_background_width'], $background_settings['orig_palette_background_height'], $palette_background_size_type, $palette_background_size_attr) = $palette_background_size;
 
 
 			// set some constants
 			$max_background_image_width = 1600;
 			$max_background_image_height =  1200;
-			$max_palette_width = $max_background_image_width/2;
-			$max_palette_height = $max_background_image_height/2;
+			$background_settings['max_palette_width'] = $max_background_image_width/2;
+			$background_settings['max_palette_height'] = $max_background_image_height/2;
 
 
-			$current_background_width = $orig_background_width/2;
-			$current_background_height = $orig_background_height/2;
-			$palette_background_width = $orig_palette_background_width/4;
-			$palette_background_height = $orig_palette_background_height/4;
+			$background_settings['current_background_width'] = $background_settings['orig_background_width']/2;
+			$background_settings['current_background_height'] = $background_settings['orig_background_height']/2;
+			$background_settings['palette_background_width'] = $background_settings['orig_palette_background_width']/4;
+			$background_settings['palette_background_height'] = $background_settings['orig_palette_background_height']/4;
 
-			$palette_start_left = ($max_palette_width/2)-($palette_background_width/2);
-			$palette_start_top = ($max_palette_height/2)-($palette_background_height/2);
-
-
+			$background_settings['palette_start_left'] = ($background_settings['max_palette_width']/2)-($background_settings['palette_background_width']/2);
+			$background_settings['palette_start_top'] = ($background_settings['max_palette_height']/2)-($background_settings['palette_background_height']/2);
 
 
-			$start_bounding_box_width = floor($max_palette_width - (.3 * $max_palette_width));
-			$start_bounding_box_height = floor($max_palette_height - (.3 * $max_palette_height));
+
+
+			$start_bounding_box_width = floor($background_settings['max_palette_width'] - (.3 * $background_settings['max_palette_width']));
+			$start_bounding_box_height = floor($background_settings['max_palette_height'] - (.3 * $background_settings['max_palette_height']));
 
 
 			$W_width = $start_bounding_box_width;
-			$W_height = round(($W_width * $current_background_height) / $current_background_width);
+			$W_height = round(($W_width * $background_settings['current_background_height']) / $background_settings['current_background_width']);
 			$H_height = $start_bounding_box_height;
-			$H_width = round(($H_height * $current_background_width) / $current_background_height);
+			$H_width = round(($H_height * $background_settings['current_background_width']) / $background_settings['current_background_height']);
 
 			$use_height = ($H_height * $H_width) < ($W_width * $W_height);
 
 			if ($use_height) {
-				$start_width = $H_width;
-				$start_height = $H_height;
+				$background_settings['start_width'] = $H_width;
+				$background_settings['start_height'] = $H_height;
 			} else {
-				$start_width = $W_width;
-				$start_height = $W_height;
+				$background_settings['start_width'] = $W_width;
+				$background_settings['start_height'] = $W_height;
 			}
 
 
-			$start_left = ($max_palette_width/2)-($start_width/2);
-			$start_top = ($max_palette_height/2)-($start_height/2);
+			$background_settings['start_left'] = ($background_settings['max_palette_width']/2)-($background_settings['start_width']/2);
+			$background_settings['start_top'] = ($background_settings['max_palette_height']/2)-($background_settings['start_height']/2);
 
 
-			if ($use_theme_background == true) {
-				$start_left = $this->ThemeHiddenSetting->getVal('uploaded_admin_current_background_left', $start_left);
-				$start_top = $this->ThemeHiddenSetting->getVal('uploaded_admin_current_background_top', $start_top);
-				$start_width = $this->ThemeHiddenSetting->getVal('uploaded_admin_current_background_width', $start_width);
-				$start_height = $this->ThemeHiddenSetting->getVal('uploaded_admin_current_background_height', $start_height);
+			if ($background_settings['use_theme_background'] == true) {
+				$background_settings['start_left'] = $this->ThemeHiddenSetting->getVal('uploaded_admin_current_background_left', $background_settings['start_left']);
+				$background_settings['start_top'] = $this->ThemeHiddenSetting->getVal('uploaded_admin_current_background_top', $background_settings['start_top']);
+				$background_settings['start_width'] = $this->ThemeHiddenSetting->getVal('uploaded_admin_current_background_width', $background_settings['start_width']);
+				$background_settings['start_height'] = $this->ThemeHiddenSetting->getVal('uploaded_admin_current_background_height', $background_settings['start_height']);
 			} else {
-				$start_left = $this->ThemeHiddenSetting->getVal('default_admin_current_background_left', $start_left);
-				$start_top = $this->ThemeHiddenSetting->getVal('default_admin_current_background_top', $start_top);
-				$start_width = $this->ThemeHiddenSetting->getVal('default_admin_current_background_width', $start_width);
-				$start_height = $this->ThemeHiddenSetting->getVal('default_admin_current_background_height', $start_height);
+				$background_settings['start_left'] = $this->ThemeHiddenSetting->getVal('default_admin_current_background_left', $background_settings['start_left']);
+				$background_settings['start_top'] = $this->ThemeHiddenSetting->getVal('default_admin_current_background_top', $background_settings['start_top']);
+				$background_settings['start_width'] = $this->ThemeHiddenSetting->getVal('default_admin_current_background_width', $background_settings['start_width']);
+				$background_settings['start_height'] = $this->ThemeHiddenSetting->getVal('default_admin_current_background_height', $background_settings['start_height']);
 			}
 
 
 			////////////////////////////////////////////////////////////////////////////////////////
+			// get current gd edit settings
+			$background_settings['current_brightness'] = $this->ThemeHiddenSetting->getVal('current_brightness', 0);
+			$background_settings['current_contrast'] = $this->ThemeHiddenSetting->getVal('current_contrast', 0);
+			$background_settings['current_desaturation'] = $this->ThemeHiddenSetting->getVal('current_desaturation', 0);
+			$background_settings['current_inverted'] = $this->ThemeHiddenSetting->getVal('current_inverted', 0);
+
+			////////////////////////////////////////////////////////////////////////////////////////
 			/// recreate the background image on load so don't have to rely on ajax finishing
-			$small_background_left = $palette_start_left - $start_left;
-			$small_background_top = $palette_start_top - $start_top;
-			$final_background_width = ($orig_palette_background_width * $start_width) / $palette_background_width;
-			$final_background_height = ($orig_palette_background_height * $start_height) / $palette_background_height;
-			$final_background_left = ($final_background_width * $small_background_left) / $start_width;
-			$final_background_top = ($final_background_height * $small_background_top) / $start_height;
+			$background_settings['small_background_left'] = $background_settings['palette_start_left'] - $background_settings['start_left'];
+			$background_settings['small_background_top'] = $background_settings['palette_start_top'] - $background_settings['start_top'];
+			$background_settings['final_background_width'] = ($background_settings['orig_palette_background_width'] * $background_settings['start_width']) / $background_settings['palette_background_width'];
+			$background_settings['final_background_height'] = ($background_settings['orig_palette_background_height'] * $background_settings['start_height']) / $background_settings['palette_background_height'];
+			$background_settings['final_background_left'] = ($background_settings['final_background_width'] * $background_settings['small_background_left']) / $background_settings['start_width'];
+			$background_settings['final_background_top'] = ($background_settings['final_background_height'] * $background_settings['small_background_top']) / $background_settings['start_height'];
 			$this->create_theme_merged_background(
-				$overlay_abs_path, 
-				$current_background_abs_path, 
-				$final_background_width, 
-				$final_background_height, 
-				$final_background_left,
-				$final_background_top,
-				$use_theme_background
+				$background_settings['overlay_abs_path'], 
+				$background_settings['current_background_abs_path'], 
+				$background_settings['final_background_width'], 
+				$background_settings['final_background_height'], 
+				$background_settings['final_background_left'],
+				$background_settings['final_background_top'],
+				$background_settings['use_theme_background'],
+				$background_settings['current_brightness'],
+				$background_settings['current_contrast'],
+				$background_settings['current_desaturation'],
+				$background_settings['current_inverted']
 			);
 		}
+		
+		return $background_settings;
 	}
 	
+	public function get_theme_bd_edited_web_path($theme_name = null) {
+		if (!isset($theme_name)) {
+			$theme_name = $this->get_theme_name();
+		}
+		
+		return SITE_THEME_BG_EDITED_IMAGES_WEB_PATH.DS.$theme_name.'.jpg';
+	}
 	
 	public function change_to_theme_by_id($theme_id) {
 		$new_theme = $this->find('first', array(
@@ -303,6 +343,11 @@ class Theme extends AppModel {
 	
 	public function get_theme_uploaded_background_abs_path($theme_name) {
 		return SITE_THEME_UPLOADED_IMAGES.DS.$theme_name;
+	}
+	public function get_theme_name() {
+		$this->SiteSetting = ClassRegistry::init('SiteSetting', 'Model');
+		
+		return $this->SiteSetting->getVal('current_theme', false);
 	}
 	public function get_theme_uploaded_background_web_path($theme_name) {
 		return SITE_THEME_UPLOADED_IMAGES_WEB_PATH.DS.$theme_name;
@@ -419,8 +464,16 @@ class Theme extends AppModel {
 			$final_background_height, 
 			$final_background_left,
 			$final_background_top,
-			$using_custom_background_image
+			$using_custom_background_image,
+			$current_brightness,
+			$current_contrast,
+			$current_desaturation,
+			$current_inverted
 	) {
+		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+		$this->ThemeHiddenSetting = ClassRegistry::init('ThemeHiddenSetting');
+		$theme_name = $this->SiteSetting->getVal('current_theme', false);
+		
 		
 		$palette_background_size = getimagesize($overlay_abs_path);
 		list($orig_palette_background_width, $orig_palette_background_height, $palette_background_size_type, $palette_background_size_attr) = $palette_background_size;
@@ -431,7 +484,49 @@ class Theme extends AppModel {
 		
 		$imgOverlay = imagecreatefrompng($overlay_abs_path);
 		$imgAvatar = $this->_resize_image($current_background_abs_path, $final_background_width, $final_background_height);
+		
+		///////////////////////////////////////////////////////////////////////////////////////////////
+		// apply filters to image (desaturation, desat, contrast etc)
+//		$current_brightness,
+//		$current_contrast,
+//		$current_desaturation,
+//		$current_inverted
+		
+		$this->ThemeHiddenSetting->setVal('current_brightness', $current_brightness);
+		$this->ThemeHiddenSetting->setVal('current_desaturation', $current_desaturation);
+		$this->ThemeHiddenSetting->setVal('current_contrast', $current_contrast);
+		$this->ThemeHiddenSetting->setVal('current_inverted', $current_inverted);
+		if ($current_desaturation != 0) {
+			if (imagecopymergegray ( $imgAvatar, $imgAvatar , 0, 0, 0, 0, imagesx($imgAvatar), imagesy($imgAvatar), $current_desaturation ) === false) {
+				// DREW TODO - put in a major error here
+			}
+		}
+		if ($current_brightness != 0) {
+			if(imagefilter($imgAvatar, IMG_FILTER_BRIGHTNESS, $current_brightness) === false) { // -255 = min brightness, 0 = no change, +255 = max brightness
+				// DREW TODO - put in a major error here
+			}
+		}
+		if ($current_contrast != 0) {
+			if(imagefilter($imgAvatar, IMG_FILTER_CONTRAST, $current_contrast) === false) { // -100 = max contrast, 0 = no change, +100 = min contrast (note the direction!)
+				// DREW TODO - put in a major error here
+			}
+		}
+		if ($current_inverted == 1) {
+			$width  = imagesx($imgAvatar);
+			$height = imagesy($imgAvatar);
+			$dest   = imagecreatetruecolor($width, $height);
+			for($i=0;$i<$width;$i++){
+				imagecopy($dest, $imgAvatar, ($width - $i - 1), 0, $i, 0, 1, $height);
+			}
+			$imgAvatar = $dest;
+		}
+		$bg_edit_save_path = SITE_THEME_BG_EDITED_IMAGES.DS.$theme_name.'.jpg';
+		if (file_exists($bg_edit_save_path)) {
+			unlink($bg_edit_save_path);
+		}
+		imagejpeg($imgAvatar, $bg_edit_save_path, 100);
 
+		
 		
 		$dst_x = -$final_background_left;
 		$dst_y = -$final_background_top;
@@ -459,31 +554,32 @@ class Theme extends AppModel {
 //		$this->log('src_h: '.$src_h, 'sizes');
 		
 		
+		
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// sharpen the bg image before output -- DREW TODO - maybe try and make the sharpening better
+		$matrix = array(
+			array(-1, -1, -1),
+			array(-1, 16, -1),
+			array(-1, -1, -1),
+		);
+		$divisor = array_sum(array_map('array_sum', $matrix));
+		$offset = 0; 
+		imageconvolution($imgAvatar, $matrix, $divisor, $offset);
+		
+		
 		imagecopyresampled($imgBanner, $imgAvatar, $dst_x, $dst_y, $src_x, $src_x, $dst_w, $dst_h, $src_w, $src_h);
 		imagecopyresampled($imgBanner, $imgOverlay, 0, 0, 0, 0, $o_width, $o_height, $o_width, $o_height);
 
-		$this->SiteSetting = ClassRegistry::init('SiteSetting');
-		$theme_name = $this->SiteSetting->getVal('current_theme', false);
 		
 		$dest_save_path = SITE_THEME_MERGED_FINAL_IMAGES.DS.$theme_name.'.jpg';
 		if (file_exists($dest_save_path)) {
 			unlink($dest_save_path);
 		}
 
-		// sharpen the bg image before output -- DREW TODO - maybe try and make the sharpening better
-		$matrix = array(
-            array(-1, -1, -1),
-            array(-1, 16, -1),
-            array(-1, -1, -1),
-        );
-        $divisor = array_sum(array_map('array_sum', $matrix));
-        $offset = 0; 
-        imageconvolution($imgBanner, $matrix, $divisor, $offset);
 		
 		
 		imagejpeg($imgBanner, $dest_save_path, 100);
 		
-		$this->ThemeHiddenSetting = ClassRegistry::init('ThemeHiddenSetting');
 		if ($using_custom_background_image == true) {
 			$this->ThemeHiddenSetting->setVal('uploaded_bg_overlay_abs_path', $overlay_abs_path);
 			$this->ThemeHiddenSetting->setVal('uploaded_bg_current_background_abs_path', $current_background_abs_path);
@@ -499,6 +595,10 @@ class Theme extends AppModel {
 			$this->ThemeHiddenSetting->setVal('default_bg_final_background_left', $final_background_left);
 			$this->ThemeHiddenSetting->setVal('default_bg_final_background_top', $final_background_top);
 		}
+	}
+	
+	public function gd_modify_background_image() {
+		
 	}
 	
 	private function _resize_image($file, $w, $h, $crop=FALSE) {

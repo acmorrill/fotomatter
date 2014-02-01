@@ -441,6 +441,7 @@ class EcommercesController extends AppController {
 	}
 	
 	public function add_to_cart() {
+		
 		///////////////////////////////////////////////
 		// make sure ids are valid
 			if (!isset($this->data['PhotoPrintType']['id']) || !isset($this->data['Photo']['id']) || !isset($this->data['Photo']['short_side_inches'])) {
@@ -493,10 +494,12 @@ class EcommercesController extends AppController {
 			
 		// end validation
 			
-		
-			
 		$this->Cart->add_to_cart($photo_id, $photo_print_type_id, $short_side_inches);
-		$this->redirect('/ecommerces/view_cart/');
+		if (empty($this->data['redirect_url'])) {
+			$this->redirect('/ecommerces/view_cart/');
+		} else {
+			$this->redirect($this->data['redirect_url']);
+		}
 	}
 	
 	public function view_cart() {
