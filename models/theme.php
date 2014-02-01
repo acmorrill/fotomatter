@@ -182,13 +182,9 @@ class Theme extends AppModel {
 	
 	public function get_theme_background_config_values($theme_config) {
 		$background_settings = array();
-		
-		
 			
 		$this->ThemeHiddenSetting = ClassRegistry::init('ThemeHiddenSetting');
 		$background_settings['use_theme_background'] = $this->ThemeHiddenSetting->getVal('use_theme_background', false);
-		
-		
 		
 		
 		$background_settings['image_cache_ending'] = "?r=".rand(1000, 10000);
@@ -568,7 +564,51 @@ class Theme extends AppModel {
 		
 		
 		imagecopyresampled($imgBanner, $imgAvatar, $dst_x, $dst_y, $src_x, $src_x, $dst_w, $dst_h, $src_w, $src_h);
-		imagecopyresampled($imgBanner, $imgOverlay, 0, 0, 0, 0, $o_width, $o_height, $o_width, $o_height);
+		
+		
+		// DREW TODO - maybe finish this code
+		for ($x = 1; $x < $o_width; $x++){
+			for ($y = 1; $y < $o_height; $y++) {
+				$ovrARGB = imagecolorat($imgOverlay, $x, $y);
+				$ovrA = ($ovrARGB >> 24) << 1;
+				$ovrR = $ovrARGB >> 16 & 0xFF;
+				$ovrG = $ovrARGB >> 8 & 0xFF;
+				$ovrB = $ovrARGB & 0xFF;
+
+				$change = false;
+				if($ovrA == 0) {
+					$dstR = $ovrR;
+					$dstG = $ovrG;
+					$dstB = $ovrB;
+					$change = true;
+				} elseif($ovrA < 254) {
+					$ovrA = 3 * $ovrA;
+					if ($ovrA > 254) {
+						$ovrA = 254;
+					}
+						
+					
+					
+					
+					$dstARGB = imagecolorat($imgBanner, $x, $y);
+					$dstR = $dstARGB >> 16 & 0xFF;
+					$dstG = $dstARGB >> 8 & 0xFF;
+					$dstB = $dstARGB & 0xFF;
+
+					$dstR = (($ovrR * (0xFF-$ovrA)) >> 8) + (($dstR * $ovrA) >> 8);
+					$dstG = (($ovrG * (0xFF-$ovrA)) >> 8) + (($dstG * $ovrA) >> 8);
+					$dstB = (($ovrB * (0xFF-$ovrA)) >> 8) + (($dstB * $ovrA) >> 8);
+					$change = true;
+				}
+				if($change) {
+					$dstRGB = imagecolorallocatealpha($imgBanner, $dstR, $dstG, $dstB, 0);
+					imagesetpixel($imgBanner, $x, $y, $dstRGB);
+				}
+			}
+		}
+		
+		
+		//imagecopyresampled($imgBanner, $imgOverlay, 0, 0, 0, 0, $o_width, $o_height, $o_width, $o_height);
 
 		
 		$dest_save_path = SITE_THEME_MERGED_FINAL_IMAGES.DS.$theme_name.'.jpg';
