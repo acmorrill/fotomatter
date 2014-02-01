@@ -60,7 +60,7 @@ angular.module('fmAdmin.utilServices', ['fmAdmin.constants'])
 			    contact: contact
 			};
 			toPost.domain.price = accounting.unformat(domain.price);
-			var httpPromise = $http.post("/admin/domains/purchase", toPost);
+			return $http.post("/admin/domains/purchase", toPost);
 		};
 	})
 	.service('generalUtil', function($http, errorUtil) {
