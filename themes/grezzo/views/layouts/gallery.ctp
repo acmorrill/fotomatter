@@ -5,13 +5,14 @@
 		<meta name="keywords" content="Andrew Morrill, photography, fine art, utah photography, utah photographer, National Park, Utah, California">
 		<meta name="description" content="Large format landscape photography by Utah based photographer Andrew Morrill.">
 		<?php echo $this->Element('theme_global_includes'); ?>
-		<link rel="stylesheet" type="text/css" href="/css/grezzo.css" />
+		<?php echo $this->Element('grezzo_includes'); ?>
 		<link href='http://fonts.googleapis.com/css?family=Signika+Negative:300' rel='stylesheet' type='text/css'>
 		
 		<script src="/js/scrollto/jquery.scrollTo.min.js"></script>
 		<script src="/js/jquery.endless-scroll_horizontal.js"></script>
 	</head>
 	<body>
+		
 		<?php 
 			
 			$is_landing_page = false;
@@ -40,6 +41,7 @@
 			<?php echo $this->Element('menu/two_level_navbar'); ?>
 		</div>
 		<div id='page_content'>
+			<div id="image_slider_progressbar"></div>
 			<div id='gallery_outer_cont'>
 				<div id="grezzo_listing_actual_container_loading"><?php echo nl2br(str_replace(' ', "\n", __('L O A D I N G', true))); ?></div>
 				<div id="grezzo_listing_actual_container">
@@ -70,8 +72,10 @@
 						</div>
 						<?php /* Adam Todo: if ecommerce is not turned on then these need to be hidden */ ?>
 						<div class='side_control_options'>
-							<button class='select_size'><?php __('Select Size'); ?></button>
-							<button class='add_to_cart'><?php __('Add To Cart'); ?></button>
+							<?php echo $this->Element('cart_elements/add_to_cart', array(
+								'photo_id'=>$photo['Photo']['id'],
+							)); ?>
+							
 						</div>
 					</div>
 				<?php endforeach; ?>
@@ -98,6 +102,7 @@
 				if (last_photo_id == undefined) { 
 					last_photo_id = 0;
 				}
+				
 				jQuery.ajax({
 					type : 'post',
 					url : '/photo_galleries/ajax_get_gallery_photos_after/<?php echo $gallery_id; ?>/'+last_photo_id+'/',
@@ -209,6 +214,7 @@
 					jQuery('#gallery_name').show();
 					jQuery('#image_info_container .image_info').hide();
 					jQuery('#image_info_container .image_info[image_info_id=' + next_image.attr('photo_id') + ']').show();
+					window.location.hash = next_image.attr('photo_id');
 				}
 			}
 			
@@ -278,6 +284,7 @@
 			var loaded_images = 0;
 			function update_progress_bar() {
 				var total_progress = Math.round((loaded_images / total_images) * 100);
+				console.log(total_progress);
 				jQuery("#image_slider_progressbar").progressbar('value', total_progress);
 			}
 			
@@ -381,21 +388,36 @@
 //						}
 //				}
 //			}
+			
+			function go_to_this_image(image_id) {
+				image_id = image_id.replace('#', '');
+				var element = $('img[photo_id='+image_id+']');
+				if (element === undefined) {
+					return;
+				}
+				go_to_this_image_element(element);
+				show_image_data(element);
+			}	
 
+			function go_to_this_image_element(element) {
+				
+				var control = jQuery('#grezzo_listing_actual_container');
+				var image_center = element.position().left + ( element.width() / 2);
+				var new_left = image_center - (control.width() / 2);
+				control.scrollLeft(new_left);
+			}
 			
 			function setup_image_clicks(selector) {
 				jQuery(selector).click(function(){
-					var control = jQuery('#grezzo_scroll_control_inner .scroll_control_div');
-					var image_center = jQuery(this).position().left + ( jQuery(this).width() / 2);
-					var new_left = image_center - (control.width() / 2);
-					control.css('left', new_left);
-					
-					calculate_slider_scroll_position();
-					calculate_control_container_scroll();
+					go_to_this_image_element($(this));
 				});
 			}
 			
-			jQuery(document).ready(function() {
+			jQuery(document).ready(function() {		
+				$("#add_to_cart_buttons_cont select.sizes_avail_for_print_type").chosen({
+					width:'170px',
+					disable_search: true
+				}); 
 				jQuery('#grezzo_listing_actual_container').endlessScroll_horizontal({
 					bottomPixels: 2000,
 					loader: '',
@@ -450,12 +472,18 @@
 						jQuery('#entire_slider_hider').fadeTo(1000, 0, function() {
 							jQuery(this).hide();
 						});
+						
+						if (parent.location.hash == '') {
+							jQuery('#grezzo_listing_actual_container').scrollLeft(Math.round(jQuery('#grezzo_listing_actual_container')[0].scrollWidth * .40));
+							move_to_next_prev_image('right');
+						} else {
+							go_to_this_image(parent.location.hash);
+						}
 					}
 				});
 				
-				
 				// count how many of the images have loaded
-				jQuery('#grezzo_listing_actual_container img, #grezzo_scroll_control_inner img').each(function() {
+				jQuery('#grezzo_listing_actual_container img:not(.blank)').each(function() {
 					total_images++;
 					var tmpImg = new Image() ;
 					tmpImg.src = $(this).attr('src') ;
@@ -464,6 +492,7 @@
 						update_progress_bar();
 					};
 					tmpImg.error = function() {
+					//	console.log('image loaded');
 						loaded_images++;
 						update_progress_bar();
 					};
@@ -474,9 +503,9 @@
 			
 			jQuery(window).load(function() {
 				// start the scrolling out in the middle - DREW TODO - decide if we want to remember the position of the scroll in a cookie
-				jQuery('#grezzo_listing_actual_container').scrollLeft(Math.round(jQuery('#grezzo_listing_actual_container')[0].scrollWidth * .40));
-				move_to_next_prev_image('right');
 				
+				
+
 				
 				// setup the autoscrolling
 //				autoscrolling = true;

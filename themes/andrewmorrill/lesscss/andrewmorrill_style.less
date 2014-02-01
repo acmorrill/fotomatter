@@ -187,6 +187,10 @@ div.standardContent img {
 	margin: 0px 0px 16px 16px;
 }
 
+div.standardContent img.left {
+	margin: 0px 16px 16px 0;
+}
+
 div#zoomWidget img {
 	margin: 0px 0px 0px 5px;
 	float: none;
@@ -499,9 +503,15 @@ div.dropDownBoxContent {
 
 .galleryContent {
 	position: absolute;
-	left: 134px;
-	top: 108px;
-	width: 530px;
+	left: 104px;
+	top: 91px;
+	width: 560px;
+	min-height: 430px;
+	background-color: #f3f4f6;
+	.galleryContentInner {
+		margin-left: 30px;
+		margin-top: 25px;
+	}
 }
 .galleryContent table {
 	margin-top: 4px;

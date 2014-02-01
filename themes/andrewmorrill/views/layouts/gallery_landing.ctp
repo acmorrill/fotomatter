@@ -23,30 +23,32 @@
 		<?php echo $this->Element('nameTitle'); ?>
 		<?php //echo $this->Element('newsLetter'); ?>
 		<div class="galleryContent">
-			<br /><br />
-			
-			<div class="portfolioLinks">
-				<h2><b><?php __('Choose a Gallery'); ?></b></h2>
-				<img id="portfolioThumb" src="/photos/portfolioThumbs/A-Tangerine-Blue.jpg" />
-				<?php $all_galleries = $this->Gallery->get_all_galleries(); ?>
-				<?php foreach ($all_galleries as $curr_gallery): ?>
-					<?php 
-						$curr_gallery_href = $this->Html->url(array(    
-							'controller' => 'photo_galleries',    
-							'action' => 'view_gallery',    
-							$curr_gallery['PhotoGallery']['id']
-						));
-					?>
-					<a onmouseover="setImage('portfolioThumb', '/photos/portfolioThumbs/A-Tangerine-Blue.jpg');" href="<?php echo $curr_gallery_href; ?>"><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></a><br />
-				<?php endforeach; ?>
-				<?php /*<a onmouseover="setImage('portfolioThumb', '/photos/portfolioThumbs/Celestial-ArrayBW.jpg');" href="/photo_galleries/view_gallery?gallery=largeFormatBW">Black &amp; White Landscapes</a><br />
-				<a onmouseover="setImage('portfolioThumb', '/photos/portfolioThumbs/Solar-Migrations.jpg');" href="/photo_galleries/view_gallery?gallery=panoramics">Panoramic Landscapes</a><br />
-				<a onmouseover="setImage('portfolioThumb', '/photos/portfolioThumbs/Provo-Temple-Winter.jpg');" href="/photo_galleries/view_gallery?gallery=temples">LDS Temple Pictures</a><br />*/ ?>
-				<br/><br/><br/>
+			<div class="galleryContentInner">
+				<br /><br />
+
+				<div class="portfolioLinks">
+					<h2><b><?php __('Choose a Gallery'); ?></b></h2>
+					<img id="portfolioThumb" src="/photos/portfolioThumbs/A-Tangerine-Blue.jpg" />
+					<?php $all_galleries = $this->Gallery->get_all_galleries(); ?>
+					<?php foreach ($all_galleries as $curr_gallery): ?>
+						<?php 
+							$curr_gallery_href = $this->Html->url(array(    
+								'controller' => 'photo_galleries',    
+								'action' => 'view_gallery',    
+								$curr_gallery['PhotoGallery']['id']
+							));
+						?>
+						<a onmouseover="setImage('portfolioThumb', '/photos/portfolioThumbs/A-Tangerine-Blue.jpg');" href="<?php echo $curr_gallery_href; ?>"><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></a><br />
+					<?php endforeach; ?>
+					<?php /*<a onmouseover="setImage('portfolioThumb', '/photos/portfolioThumbs/Celestial-ArrayBW.jpg');" href="/photo_galleries/view_gallery?gallery=largeFormatBW">Black &amp; White Landscapes</a><br />
+					<a onmouseover="setImage('portfolioThumb', '/photos/portfolioThumbs/Solar-Migrations.jpg');" href="/photo_galleries/view_gallery?gallery=panoramics">Panoramic Landscapes</a><br />
+					<a onmouseover="setImage('portfolioThumb', '/photos/portfolioThumbs/Provo-Temple-Winter.jpg');" href="/photo_galleries/view_gallery?gallery=temples">LDS Temple Pictures</a><br />*/ ?>
+					<br/><br/><br/>
+				</div>
+				<br />
+				<img src="/images/misc/horiz_gradientline.png">
+				<?php echo $this->Element('footer'); ?>
 			</div>
-			<br />
-			<img src="/images/misc/horiz_gradientline.png">
-			<?php echo $this->Element('footer'); ?>
 		</div>
 		
 		<p id="sideBlurb"><b>To purchase a print, navigate to an image and add to cart.</b><br /><br/>Before viewing images, consider checking out the <a href="viewingTips.php">viewing tips page</a>.<br />

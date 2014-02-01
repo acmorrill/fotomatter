@@ -75,7 +75,7 @@ class ThemeCentersController extends AppController {
 		if (!empty($this->data['new_theme_id'])) {
 			$this->Theme->change_to_theme_by_id($this->data['new_theme_id']);
 			$new_theme_config = $this->ThemeRenderer->_process_theme_config_with_user_settings(true);
-			$this->Theme->after_change_to_theme($new_theme_config);
+			$this->Theme->get_theme_background_config_values($new_theme_config);
 		}
 	}
 	
@@ -111,6 +111,17 @@ class ThemeCentersController extends AppController {
 		$returnArr = array();
 		$returnArr['code'] = 1;
 		$using_custom_background_image = ($this->params['form']['using_custom_background_image'] == 'true') ? true : false ;
+		
+		
+		/////////////////////////////////////////////////////////////////////////////////////////////////////
+		// grab the image manipulation specs
+		$current_brightness = $this->params['form']['current_brightness'];
+		$current_contrast = $this->params['form']['current_contrast'];
+		$current_desaturation = $this->params['form']['current_desaturation'];
+		$current_inverted = $this->params['form']['current_inverted'];
+		if (!isset($current_brightness) || !isset($current_contrast) || !isset($current_desaturation) || !isset($current_inverted)) {
+			$this->major_error('image manipulation variables not passed correctly', array(), 'high');
+		}
 		
 		
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -173,7 +184,11 @@ class ThemeCentersController extends AppController {
 				$final_background_height, 
 				$final_background_left,
 				$final_background_top,
-				$using_custom_background_image
+				$using_custom_background_image,
+				$current_brightness,
+				$current_contrast,
+				$current_desaturation,
+				$current_inverted
 		);
 		
 		
