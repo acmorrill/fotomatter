@@ -140,7 +140,14 @@ var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domai
 	};
 	
 	$scope.submitPurchase = function() {
-		domainUtil.purchase($scope.domain_to_purchase, $scope.contact);
+		domainUtil.purchase($scope.domain_to_purchase, $scope.contact)
+			.success(function(data, status) {
+				if (data.result){
+					window.location.reload();
+				} else {
+					$scope.errorMessage = data.message;
+				}
+			});
 	};
 }
 domain_checkout.$inject = ['$scope','AuthnetProfile', '$http', 'generalUtil', 'domainUtil', '$modalInstance', 'domain'];
