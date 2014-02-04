@@ -967,11 +967,72 @@ form.fm_form button.ui-button {
 .basic_settings .theme_setting_container label,
 .basic_settings .basic_setting_cont label {
   text-align: right;
-  margin-right: 12px;
   vertical-align: top;
   display: inline-block;
   min-width: 170px;
   padding-bottom: 50px;
+}
+#theme_centers_list_container .theme_setting_container .on_off,
+#theme_centers_list_container .basic_setting_cont .on_off,
+.basic_settings .theme_setting_container .on_off,
+.basic_settings .basic_setting_cont .on_off {
+  margin-right: -65px;
+  margin-left: -10px;
+}
+#theme_centers_list_container .theme_setting_container .drop_down,
+#theme_centers_list_container .basic_setting_cont .drop_down,
+.basic_settings .theme_setting_container .drop_down,
+.basic_settings .basic_setting_cont .drop_down {
+  margin-right: -97px;
+  margin-left: 19px;
+}
+#theme_centers_list_container .theme_setting_container .numeric_dropdown,
+#theme_centers_list_container .basic_setting_cont .numeric_dropdown,
+.basic_settings .theme_setting_container .numeric_dropdown,
+.basic_settings .basic_setting_cont .numeric_dropdown {
+  margin-right: -154px;
+  margin-left: 84px;
+}
+#theme_centers_list_container .theme_setting_container .radio,
+#theme_centers_list_container .basic_setting_cont .radio,
+.basic_settings .theme_setting_container .radio,
+.basic_settings .basic_setting_cont .radio {
+  margin-right: -94px;
+  margin-left: -4px;
+}
+#theme_centers_list_container .theme_setting_container .radio_buttons,
+#theme_centers_list_container .basic_setting_cont .radio_buttons,
+.basic_settings .theme_setting_container .radio_buttons,
+.basic_settings .basic_setting_cont .radio_buttons {
+  padding-top: 30px;
+  margin-right: 20px;
+  margin-left: 19px;
+}
+#theme_centers_list_container .theme_setting_container .color_radio,
+#theme_centers_list_container .basic_setting_cont .color_radio,
+.basic_settings .theme_setting_container .color_radio,
+.basic_settings .basic_setting_cont .color_radio {
+  padding-top: 31px;
+  margin-left: -114px;
+}
+#theme_centers_list_container .theme_setting_container .color_radio_text,
+#theme_centers_list_container .basic_setting_cont .color_radio_text,
+.basic_settings .theme_setting_container .color_radio_text,
+.basic_settings .basic_setting_cont .color_radio_text {
+  margin-left: 38px;
+}
+#theme_centers_list_container .theme_setting_container .check_boxes,
+#theme_centers_list_container .basic_setting_cont .check_boxes,
+.basic_settings .theme_setting_container .check_boxes,
+.basic_settings .basic_setting_cont .check_boxes {
+  padding-top: 31px;
+  margin-left: -114px;
+}
+#theme_centers_list_container .theme_setting_container .check_boxes_text,
+#theme_centers_list_container .basic_setting_cont .check_boxes_text,
+.basic_settings .theme_setting_container .check_boxes_text,
+.basic_settings .basic_setting_cont .check_boxes_text {
+  margin-left: 38px;
 }
 #theme_centers_list_container .theme_setting_container .theme_setting_inputs_container,
 #theme_centers_list_container .basic_setting_cont .theme_setting_inputs_container,
@@ -982,15 +1043,98 @@ form.fm_form button.ui-button {
   vertical-align: top;
   display: inline-block;
 }
+#theme_centers_list_container .theme_setting_container .theme_setting_inputs_container select,
+#theme_centers_list_container .theme_setting_container .theme_setting_inputs_container option,
+#theme_centers_list_container .basic_setting_cont .theme_setting_inputs_container select,
+#theme_centers_list_container .basic_setting_cont .theme_setting_inputs_container option,
+.basic_settings .theme_setting_container .theme_setting_inputs_container select,
+.basic_settings .theme_setting_container .theme_setting_inputs_container option,
+.basic_settings .basic_setting_cont .theme_setting_inputs_container select,
+.basic_settings .basic_setting_cont .theme_setting_inputs_container option {
+  margin-top: 30px;
+}
+#theme_centers_list_container .theme_setting_container .text_input_text,
+#theme_centers_list_container .basic_setting_cont .text_input_text,
+.basic_settings .theme_setting_container .text_input_text,
+.basic_settings .basic_setting_cont .text_input_text {
+  padding-top: 29px;
+  margin-left: -102px;
+}
+#theme_centers_list_container .theme_setting_container .text_input,
+#theme_centers_list_container .basic_setting_cont .text_input,
+.basic_settings .theme_setting_container .text_input,
+.basic_settings .basic_setting_cont .text_input {
+  margin-left: 35px;
+}
+#theme_centers_list_container .theme_setting_container .text_area_text,
+#theme_centers_list_container .basic_setting_cont .text_area_text,
+.basic_settings .theme_setting_container .text_area_text,
+.basic_settings .basic_setting_cont .text_area_text {
+  margin-left: 35px;
+}
+#theme_centers_list_container .theme_setting_container .text_area,
+#theme_centers_list_container .basic_setting_cont .text_area,
+.basic_settings .theme_setting_container .text_area,
+.basic_settings .basic_setting_cont .text_area {
+  padding-top: 29px;
+  margin-left: -102px;
+}
 #theme_centers_list_container .theme_setting_container .theme_setting_description,
 #theme_centers_list_container .basic_setting_cont .theme_setting_description,
 .basic_settings .theme_setting_container .theme_setting_description,
 .basic_settings .basic_setting_cont .theme_setting_description {
   display: inline-block;
   vertical-align: top;
-  width: 500px;
   font-style: italic;
   margin-left: 80px;
+}
+#theme_centers_list_container .theme_setting_container .on_off_description,
+#theme_centers_list_container .basic_setting_cont .on_off_description,
+.basic_settings .theme_setting_container .on_off_description,
+.basic_settings .basic_setting_cont .on_off_description {
+  width: 587px;
+}
+#theme_centers_list_container .theme_setting_container .text_area_description,
+#theme_centers_list_container .basic_setting_cont .text_area_description,
+.basic_settings .theme_setting_container .text_area_description,
+.basic_settings .basic_setting_cont .text_area_description {
+  width: 232px;
+}
+#theme_centers_list_container .theme_setting_container .drop_down_description,
+#theme_centers_list_container .basic_setting_cont .drop_down_description,
+.basic_settings .theme_setting_container .drop_down_description,
+.basic_settings .basic_setting_cont .drop_down_description {
+  width: 591px;
+}
+#theme_centers_list_container .theme_setting_container .numeric_dropdown_description,
+#theme_centers_list_container .basic_setting_cont .numeric_dropdown_description,
+.basic_settings .theme_setting_container .numeric_dropdown_description,
+.basic_settings .basic_setting_cont .numeric_dropdown_description {
+  width: 584px;
+}
+#theme_centers_list_container .theme_setting_container .radio_description,
+#theme_centers_list_container .basic_setting_cont .radio_description,
+.basic_settings .theme_setting_container .radio_description,
+.basic_settings .basic_setting_cont .radio_description {
+  width: 574px;
+}
+#theme_centers_list_container .theme_setting_container .color_radio_description,
+#theme_centers_list_container .basic_setting_cont .color_radio_description,
+.basic_settings .theme_setting_container .color_radio_description,
+.basic_settings .basic_setting_cont .color_radio_description {
+  width: 476px;
+}
+#theme_centers_list_container .theme_setting_container .check_boxes_description,
+#theme_centers_list_container .basic_setting_cont .check_boxes_description,
+.basic_settings .theme_setting_container .check_boxes_description,
+.basic_settings .basic_setting_cont .check_boxes_description {
+  width: 474px;
+}
+#theme_centers_list_container .theme_setting_container .text_input_description,
+#theme_centers_list_container .basic_setting_cont .text_input_description,
+.basic_settings .theme_setting_container .text_input_description,
+.basic_settings .basic_setting_cont .text_input_description {
+  width: 477px;
 }
 #theme_centers_list_container .saving_theme_setting,
 .basic_settings .saving_theme_setting {

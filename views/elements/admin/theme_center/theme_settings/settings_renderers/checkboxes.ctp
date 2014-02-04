@@ -25,16 +25,16 @@
 </script>
 
 <div id="<?php echo $uuid; ?>" class="theme_setting_container">
-	<label><?php echo $curr_setting['display_name']; ?></label>
+	<label class="check_boxes_text"><?php echo $curr_setting['display_name']; ?></label>
 	<div class="theme_setting_inputs_container">
-		<form>
+		<form class="check_boxes">
 			<?php $selected_values = explode('|', $curr_setting['current_value']); ?>
 			<?php foreach ($curr_setting['possible_values'] as $key => $value_name): ?>
 				<input type="checkbox" name="<?php echo $setting_name; ?>" value="<?php echo $key; ?>" <?php if (in_array($key, $selected_values)): ?>checked="checked"<?php endif; ?> /><?php echo $value_name['display']; ?><br/>
 			<?php endforeach; ?>
 		</form>
 	</div>
-	<div class="theme_setting_description">
+	<div class="theme_setting_description check_boxes_description">
 		<?php echo $curr_setting['description']; ?>
 	</div>
 </div>

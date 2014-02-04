@@ -22,7 +22,7 @@
 </script>
 
 <div id="<?php echo $uuid; ?>" class="theme_setting_container">
-	<label><?php echo $curr_setting['display_name']; ?></label>
+	<label class="on_off"><?php echo $curr_setting['display_name']; ?></label>
 	<div class="theme_setting_inputs_container">
 		<select>
 			<?php foreach ($curr_setting['possible_values'] as $key => $value_name): ?>
@@ -30,7 +30,7 @@
 			<?php endforeach; ?>
 		</select>
 	</div>
-	<div class="theme_setting_description">
+	<div class="theme_setting_description on_off_description">
 		<?php echo $curr_setting['description']; ?>
 	</div>
 </div>

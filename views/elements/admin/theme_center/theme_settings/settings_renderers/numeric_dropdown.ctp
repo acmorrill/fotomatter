@@ -22,7 +22,7 @@
 </script>
 
 <div id="<?php echo $uuid; ?>" class="theme_setting_container">
-	<label><?php echo $curr_setting['display_name']; ?></label>
+	<label class="numeric_dropdown"><?php echo $curr_setting['display_name']; ?></label>
 	<div class="theme_setting_inputs_container">
 		<select>
 			<?php for ($i = $curr_setting['possible_values']['min']; $i <= $curr_setting['possible_values']['max']; $i++): ?>
@@ -30,7 +30,7 @@
 			<?php endfor; ?>
 		</select>
 	</div>
-	<div class="theme_setting_description">
+	<div class="theme_setting_description numeric_dropdown_description">
 		<?php echo $curr_setting['description']; ?>
 	</div>
 </div>
