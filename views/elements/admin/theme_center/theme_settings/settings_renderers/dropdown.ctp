@@ -22,7 +22,7 @@
 </script>
 
 <div id="<?php echo $uuid; ?>" class="theme_setting_container">
-	<label><?php echo $curr_setting['display_name']; ?></label>
+	<label class="drop_down"><?php echo $curr_setting['display_name']; ?></label>
 	<div class="theme_setting_inputs_container">
 		<div>
 			<select>
@@ -32,7 +32,7 @@
 			</select>
 		</div>	
 	</div>
-	<div class="theme_setting_description">
+	<div class="theme_setting_description drop_down_description">
 		<?php echo $curr_setting['description']; ?>
 	</div>
 </div>

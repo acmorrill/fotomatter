@@ -88,7 +88,7 @@ class FotomatterDomainComponent extends Object {
 		}
 		
 		$domain_searched = $keyword . '.' . $tld;
-		foreach($api_results as $domain_name => $domain_info) {
+		foreach($api_results['domains'] as $domain_name => $domain_info) {
 			if ($domain_name == $domain_searched) {
 				return true;
 			}
@@ -120,10 +120,6 @@ class FotomatterDomainComponent extends Object {
      * @param the domain that we should attempt to buy
      */
     public function buy_domain($contact_info, $domainObj) {
-        if ($this->check_availability($domainObj) === false) {
-            return false;
-        }
-		
 		$this->SiteSetting = ClassRegistry::init("SiteSetting");
 		$site_email = $this->SiteSetting->getVal('account_email', '');
 		
@@ -153,7 +149,6 @@ class FotomatterDomainComponent extends Object {
         $api_args['items'][] = $order;
 	
         $api_results = json_decode($this->_send_request("/api/order", "POST", $api_args), true);
-		
         if ($api_results['result']['code'] != '100') {
             return false;
         }
@@ -167,8 +162,6 @@ class FotomatterDomainComponent extends Object {
      * @param request_args array Parameter required for api call.. see docs here https://www.name.com/files/name_api_documentation.pdf
      */
     private function _send_request($api_call, $request_type='GET', $request_args) {
-		$this->log($this->_api_url . $api_call, 'domain_log');
-		$this->log($request_args, 'domain_log');
        $api_result = $this->Http->request(array(
           'method'=>$request_type,
            'uri'=>$this->_api_url .  $api_call,
@@ -178,8 +171,7 @@ class FotomatterDomainComponent extends Object {
                'Api-Token'=>$this->_api_token
            )
        ));
-	   $this->log($api_result, 'domain_log');
-	   
+	  
        return $api_result;
     }
    

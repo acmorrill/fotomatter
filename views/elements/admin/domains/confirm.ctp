@@ -1,4 +1,5 @@
 <div ng-switch-when='confirm' class='domain_confirmation'>
+	<div ng-show="errorMessage != undefined && errorMessage != ''" class='error flashMessage rounded-corners-tiny'><i class='icon-warning-sign'></i><span>{{errorMessage}}</span></div>
 	<h3><?php echo __('Confirm Purchase'); ?></h3>
 	<div class="domain_confirm_details">
 		<div class='confirm_line'>

@@ -38,13 +38,13 @@
 </script>
 
 <div id="<?php echo $uuid; ?>" class="theme_setting_container">
-	<label><?php echo $curr_setting['display_name']; ?></label>
+	<label class="text_input"><?php echo $curr_setting['display_name']; ?></label>
 	<div class="theme_setting_inputs_container">
-		<form>
+		<form class="text_input_text">
 			<input type="text" value="<?php echo $curr_setting['current_value']; ?>" />
 		</form>
 	</div>
-	<div class="theme_setting_description">
+	<div class="theme_setting_description text_input_description">
 		<?php echo $curr_setting['description']; ?>
 	</div>
 </div>

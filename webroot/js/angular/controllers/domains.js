@@ -46,6 +46,7 @@ var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domai
 				$scope.countryChange('contact_states_for_selected_country', $scope.contact.country_id, function() {
 					$scope.contact.country_state_id = $scope.profile.country_state_id;
 				});
+				$scope.contact.phone = '2083532813'; //Adam Todo remove this
 			} else {
 				$scope.setStep('cc_profile');
 			}
@@ -140,7 +141,14 @@ var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domai
 	};
 	
 	$scope.submitPurchase = function() {
-		domainUtil.purchase($scope.domain_to_purchase, $scope.contact);
+		domainUtil.purchase($scope.domain_to_purchase, $scope.contact)
+			.success(function(data, status) {
+				if (data.result){
+					window.location.reload();
+				} else {
+					$scope.errorMessage = data.message;
+				}
+			});
 	};
 }
 domain_checkout.$inject = ['$scope','AuthnetProfile', '$http', 'generalUtil', 'domainUtil', '$modalInstance', 'domain'];
