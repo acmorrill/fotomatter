@@ -5,8 +5,21 @@ class FotomatterDomainManagementComponent extends Object {
         $this->server_url = Configure::read('OVERLORD_URL');
     }
 	
+	public function setupDomain($domain) {
+		$api_result = json_decode($this->send_api_request("api_domain/setup", $domain), true);
+		if ($api_result['code']) {
+			return true;
+		}
+		return false;
+	}
+	
 	public function charge_domain($domain) {
-		$api_reuslt = $this->send_api_request("api_domain/charge_domain", $domain);
+		$api_result = json_decode($this->send_api_request("api_domain/charge_domain", $domain), true);
+		
+		if (empty($api_result['data']['AuthnetDomainOrder']['id']) === false) {
+			return true;
+		}
+		return $api_result['data']['AuthnetDomainOrder']['id'];
 	}
 	
 	private function send_api_request($api, $params=array()) {
@@ -32,10 +45,8 @@ class FotomatterDomainManagementComponent extends Object {
 			'API_SIGNATURE: '.$request['Access']['signature']
 		));
 		$response = curl_exec($ch);
+		$this->log($response, 'olord_response');	
 		curl_close($ch);
-		$this->log($response, 'add_profile');
-				
-   //     $this->log($request['Request'], 'client_billing');
 		return $response;
     }
 	

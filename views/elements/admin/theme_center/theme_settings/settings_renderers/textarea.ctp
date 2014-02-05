@@ -64,13 +64,13 @@
 </script>
 
 <div id="<?php echo $uuid; ?>" class="theme_setting_container">
-	<label><?php echo $curr_setting['display_name']; ?></label>
+	<label class="text_area_text"><?php echo $curr_setting['display_name']; ?></label>
 	<div class="theme_setting_inputs_container">
-		<form>
+		<form class="text_area">
 			<textarea rows="4" cols="50"><?php echo $curr_setting['current_value']; ?></textarea>
 		</form>
 	</div>
-	<div class="theme_setting_description" style="width: 300px;">
+	<div class="theme_setting_description text_area_description">
 		<?php echo $curr_setting['description']; ?>
 	</div>
 </div>
