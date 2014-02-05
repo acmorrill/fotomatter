@@ -81,7 +81,7 @@ class ThemeCentersController extends AppController {
 	
 	public function admin_ajax_get_logo_webpath_and_save_dimension($height, $width, $top, $left) {
 		App::import('Helper', 'ThemeLogo'); 
-        $ThemeLogo = new ThemeLogoHelper();
+		$ThemeLogo = new ThemeLogoHelper();
 		
 		$returnArr = array();
 		
@@ -105,12 +105,13 @@ class ThemeCentersController extends AppController {
 	}
 	
 	public function admin_ajax_create_merged_bg_and_save_bg_config() {
-		// DREW TODO - put in major error checks into this function
 		// DREW TODO - make sure the default background color for the theme is also passed and used in this function
 		
 		$returnArr = array();
 		$returnArr['code'] = 1;
 		$using_custom_background_image = ($this->params['form']['using_custom_background_image'] == 'true') ? true : false ;
+		
+		$custom_overlay_transparency_settings = $this->params['form']['custom_overlay_transparency_settings'];
 		
 		
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -188,7 +189,9 @@ class ThemeCentersController extends AppController {
 				$current_brightness,
 				$current_contrast,
 				$current_desaturation,
-				$current_inverted
+				$current_inverted,
+				$custom_overlay_transparency_settings,
+				$this->ThemeRenderer->_process_theme_config_with_user_settings(true)
 		);
 		
 		

@@ -293,6 +293,15 @@ class Theme extends AppModel {
 			$background_settings['current_desaturation'] = $this->ThemeHiddenSetting->getVal('current_desaturation', 0);
 			$background_settings['current_inverted'] = $this->ThemeHiddenSetting->getVal('current_inverted', 0);
 
+			
+			///////////////////////////////////////////////////////////////////////////////////////
+			// get custom overlay background settings
+			$background_settings['custom_overlay_transparency_settings'] = array();
+			foreach ($background_settings['background_config']['overlay_image']['custom_overlay_transparency_fade'] as $custom_overlay_transparency_setting_name => $value) {
+				$background_settings['custom_overlay_transparency_settings'][$custom_overlay_transparency_setting_name] = $this->ThemeHiddenSetting->getVal('custom_overlay_setting_'.$custom_overlay_transparency_setting_name, 1);
+			}
+			
+			
 			////////////////////////////////////////////////////////////////////////////////////////
 			/// recreate the background image on load so don't have to rely on ajax finishing
 			$background_settings['small_background_left'] = $background_settings['palette_start_left'] - $background_settings['start_left'];
@@ -312,7 +321,9 @@ class Theme extends AppModel {
 				$background_settings['current_brightness'],
 				$background_settings['current_contrast'],
 				$background_settings['current_desaturation'],
-				$background_settings['current_inverted']
+				$background_settings['current_inverted'],
+				$background_settings['custom_overlay_transparency_settings'],
+				$theme_config
 			);
 		}
 		
@@ -464,7 +475,9 @@ class Theme extends AppModel {
 			$current_brightness,
 			$current_contrast,
 			$current_desaturation,
-			$current_inverted
+			$current_inverted,
+			$custom_overlay_transparency_settings,
+			$theme_config
 	) {
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
 		$this->ThemeHiddenSetting = ClassRegistry::init('ThemeHiddenSetting');
@@ -566,9 +579,28 @@ class Theme extends AppModel {
 		imagecopyresampled($imgBanner, $imgAvatar, $dst_x, $dst_y, $src_x, $src_x, $dst_w, $dst_h, $src_w, $src_h);
 		
 		
-		// DREW TODO - maybe finish this code
-		for ($x = 1; $x < $o_width; $x++){
-			for ($y = 1; $y < $o_height; $y++) {
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// prepare custom overlay transparency settings
+		$custom_transparency_settings = $theme_config['admin_config']['theme_background_config']['overlay_image']['custom_overlay_transparency_fade'];
+//		$this->get_overlay_transparency_multiplyer(2, 2, $custom_overlay_transparency_settings, $custom_transparency_settings);
+		if (!empty($custom_transparency_settings)) {
+			foreach ($custom_transparency_settings as &$custom_transparency_setting) {
+				if ($custom_transparency_setting['tl']['x'] === '*') { $custom_transparency_setting['tl']['x'] = $o_width - 1; }
+				if ($custom_transparency_setting['tl']['y'] === '*') { $custom_transparency_setting['tl']['y'] = $o_height - 1; }
+				if ($custom_transparency_setting['br']['x'] === '*') { $custom_transparency_setting['br']['x'] = $o_width - 1; }
+				if ($custom_transparency_setting['br']['y'] === '*') { $custom_transparency_setting['br']['y'] = $o_height - 1; }
+			}
+			// save current custom transparency settings
+			foreach ($custom_overlay_transparency_settings as $custom_overlay_transparency_setting_name => $custom_overlay_transparency_setting) {
+				$this->ThemeHiddenSetting->setVal('custom_overlay_setting_'.$custom_overlay_transparency_setting_name, $custom_overlay_transparency_setting);
+			}
+		}
+		unset($custom_transparency_setting);
+		$this->log($custom_overlay_transparency_settings, 'custom_overlay_transparency_settings');
+		
+		
+		for ($x = 0; $x < $o_width; $x++){
+			for ($y = 0; $y < $o_height; $y++) {
 				$ovrARGB = imagecolorat($imgOverlay, $x, $y);
 				$ovrA = ($ovrARGB >> 24) << 1;
 				$ovrR = $ovrARGB >> 16 & 0xFF;
@@ -582,12 +614,17 @@ class Theme extends AppModel {
 					$dstB = $ovrB;
 					$change = true;
 				} elseif($ovrA < 254) {
-					$ovrA = 3 * $ovrA;
-					if ($ovrA > 254) {
-						$ovrA = 254;
+					/////////////////////////////////////////////////////////////////////////////////////////////////////
+					// figure out which custom transparency box the pixel is in
+					foreach ($custom_transparency_settings as $custom_transparency_name => $custom_transparency_setting) {
+						if ($y >= $custom_transparency_setting['tl']['y'] && $y <= $custom_transparency_setting['br']['y'] && $x >= $custom_transparency_setting['tl']['x'] && $x <= $custom_transparency_setting['br']['x']) {
+							$ovrA = $custom_overlay_transparency_settings[$custom_transparency_name] * $ovrA;
+							if ($ovrA > 254) {
+								$ovrA = 254;
+							}
+							break(1);
+						}
 					}
-						
-					
 					
 					
 					$dstARGB = imagecolorat($imgBanner, $x, $y);
@@ -637,9 +674,7 @@ class Theme extends AppModel {
 		}
 	}
 	
-	public function gd_modify_background_image() {
-		
-	}
+	
 	
 	private function _resize_image($file, $w, $h, $crop=FALSE) {
 		list($width, $height) = getimagesize($file);

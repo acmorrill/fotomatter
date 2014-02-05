@@ -122,7 +122,7 @@ $theme_config = array(
 					'left' => 0,
 					'top' => 0,
 					'right' => 0,
-					'bottom' => 0
+					'bottom' => 0,
 				)
 			),
 			'default_space' => array( // the bounding size of the logo if no size has been specified (should be smaller than available space
@@ -134,12 +134,36 @@ $theme_config = array(
 			'theme_has_dynamic_background' => true,
 			'overlay_image' => array(
 				'absolute_path' => 	'',
-				'web_path' => ''
+				'web_path' => '',
+				'custom_overlay_transparency_fade' => array(
+					'header' => array(
+						'tl' => array(
+							'x' => 0,
+							'y' => 0,
+						),
+						'br' => array(
+							'x' => '*', // NOTE - * means full length or width - also, NOTICE that max width is width minus 1 because the calc starts at 0
+							'y' => 90,
+						),
+						'label' => 'Header',
+					),
+					'body' => array(
+						'tl' => array(
+							'x' => 0,
+							'y' => 91,
+						),
+						'br' => array(
+							'x' => '*', // NOTE - * means full length or width - also, NOTICE that max width is width minus 1 because the calc starts at 0
+							'y' => '*',
+						),
+						'label' => 'Body',
+					),
+				),
 			),
 			'default_bg_image' => array(
 				'absolute_path' => 	'', // max 1600 width and max 1200 height
 				'web_path' => ''
-			)
+			),
 		),
 		'theme_gallery_listing_config' => array(
 			'default_images_per_page' => 8
