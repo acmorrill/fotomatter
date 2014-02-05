@@ -21,15 +21,15 @@
 </script>
 
 <div id="<?php echo $uuid; ?>" class="theme_setting_container">
-	<label><?php echo $curr_setting['display_name']; ?></label>
+	<label class="color_radio_text"><?php echo $curr_setting['display_name']; ?></label>
 	<div class="theme_setting_inputs_container">
-		<form>
+		<form class="color_radio">
 			<?php $count = 1; foreach ($curr_setting['possible_values'] as $value_name): ?>
 				<input type="radio" name="<?php echo $setting_name; ?>" value="<?php echo $value_name; ?>" <?php if ($value_name == $curr_setting['current_value'] || (empty($curr_setting['current_value']) == true && $count == 1)): ?>checked="checked"<?php endif; ?>  /> <span class="color_chooser" style="background-color: <?php echo $value_name; ?>;">&nbsp;</span><br/>
 			<?php $count++; endforeach; ?>
 		</form>
 	</div>
-	<div class="theme_setting_description">
+	<div class="theme_setting_description color_radio_description">
 		<?php echo $curr_setting['description']; ?>
 	</div>
 </div>
