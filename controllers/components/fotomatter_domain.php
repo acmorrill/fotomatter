@@ -171,8 +171,7 @@ class FotomatterDomainComponent extends Object {
                'Api-Token'=>$this->_api_token
            )
        ));
-	   $this->log($api_result, 'domain_log');
-	   
+	  
        return $api_result;
     }
    
