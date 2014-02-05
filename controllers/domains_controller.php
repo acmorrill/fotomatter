@@ -104,12 +104,7 @@ class DomainsController extends Appcontroller {
 			exit();
 		}
 
-		if ($this->FotomatterDomain->buy_domain($inputFromClient['contact'], $domain_to_buy) === false) {
-			$this->system_domain_fail_generic();
-			exit();
-		}
-
-		$overlord_domain_charge_result = $this->FotomatterDomainManagement->charge_domain($inputFromClient['domain']);
+		$overlord_domain_charge_result = $this->FotomatterDomainManagement->charge_domain($domain_to_buy);
 		if ($overlord_domain_charge_result === false) {
 			$this->system_domain_fail_generic();
 			exit();
@@ -120,6 +115,11 @@ class DomainsController extends Appcontroller {
 			exit();
 		}
 		
+		if ($this->FotomatterDomain->buy_domain($inputFromClient['contact'], $domain_to_buy) === false) {
+			$this->system_domain_fail_generic();
+			exit();
+		}
+
 		if ($this->FotomatterDomainManagement->setupDomain($domain_to_buy) === false) {
 			$this->system_domain_fail_generic();
 			exit();
