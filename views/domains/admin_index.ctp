@@ -1,3 +1,6 @@
+<p>
+	Notes: Overlord will make call to setup dns as part of setup call.
+</p>
 <div id="domains-outer-cont" class='domains-outer-cont' ng-controller='domains_index'>
 	<input type='hidden' ng-model='domain_mark_up' value='<?php echo DOMAIN_MARKUP_DOLLAR; ?>' />
 	<div class='domain_header'>

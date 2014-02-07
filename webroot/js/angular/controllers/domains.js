@@ -46,6 +46,7 @@ var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domai
 				$scope.countryChange('contact_states_for_selected_country', $scope.contact.country_id, function() {
 					$scope.contact.country_state_id = $scope.profile.country_state_id;
 				});
+				$scope.contact.phone = '2083532813'; //Adam Todo remove this
 			} else {
 				$scope.setStep('cc_profile');
 			}
