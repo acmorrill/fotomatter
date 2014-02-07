@@ -1,4 +1,6 @@
 <?php $background_settings = $this->Theme->get_theme_background_config_values($theme_config); ?>
+<?php //debug($background_settings); ?>
+
 
 <script type="text/javascript">
 	var brightness_cont;
@@ -6,9 +8,10 @@
 	var desaturation_cont;
 	var inverted_cont;
 	function reload_size_change_background() {
-		var current_brightness = brightness_cont.val();
-		var current_contrast = contrast_cont.val();
-		var current_desaturation = desaturation_cont.val();
+		var current_brightness = (brightness_cont.slider('value') / 100) * 255;
+		console.log (current_brightness);
+		var current_contrast = contrast_cont.slider('value');
+		var current_desaturation = desaturation_cont.slider('value');
 		var current_inverted = inverted_cont.prop('checked') ? 1 : 0;
 //		console.log ("============================");
 //		console.log (current_brightness);
@@ -17,13 +20,15 @@
 //		console.log (current_inverted);
 //		console.log ("============================");
 		
-		
+		/////////////////////////////////////////////////////////////////////////////
 		// grab the custom overlay settings
 		var custom_overlay_transparency_settings = {};
-		jQuery('#custom_overlay_transparency_container select').each(function() {
+		custom_overlays_cont.each(function() {
+			var to_save_value = ((-3/25) * jQuery(this).slider('value')) + 16;
 			var custom_overlay_key = jQuery(this).attr('data-custom-overlay-key');
-			custom_overlay_transparency_settings[custom_overlay_key] = parseInt(jQuery(this).val());
+			custom_overlay_transparency_settings[custom_overlay_key] = to_save_value;
 		});
+		
 		
 		var current_background_width = jQuery('#theme_background_palette .theme_background_image_cont').width();
 		var current_background_height = jQuery('#theme_background_palette .theme_background_image_cont').height();
@@ -105,6 +110,7 @@
 		brightness_cont = jQuery('#bg_brightness');
 		contrast_cont = jQuery('#bg_contrast');
 		desaturation_cont = jQuery('#bg_desaturation');
+		custom_overlays_cont = jQuery('#custom_overlay_transparency_container .slider_container');
 		inverted_cont = jQuery('#bg_inverted');
 	
 		jQuery('#theme_background_palette .theme_background_image_cont').resizable({
@@ -175,6 +181,66 @@
 			reload_size_change_background();
 		});
 		
+		
+		function get_number_sign($num) {
+			if ($num >= 0) {
+				return "+";
+			}
+
+			return "";
+		}
+
+
+		brightness_cont.slider({
+			min: -255,
+			max: 255,
+			value: <?php echo $background_settings['current_brightness']; ?>,
+			step: 1,
+			slide: function(e, ui) {
+				var percent = Math.round((ui.value/255) * 100);
+				if (percent === 0) {
+					jQuery(this).find('.slider_label span').text("Default");
+				} else {
+					jQuery(this).find('.slider_label span').text(get_number_sign(ui.value) + percent + "%");
+				}
+			}
+		});
+		contrast_cont.slider({
+			min: -100,
+			max: 100,
+			value: <?php echo $background_settings['current_contrast']; ?>,
+			step: 1,
+			slide: function(e, ui) {
+				if (ui.value === 0) {
+					jQuery(this).find('.slider_label span').text("Default");
+				} else {
+					jQuery(this).find('.slider_label span').text(get_number_sign(ui.value) + ui.value + "%");
+				}
+			}
+		});
+		desaturation_cont.slider({
+			min: 0,
+			max: 100,
+			value: <?php echo $background_settings['current_desaturation']; ?>,
+			step: 1,
+			slide: function(e, ui) {
+				jQuery(this).find('.slider_label span').text(ui.value + "%");
+			}
+		});
+		custom_overlays_cont.each(function() {
+			var curr_value = jQuery(this).attr('data-custom-overlay-value');
+			jQuery(this).slider({
+				min: 0,
+				max: 125,
+				value: jQuery(this).attr('data-custom-overlay-value'),
+				step: 1,
+				slide: function(e, ui) {
+					jQuery(this).find('.slider_label span').text(ui.value + "%");
+				}
+			});
+		});
+		
+		
 	});
 	
 	
@@ -203,6 +269,7 @@
 	}
 </style>
 
+
 <?php if ($background_settings['theme_has_dynamic_background'] === true): ?>
 	<div id="change_background_dialog">
 		<form id="choose_background_form" method="POST" action="/admin/theme_centers/set_use_theme_background/">
@@ -217,14 +284,20 @@
 	</div>
 <?php endif; ?>
 
+
+
+
 <div id="configure_theme_background" class="content_only_page">
 	<?php if ($background_settings['theme_has_dynamic_background'] === true): ?>
 		<div class="custom_ui">
 			<div id="upload_background_button" class="add_button" type="submit"><div class="content"><?php __('Upload Background Image'); ?></div><div class="right_arrow_lines"><div></div></div></div>
 		</div>
 		<div class="bg_effects_controls" style="margin-bottom: 40px;">
-			<label>Brightness:</label>
-			<select id="bg_brightness">
+			<div id="bg_brightness" class="slider_container">
+				<?php $start_brightness = ($background_settings['current_brightness'] == 0) ? __('Default', true) : (($background_settings['current_brightness']/255) * 100) . "%"; ?>
+				<div class="slider_label"><label>Brightness:</label> <span><?php echo $start_brightness; ?></span></div>
+			</div><br />
+			<?php /*<select id="bg_brightness">
 				<?php for ($i = -255; $i <= 255; $i++): ?>
 					<option value="<?php echo $i; ?>" <?php if ($background_settings['current_brightness'] == $i): ?>selected="selected"<?php endif; ?>>
 						<?php if ($i < 0): ?>
@@ -236,9 +309,14 @@
 						<?php endif; ?>
 					</option>
 				<?php endfor; ?>
-			</select><br />
-			<label>Contrast:</label>
-			<select id="bg_contrast">
+			</select><br />*/ ?>
+			<div id="bg_contrast" class="slider_container">
+				<?php $start_contrast = ($background_settings['current_contrast'] == 0) ? __('Default', true) : $background_settings['current_contrast']; ?>
+				<div class="slider_label"><label>Contrast:</label> <span><?php echo $start_contrast; ?></span></div>
+				
+			</div><br />
+			
+			<?php /*<select id="bg_contrast">
 				<?php for ($i = -100; $i <= 100; $i++): ?>
 					<option value="<?php echo $i; ?>" <?php if ($background_settings['current_contrast'] == $i): ?>selected="selected"<?php endif; ?>>
 						<?php if ($i < 0): ?>
@@ -250,9 +328,11 @@
 						<?php endif; ?>
 					</option>
 				<?php endfor; ?>
-			</select><br />
-			<label>Desaturation:</label>
-			<select id="bg_desaturation">
+			</select><br />*/ ?>
+			<div id="bg_desaturation" class="slider_container">
+				<div class="slider_label"><label>Saturation:</label> <span><?php echo $background_settings['current_desaturation']; ?>%</span></div>
+			</div><br />
+			<?php /*<select id="bg_desaturation">
 				<?php for ($i = 0; $i <= 100; $i++): ?>
 					<option value="<?php echo $i; ?>" <?php if ($background_settings['current_desaturation'] == $i): ?>selected="selected"<?php endif; ?>>
 						<?php if ($i < 0): ?>
@@ -264,7 +344,7 @@
 						<?php endif; ?>
 					</option>
 				<?php endfor; ?>
-			</select><br />
+			</select><br /> */ ?>
 			<label>Inverted:</label>
 			<input type="checkbox" id="bg_inverted" <?php if ($background_settings['current_inverted'] == 1): ?>checked="checked"<?php endif; ?> /><br />
 			
@@ -273,7 +353,15 @@
 			<?php if (!empty($custom_transparency_settings)): ?>
 				<div id="custom_overlay_transparency_container">
 					<?php foreach ($custom_transparency_settings as $custom_overlay_section_name => $custom_overlay_section): ?>
-						<label><?php echo $custom_overlay_section['label']; ?>:</label>
+						<?php 
+							$overlay_value = !empty($background_settings['custom_overlay_transparency_settings'][$custom_overlay_section_name]) ? $background_settings['custom_overlay_transparency_settings'][$custom_overlay_section_name] : 4; 
+							$overlay_value_display = ((-25/3) * $overlay_value) + (400/3);
+						?>
+						<div id="bg_overlaysetting_<?php echo $custom_overlay_section_name; ?>" data-custom-overlay-key="<?php echo $custom_overlay_section_name; ?>" data-custom-overlay-value="<?php echo $overlay_value_display; ?>" class="slider_container">
+							<div class="slider_label"><label><?php echo $custom_overlay_section['label']; ?>:</label> <span><?php echo $overlay_value_display; ?>%</span></div>
+						</div><br />
+					
+						<?php /*<label><?php echo $custom_overlay_section['label']; ?>:</label>
 						<select id="bg_overlaysetting_<?php echo $custom_overlay_section_name; ?>" data-custom-overlay-key="<?php echo $custom_overlay_section_name; ?>">
 							<?php for ($i = .5; $i <= 4; $i = $i + .1): ?>
 								<?php $is_selected_option = !empty($background_settings['custom_overlay_transparency_settings'][$custom_overlay_section_name]) && $background_settings['custom_overlay_transparency_settings'][$custom_overlay_section_name] == $i; ?>
@@ -281,7 +369,7 @@
 									<?php echo $i; ?>
 								</option>
 							<?php endfor; ?>
-						</select><br />
+						</select><br /> */ ?>
 					<?php endforeach; ?>
 				</div>
 			<?php endif; ?>

@@ -290,8 +290,21 @@ class Theme extends AppModel {
 			// get current gd edit settings
 			$background_settings['current_brightness'] = $this->ThemeHiddenSetting->getVal('current_brightness', 0);
 			$background_settings['current_contrast'] = $this->ThemeHiddenSetting->getVal('current_contrast', 0);
-			$background_settings['current_desaturation'] = $this->ThemeHiddenSetting->getVal('current_desaturation', 0);
+			$background_settings['current_desaturation'] = $this->ThemeHiddenSetting->getVal('current_desaturation', 100);
 			$background_settings['current_inverted'] = $this->ThemeHiddenSetting->getVal('current_inverted', 0);
+			if (empty($background_settings['current_brightness'])) {
+				$background_settings['current_brightness'] = 0;
+			}
+			if (empty($background_settings['current_contrast'])) {
+				$background_settings['current_contrast'] = 0;
+			}
+			if (empty($background_settings['current_desaturation'])) {
+				$background_settings['current_desaturation'] = 0;
+			}
+			if (empty($background_settings['current_inverted'])) {
+				$background_settings['current_inverted'] = 0;
+			}
+			
 
 			
 			///////////////////////////////////////////////////////////////////////////////////////
@@ -310,21 +323,22 @@ class Theme extends AppModel {
 			$background_settings['final_background_height'] = ($background_settings['orig_palette_background_height'] * $background_settings['start_height']) / $background_settings['palette_background_height'];
 			$background_settings['final_background_left'] = ($background_settings['final_background_width'] * $background_settings['small_background_left']) / $background_settings['start_width'];
 			$background_settings['final_background_top'] = ($background_settings['final_background_height'] * $background_settings['small_background_top']) / $background_settings['start_height'];
-			$this->create_theme_merged_background(
-				$background_settings['overlay_abs_path'], 
-				$background_settings['current_background_abs_path'], 
-				$background_settings['final_background_width'], 
-				$background_settings['final_background_height'], 
-				$background_settings['final_background_left'],
-				$background_settings['final_background_top'],
-				$background_settings['use_theme_background'],
-				$background_settings['current_brightness'],
-				$background_settings['current_contrast'],
-				$background_settings['current_desaturation'],
-				$background_settings['current_inverted'],
-				$background_settings['custom_overlay_transparency_settings'],
-				$theme_config
-			);
+			// DREW TODO _ Uncomment this
+//			$this->create_theme_merged_background(
+//				$background_settings['overlay_abs_path'], 
+//				$background_settings['current_background_abs_path'], 
+//				$background_settings['final_background_width'], 
+//				$background_settings['final_background_height'], 
+//				$background_settings['final_background_left'],
+//				$background_settings['final_background_top'],
+//				$background_settings['use_theme_background'],
+//				$background_settings['current_brightness'],
+//				$background_settings['current_contrast'],
+//				$background_settings['current_desaturation'],
+//				$background_settings['current_inverted'],
+//				$background_settings['custom_overlay_transparency_settings'],
+//				$theme_config
+//			);
 		}
 		
 		return $background_settings;
@@ -618,7 +632,7 @@ class Theme extends AppModel {
 					// figure out which custom transparency box the pixel is in
 					foreach ($custom_transparency_settings as $custom_transparency_name => $custom_transparency_setting) {
 						if ($y >= $custom_transparency_setting['tl']['y'] && $y <= $custom_transparency_setting['br']['y'] && $x >= $custom_transparency_setting['tl']['x'] && $x <= $custom_transparency_setting['br']['x']) {
-							$ovrA = $custom_overlay_transparency_settings[$custom_transparency_name] * $ovrA;
+							$ovrA = ($custom_overlay_transparency_settings[$custom_transparency_name]/4) * $ovrA;
 							if ($ovrA > 254) {
 								$ovrA = 254;
 							}
