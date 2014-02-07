@@ -18,6 +18,13 @@
 //		console.log ("============================");
 		
 		
+		// grab the custom overlay settings
+		var custom_overlay_transparency_settings = {};
+		jQuery('#custom_overlay_transparency_container select').each(function() {
+			var custom_overlay_key = jQuery(this).attr('data-custom-overlay-key');
+			custom_overlay_transparency_settings[custom_overlay_key] = parseInt(jQuery(this).val());
+		});
+		
 		var current_background_width = jQuery('#theme_background_palette .theme_background_image_cont').width();
 		var current_background_height = jQuery('#theme_background_palette .theme_background_image_cont').height();
 		var current_background_position = jQuery('#theme_background_palette .theme_background_image_cont').position();
@@ -67,7 +74,8 @@
 				'current_brightness': current_brightness,
 				'current_contrast': current_contrast,
 				'current_desaturation': current_desaturation,
-				'current_inverted': current_inverted
+				'current_inverted': current_inverted,
+				'custom_overlay_transparency_settings': custom_overlay_transparency_settings
 			},
 			success: function(the_data) {
 //				console.log ("came into success");
@@ -164,7 +172,6 @@
 		
 		
 		jQuery('#bg_brightness, #bg_contrast, #bg_desaturation, #bg_inverted').change(function() {
-			console.log ("cam eghere sucka");
 			reload_size_change_background();
 		});
 		
@@ -260,6 +267,24 @@
 			</select><br />
 			<label>Inverted:</label>
 			<input type="checkbox" id="bg_inverted" <?php if ($background_settings['current_inverted'] == 1): ?>checked="checked"<?php endif; ?> /><br />
+			
+			
+			<?php $custom_transparency_settings = $theme_config['admin_config']['theme_background_config']['overlay_image']['custom_overlay_transparency_fade']; ?>
+			<?php if (!empty($custom_transparency_settings)): ?>
+				<div id="custom_overlay_transparency_container">
+					<?php foreach ($custom_transparency_settings as $custom_overlay_section_name => $custom_overlay_section): ?>
+						<label><?php echo $custom_overlay_section['label']; ?>:</label>
+						<select id="bg_overlaysetting_<?php echo $custom_overlay_section_name; ?>" data-custom-overlay-key="<?php echo $custom_overlay_section_name; ?>">
+							<?php for ($i = .5; $i <= 4; $i = $i + .1): ?>
+								<?php $is_selected_option = !empty($background_settings['custom_overlay_transparency_settings'][$custom_overlay_section_name]) && $background_settings['custom_overlay_transparency_settings'][$custom_overlay_section_name] == $i; ?>
+								<option value="<?php echo $i; ?>" <?php if ($is_selected_option): ?>selected="selected"<?php endif; ?>>
+									<?php echo $i; ?>
+								</option>
+							<?php endfor; ?>
+						</select><br />
+					<?php endforeach; ?>
+				</div>
+			<?php endif; ?>
 		</div>
 		<?php // DREW TODO - make the below div have the default bg color of the theme ?>
 		<div id="theme_background_palette" style="overflow: hidden; background-color: white; position: relative; outline: 1px solid green; width: <?php echo $background_settings['max_palette_width']; ?>px; height: <?php echo $background_settings['max_palette_height']; ?>px;">

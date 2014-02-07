@@ -7,12 +7,10 @@ class FotomatterDomainManagementComponent extends Object {
 	
 	public function setupDomain($domain) {
 		$api_result = json_decode($this->send_api_request("api_domain/setup", $domain), true);
-		$this->log($api_result, 'domain_log');
-		
-		if (empty($api_result['data']['AuthnetDomainOrder']['id']) === false) {
+		if ($api_result['code']) {
 			return true;
 		}
-		return $api_result['data']['AuthnetDomainOrder']['id'];
+		return false;
 	}
 	
 	public function charge_domain($domain) {
@@ -47,7 +45,7 @@ class FotomatterDomainManagementComponent extends Object {
 			'API_SIGNATURE: '.$request['Access']['signature']
 		));
 		$response = curl_exec($ch);
-				
+		$this->log($response, 'olord_response');	
 		curl_close($ch);
 		return $response;
     }

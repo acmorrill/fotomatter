@@ -1,3 +1,4 @@
+@import url("new_inc/theme_center/current_theme_settings.less");
 @font-face {
   font-family: 'Code-Pro-LC';
   src: url('/fonts/myfonts/code_pro/293724_0_0.eot');
@@ -1037,6 +1038,8 @@ table.list .reorder_grabber {
   border-width: 10px 0 10px 11px;
   border-color: transparent transparent transparent #181818;
 }
+<<<<<<< HEAD
+=======
 .two_level_menu_items_cont {
   position: relative;
 }
@@ -1280,6 +1283,7 @@ table.list .reorder_grabber {
   display: inline-block;
   margin-top: 17px;
 }
+>>>>>>> 0ee60c59972cbcc402688fc3e5f945074e90aa57
 #upload_background_button {
   margin-bottom: 40px;
 }
