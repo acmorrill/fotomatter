@@ -63,7 +63,7 @@
 </script>
 
 <div>
-	<div class="single_level_menu_items_cont menu_items_cont" style="padding: 20px;">
+	<div class="table_border">
 		<?php $single_menu_items = $this->ThemeMenu->get_single_menu_items(); ?>
 		<?php $do_not_sort_items = array($single_menu_items[0]['SiteOneLevelMenu']['id']); ?>
 		<table class="list">

@@ -3,9 +3,9 @@
 	<?php // echo $this->Element('admin/theme_center/main_menu/list_main_menu_items'); ?>
 	<?php echo $this->Element('admin/sub_submenu', array( 
 		'tabs' => array(
-			'One Level Menu' => 'admin/theme_center/main_menu/single_level_menu_listing',
-			'Two Level Menu' => 'admin/theme_center/main_menu/two_level_menu_listing',
-			'Menu Global Settings' => 'admin/theme_center/main_menu/menu_global_config'
+			'Tier One Menu' => 'admin/theme_center/main_menu/single_level_menu_listing',
+			'Tier Two Menu' => 'admin/theme_center/main_menu/two_level_menu_listing',
+			//'Menu Global Settings' => 'admin/theme_center/main_menu/menu_global_config'
 		)
 	)); ?>
 	
