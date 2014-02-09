@@ -65,6 +65,8 @@ class DomainsController extends Appcontroller {
    }
    
 	public function admin_purchase() {
+		ignore_user_abort(true);
+		set_time_limit(1200);
 		$inputFromClient = $this->get_json_from_input();
 
 		//check input
