@@ -1,4 +1,5 @@
 @import url("new_inc/theme_center/current_theme_settings.less");
+@import url("new_inc/theme_center/main_menu.less");
 @font-face {
   font-family: 'Code-Pro-LC';
   src: url('/fonts/myfonts/code_pro/293724_0_0.eot');
@@ -1078,7 +1079,6 @@ table.list .reorder_grabber {
   border-width: 10px 0 10px 11px;
   border-color: transparent transparent transparent #181818;
 }
-<<<<<<< HEAD
 .bg_effects_controls {
   width: 700px;
 }
@@ -1089,41 +1089,6 @@ table.list .reorder_grabber {
   display: block;
   position: absolute;
   top: -25px;
-=======
-table.list .reorder_grabber {
-  cursor: move;
-  background: url('/img/admin/icons/reorder_icon.svg') top center no-repeat;
-  width: 30px;
-  height: 30px;
-  display: inline-block;
-  margin-top: 2.5px;
-  margin-left: 2px;
-}
-.background {
-  background-color: #181818;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
-  -moz-opacity: .6;
-  -khtml-opacity: .6;
-  opacity: .6;
-  width: 37px;
-  height: 35px;
-}
-.table_border {
-  padding: 20px;
-}
-table.list tr {
-  border: 1px solid ;
-}
-.table_width_reorder_icon {
-  width: 30px;
-}
-.table_width_page_name {
-  width: 150px;
-}
-.rightborder {
-  border-right: 1px solid ;
-  text-align: left !important;
->>>>>>> a9c33b67483db4f30bf402c8416119414b0e77ea
 }
 .profile-outer-cont.domains .saving_profile {
   display: inline-block;

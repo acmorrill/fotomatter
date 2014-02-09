@@ -3,12 +3,21 @@
 
 
 <script type="text/javascript">
+	function get_number_sign($num) {
+		if ($num >= 0) {
+			return "+";
+		}
+
+		return "";
+	}
+	
+	
 	var brightness_cont;
 	var contrast_cont;
 	var desaturation_cont;
 	var inverted_cont;
 	function reload_size_change_background() {
-		var current_brightness = (brightness_cont.slider('value') / 100) * 255;
+		var current_brightness = brightness_cont.slider('value');
 		console.log (current_brightness);
 		var current_contrast = contrast_cont.slider('value');
 		var current_desaturation = desaturation_cont.slider('value');
@@ -117,9 +126,6 @@
 			aspectRatio: true,
 			//containment: "parent",
 			handles: 'se', // DREW TODO - maybe add more but need to test all of them
-			stop: function() {
-				reload_size_change_background();
-			},
 			resize: function(event, ui) {
 				var size = ui.size;
 				
@@ -130,9 +136,6 @@
 			//handle: '.theme_background_image',
 			cursor: 'move',
 			scroll: false,
-			stop: function() {
-				reload_size_change_background();
-			},
 			drag: function(event, ui) {
 				var position = ui.position;
 				
@@ -177,28 +180,18 @@
 		});
 		
 		
-		jQuery('#bg_brightness, #bg_contrast, #bg_desaturation, #bg_inverted').change(function() {
+		jQuery('#save_custom_background_button').click(function() {
 			reload_size_change_background();
 		});
 		
-		
-		function get_number_sign($num) {
-			if ($num >= 0) {
-				return "+";
-			}
-
-			return "";
-		}
-
-
 		brightness_cont.slider({
 			min: -255,
 			max: 255,
 			value: <?php echo $background_settings['current_brightness']; ?>,
 			step: 1,
 			slide: function(e, ui) {
-				var percent = Math.round((ui.value/255) * 100);
-				if (percent === 0) {
+				var percent = Math.ceil((ui.value/255) * 100);
+				if (ui.value === 0 || percent === 0) {
 					jQuery(this).find('.slider_label span').text("Default");
 				} else {
 					jQuery(this).find('.slider_label span').text(get_number_sign(ui.value) + percent + "%");
@@ -224,7 +217,11 @@
 			value: <?php echo $background_settings['current_desaturation']; ?>,
 			step: 1,
 			slide: function(e, ui) {
-				jQuery(this).find('.slider_label span').text(ui.value + "%");
+				if (ui.value === 100) {
+					jQuery(this).find('.slider_label span').text("Default");
+				} else {
+					jQuery(this).find('.slider_label span').text(ui.value + "%");
+				}
 			}
 		});
 		custom_overlays_cont.each(function() {
@@ -235,7 +232,11 @@
 				value: jQuery(this).attr('data-custom-overlay-value'),
 				step: 1,
 				slide: function(e, ui) {
-					jQuery(this).find('.slider_label span').text(ui.value + "%");
+					if (ui.value === 100) {
+						jQuery(this).find('.slider_label span').text("Default");
+					} else {
+						jQuery(this).find('.slider_label span').text(ui.value + "%");
+					}
 				}
 			});
 		});
@@ -294,82 +295,52 @@
 		</div>
 		<div class="bg_effects_controls" style="margin-bottom: 40px;">
 			<div id="bg_brightness" class="slider_container">
-				<?php $start_brightness = ($background_settings['current_brightness'] == 0) ? __('Default', true) : (($background_settings['current_brightness']/255) * 100) . "%"; ?>
-				<div class="slider_label"><label>Brightness:</label> <span><?php echo $start_brightness; ?></span></div>
+				<?php 
+					$sign = '';
+					$start_brightness = round(($background_settings['current_brightness']/255) * 100);
+					if ($background_settings['current_brightness'] > 0 || $start_brightness > 0) {
+						$sign = '+';
+					}
+					$start_brightness_display = ($background_settings['current_brightness'] == 0 || $start_brightness == 0) ? __('Default', true) : $sign.$start_brightness . "%"; 
+				?>
+				<div class="slider_label"><label>Brightness:</label> <span><?php echo $start_brightness_display; ?></span></div>
 			</div><br />
-			<?php /*<select id="bg_brightness">
-				<?php for ($i = -255; $i <= 255; $i++): ?>
-					<option value="<?php echo $i; ?>" <?php if ($background_settings['current_brightness'] == $i): ?>selected="selected"<?php endif; ?>>
-						<?php if ($i < 0): ?>
-							<?php echo $i; ?>
-						<?php elseif ($i === 0): ?>
-							Unchanged
-						<?php elseif ($i > 0): ?>
-							+<?php echo $i; ?>
-						<?php endif; ?>
-					</option>
-				<?php endfor; ?>
-			</select><br />*/ ?>
+			
 			<div id="bg_contrast" class="slider_container">
-				<?php $start_contrast = ($background_settings['current_contrast'] == 0) ? __('Default', true) : $background_settings['current_contrast']; ?>
+				<?php 
+					$sign = '';
+					if ($background_settings['current_contrast'] > 0) {
+						$sign = '+';
+					}
+					$start_contrast = ($background_settings['current_contrast'] == 0) ? __('Default', true) : $sign.$background_settings['current_contrast'] . "%"; 
+				?>
 				<div class="slider_label"><label>Contrast:</label> <span><?php echo $start_contrast; ?></span></div>
 				
 			</div><br />
 			
-			<?php /*<select id="bg_contrast">
-				<?php for ($i = -100; $i <= 100; $i++): ?>
-					<option value="<?php echo $i; ?>" <?php if ($background_settings['current_contrast'] == $i): ?>selected="selected"<?php endif; ?>>
-						<?php if ($i < 0): ?>
-							<?php echo $i; ?>
-						<?php elseif ($i === 0): ?>
-							Unchanged
-						<?php elseif ($i > 0): ?>
-							+<?php echo $i; ?>
-						<?php endif; ?>
-					</option>
-				<?php endfor; ?>
-			</select><br />*/ ?>
 			<div id="bg_desaturation" class="slider_container">
-				<div class="slider_label"><label>Saturation:</label> <span><?php echo $background_settings['current_desaturation']; ?>%</span></div>
+				<?php 
+					$start_desaturation = ($background_settings['current_desaturation'] == 100) ? __('Default', true) : $background_settings['current_desaturation'] . "%"; 
+				?>
+				<div class="slider_label"><label>Saturation:</label> <span><?php echo $start_desaturation; ?></span></div>
 			</div><br />
-			<?php /*<select id="bg_desaturation">
-				<?php for ($i = 0; $i <= 100; $i++): ?>
-					<option value="<?php echo $i; ?>" <?php if ($background_settings['current_desaturation'] == $i): ?>selected="selected"<?php endif; ?>>
-						<?php if ($i < 0): ?>
-							<?php echo $i; ?>
-						<?php elseif ($i === 0): ?>
-							Unchanged
-						<?php elseif ($i > 0): ?>
-							+<?php echo $i; ?>
-						<?php endif; ?>
-					</option>
-				<?php endfor; ?>
-			</select><br /> */ ?>
+			
 			<label>Inverted:</label>
-			<input type="checkbox" id="bg_inverted" <?php if ($background_settings['current_inverted'] == 1): ?>checked="checked"<?php endif; ?> /><br />
+			<input type="checkbox" id="bg_inverted" <?php if ($background_settings['current_inverted'] == 1): ?>checked="checked"<?php endif; ?> /><br /><br/><br/>
 			
-			
+			<hr /><br/><br/>
 			<?php $custom_transparency_settings = $theme_config['admin_config']['theme_background_config']['overlay_image']['custom_overlay_transparency_fade']; ?>
 			<?php if (!empty($custom_transparency_settings)): ?>
 				<div id="custom_overlay_transparency_container">
 					<?php foreach ($custom_transparency_settings as $custom_overlay_section_name => $custom_overlay_section): ?>
 						<?php 
 							$overlay_value = !empty($background_settings['custom_overlay_transparency_settings'][$custom_overlay_section_name]) ? $background_settings['custom_overlay_transparency_settings'][$custom_overlay_section_name] : 4; 
-							$overlay_value_display = ((-25/3) * $overlay_value) + (400/3);
+							$calculated_overlay_value = round(((-25/3) * $overlay_value) + (400/3));
+							$overlay_value_display = ($calculated_overlay_value == 100) ? __('Default', true) : $calculated_overlay_value . "%";
 						?>
-						<div id="bg_overlaysetting_<?php echo $custom_overlay_section_name; ?>" data-custom-overlay-key="<?php echo $custom_overlay_section_name; ?>" data-custom-overlay-value="<?php echo $overlay_value_display; ?>" class="slider_container">
-							<div class="slider_label"><label><?php echo $custom_overlay_section['label']; ?>:</label> <span><?php echo $overlay_value_display; ?>%</span></div>
+						<div id="bg_overlaysetting_<?php echo $custom_overlay_section_name; ?>" data-custom-overlay-key="<?php echo $custom_overlay_section_name; ?>" data-custom-overlay-value="<?php echo $calculated_overlay_value; ?>" class="slider_container">
+							<div class="slider_label"><label><?php echo $custom_overlay_section['label']; ?>:</label> <span><?php echo $overlay_value_display; ?></span></div>
 						</div><br />
-					
-						<?php /*<label><?php echo $custom_overlay_section['label']; ?>:</label>
-						<select id="bg_overlaysetting_<?php echo $custom_overlay_section_name; ?>" data-custom-overlay-key="<?php echo $custom_overlay_section_name; ?>">
-							<?php for ($i = .5; $i <= 4; $i = $i + .1): ?>
-								<?php $is_selected_option = !empty($background_settings['custom_overlay_transparency_settings'][$custom_overlay_section_name]) && $background_settings['custom_overlay_transparency_settings'][$custom_overlay_section_name] == $i; ?>
-								<option value="<?php echo $i; ?>" <?php if ($is_selected_option): ?>selected="selected"<?php endif; ?>>
-									<?php echo $i; ?>
-								</option>
-							<?php endfor; ?>
-						</select><br /> */ ?>
 					<?php endforeach; ?>
 				</div>
 			<?php endif; ?>
@@ -383,6 +354,9 @@
 			<img class="theme_overlay_image" src="<?php echo $background_settings['overlay_web_path']; ?><?php echo $background_settings['image_cache_ending']; ?>" style="display: inline-block; position: absolute; left: <?php echo $background_settings['palette_start_left']; ?>px; top: <?php echo $background_settings['palette_start_top']; ?>px; width: <?php echo $background_settings['palette_background_width']; ?>px; height: <?php echo $background_settings['palette_background_height']; ?>px;" />
 			<div class="theme_background_image_cont" style="cursor: move; outline: 1px solid blue; display: inline-block; position: absolute; left: <?php echo $background_settings['start_left']; ?>px; top: <?php echo $background_settings['start_top']; ?>px; width: <?php echo $background_settings['start_width']; ?>px; height: <?php echo $background_settings['start_height']; ?>px;"></div>
 		</div>
+	
+		<button id="save_custom_background_button"><?php echo __('Save', true); ?></button>
+		<br /><br /><br /><br /><br /><br /><br /><br />
 		
 	<?php // DREW TODO - put a note on this page that to see the background image change the user must hard refresh the browser (or use a no cache header for that image) ?>
 	

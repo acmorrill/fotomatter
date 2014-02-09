@@ -311,7 +311,7 @@ class Theme extends AppModel {
 			// get custom overlay background settings
 			$background_settings['custom_overlay_transparency_settings'] = array();
 			foreach ($background_settings['background_config']['overlay_image']['custom_overlay_transparency_fade'] as $custom_overlay_transparency_setting_name => $value) {
-				$background_settings['custom_overlay_transparency_settings'][$custom_overlay_transparency_setting_name] = $this->ThemeHiddenSetting->getVal('custom_overlay_setting_'.$custom_overlay_transparency_setting_name, 1);
+				$background_settings['custom_overlay_transparency_settings'][$custom_overlay_transparency_setting_name] = $this->ThemeHiddenSetting->getVal('custom_overlay_setting_'.$custom_overlay_transparency_setting_name, 4);
 			}
 			
 			
@@ -323,22 +323,21 @@ class Theme extends AppModel {
 			$background_settings['final_background_height'] = ($background_settings['orig_palette_background_height'] * $background_settings['start_height']) / $background_settings['palette_background_height'];
 			$background_settings['final_background_left'] = ($background_settings['final_background_width'] * $background_settings['small_background_left']) / $background_settings['start_width'];
 			$background_settings['final_background_top'] = ($background_settings['final_background_height'] * $background_settings['small_background_top']) / $background_settings['start_height'];
-			// DREW TODO _ Uncomment this
-//			$this->create_theme_merged_background(
-//				$background_settings['overlay_abs_path'], 
-//				$background_settings['current_background_abs_path'], 
-//				$background_settings['final_background_width'], 
-//				$background_settings['final_background_height'], 
-//				$background_settings['final_background_left'],
-//				$background_settings['final_background_top'],
-//				$background_settings['use_theme_background'],
-//				$background_settings['current_brightness'],
-//				$background_settings['current_contrast'],
-//				$background_settings['current_desaturation'],
-//				$background_settings['current_inverted'],
-//				$background_settings['custom_overlay_transparency_settings'],
-//				$theme_config
-//			);
+			$this->create_theme_merged_background(
+				$background_settings['overlay_abs_path'], 
+				$background_settings['current_background_abs_path'], 
+				$background_settings['final_background_width'], 
+				$background_settings['final_background_height'], 
+				$background_settings['final_background_left'],
+				$background_settings['final_background_top'],
+				$background_settings['use_theme_background'],
+				$background_settings['current_brightness'],
+				$background_settings['current_contrast'],
+				$background_settings['current_desaturation'],
+				$background_settings['current_inverted'],
+				$background_settings['custom_overlay_transparency_settings'],
+				$theme_config
+			);
 		}
 		
 		return $background_settings;
@@ -519,7 +518,7 @@ class Theme extends AppModel {
 		$this->ThemeHiddenSetting->setVal('current_desaturation', $current_desaturation);
 		$this->ThemeHiddenSetting->setVal('current_contrast', $current_contrast);
 		$this->ThemeHiddenSetting->setVal('current_inverted', $current_inverted);
-		if ($current_desaturation != 0) {
+		if ($current_desaturation != 100) {
 			if (imagecopymergegray ( $imgAvatar, $imgAvatar , 0, 0, 0, 0, imagesx($imgAvatar), imagesy($imgAvatar), $current_desaturation ) === false) {
 				// DREW TODO - put in a major error here
 			}
@@ -530,7 +529,7 @@ class Theme extends AppModel {
 			}
 		}
 		if ($current_contrast != 0) {
-			if(imagefilter($imgAvatar, IMG_FILTER_CONTRAST, $current_contrast) === false) { // -100 = max contrast, 0 = no change, +100 = min contrast (note the direction!)
+			if(imagefilter($imgAvatar, IMG_FILTER_CONTRAST, -$current_contrast) === false) { // -100 = max contrast, 0 = no change, +100 = min contrast (note the direction!)
 				// DREW TODO - put in a major error here
 			}
 		}
@@ -593,9 +592,11 @@ class Theme extends AppModel {
 		imagecopyresampled($imgBanner, $imgAvatar, $dst_x, $dst_y, $src_x, $src_x, $dst_w, $dst_h, $src_w, $src_h);
 		
 		
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// prepare custom overlay transparency settings
 		$custom_transparency_settings = $theme_config['admin_config']['theme_background_config']['overlay_image']['custom_overlay_transparency_fade'];
+		$has_not_default_transparency_settings = false;
 //		$this->get_overlay_transparency_multiplyer(2, 2, $custom_overlay_transparency_settings, $custom_transparency_settings);
 		if (!empty($custom_transparency_settings)) {
 			foreach ($custom_transparency_settings as &$custom_transparency_setting) {
@@ -606,60 +607,64 @@ class Theme extends AppModel {
 			}
 			// save current custom transparency settings
 			foreach ($custom_overlay_transparency_settings as $custom_overlay_transparency_setting_name => $custom_overlay_transparency_setting) {
+				if ($custom_overlay_transparency_setting != 4) {
+					$has_not_default_transparency_settings = true;
+				}
 				$this->ThemeHiddenSetting->setVal('custom_overlay_setting_'.$custom_overlay_transparency_setting_name, $custom_overlay_transparency_setting);
 			}
 		}
 		unset($custom_transparency_setting);
-		$this->log($custom_overlay_transparency_settings, 'custom_overlay_transparency_settings');
 		
-		
-		for ($x = 0; $x < $o_width; $x++){
-			for ($y = 0; $y < $o_height; $y++) {
-				$ovrARGB = imagecolorat($imgOverlay, $x, $y);
-				$ovrA = ($ovrARGB >> 24) << 1;
-				$ovrR = $ovrARGB >> 16 & 0xFF;
-				$ovrG = $ovrARGB >> 8 & 0xFF;
-				$ovrB = $ovrARGB & 0xFF;
+		if ($has_not_default_transparency_settings === true && !empty($custom_transparency_settings)) {
+			for ($x = 0; $x < $o_width; $x++){
+				for ($y = 0; $y < $o_height; $y++) {
+					$ovrARGB = imagecolorat($imgOverlay, $x, $y);
+					$ovrA = ($ovrARGB >> 24) << 1;
+					$ovrR = $ovrARGB >> 16 & 0xFF;
+					$ovrG = $ovrARGB >> 8 & 0xFF;
+					$ovrB = $ovrARGB & 0xFF;
 
-				$change = false;
-				if($ovrA == 0) {
-					$dstR = $ovrR;
-					$dstG = $ovrG;
-					$dstB = $ovrB;
-					$change = true;
-				} elseif($ovrA < 254) {
-					/////////////////////////////////////////////////////////////////////////////////////////////////////
-					// figure out which custom transparency box the pixel is in
-					foreach ($custom_transparency_settings as $custom_transparency_name => $custom_transparency_setting) {
-						if ($y >= $custom_transparency_setting['tl']['y'] && $y <= $custom_transparency_setting['br']['y'] && $x >= $custom_transparency_setting['tl']['x'] && $x <= $custom_transparency_setting['br']['x']) {
-							$ovrA = ($custom_overlay_transparency_settings[$custom_transparency_name]/4) * $ovrA;
-							if ($ovrA > 254) {
-								$ovrA = 254;
+					$change = false;
+					if($ovrA == 0) {
+						$dstR = $ovrR;
+						$dstG = $ovrG;
+						$dstB = $ovrB;
+						$change = true;
+					} elseif($ovrA < 254) {
+						/////////////////////////////////////////////////////////////////////////////////////////////////////
+						// figure out which custom transparency box the pixel is in
+						foreach ($custom_transparency_settings as $custom_transparency_name => $custom_transparency_setting) {
+							if ($y >= $custom_transparency_setting['tl']['y'] && $y <= $custom_transparency_setting['br']['y'] && $x >= $custom_transparency_setting['tl']['x'] && $x <= $custom_transparency_setting['br']['x']) {
+								$ovrA = ($custom_overlay_transparency_settings[$custom_transparency_name]/4) * $ovrA;
+								if ($ovrA > 254) {
+									$ovrA = 254;
+								}
+								break(1);
 							}
-							break(1);
 						}
-					}
-					
-					
-					$dstARGB = imagecolorat($imgBanner, $x, $y);
-					$dstR = $dstARGB >> 16 & 0xFF;
-					$dstG = $dstARGB >> 8 & 0xFF;
-					$dstB = $dstARGB & 0xFF;
 
-					$dstR = (($ovrR * (0xFF-$ovrA)) >> 8) + (($dstR * $ovrA) >> 8);
-					$dstG = (($ovrG * (0xFF-$ovrA)) >> 8) + (($dstG * $ovrA) >> 8);
-					$dstB = (($ovrB * (0xFF-$ovrA)) >> 8) + (($dstB * $ovrA) >> 8);
-					$change = true;
-				}
-				if($change) {
-					$dstRGB = imagecolorallocatealpha($imgBanner, $dstR, $dstG, $dstB, 0);
-					imagesetpixel($imgBanner, $x, $y, $dstRGB);
+
+						$dstARGB = imagecolorat($imgBanner, $x, $y);
+						$dstR = $dstARGB >> 16 & 0xFF;
+						$dstG = $dstARGB >> 8 & 0xFF;
+						$dstB = $dstARGB & 0xFF;
+
+						$dstR = (($ovrR * (0xFF-$ovrA)) >> 8) + (($dstR * $ovrA) >> 8);
+						$dstG = (($ovrG * (0xFF-$ovrA)) >> 8) + (($dstG * $ovrA) >> 8);
+						$dstB = (($ovrB * (0xFF-$ovrA)) >> 8) + (($dstB * $ovrA) >> 8);
+						$change = true;
+					}
+					if($change) {
+						$dstRGB = imagecolorallocatealpha($imgBanner, $dstR, $dstG, $dstB, 0);
+						imagesetpixel($imgBanner, $x, $y, $dstRGB);
+					}
 				}
 			}
+		} else {
+			imagecopyresampled($imgBanner, $imgOverlay, 0, 0, 0, 0, $o_width, $o_height, $o_width, $o_height);
 		}
 		
 		
-		//imagecopyresampled($imgBanner, $imgOverlay, 0, 0, 0, 0, $o_width, $o_height, $o_width, $o_height);
 
 		
 		$dest_save_path = SITE_THEME_MERGED_FINAL_IMAGES.DS.$theme_name.'.jpg';
