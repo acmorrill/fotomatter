@@ -889,6 +889,117 @@ table.list .reorder_grabber {
   height: 54px;
   display: inline-block;
 }
+html,
+body {
+  background-color: #222;
+}
+#main .top_links {
+  background: #141414;
+  border-bottom: 1px solid #282828;
+  height: 22px;
+}
+#main .below_links {
+  padding: 33px;
+}
+#header .logo {
+  position: absolute;
+  top: 19px;
+  right: 5%;
+}
+#middle {
+  min-height: 400px;
+  background-color: ;
+  padding: 12px;
+  -moz-border-radius-topleft: 0px;
+  border-top-left-radius: 0px;
+}
+.message_div {
+  position: fixed;
+  top: 40%;
+  left: 40%;
+  color: #fff;
+  font-size: 35px;
+}
+.foto_background_alert .x_button {
+  background: url('/img/admin/icons/bw_simple_close_icon.png') no-repeat 0px;
+  height: 40px;
+  width: 40px;
+  display: inline-block;
+  position: absolute;
+  cursor: pointer;
+}
+.gallery-chooser-cont .gallery-chooser {
+  height: 250px;
+  overflow: auto;
+}
+.gallery-chooser-cont .no_galleries_added {
+  height: 248px;
+  background-color: ;
+  color: ;
+  text-align: center;
+  margin: 5px 0;
+}
+.gallery-chooser-cont .no_galleries_added p {
+  position: relative;
+  top: 34px;
+  font-size: 35px;
+  padding: 0 15px;
+}
+.gallery-chooser table {
+  width: 100%;
+  border: 0;
+}
+.gallery-chooser table td {
+  vertical-align: middle;
+  min-width: 20px;
+  cursor: pointer;
+}
+.gallery-chooser table tr.selected {
+  background-color: #667680;
+  color: #000;
+}
+.gallery-chooser table tr.selected:hover {
+  background-color: #7A8D99;
+}
+.gallery-chooser table tr:hover *,
+.gallery-chooser table tr.selected * {
+  background: none;
+}
+.gallery-chooser table tr:hover {
+  background-color: #8A9399;
+  color: #333;
+  font-weight: bold;
+}
+.gallery-chooser table tr td.photo {
+  min-width: 10px;
+  padding: 10px 3px;
+  text-align: center;
+}
+.gallery-chooser table tr td.photo div {
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+}
+.gallery-chooser table tr td.name {
+  vertical-align: middle;
+  width: 70%;
+}
+.gallery-chooser-cont .heading .title {
+  padding: 5px 0;
+}
+.gallery-chooser-cont .heading p {
+  padding: 5px 3px;
+}
+.outer-tag-chooser-cont .header .title {
+  padding: 5px 0;
+  margin: 5px 0;
+}
+.outer-tag-chooser-cont .header p {
+  padding: 0 5px;
+}
+.outer-tag-chooser-cont div.tagsinput {
+  margin: 10px 5px;
+}
 #theme_chooser_container .theme_item_container {
   display: inline-block;
   vertical-align: top;
@@ -946,37 +1057,9 @@ table.list .reorder_grabber {
   margin-top: 7px;
   margin-bottom: 7px;
 }
-#theme_chooser_container .theme_item_container .theme_item_outer_container .theme_item_inner_container .button_current_theme {
-  float: right;
-  margin-top: 7px;
-  margin-bottom: 7px;
-  background-color: #7d888e;
-  background-color: #262320;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-  -moz-opacity: .1;
-  -khtml-opacity: .1;
-  opacity: .1;
-}
-#theme_chooser_container .theme_item_container .theme_item_outer_container .theme_item_inner_container .button_current_theme .content {
-  color: #ffffff;
-}
-#theme_chooser_container .theme_item_container .theme_item_outer_container .theme_item_inner_container .button_current_theme .right_arrow_lines {
-  width: 0px;
-  height: 0px;
-  border-style: solid;
-  border-width: 10px 0 10px 11px;
-  border-color: transparent transparent transparent #ffffff;
-}
-#theme_chooser_container .theme_item_container .theme_item_outer_container .theme_item_inner_container .button_current_theme .right_arrow_lines div {
-  width: 0px;
-  height: 0px;
-  border-style: solid;
-  border-width: 10px 0 10px 11px;
-  border-color: transparent transparent transparent #181818;
-}
 #theme_chooser_container .theme_item_container .theme_item_outer_container .theme_item_inner_container .add_button {
   float: right;
-  color: #f4f9f5;
+  color: #7d888e;
   cursor: pointer;
   display: inline-block;
   vertical-align: top;
@@ -984,13 +1067,9 @@ table.list .reorder_grabber {
   height: 40px;
   padding-left: 10px;
   padding-right: 10px;
+  margin-top: 7px;
   font-size: 18px;
-  background-color: #181818;
-  background-color: #181818;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
-  -moz-opacity: .3;
-  -khtml-opacity: .3;
-  opacity: .3;
+  background-color: #1d1d1f;
 }
 #theme_chooser_container .theme_item_container .theme_item_outer_container .theme_item_inner_container .add_button .content {
   display: inline-block;
@@ -1000,6 +1079,48 @@ table.list .reorder_grabber {
   -moz-opacity: .7;
   -khtml-opacity: .7;
   opacity: .7;
+}
+#theme_chooser_container .theme_item_container .theme_item_outer_container .theme_item_inner_container .add_button .right_arrow_lines {
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-width: 10px 0 10px 11px;
+  border-color: transparent transparent transparent #7d888e;
+}
+#theme_chooser_container .theme_item_container .theme_item_outer_container .theme_item_inner_container .add_button .right_arrow_lines div {
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-width: 10px 0 10px 11px;
+  border-color: transparent transparent transparent #1d1d1f;
+}
+#theme_chooser_container .theme_item_container .theme_item_outer_container .theme_item_inner_container .add_button:hover,
+#theme_chooser_container .theme_item_container .theme_item_outer_container .theme_item_inner_container .add_button.button_current_theme {
+  color: #f4f9f5;
+  background-color: #363435;
+}
+#theme_chooser_container .theme_item_container .theme_item_outer_container .theme_item_inner_container .add_button:hover .content,
+#theme_chooser_container .theme_item_container .theme_item_outer_container .theme_item_inner_container .add_button.button_current_theme .content {
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  opacity: 1;
+}
+#theme_chooser_container .theme_item_container .theme_item_outer_container .theme_item_inner_container .add_button:hover .right_arrow_lines,
+#theme_chooser_container .theme_item_container .theme_item_outer_container .theme_item_inner_container .add_button.button_current_theme .right_arrow_lines {
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-width: 10px 0 10px 11px;
+  border-color: transparent transparent transparent #f4f9f5;
+}
+#theme_chooser_container .theme_item_container .theme_item_outer_container .theme_item_inner_container .add_button:hover .right_arrow_lines div,
+#theme_chooser_container .theme_item_container .theme_item_outer_container .theme_item_inner_container .add_button.button_current_theme .right_arrow_lines div {
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-width: 10px 0 10px 11px;
+  border-color: transparent transparent transparent #363435;
 }
 #theme_chooser_container .theme_item_container:hover .theme_item_outer_container .theme_item_inner_container .screenshot_container,
 #theme_chooser_container .theme_item_container.current .theme_item_outer_container .theme_item_inner_container .screenshot_container {
@@ -1016,28 +1137,18 @@ table.list .reorder_grabber {
   -khtml-opacity: 1;
   opacity: 1;
 }
-#theme_chooser_container .theme_item_container:hover .theme_item_outer_container .theme_item_inner_container .add_button .content,
-#theme_chooser_container .theme_item_container.current .theme_item_outer_container .theme_item_inner_container .add_button .content {
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-  -moz-opacity: 1;
-  -khtml-opacity: 1;
-  opacity: 1;
+#theme_background_palette_container {
+  background: url(/img/admin/general/box_transparent_bg_bottom.png) bottom left repeat-x;
+  display: inline-block;
+  padding-left: 20px;
+  padding-right: 20px;
 }
-#theme_chooser_container .theme_item_container:hover .right_arrow_lines,
-#theme_chooser_container .theme_item_container.current .right_arrow_lines {
-  width: 0px;
-  height: 0px;
-  border-style: solid;
-  border-width: 10px 0 10px 11px;
-  border-color: transparent transparent transparent #ffffff;
-}
-#theme_chooser_container .theme_item_container:hover .right_arrow_lines div,
-#theme_chooser_container .theme_item_container.current .right_arrow_lines div {
-  width: 0px;
-  height: 0px;
-  border-style: solid;
-  border-width: 10px 0 10px 11px;
-  border-color: transparent transparent transparent #181818;
+#theme_background_palette_container #theme_background_palette {
+  overflow: hidden;
+  background-color: white;
+  position: relative;
+  outline: 1px solid green;
+  margin-top: 20px;
 }
 #upload_background_button {
   margin-bottom: 40px;

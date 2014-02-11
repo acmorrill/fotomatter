@@ -17,8 +17,10 @@
 	var desaturation_cont;
 	var inverted_cont;
 	function reload_size_change_background() {
+		show_modal('Processing Background Image', 60000);
+		
+		
 		var current_brightness = brightness_cont.slider('value');
-		console.log (current_brightness);
 		var current_contrast = contrast_cont.slider('value');
 		var current_desaturation = desaturation_cont.slider('value');
 		var current_inverted = inverted_cont.prop('checked') ? 1 : 0;
@@ -100,6 +102,7 @@
 				d = new Date();
 				var start_src = theme_background_image.attr('start-src') + "?t="+d.getTime();
 				theme_background_image.attr("src", start_src);
+				remove_modal();
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 //				console.log ("error");
@@ -346,16 +349,18 @@
 			<?php endif; ?>
 		</div>
 		<?php // DREW TODO - make the below div have the default bg color of the theme ?>
-		<div id="theme_background_palette" style="overflow: hidden; background-color: white; position: relative; outline: 1px solid green; width: <?php echo $background_settings['max_palette_width']; ?>px; height: <?php echo $background_settings['max_palette_height']; ?>px;">
-			<?php
-				//list($start_left, $start_top, $start_width, $start_height) = $this->Theme->get_theme_dynamic_background_starting_position();
-			?>
-			<img class="theme_background_image" start-src="<?php echo $background_settings['bg_edit_path']; ?>" src="<?php echo $background_settings['bg_edit_path']; ?><?php echo $background_settings['image_cache_ending']; ?>" style="display: inline-block; position: absolute; left: <?php echo $background_settings['start_left']; ?>px; top: <?php echo $background_settings['start_top']; ?>px; width: <?php echo $background_settings['start_width']; ?>px; height: <?php echo $background_settings['start_height']; ?>px;" />
-			<img class="theme_overlay_image" src="<?php echo $background_settings['overlay_web_path']; ?><?php echo $background_settings['image_cache_ending']; ?>" style="display: inline-block; position: absolute; left: <?php echo $background_settings['palette_start_left']; ?>px; top: <?php echo $background_settings['palette_start_top']; ?>px; width: <?php echo $background_settings['palette_background_width']; ?>px; height: <?php echo $background_settings['palette_background_height']; ?>px;" />
-			<div class="theme_background_image_cont" style="cursor: move; outline: 1px solid blue; display: inline-block; position: absolute; left: <?php echo $background_settings['start_left']; ?>px; top: <?php echo $background_settings['start_top']; ?>px; width: <?php echo $background_settings['start_width']; ?>px; height: <?php echo $background_settings['start_height']; ?>px;"></div>
+		<div id="theme_background_palette_container">
+			<div id="theme_background_palette" style="width: <?php echo $background_settings['max_palette_width']; ?>px; height: <?php echo $background_settings['max_palette_height']; ?>px;">
+				<?php
+					//list($start_left, $start_top, $start_width, $start_height) = $this->Theme->get_theme_dynamic_background_starting_position();
+				?>
+				<img class="theme_background_image" start-src="<?php echo $background_settings['bg_edit_path']; ?>" src="<?php echo $background_settings['bg_edit_path']; ?><?php echo $background_settings['image_cache_ending']; ?>" style="display: inline-block; position: absolute; left: <?php echo $background_settings['start_left']; ?>px; top: <?php echo $background_settings['start_top']; ?>px; width: <?php echo $background_settings['start_width']; ?>px; height: <?php echo $background_settings['start_height']; ?>px;" />
+				<img class="theme_overlay_image" src="<?php echo $background_settings['overlay_web_path']; ?><?php echo $background_settings['image_cache_ending']; ?>" style="display: inline-block; position: absolute; left: <?php echo $background_settings['palette_start_left']; ?>px; top: <?php echo $background_settings['palette_start_top']; ?>px; width: <?php echo $background_settings['palette_background_width']; ?>px; height: <?php echo $background_settings['palette_background_height']; ?>px;" />
+				<div class="theme_background_image_cont" style="cursor: move; outline: 1px solid blue; display: inline-block; position: absolute; left: <?php echo $background_settings['start_left']; ?>px; top: <?php echo $background_settings['start_top']; ?>px; width: <?php echo $background_settings['start_width']; ?>px; height: <?php echo $background_settings['start_height']; ?>px;"></div>
+			</div>
+			<button id="save_custom_background_button" class="save_button"><?php echo __('Save', true); ?></button>
 		</div>
 	
-		<button id="save_custom_background_button"><?php echo __('Save', true); ?></button>
 		<br /><br /><br /><br /><br /><br /><br /><br />
 		
 	<?php // DREW TODO - put a note on this page that to see the background image change the user must hard refresh the browser (or use a no cache header for that image) ?>

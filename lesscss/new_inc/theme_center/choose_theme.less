@@ -52,27 +52,9 @@
 					margin-top: 7px;
 					margin-bottom: 7px;
 				}
-				.button_current_theme{
-					float: right;
-					margin-top: 7px;
-					margin-bottom: 7px;
-					background-color: @grey_hover;
-					background-color: rgba(38,35,32,1);
-					.el_opacity(.1, 100);
-					.content {
-						color: @white;
-					}
-					.right_arrow_lines {
-						.right_facing_triangle(10, @white);				
-						div {
-							.right_facing_triangle(10, @off_black);
-							//This will be replaced with an image.
-						}
-					}
-				}
 				.add_button {
 					float:right; 
-					color: @top_white;
+					color: @grey_hover;
 					cursor: pointer;
 					display: inline-block;
 					vertical-align: top;
@@ -80,6 +62,7 @@
 					height: 40px;
 					padding-left: 10px;
 					padding-right: 10px;
+					margin-top: 7px;
 					.content {
 						display: inline-block;
 						vertical-align: top;
@@ -88,10 +71,28 @@
 						//color: @top_white;
 					}
 					font-size: 18px;
-					background-color: @off_black;
-					background-color: @off_black;
-					.el_opacity(.3, 30);
-					//background-color: rgba(0,0,0,30);
+					background-color: @button_off;
+					.right_arrow_lines {
+						.right_facing_triangle(10, @grey_hover);				
+						div {
+							.right_facing_triangle(10, @button_off);
+							//This will be replaced with an image.
+						}
+					}
+					&:hover, &.button_current_theme  {
+						color: @top_white;
+						background-color: @button_on;
+						.content{
+							.el_opacity(1, 100);
+						}
+						.right_arrow_lines {
+							.right_facing_triangle(10, @top_white);				
+							div {
+								.right_facing_triangle(10, @button_on);
+								//This will be replaced with an image.
+							}
+						}
+					}
 				}
 			}
 		}	
@@ -105,17 +106,6 @@
 				.el_opacity(1, 100);
 			}
 			
-			.theme_item_outer_container .theme_item_inner_container .add_button .content{
-				.el_opacity(1, 100);
-			}
-			
-			.right_arrow_lines {
-				.right_facing_triangle(10, @white);				
-				div {
-					.right_facing_triangle(10, @off_black);
-					//This will be replaced with an image.
-				}
-			}
 		}
 	}
 }
