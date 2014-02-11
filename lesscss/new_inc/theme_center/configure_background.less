@@ -4,9 +4,22 @@
 	padding-left: 20px;
 	padding-right: 20px;
 	#theme_background_palette {
-		overflow: hidden; background-color: white; position: relative; outline: 1px solid green;
+		overflow: hidden; position: relative;
+		outline: 1px solid @top_white;
 		margin-top: 20px;
+		.theme_background_image_cont {
+			cursor: move; display: inline-block; position: absolute;
+			outline: 1px solid @top_white_half;
+		}
 	}
+	.ui-resizable-handle { width: 37px; height: 37px; }
+	.ui-resizable-ne, .ui-resizable-se { background: url(/img/admin/icons/configure_background_order_grabber_right.gif); }
+	.ui-resizable-ne { right: 0px; top: 0px; }
+	.ui-resizable-se { right: 0px; bottom: 0px; }
+	.ui-resizable-sw, .ui-resizable-nw { background: url(/img/admin/icons/configure_background_order_grabber_left.gif); }
+	.ui-resizable-sw { left: 0px; bottom: 0px; }
+	.ui-resizable-nw { left: 0px; top: 0px; }
+	
 }
 
 #upload_background_button {
