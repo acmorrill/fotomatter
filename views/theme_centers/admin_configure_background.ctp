@@ -128,11 +128,13 @@
 		jQuery('#theme_background_palette .theme_background_image_cont').resizable({
 			aspectRatio: true,
 			//containment: "parent",
-			handles: 'se', // DREW TODO - maybe add more but need to test all of them
+			handles: 'ne,se,sw,nw', // DREW TODO - maybe add more but need to test all of them
 			resize: function(event, ui) {
 				var size = ui.size;
 				
-				jQuery('#theme_background_palette .theme_background_image').css('width', size.width).css('height', size.height);
+				var new_style = jQuery(this).attr('style');
+				//jQuery('#theme_background_palette .theme_background_image').css('width', size.width).css('height', size.height);
+				jQuery('#theme_background_palette .theme_background_image').attr('style', new_style);
 			}
 		}).draggable({
 			//containment: "#theme_background_palette",
@@ -356,9 +358,9 @@
 				?>
 				<img class="theme_background_image" start-src="<?php echo $background_settings['bg_edit_path']; ?>" src="<?php echo $background_settings['bg_edit_path']; ?><?php echo $background_settings['image_cache_ending']; ?>" style="display: inline-block; position: absolute; left: <?php echo $background_settings['start_left']; ?>px; top: <?php echo $background_settings['start_top']; ?>px; width: <?php echo $background_settings['start_width']; ?>px; height: <?php echo $background_settings['start_height']; ?>px;" />
 				<img class="theme_overlay_image" src="<?php echo $background_settings['overlay_web_path']; ?><?php echo $background_settings['image_cache_ending']; ?>" style="display: inline-block; position: absolute; left: <?php echo $background_settings['palette_start_left']; ?>px; top: <?php echo $background_settings['palette_start_top']; ?>px; width: <?php echo $background_settings['palette_background_width']; ?>px; height: <?php echo $background_settings['palette_background_height']; ?>px;" />
-				<div class="theme_background_image_cont" style="cursor: move; outline: 1px solid blue; display: inline-block; position: absolute; left: <?php echo $background_settings['start_left']; ?>px; top: <?php echo $background_settings['start_top']; ?>px; width: <?php echo $background_settings['start_width']; ?>px; height: <?php echo $background_settings['start_height']; ?>px;"></div>
+				<div class="theme_background_image_cont" style="left: <?php echo $background_settings['start_left']; ?>px; top: <?php echo $background_settings['start_top']; ?>px; width: <?php echo $background_settings['start_width']; ?>px; height: <?php echo $background_settings['start_height']; ?>px;"></div>
 			</div>
-			<button id="save_custom_background_button" class="save_button"><?php echo __('Save', true); ?></button>
+			<div id="save_custom_background_button" class="save_button"><div class="content"><?php echo __('Save', true); ?></div></div>
 		</div>
 	
 		<br /><br /><br /><br /><br /><br /><br /><br />

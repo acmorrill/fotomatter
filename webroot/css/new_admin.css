@@ -1000,6 +1000,18 @@ body {
 .outer-tag-chooser-cont div.tagsinput {
   margin: 10px 5px;
 }
+.save_button {
+  height: 40px;
+  background-color: #1d1d1f;
+  display: inline-block;
+  padding-left: 18px;
+  padding-right: 18px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.save_button .content {
+  margin-top: 11px;
+}
 #theme_chooser_container .theme_item_container {
   display: inline-block;
   vertical-align: top;
@@ -1145,10 +1157,43 @@ body {
 }
 #theme_background_palette_container #theme_background_palette {
   overflow: hidden;
-  background-color: white;
   position: relative;
-  outline: 1px solid green;
+  outline: 1px solid #f4f9f5;
   margin-top: 20px;
+}
+#theme_background_palette_container #theme_background_palette .theme_background_image_cont {
+  cursor: move;
+  display: inline-block;
+  position: absolute;
+  outline: 1px solid rbga(244,249,245,.5);
+}
+#theme_background_palette_container .ui-resizable-handle {
+  width: 37px;
+  height: 37px;
+}
+#theme_background_palette_container .ui-resizable-ne,
+#theme_background_palette_container .ui-resizable-se {
+  background: url(/img/admin/icons/configure_background_order_grabber_right.gif);
+}
+#theme_background_palette_container .ui-resizable-ne {
+  right: 0px;
+  top: 0px;
+}
+#theme_background_palette_container .ui-resizable-se {
+  right: 0px;
+  bottom: 0px;
+}
+#theme_background_palette_container .ui-resizable-sw,
+#theme_background_palette_container .ui-resizable-nw {
+  background: url(/img/admin/icons/configure_background_order_grabber_left.gif);
+}
+#theme_background_palette_container .ui-resizable-sw {
+  left: 0px;
+  bottom: 0px;
+}
+#theme_background_palette_container .ui-resizable-nw {
+  left: 0px;
+  top: 0px;
 }
 #upload_background_button {
   margin-bottom: 40px;
