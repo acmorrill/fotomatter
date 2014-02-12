@@ -156,7 +156,7 @@
 					<option value="<?php echo $curr_gallery['PhotoGallery']['id']; ?>"><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></option>
 				<?php endforeach; ?>
 			</select>
-			<input id="single_menu_gallery_add_button" class="add_button" type="submit" value="<?php __('Go'); ?>" />
+			<div id="single_menu_gallery_add_button" class="add_button_main_menu"><?php __('Add'); ?><span class="plus_symbol"></span></div>
 		</div>
 		
 		
