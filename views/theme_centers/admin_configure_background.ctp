@@ -17,7 +17,7 @@
 	var desaturation_cont;
 	var inverted_cont;
 	function reload_size_change_background() {
-		show_modal('Processing Background Image', 60000);
+		show_modal('Processing Background Image', 0, function() {}, false);
 		
 		
 		var current_brightness = brightness_cont.slider('value');
@@ -100,9 +100,11 @@
 			complete: function() {
 //				console.log ("complete");
 				d = new Date();
+				theme_background_image.load(function() {
+					remove_modal();
+				});
 				var start_src = theme_background_image.attr('start-src') + "?t="+d.getTime();
 				theme_background_image.attr("src", start_src);
-				remove_modal();
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 //				console.log ("error");
@@ -247,6 +249,7 @@
 		});
 		
 		
+		jQuery('#bg_inverted').button();
 	});
 	
 	
@@ -298,60 +301,70 @@
 		<div class="custom_ui">
 			<div id="upload_background_button" class="add_button" type="submit"><div class="content"><?php __('Upload Background Image'); ?></div><div class="right_arrow_lines"><div></div></div></div>
 		</div>
-		<div class="bg_effects_controls" style="margin-bottom: 40px;">
-			<div id="bg_brightness" class="slider_container">
-				<?php 
-					$sign = '';
-					$start_brightness = round(($background_settings['current_brightness']/255) * 100);
-					if ($background_settings['current_brightness'] > 0 || $start_brightness > 0) {
-						$sign = '+';
-					}
-					$start_brightness_display = ($background_settings['current_brightness'] == 0 || $start_brightness == 0) ? __('Default', true) : $sign.$start_brightness . "%"; 
-				?>
-				<div class="slider_label"><label>Brightness:</label> <span><?php echo $start_brightness_display; ?></span></div>
-			</div><br />
-			
-			<div id="bg_contrast" class="slider_container">
-				<?php 
-					$sign = '';
-					if ($background_settings['current_contrast'] > 0) {
-						$sign = '+';
-					}
-					$start_contrast = ($background_settings['current_contrast'] == 0) ? __('Default', true) : $sign.$background_settings['current_contrast'] . "%"; 
-				?>
-				<div class="slider_label"><label>Contrast:</label> <span><?php echo $start_contrast; ?></span></div>
-				
-			</div><br />
-			
-			<div id="bg_desaturation" class="slider_container">
-				<?php 
-					$start_desaturation = ($background_settings['current_desaturation'] == 100) ? __('Default', true) : $background_settings['current_desaturation'] . "%"; 
-				?>
-				<div class="slider_label"><label>Saturation:</label> <span><?php echo $start_desaturation; ?></span></div>
-			</div><br />
-			
-			<label>Inverted:</label>
-			<input type="checkbox" id="bg_inverted" <?php if ($background_settings['current_inverted'] == 1): ?>checked="checked"<?php endif; ?> /><br /><br/><br/>
-			
-			<hr /><br/><br/>
-			<?php $custom_transparency_settings = $theme_config['admin_config']['theme_background_config']['overlay_image']['custom_overlay_transparency_fade']; ?>
-			<?php if (!empty($custom_transparency_settings)): ?>
-				<div id="custom_overlay_transparency_container">
-					<?php foreach ($custom_transparency_settings as $custom_overlay_section_name => $custom_overlay_section): ?>
-						<?php 
-							$overlay_value = !empty($background_settings['custom_overlay_transparency_settings'][$custom_overlay_section_name]) ? $background_settings['custom_overlay_transparency_settings'][$custom_overlay_section_name] : 4; 
-							$calculated_overlay_value = round(((-25/3) * $overlay_value) + (400/3));
-							$overlay_value_display = ($calculated_overlay_value == 100) ? __('Default', true) : $calculated_overlay_value . "%";
-						?>
-						<div id="bg_overlaysetting_<?php echo $custom_overlay_section_name; ?>" data-custom-overlay-key="<?php echo $custom_overlay_section_name; ?>" data-custom-overlay-value="<?php echo $calculated_overlay_value; ?>" class="slider_container">
-							<div class="slider_label"><label><?php echo $custom_overlay_section['label']; ?>:</label> <span><?php echo $overlay_value_display; ?></span></div>
-						</div><br />
-					<?php endforeach; ?>
-				</div>
-			<?php endif; ?>
-		</div>
 		<?php // DREW TODO - make the below div have the default bg color of the theme ?>
+		<div class="page_content_header">
+			<p>
+				Click and drag photo to set position.<br/>
+				Click and drag lower right corner to set size
+			</p>
+		</div>
 		<div id="theme_background_palette_container">
+			<div class="fade_background_top"></div>
+			<div class="bg_effects_controls" style="margin-bottom: 40px;">
+				<div id="bg_brightness" class="slider_container">
+					<?php 
+						$sign = '';
+						$start_brightness = round(($background_settings['current_brightness']/255) * 100);
+						if ($background_settings['current_brightness'] > 0 || $start_brightness > 0) {
+							$sign = '+';
+						}
+						$start_brightness_display = ($background_settings['current_brightness'] == 0 || $start_brightness == 0) ? __('Default', true) : $sign.$start_brightness . "%"; 
+					?>
+					<div class="slider_label"><label>Brightness</label> (<span><?php echo $start_brightness_display; ?></span>)</div>
+				</div>
+
+				<div id="bg_contrast" class="slider_container">
+					<?php 
+						$sign = '';
+						if ($background_settings['current_contrast'] > 0) {
+							$sign = '+';
+						}
+						$start_contrast = ($background_settings['current_contrast'] == 0) ? __('Default', true) : $sign.$background_settings['current_contrast'] . "%"; 
+					?>
+					<div class="slider_label"><label>Contrast</label> (<span><?php echo $start_contrast; ?></span>)</div>
+
+				</div>
+
+				<div id="bg_desaturation" class="slider_container">
+					<?php 
+						$start_desaturation = ($background_settings['current_desaturation'] == 100) ? __('Default', true) : $background_settings['current_desaturation'] . "%"; 
+					?>
+					<div class="slider_label"><label>Saturation</label> (<span><?php echo $start_desaturation; ?></span>)</div>
+				</div>
+
+				<div id="bg_inverted_container" class="slider_container custom_ui_radio">
+					<div class="slider_label"><label>Flip Image Horizontally:</label></div>
+					<input type="checkbox" id="bg_inverted" <?php if ($background_settings['current_inverted'] == 1): ?>checked="checked"<?php endif; ?> /><label for="bg_inverted"><?php __('Inverted'); ?></label>
+				</div>
+
+				<?php $custom_transparency_settings = $theme_config['admin_config']['theme_background_config']['overlay_image']['custom_overlay_transparency_fade']; ?>
+				<?php if (!empty($custom_transparency_settings)): ?>
+					<div id="custom_overlay_transparency_container">
+						<?php foreach ($custom_transparency_settings as $custom_overlay_section_name => $custom_overlay_section): ?>
+							<?php 
+								$overlay_value = !empty($background_settings['custom_overlay_transparency_settings'][$custom_overlay_section_name]) ? $background_settings['custom_overlay_transparency_settings'][$custom_overlay_section_name] : 4; 
+								$calculated_overlay_value = round(((-25/3) * $overlay_value) + (400/3));
+								$overlay_value_display = ($calculated_overlay_value == 100) ? __('Default', true) : $calculated_overlay_value . "%";
+							?>
+							<div id="bg_overlaysetting_<?php echo $custom_overlay_section_name; ?>" data-custom-overlay-key="<?php echo $custom_overlay_section_name; ?>" data-custom-overlay-value="<?php echo $calculated_overlay_value; ?>" class="slider_container">
+								<div class="slider_label"><label><?php echo $custom_overlay_section['label']; ?> Opacity</label> (<span><?php echo $overlay_value_display; ?></span>)</div>
+							</div>
+						<?php endforeach; ?>
+					</div>
+				<?php endif; ?>
+			</div>
+			
+			
 			<div id="theme_background_palette" style="width: <?php echo $background_settings['max_palette_width']; ?>px; height: <?php echo $background_settings['max_palette_height']; ?>px;">
 				<?php
 					//list($start_left, $start_top, $start_width, $start_height) = $this->Theme->get_theme_dynamic_background_starting_position();
