@@ -122,11 +122,22 @@ class DomainsController extends Appcontroller {
 			exit();
 		}
 
-		if ($this->FotomatterDomainManagement->setupDomain($domain_to_buy) === false) {
+		$domain_setup_overlord_info = $this->FotomatterDomainManagement->setupDomain($domain_to_buy);
+		if ($domain_setup_overlord_info === false) {
 			$this->system_domain_fail_generic();
 			exit();
 		}
-
+		$this->AccountDomain = ClassRegistry::init("AccountDomain");
+		$this->AccountDomain->create();
+		$this->AccountDomain->save($domain_setup_overlord_info);
+		
+		$this->AccountSubDomain = ClassRegistry::init("AccountSubDomain");
+		$this->AccountSubDomain->create();
+		$domain_setup_overlord_info['AccountSubDomain']['account_domain_id'] = $this->AccountDomain->id;
+		$this->AccountSubDomain->save($domain_setup_overlord_info);
+		
+		$this->log($domain_setup_overlord_info, 'domain_controller');
+		
 		$return['result'] = true;
 		$this->Session->setFlash(__('Your domain has been purchased, please allow 3-5 minutes for your new domain to be operational.', true), 'admin/flashMessage/success');
 		$this->return_json($return);

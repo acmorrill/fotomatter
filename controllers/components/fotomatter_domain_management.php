@@ -8,7 +8,7 @@ class FotomatterDomainManagementComponent extends Object {
 	public function setupDomain($domain) {
 		$api_result = json_decode($this->send_api_request("api_domain/setup", $domain), true);
 		if ($api_result['code']) {
-			return true;
+			return $api_result;
 		}
 		return false;
 	}
