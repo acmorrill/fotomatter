@@ -126,6 +126,8 @@ class DomainsController extends Appcontroller {
 			$this->system_domain_fail_generic();
 			exit();
 		}
+		
+		
 
 		$return['result'] = true;
 		$this->Session->setFlash(__('Your domain has been purchased, please allow 3-5 minutes for your new domain to be operational.', true), 'admin/flashMessage/success');
