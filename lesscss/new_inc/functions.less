@@ -37,6 +37,7 @@
 	border-color: transparent transparent transparent @color;
 }
 
+// .2, 20
 .el_opacity(@opacity, @ms_opacity) {
 	/* IE 8 */
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=@{ms_opacity})";
@@ -48,4 +49,37 @@
 	-khtml-opacity: @opacity;
 	/* Good browsers */
 	opacity: @opacity;
+}
+
+////////////////////////////////////////
+// generic page container
+.page_content_header {
+	.Code-Pro-LC;
+	font-size: 24px;
+	width: @body_content_width;
+	height: 98px;
+	background: @body_content_top_bg;
+	padding-left: 20px;
+	padding-right: 20px;
+	&, p {
+		color: @gray_text;
+	}
+}
+.page_content_container() {
+	background: url(/img/admin/general/box_transparent_bg_bottom.png) bottom left repeat-x;
+	display: inline-block;
+	padding-left: 20px;
+	padding-right: 20px;
+	position: relative;
+	overflow: hidden;
+	width: @body_content_width;
+	.fade_background_top {
+		position: absolute;
+		bottom: 802px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		background: @top_white;
+		.el_opacity(.04, 4);
+	}
 }

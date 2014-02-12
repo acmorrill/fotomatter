@@ -92,6 +92,12 @@ function show_modal(message, time_to_show, after_hide_callback, remove_after,css
 	jQuery('body').append(message_div);
 	
 	
+	var window_width = jQuery(window).width();
+	var message_width = message_div.width();
+	var center_left = (window_width / 2) - (message_div.width() / 2); 
+	message_div.css('left', center_left);
+	
+	
 	if (css != undefined) {
 		for(var x in css) {
 //			console.log(x);
