@@ -1169,10 +1169,13 @@ body {
   -khtml-opacity: 1;
   opacity: 1;
 }
+<<<<<<< HEAD
 #configure_theme_background .page_content_header p {
   display: inline-block;
   margin-top: 29px;
 }
+=======
+>>>>>>> e9053045b999dd7537ab83a065f4f96697441f99
 #theme_background_palette_container {
   padding-top: 28px;
   background: url(/img/admin/general/box_transparent_bg_bottom.png) bottom left repeat-x;
@@ -1288,6 +1291,7 @@ body {
 .slider_container .slider_label {
   display: block;
   position: absolute;
+<<<<<<< HEAD
   top: -32px;
   font-family: Code-Pro-LC;
   font-weight: normal;
@@ -1297,6 +1301,9 @@ body {
 .slider_container .slider_label,
 .slider_container .slider_label label {
   color: #7d888e;
+=======
+  top: -25px;
+>>>>>>> e9053045b999dd7537ab83a065f4f96697441f99
 }
 .profile-outer-cont.domains .saving_profile {
   display: inline-block;
