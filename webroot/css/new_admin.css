@@ -1167,6 +1167,7 @@ body {
   -khtml-opacity: 1;
   opacity: 1;
 }
+<<<<<<< HEAD
 .two_level_menu_items_cont {
   position: relative;
 }
@@ -1410,6 +1411,8 @@ body {
   display: inline-block;
   margin-top: 17px;
 }
+=======
+>>>>>>> 0e508a3348fa70cf6cb638dc30b25db4ff7ba0cc
 #configure_theme_background .page_content_header p {
   display: inline-block;
   margin-top: 29px;
@@ -1538,6 +1541,7 @@ body {
 .slider_container .slider_label,
 .slider_container .slider_label label {
   color: #7d888e;
+<<<<<<< HEAD
 }
 table.list .reorder_grabber {
   cursor: move;
@@ -1593,6 +1597,8 @@ table.list tr {
   padding-left: 19px;
   padding-top: 4px;
   padding-bottom: 7px;
+=======
+>>>>>>> 0e508a3348fa70cf6cb638dc30b25db4ff7ba0cc
 }
 .profile-outer-cont.domains .saving_profile {
   display: inline-block;
