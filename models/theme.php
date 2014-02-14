@@ -537,7 +537,7 @@ class Theme extends AppModel {
 			$width  = imagesx($imgAvatar);
 			$height = imagesy($imgAvatar);
 			$dest   = imagecreatetruecolor($width, $height);
-			for($i=0;$i<$width;$i++){
+			for($i=0;$i<$width;$i++) {
 				imagecopy($dest, $imgAvatar, ($width - $i - 1), 0, $i, 0, 1, $height);
 			}
 			$imgAvatar = $dest;
