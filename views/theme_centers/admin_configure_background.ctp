@@ -2,6 +2,7 @@
 <?php //debug($background_settings); ?>
 
 
+
 <script type="text/javascript">
 	function get_number_sign($num) {
 		if ($num >= 0) {
@@ -102,6 +103,7 @@
 				d = new Date();
 				theme_background_image.load(function() {
 					remove_modal();
+					introJs().start();
 				});
 				var start_src = theme_background_image.attr('start-src') + "?t="+d.getTime();
 				theme_background_image.attr("src", start_src);
@@ -160,6 +162,7 @@
 				{
 					text: "<?php __('Use Selected'); ?>",
 					click: function() {
+						show_modal('Processing Background Image', 0, function() {}, false);
 						jQuery('#choose_background_form').submit();
 						jQuery(this).dialog('close');
 					}
@@ -167,6 +170,7 @@
 				{
 					text: "<?php __('Upload New'); ?>",
 					click: function() {
+						show_modal('Processing Background Image', 0, function() {}, false);
 						jQuery('#hidden_background_file_chooser').click();
 						jQuery(this).dialog('close');
 					}
@@ -186,10 +190,6 @@
 			jQuery('#change_background_dialog').dialog('open');
 		});
 		
-		
-		jQuery('#save_custom_background_button').click(function() {
-			reload_size_change_background();
-		});
 		
 		brightness_cont.slider({
 			min: -255,
@@ -250,6 +250,12 @@
 		
 		
 		jQuery('#bg_inverted').button();
+		
+		
+		reload_size_change_background();
+		jQuery('#save_custom_background_button').click(function() {
+			reload_size_change_background();
+		});
 	});
 	
 	
@@ -298,11 +304,11 @@
 
 <div id="configure_theme_background" class="content_only_page">
 	<?php if ($background_settings['theme_has_dynamic_background'] === true): ?>
-		<div class="custom_ui">
+		<div class="custom_ui" data-step="1" data-intro="Ok, wasn't that fun?" data-position='right'>
 			<div id="upload_background_button" class="add_button" type="submit"><div class="content"><?php __('Upload Background Image'); ?></div><div class="right_arrow_lines"><div></div></div></div>
 		</div>
 		<?php // DREW TODO - make the below div have the default bg color of the theme ?>
-		<div class="page_content_header">
+		<div class="page_content_header" data-step="2" data-intro="Hey this is another thing" data-position='right'>
 			<p>
 				Click and drag photo to set position.<br/>
 				Click and drag lower right corner to set size
