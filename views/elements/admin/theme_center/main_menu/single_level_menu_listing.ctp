@@ -145,7 +145,7 @@
 					<option value="<?php echo $curr_page['SitePage']['id']; ?>"><?php echo $curr_page['SitePage']['title']; ?></option>
 				<?php endforeach; ?>
 			</select>
-			<input id="single_menu_page_add_button" class="add_button" type="submit" value="<?php __('Go'); ?>" />
+			<div id="single_menu_page_add_button" class="add_button_main_menu"><?php __('Add'); ?> <span class="plus_symbol_menu_page"></span> </div>
 		</div>
 		
 		<?php $all_galleries = $this->Gallery->get_all_galleries(); ?>

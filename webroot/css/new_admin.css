@@ -1539,6 +1539,10 @@ body {
 .slider_container .slider_label label {
   color: #7d888e;
 }
+.rightborder {
+  background: url('/img/admin/icons/border.svg') top right no-repeat !important;
+  background-size: 10px 10px;
+}
 table.list .reorder_grabber {
   cursor: move;
   background: url('/img/admin/icons/reorder_icon.svg') top center no-repeat;
@@ -1569,10 +1573,6 @@ table.list tr {
 .table_width_page_name {
   width: 150px;
 }
-.rightborder {
-  border-right: 1px solid ;
-  text-align: left !important;
-}
 .add_button_main_menu {
   cursor: pointer;
   display: inline-block;
@@ -1588,6 +1588,13 @@ table.list tr {
   background-color: #181818;
 }
 .add_button_main_menu .plus_symbol {
+  background: url('/img/admin/icons/plus_symbol.svg') top right no-repeat;
+  padding-right: 8px;
+  padding-left: 19px;
+  padding-top: 4px;
+  padding-bottom: 7px;
+}
+.plus_symbol_menu_page {
   background: url('/img/admin/icons/plus_symbol.svg') top right no-repeat;
   padding-right: 8px;
   padding-left: 19px;
