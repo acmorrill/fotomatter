@@ -75,7 +75,7 @@ class ThemeCentersController extends AppController {
 		if (!empty($this->data['new_theme_id'])) {
 			$this->Theme->change_to_theme_by_id($this->data['new_theme_id']);
 			$new_theme_config = $this->ThemeRenderer->_process_theme_config_with_user_settings(true);
-			$this->Theme->get_theme_background_config_values($new_theme_config);
+			$this->Theme->get_theme_background_config_values($new_theme_config, true);
 		}
 	}
 	
@@ -265,29 +265,64 @@ class ThemeCentersController extends AppController {
 			$upload_data['size'] = $this->params['form']['hidden_background_file_chooser']['size'];
 			
 			
-			if ($upload_data['size'] > 2097152) { // fail if background image bigger than 2 megs
-				$this->Session->setFlash(__('Exceeded maximum background upload size of 2 megabytes.', true));
+			if ($upload_data['size'] > 10485760 || $upload_data['size'] == 0 || empty($_FILES)) {
+				$this->Session->setFlash(__('Exceeded maximum background upload size.', true));
+				$this->redirect('/admin/theme_centers/configure_background/');
+				exit();
+			}
+			
+			$filename_info = pathinfo($upload_data['name']);
+			$is_jpeg_extension = isset($filename_info['extension']) && ($filename_info['extension'] == 'jpg' || $filename_info['extension'] == 'jpeg');
+			$is_jpeg_mime_type = isset($upload_data['type']) && ($upload_data['type'] == 'image/jpg' || $upload_data['type'] == 'image/jpeg');
+			if (!$is_jpeg_extension && !$is_jpeg_mime_type) {
+				$this->major_error('Tried to upload a non jpg image.');
+				$this->Session->setFlash(__('Only jpg images can be uploaded as the a theme background', true));
 				$this->redirect('/admin/theme_centers/configure_background/');
 				exit();
 			}
 			
 			
-			$background_file_data = getimagesize($upload_data['tmp_name']);
-			if ($background_file_data !== false) {
-				list($width, $height, $type, $attr) = $background_file_data;
-	
-				$filename_info = pathinfo($upload_data['name']);
-				$is_jpeg_extension = isset($filename_info['extension']) && ($filename_info['extension'] == 'jpg' || $filename_info['extension'] == 'jpeg');
-				$is_jpeg_mime_type = isset($upload_data['type']) && ($upload_data['type'] == 'image/jpg' || $upload_data['type'] == 'image/jpeg');
-				if (!$is_jpeg_extension && !$is_jpeg_mime_type) {
-					$this->major_error('Tried to upload a non jpg image.');
-					$this->Session->setFlash(__('Only jpg images can be uploaded as the a theme background', true));
-					$this->redirect('/admin/theme_centers/configure_background/');
-					exit();
+			move_uploaded_file($upload_data['tmp_name'], UPLOADED_BACKGROUND_PATH);
+			chmod(UPLOADED_BACKGROUND_PATH, 0776);
+			
+			
+			$uploaded_image_handle = imagecreatefromjpeg(UPLOADED_BACKGROUND_PATH);
+			$old_width = imagesx($uploaded_image_handle);
+			$old_height = imagesy($uploaded_image_handle);
+			$bigger_dimension = ($old_width > $old_height) ? $old_width : $old_height;
+			$downsized_image = null;
+			if ($bigger_dimension > 6000) { // hard fail if background image bigger than 6000 pixels
+				$this->Session->setFlash(__('Exceeded maximum background upload dimension of 5000 pixels.', true));
+				$this->redirect('/admin/theme_centers/configure_background/');
+				exit();
+			} else if ($bigger_dimension > 3000) { // resize down to less than 3000 pixels in this case
+				if ($bigger_dimension === $old_width) {
+					$new_width = 3000;
+					$new_height = round((3000 * $old_height) / $old_width);
+				} else {
+					$new_width = round((3000 * $old_width) / $old_height);
+					$new_height = 3000;
 				}
-				$this->log($upload_data, 'theme_center_upload');
-				$this->log(UPLOADED_BACKGROUND_PATH, 'theme_center_upload');
-				if(move_uploaded_file($upload_data['tmp_name'], UPLOADED_BACKGROUND_PATH)) {
+				$downsized_image = imagecreatetruecolor($new_width, $new_height);
+				imagecopyresampled(
+					$downsized_image, 
+					$uploaded_image_handle, 
+					0, 
+					0, 
+					0, 
+					0, 
+					$new_width, 
+					$new_height, 
+					$old_width, 
+					$old_height
+				);
+			} else {
+				$downsized_image = $uploaded_image_handle;
+			}
+			
+			
+			if (!empty($downsized_image)) {
+				if(imagejpeg($downsized_image, UPLOADED_BACKGROUND_PATH, 100)) {
 					chmod(UPLOADED_BACKGROUND_PATH, 0776);
 					
 					$this->ThemeHiddenSetting->setVal('use_theme_background', true); // use theme background is used for seeing of we are using the theme default background image

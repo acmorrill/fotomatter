@@ -72,14 +72,14 @@ define("SITE_LOGO_CACHES_WEB_PATH", DS.'caches');
 // site background paths
 define("SITE_BACKGROUND_PATH", ROOT.DS.'site_background');
 define("SITE_THEME_UPLOADED_IMAGES", SITE_BACKGROUND_PATH.DS.'theme_uploaded_images');
-define("UPLOADED_BACKGROUND_PATH", SITE_THEME_UPLOADED_IMAGES.DS.'base_uploaded_background.png');
+define("UPLOADED_BACKGROUND_PATH", SITE_THEME_UPLOADED_IMAGES.DS.'base_uploaded_background.jpg');
 define("SITE_THEME_MERGED_FINAL_IMAGES", SITE_BACKGROUND_PATH.DS.'theme_merged_final_images');
 define("SITE_THEME_BG_EDITED_IMAGES", SITE_BACKGROUND_PATH.DS.'theme_bg_edited_images');
 //define("SITE_BACKGROUND_WEB_PATH", DS.'site_background');
 define("SITE_THEME_UPLOADED_IMAGES_WEB_PATH", DS.'theme_uploaded_images');
 define("SITE_THEME_MERGED_FINAL_IMAGES_WEB_PATH", DS.'theme_merged_final_images');
 define("SITE_THEME_BG_EDITED_IMAGES_WEB_PATH", DS.'theme_bg_edited_images');
-define("UPLOADED_BACKGROUND_WEB_PATH", SITE_THEME_UPLOADED_IMAGES_WEB_PATH.DS.'base_uploaded_background.png');
+define("UPLOADED_BACKGROUND_WEB_PATH", SITE_THEME_UPLOADED_IMAGES_WEB_PATH.DS.'base_uploaded_background.jpg');
 
 // paths for schema directories
 define("LOCAL_SCHEMA_PATH", ROOT.DS.APP_DIR.DS.'config'.DS.'versioning'.DS.'local'.DS.'schema');   
