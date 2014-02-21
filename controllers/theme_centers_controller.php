@@ -285,7 +285,8 @@ class ThemeCentersController extends AppController {
 					$this->redirect('/admin/theme_centers/configure_background/');
 					exit();
 				}
-				
+				$this->log($upload_data, 'theme_center_upload');
+				$this->log(UPLOADED_BACKGROUND_PATH, 'theme_center_upload');
 				if(move_uploaded_file($upload_data['tmp_name'], UPLOADED_BACKGROUND_PATH)) {
 					chmod(UPLOADED_BACKGROUND_PATH, 0776);
 					

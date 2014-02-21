@@ -6,7 +6,7 @@
  */
 class DomainsController extends Appcontroller {
 
-	public $uses = array('GlobalCountry');
+	public $uses = array('GlobalCountry', 'AccountDomain');
 	
 	public $layout = 'admin/accounts';
 	
@@ -14,6 +14,9 @@ class DomainsController extends Appcontroller {
 	
 	
 	public function admin_index() {
+		$purchased_domains = $this->AccountDomain->find('first', array(
+			'contain'=>false
+		));
 		
 	}
 	
@@ -21,19 +24,21 @@ class DomainsController extends Appcontroller {
 		$json_result = $this->get_json_from_input();
 		$this->data = $json_result['data'];
 		
+		if (empty($this->data) === false) {
+			try {
+			   $this->validatePaymentProfile();
+			} catch (Exception $e) {
+			   $return['message'] = $e->getMessage();
+			   $return['result'] = false;
+               $this->return_json($return);
+               exit();
+			}
+		}
+		
 		//Adam Todo consoldate logic with that in the accounts controller
        if (empty($this->data) == false) {
            try {
-               $this->Validation->validate('not_empty', $this->data['AuthnetProfile'], 'billing_firstname', __('You must provide your first name.', true));
-               $this->Validation->validate('not_empty', $this->data['AuthnetProfile'], 'billing_lastname', __('You must provide your last name.', true));
-               $this->Validation->validate('not_empty', $this->data['AuthnetProfile'], 'billing_address', __('You must provide your address.', true));
-               $this->Validation->validate('not_empty', $this->data['AuthnetProfile'], 'billing_city', __('You must provide your city.', true));
-               
-               $this->Validation->validate('not_empty', $this->data['AuthnetProfile'], 'billing_zip', __('You must provide your zip code.', true));
-               $this->Validation->validate('valid_cc_no_type', $this->data['AuthnetProfile']['payment_cardNumber'], 'billing_cardNumber', __('Your credit card was not entered or not in a valid format.', true));
-               $this->data['AuthnetProfile']['str_date'] =  $this->data['AuthnetProfile']['expiration']['month'] . '/31' . '/' . $this->data['AuthnetProfile']['expiration']['year'];
-               $this->Validation->validate('date_is_future', $this->data['AuthnetProfile'], 'str_date', __('Your date provided was invalid or not in the future.', true)); //Ok in theory this should never be hit cause they are selects
-               $this->Validation->validate('not_empty', $this->data['AuthnetProfile'], 'payment_cardCode', __('Your csv code was either blank or invalid.', true));
+               $this->validatePaymentProfile();
            
            } catch (Exception $e) {
    			   $return['message'] = $e->getMessage();
@@ -135,8 +140,6 @@ class DomainsController extends Appcontroller {
 		$this->AccountSubDomain->create();
 		$domain_setup_overlord_info['AccountSubDomain']['account_domain_id'] = $this->AccountDomain->id;
 		$this->AccountSubDomain->save($domain_setup_overlord_info);
-		
-		$this->log($domain_setup_overlord_info, 'domain_controller');
 		
 		$return['result'] = true;
 		$this->Session->setFlash(__('Your domain has been purchased, please allow 3-5 minutes for your new domain to be operational.', true), 'admin/flashMessage/success');
