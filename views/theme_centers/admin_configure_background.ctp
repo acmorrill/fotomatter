@@ -2,6 +2,7 @@
 <?php //debug($background_settings); ?>
 
 
+
 <script type="text/javascript">
 	function get_number_sign($num) {
 		if ($num >= 0) {
@@ -160,6 +161,7 @@
 				{
 					text: "<?php __('Use Selected'); ?>",
 					click: function() {
+						show_modal('Processing Background Image', 0, function() {}, false);
 						jQuery('#choose_background_form').submit();
 						jQuery(this).dialog('close');
 					}
@@ -167,6 +169,7 @@
 				{
 					text: "<?php __('Upload New'); ?>",
 					click: function() {
+						show_modal('Processing Background Image', 0, function() {}, false);
 						jQuery('#hidden_background_file_chooser').click();
 						jQuery(this).dialog('close');
 					}
@@ -186,10 +189,6 @@
 			jQuery('#change_background_dialog').dialog('open');
 		});
 		
-		
-		jQuery('#save_custom_background_button').click(function() {
-			reload_size_change_background();
-		});
 		
 		brightness_cont.slider({
 			min: -255,
@@ -250,6 +249,12 @@
 		
 		
 		jQuery('#bg_inverted').button();
+		
+		
+		//reload_size_change_background(); // DREW TODO - turn this back on
+		jQuery('#save_custom_background_button').click(function() {
+			reload_size_change_background();
+		});
 	});
 	
 	
@@ -298,17 +303,17 @@
 
 <div id="configure_theme_background" class="content_only_page">
 	<?php if ($background_settings['theme_has_dynamic_background'] === true): ?>
-		<div class="custom_ui">
+		<div class="custom_ui" data-step="2" data-intro="Ok, wasn't that fun?">
 			<div id="upload_background_button" class="add_button" type="submit"><div class="content"><?php __('Upload Background Image'); ?></div><div class="right_arrow_lines"><div></div></div></div>
 		</div>
 		<?php // DREW TODO - make the below div have the default bg color of the theme ?>
-		<div class="page_content_header">
+		<div class="page_content_header" data-step="1" data-intro="Hey this is another thing">
 			<p>
 				Click and drag photo to set position.<br/>
 				Click and drag lower right corner to set size
 			</p>
 		</div>
-		<div id="theme_background_palette_container">
+		<div id="theme_background_palette_container" data-step="3" data-intro="Hey this is another thing" data-position="left">
 			<div class="fade_background_top"></div>
 			<div class="bg_effects_controls" style="margin-bottom: 40px;">
 				<div id="bg_brightness" class="slider_container">
@@ -349,7 +354,7 @@
 
 				<?php $custom_transparency_settings = $theme_config['admin_config']['theme_background_config']['overlay_image']['custom_overlay_transparency_fade']; ?>
 				<?php if (!empty($custom_transparency_settings)): ?>
-					<div id="custom_overlay_transparency_container">
+					<div id="custom_overlay_transparency_container" data-step="4" data-intro="Hey this is another thing">
 						<?php foreach ($custom_transparency_settings as $custom_overlay_section_name => $custom_overlay_section): ?>
 							<?php 
 								$overlay_value = !empty($background_settings['custom_overlay_transparency_settings'][$custom_overlay_section_name]) ? $background_settings['custom_overlay_transparency_settings'][$custom_overlay_section_name] : 4; 

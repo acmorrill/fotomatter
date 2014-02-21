@@ -180,7 +180,7 @@ class Theme extends AppModel {
 	
 	
 	
-	public function get_theme_background_config_values($theme_config) {
+	public function get_theme_background_config_values($theme_config, $reset_to_defaults = false) {
 		$background_settings = array();
 			
 		$this->ThemeHiddenSetting = ClassRegistry::init('ThemeHiddenSetting');
@@ -310,8 +310,10 @@ class Theme extends AppModel {
 			///////////////////////////////////////////////////////////////////////////////////////
 			// get custom overlay background settings
 			$background_settings['custom_overlay_transparency_settings'] = array();
+			$background_settings['default_overlay_transparency_settings'] = array();
 			foreach ($background_settings['background_config']['overlay_image']['custom_overlay_transparency_fade'] as $custom_overlay_transparency_setting_name => $value) {
 				$background_settings['custom_overlay_transparency_settings'][$custom_overlay_transparency_setting_name] = $this->ThemeHiddenSetting->getVal('custom_overlay_setting_'.$custom_overlay_transparency_setting_name, 4);
+				$background_settings['default_overlay_transparency_settings'][$custom_overlay_transparency_setting_name] = 4;
 			}
 			
 			
@@ -323,21 +325,23 @@ class Theme extends AppModel {
 			$background_settings['final_background_height'] = ($background_settings['orig_palette_background_height'] * $background_settings['start_height']) / $background_settings['palette_background_height'];
 			$background_settings['final_background_left'] = ($background_settings['final_background_width'] * $background_settings['small_background_left']) / $background_settings['start_width'];
 			$background_settings['final_background_top'] = ($background_settings['final_background_height'] * $background_settings['small_background_top']) / $background_settings['start_height'];
-			$this->create_theme_merged_background(
-				$background_settings['overlay_abs_path'], 
-				$background_settings['current_background_abs_path'], 
-				$background_settings['final_background_width'], 
-				$background_settings['final_background_height'], 
-				$background_settings['final_background_left'],
-				$background_settings['final_background_top'],
-				$background_settings['use_theme_background'],
-				$background_settings['current_brightness'],
-				$background_settings['current_contrast'],
-				$background_settings['current_desaturation'],
-				$background_settings['current_inverted'],
-				$background_settings['custom_overlay_transparency_settings'],
-				$theme_config
-			);
+			if ($reset_to_defaults === true) {
+				$this->create_theme_merged_background(
+					$background_settings['overlay_abs_path'], 
+					$background_settings['current_background_abs_path'], 
+					$background_settings['final_background_width'], 
+					$background_settings['final_background_height'], 
+					$background_settings['final_background_left'],
+					$background_settings['final_background_top'],
+					false,
+					0,
+					0,
+					100,
+					0,
+					$background_settings['default_overlay_transparency_settings'],
+					$theme_config
+				);
+			}
 		}
 		
 		return $background_settings;

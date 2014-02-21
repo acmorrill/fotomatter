@@ -58,6 +58,15 @@ jQuery(document).ready(function() {
 	/* globally setup add buttons (for add anthing) */
 	/************************************************/
 	//jQuery('.add_button').button();
+	
+	
+	
+	
+	// setup the help button click event
+	jQuery('#help_tour_button').click(function() {
+		introJs().start();
+	});
+	
 });
 
 /****************************************************************************

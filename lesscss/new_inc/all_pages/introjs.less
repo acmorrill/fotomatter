@@ -1,0 +1,258 @@
+@overlay_radial_start_opacity: 0.7;
+@overlay_radial_end_opacity: 1;
+.introjs-overlay {
+  position: absolute;
+  z-index: @intro_bottom;
+  background-color: #000;
+  opacity: 0;
+  background: -moz-radial-gradient(center,ellipse cover,rgba(0,0,0,@overlay_radial_start_opacity) 0,rgba(0,0,0,@overlay_radial_end_opacity) 100%);
+  background: -webkit-gradient(radial,center center,0px,center center,100%,color-stop(0%,rgba(0,0,0,@overlay_radial_start_opacity)),color-stop(100%,rgba(0,0,0,@overlay_radial_end_opacity)));
+  background: -webkit-radial-gradient(center,ellipse cover,rgba(0,0,0,@overlay_radial_start_opacity) 0,rgba(0,0,0,@overlay_radial_end_opacity) 100%);
+  background: -o-radial-gradient(center,ellipse cover,rgba(0,0,0,@overlay_radial_start_opacity) 0,rgba(0,0,0,@overlay_radial_end_opacity) 100%);
+  background: -ms-radial-gradient(center,ellipse cover,rgba(0,0,0,@overlay_radial_start_opacity) 0,rgba(0,0,0,@overlay_radial_end_opacity) 100%);
+  background: radial-gradient(center,ellipse cover,rgba(0,0,0,@overlay_radial_start_opacity) 0,rgba(0,0,0,@overlay_radial_end_opacity) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#66000000',endColorstr='#e6000000',GradientType=1);
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+  filter: alpha(opacity=50);
+  -webkit-transition: all 0.3s ease-out;
+     -moz-transition: all 0.3s ease-out;
+      -ms-transition: all 0.3s ease-out;
+       -o-transition: all 0.3s ease-out;
+          transition: all 0.3s ease-out;
+}
+
+.introjs-fixParent {
+  z-index: auto !important;
+  opacity: 1.0 !important;
+}
+
+.introjs-showElement {
+  z-index: @intro_top !important;
+}
+
+.introjs-relativePosition {
+  position: relative;
+}
+
+.introjs-helperLayer {
+  position: absolute;
+  z-index: @intro_middle;
+  background-color: @intro_bg;
+  border: 1px solid #777;
+  border: 1px solid rgba(0,0,0,.4);
+  border-radius: 4px;
+  box-shadow: 0 2px 15px rgba(0,0,0,.4);
+  -webkit-transition: all 0.3s ease-out;
+     -moz-transition: all 0.3s ease-out;
+      -ms-transition: all 0.3s ease-out;
+       -o-transition: all 0.3s ease-out;
+          transition: all 0.3s ease-out;
+}
+
+.introjs-helperNumberLayer {
+  display: none;
+  position: absolute;
+  top: -16px;
+  left: -16px;
+  z-index: 9999999999 !important;
+  padding: 2px;
+  font-family: Arial, verdana, tahoma;
+  font-size: 13px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  text-shadow: 1px 1px 1px rgba(0,0,0,.3);
+  background: #ff3019; /* Old browsers */
+  background: -webkit-linear-gradient(top, #ff3019 0%, #cf0404 100%); /* Chrome10+,Safari5.1+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ff3019), color-stop(100%, #cf0404)); /* Chrome,Safari4+ */
+  background:    -moz-linear-gradient(top, #ff3019 0%, #cf0404 100%); /* FF3.6+ */
+  background:     -ms-linear-gradient(top, #ff3019 0%, #cf0404 100%); /* IE10+ */
+  background:      -o-linear-gradient(top, #ff3019 0%, #cf0404 100%); /* Opera 11.10+ */
+  background:         linear-gradient(to bottom, #ff3019 0%, #cf0404 100%);  /* W3C */
+  width: 20px;
+  height:20px;
+  line-height: 20px;
+  border: 3px solid white;
+  border-radius: 50%;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3019', endColorstr='#cf0404', GradientType=0); /* IE6-9 */ 
+  filter: progid:DXImageTransform.Microsoft.Shadow(direction=135, strength=2, color=ff0000); /* IE10 text shadows */
+  box-shadow: 0 2px 5px rgba(0,0,0,.4);
+}
+
+.introjs-arrow {
+  border: 5px solid @top_white;
+  content:'';
+  position: absolute;
+}
+.introjs-arrow.top {
+  top: -10px;
+  border-top-color:transparent;
+  border-right-color:transparent;
+  border-bottom-color:@top_white;
+  border-left-color:transparent;
+}
+.introjs-arrow.right {
+  right: -10px;
+  top: 10px;
+  border-top-color:transparent;
+  border-right-color:transparent;
+  border-bottom-color:transparent;
+  border-left-color:@top_white;
+}
+.introjs-arrow.bottom {
+  bottom: -10px;
+  border-top-color:@top_white;
+  border-right-color:transparent;
+  border-bottom-color:transparent;
+  border-left-color:transparent;
+}
+.introjs-arrow.left {
+  left: -10px;
+  top: 10px;
+  border-top-color:transparent;
+  border-right-color:@top_white;
+  border-bottom-color:transparent;
+  border-left-color:transparent;
+}
+
+.introjs-tooltip {
+  position: absolute;
+  padding: 17px;
+  background-color: @top_white;
+  color: @on_white_color;
+  min-width: 200px;
+  max-width: 300px;
+  border-radius: 3px;
+  box-shadow: 0 1px 10px rgba(0,0,0,.4);
+  -webkit-transition: opacity 0.8s ease-out;
+     -moz-transition: opacity 0.8s ease-out;
+      -ms-transition: opacity 0.8s ease-out;
+       -o-transition: opacity 0.8s ease-out;
+          transition: opacity 0.8s ease-out;
+}
+.introjs-tooltiptext {
+	.Code-Pro-LC;
+	color: @on_white_color;
+	font-size: 100%;
+	padding-top: 5px;
+}
+
+.introjs-tooltipbuttons {
+  text-align: right;
+}
+
+/* 
+ Buttons style by http://nicolasgallagher.com/lab/css3-github-buttons/ 
+ Changed by Afshin Mehrabani
+*/
+.introjs-button {
+	.Code-Pro-LC;
+	font-size: 100%;
+  position: relative;
+  overflow: visible;
+  display: inline-block;
+  padding: 0.6em 1em;
+  border: 1px solid #d4d4d4;
+  margin: 0;
+  text-decoration: none;
+  text-shadow: 1px 1px 0 @on_white_color;
+  color: @top_gray;
+  white-space: nowrap;
+  cursor: pointer;
+  outline: none;
+  background-color: @tab2_bottom;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(@tab2_top), to(@tab2_bottom));
+  background-image: -moz-linear-gradient(@tab2_top, @tab2_bottom);
+  background-image: -o-linear-gradient(@tab2_top, @tab2_bottom);
+  background-image: linear-gradient(@tab2_top, @tab2_bottom);
+  -webkit-background-clip: padding;
+  -moz-background-clip: padding;
+  -o-background-clip: padding-box;
+  /*background-clip: padding-box;*/ /* commented out due to Opera 11.10 bug */
+  -webkit-border-radius: 0.2em;
+  -moz-border-radius: 0.2em;
+  border-radius: 0.2em;
+  /* IE hacks */
+  zoom: 1;
+  *display: inline;
+  margin-top: 20px;
+}
+
+.introjs-button:hover {
+  border-color: #bcbcbc;
+  text-decoration: none; 
+  box-shadow: 0px 1px 1px #e3e3e3;
+}
+
+.introjs-button:focus,
+.introjs-button:active {
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(@tab2_bottom), to(@tab2_top));
+  background-image: -moz-linear-gradient(@tab2_bottom, @tab2_top);
+  background-image: -o-linear-gradient(@tab2_bottom, @tab2_top);
+  background-image: linear-gradient(@tab2_bottom, @tab2_top);
+}
+
+/* overrides extra padding on button elements in Firefox */
+.introjs-button::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+.introjs-skipbutton {
+  margin-right: 5px;
+  color: #7a7a7a;
+}
+
+.introjs-prevbutton {
+  -webkit-border-radius: 0.2em 0 0 0.2em;
+  -moz-border-radius: 0.2em 0 0 0.2em;
+  border-radius: 0.2em 0 0 0.2em;
+  border-right: none;
+}
+
+.introjs-nextbutton {
+  -webkit-border-radius: 0 0.2em 0.2em 0;
+  -moz-border-radius: 0 0.2em 0.2em 0;
+  border-radius: 0 0.2em 0.2em 0;
+}
+
+.introjs-disabled, .introjs-disabled:hover, .introjs-disabled:focus {
+  color: #9a9a9a;
+  border-color: #d4d4d4;
+  box-shadow: none;
+  cursor: default;
+  background-color: @tab2_top;
+  background-image: none;
+  text-decoration: none;
+}
+
+.introjs-bullets {
+  text-align: left;
+}
+.introjs-bullets ul {
+  clear: both;
+  margin: 15px auto 0;
+  padding: 0;
+  display: inline-block;
+}
+.introjs-bullets ul li {
+  list-style: none;
+  float: left;
+  margin: 0 2px;
+}
+.introjs-bullets ul li a {
+  display: block;
+  width: 12px;
+  height: 12px;
+  background: @tab2_bottom + #333;
+  border-radius: 24px;
+  -moz-border-radius: 24px;
+  -webkit-border-radius: 24px;
+  text-decoration: none;
+}
+.introjs-bullets ul li a:hover {
+  background: @tab2_top;
+}
+.introjs-bullets ul li a.active {
+  background: @tab2_top;
+}
