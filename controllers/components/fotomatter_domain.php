@@ -162,6 +162,7 @@ class FotomatterDomainComponent extends Object {
      * @param request_args array Parameter required for api call.. see docs here https://www.name.com/files/name_api_documentation.pdf
      */
     private function _send_request($api_call, $request_type='GET', $request_args) {
+		
        $api_result = $this->Http->request(array(
           'method'=>$request_type,
            'uri'=>$this->_api_url .  $api_call,

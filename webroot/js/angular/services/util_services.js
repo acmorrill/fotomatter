@@ -56,8 +56,8 @@ angular.module('fmAdmin.utilServices', ['fmAdmin.constants'])
 		
 		self.purchase = function(domain, contact) {
 			var toPost = {
-				domain: domain,
-			    contact: contact
+				domain: jQuery.extend(true, {}, domain),
+			    contact: jQuery.extend(true, {}, contact)
 			};
 			toPost.domain.price = accounting.unformat(domain.price);
 			return $http.post("/admin/domains/purchase", toPost);
