@@ -635,6 +635,12 @@
       targetElement.element.className += ' introjs-relativePosition';
     }
 
+//	console.log("====================");
+//	console.log(targetElement);
+//	console.log(targetElement.element);
+//	console.log(targetElement.element.parentNode);
+//	console.log("====================");
+	
     var parentElm = targetElement.element.parentNode;
     while (parentElm != null) {
       if (parentElm.tagName.toLowerCase() === 'body') break;
@@ -653,7 +659,7 @@
     if (!_elementInViewport(targetElement.element) && this._options.scrollToElement === true) {
       var rect = targetElement.element.getBoundingClientRect(),
         winHeight=_getWinSize().height,
-        top = rect.bottom - (rect.bottom - rect.top),
+        top = rect.bottom - (rect.bottom - rect.top) - 94, // DREW TODO change this if header height changes  // -94 is so it will scroll past the header
         bottom = rect.bottom - winHeight;
 
       //Scroll up
@@ -726,7 +732,7 @@
     var rect = el.getBoundingClientRect();
 
     return (
-      rect.top >= 0 &&
+      rect.top - 94 >= 0 && // DREW TODO change this if header height changes  // -94 is so it will scroll past the header
       rect.left >= 0 &&
       (rect.bottom+80) <= window.innerHeight && // add 80 to get the text right
       rect.right <= window.innerWidth
