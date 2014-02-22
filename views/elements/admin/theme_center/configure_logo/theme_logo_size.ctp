@@ -138,6 +138,7 @@
 				cursor: 'move',
 				scroll: false,
 				stop: function() {
+					console.log ("came into freaking here 2");
 					reload_size_change_logo();
 				}
 			});

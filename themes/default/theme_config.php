@@ -111,7 +111,7 @@ $theme_config = array(
 			'levels' => 1
 		),
 		'logo_config' => array(
-			'available_space' => array(
+			'available_space' => array( // the max width and height of the logo (overridden by settings below in the available space screenshot)
 				'width' => 400,
 				'height' => 200
 			),
@@ -135,30 +135,19 @@ $theme_config = array(
 			'overlay_image' => array(
 				'absolute_path' => 	'',
 				'web_path' => '',
-				'custom_overlay_transparency_fade' => array(
-					'header' => array(
-						'tl' => array(
-							'x' => 0,
-							'y' => 0,
-						),
-						'br' => array(
-							'x' => '*', // NOTE - * means full length or width - also, NOTICE that max width is width minus 1 because the calc starts at 0
-							'y' => 90,
-						),
-						'label' => 'Header',
-					),
-					'body' => array(
-						'tl' => array(
-							'x' => 0,
-							'y' => 91,
-						),
-						'br' => array(
-							'x' => '*', // NOTE - * means full length or width - also, NOTICE that max width is width minus 1 because the calc starts at 0
-							'y' => '*',
-						),
-						'label' => 'Body',
-					),
-				),
+//				'custom_overlay_transparency_fade' => array(
+//					'general' => array(
+//						'tl' => array(
+//							'x' => 0,
+//							'y' => 0,
+//						),
+//						'br' => array(
+//							'x' => '*', // NOTE - * means full length or width
+//							'y' => '*', // NOTE - * means full length or width
+//						),
+//						'label' => 'General',
+//					),
+//				),
 			),
 			'default_bg_image' => array(
 				'absolute_path' => 	'', // max 1600 width and max 1200 height

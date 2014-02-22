@@ -18,7 +18,7 @@
 		<script src="/javascript/slideShow.js"></script>
 		<script src="/javascript/blendtrans.js"></script>
 	</head>
-	<body onload="preloadSlideShowImages(); startSlideShow();">
+	<body onload="preloadSlideShowImages(); startSlideShow();" class="thisisotest">
 		<?php echo $this->Element('nameTitle'); ?>
 		<?php //echo $this->Element('newsLetter'); ?>
 		<?php //require_once("php/newsLetter.php"); ?>
