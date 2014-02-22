@@ -38,6 +38,7 @@ var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domai
 			$scope.profile = jQuery.extend(true, AuthnetProfile.initObject({}), page_meta_data.account_details.data.AuthnetProfile)
 			
 			$scope.contact = {};
+			console.log($scope.profile);
 			$scope.countryChange('states_for_selected_country', $scope.profile.country_id);
 
 			if (jQuery.isEmptyObject(page_meta_data.account_details.data.AuthnetProfile) === false) {
@@ -89,6 +90,7 @@ var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domai
 					$scope.errorMessage = '';
 					$scope.setStep('domain_contact');
 					domainUtil.populateDomainContact($scope.contact, $scope.profile);
+					$scope.countryChange('contact_states_for_selected_country', $scope.contact.country_id);
 				}
 			});
 	};
@@ -141,11 +143,13 @@ var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domai
 	};
 	
 	$scope.submitPurchase = function() {
+		$scope.setStep('loading');
 		domainUtil.purchase($scope.domain_to_purchase, $scope.contact)
 			.success(function(data, status) {
 				if (data.result){
 					window.location.reload();
 				} else {
+					$scope.setStep('confirm');
 					$scope.errorMessage = data.message;
 				}
 			});
