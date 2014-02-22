@@ -69,9 +69,11 @@ abstract class AbstractThemeLogoHelper extends AppHelper {
 		
 		if (!file_exists($image_path)) {
 			if (!is_dir($theme_logo_folder_cache_path)) {
-				mkdir($theme_logo_folder_cache_path, 0775, true);
+				if (mkdir($theme_logo_folder_cache_path, 0775, true) === false) {
+					$this->PhotoCache->major_error('failed to create logo cache folder for theme', compact('theme_name', 'theme_logo_folder_cache_path'));
+				}
 			}
-			chmod($theme_logo_folder_cache_path, 0775);
+			//chmod($theme_logo_folder_cache_path, 0775); // DREW TODO - this lines seems to be unneede and maybe causes bugs - maybe delete it
 			
 			$this->PhotoCache = ClassRegistry::init('PhotoCache');
 			// DREW TODO - maybe make sure that this convert uses high quality and has smoothing/sharpening

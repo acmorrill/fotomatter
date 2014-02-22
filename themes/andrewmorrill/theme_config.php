@@ -69,7 +69,7 @@ $theme_config = array(
 				'absolute_path' => 	PATH_TO_THEMES.DS.'andrewmorrill/webroot/andrew_morrill_theme_logo_space.jpg', // this image should be max 735 pixels width
 				'web_path' => '/andrew_morrill_theme_logo_space.jpg',
 				'padding' => array(
-					'left' => 89,
+					'left' => 0,
 					'top' => 0,
 					'right' => 137,
 					'bottom' => 54
@@ -84,7 +84,31 @@ $theme_config = array(
 			'theme_has_dynamic_background' => true,
 			'overlay_image' => array(
 				'absolute_path' => 	PATH_TO_THEMES.DS.'andrewmorrill/webroot/test_bg.png', // this image should be max 1390 x 953 (DREW TODO - not sure about this)
-				'web_path' => '/test_bg.png'
+				'web_path' => '/test_bg.png',
+				'custom_overlay_transparency_fade' => array(
+					'header' => array(
+						'tl' => array(
+							'x' => 0,
+							'y' => 0,
+						),
+						'br' => array(
+							'x' => '*', // NOTE - * means full length or width - also, NOTICE that max width is width minus 1 because the calc starts at 0
+							'y' => 90,
+						),
+						'label' => 'Header',
+					),
+					'body' => array(
+						'tl' => array(
+							'x' => 0,
+							'y' => 91,
+						),
+						'br' => array(
+							'x' => '*', // NOTE - * means full length or width - also, NOTICE that max width is width minus 1 because the calc starts at 0
+							'y' => '*',
+						),
+						'label' => 'Body',
+					),
+				),
 			),
 			'default_bg_image' => array(
 				'absolute_path' => 	PATH_TO_THEMES.DS.'andrewmorrill/webroot/Passing-Rain.jpg', // max 1600 width and max 1200 height
