@@ -12,12 +12,15 @@ class DomainsController extends Appcontroller {
 	
 	public $components = array('FotomatterDomain', 'FotomatterBilling', 'FotomatterDomainManagement');
 	
+	public $paginate = array(
+		'contain'=>false,
+		'limit'=>20,
+		'order'=>'AccountDomain.created DESC'
+	);
 	
 	public function admin_index() {
-		$purchased_domains = $this->AccountDomain->find('first', array(
-			'contain'=>false
-		));
-		
+		$domains = $this->paginate('AccountDomain');
+		$this->set(compact(array('domains')));
 	}
 	
 	public function admin_add_profile() {
