@@ -34,4 +34,34 @@
 			</tbody>
 		</table>
 	</div>
+	<div class="purchased_domains">
+		<?php if (empty($domains) === false): ?>
+		<div class="table_header">
+			<label class="inline"><?php __('Page:'); ?></label> <?php echo $this->Paginator->counter(); ?>
+			<div class="right">
+				<?php echo $this->Paginator->prev(__('Prev', true), null, null, array('class' => 'disabled')); ?>&nbsp;
+				<?php echo $this->Paginator->numbers(array(
+					'modulus' => 2,
+					'first' => 2,
+					'last' => 2
+				)); ?>&nbsp;
+				<?php echo $this->Paginator->next(__('Next', true), null, null, array('class' => 'disabled')); ?> 
+			</div>
+		</div>
+		<table class='list'>
+			<tr>
+				<th class='photo_id first'><?php echo $this->Paginator->sort(__('Domain Name', 'AccountDomain.url')); ?></th>
+				<th class='photo_image'><?php echo $this->Paginator->sort(__('Created', 'AccountDomain.created')); ?></th>
+			</tr>
+			<?php foreach ($domains as $domain): ?>
+			<tr>
+				<td><?php echo $domain['AccountDomain']['url']; ?></td>
+				<td><?php echo $domain['AccountDomain']['created']; ?></td>
+			</tr>
+			<?php endforeach; ?>
+		</table>
+		<?php else: ?>
+		<p class='notice'><?php echo __('You currently do not have any custom domains.'); ?></p>
+		<?php endif; ?>
+	</div>
 </div>
