@@ -15,7 +15,7 @@ button {
   cursor: pointer;
 }
 body {
-  font-family: Arial, serif;
+  font-family: 'Roboto', sans-serif;
   background-image: url('../images/background-content.jpg');
   background-repeat: no-repeat;
   background-color: #ffffff;
@@ -633,4 +633,12 @@ td.priceAndDiscountCode.price {
 }
 .tinyText {
   font-size: 11px;
+}
+#side_menu_bg {
+  background: url(/images/misc/side_menu_bg.png) top left no-repeat;
+  position: absolute;
+  top: 5px;
+  left: 823px;
+  width: 24px;
+  height: 591px;
 }
