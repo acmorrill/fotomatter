@@ -8,7 +8,7 @@
 	<tr class="<?php if (!in_array($single_menu_item['SiteOneLevelMenu']['id'], $do_not_sort_items)): ?>sortable_menu_item <?php else: ?> not_sortable_menu_item<?php endif; ?>" site_one_level_menu_id="<?php echo $single_menu_item['SiteOneLevelMenu']['id']; ?>">
 		
 		<td class="single_level_menu_id first table_width_reorder_icon"><div class="background"><div class="reorder_single_level_menu_grabber reorder_grabber"></div></div> </td> 
-		<td class="rightborder"><?php echo $menu_item_data['display_type']; ?></td>
+		<td><div class="rightborder"></div><span class="page_gallery"><?php echo $menu_item_data['display_type']; ?></span></td>
 		<td class="table_width_page_name"><?php echo $menu_item_data['name']; ?></td>
 		<td>
 			<?php if ($menu_item_data['display_type'] != 'System'): ?>

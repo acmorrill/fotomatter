@@ -62,7 +62,7 @@
 	});
 </script>
 
-<div>
+<div class="large_container">
 	<div class="table_border">
 		<?php $single_menu_items = $this->ThemeMenu->get_single_menu_items(); ?>
 		<?php $do_not_sort_items = array($single_menu_items[0]['SiteOneLevelMenu']['id']); ?>
@@ -72,14 +72,13 @@
 			</tbody>
 		</table>
 	</div>
-
-	<div class="generic_sort_and_filters" style="position: absolute; bottom: -121px; left: 0px; right: 0px; height: auto;">
+	<div>
 		<script type="text/javascript">
 			jQuery(document).ready(function() { 
 				jQuery('#single_menu_page_add_button').click(function() { 
 					var select_box = jQuery(this).parent().find('#single_menu_page_add_list');
 					var site_page_id = select_box.val();
-					
+
 					jQuery.ajax({
 						type: 'post',
 						url: '/admin/site_menus/add_one_level_menu_item/SitePage/'+site_page_id+'/',
@@ -90,7 +89,7 @@
 								setup_one_level_menu_item_delete(new_menu_item);
 								move_to_cont = jQuery('.single_level_menu_items_cont .list tbody');
 								move_to_cont.append(new_menu_item);
-								
+
 								// move scoll to new menu item
 								var menu_cont = jQuery(move_to_cont).closest('.content-background');
 								menu_cont.scrollTop(menu_cont.prop("scrollHeight"));
@@ -104,12 +103,12 @@
 						dataType: 'json'
 					});	
 				});
-				
-				
+
+
 				jQuery('#single_menu_gallery_add_button').click(function() { 
 					var select_box = jQuery(this).parent().find('#single_menu_gallery_add_list');
 					var photo_gallery_id = select_box.val();
-					
+
 					jQuery.ajax({
 						type: 'post',
 						url: '/admin/site_menus/add_one_level_menu_item/PhotoGallery/'+photo_gallery_id+'/',
@@ -120,7 +119,7 @@
 								setup_one_level_menu_item_delete(new_menu_item);
 								var move_to_cont = jQuery('.single_level_menu_items_cont .list tbody');
 								move_to_cont.append(new_menu_item);
-								
+
 								// move scoll to new menu item
 								var menu_cont = jQuery(move_to_cont).closest('.content-background');
 								menu_cont.scrollTop(menu_cont.prop("scrollHeight"));
@@ -138,33 +137,33 @@
 		</script>
 
 		<?php $all_pages = $this->Page->get_all_pages(); ?>
-		<div class="custom_ui" style="margin: 5px; margin-bottom: 15px;">
-			<div class="drop_down_sub_title">
-				<span><?php __('Add Page To Menu:'); ?></span>
+		<div class="custom_ui margin_bottom">
+			<span class="add_pages_galleries"><?php __('Add Page To Menu:'); ?></span>
+			<div class="drop_down_sub_title">	
 				<select id="single_menu_page_add_list">
 					<?php foreach ($all_pages as $curr_page): ?>
 						<option value="<?php echo $curr_page['SitePage']['id']; ?>"><?php echo $curr_page['SitePage']['title']; ?></option>
 					<?php endforeach; ?>
 				</select>
-				<div id="single_menu_page_add_button" class="add_button_main_menu"><?php __('Add'); ?> <span class="plus_symbol"></span> </div>
+				<div id="single_menu_page_add_button" class="add_button_main_menu"><span class="text_add_button"><?php __('Add'); ?></span> <span class="plus_symbol"></span> </div>
 			</div>
 		</div>
-		
+		<hr>
 		<?php $all_galleries = $this->Gallery->get_all_galleries(); ?>
-		<div class="custom_ui" style="margin: 5px; margin-bottom: 15px;">
-			<span><?php __('Add Gallery To Menu:'); ?></span>
+		<div class="custom_ui margin_top">
+			<span class="add_pages_galleries"><?php __('Add Gallery To Menu:'); ?></span>
 			<div class="drop_down_sub_title">
 				<select id="single_menu_gallery_add_list">
 					<?php foreach ($all_galleries as $curr_gallery): ?>
 						<option value="<?php echo $curr_gallery['PhotoGallery']['id']; ?>"><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></option>
 					<?php endforeach; ?>
 				</select>
-			
-			<div id="single_menu_gallery_add_button" class="add_button_main_menu"><?php __('Add'); ?><span class="plus_symbol"></span></div>
+
+				<div id="single_menu_gallery_add_button" class="add_button_main_menu"><span class="text_add_button"><?php __('Add'); ?></span><span class="plus_symbol"></span></div>
 			</div>	
 		</div>
-		
-		
+
+
 		<?php /*
 		<div id="photos_not_in_a_gallery_cont" class="custom_ui_radio" style="margin-bottom: 7px;">
 			<input type="checkbox" id="photos_not_in_a_gallery" /><label for="photos_not_in_a_gallery"><?php __('Photos Not In A Gallery'); ?></label>

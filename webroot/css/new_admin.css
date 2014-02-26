@@ -1093,7 +1093,6 @@ table.list {
 }
 table.list td {
   background: #222;
-  padding: 12px;
   text-align: center;
   vertical-align: middle;
 }
@@ -1789,8 +1788,10 @@ table.list .reorder_grabber {
   color: #7d888e;
 }
 .rightborder {
-  background: url('/img/admin/icons/border.svg') top right no-repeat !important;
-  background-size: 10px 10px;
+  background: url('/img/admin/icons/border.svg') top right no-repeat;
+  height: 27px;
+  width: 20px;
+  float: right;
 }
 table.list .reorder_grabber {
   cursor: move;
@@ -1809,12 +1810,23 @@ table.list .reorder_grabber {
   opacity: .6;
   width: 37px;
   height: 35px;
+  position: relative;
+  left: 10px;
 }
 .table_border {
   padding: 20px;
 }
 table.list tr {
   border: 1px solid ;
+}
+table.list tr td {
+  text-align: center;
+  vertical-align: middle;
+  height: 50px;
+}
+table.list tr td .page_gallery {
+  position: relative;
+  top: 6px;
 }
 .table_width_reorder_icon {
   width: 30px;
@@ -1828,12 +1840,10 @@ table.list tr {
   display: inline-block;
   vertical-align: top;
   border: 1px solid transparent;
-  height: 23px;
+  height: 21px;
   padding-left: 10px;
-  font-family: Code-Pro-LC;
   font-weight: normal;
   font-style: normal;
-  font-size: 18px;
   background-color: #181818;
   padding-right: 21px;
 }
@@ -1842,12 +1852,45 @@ table.list tr {
   display: inline-block;
   position: absolute;
   right: 3px;
-  top: 8px;
+  top: 3px;
   height: 20px;
   width: 16px;
 }
 .drop_down_sub_title {
   width: 100%;
+  position: relative;
+  top: 6px;
+  bottom: 10px;
+}
+.add_pages_galleries {
+  width: 100%;
+  position: relative;
+  top: 1px;
+  bottom: 10px;
+  font-family: Code-Pro-LC;
+  font-weight: normal;
+  font-style: normal;
+}
+.text_add_button {
+  position: relative;
+  top: 3px;
+  bottom: 0px;
+  font-family: Code-Pro-LC;
+  font-weight: normal;
+  font-style: normal;
+}
+.margin_top {
+  margin: 5px;
+  margin-top: 19px;
+  margin-bottom: 20px;
+}
+.margin_bottom {
+  margin: 5px;
+  margin-bottom: 31px;
+  margin-top: 13px;
+}
+.large_container {
+  padding-bottom: 100px;
 }
 .profile-outer-cont.domains .saving_profile {
   display: inline-block;
