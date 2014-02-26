@@ -1546,32 +1546,6 @@ ul.icons li [class*=" icon-"] {
   -o-border-radius: 5px;
   border-radius: 5px;
 }
-.block_element_base {
-  background: #222222;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-.generic_sort_and_filters {
-  padding: 15px;
-  border: 1px solid #171717;
-  color: #999999;
-  height: 60px;
-  position: relative;
-}
-.generic_sort_and_filters.lighter {
-  color: white;
-  width: 100%;
-  height: 100%;
-  outline: 0px;
-  border: 0px;
-  padding: 0px;
-}
-.generic_sort_and_filters,
-.generic_sort_and_filters.lighter,
-.lighter-content-background {
-  background-color: #363636;
-  padding: 20px;
-}
 .profile-outer-cont h3 {
   font-weight: bold;
   margin: 10px 0;
