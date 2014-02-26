@@ -139,24 +139,29 @@
 
 		<?php $all_pages = $this->Page->get_all_pages(); ?>
 		<div class="custom_ui" style="margin: 5px; margin-bottom: 15px;">
-			<span><?php __('Add Page To Menu:'); ?></span>
-			<select id="single_menu_page_add_list">
-				<?php foreach ($all_pages as $curr_page): ?>
-					<option value="<?php echo $curr_page['SitePage']['id']; ?>"><?php echo $curr_page['SitePage']['title']; ?></option>
-				<?php endforeach; ?>
-			</select>
-			<div id="single_menu_page_add_button" class="add_button_main_menu"><?php __('Add'); ?> <span class="plus_symbol_menu_page"></span> </div>
+			<div class="drop_down_sub_title">
+				<span><?php __('Add Page To Menu:'); ?></span>
+				<select id="single_menu_page_add_list">
+					<?php foreach ($all_pages as $curr_page): ?>
+						<option value="<?php echo $curr_page['SitePage']['id']; ?>"><?php echo $curr_page['SitePage']['title']; ?></option>
+					<?php endforeach; ?>
+				</select>
+				<div id="single_menu_page_add_button" class="add_button_main_menu"><?php __('Add'); ?> <span class="plus_symbol"></span> </div>
+			</div>
 		</div>
 		
 		<?php $all_galleries = $this->Gallery->get_all_galleries(); ?>
 		<div class="custom_ui" style="margin: 5px; margin-bottom: 15px;">
 			<span><?php __('Add Gallery To Menu:'); ?></span>
-			<select id="single_menu_gallery_add_list">
-				<?php foreach ($all_galleries as $curr_gallery): ?>
-					<option value="<?php echo $curr_gallery['PhotoGallery']['id']; ?>"><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></option>
-				<?php endforeach; ?>
-			</select>
+			<div class="drop_down_sub_title">
+				<select id="single_menu_gallery_add_list">
+					<?php foreach ($all_galleries as $curr_gallery): ?>
+						<option value="<?php echo $curr_gallery['PhotoGallery']['id']; ?>"><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></option>
+					<?php endforeach; ?>
+				</select>
+			
 			<div id="single_menu_gallery_add_button" class="add_button_main_menu"><?php __('Add'); ?><span class="plus_symbol"></span></div>
+			</div>	
 		</div>
 		
 		
