@@ -48,18 +48,27 @@
 				<?php echo $this->Paginator->next(__('Next', true), null, null, array('class' => 'disabled')); ?> 
 			</div>
 		</div>
+		<form method='POST'>
+		<script type='text/javascript'>
+			var primary_domain_id = '<?php echo $primary_domain_id; ?>';
+		</script>
 		<table class='list'>
 			<tr>
-				<th class='photo_id first'><?php echo $this->Paginator->sort(__('Domain Name', 'AccountDomain.url')); ?></th>
-				<th class='photo_image'><?php echo $this->Paginator->sort(__('Created', 'AccountDomain.created')); ?></th>
+				<th class='first'><?php echo $this->Paginator->sort(__('Domain Name'), 'AccountDomain.url'); ?></th>
+				<th><?php echo __('Is Primary Domain?'); ?></th>
+				<th class='first'><?php echo $this->Paginator->sort(__('Expires'), 'AccountDomain.expires'); ?>
+				<th class=''><?php echo $this->Paginator->sort(__('Created'), 'AccountDomain.created'); ?></th>
 			</tr>
 			<?php foreach ($domains as $domain): ?>
 			<tr>
 				<td><?php echo $domain['AccountDomain']['url']; ?></td>
-				<td><?php echo $domain['AccountDomain']['created']; ?></td>
+				<td><input type='radio' name='primary_domain' ng-model='primary_domain' ng-change='setDomainPrimary("<?php echo $domain['AccountDomain']['id']; ?>")' value='<?php echo $domain['AccountDomain']['id']; ?>' /></td>
+				<td><?php echo $this->Util->get_formatted_created_date($domain['AccountDomain']['expires']); ?></td>
+				<td><?php echo $this->Util->get_formatted_created_date($domain['AccountDomain']['created']); ?></td>
 			</tr>
 			<?php endforeach; ?>
 		</table>
+		</form>
 		<?php else: ?>
 		<p class='notice'><?php echo __('You currently do not have any custom domains.'); ?></p>
 		<?php endif; ?>
