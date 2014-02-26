@@ -22,6 +22,21 @@ var domains_index = function($scope, $modal, $http, domainUtil, errorUtil) {
 			}
 		});
 	};
+	
+	$scope.setDomainPrimary = function(domain_id) {
+		var toPost = {};
+		toPost.primary_domain_id = domain_id;
+		$http.post("/admin/domains/set_as_primary", toPost)
+				.success(function(result) {
+					
+				});
+		
+	};
+	
+	if (primary_domain_id !== '') {
+		$scope.primary_domain = primary_domain_id;
+	}
+	
 };
 domains_index.$inject = ['$scope', '$modal', '$http', 'domainUtil', 'errorUtil'];
 

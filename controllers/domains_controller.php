@@ -20,7 +20,18 @@ class DomainsController extends Appcontroller {
 	
 	public function admin_index() {
 		$domains = $this->paginate('AccountDomain');
-		$this->set(compact(array('domains')));
+		$primary_domain = $this->AccountDomain->find('first', array(
+			'conditions'=>array(
+				'AccountDomain.is_primary'=>'1'
+			),
+			'contain'=>false
+		));
+		$primary_domain_id = '';
+		if(empty($primary_domain) === false) {
+			$primary_domain_id = $primary_domain['AccountDomain']['id'];
+		}
+		
+		$this->set(compact(array('domains', 'primary_domain_id')));
 	}
 	
 	public function admin_add_profile() {
@@ -137,6 +148,14 @@ class DomainsController extends Appcontroller {
 		}
 		$this->AccountDomain = ClassRegistry::init("AccountDomain");
 		$this->AccountDomain->create();
+		$domain_setup_overlord_info['AccountDomain']['expires'] = date('y-m-d H:i:s', strtotime('+1 year'));
+		
+		//if we have no other AccountDomains saved then mark as primary
+		$current_domain_count = $this->AccountDomain->find('count');
+		if (empty($current_domain_count)) {
+			$domain_setup_overlord_info['AccountDomain']['is_primary'] = true;
+		}
+		
 		$this->AccountDomain->save($domain_setup_overlord_info);
 		
 		$this->AccountSubDomain = ClassRegistry::init("AccountSubDomain");
@@ -182,6 +201,39 @@ class DomainsController extends Appcontroller {
 		$return['account_details'] = $this->FotomatterBilling->getAccountDetails();
 		$return['domain_markup_price'] = DOMAIN_MARKUP_DOLLAR;
 		$this->return_json($return);
+		exit();
+	}
+	
+	public function admin_set_as_primary() {
+		$data_posted = $this->get_json_from_input();
+		if (empty($data_posted['primary_domain_id']) === false) {
+			$new_primary_domain = $this->AccountDomain->find('first', array(
+				'conditions'=>array(
+					'AccountDomain.id'=>$data_posted['primary_domain_id']
+				),
+				'contain'=>false
+			));
+			if (empty($new_primary_domain)) {
+				$this->major_error("Tried to set primary domain with id that doesn't exist, should ever happen.", $data_posted);
+				$this->return_json(array('code'=>false));
+				exit();
+			}
+			
+			
+			
+			$new_primary_domain['AccountDomain']['is_primary'] = 1;
+			$this->AccountDomain->create();
+			if ($this->AccountDomain->save($new_primary_domain) === false) {
+				$this->major_error('Tried to set new domain as primary but the save failed', $new_primary_domain);
+				$this->return_json(array('code'=>false));
+				exit();
+			}
+			$result['code'] = true;
+			$result['message'] = 'New Domain set as primary';
+			$this->return_json($result);
+			exit();
+		}
+		header('HTTP/1.0 500 Internal Server Error');
 		exit();
 	}
 }
