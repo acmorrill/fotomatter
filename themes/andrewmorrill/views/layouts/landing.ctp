@@ -17,13 +17,17 @@
 		<script src="/javascript/preloadImages.js"></script>
 		<script src="/javascript/slideShow.js"></script>
 		<script src="/javascript/blendtrans.js"></script>
+		<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 	</head>
-	<body onload="preloadSlideShowImages(); startSlideShow();" class="thisisotest">
+	<body>
 		<?php echo $this->Element('nameTitle'); ?>
 		<?php //echo $this->Element('newsLetter'); ?>
 		<?php //require_once("php/newsLetter.php"); ?>
-	
-		<div onclick="toggleSLStartStop();" id="slideShowDiv" style="background-image: url('/slideShow/A-Tangerine-Blue.jpg'); background-repeat: no-repeat; width: 556px; height: 453px;">
+
+		
+		
+		
+		<div id="slideShowDiv" style="background-image: url('/slideShow/A-Tangerine-Blue.jpg'); background-repeat: no-repeat; width: 556px; height: 453px;">
 			<img src="/slideShow/A-Tangerine-Blue.jpg" id="currSlideImage" style="width: 556px; height: 453px; border: 0 none; filter: alpha(opacity=0); -moz-opacity: 0; opacity: 0;" alt="" />
 			
 			<?php echo $this->Element('footer'); ?>
@@ -31,7 +35,8 @@
 		
 		<p id="introBlurb">&nbsp;&nbsp;<b>Welcome</b> to the online gallery of fine art photographer Andrew Morrill. For tips on viewing this site click <a href="viewingTips.php">here</a>. To purchase prints, navigate to an image in the image galleries section. Thank you for visting. Enjoy!
 		</p>
-		
+	
+		<div id="side_menu_bg"></div>
 <?php
 		echo $this->Element('menu/navBar', array( 'page' => 'home' ));
 ?>
