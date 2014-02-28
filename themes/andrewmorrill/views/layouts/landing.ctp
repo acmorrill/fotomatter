@@ -23,8 +23,10 @@
 		<?php echo $this->Element('nameTitle'); ?>
 		<?php //echo $this->Element('newsLetter'); ?>
 		<?php //require_once("php/newsLetter.php"); ?>
-	
-		<?php // DREW TODO - START HERE TOMORROW ?>
+
+		
+		
+		
 		<div id="slideShowDiv" style="background-image: url('/slideShow/A-Tangerine-Blue.jpg'); background-repeat: no-repeat; width: 556px; height: 453px;">
 			<img src="/slideShow/A-Tangerine-Blue.jpg" id="currSlideImage" style="width: 556px; height: 453px; border: 0 none; filter: alpha(opacity=0); -moz-opacity: 0; opacity: 0;" alt="" />
 			

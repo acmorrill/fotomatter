@@ -16,6 +16,12 @@ class Theme extends AppModel {
 	);
 
 	
+	public function get_landing_page_slideshow_images($num_to_grab) {
+		// DREW TODO - for now we are just going to grab the the number of images from the first gallery
+		// later we will have a way for the user to specify the images that get pulled in
+		
+	}
+	
 	public function get_all_available_themes() {
 		// get the top level themes
 		$top_level_themes = $this->find('all', array(
