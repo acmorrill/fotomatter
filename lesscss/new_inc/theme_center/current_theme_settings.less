@@ -1,0 +1,164 @@
+////////////////////////////////////////////////////
+// two level menu item styles	
+.two_level_menu_items_cont { position: relative;
+	.top_level_item {
+		min-height: 60px;
+		margin: 20px;
+		position: relative;
+		border: 1px solid transparent;
+		margin-top: 43px;
+		h2 { margin: 10px; }
+		.sub_menu_item {
+			background-color: #454545;
+			margin: 10px;
+			min-height: 40px;
+			cursor: move;
+			position: relative;
+		}
+	}
+	.single_item { background-color: #454545; }
+	.container_item { background-color: #636363; } 
+}
+
+
+@label_width: 170px;
+/////////////////////////////////////////////////
+// Theme settings styles
+#theme_centers_list_container, .basic_settings {
+	position: relative;
+	.theme_setting_container, .basic_setting_cont {
+		vertical-align: top;
+		//margin-bottom: 10px;
+		padding-bottom: 30px;
+		padding-top: 30px;
+		background-color:@off_black;
+		background-color:rgba(30,30,31,.21);
+		display: inline-block;
+		border: 1px solid transparent;
+		label {
+			text-align: right;
+			//margin-right: 12px;
+			vertical-align: top;
+			display: inline-block;
+			min-width: @label_width;
+			padding-bottom: 50px;
+			//padding-top: 40px;
+		}
+		.on_off{
+				margin-right: -65px;
+				margin-left: -10px;
+			}
+		.drop_down{
+			margin-right: -97px;
+			margin-left: 19px;
+		}
+		.numeric_dropdown{
+			margin-right: -154px;
+			margin-left: 84px;
+		}
+		.radio{
+			margin-right: -94px;
+			margin-left: -4px;
+		}
+		.radio_buttons{
+			padding-top: 30px;
+			margin-right: 20px;
+			margin-left: 19px;
+		}
+		.color_radio{
+			padding-top: 31px;
+			margin-left: -114px;
+		}
+		.color_radio_text{
+			margin-left: 38px;
+		}
+		.check_boxes{
+			padding-top: 31px;
+			margin-left: -114px;
+		}
+		.check_boxes_text{
+			margin-left: 38px;
+		}
+		.theme_setting_inputs_container {
+			margin-top: -3px;
+			min-width: 80px;
+			vertical-align: top;
+			display: inline-block;
+			//span.color_chooser { display: inline-block; width: 14px; height: 14px; outline: 1px solid #808080; }
+			select, option {
+				margin-top: 30px;
+				}
+		}
+		.text_input_text{
+			padding-top: 29px;
+			margin-left: -102px;
+		}
+		.text_input{
+			margin-left: 35px;
+		}
+		.text_area_text{
+			margin-left: 35px;
+		}
+		.text_area{
+			padding-top: 29px;
+			margin-left: -102px;
+		}
+		
+		.theme_setting_description {
+			display: inline-block;
+			vertical-align: top;
+			//width: 500px;
+			font-style: italic; 
+			margin-left: 80px;
+		}
+		.on_off_description{
+				width: 587px;
+			}
+		.text_area_description{
+				width: 232px;
+			}
+		.drop_down_description{
+				width: 591px;
+			}
+		.numeric_dropdown_description{
+				width: 584px;
+			}
+		.radio_description{
+				width: 574px;
+			}
+		.color_radio_description{
+				width: 476px;
+			}
+		.check_boxes_description{
+				width: 474px;
+			}
+		.text_input_description{
+				width: 477px;
+			}	
+	}
+	.saving_theme_setting {
+		.black_loading_popup;
+		.rounded-corners-small;
+		position: fixed;
+		right: 48px;
+		bottom: 25px;
+	}
+	h2.group_list_name {
+		padding-left: 20px;
+		.Code-Pro-LC;
+		font-size: 24px;
+		//margin-bottom: 32px;
+		line-height: 46px;
+		width: 829px;
+		background-color:@off_black;
+		background-color:rgba(30,30,31,.36);
+		display: inline-block;
+		border: 1px solid transparent;
+		margin-top:20px;
+		height: 75px;
+		span{
+			display: inline-block;
+			margin-top: 17px;
+		}
+	}
+}
