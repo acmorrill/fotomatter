@@ -24,6 +24,7 @@
 	<head>
 		<title><?php echo $curr_gallery['PhotoGallery']['display_name']; ?> -- Celestial Light Photography</title>
 		<?php echo $this->Element('theme_global_includes'); ?>
+		<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" type="text/css" href="/css/andrewmorrill_style.css" />
 		<link rel="stylesheet" type="text/css" href="/stylesheets/contentReadableBackground.css" />
 <?php
@@ -61,6 +62,7 @@ if(!isset($HTTP_COOKIE_VARS["usersAvailScreenWidth"]) || !isset($HTTP_COOKIE_VAR
 ?>
 	</head>
 	<body>		
+		<div id="side_menu_bg"></div>
 		<?php echo $this->Element('nameTitle'); ?>
 		<?php //echo $this->Element('newsLetter'); ?>
 		<div class="galleryContent">

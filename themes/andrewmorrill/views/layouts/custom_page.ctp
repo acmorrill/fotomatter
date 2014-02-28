@@ -4,6 +4,7 @@
 		<title>About Andrew Morrill -- Celestial Light Photography</title>
 		<meta name="keywords" content="Andrew Morrill, photography, fine art, utah photography, utah photographer, National Park, Utah, California, Large Format">
 		<meta name="description" content="Large format landscape photography by Utah based photographer Andrew Morrill.">
+		<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" type="text/css" href="/css/andrewmorrill_style.css" />
 		<?php echo $this->Element('theme_global_includes'); ?>
 	</head>
