@@ -148,7 +148,7 @@
 				<div id="single_menu_page_add_button" class="add_button_main_menu"><span class="text_add_button"><?php __('Add'); ?></span> <span class="plus_symbol"></span> </div>
 			</div>
 		</div>
-		<hr>
+		<hr class="hr_element">
 		<?php $all_galleries = $this->Gallery->get_all_galleries(); ?>
 		<div class="custom_ui margin_top">
 			<span class="add_pages_galleries"><?php __('Add Gallery To Menu:'); ?></span>
