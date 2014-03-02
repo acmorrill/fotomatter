@@ -1,16 +1,5 @@
 <?php $uuid = $this->Util->uuid(); ?>
-<?php 
-	$_width = 650;
-	if (isset($width)) {
-		$_width = $width;
-	}
-?>
 
-<style type="text/css">
-.sub_submenu_cont .sub_submenu_right_cont {
-	width: <?php echo $_width; ?>px;
-}
-</style>
 
 <script type="text/javascript">
 	jQuery(document).ready(function() {
@@ -44,7 +33,8 @@
 					<?php // style="background: url('/img/admin/icons/FOLDER - DOWNLOADS.png') center left no-repeat; padding-left: 35px;" ?>
 					<h2><?php echo $tab_name; ?></h2>
 				</div>
-				<div class="content-background <?php if (isset($lighter)): ?>lighter-content-background<?php endif; ?> block_element_base" style="height: 450px;">
+				<div class="content-background <?php if (isset($lighter)): ?>lighter-content-background<?php endif; ?> block_element_base">
+					<div class="fade_background_top"></div>
 					<?php echo $this->Element($tab_element_path); ?>
 				</div>
 			</div>
