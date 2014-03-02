@@ -16,10 +16,27 @@ class Theme extends AppModel {
 	);
 
 	
-	public function get_landing_page_slideshow_images($num_to_grab) {
+	public function get_landing_page_slideshow_images($num_to_grab, $gallery_id = null) {
 		// DREW TODO - for now we are just going to grab the the number of images from the first gallery
 		// later we will have a way for the user to specify the images that get pulled in
 		
+		$this->PhotoGallery = ClassRegistry::init('PhotoGallery');
+		$this->PhotoGalleriesPhoto = ClassRegistry::init('PhotoGalleriesPhoto');
+		
+		if (empty($gallery_id)) {
+			$first_gallery = $this->PhotoGallery->get_first_gallery_by_weight();
+			if (!empty($first_gallery['PhotoGallery']['id'])) {
+				$gallery_id = $first_gallery['PhotoGallery']['id'];
+			}
+		}
+		
+		
+		$slide_show_photo_ids = array();
+		if (!empty($gallery_id)) {
+			$slide_show_photo_ids = $this->PhotoGalleriesPhoto->get_gallery_photos_ids_by_weight($gallery_id, $num_to_grab);
+		}
+		
+		return $slide_show_photo_ids;
 	}
 	
 	public function get_all_available_themes() {

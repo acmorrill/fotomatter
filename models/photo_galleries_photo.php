@@ -20,5 +20,21 @@ class PhotoGalleriesPhoto extends AppModel {
 		)
 	);
 	
+	public function get_gallery_photos_ids_by_weight($gallery_id, $limit = null) {
+		$photo_gallery_photos = $this->find('all', array(
+			'conditions' => array(
+				'PhotoGalleriesPhoto.photo_gallery_id' => $gallery_id,
+			),
+			'order' => array(
+				'PhotoGalleriesPhoto.photo_order ASC'
+			),
+			'limit' => $limit,
+			'contain' => false
+		));
+		
+		$photo_gallery_ids = Set::extract('/PhotoGalleriesPhoto/photo_id', $photo_gallery_photos);
+		
+		return $photo_gallery_ids;
+	}
 	
 }

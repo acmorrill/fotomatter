@@ -158,18 +158,18 @@ $theme_config = array(
 			'default_images_per_page' => 8
 		),
 		'theme_avail_custom_settings' => array(
-			'valid_setting_types' => array('on_off', 'dropdown', 'numeric_dropdown', 'radio', 'color_radio', 'checkboxes', 'text_input', 'textarea'),
-			'default_setting_values' => array(
-				'type' => 'on_off',
-				'display_name' => 'Display Name',
-				'description' => 'A theme setting',
-				'help_message' => 'A theme setting',
-				'possible_values' => array(
-					'on' => array( 'display' => 'On' ),
-					'off' => array( 'display' => 'Off' ),
-				),
-				'default_value' => 'off',
-			),
+			'valid_setting_types' => array('on_off', 'dropdown', 'numeric_dropdown', 'radio', 'color_radio', 'checkboxes', 'text_input', 'textarea', 'gallery_chooser'),
+//			'default_setting_values' => array(
+//				'type' => 'on_off',
+//				'display_name' => 'Display Name',
+//				'description' => 'A theme setting',
+//				'help_message' => 'A theme setting',
+//				'possible_values' => array(
+//					'on' => array( 'display' => 'On' ),
+//					'off' => array( 'display' => 'Off' ),
+//				),
+//				'default_value' => 'off',
+//			),
 			// this is currently not used
 //			'reusable_settings' => array(
 //				'setting_one' => array(
