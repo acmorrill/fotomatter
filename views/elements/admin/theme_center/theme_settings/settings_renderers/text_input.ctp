@@ -4,7 +4,6 @@
 		var saving_input_value;
 		
 		var possible_value_regex = "<?php echo $curr_setting['possible_values']; ?>";
-		console.log (possible_value_regex);
 		var patt = undefined;
 		if (possible_value_regex != '') {
 			patt = new RegExp(possible_value_regex);

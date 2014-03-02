@@ -18,6 +18,17 @@ class PhotoGallery extends AppModel {
 	public $actsAs = array('Ordered' => array('foreign_key' => false));
 	
 	
+	public function get_first_gallery_by_weight() {
+		$first_gallery = $this->find('first', array(
+			'order' => array(
+				'PhotoGallery.weight'
+			),
+			'contain' => false
+		));
+		
+		return $first_gallery;
+	}
+	
 	public function add_photo_to_gallery($the_photo, $gallery_id) {
 		$exist = $this->PhotoGalleriesPhoto->find('first', array(
 			'conditions' => array(
@@ -107,10 +118,10 @@ class PhotoGallery extends AppModel {
 
 		// find by date added
 		if (isset($smart_settings['date_added_from']) || isset($smart_settings['date_added_to'])) {
-			$this->log($smart_settings['date_added_from'], 'smart_gallery_photo_id');
-			$this->log($smart_settings['date_added_to'], 'smart_gallery_photo_id');
-			$this->log(date('Y-m-d H:i:s', strtotime($smart_settings['date_added_from'])), 'smart_gallery_photo_id');
-			$this->log(date('Y-m-d H:i:s', strtotime($smart_settings['date_added_to'])), 'smart_gallery_photo_id');
+//			$this->log($smart_settings['date_added_from'], 'smart_gallery_photo_id');
+//			$this->log($smart_settings['date_added_to'], 'smart_gallery_photo_id');
+//			$this->log(date('Y-m-d H:i:s', strtotime($smart_settings['date_added_from'])), 'smart_gallery_photo_id');
+//			$this->log(date('Y-m-d H:i:s', strtotime($smart_settings['date_added_to'])), 'smart_gallery_photo_id');
 			
 			$conditions = array();
 			if (!empty($found_photo_ids)) {
@@ -126,8 +137,8 @@ class PhotoGallery extends AppModel {
 				'conditions' => $conditions,
 				'contain' => false
 			));
-			$this->log($conditions, 'smart_gallery_photo_id');
-			$this->log($photos_by_date_added, 'smart_gallery_photo_id');
+//			$this->log($conditions, 'smart_gallery_photo_id');
+//			$this->log($photos_by_date_added, 'smart_gallery_photo_id');
 			$found_photo_ids = Set::extract('/Photo/id', $photos_by_date_added);
 		}
 

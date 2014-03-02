@@ -56,6 +56,8 @@ class ThemeUserSetting extends AppModel {
 			$toSet['ThemeUserSetting']['id'] = $exists['ThemeUserSetting']['id'];
 		}
 
+		
+		
 		$this->create();
 		if (!$this->save($toSet)) {
 			return false;

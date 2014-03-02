@@ -14,9 +14,6 @@
 		<?php echo $this->Element('theme_global_includes'); ?>
 		<link rel="stylesheet" type="text/css" href="/css/andrewmorrill_style.css" />
 		<link rel="stylesheet" type="text/css" href="/stylesheets/introBackground.css" />
-		<script src="/javascript/preloadImages.js"></script>
-		<script src="/javascript/slideShow.js"></script>
-		<script src="/javascript/blendtrans.js"></script>
 		<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 	</head>
 	<body>
@@ -26,9 +23,12 @@
 
 		
 		
-		
-		<div id="slideShowDiv" style="background-image: url('/slideShow/A-Tangerine-Blue.jpg'); background-repeat: no-repeat; width: 556px; height: 453px;">
-			<img src="/slideShow/A-Tangerine-Blue.jpg" id="currSlideImage" style="width: 556px; height: 453px; border: 0 none; filter: alpha(opacity=0); -moz-opacity: 0; opacity: 0;" alt="" />
+		<div id="slideShowDiv" style="width: 556px; height: 453px;">
+			<?php echo $this->Element('landing_slideshows/basic', array(
+				'width' => 556,
+				'height' => 453,
+				'background_color' => '#efefef',
+			)); ?>
 			
 			<?php echo $this->Element('footer'); ?>
 		</div>

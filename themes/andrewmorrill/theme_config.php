@@ -117,6 +117,59 @@ $theme_config = array(
 		),
 		'theme_avail_custom_settings' => array(
 			'settings' => array(
+				'landing_page_settings_group' => array(
+					'type' => 'group_name',
+					'display_name' => 'Landing Page Settings',
+				),
+				'landing_page_gallery' => array(
+					'type' => 'gallery_chooser',
+					'display_name' => 'Slideshow Gallery',
+					'description' => "Choose which gallery to use for the theme landing page.",
+					'help_message' => 'Drop Down Test',
+				),
+				'landing_page_slideshow_interval_time' => array(
+					'type' => 'dropdown',
+					'display_name' => 'Slideshow Interval Time',
+					'description' => "The amount of time each image is shown.",
+					'help_message' => 'Drop Down Test',
+					'possible_values' => array(
+						'1000' => array( 'display' => '1 second' ),
+						'2000' => array( 'display' => '2 seconds' ),
+						'4000' => array( 'display' => '4 seconds' ),
+						'8000' => array( 'display' => '8 seconds' ),
+						'12000' => array( 'display' => '12 seconds' ),
+						'16000' => array( 'display' => '16 seconds' ),
+						'20000' => array( 'display' => '20 seconds' ),
+					),
+					'default_value' => '8000',
+				),
+				'landing_page_slideshow_transition_time' => array(
+					'type' => 'dropdown',
+					'display_name' => 'Slideshow Transition Time',
+					'description' => "The amount of time it takes to transition to the next image.",
+					'help_message' => 'Drop Down Test',
+					'possible_values' => array(
+						'333' => array( 'display' => '1/3 second' ),
+						'500' => array( 'display' => '1/2 second' ),
+						'1000' => array( 'display' => '1 second' ),
+						'2000' => array( 'display' => '2 seconds' ),
+						'3000' => array( 'display' => '3 seconds' ),
+						'4000' => array( 'display' => '4 seconds' ),
+						'5000' => array( 'display' => '5 seconds' ),
+					),
+					'default_value' => '2000',
+				),
+				'landing_page_slideshow_max_images' => array(
+					'type' => 'numeric_dropdown',
+					'display_name' => 'Slideshow Images',
+					'description' => "The maximum number of images to show in the slideshow.",
+					'help_message' => 'Numeric Dropdown Test',
+					'possible_values' => array(
+						'min' => 1,
+						'max' => 30,
+					),
+					'default_value' => '8',
+				),
 				'setting_zero' => array(
 					'type' => 'group_name',
 					'display_name' => 'Group 1',
