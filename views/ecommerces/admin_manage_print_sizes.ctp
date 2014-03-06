@@ -13,6 +13,12 @@
 	});
 </script>
 
+<h1>Choose available formats for retail</h1>
+<p>
+	Instructions for receiving payment go here so all that mumbo jumbo on the screenshot below the Paypal button will go here. Cool beans? Cool.
+IPlaceholder info for getting pade. Instructions will go here. Trty and keep it to two lines. But if more, that’s fine. Instructions for receiving payment go here so all that mumbo jumbo on the screenshot below the Paypal button will go here. Cool beans? Cool.
+</p>
+
 <div class="right">
 	<div class="add_gallery_element custom_ui" style="margin: 5px; margin-bottom: 15px;">
 		<form action="/admin/ecommerces/add_print_size/" method="get" style="float: right;">
