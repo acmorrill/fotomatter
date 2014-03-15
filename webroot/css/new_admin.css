@@ -1290,6 +1290,9 @@ p {
 .save_button .content {
   margin-top: 11px;
 }
+#flashMessage {
+  display: none;
+}
 .empty_help_content a {
   color: ;
 }
@@ -1964,7 +1967,12 @@ table.list tr {
   border: 1px solid #000;
 }
 table.list tr td {
+<<<<<<< HEAD
   background-color: rgba(40,40,40,0.6);
+=======
+  background-color: #282828;
+  opacity: 0.6;
+>>>>>>> a484ec5962454766f409a630015ad2298624b8d7
   text-align: center;
   vertical-align: middle;
   height: 50px;
@@ -1979,12 +1987,16 @@ table.list tr td .text_postion {
 }
 table.list tr td.item_name {
   text-align: left;
+<<<<<<< HEAD
   color: #6b6a6c;
+=======
+>>>>>>> a484ec5962454766f409a630015ad2298624b8d7
 }
 table.list tr:hover {
   color: #f4f9f5;
   background-color: #3d3e3f;
   border: 1px double #ffffff;
+<<<<<<< HEAD
 }
 table.list tr:hover td .text_postion {
   color: #f4f9f5;
@@ -1994,6 +2006,8 @@ table.list tr:hover td.item_name {
 }
 table.list tr:hover .background {
   opacity: 1;
+=======
+>>>>>>> a484ec5962454766f409a630015ad2298624b8d7
 }
 .table_width_reorder_icon {
   width: 30px;
