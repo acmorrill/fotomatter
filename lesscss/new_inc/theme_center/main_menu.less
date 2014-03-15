@@ -6,6 +6,10 @@
 	float: right;
 	margin-right: 40px;
 }
+table.list{
+	
+	
+}
 table.list .reorder_grabber { 
 	cursor: move; 
 	background: url('/img/admin/icons/reorder_icon.svg') top center no-repeat;
@@ -31,7 +35,7 @@ table.list .reorder_grabber {
 	//opacity: .04;
 }
 table.list tr {
-	border: 1px solid @darkest-background;
+	border: 1px solid @table_border;
 	td{
 		text-align: center;
 		vertical-align: middle;
@@ -45,6 +49,11 @@ table.list tr {
 		&.item_name{
 			text-align: left;
 		}
+	}
+	&:hover  {
+		color: @top_white;
+		background-color: @table_hover;
+		border: 1px double @white;
 	}
 }
 .table_width_reorder_icon{
