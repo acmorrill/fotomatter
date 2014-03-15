@@ -1149,6 +1149,22 @@ table.list .reorder_grabber {
   height: 54px;
   display: inline-block;
 }
+h1 {
+  font-family: Code-Pro-LC;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 30px;
+  margin-bottom: 35px;
+  color: #7d888e;
+}
+p {
+  font-family: Code-Pro-LC;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 14px;
+  line-height: 24px;
+  color: #7d888e;
+}
 #main .top_links {
   background: #141414;
   border-bottom: 1px solid #282828;
@@ -1278,7 +1294,7 @@ table.list .reorder_grabber {
   color: ;
 }
 .box_icon_size {
-  position: absolute;
+  position: inherit;
   height: 60px;
   width: 200px;
   right: 55px;
@@ -1948,6 +1964,7 @@ table.list tr {
   border: 1px solid #000;
 }
 table.list tr td {
+  opacity: 0.6;
   text-align: center;
   vertical-align: middle;
   height: 50px;
