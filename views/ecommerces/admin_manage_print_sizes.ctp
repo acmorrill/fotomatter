@@ -41,9 +41,21 @@ IPlaceholder info for getting pade. Instructions will go here. Trty and keep it 
 	<table class="list">
 		<thead>
 			<tr> 
-				<th class="first"><?php __('Dimension'); ?></th> 
-				<th class=""><?php __('Format(s)'); ?></th> 
-				<th class="last"><?php __('Actions'); ?></th>
+				<th class="first">
+					<div class="content">
+						<?php __('Dimension'); ?>
+					</div>
+				</th> 
+				<th class="">
+					<div class="content">
+						<?php __('Format(s)'); ?>
+					</div>
+				</th> 
+				<th class="last">
+					<div class="content">
+						<?php __('Actions'); ?>
+					</div>
+				</th>
 			</tr> 
 		</thead>
 		<tbody>
