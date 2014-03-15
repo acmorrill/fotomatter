@@ -137,8 +137,8 @@
 		</script>
 
 		<?php $all_pages = $this->Page->get_all_pages(); ?>
-		<div class="custom_ui margin_bottom">
-			<span class="add_pages_galleries"><?php __('Add Page To Menu:'); ?></span>
+		<div class="custom_ui add_page_menu">
+			<span class="add_pages_galleries"><?php __('Add Information Page To Main Menu'); ?></span>
 			<div class="drop_down_sub_title">	
 				<select id="single_menu_page_add_list">
 					<?php foreach ($all_pages as $curr_page): ?>
@@ -150,8 +150,8 @@
 		</div>
 		<hr class="hr_element">
 		<?php $all_galleries = $this->Gallery->get_all_galleries(); ?>
-		<div class="custom_ui margin_top">
-			<span class="add_pages_galleries"><?php __('Add Gallery To Menu:'); ?></span>
+		<div class="custom_ui add_page_gallery">
+			<span class="add_pages_galleries"><?php __('Add Gallery Page To Main Menu'); ?></span>
 			<div class="drop_down_sub_title">
 				<select id="single_menu_gallery_add_list">
 					<?php foreach ($all_galleries as $curr_gallery): ?>
