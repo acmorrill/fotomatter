@@ -45,10 +45,14 @@ class PhotoGalleriesController extends AppController {
 	}
 	
 	public function choose_gallery() {
+		$this->cacheAction = FRONTEND_VIEW_CACHING_STRTOTIME_TTL;
+		
 		$this->ThemeRenderer->render($this);
 	}
 	
 	public function view_gallery($gallery_id = null) {
+		$this->cacheAction = FRONTEND_VIEW_CACHING_STRTOTIME_TTL;
+		
 		$gallery_listing_config = $this->viewVars['theme_config']['admin_config']['theme_gallery_listing_config'];
 		
 		$conditions = array();

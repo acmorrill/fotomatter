@@ -73,6 +73,7 @@ class UtilShell extends Shell {
 			'local_smaller_master_cache' => array('r' => ':www-data'),
 			'site_background' => array('r' => ':www-data'),
 			'site_logo' => array('r' => ':www-data'),
+			'xhprof-0.9.4' => array('r' => ':www-data'),
 			'tmp' => array('r' => ':www-data'),
 			'.' => array('p' => ':www-data'),
 		);
