@@ -33,27 +33,45 @@ table.list .reorder_grabber {
 table.list tr {
 	border: 1px solid @table_border;
 	td{
-		background-color: #282828;
-		opacity: 0.6;
+		background-color: @body_content_top_bg;
+		//opacity: 0.6;
 		text-align: center;
 		vertical-align: middle;
 		height: 50px;
 		font-size: 24px;
 		width: 1px;
-		.page_gallery{
+		.text_postion{
 			position: relative;
 			top: 1px;
+			color: @text_no_hover;
+			text-align: left;
 		}
 		&.item_name{
 			text-align: left;
+			color: @text_no_hover;
 		}
+
 	}
-	&:hover  {
+	&:hover  { 
+		td{
+			.text_postion{
+				color: @top_white;
+			}
+			&.item_name{
+				color: @top_white;
+			}
+	
+		}
 		color: @top_white;
 		background-color: @table_hover;
 		border: 1px double @white;
+		
+		.background {
+		opacity: 1;
+		}
 	}
 }
+
 .table_width_reorder_icon{
 	width:30px;
 }
