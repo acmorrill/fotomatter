@@ -61,12 +61,12 @@ IPlaceholder info for getting pade. Instructions will go here. Trty and keep it 
 		<tbody>
 			<?php foreach($photo_avail_sizes as $photo_avail_size): ?> 
 				<tr photo_avail_size_id="<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>">
-					<td style="width: 100px;"><?php echo $photo_avail_size['PhotoAvailSize']['short_side_length']; ?> x --</td>
-					<td style="width: 300px;">
+					<td class="first"><?php echo $photo_avail_size['PhotoAvailSize']['short_side_length']; ?> x --</td>
+					<td>
 						<?php $formats = Set::extract('/PhotoFormat/display_name', $photo_avail_size); ?>
 						<?php echo implode(' | ', $formats) ?>
 					</td>
-					<td>
+					<td class="table_actions">
 						<a href="/admin/ecommerces/add_print_size/<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>/">Edit</a> 
 						<a href="/admin/ecommerces/delete_print_size/<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>/">Delete</a>
 					</td>
