@@ -85,7 +85,7 @@ table.list {
 		tr {
 			border: 1px solid @table_border;
 			td{
-				text-align: center;
+				text-align: left;
 				vertical-align: middle;
 				&.curr { background: #191919; }
 				&.photo_id { width: 58px; }
@@ -94,15 +94,18 @@ table.list {
 				&.photo_enabled { width: 92px; }
 				&.photo_format { width: 120px; }
 				background-color: @body_content_top_bg;
-				height: 50px;
+				height: 75px;
 				font-size: 24px;
-				width: 1px;
+				&, div { color: @text_no_hover; }
+				padding-right: 55px;
+				&.first{
+					width: 47px;
+				}
 				.background {
 					background-color: @off_black; 
-					width: 37px; 
-					height: 35px; 
+					height: 43px; 
 					position: relative;
-					left:10px;
+					left:20px;
 					.reorder_grabber {
 						.el_opacity(.6, 60); 
 					}
@@ -113,25 +116,19 @@ table.list {
 					height: 27px;
 					width: 20px;
 					float: right;
-					margin-right: 40px;
 				}
-				.text_postion{
-					position: relative;
-					top: 1px;
-					color: @text_no_hover;
-					text-align: left;
+				&.menu_actions{
+					text-align: right;
 				}
-				&.item_name{
-					text-align: left;
-					color: @text_no_hover;
+				&.menu_type{
+					width: 100px;
 				}
 
 			}
 			&:hover  { 
 				td{
-					.text_postion{
-						color: @top_white;
-					}
+					&, div { color: @top_white; }
+	
 					&.item_name{
 						color: @top_white;
 					}

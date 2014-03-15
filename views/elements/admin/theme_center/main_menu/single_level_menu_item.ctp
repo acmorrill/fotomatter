@@ -8,11 +8,11 @@
 	<tr class="<?php if (!in_array($single_menu_item['SiteOneLevelMenu']['id'], $do_not_sort_items)): ?>sortable_menu_item <?php else: ?> not_sortable_menu_item<?php endif; ?>" site_one_level_menu_id="<?php echo $single_menu_item['SiteOneLevelMenu']['id']; ?>">
 		
 		<td class="single_level_menu_id first table_width_reorder_icon"><div class="background"><div class="reorder_single_level_menu_grabber reorder_grabber"></div></div> </td> 
-		<td class="item_name text_postion"><div class="rightborder"></div><span class="text_postion"><?php echo $menu_item_data['display_type']; ?></span></td>
-		<td class="table_width_page_name item_name text_postion"><?php echo $menu_item_data['name']; ?></td>
-		<td>
+		<td><div class="rightborder"></div><span><?php echo $menu_item_data['display_type']; ?></span></td>
+		<td><?php echo $menu_item_data['name']; ?></td>
+		<td class="menu_actions">
 			<?php if ($menu_item_data['display_type'] != 'System'): ?>
-				<div class ="delete_one_level_menu_item text_postion" style="cursor: pointer;">delete</div>
+				<div class ="delete_one_level_menu_item" style="cursor: pointer;">delete</div>
 			<?php endif; ?>
 		</td>
 	</tr>
