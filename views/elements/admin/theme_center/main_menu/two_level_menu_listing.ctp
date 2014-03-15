@@ -185,7 +185,7 @@
 	</div>
 	
 
-	<div class="generic_sort_and_filters" style="position: absolute; top: 100%; left: 0px; right: 0px; height: auto;">
+	<div class="generic_sort_and_filters" style="relitive: absolute; top: 100%; left: 0px; right: 0px; height: auto;">
 		<script type="text/javascript">
 			jQuery(document).ready(function() {
 				jQuery('#two_level_menu_page_add_button').click(function() {
