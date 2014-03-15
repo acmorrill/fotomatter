@@ -20,6 +20,11 @@ class PhotosController extends AppController {
 	}
 	
 	public function view_photo($photo_id = null) {
+		$total_photos = $this->Photo->count_total_photos(true);
+		if ($total_photos <= 100) { // only do photo view caching on sites with less than 100 photos
+			$this->cacheAction = FRONTEND_VIEW_CACHING_STRTOTIME_TTL;
+		}
+		
 		$conditions = array();
 		if (isset($photo_id)) {
 			$conditions = array(

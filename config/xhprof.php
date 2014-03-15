@@ -5,6 +5,7 @@ class xhprof_object {
 	}
 	
 	public function __destruct() {
+		
 		$xhprof_data = xhprof_disable();
 
 		//
@@ -20,8 +21,8 @@ class xhprof_object {
 			$key = $_SESSION['xhprof_key'];
 		}
 		
-		include_once ROOT . "/xhprof_lib/utils/xhprof_lib.php";
-		include_once ROOT . "/xhprof_lib/utils/xhprof_runs.php";
+		include_once ROOT . "/xhprof/xhprof_lib/utils/xhprof_lib.php";
+		include_once ROOT . "/xhprof/xhprof_lib/utils/xhprof_runs.php";
 		$xhprof_runs = new XHProfRuns_Default();
 		$name_space = str_replace("/", "_", $key);
 		//debug($xhprof_data);

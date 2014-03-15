@@ -6,8 +6,10 @@ class SitePagesController extends AppController {
 	);
 	public $helpers = array(
 		'Page',
-		'Photo'
+		'Photo',
+		'Cache'
 	);
+	//public $cacheAction = "1 hour";
 			
 	
 	public function  beforeFilter() {
@@ -27,10 +29,14 @@ class SitePagesController extends AppController {
 	}
 	
 	public function landing_page() {
+		$this->cacheAction = FRONTEND_VIEW_CACHING_STRTOTIME_TTL;
+		
 		$this->ThemeRenderer->render($this);
 	}
 	
 	public function custom_page($site_page_id) {
+		$this->cacheAction = FRONTEND_VIEW_CACHING_STRTOTIME_TTL;
+		
 		$site_page = $this->SitePage->find('first', array(
 			'conditions' => array(
 				'SitePage.id' => $site_page_id

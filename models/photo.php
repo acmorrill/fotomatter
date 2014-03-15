@@ -722,5 +722,21 @@ class Photo extends AppModel {
 			return $finalText;
 		}
 	
-
+	public function count_total_photos($cache = false) {
+		$apc_key = 'total_photos_'.$_SERVER['local']['database'];
+		if ($cache === true) {
+			if (apc_exists($apc_key)) {
+				return apc_fetch($apc_key);
+			}
+		}
+		
+		
+		$total = $this->find('count');
+		if ($cache === true) {
+			 apc_store($apc_key, $total, 10800); // 3 hours
+		}
+		
+		return $total;
+	}
+		
 }
