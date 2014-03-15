@@ -95,4 +95,57 @@ table.list td.photo_format { width: 120px; }
 
 
 table.list .reorder_grabber { cursor: move; background: url('/img/admin/icons/reorder_icon.svg') top center no-repeat; width: 53px; height: 54px; display: inline-block; }
+
+table.list .reorder_grabber { 
+	cursor: move; 
+	//background: url('/img/admin/icons/reorder_icon.svg') top center no-repeat;
+	width: 30px; 
+	height: 30px; 
+	display: inline-block; 
+	margin-top: 2.5px; 
+	margin-left: 2px;	  
+}
+
+table.list tr {
+	border: 1px solid @table_border;
+	td{
+		background-color: @body_content_top_bg;
+		//opacity: 0.6;
+		text-align: center;
+		vertical-align: middle;
+		height: 50px;
+		font-size: 24px;
+		width: 1px;
+		.text_postion{
+			position: relative;
+			top: 1px;
+			color: @text_no_hover;
+			text-align: left;
+		}
+		&.item_name{
+			text-align: left;
+			color: @text_no_hover;
+		}
+
+	}
+	&:hover  { 
+		td{
+			.text_postion{
+				color: @top_white;
+			}
+			&.item_name{
+				color: @top_white;
+			}
+	
+		}
+		color: @top_white;
+		background-color: @table_hover;
+		border: 1px double @white;
+		
+		.background {
+		opacity: 1;
+		}
+	}
+}
+
 /**** END GENERIC LIST TABLE CSS ****/
