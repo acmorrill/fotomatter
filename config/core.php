@@ -19,7 +19,6 @@
  * @since         CakePHP(tm) v 0.2.9
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-
 //require dirname(__DIR__) . '/vendors/autoload.php';
 
 /**
@@ -106,7 +105,7 @@
  * or in each action using $this->cacheAction = true.
  *
  */
-	//Configure::write('Cache.check', true);
+	Configure::write('Cache.check', true);
 
 /**
  * Defines the default error type when using the log() function. Used for
@@ -305,6 +304,9 @@
  *	));
  *
  */
+
+	
+	
 	
 	Cache::config('default', array(
  		'engine' => 'Apc', //[required]
@@ -312,10 +314,12 @@
  		'probability'=> 100, //[optional]
   		'prefix' => Inflector::slug(APP_DIR) . '_', //[optional]  prefix every cache file with this string
  	));
+	
+	require('core_ignored.php');
+	
 //        Cache::config('default', array('engine' => 'File'));
 	$debug = Configure::read('debug'); 
-	if (((isset($_GET['xhprof']) && $debug == 2) || $debug == 4) && PHP_SAPI != 'cli') {
+	if (isset($_GET['xhprof']) && PHP_SAPI != 'cli') {
 		require_once('xhprof.php');
 	}
 	
-	require('core_ignored.php');
