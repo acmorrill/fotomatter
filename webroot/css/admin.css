@@ -281,6 +281,7 @@ label {
   text-align: center;
 }
 h1 {
+  position: relative;
   font-size: 30px;
   margin-bottom: 10px;
 }

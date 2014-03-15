@@ -41,6 +41,7 @@ a * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.o
  *
  i*/
 
+define("HELP_TOUR_ENGLISH_TEXT", 'Get Help With This Page'); 
 
 define("SITE_SETTINGS_APC_CACHE_TTL", 28800); // 8  hours
 define("SITE_SETTINGS_APC_DEFAULT_KEY", 'USE_THE_DEFAULT'); // the string to store for site settings apc to indicate to use the default setting
