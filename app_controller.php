@@ -37,19 +37,28 @@ class AppController extends Controller {
 		'Cart',
 		'Account',
 		'SiteSetting',
-		'Number'
+		'Number',
+		'Cache'
 	);
 	
 	
 	
-    /**
-     * beforeFilter
-     *
-     * Application hook which runs prior to each controller action
-     *
-     * @access public
-     */
-    function beforeFilter() {
+	/**
+	* beforeFilter
+	*
+	* Application hook which runs prior to each controller action
+	*
+	* @access public
+	*/
+	function beforeFilter() {
+		//apc_clear_cache('user');
+		
+		//////////////////////////////////////////////////////
+		// stuff todo just in the admin
+		if ($this->params['admin'] == 1) {
+			clearCache();
+		} 
+		
 		// DREW TODO - for testing only!
 		if (Configure::read('debug') > 0 && !$this->Session->check('Message.flash')) {
 			$this->Session->setFlash('If you do not see this on a page that page is not outputting any flash messages and there also is no flash message to display. For testing only.');
@@ -83,21 +92,21 @@ class AppController extends Controller {
 			$this->Session->write('Auth.redirect', $this->params['url']['ajax_autoredirect']);
 		}
 		
-        //Override default fields used by Auth component
-        $this->Auth->fields = array('username' => 'email_address', 'password' => 'password');
-        //Set application wide actions which do not require authentication
-        $this->Auth->allow('display', 'view');//IMPORTANT for CakePHP 1.2 final release change this to $this->Auth->allow(array('display'));
-        //$this->Auth->allow(array('*'));//IMPORTANT for CakePHP 1.2 final release change this to $this->Auth->allow(array('display'));
-        //Set the default redirect for users who logout
-        $this->Auth->logoutRedirect = '/';
-        //Set the default redirect for users who login
-        $this->Auth->loginRedirect = '/admin/dashboards/index';
-        //Extend auth component to include authorisation via isAuthorized action
-        $this->Auth->authorize = 'controller';
-        //Restrict access to only users with an active account
-        $this->Auth->userScope = array('User.active = 1');
-        //Pass auth component data over to view files
-        $this->set('Auth', $this->Auth->user());
+		//Override default fields used by Auth component
+		$this->Auth->fields = array('username' => 'email_address', 'password' => 'password');
+		//Set application wide actions which do not require authentication
+		$this->Auth->allow('display', 'view');//IMPORTANT for CakePHP 1.2 final release change this to $this->Auth->allow(array('display'));
+		//$this->Auth->allow(array('*'));//IMPORTANT for CakePHP 1.2 final release change this to $this->Auth->allow(array('display'));
+		//Set the default redirect for users who logout
+		$this->Auth->logoutRedirect = '/';
+		//Set the default redirect for users who login
+		$this->Auth->loginRedirect = '/admin/dashboards/index';
+		//Extend auth component to include authorisation via isAuthorized action
+		$this->Auth->authorize = 'controller';
+		//Restrict access to only users with an active account
+		$this->Auth->userScope = array('User.active = 1');
+		//Pass auth component data over to view files
+		$this->set('Auth', $this->Auth->user());
 		
 		
 		// locking hash code
@@ -112,7 +121,7 @@ class AppController extends Controller {
 				exit();
 			}
 		}
-    }
+	}
 	
 	public function validatePaymentProfile() {
 		$this->Validation->validate('not_empty', $this->data['AuthnetProfile'], 'billing_firstname', __('You must provide your first name.', true));
@@ -128,16 +137,17 @@ class AppController extends Controller {
 	}
 	
 	public function send_overlord_api_request($api, $params=array()) {
+		$this->log('send_overlord_api_request', 'send_overlord_api_request');
 		$request['Request']['data'] = $params;
         
-        $url_to_use = $this->server_url . '/' .$api;
-        $request['Request']['Server_params']['url'] = $url_to_use;
-        $time_stamp = (string) time();
-        $request['Request']['Server_params']['time_stamp'] = $time_stamp;
-        
-        $this->SiteSetting = ClassRegistry::init("SiteSetting");
-        $site_key = $this->SiteSetting->getVal('site_domain');
-        $request['Request']['key'] = $site_key;
+		$url_to_use = $this->server_url . '/' .$api;
+		$request['Request']['Server_params']['url'] = $url_to_use;
+		$time_stamp = (string) time();
+		$request['Request']['Server_params']['time_stamp'] = $time_stamp;
+
+		$this->SiteSetting = ClassRegistry::init("SiteSetting");
+		$site_key = $this->SiteSetting->getVal('site_domain');
+		$request['Request']['key'] = $site_key;
 		$request['Access']['signature'] = hash_hmac('sha256', json_encode($request['Request']), OVERLORD_API_KEY);
 		
 		$ch = curl_init();

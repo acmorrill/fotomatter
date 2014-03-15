@@ -1149,6 +1149,22 @@ table.list .reorder_grabber {
   height: 54px;
   display: inline-block;
 }
+h1 {
+  font-family: Code-Pro-LC;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 30px;
+  margin-bottom: 35px;
+  color: #7d888e;
+}
+p {
+  font-family: Code-Pro-LC;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 14px;
+  line-height: 24px;
+  color: #7d888e;
+}
 #main .top_links {
   background: #141414;
   border-bottom: 1px solid #282828;
@@ -1916,10 +1932,7 @@ table.list .reorder_grabber {
   height: 27px;
   width: 20px;
   float: right;
-<<<<<<< HEAD
-=======
   margin-right: 40px;
->>>>>>> 09c9202223d437648a36f6febb7549c34d424a9a
 }
 table.list .reorder_grabber {
   cursor: move;
@@ -1943,12 +1956,9 @@ table.list .reorder_grabber {
 }
 .table_border {
   padding: 20px;
-<<<<<<< HEAD
-=======
   overflow-x: hidden;
   overflow-y: auto;
   height: 400px;
->>>>>>> 09c9202223d437648a36f6febb7549c34d424a9a
 }
 table.list tr {
   border: 1px solid ;
@@ -1957,12 +1967,6 @@ table.list tr td {
   text-align: center;
   vertical-align: middle;
   height: 50px;
-<<<<<<< HEAD
-}
-table.list tr td .page_gallery {
-  position: relative;
-  top: 6px;
-=======
   font-size: 24px;
   width: 1px;
 }
@@ -1972,7 +1976,6 @@ table.list tr td .page_gallery {
 }
 table.list tr td.item_name {
   text-align: left;
->>>>>>> 09c9202223d437648a36f6febb7549c34d424a9a
 }
 .table_width_reorder_icon {
   width: 30px;
@@ -1986,11 +1989,7 @@ table.list tr td.item_name {
   display: inline-block;
   vertical-align: top;
   border: 1px solid transparent;
-<<<<<<< HEAD
-  height: 21px;
-=======
   height: 29px;
->>>>>>> 09c9202223d437648a36f6febb7549c34d424a9a
   padding-left: 10px;
   font-weight: normal;
   font-style: normal;
@@ -2009,29 +2008,18 @@ table.list tr td.item_name {
 .drop_down_sub_title {
   width: 100%;
   position: relative;
-<<<<<<< HEAD
-  top: 6px;
-=======
   top: 23px;
->>>>>>> 09c9202223d437648a36f6febb7549c34d424a9a
   bottom: 10px;
 }
 .add_pages_galleries {
   width: 100%;
   position: relative;
-<<<<<<< HEAD
-  top: 1px;
-=======
   top: 19px;
->>>>>>> 09c9202223d437648a36f6febb7549c34d424a9a
   bottom: 10px;
   font-family: Code-Pro-LC;
   font-weight: normal;
   font-style: normal;
-<<<<<<< HEAD
-=======
   font-size: 24px;
->>>>>>> 09c9202223d437648a36f6febb7549c34d424a9a
 }
 .text_add_button {
   position: relative;
@@ -2040,10 +2028,7 @@ table.list tr td.item_name {
   font-family: Code-Pro-LC;
   font-weight: normal;
   font-style: normal;
-<<<<<<< HEAD
-=======
   font-size: 24px;
->>>>>>> 09c9202223d437648a36f6febb7549c34d424a9a
 }
 .margin_top {
   margin: 5px;
@@ -2058,13 +2043,10 @@ table.list tr td.item_name {
 .large_container {
   padding-bottom: 100px;
 }
-<<<<<<< HEAD
-=======
 .hr_element {
   position: relative;
   top: 13px;
 }
->>>>>>> 09c9202223d437648a36f6febb7549c34d424a9a
 .profile-outer-cont.domains .saving_profile {
   display: inline-block;
   position: absolute;
