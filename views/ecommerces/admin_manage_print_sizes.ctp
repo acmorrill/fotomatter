@@ -13,14 +13,16 @@
 	});
 </script>
 
-<h1>Choose available formats for retail</h1>
+<h1>Choose available formats for retail 
+	<div id="help_tour_button" class="custom_ui"><div class="add_button" type="submit"><div class="content"><?php echo __(HELP_TOUR_ENGLISH_TEXT); ?></div><div class="right_arrow_lines"><div></div></div></div></dIv>
+</h1>
 <p>
 	Instructions for receiving payment go here so all that mumbo jumbo on the screenshot below the Paypal button will go here. Cool beans? Cool.
 IPlaceholder info for getting pade. Instructions will go here. Trty and keep it to two lines. But if more, that’s fine. Instructions for receiving payment go here so all that mumbo jumbo on the screenshot below the Paypal button will go here. Cool beans? Cool.
 </p>
 
 <div class="right">
-	<div class="add_gallery_element custom_ui" style="margin: 5px; margin-bottom: 15px;">
+	<div class="add_gallery_element custom_ui" style="margin: 5px; margin-bottom: 15px; opacity: .1;">
 		<form action="/admin/ecommerces/add_print_size/" method="get" style="float: right;">
 			<input id="add_new_printsize_button" class="add_button ui-button ui-widget ui-state-default ui-corner-all" type="submit" value="Add New Print Size" role="button" aria-disabled="false" />
 		</form>
@@ -33,9 +35,9 @@ IPlaceholder info for getting pade. Instructions will go here. Trty and keep it 
 <div class="clear"></div>
 <?php //debug($photo_avail_sizes); ?>
 <?php if (!empty($photo_avail_sizes)): ?>
-	<div class="table_header">
+	<?php /*<div class="table_header">
 		<label class="inline"><?php __('Available Print Sizes:'); ?></label> 
-	</div>
+	</div> */ ?>
 	<table class="list">
 		<thead>
 			<tr> 

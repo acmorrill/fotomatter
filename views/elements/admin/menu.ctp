@@ -3,7 +3,6 @@
 		<a href="/admin/accounts/index"><i class="icon-menu"></i>Site Settings</a>
 		<a href="/admin/users/logout"><i class="icon-share"></i>Log Out</a>
 	</div>
-	<div id="help_tour_button"><?php echo __('Take a help tour of this page?'); ?></dIv>
 	<ul>
 		<?php //echo $curr; ?>
 		<?php
