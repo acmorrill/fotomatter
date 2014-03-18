@@ -55,7 +55,7 @@ class AppController extends Controller {
 		
 		//////////////////////////////////////////////////////
 		// stuff todo just in the admin
-		if ($this->params['admin'] == 1) {
+		if (isset($this->params['admin']) && $this->params['admin'] == 1) {
 			clearCache();
 		} 
 		
