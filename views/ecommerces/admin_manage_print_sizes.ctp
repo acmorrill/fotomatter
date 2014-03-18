@@ -38,42 +38,57 @@ IPlaceholder info for getting pade. Instructions will go here. Trty and keep it 
 	<?php /*<div class="table_header">
 		<label class="inline"><?php __('Available Print Sizes:'); ?></label> 
 	</div> */ ?>
-	<table class="list">
-		<thead>
-			<tr> 
-				<th class="first">
-					<div class="content">
-						<?php __('Dimension'); ?>
-					</div>
-				</th> 
-				<th class="">
-					<div class="content">
-						<?php __('Format(s)'); ?>
-					</div>
-				</th> 
-				<th class="last">
-					<div class="content">
-						<?php __('Actions'); ?>
-					</div>
-				</th>
-			</tr> 
-		</thead>
-		<tbody>
-			<?php foreach($photo_avail_sizes as $photo_avail_size): ?> 
-				<tr photo_avail_size_id="<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>">
-					<td class="first"><?php echo $photo_avail_size['PhotoAvailSize']['short_side_length']; ?> x --</td>
-					<td>
-						<?php $formats = Set::extract('/PhotoFormat/display_name', $photo_avail_size); ?>
-						<?php echo implode(' | ', $formats) ?>
-					</td>
-					<td class="table_actions">
-						<a href="/admin/ecommerces/add_print_size/<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>/">Edit</a> 
-						<a href="/admin/ecommerces/delete_print_size/<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>/">Delete</a>
-					</td>
-				</tr>
-			<?php endforeach; ?> 
-		</tbody>
-	</table>
+	<div class="table_container">
+		<div class="fade_background_top"></div>
+		<div class="table_top"></div>
+		<table class="list">
+			<thead>
+				<tr> 
+					<th class="first dimension_col">
+						<div class="content">
+							<?php __('Dimension'); ?>
+						</div>
+					</th> 
+					<th class="format_col">
+						<div class="content">
+							<?php __('Format(s)'); ?>
+						</div>
+					</th> 
+					<th class="last actions_call">
+						<div class="content">
+							<?php __('Actions'); ?>
+						</div>
+					</th>
+				</tr> 
+			</thead>
+			<tbody>
+				<tr class="spacer"><td colspan="3"></td></tr>
+				<?php 
+					$count = 1; 
+					$total = count($photo_avail_sizes);
+				?>
+				<?php foreach($photo_avail_sizes as $photo_avail_size): ?> 
+					<tr photo_avail_size_id="<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>" class="<?php echo ($count === 1) ? " first " : ""; ?><?php echo ($count === $total) ? " last " : ""; ?>">
+						<td class="first">
+							<span><?php echo $photo_avail_size['PhotoAvailSize']['short_side_length']; ?> x --</span>
+						</td>
+						<td>
+							<span>
+								<?php $formats = Set::extract('/PhotoFormat/display_name', $photo_avail_size); ?>
+								<?php echo implode(' | ', $formats) ?>
+							</span>
+						</td>
+						<td class="last table_actions">
+							<span>
+								<a href="/admin/ecommerces/add_print_size/<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>/">Edit</a> 
+								<a href="/admin/ecommerces/delete_print_size/<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>/">Delete</a>
+							</span>
+						</td>
+					</tr>
+				<?php $count++; endforeach; ?> 
+			</tbody>
+		</table>
+	</div>
 <?php else: ?>
 	<?php __('You have not added any sizes yet.'); ?>
 <?php endif; ?>

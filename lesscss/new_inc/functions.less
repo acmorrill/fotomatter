@@ -73,6 +73,7 @@
 	position: relative;
 	overflow: hidden;
 	width: @body_content_width;
+	z-index: @content;
 	.fade_background_top {
 		position: absolute;
 		bottom: 802px;
@@ -81,5 +82,25 @@
 		height: 100%;
 		background: @top_white;
 		.el_opacity(.04, 4);
+		z-index: @background;
 	}
+	.table_top {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		height: 105px;
+		width: 100%;
+		background: @body_content_top_bg;
+		z-index: @background;
+	}
+}
+
+.td_inner(@color) {
+	.td_inner {
+		height: 100%;
+		border-top: 1px solid @color;
+		border-bottom: 1px solid @color;
+	}
+	&.first .td_inner { border-left: 1px solid @color; }
+	&.last .td_inner { border-right: 1px solid @color; }
 }
