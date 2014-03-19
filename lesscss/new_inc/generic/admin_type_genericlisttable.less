@@ -63,12 +63,14 @@ table.list {
 	width: 100%;
 	border-collapse: separate;
 	border-spacing: 0px;
+	margin-bottom: 50px;
 	thead {
 		tr {
 			th {
+				vertical-align: top;
 				//background: @body_content_top_bg;
 				.Code-Pro-Bold-LC;
-				font-size: 14px;
+				font-size: 18px;
 				text-align: left;
 				position: relative;
 				a { text-decoration: none; }
@@ -83,10 +85,15 @@ table.list {
 				.content {
 					margin-top: 32px;
 					height: 68px;
-					width: 83%;
-					max-width: 125px;
-					border-bottom: 4px solid @tab2_on_color;
+					width: 79%;
+					//max-width: 125px;
+					//border-bottom: 4px solid @tab2_on_color;
+					border-bottom: 4px solid @gray_text;
 					margin-bottom: 1px;
+					&.one_line {
+						margin-top: 50px;
+						height: 50px;
+					}
 				}
 			}
 			.dimension_col { width: 260px; }
@@ -110,7 +117,10 @@ table.list {
 				border-top: 1px solid @table_border;
 				border-bottom: 1px solid transparent;
 				&.first { border-left: 1px solid @table_border; }
-				&.last { border-right: 1px solid @table_border; }
+				&.last { 
+					border-right: 1px solid @table_border; 
+					.rightborder { display: none; }
+				}
 				
 				text-align: left;
 				vertical-align: middle;
@@ -133,11 +143,11 @@ table.list {
 					}
 				}
 				.rightborder {
-					background: url('/img/admin/icons/border.svg') top right no-repeat;
-					//background-size:10px 10px;
-					height: 27px;
-					width: 20px;
+					background-color: #434749;
+					height: 14px;
+					width: 2px;
 					float: right;
+					margin: 0px;
 				}
 				&.table_actions{
 					text-align: right;
@@ -145,7 +155,6 @@ table.list {
 				&.menu_type{
 					width: 100px;
 				}
-
 			}
 			&:hover  { 
 				td{

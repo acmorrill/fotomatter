@@ -4,7 +4,7 @@
 	padding-top: 100px;
 	padding-left: 40px;
 	padding-right: 40px;
-	top: @header_height;
+	top: 7px;
 	height: 100%;
 	z-index: @content;
 	&.no_subnav {
@@ -40,5 +40,27 @@
 		left: -12px;
 		.right_facing_triangle(10, @off_black);
 		//.el_opacity(.6, 60);
+	}
+}
+
+@lines_size: 24px;
+.plus_icon_lines {
+	display: inline-block;
+	vertical-align: top;
+	position: relative;
+	margin-top: 8px;
+	margin-left: 15px;
+	width: @lines_size;
+	height: @lines_size;
+	.one, .two { background-color: @gray_text; position: absolute; top: 0px; left: 0px;}
+	.one { 
+		left: 50%;
+		width: 1px;
+		height: @lines_size;
+	}
+	.two {
+		top: 50%;
+		width: @lines_size;
+		height: 1px;
 	}
 }
