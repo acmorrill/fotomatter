@@ -21,13 +21,23 @@
 IPlaceholder info for getting pade. Instructions will go here. Trty and keep it to two lines. But if more, that’s fine. Instructions for receiving payment go here so all that mumbo jumbo on the screenshot below the Paypal button will go here. Cool beans? Cool.
 </p>
 
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+		jQuery('#add_new_printsize_button, #reset_printsize_button').click(function() {
+			jQuery(this).closest('form').submit();
+		});
+	});
+</script>
+
 <div class="right">
-	<div class="add_gallery_element custom_ui" style="margin: 5px; margin-bottom: 15px; opacity: .1;">
+	<div class="add_gallery_element custom_ui" style="margin: 5px; margin-bottom: 15px;">
 		<form action="/admin/ecommerces/add_print_size/" method="get" style="float: right;">
-			<input id="add_new_printsize_button" class="add_button ui-button ui-widget ui-state-default ui-corner-all" type="submit" value="Add New Print Size" role="button" aria-disabled="false" />
+			<div id="add_new_printsize_button" class="add_button" type="submit"><div class="content"><?php echo __('Add New Print Size', true); ?></div>
+				<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
+			</div>
 		</form>
-		<form id="reset_printsize_form" action="/admin/ecommerces/reset_print_sizes/" method="get" style="float: right;">
-			<input id="reset_printsize_button" class="add_button ui-button ui-widget ui-state-default ui-corner-all" type="submit" value="Restore Defaults" role="button" aria-disabled="false" />
+		<form id="reset_printsize_form" action="/admin/ecommerces/reset_print_sizes/" method="get" style="float: right; margin-right: 20px;">
+			<div id="reset_printsize_button" class="add_button" type="submit"><div class="content"><?php echo __('Restore Defaults', true); ?></div></div>
 		</form>
 		<div style="clear: both;"></div>
 	</div>
@@ -45,19 +55,16 @@ IPlaceholder info for getting pade. Instructions will go here. Trty and keep it 
 			<thead>
 				<tr> 
 					<th class="first dimension_col">
-						<div class="content">
+						<div class="content one_line">
 							<?php __('Dimension'); ?>
 						</div>
 					</th> 
 					<th class="format_col">
-						<div class="content">
+						<div class="content one_line">
 							<?php __('Format(s)'); ?>
 						</div>
 					</th> 
 					<th class="last actions_call">
-						<div class="content">
-							<?php __('Actions'); ?>
-						</div>
 					</th>
 				</tr> 
 			</thead>
@@ -70,18 +77,21 @@ IPlaceholder info for getting pade. Instructions will go here. Trty and keep it 
 				<?php foreach($photo_avail_sizes as $photo_avail_size): ?> 
 					<tr photo_avail_size_id="<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>" class="<?php echo ($count === 1) ? " first " : ""; ?><?php echo ($count === $total) ? " last " : ""; ?>">
 						<td class="first">
+							<div class="rightborder"></div>
 							<span><?php echo $photo_avail_size['PhotoAvailSize']['short_side_length']; ?> x --</span>
 						</td>
 						<td>
-							<span>
+							<div class="rightborder"></div>
+							<span style="display: inline-block;">
 								<?php $formats = Set::extract('/PhotoFormat/display_name', $photo_avail_size); ?>
-								<?php echo implode(' | ', $formats) ?>
+								<?php echo implode(' / ', $formats) ?>
 							</span>
 						</td>
 						<td class="last table_actions">
-							<span>
-								<a href="/admin/ecommerces/add_print_size/<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>/">Edit</a> 
-								<a href="/admin/ecommerces/delete_print_size/<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>/">Delete</a>
+							<div class="rightborder"></div>
+							<span class="custom_ui">
+								<a href="/admin/ecommerces/add_print_size/<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>/"><div class="add_button"><div class="content">Edit</div><div class="right_arrow_lines"><div></div></div></div></a>
+								<a href="/admin/ecommerces/delete_print_size/<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>/"><div class="add_button"><div class="content">X</div></div></a>
 							</span>
 						</td>
 					</tr>
