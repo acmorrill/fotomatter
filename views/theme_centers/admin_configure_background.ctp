@@ -304,6 +304,7 @@
 <div id="configure_theme_background" class="content_only_page">
 	<?php if ($background_settings['theme_has_dynamic_background'] === true): ?>
 		<div class="custom_ui" data-step="2" data-intro="Ok, wasn't that fun?">
+			<div id="help_tour_button" class="custom_ui"><div class="add_button" type="submit"><div class="content"><?php echo __(HELP_TOUR_ENGLISH_TEXT); ?></div><div class="right_arrow_lines"><div></div></div></div></dIv>
 			<div id="upload_background_button" class="add_button" type="submit"><div class="content"><?php __('Upload Background Image'); ?></div><div class="right_arrow_lines"><div></div></div></div>
 		</div>
 		<?php // DREW TODO - make the below div have the default bg color of the theme ?>
