@@ -305,7 +305,7 @@
 	<?php if ($background_settings['theme_has_dynamic_background'] === true): ?>
 		<div class="custom_ui">
 			<?php echo $this->Element('/admin/get_help_button'); ?>
-			<div id="upload_background_button" class="add_button" type="submit"><div class="content"><?php __('Upload Background Image'); ?></div><div class="right_arrow_lines"><div></div></div></div>
+			<div data-step="2" data-intro="<?php echo __('Upload a background image.', true); ?>" data-position="left" id="upload_background_button" class="add_button" type="submit"><div class="content"><?php __('Upload Background Image'); ?></div><div class="right_arrow_lines"><div></div></div></div>
 		</div>
 		<?php // DREW TODO - make the below div have the default bg color of the theme ?>
 		<div class="page_content_header">
