@@ -184,3 +184,40 @@ p {
 #flashMessage {
 	display: none;
 }
+
+.custom_ui {
+	.add_button {
+		cursor: pointer;
+		display: inline-block;
+		vertical-align: top;
+		border: 1px solid transparent;
+		height: 40px;
+		padding-left: 20px;
+		padding-right: 20px;
+		border: 1px solid #32373b;
+		.content {
+			display: inline-block;
+			vertical-align: top;
+			margin-top: 14px;
+			color: @gray_text;
+		}
+		.Code-Pro-LC;
+		//.el_opacity(.6, 60);
+		font-size: 18px;
+		background-color: @off_black;
+		&:hover {
+			.content {
+				&, a { color: @white };
+			}
+			.right_arrow_lines {
+				.right_facing_triangle(10, @white);
+				div {
+					.right_facing_triangle(10, @off_black);
+				}
+			}
+			.plus_icon_lines {
+				.one, .two { background-color: @white; }
+			}
+		}
+	}
+}
