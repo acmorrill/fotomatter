@@ -314,7 +314,7 @@
 				Click and drag lower right corner to set size
 			</p>
 		</div>
-		<div id="theme_background_palette_container" data-step="3" data-intro="Hey this is another thing" data-position="left">
+		<div id="theme_background_palette_container" data-step="3" data-intro="<?php echo __('Hey this is another thing', true); ?>" data-position="left">
 			<div class="fade_background_top"></div>
 			<div class="bg_effects_controls" style="margin-bottom: 40px;">
 				<div id="bg_brightness" class="slider_container">
