@@ -112,7 +112,9 @@ table.list {
 				> * {
 					margin-left: 20px;
 					margin-right: 20px;
-				}
+					display: inline-block;
+					vertical-align: middle;	
+			}
 				position: relative;
 				border-top: 1px solid @table_border;
 				border-bottom: 1px solid transparent;
@@ -135,7 +137,8 @@ table.list {
 				font-size: 24px;
 				.background {
 					background-color: @off_black; 
-					height: 43px; 
+					height: 40px; 
+					width: 40px;
 					position: relative;
 					left:20px;
 					.reorder_grabber {
@@ -151,10 +154,10 @@ table.list {
 				}
 				&.table_actions{
 					text-align: right;
+					width: 215px;
 				}
-				&.menu_type{
-					width: 100px;
-				}
+				&.menu_type{ text-align: left; }
+				&.table_width_reorder_icon { width: 100px; }
 			}
 			&:hover  { 
 				td{
@@ -164,9 +167,9 @@ table.list {
 					border-bottom: 1px solid @white;
 					&.first { border-left: 1px solid @white; }
 					&.last { border-right: 1px solid @white; }
+					background-color: @table_hover;
+					color: @top_white;
 				}
-				color: @top_white;
-				background-color: @table_hover;
 				//border: 1px double @white;
 				.background .reorder_grabber { .el_opacity(1, 1); } 
 			}

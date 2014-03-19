@@ -33,10 +33,26 @@
 	});
 </script>
 
+<h1>Available Print Sizes
+	<div id="help_tour_button" class="custom_ui"><div class="add_button" type="submit"><div class="content"><?php echo __(HELP_TOUR_ENGLISH_TEXT); ?></div><div class="right_arrow_lines"><div></div></div></div></dIv>
+</h1>
+<p>
+	Instructions for receiving payment go here so all that mumbo jumbo on the screenshot below the Paypal button will go here. Cool beans? Cool.
+IPlaceholder info for getting pade. Instructions will go here. Trty and keep it to two lines. But if more, that’s fine. Instructions for receiving payment go here so all that mumbo jumbo on the screenshot below the Paypal button will go here. Cool beans? Cool.
+</p>
 <div class="right">
 	<div class="add_gallery_element custom_ui" style="margin: 5px; margin-bottom: 15px;">
+		<script type="text/javascript">
+			jQuery(document).ready(function() {
+				jQuery('#add_new_print_type_button').click(function() {
+					jQuery(this).closest('form').submit();
+				});
+			});
+		</script>
 		<form action="/admin/ecommerces/add_print_type_and_pricing/" method="get" style="float: right;">
-			<input id="add_new_print_type_button" class="add_button ui-button ui-widget ui-state-default ui-corner-all" type="submit" value="Add New Print Type" role="button" aria-disabled="false" />
+			<div id="add_new_print_type_button" class="add_button"><div class="content"><?php echo __('Add New Print Type', true); ?></div>
+				<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
+			</div>
 		</form>
 <!--		<form id="reset_printsize_form" action="/admin/ecommerces/reset_print_sizes/" method="get" style="float: right;">
 			<input id="reset_printsize_button" class="add_button ui-button ui-widget ui-state-default ui-corner-all" type="submit" value="Restore Defaults" role="button" aria-disabled="false" />
@@ -45,36 +61,42 @@
 	</div>
 </div>
 <div class="clear"></div>
-<?php //debug($photo_avail_sizes); ?>
 <?php if (!empty($photo_print_types)): ?>
-	<div class="table_header">
-		<label class="inline"><?php __('Available Print Sizes:'); ?></label> 
+	<div class="table_container">
+		<div class="fade_background_top"></div>
+		<div class="table_top"></div>
+		<table id="print_types_list" class="list">
+			<thead>
+				<tr> 
+					<th class="" colspan="2">
+						<div class="content one_line">
+							<?php __('Print Types'); ?>
+						</div>
+					</th> 
+					<th class="last actions_call"></th>
+				</tr> 
+			</thead>
+			<tbody>
+				<tr class="spacer"><td colspan="3"></td></tr>
+				<?php foreach($photo_print_types as $photo_print_type): ?> 
+					<tr class="photo_print_type_item" photo_print_type_id="<?php echo $photo_print_type['PhotoPrintType']['id']; ?>">
+						<td class="print_type_id first table_width_reorder_icon"><div class="reorder_print_type_grabber reorder_grabber" /> </td> 
+						<td class="print_type">
+							<?php echo $photo_print_type['PhotoPrintType']['print_name']; ?>
+						</td>
+						<td class="table_actions">
+							<span class="custom_ui">
+								<a href="/admin/ecommerces/add_print_type_and_pricing/<?php echo $photo_print_type['PhotoPrintType']['id']; ?>/"><div class="add_button"><div class="content">Edit</div><div class="right_arrow_lines"><div></div></div></div></a>
+								<a href="/admin/ecommerces/delete_print_type/<?php echo $photo_print_type['PhotoPrintType']['id']; ?>/"><div class="add_button"><div class="content">X</div></div></a>
+							</span>
+						</td>
+					</tr>
+				<?php endforeach; ?> 
+			</tbody>
+		</table>
 	</div>
-	<table id="print_types_list" class="list">
-		<thead>
-			<tr> 
-				<th class="first"></th> 
-				<th class=""><?php __('Print Type Name'); ?></th> 
-				<th class="last"><?php __('Actions'); ?></th>
-			</tr> 
-		</thead>
-		<tbody>
-			<?php foreach($photo_print_types as $photo_print_type): ?> 
-				<tr class="photo_print_type_item" photo_print_type_id="<?php echo $photo_print_type['PhotoPrintType']['id']; ?>">
-					<td class="print_type_id first"><div class="reorder_print_type_grabber reorder_grabber" /> </td> 
-					<td style="width: 300px;">
-						<?php echo $photo_print_type['PhotoPrintType']['print_name']; ?>
-					</td>
-					<td>
-						<a href="/admin/ecommerces/add_print_type_and_pricing/<?php echo $photo_print_type['PhotoPrintType']['id']; ?>/">Edit</a> 
-						<a href="/admin/ecommerces/delete_print_type/<?php echo $photo_print_type['PhotoPrintType']['id']; ?>/">Delete</a>
-					</td>
-				</tr>
-			<?php endforeach; ?> 
-		</tbody>
-	</table>
 <?php else: ?>
-	<?php __('You have not added any print types yet.'); ?>
+	<h1><?php __('You have not added any print types yet.'); ?></h1>
 <?php endif; ?>
 
 

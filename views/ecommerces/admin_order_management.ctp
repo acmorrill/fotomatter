@@ -44,7 +44,7 @@
 	<?php echo $this->Paginator->next(__('Next', true), null, null, array('class' => 'disabled')); ?> 
 
 <?php else: ?>
-	<?php __('You do not have any orders yet.'); ?>
+	<h1><?php __('You do not have any orders yet.'); ?></h1>
 <?php endif; ?>
 
 <?php ob_start(); ?>

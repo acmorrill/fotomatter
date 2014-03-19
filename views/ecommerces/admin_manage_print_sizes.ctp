@@ -100,7 +100,7 @@ IPlaceholder info for getting pade. Instructions will go here. Trty and keep it 
 		</table>
 	</div>
 <?php else: ?>
-	<?php __('You have not added any sizes yet.'); ?>
+	<h1><?php __('You have not added any sizes yet.'); ?></h1>
 <?php endif; ?>
 
 
