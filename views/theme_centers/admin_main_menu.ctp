@@ -1,4 +1,5 @@
-<div id="configure_main_menu_cont" style="padding: 20px; margin: 20px; margin-top: 0px; margin-left: 0px;">
+<div  id="configure_main_menu_cont" style="padding: 20px; margin: 20px; margin-top: 0px; margin-left: 0px;">
+	<?php echo $this->Element('/admin/get_help_button'); ?>
 	<?php // class="content-background" ?>
 	<?php // echo $this->Element('admin/theme_center/main_menu/list_main_menu_items'); ?>
 	<?php

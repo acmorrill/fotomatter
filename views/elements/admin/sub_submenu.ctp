@@ -20,12 +20,12 @@
 </script>
 
 <div id="<?php echo $uuid; ?>" class="sub_submenu_cont">
-	<div class="sub_submenu_left_cont">
+	<div data-step="2" data-intro="<?php echo __('All themes have menus. Some have one tier menu and others two tier menus. One tier menus are single links. Versus two tier menus have a dropdown menu system. ', true); ?>" data-position="left" class="sub_submenu_left_cont">
 		<?php $count = 0; foreach ($tabs as $tab_name => $tab): ?>
-			<div class="sub_submenu_tab <?php if ($count == 0): ?>selected<?php endif; ?>"><?php //echo $tab_name; ?></div>
+			<div data-step="3" data-intro="<?php echo __('This tab will allow you to order...', true); ?>" data-position="left" class="sub_submenu_tab <?php if ($count == 0): ?>selected<?php endif; ?>"><?php //echo $tab_name; ?></div>
 		<?php $count++; endforeach; ?>
 	</div>
-	<div class="sub_submenu_right_cont">
+	<div ata-step="1" data-intro="<?php echo __('Create the main menu for your site.', true); ?>" data-position="left" class="sub_submenu_right_cont">
 		<?php $count = 0; foreach ($tabs as $tab_name => $tab_element_path): ?>
 			<div id="sub_submenu_tab_<?php echo $count; ?>" class="sub_submenu_tab_cont">
 				<div class="table_header_darker" style="-moz-border-radius-topleft: 0px;border-top-left-radius: 0px;">
