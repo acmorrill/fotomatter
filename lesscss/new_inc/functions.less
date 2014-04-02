@@ -36,6 +36,20 @@
 	border-width: 10px 0 10px 11px;
 	border-color: transparent transparent transparent @color;
 }
+.up_facing_triangle(@size, @color) {
+	width: 0px;
+	height: 0px;
+	border-style: solid;
+	border-width: 0 7px 6px 7px;
+	border-color: transparent transparent @color transparent;
+}
+.down_facing_triangle(@size, @color) {
+	width: 0px;
+	height: 0px;
+	border-style: solid;
+	border-width: 6px 7px 0 7px;
+	border-color: @color transparent transparent transparent;
+}
 
 // .2, 20
 .el_opacity(@opacity, @ms_opacity) {

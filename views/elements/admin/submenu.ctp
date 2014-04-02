@@ -30,7 +30,7 @@
 		<?php $count = 1; foreach ($subnav['pages'] as $subnav_page): ?>
 			<?php 
 				$selected = '';
-				if ($this->Util->startsWith(trim($subnav_page['url'], '/'), trim($this->here, '/'))) {
+				if ($this->Util->startsWith(trim($subnav_page['url'], '/'), trim($this->here, '/')) || $this->Util->startsWith(trim($this->here, '/'), trim($subnav_page['url'], '/'))) {
 					$selected = 'selected';
 				}
 			?>	

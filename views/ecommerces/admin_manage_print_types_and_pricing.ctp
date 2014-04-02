@@ -34,7 +34,7 @@
 </script>
 
 <h1>Available Print Sizes
-	<div id="help_tour_button" class="custom_ui"><div class="add_button" type="submit"><div class="content"><?php echo __(HELP_TOUR_ENGLISH_TEXT); ?></div><div class="right_arrow_lines"><div></div></div></div></dIv>
+	<?php echo $this->Element('/admin/get_help_button'); ?>
 </h1>
 <p>
 	Instructions for receiving payment go here so all that mumbo jumbo on the screenshot below the Paypal button will go here. Cool beans? Cool.
@@ -87,7 +87,7 @@ IPlaceholder info for getting pade. Instructions will go here. Trty and keep it 
 						<td class="table_actions">
 							<span class="custom_ui">
 								<a href="/admin/ecommerces/add_print_type_and_pricing/<?php echo $photo_print_type['PhotoPrintType']['id']; ?>/"><div class="add_button"><div class="content">Edit</div><div class="right_arrow_lines"><div></div></div></div></a>
-								<a href="/admin/ecommerces/delete_print_type/<?php echo $photo_print_type['PhotoPrintType']['id']; ?>/"><div class="add_button"><div class="content">X</div></div></a>
+								<a href="/admin/ecommerces/delete_print_type/<?php echo $photo_print_type['PhotoPrintType']['id']; ?>/"><div class="add_button icon"><div class="content">X</div></div></a>
 							</span>
 						</td>
 					</tr>

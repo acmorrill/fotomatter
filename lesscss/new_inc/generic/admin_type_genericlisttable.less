@@ -56,6 +56,7 @@
 	.page_content_container();
 	padding-left: 50px;
 	padding-right: 50px;
+	margin-top: 20px;
 }
 
 table.list {
@@ -76,13 +77,30 @@ table.list {
 				a { text-decoration: none; }
 				&.first {  }
 				&.last { border: 0px; }
+				.direction_arrow {display: none; }
 				&.curr {
-					background: #000; 
+					/* background: #000; 
 					a { padding-right: 15px;}
 					&.desc a { background: url('/ssp/img/table-sort-arrow-up.png') 100% 1px no-repeat; }
-					&.asc a { background: url('/ssp/img/table-sort-arrow-down.png') 100% 4px no-repeat; }
+					&.asc a { background: url('/ssp/img/table-sort-arrow-down.png') 100% 4px no-repeat; } */
+					.content {
+						border-bottom: 4px solid @tab2_on_color;
+					}
+					.direction_arrow {
+						display: block;
+						position: absolute;
+						left: 0px;
+						bottom: 5px;
+					}
+					&.desc {
+						.direction_arrow { .up_facing_triangle(10px, @tab2_on_color); }
+					}
+					&.asc {
+						.direction_arrow { .down_facing_triangle(10px, @tab2_on_color); }
+					}
 				}
 				.content {
+					position: relative;
 					margin-top: 32px;
 					height: 68px;
 					width: 79%;
@@ -114,9 +132,14 @@ table.list {
 					margin-right: 20px;
 					display: inline-block;
 					vertical-align: middle;	
-			}
+				}
 				position: relative;
 				border-top: 1px solid @table_border;
+				&.highlight {
+					&, a {
+						color: @tab2_on_color;
+					}
+				}
 				border-bottom: 1px solid transparent;
 				&.first { border-left: 1px solid @table_border; }
 				&.last { 
@@ -126,7 +149,6 @@ table.list {
 				
 				text-align: left;
 				vertical-align: middle;
-				&.curr { background: #191919; }
 				&.photo_id { width: 58px; }
 				&.photo_image { width: 166px; }
 				&.photo_title { width: 185px; }
@@ -146,7 +168,7 @@ table.list {
 					}
 				}
 				.rightborder {
-					background-color: #434749;
+					background-color: @table_divider;
 					height: 14px;
 					width: 2px;
 					float: right;
@@ -187,8 +209,43 @@ table.list {
 			&.last { 
 				border-bottom: 1px solid @table_border;
 			}
+			&.new {
+				td {
+					background: none;
+					color: @white;
+				}
+			}
 		}
 		
+	}
+	tfoot {
+		td {
+			padding-top: 40px;
+			.Code-Pro-Bold-LC;
+			font-size: 18px;
+			text-align: right;
+			vertical-align: middle;
+			span {
+				&.current { color: @white; }
+				&.disabled { display: none; }
+			}
+			a { 
+				text-decoration: none; 
+				cursor: pointer;
+				&:hover {
+					color: @white;
+				}
+			}
+			.paginator_divider {
+				display: inline-block;
+				background-color: @table_divider;
+				height: 14px;
+				width: 2px;
+				margin: 0px;
+				margin-left: 10px;
+				margin-right: 10px;
+			}
+		}
 	}
 }
 

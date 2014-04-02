@@ -194,7 +194,7 @@ p {
 		height: 40px;
 		padding-left: 20px;
 		padding-right: 20px;
-		border: 1px solid #32373b;
+		border: 1px solid @button_border;
 		.content {
 			display: inline-block;
 			vertical-align: top;
@@ -205,14 +205,17 @@ p {
 		//.el_opacity(.6, 60);
 		font-size: 18px;
 		background-color: @off_black;
+		min-width: 65px;
+		&.icon { min-width: 5px; }
 		&:hover {
+			background-color: @off_black + @button_bg_increase;
 			.content {
 				&, a { color: @white };
 			}
 			.right_arrow_lines {
 				.right_facing_triangle(10, @white);
 				div {
-					.right_facing_triangle(10, @off_black);
+					.right_facing_triangle(10, @off_black + @button_bg_increase);
 				}
 			}
 			.plus_icon_lines {
