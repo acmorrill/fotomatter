@@ -91,7 +91,7 @@ IPlaceholder info for getting pade. Instructions will go here. Trty and keep it 
 							<div class="rightborder"></div>
 							<span class="custom_ui">
 								<a href="/admin/ecommerces/add_print_size/<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>/"><div class="add_button"><div class="content">Edit</div><div class="right_arrow_lines"><div></div></div></div></a>
-								<a href="/admin/ecommerces/delete_print_size/<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>/"><div class="add_button"><div class="content">X</div></div></a>
+								<a href="/admin/ecommerces/delete_print_size/<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>/"><div class="add_button icon"><div class="content">X</div></div></a>
 							</span>
 						</td>
 					</tr>

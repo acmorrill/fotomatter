@@ -1,48 +1,105 @@
+<h1>Order Management
+	<?php echo $this->Element('/admin/get_help_button'); ?>
+</h1>
+<p>
+	Instructions for receiving payment go here so all that mumbo jumbo on the screenshot below the Paypal button will go here. Cool beans? Cool.
+IPlaceholder info for getting pade. Instructions will go here. Trty and keep it to two lines. But if more, that’s fine. Instructions for receiving payment go here so all that mumbo jumbo on the screenshot below the Paypal button will go here. Cool beans? Cool.
+</p>
 <?php if (!empty($authnet_orders)): ?>
-	<div class="table_header">
-		<label class="inline"><?php __('Page:'); ?></label> <?php echo $this->Paginator->counter(); ?>
-		<div class="right">
-			<?php echo $this->Paginator->prev(__('Prev', true), null, null, array('class' => 'disabled')); ?>&nbsp;
-			<?php echo $this->Paginator->numbers(array(
-				'modulus' => 2,
-				'first' => 2,
-				'last' => 2
-			)); ?>&nbsp;
-			<?php echo $this->Paginator->next(__('Next', true), null, null, array('class' => 'disabled')); ?> 
-		</div>
-	</div>
 	<?php $sort_dir = $this->Paginator->sortDir('AuthnetOrder'); ?>
-	<table class="list">
-		<tr> 
-			<th class="first <?php if ($this->Paginator->sortKey('AuthnetOrder') == 'AuthnetOrder.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>"><?php echo $this->Paginator->sort(__('Order Number', true), 'AuthnetOrder.id'); ?></th> 
-			<th class="<?php if ($this->Paginator->sortKey('AuthnetOrder') == 'AuthnetOrder.order_status'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>"><?php echo $this->Paginator->sort(__('Order Status', true), 'AuthnetOrder.order_status'); ?></th> 
-			<th class="<?php if ($this->Paginator->sortKey('AuthnetOrder') == 'AuthnetOrder.pay_out_status'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>"><?php echo $this->Paginator->sort(__('Reimbursement Status', true), 'AuthnetOrder.pay_out_status'); ?></th> 
-			<th class="<?php if ($this->Paginator->sortKey('AuthnetOrder') == 'AuthnetOrder.total'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>"><?php echo $this->Paginator->sort(__('Order Total', true), 'AuthnetOrder.total'); ?></th>
-			<th class="<?php if ($this->Paginator->sortKey('AuthnetOrder') == 'AuthnetOrder.created'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>"><?php echo $this->Paginator->sort(__('Order Date', true), 'AuthnetOrder.created'); ?></th> 
-			<th class="last"><?php __('Actions'); ?></th>
-		</tr> 
-	   <?php foreach($authnet_orders as $authnet_order): ?> 
-			<tr>
-				<td class="order_id first <?php if ($this->Paginator->sortKey('AuthnetOrder') == 'AuthnetOrder.id'): ?> curr<?php endif; ?>"><?php echo $authnet_order['AuthnetOrder']['id']; ?> </td> 
-				<td class="order_status <?php if ($this->Paginator->sortKey('AuthnetOrder') == 'AuthnetOrder.order_status'): ?> curr<?php endif; ?>"><?php echo $authnet_order['AuthnetOrder']['order_status']; ?> </td> 
-				<td class="order_status <?php if ($this->Paginator->sortKey('AuthnetOrder') == 'AuthnetOrder.pay_out_status'): ?> curr<?php endif; ?>"><?php echo $authnet_order['AuthnetOrder']['pay_out_status']; ?> </td> 
-				<td class="order_total <?php if ($this->Paginator->sortKey('AuthnetOrder') == 'AuthnetOrder.total'): ?> curr<?php endif; ?>"><?php echo $authnet_order['AuthnetOrder']['total']; ?> </td> 
-				<?php $created_date = $this->Util->get_formatted_created_date($authnet_order['AuthnetOrder']['created']); ?>
-				<td class="order_created_date <?php if ($this->Paginator->sortKey('AuthnetOrder') == 'AuthnetOrder.created'): ?> curr<?php endif; ?>"><?php echo $created_date; ?> </td> 
-				<td class="photo_action last">
-					<a href="/admin/ecommerces/fulfill_order/<?php echo $authnet_order['AuthnetOrder']['id']; ?>/"><?php __('Fulfill'); ?></a>
-				</td>
-			</tr>
-		<?php endforeach; ?> 
-	</table>
-	<?php echo $this->Paginator->prev(__('Prev', true), null, null, array('class' => 'disabled')); ?>&nbsp;
-	<?php echo $this->Paginator->numbers(array(
-		'modulus' => 2,
-		'first' => 2,
-		'last' => 2
-	)); ?>&nbsp;
-	<?php echo $this->Paginator->next(__('Next', true), null, null, array('class' => 'disabled')); ?> 
-
+	<div class="table_container">
+		<div class="fade_background_top"></div>
+		<div class="table_top"></div>
+		<table class="list">
+			<thead>
+				<tr>
+					<th class="first <?php if ($this->Paginator->sortKey('AuthnetOrder') == 'AuthnetOrder.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>">
+						<div class="content one_line">
+							<div class="direction_arrow"></div>
+							<?php echo $this->Paginator->sort(__('Order Number', true), 'AuthnetOrder.id'); ?>
+						</div>
+					</th>
+					<th class="<?php if ($this->Paginator->sortKey('AuthnetOrder') == 'AuthnetOrder.order_status'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>">
+						<div class="content one_line">
+							<div class="direction_arrow"></div>
+							<?php echo $this->Paginator->sort(__('Order Status', true), 'AuthnetOrder.order_status'); ?>
+						</div>
+					</th>
+					<th class="<?php if ($this->Paginator->sortKey('AuthnetOrder') == 'AuthnetOrder.pay_out_status'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>">
+						<div class="content one_line">
+							<div class="direction_arrow"></div>
+							<?php echo $this->Paginator->sort(__('Reimbursement Status', true), 'AuthnetOrder.pay_out_status'); ?>
+						</div>
+					</th>
+					<th class="<?php if ($this->Paginator->sortKey('AuthnetOrder') == 'AuthnetOrder.total'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>">
+						<div class="content one_line">
+							<div class="direction_arrow"></div>
+							<?php echo $this->Paginator->sort(__('Order Total', true), 'AuthnetOrder.total'); ?></th>
+						</div>
+					<th class="<?php if ($this->Paginator->sortKey('AuthnetOrder') == 'AuthnetOrder.created'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>">
+						<div class="content one_line">
+							<div class="direction_arrow"></div>
+							<?php echo $this->Paginator->sort(__('Order Date', true), 'AuthnetOrder.created'); ?>
+						</div>
+					</th>
+					<th class="last">
+						<div class="content one_line">
+							<?php __('Actions'); ?>
+						</div>
+					</th>
+				</tr> 
+			</thead>
+			<tbody>
+				<tr class="spacer"><td colspan="3"></td></tr>
+				<?php foreach($authnet_orders as $authnet_order): ?> 
+					<tr class="<?php if ($authnet_order['AuthnetOrder']['order_status'] === 'new') { echo 'new'; } ?>" >
+						<td class="order_id first <?php if ($this->Paginator->sortKey('AuthnetOrder') == 'AuthnetOrder.id'): ?> curr<?php endif; ?>">
+							<div class="rightborder"></div>
+							<span><?php echo $authnet_order['AuthnetOrder']['id']; ?></span>
+						</td> 
+						<td class="order_status <?php if ($this->Paginator->sortKey('AuthnetOrder') == 'AuthnetOrder.order_status'): ?> curr<?php endif; ?>">
+							<div class="rightborder"></div>
+							<span><?php echo $authnet_order['AuthnetOrder']['order_status']; ?></span>
+						</td> 
+						<td class="order_status <?php if ($this->Paginator->sortKey('AuthnetOrder') == 'AuthnetOrder.pay_out_status'): ?> curr<?php endif; ?>">
+							<div class="rightborder"></div>
+							<span><?php echo $authnet_order['AuthnetOrder']['pay_out_status']; ?></span>
+						</td> 
+						<td class="order_total <?php if ($this->Paginator->sortKey('AuthnetOrder') == 'AuthnetOrder.total'): ?> curr<?php endif; ?>">
+							<div class="rightborder"></div>
+							<span>$<?php echo $authnet_order['AuthnetOrder']['total']; ?></span> <?php // DREW TODO - do money formatting here ?>
+						</td> 
+						<?php $created_date = $this->Util->get_formatted_created_date($authnet_order['AuthnetOrder']['created']); ?>
+						<td class="order_created_date <?php if ($this->Paginator->sortKey('AuthnetOrder') == 'AuthnetOrder.created'): ?> curr<?php endif; ?>">
+							<div class="rightborder"></div>
+							<span><?php echo $created_date; ?></span>
+						</td> 
+						<td class="photo_action last">
+							<span class="custom_ui">
+								<a href="/admin/ecommerces/fulfill_order/<?php echo $authnet_order['AuthnetOrder']['id']; ?>/"><div class="add_button"><div class="content"><?php __('Fulfill'); ?></div><div class="right_arrow_lines"><div></div></div></div></a>
+							</span>
+						</td>
+					</tr>
+				<?php endforeach; ?> 
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="8">
+						<?php echo $this->Paginator->prev(__('Previous', true), null, null, array('class' => 'disabled')); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<?php echo $this->Paginator->numbers(array(
+							'modulus' => 2,
+							'first' => 2,
+							'last' => 2,
+//							'before' => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+//							'after' => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+							'separator' => '<div class="paginator_divider"></div>',
+						)); ?>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $this->Paginator->next(__('Next', true), null, null, array('class' => 'disabled')); ?> 
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
 <?php else: ?>
 	<h1><?php __('You do not have any orders yet.'); ?></h1>
 <?php endif; ?>
