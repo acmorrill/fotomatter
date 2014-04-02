@@ -19,9 +19,9 @@ class UtilHelper extends AppHelper {
 	
 	public function get_formatted_created_date($created) {
 		if (date("Y", strtotime($created)) == date('Y')) {
-			$created_format = "F j, g:i A";
+			$created_format = "M j, g:i A";
 		} else {
-			$created_format = "F j Y, g:i A";
+			$created_format = "M j Y, g:i A";
 		}
 		
 		return date($created_format, strtotime($created));
