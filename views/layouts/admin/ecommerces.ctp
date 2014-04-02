@@ -13,7 +13,7 @@
 		<?php $curr_page = 'sell'; ?>
 		<?php echo $this->Element('admin/menu', array( 'curr_page' => $curr_page )); ?>
 	</div>
-	<div id="middle" class="rounded-corners">
+	<div id="middle" class="rounded-corners" data-step="1" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="left">
 		<?php 
 			$subnav = array(); 
 

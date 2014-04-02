@@ -14,7 +14,7 @@
 </script>
 
 <h1>Choose available formats for retail 
-	<div id="help_tour_button" class="custom_ui"><div class="add_button" type="submit"><div class="content"><?php echo __(HELP_TOUR_ENGLISH_TEXT); ?></div><div class="right_arrow_lines"><div></div></div></div></dIv>
+	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 </h1>
 <p>
 	Instructions for receiving payment go here so all that mumbo jumbo on the screenshot below the Paypal button will go here. Cool beans? Cool.
@@ -48,7 +48,7 @@ IPlaceholder info for getting pade. Instructions will go here. Trty and keep it 
 	<?php /*<div class="table_header">
 		<label class="inline"><?php __('Available Print Sizes:'); ?></label> 
 	</div> */ ?>
-	<div class="table_container">
+	<div class="table_container"data-step="1" data-intro="<?php echo __('Here is a list of all the print types that are defaults or were created by you.<br> It displays the dimension and format(s) for each print type.', true); ?>" data-position="left">
 		<div class="fade_background_top"></div>
 		<div class="table_top"></div>
 		<table class="list">
@@ -75,7 +75,26 @@ IPlaceholder info for getting pade. Instructions will go here. Trty and keep it 
 					$total = count($photo_avail_sizes);
 				?>
 				<?php foreach($photo_avail_sizes as $photo_avail_size): ?> 
-					<tr photo_avail_size_id="<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>" class="<?php echo ($count === 1) ? " first " : ""; ?><?php echo ($count === $total) ? " last " : ""; ?>">
+					<?php 
+						$tr_help_code = '';
+						if ($count === 1) {
+							$tr_help_code = 'data-step="2" data-intro="'.__('CONTENT HERE', true).'" data-position="left"';
+						}
+					?>
+					<?php 
+						$edit_help_code = '';
+						if ($count === 1) {
+							$edit_help_code = 'data-step="3" data-intro="'.__('CONTENT HERE', true).'" data-position="left"';
+						}
+					?>
+					<?php 
+						$delete_help_code = '';
+						if ($count === 1) {
+							$delete_help_code = 'data-step="4" data-intro="'.__('CONTENT HERE', true).'" data-position="left"';
+						}
+					?>
+					
+					<tr photo_avail_size_id="<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>" class="<?php echo ($count === 1) ? " first " : ""; ?><?php echo ($count === $total) ? " last " : ""; ?>" <?php echo $tr_help_code; ?>>
 						<td class="first">
 							<div class="rightborder"></div>
 							<span><?php echo $photo_avail_size['PhotoAvailSize']['short_side_length']; ?> x --</span>
@@ -90,8 +109,8 @@ IPlaceholder info for getting pade. Instructions will go here. Trty and keep it 
 						<td class="last table_actions">
 							<div class="rightborder"></div>
 							<span class="custom_ui">
-								<a href="/admin/ecommerces/add_print_size/<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>/"><div class="add_button"><div class="content">Edit</div><div class="right_arrow_lines"><div></div></div></div></a>
-								<a href="/admin/ecommerces/delete_print_size/<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>/"><div class="add_button"><div class="content">X</div></div></a>
+								<a href="/admin/ecommerces/add_print_size/<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>/"><div class="add_button"<?php echo $edit_help_code; ?> ><div class="content"><?php echo __('Edit',true);?></div><div class="right_arrow_lines"><div></div></div></div></a>
+								<a href="/admin/ecommerces/delete_print_size/<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>/"><div class="add_button"<?php echo $delete_help_code; ?>><div class="content">X</div></div></a>
 							</span>
 						</td>
 					</tr>
