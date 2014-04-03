@@ -1,6 +1,7 @@
 <?php //debug($galleries); ?>
 
-
+<?php echo $this->Element('/admin/get_help_button'); ?>
+<div style="clear: both;"></div>
 <script type="text/javascript">
 	jQuery(document).ready(function() {
 		jQuery('.list tbody').sortable(jQuery.extend(verticle_sortable_defaults, {
@@ -34,17 +35,17 @@
 	});
 </script>
 
-<div class="right">
+<div class="right" data-step="2" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="left">
 	<?php echo $this->Element('admin/gallery/add_gallery'); ?>
 </div>
 <div class="clear"></div>
 <?php if (!empty($galleries)): ?>
-	<div class="table_container">
+	<div class="table_container" data-step="1" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom">
 		<div class="fade_background_top"></div>
 		<div class="table_top"></div>
 		<table class="list">
 			<thead>
-				<tr> 
+				<tr data-step="3" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom"> 
 					<?php /* <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?> */ ?>
 					<?php /* <?php echo $this->Paginator->sort(__('Photo ID', true), 'Photo.id'); ?> */ ?>
 					<th class="first">
@@ -79,10 +80,10 @@
 			<tbody>
 				<tr class="spacer"><td colspan="3"></td></tr>
 				<?php foreach($galleries as $curr_gallery): ?> 
-					<tr gallery_id="<?php echo $curr_gallery['PhotoGallery']['id']; ?>">
+					<tr gallery_id="<?php echo $curr_gallery['PhotoGallery']['id']; ?>" data-step="4" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom">
 						<td class="gallery_id first">
 							<div class="rightborder"></div>
-							<div class="reorder_gallery_grabber reorder_grabber" />
+							<div class="reorder_gallery_grabber reorder_grabber" data-step="5" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom"/>
 						</td> 
 						<td class="gallery_name ">
 							<div class="rightborder"></div>
@@ -103,9 +104,9 @@
 							<span><?php echo $created_date; ?></span>
 						</td> 
 						<td class="gallery_action last">
-							<a href="/admin/photo_galleries/edit_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Edit'); ?></a>
-							<a href="/admin/photo_galleries/edit_gallery_connect_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Connect'); ?></a>
-							<a href="/admin/photo_galleries/edit_gallery_arrange_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Arrange'); ?></a>
+							<a href="/admin/photo_galleries/edit_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"data-step="6" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom"><?php __('Edit'); ?></a>
+							<a href="/admin/photo_galleries/edit_gallery_connect_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/" data-step="7" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom"><?php __('Connect'); ?></a>
+							<a href="/admin/photo_galleries/edit_gallery_arrange_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/" data-step="8" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom"><?php __('Arrange'); ?></a>
 						</td>
 					</tr>
 				<?php endforeach; ?> 
