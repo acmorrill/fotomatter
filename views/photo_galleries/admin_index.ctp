@@ -39,43 +39,81 @@
 </div>
 <div class="clear"></div>
 <?php if (!empty($galleries)): ?>
-	<div class="table_header">
-		<label class="inline"><?php __('Gallery:'); ?></label> 
+	<div class="table_container">
+		<div class="fade_background_top"></div>
+		<div class="table_top"></div>
+		<table class="list">
+			<thead>
+				<tr> 
+					<?php /* <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?> */ ?>
+					<?php /* <?php echo $this->Paginator->sort(__('Photo ID', true), 'Photo.id'); ?> */ ?>
+					<th class="first">
+					</th> 
+					<th class="">
+						<div class="content one_line">
+							<?php echo __('Display Name', true); ?>
+						</div>
+					</th> 
+					<th class="">
+						<div class="content one_line">
+							<?php echo __('Description', true); ?>
+						</div>
+					</th> 
+					<th class="">
+						<div class="content one_line">
+							<?php echo __('Modified', true); ?>
+						</div>
+					</th> 
+					<th class="">
+						<div class="content one_line">
+							<?php echo __('Created', true); ?>
+						</div>
+					</th>
+					<th class="last">
+						<div class="content one_line">
+							<?php echo __('Actions', true); ?>
+						</div>
+					</th>
+				</tr> 
+			</thead>
+			<tbody>
+				<tr class="spacer"><td colspan="3"></td></tr>
+				<?php foreach($galleries as $curr_gallery): ?> 
+					<tr gallery_id="<?php echo $curr_gallery['PhotoGallery']['id']; ?>">
+						<td class="gallery_id first">
+							<div class="rightborder"></div>
+							<div class="reorder_gallery_grabber reorder_grabber" />
+						</td> 
+						<td class="gallery_name ">
+							<div class="rightborder"></div>
+							<span><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></span>
+						</td> 
+						<td class="gallery_description">
+							<div class="rightborder"></div>
+							<span><?php echo $curr_gallery['PhotoGallery']['description']; ?></span>
+						</td> 
+						<?php $modified_date = $this->Util->get_formatted_created_date($curr_gallery['PhotoGallery']['modified']); ?>
+						<?php $created_date = $this->Util->get_formatted_created_date($curr_gallery['PhotoGallery']['created']); ?>
+						<td class="gallery_modified">
+							<div class="rightborder"></div>
+							<span><?php echo $modified_date; ?></span>
+						</td> 
+						<td class="gallery_created">
+							<div class="rightborder"></div>
+							<span><?php echo $created_date; ?></span>
+						</td> 
+						<td class="gallery_action last">
+							<a href="/admin/photo_galleries/edit_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Edit'); ?></a>
+							<a href="/admin/photo_galleries/edit_gallery_connect_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Connect'); ?></a>
+							<a href="/admin/photo_galleries/edit_gallery_arrange_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Arrange'); ?></a>
+						</td>
+					</tr>
+				<?php endforeach; ?> 
+			</tbody>
+		</table>
 	</div>
-	<table class="list">
-		<thead>
-			<tr> 
-				<?php /* <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?> */ ?>
-				<?php /* <?php echo $this->Paginator->sort(__('Photo ID', true), 'Photo.id'); ?> */ ?>
-				<th class="first"></th> 
-				<th class=""><?php __('Display Name'); ?></th> 
-				<th class=""><?php __('Description'); ?></th> 
-				<th class=""><?php __('Modified'); ?></th> 
-				<th class=""><?php __('Created'); ?></th>
-				<th class="last"><?php __('Actions'); ?></th>
-			</tr> 
-		</thead>
-		<tbody>
-			<?php foreach($galleries as $curr_gallery): ?> 
-				<tr gallery_id="<?php echo $curr_gallery['PhotoGallery']['id']; ?>">
-					<td class="gallery_id first"><div class="reorder_gallery_grabber reorder_grabber" /> </td> 
-					<td class="gallery_name "><?php echo $curr_gallery['PhotoGallery']['display_name']; ?> </td> 
-					<td class="gallery_description"><?php echo $curr_gallery['PhotoGallery']['description']; ?> </td> 
-					<?php $modified_date = $this->Util->get_formatted_created_date($curr_gallery['PhotoGallery']['modified']); ?>
-					<?php $created_date = $this->Util->get_formatted_created_date($curr_gallery['PhotoGallery']['created']); ?>
-					<td class="gallery_modified"><?php echo $modified_date; ?> </td> 
-					<td class="gallery_created"><?php echo $created_date; ?> </td> 
-					<td class="gallery_action last">
-						<a href="/admin/photo_galleries/edit_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Edit'); ?></a>
-						<a href="/admin/photo_galleries/edit_gallery_connect_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Connect'); ?></a>
-						<a href="/admin/photo_galleries/edit_gallery_arrange_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Arrange'); ?></a>
-					</td>
-				</tr>
-			<?php endforeach; ?> 
-		</tbody>
-	</table>
 <?php else: ?>
-	<?php __('You do not have any galleries yet.'); ?>
+	<h1><?php __('You do not have any galleries yet.'); ?></h1>
 <?php endif; ?>
 
 

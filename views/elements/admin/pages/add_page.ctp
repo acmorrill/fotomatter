@@ -19,7 +19,7 @@
 </script>
 
 <div class="add_page_element custom_ui" style="margin: 5px; margin-bottom: 15px;">
-	<span><?php __('Add New Page:'); ?></span>
+	<span><?php __('Add New Page'); ?></span>
 	<select class="add_page_select">
 		<option value="custom"><?php __('Custom'); ?></option>
 		<option value="external"><?php __('External'); ?></option>
