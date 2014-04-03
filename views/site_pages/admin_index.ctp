@@ -1,6 +1,7 @@
 <?php //debug($galleries); ?>
 
-
+<?php echo $this->Element('/admin/get_help_button'); ?>
+<div style="clear: both;"></div>
 <script type="text/javascript">
 	jQuery(document).ready(function() {
 		jQuery('.list tbody').sortable(jQuery.extend(verticle_sortable_defaults, {
@@ -35,12 +36,12 @@
 </script>
 
 
-<div class="right">
+<div class="right" data-step="2" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom">
 	<?php echo $this->Element('admin/pages/add_page'); ?>
 </div>
 <div class="clear"></div>
 <?php if (!empty($site_pages)): ?>
-	<div class="table_container">
+	<div class="table_container" data-step="1" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="top">
 		<div class="fade_background_top"></div>
 		<div class="table_top"></div>
 		<table class="list">
@@ -70,8 +71,8 @@
 			<tbody>
 				<tr class="spacer"><td colspan="3"></td></tr>
 				<?php foreach($site_pages as $curr_page): ?> 
-					<tr page_id="<?php echo $curr_page['SitePage']['id']; ?>">
-						<td class="page_id first">
+					<tr page_id="<?php echo $curr_page['SitePage']['id']; ?>" data-step="3" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="top">
+						<td class="page_id first" data-step="4" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom">
 							<div class="rightborder"></div>
 							<div class="reorder_page_grabber reorder_grabber" />
 						</td> 
@@ -90,9 +91,9 @@
 							<span><?php echo $created_date; ?></span>
 						</td> 
 						<td class="page_action last">
-							<a href="/admin/site_pages/edit_page/<?php echo $curr_page['SitePage']['id']; ?>/"><?php __('Edit'); ?></a>
+							<a data-step="5" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="top" href="/admin/site_pages/edit_page/<?php echo $curr_page['SitePage']['id']; ?>/"><?php __('Edit'); ?></a>
 							<?php if (isset($curr_page['SitePage']['type']) && $curr_page['SitePage']['type'] == 'custom'): ?>
-								<a href="/admin/site_pages/configure_page/<?php echo $curr_page['SitePage']['id']; ?>/"><?php __('Configure'); ?></a>
+								<a data-step="6" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom" href="/admin/site_pages/configure_page/<?php echo $curr_page['SitePage']['id']; ?>/"><?php __('Configure'); ?></a>
 							<?php endif; ?>
 						</td>
 					</tr>
