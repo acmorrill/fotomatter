@@ -2,7 +2,7 @@
 	<?php echo $this->Element('/admin/get_help_button'); ?>
 </h1>
 <p>
-	Some awesome text about photos
+	Some awesome text about photos. Kent is awesome.
 </p>
 
 <script type="text/javascript">
@@ -16,7 +16,7 @@
 <div class="right">
 	<div class="add_gallery_element custom_ui" style="margin: 5px; margin-bottom: 15px;">
 		<form action="/admin/photos/mass_upload/" method="get" style="float: right;">
-			<div id="upload_photos" class="add_button" type="submit"><div class="content"><?php echo __('Upload Photos', true); ?></div>
+			<div id="upload_photos" class="add_button" type="submit" data-step="2" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="left"><div class="content"><?php echo __('Upload Photos', true); ?></div>
 				<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
 			</div>
 		</form>
@@ -25,7 +25,7 @@
 </div>
 <div class="clear"></div>
 <?php if (!empty($data)): ?>
-	<div class="table_container">
+	<div class="table_container" data-step="1" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="top">
 		<div class="fade_background_top"></div>
 		<div class="table_top"></div>
 		<?php $sort_dir = $this->Paginator->sortDir('Photo'); ?>
@@ -34,7 +34,7 @@
 				<tr> 
 					<?php /* <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?> */ ?>
 					<?php /* <?php echo $this->Paginator->sort(__('Photo ID', true), 'Photo.id'); ?> */ ?>
-					<th class="first <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>">
+					<th class="first <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>"data-step="3" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom">
 						<div class="content one_line">
 							<div class="direction_arrow"></div>
 							<?php echo $this->Paginator->sort(__('ID', true), 'Photo.id'); ?>
@@ -83,14 +83,14 @@
 			<tbody>
 				<tr class="spacer"><td colspan="3"></td></tr>
 				<?php foreach($data as $curr_photo): ?> 
-					<tr>
+					<tr data-step="4" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom">
 						<td class="photo_id first <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr<?php endif; ?>">
 							<div class="rightborder"></div>
 							<span><?php echo $curr_photo['Photo']['id']; ?></span>
 						</td> 
 						<?php /* <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr<?php endif; ?>"><?php echo $curr_photo['Photo']['id']; ?> */ ?>
 						<?php $img_path = $this->Photo->get_photo_path($curr_photo['Photo']['id'], 70, 70); ?>
-						<td class="photo_image">
+						<td class="photo_image" data-step="5" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom">
 							<div class="rightborder"></div>
 							<span><img src="<?php echo $img_path; ?>" /><?php //echo $curr_photo['Photo']['id']; ?></span>
 						</td> 
@@ -119,7 +119,7 @@
 						<td class="photo_action last">
 							<div class="rightborder"></div>
 							<span class="custom_ui">
-								<a href="/admin/photos/edit/<?php echo $curr_photo['Photo']['id']; ?>/"><div class="add_button"><div class="content"><?php __('Edit'); ?></div><div class="right_arrow_lines"><div></div></div></div></a>
+								<a href="/admin/photos/edit/<?php echo $curr_photo['Photo']['id']; ?>/"><div class="add_button" data-step="6" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom"><div class="content"><?php __('Edit'); ?></div><div class="right_arrow_lines"><div></div></div></div></a>
 							</span>
 						</td>
 					</tr>

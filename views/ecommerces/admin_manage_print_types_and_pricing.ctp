@@ -50,7 +50,7 @@ IPlaceholder info for getting pade. Instructions will go here. Trty and keep it 
 			});
 		</script>
 		<form action="/admin/ecommerces/add_print_type_and_pricing/" method="get" style="float: right;">
-			<div id="add_new_print_type_button" class="add_button"><div class="content"><?php echo __('Add New Print Type', true); ?></div>
+			<div id="add_new_print_type_button" class="add_button" data-step="2" data-intro="<?php echo __('Click here to create another print type.', true); ?>" data-position="bottom"><div class="content"><?php echo __('Add New Print Type', true); ?></div>
 				<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
 			</div>
 		</form>
@@ -62,7 +62,7 @@ IPlaceholder info for getting pade. Instructions will go here. Trty and keep it 
 </div>
 <div class="clear"></div>
 <?php if (!empty($photo_print_types)): ?>
-	<div class="table_container">
+	<div class="table_container" data-step="1" data-intro="<?php echo __('This area shows all the print types that you have created.', true); ?>" data-position="left">
 		<div class="fade_background_top"></div>
 		<div class="table_top"></div>
 		<table id="print_types_list" class="list">
@@ -79,15 +79,17 @@ IPlaceholder info for getting pade. Instructions will go here. Trty and keep it 
 			<tbody>
 				<tr class="spacer"><td colspan="3"></td></tr>
 				<?php foreach($photo_print_types as $photo_print_type): ?> 
-					<tr class="photo_print_type_item" photo_print_type_id="<?php echo $photo_print_type['PhotoPrintType']['id']; ?>">
-						<td class="print_type_id first table_width_reorder_icon"><div class="reorder_print_type_grabber reorder_grabber" /> </td> 
-						<td class="print_type">
+			 
+				
+					<tr class="photo_print_type_item" data-step="3" data-intro="<?php echo __('Displayed here is the name of the print type.', true); ?>" data-position="bottom" photo_print_type_id=" <?php echo $photo_print_type['PhotoPrintType']['id']; ?>">
+						<td class="print_type_id first table_width_reorder_icon"><div class="reorder_print_type_grabber reorder_grabber" data-step="7" data-intro="<?php echo __('Rearrange the order of the print types. ', true); ?>" data-position="bottom" /> </td> 
+						<td class="print_type" data-step="6" data-intro="<?php echo __('This area displays the name of the print type you have created.', true); ?>" data-position="bottom">
 							<?php echo $photo_print_type['PhotoPrintType']['print_name']; ?>
 						</td>
 						<td class="table_actions">
 							<span class="custom_ui">
-								<a href="/admin/ecommerces/add_print_type_and_pricing/<?php echo $photo_print_type['PhotoPrintType']['id']; ?>/"><div class="add_button"><div class="content">Edit</div><div class="right_arrow_lines"><div></div></div></div></a>
-								<a href="/admin/ecommerces/delete_print_type/<?php echo $photo_print_type['PhotoPrintType']['id']; ?>/"><div class="add_button icon"><div class="content">X</div></div></a>
+								<a href="/admin/ecommerces/add_print_type_and_pricing/<?php echo $photo_print_type['PhotoPrintType']['id']; ?>/"><div class="add_button" data-step="4" data-intro="<?php echo __('Edit the print type.', true); ?>" data-position="left"><div class="content">Edit</div><div class="right_arrow_lines"><div></div></div></div></a>
+								<a href="/admin/ecommerces/delete_print_type/<?php echo $photo_print_type['PhotoPrintType']['id']; ?>/"><div class="add_button icon" data-step="5" data-intro="<?php echo __('Delete a print type.', true); ?>" data-position="left"><div class="content">X</div></div></a>
 							</span>
 						</td>
 					</tr>
