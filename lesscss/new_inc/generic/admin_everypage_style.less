@@ -11,9 +11,19 @@ h1 {
 }
 p {
 	.Code-Pro-LC;
-	font-size: 14px;
 	line-height: 24px;
 	color: @gray_text;
+}
+
+
+
+select {
+	.Code-Pro-LC;
+	font-size: 20px;
+	line-height: 20px;
+	height: @button_height;
+	padding-left: 20px;
+	padding-right: 20px;
 }
 
 #main .top_links {
@@ -23,11 +33,6 @@ p {
 }
 #main .below_links {
 	padding: 33px;
-}
-#header .logo {
-	position: absolute;
-	top: 19px;
-	right: 5%;
 }
 
 #middle {
@@ -165,7 +170,7 @@ p {
 .save_button {
 	.Code-Pro-LC;
 	font-size: 18px;
-	height: 40px;
+	height: @button_height;
 	background-color: @button_off;
 	display: inline-block;
 	padding-left: 18px;
@@ -186,15 +191,20 @@ p {
 }
 
 .custom_ui {
+	> span {
+		.Code-Pro-LC;
+		font-size: 20px;
+	}
 	.add_button {
 		cursor: pointer;
 		display: inline-block;
 		vertical-align: top;
 		border: 1px solid transparent;
-		height: 40px;
+		height: @button_height;
 		padding-left: 20px;
 		padding-right: 20px;
 		border: 1px solid @button_border;
+		color: @gray_text;
 		.content {
 			display: inline-block;
 			vertical-align: top;
@@ -209,6 +219,7 @@ p {
 		&.icon { min-width: 5px; }
 		&:hover {
 			background-color: @off_black + @button_bg_increase;
+			&, a { color: @white };
 			.content {
 				&, a { color: @white };
 			}

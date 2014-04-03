@@ -1,7 +1,7 @@
 <div id="top-navigation">
 	<div id="extra_buttons">
-		<a href="/admin/accounts/index"><i class="icon-menu"></i>Site Settings</a>
-		<a href="/admin/users/logout"><i class="icon-share"></i>Log Out</a>
+		<a href="/admin/accounts/index"><i class="icon-cogWheel"></i>Site Settings</a>
+		<a href="/admin/users/logout"><i class="icon-power"></i>Log Out</a>
 	</div>
 	<ul>
 		<?php //echo $curr; ?>

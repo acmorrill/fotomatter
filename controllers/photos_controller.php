@@ -5,7 +5,7 @@ class PhotosController extends AppController {
 	public $helpers = array('Menu', 'Photo', 'Gallery');
 	public $components = array('Upload', "ImageVersion", "Gd", "ImageWizards", "CloudFiles");
 	public $paginate = array(
-		'limit' => 5,        
+		'limit' => 50,        
 		'order' => array(            
 			'Photo.id' => 'asc'
 		)    

@@ -4,21 +4,26 @@
 <p>
 	Some awesome text about photos
 </p>
-<?php 
-	$subnav = array(); 
 
-	$subnav['title'] = array(
-		'name' => __('Photo List', true),
-		'url' => "/admin/photos",
-		'selected'=>true
-	);
-	$subnav['pages'][] = array(
-		'name' => __('Add Photos', true),
-		'url' => "/admin/photos/mass_upload/"
-	);
-		
-	echo $this->Element('/admin/submenu', array( 'subnav' => $subnav ));
-?>
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+		jQuery('#upload_photos').click(function() {
+			jQuery(this).closest('form').submit();
+		});
+	});
+</script>
+
+<div class="right">
+	<div class="add_gallery_element custom_ui" style="margin: 5px; margin-bottom: 15px;">
+		<form action="/admin/photos/mass_upload/" method="get" style="float: right;">
+			<div id="upload_photos" class="add_button" type="submit"><div class="content"><?php echo __('Upload Photos', true); ?></div>
+				<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
+			</div>
+		</form>
+		<div style="clear: both;"></div>
+	</div>
+</div>
+<div class="clear"></div>
 <?php if (!empty($data)): ?>
 	<div class="table_container">
 		<div class="fade_background_top"></div>
@@ -72,10 +77,6 @@
 						</div>
 					</th>
 					<th class="last">
-						<div class="content one_line">
-							<div class="direction_arrow"></div>
-							<?php __('Actions'); ?>
-						</div>
 					</th>
 				</tr> 
 			</thead>

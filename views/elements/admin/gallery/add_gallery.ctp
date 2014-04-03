@@ -18,7 +18,7 @@
 </script>
 
 <div class="add_gallery_element custom_ui" style="margin: 5px; margin-bottom: 15px;">
-	<span><?php __('Add New Gallery:'); ?></span>
+	<span><?php __('Add New Gallery'); ?></span>
 	<select class="add_gallery_select">
 		<option value="standard"><?php __('Standard'); ?></option>
 		<option value="smart"><?php __('Smart'); ?></option>
