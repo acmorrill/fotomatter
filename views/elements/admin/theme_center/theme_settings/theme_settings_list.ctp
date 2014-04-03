@@ -36,7 +36,6 @@
 
 <?php //debug($avail_settings_list); ?>
 <div id="theme_centers_list_container">
-<?php echo $this->Element('/admin/get_help_button'); ?>  <!--Nothing was added in the tour for this page. Bc this page will become specific for each user. -->
 	<?php foreach ($avail_settings_list as $setting_name => $curr_setting): ?>
 		<?php echo $this->Element('admin/theme_center/theme_settings/settings_renderers/'.$curr_setting['type'], compact(
 				'setting_name',

@@ -15,6 +15,58 @@ p {
 	color: @gray_text;
 }
 
+/********************************************
+ GENERIC PALETTE AND SETTINGS CSS
+********************************************/
+.generic_palette_container {
+	&, a, p{ color: @gray_text; }
+	.page_content_container();
+	padding-left: 40px;
+	padding-right: 40px;
+	.basic_setting_cont {
+		position: relative;
+		margin-top: 40px;
+		padding-top: 40px;
+		padding-bottom: 40px;
+		border-bottom: 1px solid @gray_text;
+		&.last, &.button {
+			border-bottom: none;
+			padding-top: 0px;
+		}
+		label {
+			.Code-Pro-LC;
+			font-size: 24px;
+			line-height: 24px;
+			margin-bottom: 20px;
+			color: @gray_text;
+			position: absolute;
+			top: 0px;
+			left: 0px;
+		}
+		.theme_setting_inputs_container, .theme_setting_description {
+			display: inline-block;
+			vertical-align: top;
+			color: @gray_text;
+		}
+		.theme_setting_inputs_container {
+			width: 315px;
+			.Code-Pro-LC;
+			font-size: 18px;
+			span {
+				display: inline-block;
+				vertical-align: top;
+				margin-bottom: 10px;
+			}
+			input {
+				margin-right: 20px;
+			}
+		}
+		.theme_setting_description {
+			width: 50%;
+		}
+	}
+}
+
 
 
 select {

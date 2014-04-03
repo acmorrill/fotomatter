@@ -399,7 +399,7 @@
 			</div>
 		</div> */ ?>
 	<?php else: ?>
-		<p><?php __('The current theme does not have a dynamic background.'); ?></p>
+		<h1><?php __('The current theme does not have a dynamic background.'); ?></h1>
 	<?php endif; ?>
 </div>
 

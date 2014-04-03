@@ -1,6 +1,11 @@
-<div style="clear: both;"></div>
+<h1>Theme Settings
+	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
+</h1>
+<p>
+	This is the theme settings page - cool right?
+</p>
 <?php if (empty($avail_settings_list)): ?>
-	<p><?php __('The current theme has no custom settings'); ?></p>
+	<h1><?php __('The current theme has no custom settings'); ?></h1>
 <?php else: ?>
 	<?php echo $this->Element('admin/theme_center/theme_settings/theme_settings_list', compact('avail_settings_list', 'theme_id')); ?>
 <?php endif; ?>

@@ -70,13 +70,15 @@
 .page_content_header {
 	.Code-Pro-LC;
 	font-size: 24px;
-	width: @body_content_width;
-	height: 98px;
 	background: @body_content_top_bg;
 	padding-left: 20px;
 	padding-right: 20px;
-	&, p {
+	margin-top: 40px;
+	&, p, h1, h2 {
 		color: @gray_text;
+	}
+	h2 {
+		padding: 20px;
 	}
 }
 .page_content_container() {
