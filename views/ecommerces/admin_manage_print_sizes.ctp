@@ -32,12 +32,12 @@ IPlaceholder info for getting pade. Instructions will go here. Trty and keep it 
 <div class="right">
 	<div class="add_gallery_element custom_ui" style="margin: 5px; margin-bottom: 15px;">
 		<form action="/admin/ecommerces/add_print_size/" method="get" style="float: right;">
-			<div id="add_new_printsize_button" class="add_button" type="submit"><div class="content"><?php echo __('Add New Print Size', true); ?></div>
+			<div id="add_new_printsize_button" class="add_button" type="submit" data-step="5" data-intro="<?php echo __('You may add a new print size to your e-commerce site by using this button.', true); ?>" data-position="bottom"><div class="content"><?php echo __('Add New Print Size', true); ?></div>
 				<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
 			</div>
 		</form>
 		<form id="reset_printsize_form" action="/admin/ecommerces/reset_print_sizes/" method="get" style="float: right; margin-right: 20px;">
-			<div id="reset_printsize_button" class="add_button" type="submit"><div class="content"><?php echo __('Restore Defaults', true); ?></div></div>
+			<div id="reset_printsize_button" class="add_button" type="submit" data-step="6" data-intro="<?php echo __("Clicking this button will clear all print types you have created or it will help you create some print types if you don't have any created.", true); ?>" data-position="bottom"><div class="content"><?php echo __('Restore Defaults', true); ?></div></div>
 		</form>
 		<div style="clear: both;"></div>
 	</div>
@@ -48,7 +48,7 @@ IPlaceholder info for getting pade. Instructions will go here. Trty and keep it 
 	<?php /*<div class="table_header">
 		<label class="inline"><?php __('Available Print Sizes:'); ?></label> 
 	</div> */ ?>
-	<div class="table_container"data-step="1" data-intro="<?php echo __('Here is a list of all the print types that are defaults or were created by you.<br> It displays the dimension and format(s) for each print type.', true); ?>" data-position="left">
+	<div class="table_container"data-step="1" data-intro="<?php echo __('This page displays the dimension and format(s) for each print type that you would like to sell.', true); ?>" data-position="left">
 		<div class="fade_background_top"></div>
 		<div class="table_top"></div>
 		<table class="list">
@@ -78,23 +78,23 @@ IPlaceholder info for getting pade. Instructions will go here. Trty and keep it 
 					<?php 
 						$tr_help_code = '';
 						if ($count === 1) {
-							$tr_help_code = 'data-step="2" data-intro="'.__('CONTENT HERE', true).'" data-position="left"';
+							$tr_help_code = 'data-step="2" data-intro="'.__('Here you see the dimension and the format that was created for each print type.', true).'" data-position="left"';
 						}
 					?>
 					<?php 
 						$edit_help_code = '';
 						if ($count === 1) {
-							$edit_help_code = 'data-step="3" data-intro="'.__('CONTENT HERE', true).'" data-position="left"';
+							$edit_help_code = 'data-step="3" data-intro="'.__('The edit button allows you to make changes the the print type.', true).'" data-position="left"';
 						}
 					?>
 					<?php 
 						$delete_help_code = '';
 						if ($count === 1) {
-							$delete_help_code = 'data-step="4" data-intro="'.__('CONTENT HERE', true).'" data-position="left"';
+							$delete_help_code = 'data-step="4" data-intro="'.__('The delete button allows you to remove the print type from your e-commerce site.', true).'" data-position="left"';
 						}
 					?>
 					
-					<tr photo_avail_size_id="<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>" class="<?php echo ($count === 1) ? " first " : ""; ?><?php echo ($count === $total) ? " last " : ""; ?>" <?php echo $tr_help_code; ?>>
+					<tr <?php echo $tr_help_code; ?> photo_avail_size_id="<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>" class="<?php echo ($count === 1) ? " first " : ""; ?><?php echo ($count === $total) ? " last " : ""; ?>" >
 						<td class="first">
 							<div class="rightborder"></div>
 							<span><?php echo $photo_avail_size['PhotoAvailSize']['short_side_length']; ?> x --</span>

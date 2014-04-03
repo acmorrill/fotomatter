@@ -1,19 +1,20 @@
 <h1>Order Management
 	<?php echo $this->Element('/admin/get_help_button'); ?>
 </h1>
-<p>
+<p> Here is where you will see all your orders. You will still need to approve the order by using the fulfill button. Once it has been approved it will be 18 hours or if approved after 6pm the payment will post the next day.<br><br>
+	
 	Instructions for receiving payment go here so all that mumbo jumbo on the screenshot below the Paypal button will go here. Cool beans? Cool.
 IPlaceholder info for getting pade. Instructions will go here. Trty and keep it to two lines. But if more, that’s fine. Instructions for receiving payment go here so all that mumbo jumbo on the screenshot below the Paypal button will go here. Cool beans? Cool.
 </p>
 <?php if (!empty($authnet_orders)): ?>
 	<?php $sort_dir = $this->Paginator->sortDir('AuthnetOrder'); ?>
-	<div class="table_container">
+	<div class="table_container" data-step="1" data-intro="<?php echo __('Here you will see all the orders that have been approved or are waiting approval.', true); ?>" data-position="left">
 		<div class="fade_background_top"></div>
 		<div class="table_top"></div>
 		<table class="list">
 			<thead>
-				<tr>
-					<th class="first <?php if ($this->Paginator->sortKey('AuthnetOrder') == 'AuthnetOrder.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>">
+				<tr data-step="2" data-intro="<?php echo __('Placed here are the categories that can be sorted.', true); ?>" data-position="left">
+					<th class="first <?php if ($this->Paginator->sortKey('AuthnetOrder') == 'AuthnetOrder.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>" data-step="3" data-intro="<?php echo __('You may display the orders by Order Number, Order Status, and so on.', true); ?>" data-position="bottom">
 						<div class="content one_line">
 							<div class="direction_arrow"></div>
 							<?php echo $this->Paginator->sort(__('Order Number', true), 'AuthnetOrder.id'); ?>
@@ -52,7 +53,7 @@ IPlaceholder info for getting pade. Instructions will go here. Trty and keep it 
 			<tbody>
 				<tr class="spacer"><td colspan="3"></td></tr>
 				<?php foreach($authnet_orders as $authnet_order): ?> 
-					<tr class="<?php if ($authnet_order['AuthnetOrder']['order_status'] === 'new') { echo 'new'; } ?>" >
+					<tr class="<?php if ($authnet_order['AuthnetOrder']['order_status'] === 'new') { echo 'new'; } ?>" data-step="4" data-intro="<?php echo __('The orders are displayed here and their status.', true); ?>" data-position="left">
 						<td class="order_id first <?php if ($this->Paginator->sortKey('AuthnetOrder') == 'AuthnetOrder.id'): ?> curr<?php endif; ?>">
 							<div class="rightborder"></div>
 							<span><?php echo $authnet_order['AuthnetOrder']['id']; ?></span>
@@ -76,7 +77,7 @@ IPlaceholder info for getting pade. Instructions will go here. Trty and keep it 
 						</td> 
 						<td class="photo_action last">
 							<span class="custom_ui">
-								<a href="/admin/ecommerces/fulfill_order/<?php echo $authnet_order['AuthnetOrder']['id']; ?>/"><div class="add_button"><div class="content"><?php __('Fulfill'); ?></div><div class="right_arrow_lines"><div></div></div></div></a>
+								<a href="/admin/ecommerces/fulfill_order/<?php echo $authnet_order['AuthnetOrder']['id']; ?>/"><div class="add_button" data-step="5" data-intro="<?php echo __('This is where you will finish the orders and approve them.', true); ?>" data-position="left"><div class="content"><?php __('Fulfill'); ?></div><div class="right_arrow_lines"><div></div></div></div></a>
 							</span>
 						</td>
 					</tr>
