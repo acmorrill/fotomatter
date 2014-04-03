@@ -67,6 +67,11 @@ jQuery(document).ready(function() {
 		introJs().start();
 	});
 	
+	// setup the back button
+	jQuery('#back_button').click(function() {
+		window.history.back();
+	});
+	
 });
 
 /****************************************************************************
