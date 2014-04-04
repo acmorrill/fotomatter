@@ -1,32 +1,70 @@
-<?php //debug($payable_orders); ?>
+ <?php //debug($payable_orders); ?>
 
-<?php echo $this->Element('/admin/get_help_button'); ?>
+<h1><?php __('Payable Orders'); ?>
+	<?php echo $this->Element('/admin/get_help_button'); ?>
+</h1>
+<p>
+	Some awesome text about managing this. Kent needs serious help.
+</p>
 <div style="clear: both;"></div> 
-<h1><?php __('Payable Orders'); ?></h1>
 <?php if (!empty($payable_orders)): ?>
-<table id="payable_orders_table">
+<div class="table_container">
+	<div class="fade_background_top"></div>
+	<div class="table_top"></div>
+	<table class="list">
 		<thead>
 			<tr>
-				<th><?php __('Order Number'); ?></th>
-				<th><?php __('Order Total'); ?></th>
-				<th><?php __('Order Date'); ?></th>
+				<th class="first">
+					<div class="content one_line">
+						<div class="direction_arrow"></div>
+						<?php __('Order Number'); ?>
+					</div>
+				</th>
+				<th>
+					<div class="content one_line">
+						<div class="direction_arrow"></div>
+						<?php __('Order Total'); ?>
+					</div>
+				</th>
+				<th class="last">
+					<div class="content one_line">
+						<div class="direction_arrow"></div>
+						<?php __('Order Date'); ?>
+					</div>
+				</th>
 			</tr>
 		</thead>
 		<tbody>
+			<tr class="spacer"><td colspan="3"></td></tr>
 			<?php $order_total = 0; ?>
 			<?php foreach ($payable_orders as $payable_order): ?>
 				<?php $order_total += $payable_order['AuthnetOrder']['total']; ?>
 				<tr>
-					<td><?php echo $payable_order['AuthnetOrder']['id']; ?></td>
-					<td><?php echo $payable_order['AuthnetOrder']['total']; ?></td>
+					<td class="first">
+						<div class="rightborder"></div>
+						<span><?php echo $payable_order['AuthnetOrder']['id']; ?></span>
+					</td>
+					<td>
+						<div class="rightborder"></div>
+						<span><?php echo $payable_order['AuthnetOrder']['total']; ?></span>
+					</td>
 					<?php $created_date = $this->Util->get_formatted_created_date($payable_order['AuthnetOrder']['created']); ?>
-					<td><?php echo $created_date; ?></td>
+					<td class="last">
+						<div class="rightborder"></div>
+						<span><?php echo $created_date; ?></span>
+					</td>
 				</tr>
 			<?php endforeach; ?>
 		</tbody>
 		<tfoot>
 			<tr>
-				<td colspan="3">
+				<td colspan="2" style="text-align: left;">
+					<div style="width: 85%;">
+						<p>Orders are payable at 6:00 PM Mountain Time the day after they have been approved by you.</p><br />
+						<p>You will be sent an email to <b stlye="font-weight: bold;"><?php echo $payable_paypal_email_address; ?></b> from paypal. Follow the email instructions to receive payment via paypal..</p>
+					</div>
+				</td>
+				<td style="min-width: 300px;">
 					<div class="total_orders">Orders Count: <?php echo count($payable_orders); ?></div>
 					<div class="can_get_paid_total">Total Payable Amount: $<?php echo $order_total; ?></div>
 					<div class="get_paid_via_paypay_button">
@@ -34,17 +72,28 @@
 							<?php foreach ($payable_orders as $payable_order): ?>
 								<input type="hidden" name="data[payout_order_ids][]" value="<?php echo $payable_order['AuthnetOrder']['id']; ?>" />
 							<?php endforeach; ?>
-							<input type="submit" value="Get Paid Via Paypal" />
+								
+							<script type="text/javascript">
+								jQuery(document).ready(function() {
+									jQuery('#get_paid_button').click(function() {
+										jQuery(this).closest('form').submit();
+									});
+								});
+							</script>
+							<span id="get_paid_button" class="custom_ui">
+								<div class="add_button">
+									<div class="content"><?php echo __('Get Paid Via Paypal', true); ?></div><div class="right_arrow_lines"><div></div></div>
+								</div>
+							</span>
 						</form>
 					</div>
-					<h4>NOTE: Orders are payable at 6:00 PM Mountain Time the day after they have been approved by you. (richard - work in this note somehow)</h4>
-					<h4>NOTE: You will be sent an email to <b stlye="font-weight: bold;"><?php echo $payable_paypal_email_address; ?></b> from paypal. Follow the email instructions to receive payment via paypal (richard - work a note like this into your design somehow!).</h4><br/><br/>
 				</td>
 			</tr>
 		</tfoot>
-</table> 
+	</table> 
+</div>
 <?php else: ?>
-	There are currently no payable orders.
+	<h1>There are currently no payable orders.</h1>
 	<!--DREW TODO - improve this section-->
 <?php endif; ?>
 
