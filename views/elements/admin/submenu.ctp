@@ -30,20 +30,27 @@
 		<?php $count = 1; foreach ($subnav['pages'] as $subnav_page): ?>
 			<?php 
 				$selected = '';
-				if ($this->Util->startsWith(trim($subnav_page['url'], '/'), trim($this->here, '/')) || $this->Util->startsWith(trim($this->here, '/'), trim($subnav_page['url'], '/'))) {
-					$selected = 'selected';
+				if (is_array($subnav_page['url'])) {
+					foreach ($subnav_page['url'] as $curr_url) {
+						if ($this->Util->startsWith(trim($curr_url, '/'), trim($this->here, '/')) || $this->Util->startsWith(trim($this->here, '/'), trim($curr_url, '/'))) {
+							$selected = 'selected';
+						}
+					}
+				} else {
+					if ($this->Util->startsWith(trim($subnav_page['url'], '/'), trim($this->here, '/')) || $this->Util->startsWith(trim($this->here, '/'), trim($subnav_page['url'], '/'))) {
+						$selected = 'selected';
+					}
 				}
 			?>	
 			<li class="<?php if ($count === 1): ?> first<?php endif; ?> <?php echo $selected; ?>">
 				<div class="subnav_bg"></div>
-				<?php //echo $subnav_page['url']; ?>
 				<table>
 					<tr>
 						<td class="first" onclick="">
 							<i class="icon-<?php echo (isset($subnav_page['icon_css'])) ? $subnav_page['icon_css'] : ''; ?>"></i>
 						</td>
 						<td class="second">
-							<a href="<?php echo $subnav_page['url']; ?>">
+							<a href="<?php echo is_array($subnav_page['url']) ? $subnav_page['url'][0] : $subnav_page['url']; ?>">
 								<div>
 									<p><?php echo $subnav_page['name']; ?></p>
 								</div>
