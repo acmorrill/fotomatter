@@ -30,6 +30,8 @@
 </script>
 
 <div id="connect_gallery_photos_cont">
+	<?php echo $this->Element('/admin/get_help_button'); ?>
+			<div style="clear: both;"></div> 
 	<div class="in_gallery_main_cont arrange">
 		<div class="table_header_darker">
 			<h2 style="background: url('/img/admin/icons/gallery_arrange_photos.png') center left no-repeat; padding-left: 35px; height: 25px; line-height: 29px;"><?php __('Arrange Photos in Gallery'); ?></h2>

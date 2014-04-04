@@ -1,5 +1,6 @@
 <script type="text/javascript" src="/js/jquery_price_format/jquery.price_format.min.js"></script>
 
+<<<<<<< HEAD
 <?php echo $this->Session->flash(); ?>
 <h1>
 	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
@@ -11,6 +12,16 @@
 	<?php echo $this->Element('admin/back_button'); ?>
 	<h2>Create Available Print Type</h2>
 </div>
+=======
+<div class="basic_settings">
+	<?php echo $this->Element('/admin/get_help_button'); ?>
+	<div class="basic_setting_cont">
+		<label>&nbsp;</label>
+		<div class="theme_setting_inputs_container">			
+			<?php echo $this->Session->flash(); ?>
+		</div>
+	</div>
+>>>>>>> 21eaa96d24a9eeedbd8d13d7f143e51cd30ed46a
 	<form action="" method="post">
 <!--		<h2 class="group_list_name">Add Dimension</h2>-->
 		<?php if (!empty($photo_print_type['PhotoPrintType']['id']) && $photo_print_type['PhotoPrintType']['id'] != '0'): ?>

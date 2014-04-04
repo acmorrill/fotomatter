@@ -1,6 +1,7 @@
 <?php //debug($payable_orders); ?>
 
-
+<?php echo $this->Element('/admin/get_help_button'); ?>
+<div style="clear: both;"></div> 
 <h1><?php __('Payable Orders'); ?></h1>
 <?php if (!empty($payable_orders)): ?>
 <table id="payable_orders_table">
