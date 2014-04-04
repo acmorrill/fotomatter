@@ -1,9 +1,10 @@
 <script type="text/javascript" src="/js/jquery_price_format/jquery.price_format.min.js"></script>
 
 <div class="basic_settings">
+	<?php echo $this->Element('/admin/get_help_button'); ?>
 	<div class="basic_setting_cont">
 		<label>&nbsp;</label>
-		<div class="theme_setting_inputs_container">
+		<div class="theme_setting_inputs_container">			
 			<?php echo $this->Session->flash(); ?>
 		</div>
 	</div>

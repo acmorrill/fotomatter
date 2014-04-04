@@ -1,3 +1,5 @@
+<?php echo $this->Element('/admin/get_help_button'); ?>
+			<div style="clear: both;"></div> 
 <?php ob_start(); ?>
 <ol>
 	<li>Ideas for what could go on this page

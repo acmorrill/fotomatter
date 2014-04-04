@@ -401,6 +401,8 @@ $(function() {
 </script>
 
 <div id="connect_gallery_photos_cont">
+	<?php echo $this->Element('/admin/get_help_button'); ?>
+			<div style="clear: both;"></div> 
 	<div class="in_gallery_main_cont">
 		<div class="table_header_darker">
 			<div class="actions" style="float: right;"><img id="remove_all_gallery_photos" src="/img/admin/icons/grey_delete_all_icon.png" /></div>

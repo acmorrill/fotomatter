@@ -25,6 +25,8 @@
 </script>
 
 <div class="clear" id='account-details'>
+	<?php echo $this->Element('/admin/get_help_button'); ?>
+			<div style="clear: both;"></div> 
 	<?php echo $this->Session->flash(); ?>
 	<div class='fm_summary_cont small'>
 		<div class='table_header_darker'>

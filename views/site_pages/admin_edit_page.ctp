@@ -1,4 +1,5 @@
-
+<?php echo $this->Element('/admin/get_help_button'); ?>
+			<div style="clear: both;"></div> 
 
 <?php 
 	echo $this->Form->create('SitePage');
