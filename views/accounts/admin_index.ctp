@@ -202,6 +202,8 @@
 	});
 </script>
 <div class='clear' id="line_item_cont">
+	<?php echo $this->Element('/admin/get_help_button'); ?>
+			<div style="clear: both;"></div> 
 	<p>Adam TODO investigate adding feature in which no value is charged</p>
 	<?php echo $this->Session->flash(); ?>
 	<?php if($overlord_account_info['is_pay_fail']): ?>

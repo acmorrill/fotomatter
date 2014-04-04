@@ -19,7 +19,7 @@ $all_themes = $this->Theme->get_all_available_themes();
 	
 	
 	
-	<div id="theme_chooser_container" data-step="1" data-intro="<?php echo __('Here you can choose what theme you would like to use for your site.', true); ?>" data-position="left" id="configure_logo_cont" style="padding: 20px; margin: 20px; margin-top: 0px; margin-left: 0px;" class="content_only_page">
+	<div id="theme_chooser_container" data-step="1" data-intro="<?php echo __('Here you can choose what theme you would like to use for your site.', true); ?>" data-position="left">
 		<?php echo $this->Element('/admin/get_help_button'); ?>
 		<div style="clear: both;"></div>
 		<?php $count = 1; foreach ($all_themes as $curr_theme): ?>

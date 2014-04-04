@@ -2,7 +2,8 @@
 //debug($is_voidable);
 //debug($is_refundable);
 ?>
-
+<?php echo $this->Element('/admin/get_help_button'); ?>
+<div style="clear: both;"></div> 
 <?php //debug($authnet_order['AuthnetLineItem']); ?>
 <div id="fulfill_order_container">
 	<?php if (!empty($authnet_order['AuthnetLineItem'])): ?>
