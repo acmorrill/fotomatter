@@ -270,7 +270,8 @@
 		setup_page_element_delete('#configure_page_cont .page_content_cont');
 	});
 </script>
-
+<?php echo $this->Element('/admin/get_help_button'); ?>
+			<div style="clear: both;"></div> 
 <div id="confirm_delete_page_element" class="dialog_confirm custom_dialog" title="<?php __('Remove Page Element'); ?>">
 	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span><?php __('Permenently delete page element?'); ?></p>
 </div>

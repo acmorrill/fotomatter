@@ -1,4 +1,4 @@
-<div data-step="1" data-intro="<?php echo __('This page enables you to add a logo image to your site.', true); ?>" data-position="left" id="configure_logo_cont" style="padding: 20px; margin: 20px; margin-top: 0px; margin-left: 0px;" class="content_only_page"><?php // DREW TODO move the css to content_only_page  for this page and admin_configure_background.ctp ?>
+<div data-step="1" data-intro="<?php echo __('This page enables you to add a logo image to your site.', true); ?>" data-position="left" ><?php // DREW TODO move the css to content_only_page  for this page and admin_configure_background.ctp ?>
 	<?php // class="content-background" ?>
 	<?php // echo $this->Element('admin/theme_center/main_menu/list_main_menu_items'); ?>
 	

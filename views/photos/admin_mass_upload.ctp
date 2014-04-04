@@ -19,6 +19,8 @@
 <!-- The main application script -->
 <!-- The XDomainRequest Transport is included for cross-domain file deletion for IE8+ -->
 <!--[if gte IE 8]><script src="/js/jquery-file-upload/js/cors/jquery.xdr-transport.js"></script><![endif]-->
+<?php echo $this->Element('/admin/get_help_button'); ?>
+<div style="clear: both;"></div>
 <h1 class='top_heading'><?php __('Add Photos'); ?></h1>
 <?php echo $this->Html->script('/js/foto_matter_plugins/jQuery.foto.background.js'); ?>
 <?php 

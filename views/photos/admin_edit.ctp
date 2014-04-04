@@ -2,6 +2,8 @@
 
 
 <div id="image_edit_container">
+	<?php echo $this->Element('/admin/get_help_button'); ?>
+			<div style="clear: both;"></div> 
 	<?php echo $this->Form->create('Photo', array('enctype' => 'multipart/form-data')); ?>
 	
 	<div class="image_edit_block" >

@@ -1,4 +1,6 @@
 <?php echo $session->flash(); ?>
+<?php echo $this->Element('/admin/get_help_button'); ?>
+			<div style="clear: both;"></div> 
 <br/>
 
 
