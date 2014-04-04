@@ -1160,7 +1160,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		$hours_18 = 18;
 		$payable_orders = $this->find('all', array(
 			'conditions' => array(
-				//'AuthnetOrder.order_status' => 'settled', // DREW TODO - turn this back on
+				'AuthnetOrder.order_status' => 'settled',
 				'AuthnetOrder.pay_out_status' => 'not_paid',
 				'AuthnetOrder.approval_date IS NOT NULL',
 				"TIMESTAMPDIFF(HOUR, approval_date, '$today_6pm') >=" => $hours_18, // must have been approved at least 18 hours before 5:59:59pm today
