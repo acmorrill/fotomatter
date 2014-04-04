@@ -9,7 +9,7 @@
 		}
 	}
 ?>
-<h1>Add Print Sizes
+<h1>
 	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 </h1>
 <p>
@@ -26,7 +26,7 @@
 <!--		<h2 class="group_list_name">Add Dimension</h2>-->
 		<div class="generic_palette_container">
 			<div class="fade_background_top"></div>
-			<div class="bg_effects_controls" style="margin-bottom: 40px;">
+			<div class="bg_effects_controls" style="margin-bottom: 40px;"></div>
 			<div class="basic_setting_cont">
 				<label><?php __('Print Short Side Dimension'); ?></label>
 				<div class="theme_setting_inputs_container">
