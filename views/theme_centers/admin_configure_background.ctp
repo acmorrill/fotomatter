@@ -305,7 +305,7 @@
 	<?php if ($background_settings['theme_has_dynamic_background'] === true): ?>
 		<div class="custom_ui">
 			<?php echo $this->Element('/admin/get_help_button'); ?>
-			<div data-step="2" data-intro="<?php echo __('Upload a background image.', true); ?>" data-position="left" id="upload_background_button" class="add_button" type="submit"><div class="content"><?php __('Upload Background Image'); ?></div><div class="right_arrow_lines"><div></div></div></div>
+			<div data-step="2" data-intro="<?php echo __('upload the background images with this button and the uploaded image will show up down below.', true); ?>" data-position="left" id="upload_background_button" class="add_button" type="submit"><div class="content"><?php __('Upload Background Image'); ?></div><div class="right_arrow_lines"><div></div></div></div>
 		</div>
 		<?php // DREW TODO - make the below div have the default bg color of the theme ?>
 		<div class="page_content_header">
@@ -317,7 +317,7 @@
 		<div id="theme_background_palette_container">
 			<div class="fade_background_top"></div>
 			<div class="bg_effects_controls" style="margin-bottom: 40px;">
-				<div data-step="5" data-intro="<?php echo __('This area will ajust the brightness of the background image.', true); ?>" data-position="bottom"  id="bg_brightness" class="slider_container">
+				<div data-step="5" data-intro="<?php echo __('This setting will ajust the brightness of the background image.', true); ?>" data-position="bottom"  id="bg_brightness" class="slider_container">
 					<?php 
 						$sign = '';
 						$start_brightness = round(($background_settings['current_brightness']/255) * 100);
@@ -329,7 +329,7 @@
 					<div class="slider_label"><label>Brightness</label> (<span><?php echo $start_brightness_display; ?></span>)</div>
 				</div>
 
-				<div data-step="6" data-intro="<?php echo __('This area will ajust the contrast of the background image.', true); ?>" data-position="bottom" id="bg_contrast" class="slider_container">
+				<div data-step="6" data-intro="<?php echo __('This setting will ajust the contrast of the background image.', true); ?>" data-position="bottom" id="bg_contrast" class="slider_container">
 					<?php 
 						$sign = '';
 						if ($background_settings['current_contrast'] > 0) {
@@ -341,21 +341,21 @@
 
 				</div>
 
-				<div data-step="7" data-intro="<?php echo __('This area will ajust the sturation of the background image.', true); ?>" data-position="bottom" id="bg_desaturation" class="slider_container">
+				<div data-step="7" data-intro="<?php echo __('This setting will ajust the sturation of the background image.', true); ?>" data-position="bottom" id="bg_desaturation" class="slider_container">
 					<?php 
 						$start_desaturation = ($background_settings['current_desaturation'] == 100) ? __('Default', true) : $background_settings['current_desaturation'] . "%"; 
 					?>
 					<div class="slider_label"><label>Saturation</label> (<span><?php echo $start_desaturation; ?></span>)</div>
 				</div>
 
-				<div data-step="8" data-intro="<?php echo __('This area allows for the image to be inverted horizontally.', true); ?>" data-position="bottom" id="bg_inverted_container" class="slider_container custom_ui_radio">
+				<div data-step="8" data-intro="<?php echo __('This setting allows for the image to be inverted horizontally.', true); ?>" data-position="bottom" id="bg_inverted_container" class="slider_container custom_ui_radio">
 					<div class="slider_label"><label>Flip Image Horizontally:</label></div>
 					<input type="checkbox" id="bg_inverted" <?php if ($background_settings['current_inverted'] == 1): ?>checked="checked"<?php endif; ?> /><label for="bg_inverted"><?php __('Inverted'); ?></label>
 				</div>
 
 				<?php $custom_transparency_settings = $theme_config['admin_config']['theme_background_config']['overlay_image']['custom_overlay_transparency_fade']; ?>
 				<?php if (!empty($custom_transparency_settings)): ?>
-					<div data-step="9" data-intro="<?php echo __('This area will ajust the opacity of the image header and the body. Allowing the image to be more transparent or less transparent.', true); ?>" data-position="bottom" id="custom_overlay_transparency_container">
+					<div id="custom_overlay_transparency_container">
 						<?php foreach ($custom_transparency_settings as $custom_overlay_section_name => $custom_overlay_section): ?>
 							<?php 
 								$overlay_value = !empty($background_settings['custom_overlay_transparency_settings'][$custom_overlay_section_name]) ? $background_settings['custom_overlay_transparency_settings'][$custom_overlay_section_name] : 4; 
@@ -379,7 +379,7 @@
 				<img class="theme_overlay_image" src="<?php echo $background_settings['overlay_web_path']; ?><?php echo $background_settings['image_cache_ending']; ?>" style="display: inline-block; position: absolute; left: <?php echo $background_settings['palette_start_left']; ?>px; top: <?php echo $background_settings['palette_start_top']; ?>px; width: <?php echo $background_settings['palette_background_width']; ?>px; height: <?php echo $background_settings['palette_background_height']; ?>px;" />
 				<div data-step="4" data-intro="<?php echo __('Click and drag the image corners to set size.', true); ?>" data-position="right"  class="theme_background_image_cont" style="left: <?php echo $background_settings['start_left']; ?>px; top: <?php echo $background_settings['start_top']; ?>px; width: <?php echo $background_settings['start_width']; ?>px; height: <?php echo $background_settings['start_height']; ?>px;"></div>
 			</div>
-			<div data-step="11" data-intro="<?php echo __('Save your work.', true); ?>" data-position="bottom" id="save_custom_background_button" class="save_button"><div class="content"><?php echo __('Save', true); ?></div></div>
+			<div data-step="9" data-intro="<?php echo __('Once everything looks pretty, save your work. BA-BOOM! Go check it out.', true); ?>" data-position="bottom" id="save_custom_background_button" class="save_button"><div class="content"><?php echo __('Save', true); ?></div></div>
 		</div>
 	
 		<br /><br /><br /><br /><br /><br /><br /><br />
