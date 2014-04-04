@@ -84,6 +84,7 @@ IPlaceholder info for getting pade. Instructions will go here. Trty and keep it 
 					<tr class="photo_print_type_item" data-step="3" data-intro="<?php echo __('Displayed here is the name of the print type.', true); ?>" data-position="bottom" photo_print_type_id=" <?php echo $photo_print_type['PhotoPrintType']['id']; ?>">
 						<td class="print_type_id first table_width_reorder_icon"><div class="reorder_print_type_grabber reorder_grabber" data-step="7" data-intro="<?php echo __('Rearrange the order of the print types. ', true); ?>" data-position="bottom" /> </td> 
 						<td class="print_type" data-step="6" data-intro="<?php echo __('This area displays the name of the print type you have created.', true); ?>" data-position="bottom">
+							<div class="rightborder"></div>
 							<?php echo $photo_print_type['PhotoPrintType']['print_name']; ?>
 						</td>
 						<td class="table_actions">

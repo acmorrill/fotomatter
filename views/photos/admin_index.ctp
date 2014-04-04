@@ -2,7 +2,7 @@
 	<?php echo $this->Element('/admin/get_help_button'); ?>
 </h1>
 <p>
-	Some awesome text about photos. Kent is awesome.
+	Some awesome text about photos. Kent needs serious help.
 </p>
 
 <script type="text/javascript">
