@@ -17,7 +17,9 @@
 	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 </h1>
 <p>
-	Instructions for receiving payment go here so all that mumbo jumbo on the screenshot below the Paypal button will go here. Cool beans? Cool.
+	Presented are the sizes available to you and it is a complete list of the print size that you sell. You will need to make a Print Type to go along with the Print Size to match the available sizes. That is done in the “Manage Print Types and Default Pricing” tab on the left hand side of the page. <br><br>
+	
+Instructions for receiving payment go here so all that mumbo jumbo on the screenshot below the Paypal button will go here. Cool beans? Cool.
 IPlaceholder info for getting pade. Instructions will go here. Trty and keep it to two lines. But if more, that’s fine. Instructions for receiving payment go here so all that mumbo jumbo on the screenshot below the Paypal button will go here. Cool beans? Cool.
 </p>
 
@@ -32,12 +34,12 @@ IPlaceholder info for getting pade. Instructions will go here. Trty and keep it 
 <div class="right">
 	<div class="add_gallery_element custom_ui" style="margin: 5px; margin-bottom: 15px;">
 		<form action="/admin/ecommerces/add_print_size/" method="get" style="float: right;">
-			<div id="add_new_printsize_button" class="add_button" type="submit" data-step="5" data-intro="<?php echo __('You may add a new print size to your e-commerce site by using this button.', true); ?>" data-position="bottom"><div class="content"><?php echo __('Add New Print Size', true); ?></div>
+			<div id="add_new_printsize_button" class="add_button" type="submit" data-step="5" data-intro="<?php echo __("You don’t have to do anything here unless you don’t want to use the default print sizes. If you have custom print sizes that you would like to sell you will need to add them by using this button.", true); ?>" data-position="bottom"><div class="content"><?php echo __('Add New Print Size', true); ?></div>
 				<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
 			</div>
 		</form>
 		<form id="reset_printsize_form" action="/admin/ecommerces/reset_print_sizes/" method="get" style="float: right; margin-right: 20px;">
-			<div id="reset_printsize_button" class="add_button" type="submit" data-step="6" data-intro="<?php echo __("Clicking this button will clear all print types you have created or it will help you create some print types if you don't have any created.", true); ?>" data-position="bottom"><div class="content"><?php echo __('Restore Defaults', true); ?></div></div>
+			<div id="reset_printsize_button" class="add_button" type="submit" data-step="6" data-intro="<?php echo __("Clicking this button will clear all print sizes you have created or it will help you create some print sizes if you don't have any created.", true); ?>" data-position="bottom"><div class="content"><?php echo __('Restore Defaults', true); ?></div></div>
 		</form>
 		<div style="clear: both;"></div>
 	</div>
@@ -48,7 +50,7 @@ IPlaceholder info for getting pade. Instructions will go here. Trty and keep it 
 	<?php /*<div class="table_header">
 		<label class="inline"><?php __('Available Print Sizes:'); ?></label> 
 	</div> */ ?>
-	<div class="table_container"data-step="1" data-intro="<?php echo __('This page displays the dimension and format(s) for each print type that you would like to sell.', true); ?>" data-position="left">
+	<div class="table_container"data-step="1" data-intro="<?php echo __('Presented are the sizes available to you and it is a complete list of the print size that you sell. You will need to make a Print Type to go along with the Print Size to match the available sizes. That is done in the “Manage Print Types and Default Pricing” tab on the left hand side of the page.', true); ?>" data-position="left">
 		<div class="fade_background_top"></div>
 		<div class="table_top"></div>
 		<table class="list">
@@ -78,24 +80,25 @@ IPlaceholder info for getting pade. Instructions will go here. Trty and keep it 
 					<?php 
 						$tr_help_code = '';
 						if ($count === 1) {
-							$tr_help_code = 'data-step="2" data-intro="'.__('Here you see the dimension and the format that was created for each print type.', true).'" data-position="left"';
+							$tr_help_code = 'data-step="2" data-intro="'.__('Here you see the dimension and the format that was created for each print size.', true).'" data-position="left"';
 						}
 					?>
 					<?php 
 						$edit_help_code = '';
 						if ($count === 1) {
-							$edit_help_code = 'data-step="3" data-intro="'.__('The edit button allows you to make changes the the print type.', true).'" data-position="left"';
+							$edit_help_code = 'data-step="4" data-intro="'.__('The edit button allows you to make changes the the print size. Such as landscape vs panoramic and so on.', true).'" data-position="bottom"';
 						}
 					?>
+				
 					<?php 
-						$delete_help_code = '';
+						$size_help_code = '';
 						if ($count === 1) {
-							$delete_help_code = 'data-step="4" data-intro="'.__('The delete button allows you to remove the print type from your e-commerce site.', true).'" data-position="left"';
+							$size_help_code = 'data-step="3" data-intro="'.__('The short side is the dimension of the shorter side of an image depending on the format. For example, the short side of a landscape is the height while the short side of a vertical panoramic is the width. The long side will be calculated based on the actual image depending on the format.', true).'" data-position="bottom"';
 						}
 					?>
 					
 					<tr <?php echo $tr_help_code; ?> photo_avail_size_id="<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>" class="<?php echo ($count === 1) ? " first " : ""; ?><?php echo ($count === $total) ? " last " : ""; ?>" >
-						<td class="first">
+						<td <?php echo $size_help_code; ?> class="first">
 							<div class="rightborder"></div>
 							<span><?php echo $photo_avail_size['PhotoAvailSize']['short_side_length']; ?> x --</span>
 						</td>
@@ -110,7 +113,7 @@ IPlaceholder info for getting pade. Instructions will go here. Trty and keep it 
 							<div class="rightborder"></div>
 							<span class="custom_ui">
 								<a href="/admin/ecommerces/add_print_size/<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>/"><div class="add_button"<?php echo $edit_help_code; ?> ><div class="content"><?php echo __('Edit',true);?></div><div class="right_arrow_lines"><div></div></div></div></a>
-								<a href="/admin/ecommerces/delete_print_size/<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>/"><div class="add_button icon"<?php echo $delete_help_code; ?>><div class="content">X</div></div></a>
+								<a href="/admin/ecommerces/delete_print_size/<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>/"><div class="add_button icon"><div class="content">X</div></div></a>
 
 							</span>
 						</td>
