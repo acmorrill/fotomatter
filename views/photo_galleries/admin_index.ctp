@@ -1,7 +1,7 @@
 <?php //debug($galleries); ?>
 
 <?php echo $this->Session->flash(); ?>
-<h1>Galleries
+<h1><?php echo __('Galleries', true); ?>
 	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 </h1>
 <p>
@@ -85,7 +85,23 @@
 			</thead>
 			<tbody>
 				<tr class="spacer"><td colspan="3"></td></tr>
-				<?php foreach($galleries as $curr_gallery): ?> 
+				<?php $count = 0; foreach($galleries as $curr_gallery): ?> 
+					
+					<?php
+						$gallery_name_help_code = '';
+						$reoder_help_code = '';
+						$edit_help_code = '';
+						$connect_help_code = '';
+						$arrange_help_code = '';
+						if ($count === 0) {
+							$gallery_name_help_code = 'data-step="4" data-intro="'.__('CONTENT HERE', true).'" data-position="left"';
+							$reoder_help_code = 'data-step="5" data-intro="'.__('CONTENT HERE', true).'" data-position="left"';
+							$edit_help_code = 'data-step="6" data-intro="'.__('CONTENT HERE', true).'" data-position="left"';
+							$connect_help_code = 'data-step="7" data-intro="'.__('CONTENT HERE', true).'" data-position="left"';
+							$arrange_help_code = 'data-step="8" data-intro="'.__('CONTENT HERE', true).'" data-position="left"';
+						}					
+					?>
+				
 					<tr gallery_id="<?php echo $curr_gallery['PhotoGallery']['id']; ?>" data-step="4" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom">
 						<td class="gallery_id first">
 							<div class="rightborder"></div>
@@ -115,7 +131,7 @@
 							<a href="/admin/photo_galleries/edit_gallery_arrange_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/" data-step="8" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom"><?php __('Arrange'); ?></a>
 						</td>
 					</tr>
-				<?php endforeach; ?> 
+				<?php $count ++; endforeach; ?> 
 			</tbody>
 		</table>
 	</div>

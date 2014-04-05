@@ -379,7 +379,7 @@
 				<img class="theme_overlay_image" src="<?php echo $background_settings['overlay_web_path']; ?><?php echo $background_settings['image_cache_ending']; ?>" style="display: inline-block; position: absolute; left: <?php echo $background_settings['palette_start_left']; ?>px; top: <?php echo $background_settings['palette_start_top']; ?>px; width: <?php echo $background_settings['palette_background_width']; ?>px; height: <?php echo $background_settings['palette_background_height']; ?>px;" />
 				<div data-step="4" data-intro="<?php echo __('Click and drag the image corners to set size.', true); ?>" data-position="right"  class="theme_background_image_cont" style="left: <?php echo $background_settings['start_left']; ?>px; top: <?php echo $background_settings['start_top']; ?>px; width: <?php echo $background_settings['start_width']; ?>px; height: <?php echo $background_settings['start_height']; ?>px;"></div>
 			</div>
-			<div data-step="9" data-intro="<?php echo __('Once everything looks pretty, save your work. BA-BOOM! Go check it out.', true); ?>" data-position="bottom" id="save_custom_background_button" class="save_button"><div class="content"><?php echo __('Save', true); ?></div></div>
+			<div data-step="9" data-intro="<?php echo __('Once everything looks pretty, save your work. BA-BOOM! Go check it out.', true); ?>" data-position="top" id="save_custom_background_button" class="save_button"><div class="content"><?php echo __('Save', true); ?></div></div>
 		</div>
 	
 		<br /><br /><br /><br /><br /><br /><br /><br />
