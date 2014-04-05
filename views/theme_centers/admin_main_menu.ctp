@@ -1,15 +1,14 @@
-<div  id="configure_main_menu_cont" style="padding: 20px; margin: 20px; margin-top: 0px; margin-left: 0px;">
+<div  id="configure_main_menu_cont">
 	<?php echo $this->Element('/admin/get_help_button'); ?>
-	<?php // class="content-background" ?>
-	<?php // echo $this->Element('admin/theme_center/main_menu/list_main_menu_items'); ?>
+	<div style="clear: both;"></div>
 	<?php
-	echo $this->Element('admin/sub_submenu', array(
-		'tabs' => array(
-			'Tier One Menu' => 'admin/theme_center/main_menu/single_level_menu_listing',
-			'Tier Two Menu' => 'admin/theme_center/main_menu/two_level_menu_listing',
-		//'Menu Global Settings' => 'admin/theme_center/main_menu/menu_global_config'
-		)
-	));
+		echo $this->Element('admin/sub_submenu', array(
+			'tabs' => array(
+				'Tier One Menu' => 'admin/theme_center/main_menu/single_level_menu_listing',
+				'Tier Two Menu' => 'admin/theme_center/main_menu/two_level_menu_listing',
+			),
+			'css' => 'margin-top: -26px;',
+		));
 	?>
 
 

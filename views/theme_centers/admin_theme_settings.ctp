@@ -1,5 +1,5 @@
 <h1>Theme Settings
-	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
+	<?php echo $this->Element('/admin/get_help_button'); ?>
 </h1>
 <p>
 	This is the theme settings page - cool right?
