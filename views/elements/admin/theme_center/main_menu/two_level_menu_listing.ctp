@@ -185,7 +185,7 @@
 	</div>
 	
 
-	<div class="generic_sort_and_filters" style="relitive: absolute; top: 100%; left: 0px; right: 0px; height: auto;">
+	<div class="tab_tools_container">
 		<script type="text/javascript">
 			jQuery(document).ready(function() {
 				jQuery('#two_level_menu_page_add_button').click(function() {
@@ -421,13 +421,13 @@
 
 		<?php $all_containers = $this->ThemeMenu->get_two_level_menu_containers(); ?>
 		
-		<div class="custom_ui" style="margin: 5px; margin-bottom: 15px;">
+		<div class="custom_ui">
 			<span><?php __('Add Menu Container:'); ?></span>
 			<input class="new_menu_container_name defaultText" title="container name" type="text" style="width: 136px;" />
 			<input id="two_level_menu_container_add_button" class="add_button" type="submit" value="<?php __('Go'); ?>" />
 		</div>
 		
-		<div class="custom_ui" style="margin: 5px; margin-bottom: 15px;">
+		<div class="custom_ui">
 			<span><?php __('Rename Container:'); ?></span>
 			<?php echo $this->Element('admin/theme_center/main_menu/container_select_box', array('all_containers' => $all_containers, 'hide_top_level' => true)); ?>
 			<input class="rename_menu_container_name defaultText" title="new container name" type="text" style="width: 136px;" />
@@ -436,7 +436,7 @@
 		
 		
 		<?php $all_pages = $this->Page->get_all_pages(); ?>
-		<div class="custom_ui" style="margin: 5px; margin-bottom: 15px;">
+		<div class="custom_ui">
 			<span><?php __('Add Page:'); ?></span>
 			<select id="two_level_menu_page_add_list">
 				<?php foreach ($all_pages as $curr_page): ?>
@@ -449,7 +449,7 @@
 		</div>
 		
 		<?php $all_galleries = $this->Gallery->get_all_galleries(); ?>
-		<div class="custom_ui" style="margin: 5px; margin-bottom: 15px;">
+		<div class="custom_ui">
 			<span><?php __('Add Gallery:'); ?></span>
 			<select id="two_level_menu_gallery_add_list">
 				<?php foreach ($all_galleries as $curr_gallery): ?>

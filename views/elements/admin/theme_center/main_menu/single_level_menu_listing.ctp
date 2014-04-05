@@ -72,7 +72,7 @@
 			</tbody>
 		</table>
 	</div>
-	<div>
+	<div class="tab_tools_container">
 		<script type="text/javascript">
 			jQuery(document).ready(function() { 
 				jQuery('#single_menu_page_add_button').click(function() { 
@@ -137,21 +137,26 @@
 		</script>
 
 		<?php $all_pages = $this->Page->get_all_pages(); ?>
-		<div class="custom_ui add_page_menu">
-			<span class="add_pages_galleries"><?php __('Add Information Page To Main Menu'); ?></span>
+		<div class="custom_ui">
+			<h2><?php __('Add Information Page To Main Menu'); ?></h2>
 			<div class="drop_down_sub_title">	
 				<select id="single_menu_page_add_list">
 					<?php foreach ($all_pages as $curr_page): ?>
 						<option value="<?php echo $curr_page['SitePage']['id']; ?>"><?php echo $curr_page['SitePage']['title']; ?></option>
 					<?php endforeach; ?>
 				</select>
-				<div id="single_menu_page_add_button" class="add_button_main_menu"><span class="text_add_button"><?php __('Add'); ?></span> <span class="plus_symbol"></span> </div>
+				<div id="single_menu_page_add_button" class="custom_ui tools_button">
+					<div class="add_button">
+						<div class="content"><?php __('Add'); ?></div>
+						<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
+					</div>
+				</dIv>
 			</div>
 		</div>
-		<hr class="hr_element">
+		<div class="hr_element"></div>
 		<?php $all_galleries = $this->Gallery->get_all_galleries(); ?>
-		<div class="custom_ui add_page_gallery">
-			<span class="add_pages_galleries"><?php __('Add Gallery Page To Main Menu'); ?></span>
+		<div class="custom_ui">
+			<h2><?php __('Add Gallery Page To Main Menu'); ?></h2>
 			<div class="drop_down_sub_title">
 				<select id="single_menu_gallery_add_list">
 					<?php foreach ($all_galleries as $curr_gallery): ?>
@@ -159,7 +164,12 @@
 					<?php endforeach; ?>
 				</select>
 
-				<div id="single_menu_gallery_add_button" class="add_button_main_menu"><span class="text_add_button"><?php __('Add'); ?></span><span class="plus_symbol"></span></div>
+				<div id="single_menu_gallery_add_button" class="custom_ui tools_button">
+					<div class="add_button">
+						<div class="content"><?php __('Add'); ?></div>
+						<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
+					</div>
+				</dIv>
 			</div>	
 		</div>
 
