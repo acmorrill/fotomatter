@@ -89,8 +89,8 @@
 }
 .flashMessage.error {
   border: 1px solid grey;
-  background-color: #FFDFDD;
-  color: #6D0600;
+  background-color: darkgrey;
+  color: ;
 }
 .flashMessage.error span {
   margin: 0 0 0 10px;
