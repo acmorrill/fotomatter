@@ -4,7 +4,7 @@
 	<?php echo $this->Element('/admin/get_help_button'); ?>
 </h1>
 <p>
-	Some awesome text about managing this. Kent needs serious help.
+	<?php echo __('All payable orders appear below. Clap your hands and jump for joy. ', true); ?>
 </p>
 <div style="clear: both;"></div> 
 <?php if (!empty($payable_orders)): ?>
@@ -93,7 +93,7 @@
 	</table> 
 </div>
 <?php else: ?>
-	<h1>There are currently no payable orders.</h1>
+	<h1><?php echo __('There are currently no payable orders.', true); ?></h1>
 	<!--DREW TODO - improve this section-->
 <?php endif; ?>
 
