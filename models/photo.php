@@ -48,7 +48,7 @@ class Photo extends AppModel {
 		));
                 		
 		if (isset($photo['Photo']['cdn-filename'])) {
-			$this->CloudFiles = $this->get_cloud_file();
+			$dthis->CloudFiles = $this->get_cloud_file();
 			
 			
 			if (!$this->CloudFiles->delete_object($photo['Photo']['cdn-filename'])) {
