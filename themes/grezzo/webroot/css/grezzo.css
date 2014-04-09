@@ -1,32 +1,48 @@
-#logo_cont {
-  float: left;
-  display: inline-block;
-}
-#logo_cont #mainName {
-  position: absolute;
-}
 #outer_nav {
   background-color: #000;
   width: 100%;
-  float: left;
+  position: absolute;
+  height: 140px;
 }
-#outer_nav #main_nav {
-  float: left;
+#outer_nav #logo_nav_cont {
+  width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  outline: 1px solid red;
+  height: 140px;
+  position: relative;
+}
+#outer_nav #logo_cont {
+  position: absolute;
+  left: 0;
   display: inline-block;
 }
-#outer_nav #main_nav ul li {
+#outer_nav #logo_cont #mainName {
+  position: absolute;
+}
+#outer_nav #nav_location {
+  margin-right: 38px;
+  position: absolute;
+  right: 0;
+}
+#outer_nav #nav_location #main_nav {
+  margin-top: 40px;
+  float: right;
+  display: inline-block;
+}
+#outer_nav #nav_location #main_nav ul li {
   list-style-type: none;
   float: left;
-  padding: 5px;
+  margin-left: 38px;
   color: #fff;
 }
-#outer_nav #main_nav ul li a {
+#outer_nav #nav_location #main_nav ul li a {
   color: #fff;
 }
-#outer_nav #main_nav ul li ul {
+#outer_nav #nav_location #main_nav ul li ul {
   display: none;
 }
-#outer_nav #main_nav ul li ul li {
+#outer_nav #nav_location #main_nav ul li ul li {
   float: none;
 }
 #page_content {
