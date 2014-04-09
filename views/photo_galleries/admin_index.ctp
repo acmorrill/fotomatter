@@ -1,6 +1,5 @@
 <?php //debug($galleries); ?>
 
-<?php echo $this->Session->flash(); ?>
 <h1><?php echo __('Galleries', true); ?>
 	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 </h1>
@@ -126,9 +125,12 @@
 							<span><?php echo $created_date; ?></span>
 						</td> 
 						<td class="gallery_action last">
-							<a href="/admin/photo_galleries/edit_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"data-step="6" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom"><?php __('Edit'); ?></a>
-							<a href="/admin/photo_galleries/edit_gallery_connect_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/" data-step="7" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom"><?php __('Connect'); ?></a>
-							<a href="/admin/photo_galleries/edit_gallery_arrange_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/" data-step="8" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom"><?php __('Arrange'); ?></a>
+							<span class="custom_ui">
+								<a href="/admin/photo_galleries/edit_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"data-step="6" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom"><?php __('Edit'); ?></a>
+								<a href="/admin/photo_galleries/edit_gallery_connect_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/" data-step="7" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom"><?php __('Connect'); ?></a>
+								<a href="/admin/photo_galleries/edit_gallery_arrange_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/" data-step="8" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom"><?php __('Arrange'); ?></a>
+								<a href="/admin/photo_galleries/delete_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><div class="add_button icon"><div class="content">X</div></div></a>
+							</span>
 						</td>
 					</tr>
 				<?php $count ++; endforeach; ?> 

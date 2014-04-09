@@ -15,6 +15,33 @@ class SitePage extends AppModel {
 	);
 	public $actsAs = array('Ordered' => array('foreign_key' => false));
 	
+	public function beforeDelete($cascade = true) {
+		parent::beforeDelete($cascade);
+		
+		$site_page_id = $this->id;
+		
+		$delete_one_level_menu_query = "DELETE FROM site_one_level_menus WHERE external_id = :site_page_id AND external_model = 'SitePage'";
+		//die($delete_one_level_menu_query);
+		if (!$this->query($delete_one_level_menu_query, array('site_page_id' => $site_page_id))) {
+			$this->major_error('Failed to delete one level menu connection on site page delete', compact('site_page_id'));
+			return false;
+		}
+		
+		$delete_two_level_menu_query = "DELETE FROM site_two_level_menus WHERE external_id = :site_page_id AND external_model = 'SitePage'";
+		if (!$this->query($delete_two_level_menu_query, array('site_page_id' => $site_page_id))) {
+			$this->major_error('Failed to delete two level menu connection on site page delete', compact('site_page_id'));
+			return false;
+		}
+		
+		$delete_two_level_menu_container_item_query = "DELETE FROM site_two_level_menu_container_items WHERE external_id = :site_page_id AND external_model = 'SitePage'";
+		if (!$this->query($delete_two_level_menu_container_item_query, array('site_page_id' => $site_page_id))) {
+			$this->major_error('Failed to delete two level menu container item connection on site page delete', compact('site_page_id'));
+			return false;
+		}
+		
+		return true;
+	}
+	
 	public function add_element_to_page($site_page_id, $site_page_element_id, $config) {
 		$data['SitePagesSitePageElement']['site_page_id'] = $site_page_id;
 		$data['SitePagesSitePageElement']['site_page_element_id'] = $site_page_element_id;

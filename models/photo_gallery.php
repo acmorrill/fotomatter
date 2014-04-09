@@ -8,15 +8,35 @@ class PhotoGallery extends AppModel {
 			),
 			'dependent' => true
 		),
-		'SiteTwoLevelMenu' => array(
-			'dependent' => true
-		),
-		'SiteTwoLevelMenuContainerItem' => array(
-			'dependent' => true
-		)
 	);
 	public $actsAs = array('Ordered' => array('foreign_key' => false));
-	
+
+	public function beforeDelete($cascade = true) {
+		parent::beforeDelete($cascade);
+		
+		$gallery_id = $this->id;
+		
+		$delete_one_level_menu_query = "DELETE FROM site_one_level_menus WHERE external_id = :gallery_id AND external_model = 'PhotoGallery'";
+		//die($delete_one_level_menu_query);
+		if (!$this->query($delete_one_level_menu_query, array('gallery_id' => $gallery_id))) {
+			$this->major_error('Failed to delete one level menu connection on photo gallery delete', compact('gallery_id'));
+			return false;
+		}
+		
+		$delete_two_level_menu_query = "DELETE FROM site_two_level_menus WHERE external_id = :gallery_id AND external_model = 'PhotoGallery'";
+		if (!$this->query($delete_two_level_menu_query, array('gallery_id' => $gallery_id))) {
+			$this->major_error('Failed to delete two level menu connection on photo gallery delete', compact('gallery_id'));
+			return false;
+		}
+		
+		$delete_two_level_menu_container_item_query = "DELETE FROM site_two_level_menu_container_items WHERE external_id = :gallery_id AND external_model = 'PhotoGallery'";
+		if (!$this->query($delete_two_level_menu_container_item_query, array('gallery_id' => $gallery_id))) {
+			$this->major_error('Failed to delete two level menu container item connection on photo gallery delete', compact('gallery_id'));
+			return false;
+		}
+		
+		return true;
+	}
 	
 	public function get_first_gallery_by_weight() {
 		$first_gallery = $this->find('first', array(

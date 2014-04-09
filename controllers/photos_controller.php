@@ -20,7 +20,7 @@ class PhotosController extends AppController {
 	}
 	
 	public function admin_delete_photo($photo_id = null) {
-		if ($photo_id == null) { // adding
+		if ($photo_id == null) {
 			 $this->redirect('/admin/photos/');
 		}
 		
@@ -29,6 +29,7 @@ class PhotosController extends AppController {
 			$this->Session->setFlash(__('Photo deleted successfully.', true), 'admin/flashMessage/success');
 		} else {
 			$this->Session->setFlash(__('Failed to delete photo.', true), 'admin/flashMessage/error');
+			$this->Photo->major_error('Failed to delete photo', compact($photo_id));
 		}
 		
 		

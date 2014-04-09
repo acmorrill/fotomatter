@@ -11,6 +11,8 @@ class PhotoGalleriesController extends AppController {
 		
 		$this->Auth->allow('choose_gallery', 'view_gallery', 'ajax_get_gallery_photos_after');
 	}
+
+	
 	
 	public function admin_add_standard_gallery() {
 		$new_gallery = array();
@@ -491,6 +493,23 @@ class PhotoGalleriesController extends AppController {
 		}
 		
 		$this->return_json($returnArr);
+	}
+	
+	public function admin_delete_gallery($gallery_id = null) {
+		if ($gallery_id == null) {
+			 $this->redirect('/admin/photo_galleries');
+		}
+		
+		
+		if ($this->PhotoGallery->delete($gallery_id)) {
+			$this->Session->setFlash(__('Gallery deleted successfully.', true), 'admin/flashMessage/success');
+		} else {
+			$this->Session->setFlash(__('Failed to delete gallery.', true), 'admin/flashMessage/error');
+			$this->Photo->major_error('Failed to delete photo gallery in admin_delete_gallery', compact($gallery_id));
+		}
+		
+		
+		$this->redirect('/admin/photo_galleries');
 	}
 	 
 }
