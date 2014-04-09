@@ -1,1 +1,1 @@
-<div class='error flashMessage rounded-corners-tiny'><i class='icon-warning-sign'></i><span><?php echo $message; ?></span></div>
+<div class='error flashMessage rounded-corners-tiny'><i class='icon-power'></i><span><?php echo $message; ?></span></div>

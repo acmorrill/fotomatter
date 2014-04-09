@@ -120,6 +120,7 @@
 							<div class="rightborder"></div>
 							<span class="custom_ui">
 								<a href="/admin/photos/edit/<?php echo $curr_photo['Photo']['id']; ?>/"><div class="add_button" data-step="6" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom"><div class="content"><?php __('Edit'); ?></div><div class="right_arrow_lines"><div></div></div></div></a>
+								<a href="/admin/photos/delete_photo/<?php echo $curr_photo['Photo']['id']; ?>/"><div class="add_button icon"><div class="content">X</div></div></a>
 							</span>
 						</td>
 					</tr>

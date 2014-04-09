@@ -19,6 +19,22 @@ class PhotosController extends AppController {
 		$this->Auth->allow('view_photo');
 	}
 	
+	public function admin_delete_photo($photo_id = null) {
+		if ($photo_id == null) { // adding
+			 $this->redirect('/admin/photos/');
+		}
+		
+		
+		if ($this->Photo->delete($photo_id)) {
+			$this->Session->setFlash(__('Photo deleted successfully.', true), 'admin/flashMessage/success');
+		} else {
+			$this->Session->setFlash(__('Failed to delete photo.', true), 'admin/flashMessage/error');
+		}
+		
+		
+		$this->redirect('/admin/photos/');
+	}
+	
 	public function view_photo($photo_id = null) {
 		$total_photos = $this->Photo->count_total_photos(true);
 		if ($total_photos <= 100) { // only do photo view caching on sites with less than 100 photos
