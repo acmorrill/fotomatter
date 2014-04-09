@@ -112,25 +112,36 @@ body {
 				}
 				> a span { margin-left: 24px; }
 			}
+			@theme_center_tab_width: 203px;
 			&.theme_center {
 				.vertical_gradient(@tab2_top, @tab2_bottom);
-				.tab_left_cover {
-					background-position: 0px 0px;
+				//.tab_left_cover {
+					//background-position: 0px 0px;
 					//.top_right_triangle(@menu_height, @tab2_top);
-				}
+				//}
+				width: @theme_center_tab_width;
 				&:hover {
 					.vertical_gradient(@tab2_top_hover, @tab2_bottom_hover);
 					.tab_left_cover { background-position: -50px 0px; }
+					width: @theme_center_tab_width;
 				}
 				&.active {
-					.tab_bottom .active_color {
-						background-color: @tab2_on_color;
-						.active_color_triangle {
-							.bottom_right_triangle(4px, @tab2_on_color);
+					&, &:hover {
+						width: @theme_center_tab_width;
+					}
+					.tab_bottom {
+						width: @theme_center_tab_width;
+						left: 0;
+						.active_color { 
+							width: @theme_center_tab_width + 10px; 
+							background-color: @tab2_on_color;
+							.active_color_triangle {
+								.bottom_right_triangle(4px, @tab2_on_color);
+							}
 						}
 					}
 				}
-				> a span { margin-left: 0px; }
+				> a span { margin-left: 30px; }
 			}
 			&.e-commerce {
 				.vertical_gradient(@tab3_top, @tab3_bottom);

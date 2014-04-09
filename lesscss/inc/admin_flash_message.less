@@ -4,24 +4,18 @@
 	margin-bottom: 30px;
 	display:inline-block;
 	vertical-align: top;
-}
-
-.flashMessage.error {
 	border: 1px solid grey;
-	background-color: darkgrey;
-	color: @white;
-
+	background-color: #333;
 	span {
 		margin: 0 0 0 10px;
 	}
-}
-
-.flashMessage.success {
-	border: 1px solid grey;
-	background-color: #ECFFDD;
-	color: #1E4500;
-
-	span {
-		margin: 0 0 0 10px;
+	&.error {
+		color: lightcoral;
+	}
+	&.success {
+		color: lightgreen;
+	}
+	&.warning {
+		color: lightsalmon;
 	}
 }
