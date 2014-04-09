@@ -37,8 +37,10 @@
 			$photos = $photo_tmp;
 		?>
 		<div id='outer_nav'>
+			<div id="logo_nav_cont">
 			<?php echo $this->Element('nameTitle'); ?>
 			<?php echo $this->Element('menu/two_level_navbar'); ?>
+			</div>	
 		</div>
 		<div id='page_content'>
 			<div id="image_slider_progressbar"></div>
@@ -341,7 +343,7 @@
 //				scroll_speed = max_scroll_speed * percentage_of_max;
 //				console.log (scroll_speed);
 //			}
-			
+//			
 //			function autoscroll(duration) {
 //				if (autoscrolling == true) {
 //					calculate_autoscroll_speed();
