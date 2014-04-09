@@ -203,6 +203,12 @@ class UtilShell extends Shell {
 
 		$this->defaults();
 	}
+	
+	function kent_defaults() {
+		$this->SiteSetting->setVal('image-container-url', 'http://97868411264d9e5f6310-1e5d5c47fb46478a9d6a2f83059152b8.r48.cf2.rackcdn.com');
+		$this->SiteSetting->setVal('image-container-secure_url', 'https://909844c26e4de5a166c9-1e5d5c47fb46478a9d6a2f83059152b8.ssl.cf2.rackcdn.com');
+		$this->SiteSetting->setVal('image-container-name', 'kent-laptop');
+	}
 
 	function defaults() {
 		$this->MajorError = CLassRegistry::init('MajorError');
