@@ -1,5 +1,6 @@
 <div id="top-navigation">
 	<div id="extra_buttons">
+		<a href="/admin"><i class="icon-power"></i>Dashboard</a>
 		<a href="/admin/accounts/index"><i class="icon-cogWheel"></i>Site Settings</a>
 		<a href="/admin/users/logout"><i class="icon-power"></i>Log Out</a>
 	</div>
@@ -10,14 +11,14 @@
 				$curr_page = 'dashboard';
 			}
 		?>
-		<li class='dashboard <?php if ($curr_page == 'dashboard'): ?> active<?php endif; ?>'>
+		<?php /*<li class='dashboard <?php if ($curr_page == 'dashboard'): ?> active<?php endif; ?>'>
 			<a href='/admin/dashboards'><span><?php __("Dashboard"); ?></span></a>
 			<div class="tab_bottom"><div class="tab_bottom_triangle"></div><div class="active_color"><div class="active_color_triangle"></div></div></div>
-		</li><!--
+		</li> */ ?><!--
 		--><li class='theme_center <?php if ($curr_page == 'theme_center'): ?> active<?php endif; ?>'>
 			<a href='/admin/theme_centers/choose_theme'><span><?php __("Theme Center"); ?></span></a>
-			<div class="tab_left_cover"></div>
-			<div class="angle_white"></div>
+			<?php /*<div class="tab_left_cover"></div>
+			<div class="angle_white"></div> */ ?>
 			<div class="tab_bottom"><div class="tab_bottom_triangle"></div><div class="active_color"><div class="active_color_triangle"></div></div></div>
 		</li><!--
 		--><li class='e-commerce <?php if ($curr_page == 'sell'): ?> active<?php endif; ?>'>
