@@ -63,7 +63,9 @@
 				</div>
 				<div id="left_arrow" class="navigation_arrow"></div>
 			</div>
+			<div id="gray_border_bottom"></div>
 			<div id='image_info_container'>
+				<div id="gray_border_small"></div>
 				<div id='gallery_name'>
 					<h2><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></h2>
 				</div>

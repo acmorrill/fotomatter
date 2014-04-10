@@ -32,7 +32,12 @@
 			}
 		}
 	}
-
+	#gray_border_bottom{
+		background-image: url("/img/border_bottom.png");
+		height: 21px;
+		margin-bottom: 19px;
+		//outline: 1px solid red;
+	}
 
 	#image_info_container {
 		width:300px;
@@ -40,6 +45,14 @@
 		left:50%;
 		width:750px;
 		margin:auto;
+		
+		#gray_border_small{
+			border-bottom: 2px solid @small_gray_line_color;
+			position: relative;
+			top: 56px;
+			//outline: 1px solid red;
+
+		}
 			#gallery_name {
 
 				
@@ -57,8 +70,8 @@
 			.image_info {
 				display:none;
 
-				@div_margin_top = 15px;
-				@div_margin_side = 10px;
+				@div_margin_top : 15px;
+				@div_margin_side : 10px;
 				.photo_details {
 					float:left;
 					width:500px;

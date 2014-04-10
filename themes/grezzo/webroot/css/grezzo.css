@@ -77,12 +77,22 @@
   display: inline-block;
   border-right: 1px solid white;
 }
+#page_content #gray_border_bottom {
+  background-image: url("/img/border_bottom.png");
+  height: 21px;
+  margin-bottom: 19px;
+}
 #page_content #image_info_container {
   width: 300px;
   bottom: 95px;
   left: 50%;
   width: 750px;
   margin: auto;
+}
+#page_content #image_info_container #gray_border_small {
+  border-bottom: 2px solid #cccccc;
+  position: relative;
+  top: 56px;
 }
 #page_content #image_info_container #gallery_name {
   display: none;
