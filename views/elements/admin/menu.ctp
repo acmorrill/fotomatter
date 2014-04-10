@@ -1,3 +1,4 @@
+<div class="menu_below_bar"></div>
 <div id="top-navigation">
 	<div id="extra_buttons">
 		<a href="/admin"><i class="icon-power"></i>Dashboard</a>
