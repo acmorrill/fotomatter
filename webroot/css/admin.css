@@ -86,22 +86,20 @@
   margin-bottom: 30px;
   display: inline-block;
   vertical-align: top;
+  border: 1px solid grey;
+  background-color: #333;
+}
+.flashMessage span {
+  margin: 0 0 0 10px;
 }
 .flashMessage.error {
-  border: 1px solid grey;
-  background-color: darkgrey;
-  color: ;
-}
-.flashMessage.error span {
-  margin: 0 0 0 10px;
+  color: lightcoral;
 }
 .flashMessage.success {
-  border: 1px solid grey;
-  background-color: #ECFFDD;
-  color: #1E4500;
+  color: lightgreen;
 }
-.flashMessage.success span {
-  margin: 0 0 0 10px;
+.flashMessage.warning {
+  color: lightsalmon;
 }
 html,
 body,
