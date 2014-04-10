@@ -9,7 +9,7 @@
 		<?php //echo $curr; ?>
 		<?php
 			if (empty($curr_page)) {
-				$curr_page = 'dashboard';
+				$curr_page = 'theme_center';
 			}
 		?>
 		<?php /*<li class='dashboard <?php if ($curr_page == 'dashboard'): ?> active<?php endif; ?>'>
