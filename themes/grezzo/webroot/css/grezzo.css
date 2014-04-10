@@ -2,13 +2,11 @@
   background-color: #000;
   width: 100%;
   position: absolute;
-  height: 140px;
 }
 #outer_nav #logo_nav_cont {
   width: 1000px;
   margin-left: auto;
   margin-right: auto;
-  outline: 1px solid red;
   height: 140px;
   position: relative;
 }
@@ -22,11 +20,10 @@
 }
 #outer_nav #nav_location {
   margin-right: 38px;
-  position: absolute;
   right: 0;
 }
 #outer_nav #nav_location #main_nav {
-  margin-top: 40px;
+  margin-top: 80px;
   float: right;
   display: inline-block;
 }
@@ -45,10 +42,15 @@
 #outer_nav #nav_location #main_nav ul li ul li {
   float: none;
 }
+#gray_spacing {
+  border-bottom: 2px solid #cccccc;
+  position: relative;
+  top: 168px;
+}
 #page_content {
   position: relative;
   height: 850px;
-  top: 100px;
+  top: 180px;
 }
 #page_content #gallery_outer_cont {
   height: 515px;
