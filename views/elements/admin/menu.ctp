@@ -1,3 +1,4 @@
+<div class="menu_below_bar"></div>
 <div id="top-navigation">
 	<div id="extra_buttons">
 		<a href="/admin"><i class="icon-power"></i>Dashboard</a>
@@ -8,7 +9,7 @@
 		<?php //echo $curr; ?>
 		<?php
 			if (empty($curr_page)) {
-				$curr_page = 'dashboard';
+				$curr_page = 'theme_center';
 			}
 		?>
 		<?php /*<li class='dashboard <?php if ($curr_page == 'dashboard'): ?> active<?php endif; ?>'>
