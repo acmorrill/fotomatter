@@ -409,7 +409,7 @@ $(function() {
 			<h2 style="background: url('/img/admin/icons/FOLDER - DOWNLOADS.png') center left no-repeat; padding-left: 35px;"><?php __('Photos in Gallery'); ?></h2>
 		</div>
 		<div class="empty_help_content" style="<?php if (empty($this->data['PhotoGalleriesPhoto'])): ?>display: block;<?php endif; ?>"><?php __('Add images to this gallery using the box at right'); ?>&nbsp;►</div>
-		<div id="in_gallery_photos_cont" class="in_gallery_photos_cont content-background block_element_base">
+		<div id="in_gallery_photos_cont" class="in_gallery_photos_cont content-background block_element_base" style="width: 458px;">
 			<?php echo $this->Element('/admin/photo/photo_connect_in_gallery_photo_cont', array( 'connected_photos' => $this->data['PhotoGalleriesPhoto'], 'not_in_gallery_icon_size' => $not_in_gallery_icon_size )); ?>
 		</div>
 	</div>
