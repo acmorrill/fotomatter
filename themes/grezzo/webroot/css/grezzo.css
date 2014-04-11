@@ -77,12 +77,25 @@
   display: inline-block;
   border-right: 1px solid white;
 }
+#page_content #gray_border_bottom {
+  background-image: url("/img/border_bottom.png");
+  height: 21px;
+  margin-bottom: 19px;
+}
+#page_content .vertical_border {
+  border-right: 1px solid #cccccc;
+}
 #page_content #image_info_container {
   width: 300px;
   bottom: 95px;
   left: 50%;
   width: 750px;
   margin: auto;
+}
+#page_content #image_info_container #gray_border_small {
+  border-bottom: 1px solid #cccccc;
+  position: relative;
+  top: 56px;
 }
 #page_content #image_info_container #gallery_name {
   display: none;
@@ -101,8 +114,8 @@
 #page_content #image_info_container .image_info .photo_details {
   float: left;
   width: 500px;
-  margin-top: 15px;
-  margin-left: 10px;
+  margin-top: 22px;
+  margin-left: 22px;
 }
 #page_content #image_info_container .image_info .photo_details h4 {
   margin: 0 0 20px 0;
@@ -114,7 +127,7 @@
 }
 #page_content #image_info_container .image_info .side_control_options {
   float: right;
-  margin-top: 15px;
+  margin-top: 22px;
 }
 #page_content #image_info_container .image_info .side_control_options #add_to_cart_buttons_cont {
   height: 200px;
@@ -124,6 +137,7 @@
 }
 #page_content #image_info_container .image_info .side_control_options button {
   display: block;
+  position: relative;
   margin: 5px 2px;
   padding: 5px 30px;
   width: 150px;
@@ -153,15 +167,17 @@
   display: none;
 }
 #right_arrow {
-  border-top: 25px solid transparent;
-  border-bottom: 25px solid transparent;
-  border-left: 25px solid #333;
+  background-image: url(/img/arrow_right.png);
+  background-repeat: no-repeat;
+  height: 30px;
+  width: 30px;
   right: 10px;
 }
 #left_arrow {
-  border-top: 25px solid transparent;
-  border-bottom: 25px solid transparent;
-  border-right: 25px solid #333;
+  background-image: url(/img/arrow_left.png);
+  background-repeat: no-repeat;
+  height: 30px;
+  width: 30px;
   left: 10px;
 }
 .navigation_arrow {
