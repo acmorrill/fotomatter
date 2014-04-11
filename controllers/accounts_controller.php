@@ -1,15 +1,15 @@
 <?php
 class AccountsController extends AppController {
     
-   public $uses = array('GlobalCountry', 'GlobalCountryState', 'Photo', 'SitePage', 'PhotoGallery');
+	public $uses = array('GlobalCountry', 'GlobalCountryState', 'Photo', 'SitePage', 'PhotoGallery');
+
+	public $layout = 'admin/accounts';
    
-   public $layout = 'admin/accounts';
-   
-   public $components = array(
-       'FotomatterBilling',
-       'Session',
-       'Validation'
-   );
+	public $components = array(
+		'FotomatterBilling',
+		'Session',
+		'Validation',
+	);
    
    public function admin_account_details() {
        $accountDetails = $this->FotomatterBilling->getAccountDetails();
