@@ -22,6 +22,7 @@ class AppController extends Controller {
 		'Validation',
 		'Email',
 		'FotomatterEmail',
+		'FotomatterBilling',
 	);
 	
 	public $helpers = array(
@@ -51,6 +52,10 @@ class AppController extends Controller {
 	* @access public
 	*/
 	function beforeFilter() {
+		$data = $this->FotomatterBilling->getAccountDetails();
+		$this->log($data, 'getAccountDetails');
+		
+		
 		//apc_clear_cache('user');
 		
 		//////////////////////////////////////////////////////
