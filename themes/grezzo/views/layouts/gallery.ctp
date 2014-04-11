@@ -71,10 +71,10 @@
 				</div>
 				<?php foreach ($photos as $photo): ?>
 					<div image_info_id='<?php echo $photo['Photo']['id']; ?>' class='image_info'>
-						<div class='photo_details'>
-							<h4><?php echo $photo['Photo']['display_title'];  ?></h4>
-							<p><?php echo $photo['Photo']['description']; ?></p>
-						</div>
+							<div class='photo_details vertical_border'>
+								<h4><?php echo $photo['Photo']['display_title'];  ?></h4>
+								<p><?php echo $photo['Photo']['description']; ?></p>
+							</div>
 						<?php /* Adam Todo: if ecommerce is not turned on then these need to be hidden */ ?>
 						<div class='side_control_options'>
 							<?php echo $this->Element('cart_elements/add_to_cart', array(
