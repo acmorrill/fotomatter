@@ -64,18 +64,18 @@ class UtilShell extends Shell {
 
 
 		$permissions = array(
-			'current_theme_webroot' => array('p' => ':www-data'),
-			'default_theme_webroot' => array('p' => ':www-data'),
-			'parent_theme_webroot' => array('p' => ':www-data'),
-			'themes' => array('p' => ':www-data'),
-			'image_tmp' => array('r' => ':www-data'),
-			'local_master_cache' => array('r' => ':www-data'),
-			'local_smaller_master_cache' => array('r' => ':www-data'),
-			'site_background' => array('r' => ':www-data'),
-			'site_logo' => array('r' => ':www-data'),
-			'xhprof-0.9.4' => array('r' => ':www-data'),
-			'tmp' => array('r' => ':www-data'),
-			'.' => array('p' => ':www-data'),
+			'current_theme_webroot' => array('p' => ':server_stats'),
+			'default_theme_webroot' => array('p' => ':server_stats'),
+			'parent_theme_webroot' => array('p' => ':server_stats'),
+			'themes' => array('p' => ':server_stats'),
+			'image_tmp' => array('r' => ':server_stats'),
+			'local_master_cache' => array('r' => ':server_stats'),
+			'local_smaller_master_cache' => array('r' => ':server_stats'),
+			'site_background' => array('r' => ':server_stats'),
+			'site_logo' => array('r' => ':server_stats'),
+			'xhprof-0.9.4' => array('r' => ':server_stats'),
+			'tmp' => array('r' => ':server_stats'),
+			'.' => array('p' => ':server_stats'),
 		);
 
 
@@ -88,36 +88,36 @@ class UtilShell extends Shell {
 		$permissions = array(
 			'app' => array(
 				'themes' => array(
-					'adam' => array('webroot' => array('css' => array('r' => ':www-data'))),
-					'amazing' => array('webroot' => array('css' => array('r' => ':www-data'))),
+					'adam' => array('webroot' => array('css' => array('r' => ':server_stats'))),
+					'amazing' => array('webroot' => array('css' => array('r' => ':server_stats'))),
 					'andrewmorrill' => array(
 						'subthemes' => array(
-							'difandrew' => array('webroot' => array('css' => array('r' => ':www-data'))),
+							'difandrew' => array('webroot' => array('css' => array('r' => ':server_stats'))),
 						),
-						'webroot' => array('css' => array('r' => ':www-data'))
+						'webroot' => array('css' => array('r' => ':server_stats'))
 					),
 					'test_bg_theme' => array(
 						'subthemes' => array(
-							'difandrew' => array('webroot' => array('css' => array('r' => ':www-data'))),
+							'difandrew' => array('webroot' => array('css' => array('r' => ':server_stats'))),
 						),
-						'webroot' => array('css' => array('r' => ':www-data'))
+						'webroot' => array('css' => array('r' => ':server_stats'))
 					),
-					'default' => array('webroot' => array('css' => array('r' => ':www-data'))),
-					'simple_lightgrey_textured' => array('webroot' => array('css' => array('r' => ':www-data'))),
-					'white_angular' => array('webroot' => array('css' => array('r' => ':www-data'))),
-					'white_slider' => array('webroot' => array('css' => array('r' => ':www-data'))),
-					'grezzo' => array('webroot' => array('css' => array('r' => ':www-data'))),
+					'default' => array('webroot' => array('css' => array('r' => ':server_stats'))),
+					'simple_lightgrey_textured' => array('webroot' => array('css' => array('r' => ':server_stats'))),
+					'white_angular' => array('webroot' => array('css' => array('r' => ':server_stats'))),
+					'white_slider' => array('webroot' => array('css' => array('r' => ':server_stats'))),
+					'grezzo' => array('webroot' => array('css' => array('r' => ':server_stats'))),
 				),
 				'webroot' => array(
-					'css' => array('r' => ':www-data'),
+					'css' => array('r' => ':server_stats'),
 					'img' => array(
 						'photo_default' => array(
-							'caches' => array('r' => ':www-data'),
+							'caches' => array('r' => ':server_stats'),
 						),
 					),
 				),
 				'tmp' => array(
-					'r' => ':www-data'
+					'r' => ':server_stats'
 				),
 			),
 		);
