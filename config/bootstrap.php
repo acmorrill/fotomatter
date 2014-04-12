@@ -40,7 +40,6 @@ a * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.o
  * ));
  *
  i*/
-
 define("HELP_TOUR_ENGLISH_TEXT", 'Get Help With This Page'); 
 
 define("SITE_SETTINGS_APC_CACHE_TTL", 28800); // 8  hours
@@ -113,57 +112,12 @@ Configure::write('OVERLORD_URL', 'builds.fotomatter.net');
 // path to fonts
 define("GLOBAL_TTF_FONT_PATH", ROOT.DS.APP_DIR.DS.'webroot'.DS.'fonts');
 
-if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'db')) {
-    App::import('Model', 'SiteSetting');
-    App::import('Model', 'Theme');
-    $SiteSetting = new SiteSetting();
-    $Theme = new Theme();
-    $curr_theme = $SiteSetting->getVal('current_theme', 'default');
-    $the_theme = $Theme->get_theme($curr_theme);
-    if (!empty($the_theme)) {
-		if ($the_theme['Theme']['theme_id'] == 0) {
-			$GLOBALS['CURRENT_THEME_PATH'] = PATH_TO_THEMES.DS.$curr_theme;
-			$GLOBALS['PARENT_THEME_PATH'] = PATH_TO_THEMES.DS.$curr_theme;
-		} else {
-			$GLOBALS['CURRENT_THEME_PATH'] = PATH_TO_THEMES.DS.$the_theme['ParentTheme']['ref_name'].DS.'subthemes'.DS.$curr_theme;
-			$GLOBALS['PARENT_THEME_PATH'] = PATH_TO_THEMES.DS.$the_theme['ParentTheme']['ref_name'];
-		}
-    } else {
-		$GLOBALS['CURRENT_THEME_PATH'] = PATH_TO_THEMES.DS.'default';
-		$GLOBALS['PARENT_THEME_PATH'] = PATH_TO_THEMES.DS.'default';
-    }
-    define("DEFAULT_THEME_PATH", PATH_TO_THEMES.DS.'default');
-
-    //die(VIEWS);
-    //die(PATH_TO_THEMES.DS.$curr_theme.DS.'views'.DS);
-    //die(PATH_TO_THEMES.DS.'default'.DS.'views');
-
-    App::build(array(
-    //	'plugins' => array('/full/path/to/plugins/', '/next/full/path/to/plugins/'),
-    //	'models' =>  array('/full/path/to/models/', '/next/full/path/to/models/'),
-            'views' => array($GLOBALS['CURRENT_THEME_PATH'].DS."views".DS, $GLOBALS['PARENT_THEME_PATH'].DS."views".DS, DEFAULT_THEME_PATH.DS.'views'.DS),
-    //	'controllers' => array('/full/path/to/controllers/', '/next/full/path/to/controllers/'),
-    //	'datasources' => array('/full/path/to/datasources/', '/next/full/path/to/datasources/'),
-    //	'behaviors' => array('/full/path/to/behaviors/', '/next/full/path/to/behaviors/'),
-    //	'components' => array('/full/path/to/components/', '/next/full/path/to/components/'),
-            'helpers' => array($GLOBALS['CURRENT_THEME_PATH'].DS."helpers".DS, $GLOBALS['PARENT_THEME_PATH'].DS."helpers".DS, DEFAULT_THEME_PATH.DS.'helpers'.DS),
-    //	'vendors' => array('/full/path/to/vendors/', '/next/full/path/to/vendors/'),
-    //	'shells' => array('/full/path/to/shells/', '/next/full/path/to/shells/'),
-    //	'locales' => array('/full/path/to/locale/', '/next/full/path/to/locale/')
-    ));
-}
-
-
-/**
- * As of 1.3, additional rules for the inflector are added below
- *
- * Inflector::rules('singular', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
- * Inflector::rules('plural', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
- *
- */
-function record_major_error($location, $line_number, $description, $log_data) {
-	require_once(CONFIGS.'database.php');
-	$dbconfig = new DATABASE_CONFIG();
+$dbconfig = null;
+function get_local_db_handle() {
+	if (empty($dbconfig)) {
+		require_once(CONFIGS.'database.php');
+		$dbconfig = new DATABASE_CONFIG();
+	}
        
 	$local_db = mysql_connect($dbconfig->default['host'], $dbconfig->default['login'], $dbconfig->default['password'], true);
 	if (mysql_error($local_db)) {
@@ -176,6 +130,73 @@ function record_major_error($location, $line_number, $description, $log_data) {
 		echo ("Cannot select local db. Check config, and try again.");
 		return;
 	}
+	return $local_db;
+}
+
+
+if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'db')) {
+//	$local_db = get_local_db_handle();
+//	$theme_sql = "SELECT * FROM theme_id as Theme
+//		WHERE Theme.display_name = (SELECT )
+//	";
+//	mysql_query($theme_sql, $local_db);
+	
+//	App::import('Model', 'SiteSetting');
+//	App::import('Model', 'Theme');
+//	$SiteSetting = new SiteSetting();
+//	$Theme = new Theme();
+//	$curr_theme = $SiteSetting->getVal('current_theme', 'default');
+//	$the_theme = $Theme->get_theme($curr_theme);
+	
+	//die(ROOT.DS."current_theme_webroot");
+	$GLOBALS['CURRENT_THEME_PATH'] = dirname(realpath(ROOT.DS."current_theme_webroot"));
+	$GLOBALS['PARENT_THEME_PATH'] = dirname(realpath(ROOT.DS."parent_theme_webroot"));
+	// DREW TODO - delete the below
+//	if (!empty($the_theme)) {
+//		if ($the_theme['Theme']['theme_id'] == 0) {
+//			$GLOBALS['CURRENT_THEME_PATH'] = PATH_TO_THEMES.DS.$curr_theme;
+//			$GLOBALS['PARENT_THEME_PATH'] = PATH_TO_THEMES.DS.$curr_theme;
+//		} else {
+//			$GLOBALS['CURRENT_THEME_PATH'] = PATH_TO_THEMES.DS.$the_theme['ParentTheme']['ref_name'].DS.'subthemes'.DS.$curr_theme;
+//			$GLOBALS['PARENT_THEME_PATH'] = PATH_TO_THEMES.DS.$the_theme['ParentTheme']['ref_name'];
+//		}
+//	} else {
+//		$GLOBALS['CURRENT_THEME_PATH'] = PATH_TO_THEMES.DS.'default';
+//		$GLOBALS['PARENT_THEME_PATH'] = PATH_TO_THEMES.DS.'default';
+//	}
+	define("DEFAULT_THEME_PATH", PATH_TO_THEMES.DS.'default');
+
+	//die(VIEWS);
+	//die(PATH_TO_THEMES.DS.$curr_theme.DS.'views'.DS);
+	//die(PATH_TO_THEMES.DS.'default'.DS.'views');
+
+	App::build(array(
+	//	'plugins' => array('/full/path/to/plugins/', '/next/full/path/to/plugins/'),
+	//	'models' =>  array('/full/path/to/models/', '/next/full/path/to/models/'),
+			'views' => array($GLOBALS['CURRENT_THEME_PATH'].DS."views".DS, $GLOBALS['PARENT_THEME_PATH'].DS."views".DS, DEFAULT_THEME_PATH.DS.'views'.DS),
+	//	'controllers' => array('/full/path/to/controllers/', '/next/full/path/to/controllers/'),
+	//	'datasources' => array('/full/path/to/datasources/', '/next/full/path/to/datasources/'),
+	//	'behaviors' => array('/full/path/to/behaviors/', '/next/full/path/to/behaviors/'),
+	//	'components' => array('/full/path/to/components/', '/next/full/path/to/components/'),
+			'helpers' => array($GLOBALS['CURRENT_THEME_PATH'].DS."helpers".DS, $GLOBALS['PARENT_THEME_PATH'].DS."helpers".DS, DEFAULT_THEME_PATH.DS.'helpers'.DS),
+	//	'vendors' => array('/full/path/to/vendors/', '/next/full/path/to/vendors/'),
+	//	'shells' => array('/full/path/to/shells/', '/next/full/path/to/shells/'),
+	//	'locales' => array('/full/path/to/locale/', '/next/full/path/to/locale/')
+	));
+}
+
+
+
+
+/**
+ * As of 1.3, additional rules for the inflector are added below
+ *
+ * Inflector::rules('singular', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
+ * Inflector::rules('plural', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
+ *
+ */
+function record_major_error($location, $line_number, $description, $log_data) {
+	$local_db = get_local_db_handle();
 	
 	$location = mysql_real_escape_string($location);
 	$line_number = mysql_real_escape_string($line_number);
