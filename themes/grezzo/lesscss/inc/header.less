@@ -32,6 +32,7 @@
 			margin-top: 80px;
 			float: right;
 			display: inline-block;
+			z-index: 999;
 
 			ul {
 				li {
@@ -39,6 +40,8 @@
 					float: left;
 					margin-left: 38px;
 					color: @top_header_text_color;
+					position: relative;
+					right: 78px;
 
 					a {
 						color: @top_header_text_color;
@@ -46,8 +49,24 @@
 
 					ul {
 						display:none;
+						z-index: 1;
 						li {
 							float:none;
+						}
+					}
+					&.hover {
+						ul {
+							display: block;
+							position: absolute;
+							background-color: @nav_drop_down_color;
+							li{
+								//color: @nav_drop_down_text_color;
+								color: #000000;
+								a {
+									color: @nav_drop_down_text_color;
+								}
+								
+							}
 						}
 					}
 				}
@@ -58,7 +77,7 @@
 #gray_spacing{
 	border-bottom: 2px solid @small_gray_line_color;
 	position: relative;
-	top: 168px;
+	top: -12px;
 	//outline: 1px solid red;
 }
 ///COOL THEME SETTINGS

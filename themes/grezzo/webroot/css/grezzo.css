@@ -26,26 +26,41 @@
   margin-top: 80px;
   float: right;
   display: inline-block;
+  z-index: 999;
 }
 #outer_nav #nav_location #main_nav ul li {
   list-style-type: none;
   float: left;
   margin-left: 38px;
   color: #fff;
+  position: relative;
+  right: 78px;
 }
 #outer_nav #nav_location #main_nav ul li a {
   color: #fff;
 }
 #outer_nav #nav_location #main_nav ul li ul {
   display: none;
+  z-index: 1;
 }
 #outer_nav #nav_location #main_nav ul li ul li {
   float: none;
 }
+#outer_nav #nav_location #main_nav ul li.hover ul {
+  display: block;
+  position: absolute;
+  background-color: #ffffff;
+}
+#outer_nav #nav_location #main_nav ul li.hover ul li {
+  color: #000000;
+}
+#outer_nav #nav_location #main_nav ul li.hover ul li a {
+  color: #666666;
+}
 #gray_spacing {
   border-bottom: 2px solid #cccccc;
   position: relative;
-  top: 168px;
+  top: -12px;
 }
 #page_content {
   position: relative;
@@ -169,23 +184,19 @@
 #right_arrow {
   background-image: url(/img/arrow_right.png);
   background-repeat: no-repeat;
-  height: 30px;
-  width: 30px;
   right: 10px;
 }
 #left_arrow {
   background-image: url(/img/arrow_left.png);
   background-repeat: no-repeat;
-  height: 30px;
-  width: 30px;
   left: 10px;
 }
 .navigation_arrow {
   border: 25px solid transparent;
   position: absolute;
-  height: 0;
-  width: 0;
-  top: 300px;
+  height: 30px;
+  width: 30px;
+  top: 200px;
 }
 #white_slider_scroll_control {
   width: 75%;
@@ -227,6 +238,7 @@
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
+  width: 154px !important;
 }
 .chosen-container .chosen-drop {
   position: absolute;
@@ -633,11 +645,11 @@
   visibility: hidden;
 }
 #add_to_cart_buttons_cont .print_type_outer_cont {
-  margin: 0 0 15px;
+  margin: 32px 0 15px;
 }
 #add_to_cart_buttons_cont .print_type_outer_cont h2 {
   font-size: 14px;
-  margin: 2px 0;
+  margin: 5px 0;
 }
 #cart .page-content {
   margin: auto;
