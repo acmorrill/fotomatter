@@ -1,17 +1,28 @@
+(d)-- Install Apache (2.2) / php5 (5.3.10) / mysql (5.5.22)
+	-- a2enmod vhost_alias
+	-- a2enmod ssl
+	-- php modules
+		-- gd
+		-- imagemagick
+		-- apc
+		-- mcrypt
 (d)-- Add Root User ssh key
 	-- cd /etc/.ssh
 	-- ssh-keygen -t rsa -C "acmorrill@gmail.com"
 	-- copy key to git hub
-(d)-- clone server stats repo
+(d)-- clone server_scripts repo
 	-- cd /etc
 	-- sudo git clone git@github.com:acmorrill/server_scripts.git server_scripts
 (d)-- Copy apache2 to /etc
 	-- sudo ln -s /etc/server_scripts/server_config/apache2/ apache2
-(d) -- Setup git ignored apache settings
+(d)-- Copy php5 to /etc
+	-- sudo ln -s /etc/server_scripts/server_config/php5/ php5
+(d)-- Setup git ignored apache settings
 	-- ssl/ (ask adam)
 		-- sudo mkdir ssl
 		-- sudo vim apache.crt
 		-- sudo vim apache.key
+		-- sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/apache2/ssl/apache.key -out /etc/apache2/ssl/apache.crt
 	-- custom_hosts/*
 		-- mkdir custom_hosts
 		-- sudo vim front.conf
@@ -23,11 +34,17 @@
 		-- AssignUserId server_stats server_stats
 	-- serverName.conf
 		-- ServerName welcome.fotomatter.net
--- Create server_stats user
+(d)-- Create server_stats user
 	-- sudo useradd -m -s /bin/bash server_stats
 	-- setup .ssh
 		-- ssh-keygen -t rsa -C "acmorrill@gmail.com"
--- Setup /var/www
+		-- put key on github
+	-- setup .bashrc from /etc/server_settings/bashrc
+	-- server_stats ALL=(ALL) NOPASSWD:ALL
+(d)-- Install apache2-mpm-itk
+	-- http://www.nusuni.com/2011/11/how-to-install-setup-and-test-apache-mpm-itk-and-php-in-ubuntu/
+	-- sudo apt-get install apache2-mpm-itk libapache2-mod-php5
+(d)-- Setup /var/www
 	-- cake_lib
 		-- cake 1.3.14
 		-- cd /var/www
@@ -47,25 +64,65 @@
 	-- domains
 		-- mkdir
 	-- custom_hosts
+		-- phpmyadmin
+			-- cd /usr/share/phpmyadmin/
+		-- databases
+			-- fm_app_global
+			-- fm_frontend
+			-- fm_overlord
+			-- fm_server_metrics
 		-- fm_frontend
-		-- START HERE TOMORROW
--- Install apache2-mpm-itk
-	-- http://www.nusuni.com/2011/11/how-to-install-setup-and-test-apache-mpm-itk-and-php-in-ubuntu/
-	-- sudo apt-get install apache2-mpm-itk libapache2-mod-php5
-
--- Install Apache (2.2) / php5 (5.3.10) / mysql (5.5.22)
-	-- a2enmod vhost_alias
-	-- a2enmod ssl
-
--- Install cake
-	-- /var/www/cake_lib/cake
--- Install the server repos
-	/var/www/current/.git
-	/var/www/custom_hosts/fm_frontend/app/.git
-	/var/www/custom_hosts/overlord/app/.git
-	/var/www/custom_hosts/server_metrics/app/.git
-	/var/www/custom_hosts/custom/allurecarpets/app/.git
-	/var/www/upgrade/.git
-	/var/www/cake_lib2/.git
-	/var/www/cake_lib/.git
-	/etc/server_scripts/.git
+			-- .htaccess
+			-- git clone git@github.com:acmorrill/fm_frontend.git app
+			-- ln -s /var/www/cake_lib2/lib/ lib
+			-- setup
+				-- dbupdate submodule (ask adam)
+				-- cd /var/www/custom_hosts/fm_frontend/app/Config
+				-- vim core_ignored.php
+				-- cp database.php.default database.php
+				-- dbupdate plugin
+		-- overlord
+			-- .htaccess
+			-- git clone git@github.com:acmorrill/overlord.git app
+			-- ln -s /var/www/cake_lib2/lib/ lib
+			-- setup
+				-- core_ignored
+					-- <?php 
+						Configure::write('debug', 2);
+						Configure::write('PARTNER_URL', 'https://partners.fotomatter.dev');
+						Configure::write('FM_FRONTEND_URL', 'https://fotomatter.dev');
+						Configure::write('BUILD_URL', 'https://builds.fotomatter.dev');
+						Configure::write('PARTNER_COOKIE_DOMAIN', '.fotomatter.dev');
+						Configure::write('Rackspace.top_level_domain_id', '3558367');
+						Configure::write('Rackspace.top_level_string', '.fotomatter.dev');
+						Configure::write('frontend_url', 'fotomatter.dev');
+				-- cp database.php.default database.php
+				-- dbupdate plugin
+				-- /var/www/custom_hosts/overlord/app/tmp/
+				-- mkdir logs
+				-- cake2 Dbupdate.db reset
+				-- cake2 user create_user acmorrill@gmail.com 123000am
+				-- UPDATE  `build_servers` SET  `hostname` =  'https://overlord.fotomatter.net:7959', `mysql_root_pass` =  '123000am' WHERE  `build_servers`.`id` =1;
+				-- build welcome site (DREW TODO)
+		-- server_metrics
+			-- .htaccess
+				-- <IfModule mod_rewrite.c>
+				   RewriteEngine on
+				   RewriteRule    ^$ app/webroot/    [L]
+				   RewriteRule    (.*) app/webroot/$1 [L]
+				</IfModule>
+			-- ln -s /var/www/cake_lib/cake cake
+			-- git clone git@github.com:acmorrill/server_metrics.git app
+			-- setup
+				-- cp core.php.default core.php
+					-- Change Core
+						-- Configure::write('Rackspace.top_level_string', '.fotomatter.dev');
+						-- define("OVERLORD_URL", 'http://overlord.fotomatter.dev');
+				-- cp database.php.default database.php
+				-- change db credentials
+				-- cake db reset
+				-- mkdir logs
+				-- mkdir cache
+					-- mkdir models
+					-- mkdir persistent
+					-- mkdir views
