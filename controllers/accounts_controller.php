@@ -11,52 +11,52 @@ class AccountsController extends AppController {
 		'Validation',
 	);
    
-   public function admin_account_details() {
-       $accountDetails = $this->FotomatterBilling->getAccountDetails();
-	   $photo_count = $this->Photo->find('count');
-	   $site_page_count = $this->SitePage->find('count');
-	   $photo_gallery_count = $this->PhotoGallery->find('count');
-	   
-       $this->set('accountDetails', $accountDetails['data']);
-	   $this->set(compact('photo_count', 'site_page_count', 'photo_gallery_count'));
-   }
-    
-    /**
-    * action for the page to add/remove line items. 
-    * @author Adam Holsinger
-    */
-   public function admin_index() {
-       $overlord_account_info = $this->FotomatterBilling->get_info_account();
-	  
-       $this->Session->delete('account_line_items');
-       $this->Session->write('account_line_items', array('checked'=>array(), 'unchecked'=>array()));
-       
-       $this->Session->delete('account_info');
-       $this->Session->write('account_info', $overlord_account_info);
-       
-       $this->set(compact(array('overlord_account_info')));
+	public function admin_account_details() {
+		$accountDetails = $this->FotomatterBilling->getAccountDetails();
+		$photo_count = $this->Photo->find('count');
+		$site_page_count = $this->SitePage->find('count');
+		$photo_gallery_count = $this->PhotoGallery->find('count');
 
-       $this->layout = 'admin/accounts';
-   }
+		$this->set('accountDetails', $accountDetails['data']);
+		$this->set(compact('photo_count', 'site_page_count', 'photo_gallery_count'));
+	}
+    
+	/**
+	* action for the page to add/remove line items. 
+	* @author Adam Holsinger
+	*/
+	public function admin_index() {
+		$overlord_account_info = $this->FotomatterBilling->get_info_account();
+
+		$this->Session->delete('account_line_items');
+		$this->Session->write('account_line_items', array('checked'=>array(), 'unchecked'=>array()));
+
+		$this->Session->delete('account_info');
+		$this->Session->write('account_info', $overlord_account_info);
+
+		$this->set(compact(array('overlord_account_info')));
+
+		$this->layout = 'admin/accounts';
+	}
    
-   public function admin_ajax_addPreviousItems() {
-	   $overlord_account_info = $this->Session->read('account_info');
-	   $line_items = $this->Session->read('account_line_items');
-	   
-	   foreach($overlord_account_info['items'] as $item) {
+	public function admin_ajax_addPreviousItems() {
+		$overlord_account_info = $this->Session->read('account_info');
+		$line_items = $this->Session->read('account_line_items');
+
+		foreach($overlord_account_info['items'] as $item) {
 		   if ($item['AccountLineItem']['is_pay_fail'] == false) {
 			   continue;
 		   }
-		   
+
 		   if (isset($line_items['unchecked'][$item['AccountLineItem']['id']])) {
-               unset($line_items['unchecked'][$item['AccountLineItem']['id']]);
-           }
-           $line_items['checked'][$item['AccountLineItem']['id']] = 'checked';
-	   }
-	   $this->Session->write('account_line_items', $line_items);
-       print(json_encode(array('code'=>true)));
-       exit();
-   }
+			   unset($line_items['unchecked'][$item['AccountLineItem']['id']]);
+		   }
+		   $line_items['checked'][$item['AccountLineItem']['id']] = 'checked';
+		}
+		$this->Session->write('account_line_items', $line_items);
+		print(json_encode(array('code'=>true)));
+		exit();
+	}
    
    public function admin_ajax_undo_cancellation($line_item_id) {
 	   $result = $this->FotomatterBilling->undo_cancellation($line_item_id);
@@ -91,13 +91,11 @@ class AccountsController extends AppController {
        
        $line_item_id = $this->params['form']['id'];
        if ($this->params['form']['checked']) {
-		   $this->log('check', 'setItemCheck');
            if (isset($line_items['unchecked'][$line_item_id])) {
                unset($line_items['unchecked'][$line_item_id]);
            }
            $line_items['checked'][$line_item_id] = 'checked';
        } else {
-		   $this->log('uncheck', 'setItemCheck');
            if (isset($line_items['checked'][$line_item_id])) {
                unset($line_items['checked'][$line_item_id]);
            }
