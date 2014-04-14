@@ -11,7 +11,9 @@
 
 <div id="add_to_cart_buttons_cont">
 <?php if (empty($photo_sellable_prints)): ?>
+	
 	<!-- <?php __('The add to cart buttons have not been fully setup'); ?> -->
+	
 <?php else: ?>
 	<?php //debug($photo_sellable_prints); ?>
 	<?php foreach ($photo_sellable_prints as $print_type_name => $print_type_sizes): ?>
@@ -31,6 +33,9 @@
 			</select> 
 			<div class="submit_button_cont">
 				<button class="submit_inner"><?php __('Add to Cart'); ?></button>
+			</div>
+			<div>
+				<button class="submit_inner"><?php __('Check Out'); ?></button>
 			</div>
 		</form>
 	</div>
