@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>About Andrew Morrill -- Celestial Light Photography</title>
+		<title>Kent Gigger -- Face Photography</title>
 		<meta name="keywords" content="Andrew Morrill, photography, fine art, utah photography, utah photographer, National Park, Utah, California, Large Format">
 		<meta name="description" content="Large format landscape photography by Utah based photographer Andrew Morrill.">
 		<?php echo $this->Element('theme_global_includes'); ?>

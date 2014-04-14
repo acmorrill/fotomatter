@@ -42,8 +42,9 @@
 			<?php echo $this->Element('menu/two_level_navbar'); ?>
 			</div>	
 		</div>
-		<div id="gray_spacing"></div>
+		
 		<div id='page_content'>
+			<div id="gray_spacing"></div>
 			<div id="image_slider_progressbar"></div>
 			<div id='gallery_outer_cont'>
 				<div id="grezzo_listing_actual_container_loading"><?php echo nl2br(str_replace(' ', "\n", __('L O A D I N G', true))); ?></div>
@@ -75,7 +76,7 @@
 								<h4><?php echo $photo['Photo']['display_title'];  ?></h4>
 								<p><?php echo $photo['Photo']['description']; ?></p>
 							</div>
-						<?php /* Adam Todo: if ecommerce is not turned on then these need to be hidden */ ?>
+						<?php /* Andrew Todo: if ecommerce is not turned on then these need to be hidden */ ?>
 						<div class='side_control_options'>
 							<?php echo $this->Element('cart_elements/add_to_cart', array(
 								'photo_id'=>$photo['Photo']['id'],
