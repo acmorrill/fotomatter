@@ -64,18 +64,18 @@ class UtilShell extends Shell {
 
 
 		$permissions = array(
-			'current_theme_webroot' => array('p' => ':server_stats'),
-			'default_theme_webroot' => array('p' => ':server_stats'),
-			'parent_theme_webroot' => array('p' => ':server_stats'),
-			'themes' => array('p' => ':server_stats'),
-			'image_tmp' => array('r' => ':server_stats'),
-			'local_master_cache' => array('r' => ':server_stats'),
-			'local_smaller_master_cache' => array('r' => ':server_stats'),
-			'site_background' => array('r' => ':server_stats'),
-			'site_logo' => array('r' => ':server_stats'),
-			'xhprof-0.9.4' => array('r' => ':server_stats'),
-			'tmp' => array('r' => ':server_stats'),
-			'.' => array('p' => ':server_stats'),
+			'current_theme_webroot' => array('p' => 'server_stats:server_stats'),
+			'default_theme_webroot' => array('p' => 'server_stats:server_stats'),
+			'parent_theme_webroot' => array('p' => 'server_stats:server_stats'),
+			'themes' => array('p' => 'server_stats:server_stats'),
+			'image_tmp' => array('r' => 'server_stats:server_stats'),
+			'local_master_cache' => array('r' => 'server_stats:server_stats'),
+			'local_smaller_master_cache' => array('r' => 'server_stats:server_stats'),
+			'site_background' => array('r' => 'server_stats:server_stats'),
+			'site_logo' => array('r' => 'server_stats:server_stats'),
+			'xhprof-0.9.4' => array('r' => 'server_stats:server_stats'),
+			'tmp' => array('r' => 'server_stats:server_stats'),
+			'.' => array('p' => 'server_stats:server_stats'),
 		);
 
 
@@ -88,36 +88,36 @@ class UtilShell extends Shell {
 		$permissions = array(
 			'app' => array(
 				'themes' => array(
-					'adam' => array('webroot' => array('css' => array('r' => ':server_stats'))),
-					'amazing' => array('webroot' => array('css' => array('r' => ':server_stats'))),
+					'adam' => array('webroot' => array('css' => array('r' => 'server_stats:server_stats'))),
+					'amazing' => array('webroot' => array('css' => array('r' => 'server_stats:server_stats'))),
 					'andrewmorrill' => array(
 						'subthemes' => array(
-							'difandrew' => array('webroot' => array('css' => array('r' => ':server_stats'))),
+							'difandrew' => array('webroot' => array('css' => array('r' => 'server_stats:server_stats'))),
 						),
-						'webroot' => array('css' => array('r' => ':server_stats'))
+						'webroot' => array('css' => array('r' => 'server_stats:server_stats'))
 					),
 					'test_bg_theme' => array(
 						'subthemes' => array(
-							'difandrew' => array('webroot' => array('css' => array('r' => ':server_stats'))),
+							'difandrew' => array('webroot' => array('css' => array('r' => 'server_stats:server_stats'))),
 						),
-						'webroot' => array('css' => array('r' => ':server_stats'))
+						'webroot' => array('css' => array('r' => 'server_stats:server_stats'))
 					),
-					'default' => array('webroot' => array('css' => array('r' => ':server_stats'))),
-					'simple_lightgrey_textured' => array('webroot' => array('css' => array('r' => ':server_stats'))),
-					'white_angular' => array('webroot' => array('css' => array('r' => ':server_stats'))),
-					'white_slider' => array('webroot' => array('css' => array('r' => ':server_stats'))),
-					'grezzo' => array('webroot' => array('css' => array('r' => ':server_stats'))),
+					'default' => array('webroot' => array('css' => array('r' => 'server_stats:server_stats'))),
+					'simple_lightgrey_textured' => array('webroot' => array('css' => array('r' => 'server_stats:server_stats'))),
+					'white_angular' => array('webroot' => array('css' => array('r' => 'server_stats:server_stats'))),
+					'white_slider' => array('webroot' => array('css' => array('r' => 'server_stats:server_stats'))),
+					'grezzo' => array('webroot' => array('css' => array('r' => 'server_stats:server_stats'))),
 				),
 				'webroot' => array(
-					'css' => array('r' => ':server_stats'),
+					'css' => array('r' => 'server_stats:server_stats'),
 					'img' => array(
 						'photo_default' => array(
-							'caches' => array('r' => ':server_stats'),
+							'caches' => array('r' => 'server_stats:server_stats'),
 						),
 					),
 				),
 				'tmp' => array(
-					'r' => ':server_stats'
+					'r' => 'server_stats:server_stats'
 				),
 			),
 		);
