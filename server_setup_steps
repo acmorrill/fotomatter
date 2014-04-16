@@ -68,6 +68,8 @@
 		-- git config core.fileMode false --system
 		-- git config --global user.name "Andrew Morrill"
 		-- git config --global user.email "acmorrill@gmail.com"
+		-- core_ignored
+			-- Configure::write('OVERLORD_URL', 'builds.fotomatter.dev');
 	-- upgrade
 		-- git clone git@github.com:acmorrill/fotomatter.git upgrade
 		-- git config core.fileMode false
