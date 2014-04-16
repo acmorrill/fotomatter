@@ -52,8 +52,58 @@ class AppController extends Controller {
 	* @access public
 	*/
 	function beforeFilter() {
-		$data = $this->FotomatterBilling->getAccountDetails();
-		$this->log($data, 'getAccountDetails');
+		$data = $this->FotomatterBilling->get_info_account();
+		// START HERE TOMORROW	
+		// features list
+		//	Storage
+		//		-- 200 photos/unlimited photos
+		//		-- 200 Photos - 1.99
+		//		-- unlimited photos - 4.99
+		//		
+		//		option 1:
+		//			-- 20 - free
+		//			-- 100 - $1.99
+		//			-- unlimited - $3.99
+		//		option 2:
+		//			-- 20 free
+		//			-- unlimited - $3.99		
+		//	
+		//		
+		//	Ecommerce
+		//		-- basic shopping cart - $4.99
+		//	Themes
+		//		-- Mobile Theme - $99
+		//		-- Page Builder - $1.99
+		//	Branding
+		//		-- Remove Fotomatter Branding - $.99
+		//	Misc
+		//		-- Email Support - $.99
+		
+		
+		// 200 photos - 1.99
+		// Shopping cart - 3.99
+		// Remove fotomatter branding  - $.99
+		// Page Builder - $1.99
+		// Mobile Theme - $.99
+		
+		
+		
+		
+		
+		// for later
+	//		-- Google Analytics
+	//		-- SEO???
+	//		-- extra themes
+	//		-- auto fulfillment
+		
+		// Other Ideas??
+//			-- upload logo??
+//			-- theme settings??
+//			-- smart galleries??
+		
+			
+		
+		$this->log($data, 'get_info_account');
 		
 		
 		//apc_clear_cache('user');
@@ -142,7 +192,6 @@ class AppController extends Controller {
 	}
 	
 	public function send_overlord_api_request($api, $params=array()) {
-		$this->log('send_overlord_api_request', 'send_overlord_api_request');
 		$request['Request']['data'] = $params;
         
 		$url_to_use = $this->server_url . '/' .$api;
@@ -166,7 +215,6 @@ class AppController extends Controller {
 		));
 		$response = curl_exec($ch);
 		curl_close($ch);
-		$this->log($response, 'add_profile');
 				
    //     $this->log($request['Request'], 'client_billing');
 		return $response;

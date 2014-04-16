@@ -11,52 +11,52 @@ class AccountsController extends AppController {
 		'Validation',
 	);
    
-   public function admin_account_details() {
-       $accountDetails = $this->FotomatterBilling->getAccountDetails();
-	   $photo_count = $this->Photo->find('count');
-	   $site_page_count = $this->SitePage->find('count');
-	   $photo_gallery_count = $this->PhotoGallery->find('count');
-	   
-       $this->set('accountDetails', $accountDetails['data']);
-	   $this->set(compact('photo_count', 'site_page_count', 'photo_gallery_count'));
-   }
-    
-    /**
-    * action for the page to add/remove line items. 
-    * @author Adam Holsinger
-    */
-   public function admin_index() {
-       $overlord_account_info = $this->FotomatterBilling->get_info_account();
-	  
-       $this->Session->delete('account_line_items');
-       $this->Session->write('account_line_items', array('checked'=>array(), 'unchecked'=>array()));
-       
-       $this->Session->delete('account_info');
-       $this->Session->write('account_info', $overlord_account_info);
-       
-       $this->set(compact(array('overlord_account_info')));
+	public function admin_account_details() {
+		$accountDetails = $this->FotomatterBilling->getAccountDetails();
+		$photo_count = $this->Photo->find('count');
+		$site_page_count = $this->SitePage->find('count');
+		$photo_gallery_count = $this->PhotoGallery->find('count');
 
-       $this->layout = 'admin/accounts';
-   }
+		$this->set('accountDetails', $accountDetails['data']);
+		$this->set(compact('photo_count', 'site_page_count', 'photo_gallery_count'));
+	}
+    
+	/**
+	* action for the page to add/remove line items. 
+	* @author Adam Holsinger
+	*/
+	public function admin_index() {
+		$overlord_account_info = $this->FotomatterBilling->get_info_account();
+
+		$this->Session->delete('account_line_items');
+		$this->Session->write('account_line_items', array('checked'=>array(), 'unchecked'=>array()));
+
+		$this->Session->delete('account_info');
+		$this->Session->write('account_info', $overlord_account_info);
+
+		$this->set(compact(array('overlord_account_info')));
+
+		$this->layout = 'admin/accounts';
+	}
    
-   public function admin_ajax_addPreviousItems() {
-	   $overlord_account_info = $this->Session->read('account_info');
-	   $line_items = $this->Session->read('account_line_items');
-	   
-	   foreach($overlord_account_info['items'] as $item) {
+	public function admin_ajax_addPreviousItems() {
+		$overlord_account_info = $this->Session->read('account_info');
+		$line_items = $this->Session->read('account_line_items');
+
+		foreach($overlord_account_info['items'] as $item) {
 		   if ($item['AccountLineItem']['is_pay_fail'] == false) {
 			   continue;
 		   }
-		   
+
 		   if (isset($line_items['unchecked'][$item['AccountLineItem']['id']])) {
-               unset($line_items['unchecked'][$item['AccountLineItem']['id']]);
-           }
-           $line_items['checked'][$item['AccountLineItem']['id']] = 'checked';
-	   }
-	   $this->Session->write('account_line_items', $line_items);
-       print(json_encode(array('code'=>true)));
-       exit();
-   }
+			   unset($line_items['unchecked'][$item['AccountLineItem']['id']]);
+		   }
+		   $line_items['checked'][$item['AccountLineItem']['id']] = 'checked';
+		}
+		$this->Session->write('account_line_items', $line_items);
+		print(json_encode(array('code'=>true)));
+		exit();
+	}
    
    public function admin_ajax_undo_cancellation($line_item_id) {
 	   $result = $this->FotomatterBilling->undo_cancellation($line_item_id);
@@ -91,13 +91,11 @@ class AccountsController extends AppController {
        
        $line_item_id = $this->params['form']['id'];
        if ($this->params['form']['checked']) {
-		   $this->log('check', 'setItemCheck');
            if (isset($line_items['unchecked'][$line_item_id])) {
                unset($line_items['unchecked'][$line_item_id]);
            }
            $line_items['checked'][$line_item_id] = 'checked';
        } else {
-		   $this->log('uncheck', 'setItemCheck');
            if (isset($line_items['checked'][$line_item_id])) {
                unset($line_items['checked'][$line_item_id]);
            }
@@ -294,57 +292,56 @@ class AccountsController extends AppController {
        exit();
    }
    
-   /**
-    * this function is called to send the final account change to overlord
-    * @return <html> The html of the summary page
-    */
-   public function admin_ajax_finish_account_change() {
-       $account_changes = array();
-       if ($this->Session->check('final_account_changes')) {
-           $account_changes = $this->Session->read('final_account_changes');
-       } else {
-           $return['code'] = false;
-           $this->major_error('Expected account changes not set in session.');
-           $this->return_json($return);
-       }
-       
-       $account_info = array();
-       if ($this->Session->check('account_info')){
-           $account_info = $this->Session->read('account_info');
-       } else {
-           $return['code'] = false;
-           $this->major_error('Expected to have account_line_items set in session');
-           $this->return_json($return);
-       }
-       
-       $account_info = $this->rekey_account_info($account_info);
-       
-       foreach($account_changes['checked'] as $key => $item_to_add) {
-           $change_to_send['add'][] = $account_info['items'][$key];
-       }
-       
-       foreach ($account_changes['unchecked'] as $key => $item_to_remove) {
-           $change_to_send['remove'][] = $account_info['items'][$key];
-       }
-	   $change_to_send['amount_due_today'] = $this->findAmountDueToday($account_changes, $account_info);
-	   if ($change_to_send['amount_due_today'] === false) {
-		   $this->major_error('Someone tried to send billing even though their billing date was in the past, probably a hacking attempt.', $change_to_send, 'high');
-		   $result['code'] = false;
-		   $this->return_json($return);
-	   }
-	   
-       $return = $this->FotomatterBilling->makeAccountChanges($change_to_send);
-	   if ($return == false) {
+	/**
+	* this function is called to send the final account change to overlord
+	* @return <html> The html of the summary page
+	*/
+	public function admin_ajax_finish_account_change() {
+		$account_changes = array();
+		if ($this->Session->check('final_account_changes')) {
+			$account_changes = $this->Session->read('final_account_changes');
+		} else {
+			$return['code'] = false;
+			$this->major_error('Expected account changes not set in session.');
+			$this->return_json($return);
+		}
+
+		$account_info = array();
+		if ($this->Session->check('account_info')){
+			$account_info = $this->Session->read('account_info');
+		} else {
+			$return['code'] = false;
+			$this->major_error('Expected to have account_line_items set in session');
+			$this->return_json($return);
+		}
+
+		$account_info = $this->rekey_account_info($account_info);
+
+		foreach($account_changes['checked'] as $key => $item_to_add) {
+			$change_to_send['add'][] = $account_info['items'][$key];
+		}
+
+		foreach ($account_changes['unchecked'] as $key => $item_to_remove) {
+			$change_to_send['remove'][] = $account_info['items'][$key];
+		}
+		$change_to_send['amount_due_today'] = $this->findAmountDueToday($account_changes, $account_info);
+		if ($change_to_send['amount_due_today'] === false) {
+			$this->major_error('Someone tried to send billing even though their billing date was in the past, probably a hacking attempt.', $change_to_send, 'high');
+			$result['code'] = false;
+			$this->return_json($return);
+		}
+
+		$return = $this->FotomatterBilling->makeAccountChanges($change_to_send);
+		if ($return == false) {
 			$this->Session->setFlash(__('Your credit card has been declined, if you need help please contact us at support@fotomatter.net for help.', true), 'admin/flashMessage/error');
 			$result['code'] = false;
 			$this->return_json($return);
-	   } else {
+		} else {
 			$this->Session->setFlash(__('We have successfully added new ala-cart items to your account.', true), 'admin/flashMessage/success');
-		    $result['code'] = true;
+			$result['code'] = true;
 			$this->return_json($return);
-	   }
-	   exit();
-      
-   }
+		}
+		exit();
+	}
 
 }
