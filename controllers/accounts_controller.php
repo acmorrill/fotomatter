@@ -292,57 +292,56 @@ class AccountsController extends AppController {
        exit();
    }
    
-   /**
-    * this function is called to send the final account change to overlord
-    * @return <html> The html of the summary page
-    */
-   public function admin_ajax_finish_account_change() {
-       $account_changes = array();
-       if ($this->Session->check('final_account_changes')) {
-           $account_changes = $this->Session->read('final_account_changes');
-       } else {
-           $return['code'] = false;
-           $this->major_error('Expected account changes not set in session.');
-           $this->return_json($return);
-       }
-       
-       $account_info = array();
-       if ($this->Session->check('account_info')){
-           $account_info = $this->Session->read('account_info');
-       } else {
-           $return['code'] = false;
-           $this->major_error('Expected to have account_line_items set in session');
-           $this->return_json($return);
-       }
-       
-       $account_info = $this->rekey_account_info($account_info);
-       
-       foreach($account_changes['checked'] as $key => $item_to_add) {
-           $change_to_send['add'][] = $account_info['items'][$key];
-       }
-       
-       foreach ($account_changes['unchecked'] as $key => $item_to_remove) {
-           $change_to_send['remove'][] = $account_info['items'][$key];
-       }
-	   $change_to_send['amount_due_today'] = $this->findAmountDueToday($account_changes, $account_info);
-	   if ($change_to_send['amount_due_today'] === false) {
-		   $this->major_error('Someone tried to send billing even though their billing date was in the past, probably a hacking attempt.', $change_to_send, 'high');
-		   $result['code'] = false;
-		   $this->return_json($return);
-	   }
-	   
-       $return = $this->FotomatterBilling->makeAccountChanges($change_to_send);
-	   if ($return == false) {
+	/**
+	* this function is called to send the final account change to overlord
+	* @return <html> The html of the summary page
+	*/
+	public function admin_ajax_finish_account_change() {
+		$account_changes = array();
+		if ($this->Session->check('final_account_changes')) {
+			$account_changes = $this->Session->read('final_account_changes');
+		} else {
+			$return['code'] = false;
+			$this->major_error('Expected account changes not set in session.');
+			$this->return_json($return);
+		}
+
+		$account_info = array();
+		if ($this->Session->check('account_info')){
+			$account_info = $this->Session->read('account_info');
+		} else {
+			$return['code'] = false;
+			$this->major_error('Expected to have account_line_items set in session');
+			$this->return_json($return);
+		}
+
+		$account_info = $this->rekey_account_info($account_info);
+
+		foreach($account_changes['checked'] as $key => $item_to_add) {
+			$change_to_send['add'][] = $account_info['items'][$key];
+		}
+
+		foreach ($account_changes['unchecked'] as $key => $item_to_remove) {
+			$change_to_send['remove'][] = $account_info['items'][$key];
+		}
+		$change_to_send['amount_due_today'] = $this->findAmountDueToday($account_changes, $account_info);
+		if ($change_to_send['amount_due_today'] === false) {
+			$this->major_error('Someone tried to send billing even though their billing date was in the past, probably a hacking attempt.', $change_to_send, 'high');
+			$result['code'] = false;
+			$this->return_json($return);
+		}
+
+		$return = $this->FotomatterBilling->makeAccountChanges($change_to_send);
+		if ($return == false) {
 			$this->Session->setFlash(__('Your credit card has been declined, if you need help please contact us at support@fotomatter.net for help.', true), 'admin/flashMessage/error');
 			$result['code'] = false;
 			$this->return_json($return);
-	   } else {
+		} else {
 			$this->Session->setFlash(__('We have successfully added new ala-cart items to your account.', true), 'admin/flashMessage/success');
-		    $result['code'] = true;
+			$result['code'] = true;
 			$this->return_json($return);
-	   }
-	   exit();
-      
-   }
+		}
+		exit();
+	}
 
 }
