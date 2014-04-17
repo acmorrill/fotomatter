@@ -108,14 +108,16 @@ class DATABASE_CONFIG {
 	);
 	
 	public function __construct() {
-		$this->default['host'] = $_SERVER['local']['host'];
-		$this->default['login'] = $_SERVER['local']['login'];
-		$this->default['password'] = $_SERVER['local']['password'];
-		$this->default['database'] = $_SERVER['local']['database'];
-
-		$this->server_global['host'] = $_SERVER['global']['host'];
-		$this->server_global['login'] = $_SERVER['global']['login'];
-		$this->server_global['password'] = $_SERVER['global']['password'];
-		$this->server_global['database'] = $_SERVER['global']['database'];
+	    $this->default['host'] = $_SERVER['local']['host'];
+	    $this->default['login'] = $_SERVER['local']['login'];
+	    $this->default['password'] = $_SERVER['local']['password'];
+	    $this->default['database'] = $_SERVER['local']['database'];
+	    
+	    $this->server_global['host'] = $_SERVER['global']['host'];
+	    $this->server_global['login'] = $_SERVER['global']['login'];
+	    $this->server_global['password'] = $_SERVER['global']['password'];
+	    $this->server_global['database'] = $_SERVER['global']['database'];
+	    
+	    
 	}
 }

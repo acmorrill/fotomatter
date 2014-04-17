@@ -103,7 +103,7 @@ class AppController extends Controller {
 		
 			
 		
-		$this->log($data, 'get_info_account');
+		//$this->log($data, 'get_info_account');
 		
 		
 		//apc_clear_cache('user');

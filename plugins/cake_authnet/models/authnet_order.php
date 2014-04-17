@@ -712,6 +712,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 
 
 		$authnet = $this->get_authnet_instance();
+		$this->log($charge_data, 'createOrder'); // DREW TODO - delete this
 		$authnet->createTransactionRequest($charge_data);
 		
 		if ($authnet->isError()) {
