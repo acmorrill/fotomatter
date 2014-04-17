@@ -32,7 +32,6 @@ class FotomatterBillingComponent extends FotoMatterOverlordApi {
 	}
     
 	public function makeAccountChanges($changes) {
-		$this->log($changes, 'makeAccountChanges');
 		$result = json_decode($this->send_api_request('api_billing/makeAccountChanges', $changes), true);
 		if ($result['code']) {
 			return true;
