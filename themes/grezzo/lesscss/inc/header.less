@@ -7,7 +7,7 @@
 		height: 140px;
 		position: relative;
 	}
-	background-color:@top_header_color;
+	background-color:@black;
 	width:100%;
 	position: absolute;
 	//height: 140px;
@@ -34,40 +34,53 @@
 			display: inline-block;
 			z-index: 999;
 
-			ul {
-				li {
+			ul.top_level {
+				position: relative;
+				bottom: 19px;
+				> li {
 					list-style-type: none;
 					float: left;
 					margin-left: 38px;
 					color: @top_header_text_color;
 					position: relative;
-					right: 78px;
 
 					a {
 						color: @top_header_text_color;
 					}
 
-					ul {
+					ul.second_level {
 						display:none;
+						padding: 0px;
+						position: absolute;
+						background-color: @nav_drop_down_color;
+						margin-top: 18px;
 						z-index: 1;
+						padding-top: 16px;
+						padding-bottom: 26px;
 						li {
 							float:none;
+							list-style-type: none;
+							margin-left: 4px;
+							margin-right: 4px;
+							padding-left: 16px;
+							padding-right: 16px;
+							padding-top: 8px;
+							//padding-bottom: 8px;
+							&, a { 
+								color: @nav_drop_down_text_color; 
+								text-decoration: none;
+							}
+							&:hover{
+								background-color: @sub_menu_gray;
+								&, a { 
+									color: @black;
+									//font-weight: 700;
+								}
+							}
 						}
 					}
 					&.hover {
-						ul {
-							display: block;
-							position: absolute;
-							background-color: @nav_drop_down_color;
-							li{
-								//color: @nav_drop_down_text_color;
-								color: #000000;
-								a {
-									color: @nav_drop_down_text_color;
-								}
-								
-							}
-						}
+						ul { display: block; }
 					}
 				}
 			}
@@ -75,7 +88,7 @@
 	}
 }
 #gray_spacing{
-	border-bottom: 2px solid @small_gray_line_color;
+	border-bottom: 2px solid @gray_line_horizontal;
 	position: relative;
 	top: -12px;
 	//outline: 1px solid red;

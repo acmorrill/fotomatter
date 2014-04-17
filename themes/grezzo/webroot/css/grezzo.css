@@ -1,3 +1,18 @@
+@font-face {
+  font-family: 'Nexa Bold';
+  src: url('/fonts/nexa_bold/Nexa_Free_Bold-webfont.eot');
+  src: url('/fonts/nexa_bold/Nexa_Free_Bold-webfont.eot?#iefix') format('embedded-opentype'), url('/fonts/nexa_bold/Nexa_Free_Bold-webfont.woff') format('woff'), url('/fonts/nexa_bold/Nexa_Free_Bold-webfont.ttf') format('truetype'), url('/fonts/nexa_bold/Nexa_Free_Bold-webfont.svg#wf') format('svg');
+}
+@font-face {
+  font-family: 'Museo-500';
+  src: url('/fonts/museo_500/Museo500-Regular-webfont.eot');
+  src: url('/fonts/museo_500/Museo500-Regular-webfont.eot?#iefix') format('embedded-opentype'), url('/fonts/museo_500/Museo500-Regular-webfont.woff') format('woff'), url('/fonts/museo_500/Museo500-Regular-webfont.ttf') format('truetype'), url('/fonts/museo_500/Museo500-Regular-webfont.svg#wf') format('svg');
+}
+@font-face {
+  font-family: 'Museo-300';
+  src: url('/fonts/museo_300/Museo300-Regular-webfont.eot');
+  src: url('/fonts/museo_300/Museo300-Regular-webfont.eot?#iefix') format('embedded-opentype'), url('/fonts/museo_300/Museo300-Regular-webfont.woff') format('woff'), url('/fonts/museo_300/Museo300-Regular-webfont.ttf') format('truetype'), url('/fonts/museo_300/Museo300-Regular-webfont.svg#wf') format('svg');
+}
 #outer_nav {
   background-color: #000;
   width: 100%;
@@ -28,37 +43,56 @@
   display: inline-block;
   z-index: 999;
 }
-#outer_nav #nav_location #main_nav ul li {
+#outer_nav #nav_location #main_nav ul.top_level {
+  position: relative;
+  bottom: 19px;
+}
+#outer_nav #nav_location #main_nav ul.top_level > li {
   list-style-type: none;
   float: left;
   margin-left: 38px;
   color: #fff;
   position: relative;
-  right: 78px;
 }
-#outer_nav #nav_location #main_nav ul li a {
+#outer_nav #nav_location #main_nav ul.top_level > li a {
   color: #fff;
 }
-#outer_nav #nav_location #main_nav ul li ul {
+#outer_nav #nav_location #main_nav ul.top_level > li ul.second_level {
   display: none;
-  z-index: 1;
-}
-#outer_nav #nav_location #main_nav ul li ul li {
-  float: none;
-}
-#outer_nav #nav_location #main_nav ul li.hover ul {
-  display: block;
+  padding: 0px;
   position: absolute;
   background-color: #ffffff;
+  margin-top: 18px;
+  z-index: 1;
+  padding-top: 16px;
+  padding-bottom: 26px;
 }
-#outer_nav #nav_location #main_nav ul li.hover ul li {
-  color: #000000;
+#outer_nav #nav_location #main_nav ul.top_level > li ul.second_level li {
+  float: none;
+  list-style-type: none;
+  margin-left: 4px;
+  margin-right: 4px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 8px;
 }
-#outer_nav #nav_location #main_nav ul li.hover ul li a {
-  color: #666666;
+#outer_nav #nav_location #main_nav ul.top_level > li ul.second_level li,
+#outer_nav #nav_location #main_nav ul.top_level > li ul.second_level li a {
+  color: #4d4d4f;
+  text-decoration: none;
+}
+#outer_nav #nav_location #main_nav ul.top_level > li ul.second_level li:hover {
+  background-color: #dcdcdc;
+}
+#outer_nav #nav_location #main_nav ul.top_level > li ul.second_level li:hover,
+#outer_nav #nav_location #main_nav ul.top_level > li ul.second_level li:hover a {
+  color: #000;
+}
+#outer_nav #nav_location #main_nav ul.top_level > li.hover ul {
+  display: block;
 }
 #gray_spacing {
-  border-bottom: 2px solid #cccccc;
+  border-bottom: 2px solid #939598;
   position: relative;
   top: -12px;
 }
@@ -98,7 +132,7 @@
   margin-bottom: 19px;
 }
 #page_content .vertical_border {
-  border-right: 1px solid #cccccc;
+  border-right: 1px solid #bfbfbf;
 }
 #page_content #image_info_container {
   width: 300px;
@@ -108,7 +142,7 @@
   margin: auto;
 }
 #page_content #image_info_container #gray_border_small {
-  border-bottom: 1px solid #cccccc;
+  border-bottom: 1px solid #939598;
   position: relative;
   top: 56px;
 }
@@ -129,7 +163,7 @@
 #page_content #image_info_container .image_info .photo_details {
   float: left;
   width: 500px;
-  margin-top: 22px;
+  margin-top: 34px;
   margin-left: 22px;
 }
 #page_content #image_info_container .image_info .photo_details h4 {
@@ -142,7 +176,7 @@
 }
 #page_content #image_info_container .image_info .side_control_options {
   float: right;
-  margin-top: 22px;
+  margin-top: 34px;
 }
 #page_content #image_info_container .image_info .side_control_options #add_to_cart_buttons_cont {
   height: 200px;
@@ -156,6 +190,7 @@
   margin: 5px 2px;
   padding: 5px 30px;
   width: 150px;
+  cursor: pointer;
 }
 #grezzo_listing_actual_container img.blank,
 #grezzo_scroll_control_inner img.blank {
@@ -173,7 +208,6 @@
   top: 100px;
   right: 0px;
   z-index: 1000;
-  font-family: 'PT Sans', sans-serif;
   font-size: 45px;
   line-height: 70px;
   padding-left: 15px;
@@ -181,22 +215,27 @@
   color: #333;
   display: none;
 }
+body {
+  font-family: Museo-300;
+  font-weight: normal;
+  font-style: normal;
+}
 #right_arrow {
   background-image: url(/img/arrow_right.png);
   background-repeat: no-repeat;
-  right: 10px;
+  right: 0px;
 }
 #left_arrow {
   background-image: url(/img/arrow_left.png);
   background-repeat: no-repeat;
-  left: 10px;
+  left: 0px;
 }
 .navigation_arrow {
-  border: 25px solid transparent;
   position: absolute;
-  height: 30px;
-  width: 30px;
+  height: 50px;
+  width: 50px;
   top: 200px;
+  cursor: pointer;
 }
 #white_slider_scroll_control {
   width: 75%;
