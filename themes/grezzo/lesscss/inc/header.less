@@ -35,6 +35,8 @@
 			z-index: 999;
 
 			ul.top_level {
+				position: relative;
+				bottom: 19px;
 				> li {
 					list-style-type: none;
 					float: left;
@@ -72,6 +74,7 @@
 								background-color: @sub_menu_gray;
 								&, a { 
 									color: @black;
+									//font-weight: 700;
 								}
 							}
 						}
@@ -85,7 +88,7 @@
 	}
 }
 #gray_spacing{
-	border-bottom: 2px solid @small_gray_line_color;
+	border-bottom: 2px solid @gray_line_horizontal;
 	position: relative;
 	top: -12px;
 	//outline: 1px solid red;
