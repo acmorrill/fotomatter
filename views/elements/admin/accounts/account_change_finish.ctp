@@ -1,27 +1,29 @@
 <script type="text/javascript">
-       function finishChange() {
-            $.ajax({
-               type: 'POST',
-               url: "/admin/accounts/ajax_finish_account_change",
-               success: function(data) {
-                   window.location.reload();
-               },
-               dataType: 'json'
-            });
-       }
+	function finishChange() {
+		$.ajax({
+			type: 'POST',
+			url: "/admin/accounts/ajax_finish_account_change",
+			success: function(data) {
+				window.location.reload();
+			},
+			dataType: 'json'
+		});
+	}
        
-       function changePaymentData() {
-            $.ajax({
-               type: 'GET',
-               url: '/admin/accounts/ajax_update_payment/closeWhenDone: false',
-               success: function(data) {
-                   $(".ui-dialog-content").html(data.html);
-               },
-               dataType: 'json'
-            });
-       }
+	function changePaymentData() {
+		$.ajax({
+			type: 'GET',
+			url: '/admin/accounts/ajax_update_payment/closeWhenDone:false',
+			success: function(data) {
+				$(".ui-dialog-content").html(data.html);
+			},
+			dataType: 'json'
+		});
+	}
 	   
-	   setTimeout($('button.finalize_change').button(), 20);
+	jQuery(document).ready(function() {
+		$('button.finalize_change').button();
+	});
    </script>
 <div id="finish_account_change">
 	<div class='pending_change'>

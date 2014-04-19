@@ -134,11 +134,11 @@ class AuthnetProfile extends CakeAuthnetAppModel {
          *    
          *    */
         public function afterSave($created) {
-            if ($created) {
-                $this->process_new_profile();
-            } else {
-                $this->save_profile();
-            }
+		if ($created) {
+			$this->process_new_profile();
+		} else {
+			$this->save_profile();
+		}
         }
 		
         
@@ -197,87 +197,86 @@ class AuthnetProfile extends CakeAuthnetAppModel {
 			}
         }
         
-        private function process_new_profile() {
-			$this->User = ClassRegistry::init('User');
-			$actual_user = $this->User->find('first', array(
-				'conditions' => array(
-					'User.id' => $this->data['AuthnetProfile']['user_id'],
-				),
-				'contain' => false,
-			));
-//			$this->log($actual_user, 'process_new_profile');
-			
-            $data_to_save = array(
-                    'profile' => array(
-//                            'merchantCustomerId' => substr($this->data['AuthnetProfile']['user_id'], 0, 20), // can't use this because only 20 characters long
-                            'description' => $this->data['AuthnetProfile']['user_id'],
-                            'email' => $actual_user['User']['email_address'],
-                            'paymentProfiles' => array(
-                                    'billTo' => array(
-                                            'firstName' => $this->data['AuthnetProfile']['billing_firstname'],
-                                            'lastName' => $this->data['AuthnetProfile']['billing_lastname'],
-                                            'address' => $this->data['AuthnetProfile']['billing_address'],
-                                            'city' => $this->data['AuthnetProfile']['billing_city'],
-                                            'state' => $this->data['AuthnetProfile']['billing_state'],
-                                            'zip' => $this->data['AuthnetProfile']['billing_zip'],
-                                            'country' => $this->data['AuthnetProfile']['billing_country'],
-                                            'phoneNumber' => (isset($this->data['AuthnetProfile']['billing_phoneNumber'])) ? $this->data['AuthnetProfile']['billing_phoneNumber'] : '' ,
-                                    ),
-                                    'payment' => array(
-                                            'creditCard' => array(
-                                                    'cardNumber' => $this->data['AuthnetProfile']['payment_cardNumber'],
-                                                    'expirationDate' => date('Y-m', strtotime($this->data['AuthnetProfile']['payment_expirationDate'])),
-                                                    'cardCode' => $this->data['AuthnetProfile']['payment_cardCode']
-                                            ),
-                                    ),
-                            ),
-                            'shipToList' => array(
-								'firstName' => $this->data['AuthnetProfile']['shipping_firstname'],
-								'lastName' => $this->data['AuthnetProfile']['shipping_lastname'],
-								'address' => $this->data['AuthnetProfile']['shipping_address'],
-								'city' => $this->data['AuthnetProfile']['shipping_city'],
-								'state' => $this->data['AuthnetProfile']['shipping_state'],
-								'zip' => $this->data['AuthnetProfile']['shipping_zip'],
-								'country' => $this->data['AuthnetProfile']['shipping_country'],
-							), 
-                    ),
-                    'validationMode' => 'testMode' //Adam TODO what is this?
-                );
-                $authnet = $this->get_authnet_instance();
-                $returnArr = array();
-                try {
-                    $authnet->createCustomerProfileRequest($data_to_save);
-                    if ($authnet->isError()) {
-                        $returnArr['success'] = false;
-                        $returnArr['code'] = $authnet->get_code();
-                        $returnArr['message'] = $authnet->get_message();
-                        $this->authnet_error("api request failed CIM profile creation", $authnet->get_response());
-                        return $returnArr;
-                    }
-                   
-                    $response = $authnet->get_response();
-                    
-                    
-                    if (!isset($response->customerProfileId) || !isset($response->customerPaymentProfileIdList->numericString)) {
-                            $returnArr['success'] = false;
-                            $returnArr['code'] = 0;
-                            $returnArr['message'] = "Expected fields not set";
-                            $this->authnet_error("Expected fields not set on CIM profile creation");
-                            return $returnArr;
-                    }
+	private function process_new_profile() {
+		$this->User = ClassRegistry::init('User');
+		$actual_user = $this->User->find('first', array(
+			'conditions' => array(
+				'User.id' => $this->data['AuthnetProfile']['user_id'],
+			),
+			'contain' => false,
+		));
 
-                    $this->data['AuthnetProfile']['customerProfileId'] = (string) $response->customerProfileId;
-                    $this->data['AuthnetProfile']['customerPaymentProfileId'] = (string) $response->customerPaymentProfileIdList->numericString;
-                    $this->data['AuthnetProfile']['customerShippingAddressId'] = (string) $response->customerShippingAddressIdList->numericString;
-                    $this->save();
-                    
-                } catch (Exception $e) {
-                    $returnArr['success'] = false;
-                    $returnArr['code'] = 0;
-                    $this->authnet_error("An unexpected error occured on CIM profile creation.");
-                    return $returnArr;
-                }            
-        }
+		$data_to_save = array(
+				'profile' => array(
+//					'merchantCustomerId' => substr($this->data['AuthnetProfile']['user_id'], 0, 20), // can't use this because only 20 characters long
+					'description' => $this->data['AuthnetProfile']['user_id'],
+					'email' => $actual_user['User']['email_address'],
+					'paymentProfiles' => array(
+						'billTo' => array(
+							'firstName' => $this->data['AuthnetProfile']['billing_firstname'],
+							'lastName' => $this->data['AuthnetProfile']['billing_lastname'],
+							'address' => $this->data['AuthnetProfile']['billing_address'],
+							'city' => $this->data['AuthnetProfile']['billing_city'],
+							'state' => $this->data['AuthnetProfile']['billing_state'],
+							'zip' => $this->data['AuthnetProfile']['billing_zip'],
+							'country' => $this->data['AuthnetProfile']['billing_country'],
+							'phoneNumber' => (isset($this->data['AuthnetProfile']['billing_phoneNumber'])) ? $this->data['AuthnetProfile']['billing_phoneNumber'] : '' ,
+						),
+						'payment' => array(
+							'creditCard' => array(
+								'cardNumber' => $this->data['AuthnetProfile']['payment_cardNumber'],
+								'expirationDate' => date('Y-m', strtotime($this->data['AuthnetProfile']['payment_expirationDate'])),
+								'cardCode' => $this->data['AuthnetProfile']['payment_cardCode']
+							),
+						),
+					),
+					'shipToList' => array(
+						'firstName' => $this->data['AuthnetProfile']['shipping_firstname'],
+						'lastName' => $this->data['AuthnetProfile']['shipping_lastname'],
+						'address' => $this->data['AuthnetProfile']['shipping_address'],
+						'city' => $this->data['AuthnetProfile']['shipping_city'],
+						'state' => $this->data['AuthnetProfile']['shipping_state'],
+						'zip' => $this->data['AuthnetProfile']['shipping_zip'],
+						'country' => $this->data['AuthnetProfile']['shipping_country'],
+					), 
+				),
+				'validationMode' => 'testMode' //Adam TODO what is this?
+			);
+			$authnet = $this->get_authnet_instance();
+			$returnArr = array();
+			try {
+				$authnet->createCustomerProfileRequest($data_to_save);
+				if ($authnet->isError()) {
+					$returnArr['success'] = false;
+					$returnArr['code'] = $authnet->get_code();
+					$returnArr['message'] = $authnet->get_message();
+					$this->authnet_error("api request failed CIM profile creation", $authnet->get_response());
+					return $returnArr;
+				}
+
+				$response = $authnet->get_response();
+
+
+				if (!isset($response->customerProfileId) || !isset($response->customerPaymentProfileIdList->numericString)) {
+						$returnArr['success'] = false;
+						$returnArr['code'] = 0;
+						$returnArr['message'] = "Expected fields not set";
+						$this->authnet_error("Expected fields not set on CIM profile creation");
+						return $returnArr;
+				}
+
+				$this->data['AuthnetProfile']['customerProfileId'] = (string) $response->customerProfileId;
+				$this->data['AuthnetProfile']['customerPaymentProfileId'] = (string) $response->customerPaymentProfileIdList->numericString;
+				$this->data['AuthnetProfile']['customerShippingAddressId'] = (string) $response->customerShippingAddressIdList->numericString;
+				$this->save();
+
+			} catch (Exception $e) {
+				$returnArr['success'] = false;
+				$returnArr['code'] = 0;
+				$this->authnet_error("An unexpected error occured on CIM profile creation.");
+				return $returnArr;
+			}            
+		}
         
         public function beforeDelete($cascade) {
                $authnet = $this->get_authnet_instance();

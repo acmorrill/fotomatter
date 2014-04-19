@@ -23,6 +23,7 @@ class AppController extends Controller {
 		'Email',
 		'FotomatterEmail',
 		'FotomatterBilling',
+		'FeatureLimiter',
 	);
 	
 	public $helpers = array(
@@ -52,11 +53,12 @@ class AppController extends Controller {
 	* @access public
 	*/
 	function beforeFilter() {
-		$data = $this->FotomatterBilling->getAccountDetails();
-		$this->log($data, 'getAccountDetails');
-		
-		
-		//apc_clear_cache('user');
+		//////////////////////////////////////////////////////////////////////////////
+		// find out what features are on or off (apc cached)
+		$this->current_on_off_features = $this->FotomatterBilling->get_current_on_off_features();
+		$this->set('current_on_off_features', $this->current_on_off_features);
+//		$this->log($this->current_on_off_features, 'current_on_off_features');
+
 		
 		//////////////////////////////////////////////////////
 		// stuff todo just in the admin
@@ -142,7 +144,6 @@ class AppController extends Controller {
 	}
 	
 	public function send_overlord_api_request($api, $params=array()) {
-		$this->log('send_overlord_api_request', 'send_overlord_api_request');
 		$request['Request']['data'] = $params;
         
 		$url_to_use = $this->server_url . '/' .$api;
@@ -166,7 +167,6 @@ class AppController extends Controller {
 		));
 		$response = curl_exec($ch);
 		curl_close($ch);
-		$this->log($response, 'add_profile');
 				
    //     $this->log($request['Request'], 'client_billing');
 		return $response;

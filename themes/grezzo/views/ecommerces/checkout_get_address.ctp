@@ -66,11 +66,11 @@
 
 <?php //$billing_address = $this->Ecommerce->get_cart_billing_address(); ?>
 <?php $shipping_address = $this->Ecommerce->get_cart_shipping_address(); ?>
-
+ 
 <form action="/ecommerces/checkout_get_address" method="post">
 	<div id="shipping_address_container" class="address_cont">
 		<h1><?php __('Shipping Address'); ?></h1>
-		<?php /*<div class="input same_as_billing">
+				<?php /*<div class="input same_as_billing">
 			<label><?php __('Same as Billing'); ?>:</label> <input type="checkbox" name="data[ShippingAddress][same_as_billing]" <?php if (isset($shipping_address['same_as_billing']) && $shipping_address['same_as_billing'] == '1'): ?>checked="checked"<?php endif; ?> /><br/>
 		</div> */ ?>
 		<div class="shipping_data_cont">
@@ -84,7 +84,7 @@
 				<label><?php __('Address'); ?>:</label> <input type="text" name="data[ShippingAddress][address1]"  value="<?php if (isset($shipping_address['address1'])): ?><?php echo $shipping_address['address1']; ?><?php endif; ?>" /><br/>
 			</div>
 			<div class="input address2">
-				<label>&nbsp;</label> <input type="text" name="data[ShippingAddress][address2]"  value="<?php if (isset($shipping_address['address2'])): ?><?php echo $shipping_address['address2']; ?><?php endif; ?>" /> (optional)
+				<label><?php __('Address 2'); ?>:</label> <input type="text" name="data[ShippingAddress][address2]"  value="<?php if (isset($shipping_address['address2'])): ?><?php echo $shipping_address['address2']; ?><?php endif; ?>" /> (optional)
 			</div>
 			<div class="input city">
 				<label><?php __('City'); ?>:</label> <input type="text" name="data[ShippingAddress][city]"  value="<?php if (isset($shipping_address['city'])): ?><?php echo $shipping_address['city']; ?><?php endif; ?>" />

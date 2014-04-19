@@ -112,27 +112,6 @@ Configure::write('OVERLORD_URL', 'builds.fotomatter.net');
 // path to fonts
 define("GLOBAL_TTF_FONT_PATH", ROOT.DS.APP_DIR.DS.'webroot'.DS.'fonts');
 
-$dbconfig = null;
-function get_local_db_handle() {
-	if (empty($dbconfig)) {
-		require_once(CONFIGS.'database.php');
-		$dbconfig = new DATABASE_CONFIG();
-	}
-       
-	$local_db = mysql_connect($dbconfig->default['host'], $dbconfig->default['login'], $dbconfig->default['password'], true);
-	if (mysql_error($local_db)) {
-		echo ("Cannot connect to local db. Check config, and try again.");
-		return;
-	}
-
-	mysql_select_db($dbconfig->default['database'], $local_db);
-	if (mysql_error($local_db)) {
-		echo ("Cannot select local db. Check config, and try again.");
-		return;
-	}
-	return $local_db;
-}
-
 
 if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'db')) {
 //	$local_db = get_local_db_handle();
@@ -187,6 +166,24 @@ if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'd
 
 
 
+function get_local_db_handle() {
+	require_once(CONFIGS.'database.php');
+	$dbconfig = new DATABASE_CONFIG();
+       
+	$local_db = mysql_connect($dbconfig->server_global['host'], $dbconfig->server_global['login'], $dbconfig->server_global['password'], true);
+	if (mysql_error($local_db)) {
+		echo ("Cannot connect to local db. Check config, and try again.");
+		return;
+	}
+
+	mysql_select_db($dbconfig->server_global['database'], $local_db);
+	if (mysql_error($local_db)) {
+		echo ("Cannot select local db. Check config, and try again.");
+		return;
+	}
+	return $local_db;
+}
+
 
 /**
  * As of 1.3, additional rules for the inflector are added below
@@ -202,8 +199,9 @@ function record_major_error($location, $line_number, $description, $log_data) {
 	$line_number = mysql_real_escape_string($line_number);
 	$description = mysql_real_escape_string($description);
 	$log_data_str = mysql_real_escape_string(print_r($log_data, true));
-	$sql = "INSERT INTO  `fotomatter`.`major_errors` (`id` ,`location` ,`line_num` ,`description` ,`extra_data` ,`type` ,`created` ,`modified`)
-		VALUES (NULL ,  '$location',  '$line_number',  '$description',  '$log_data_str',  'high', NOW() , NOW() );
+	$account_id = basename(realpath(ROOT));
+	$sql = "INSERT INTO  `major_errors` (`id` , `account_id`, `location` ,`line_num` ,`description` ,`extra_data` ,`severity` ,`created`)
+		VALUES (NULL ,  '$account_id', '$location',  '$line_number',  '$description',  '$log_data_str',  'high', NOW()  );
 	";
 	mysql_query($sql, $local_db);
 }

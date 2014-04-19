@@ -61,6 +61,7 @@
 			if (inAjaxCall) {
 				return false;
 			}
+			inAjaxCall = true;
 
 			$.ajax({
 				url: '/admin/accounts/ajax_undo_cancellation/' + $(this).attr('data_id'),
@@ -68,6 +69,9 @@
 				type: 'GET',
 				success: function(data) {
 					window.location.reload();
+				},
+				complete: function(data) {
+					inAjaxCall = false;
 				},
 				error: function(data) {
 					window.location.reload();
@@ -80,35 +84,27 @@
 			if (inAjaxCall) {
 				return false;
 			}
-			
+
 			var line_item_id = $(this).attr('data_id');
 			jQuery.foto('confirm', {
 				message: '<?php echo __('This feature will remain on your account until your next monthly subscription is charged.'); ?><br /><br /><?php echo __('Are you sure you want to remove this item?'); ?>',
 				onConfirm: function() {
+					inAjaxCall = true;
 					jQuery.ajax({
 						type: 'GET',
 						url: '/admin/accounts/ajax_remove_item/'+ line_item_id,
-							success: function(data) {
-								window.location.reload();
-							},
-							error: function(data) {
-								window.location.reload();
+						success: function(data) {
+							window.location.reload();
+						},
+						complete: function(data) {
+							inAjaxCall = false;
+						},
+						error: function(data) {
+							window.location.reload();
 						}
 					});
 				}
 			});
-			
-		/*	jQuery.ajax({
-				type: 'GET',
-				url: '/admin/accounts/ajax_remove_item/'+ $(this).attr('data_id'),
-				success: function(data) {
-					window.location.reload();
-				},
-				error: function(data) {
-					window.location.reload();
-				}
-			}); */
-
 		});
 
 		$("#line_item_cont .line_item .bar button.add_item").click(function(e) {
@@ -126,7 +122,7 @@
 			} else {
 				argsToSend.checked = 1;
 				$(this).addClass('pending');
-				$(this).find('span').html('<?php echo __('Added'); ?>');
+				$(this).find('span').html('<?php echo __('Queued'); ?>');
 			}
 			
 			var line_item = $(this).closest('.line_item');
@@ -146,12 +142,21 @@
 				$(".finish-outer-cont").hide();
 			}
 			
-			$.post('/accounts/ajax_setItemChecked', argsToSend,
-					function(data) {
-						inAjaxCall = false;
-						//$("#line_item_cont .line_item .bar input").removeAttr('disabled');
-					}, 'json');
+			jQuery.ajax({
+				type: 'post',
+				url: '/admin/accounts/ajax_setItemChecked',
+				data: argsToSend,
+				success: function(data) {
 
+				},
+				complete: function() {
+					inAjaxCall = false;
+				},
+				error: function() {
+
+				},
+				dataType: 'json'
+			});
 		});
 
 
@@ -178,25 +183,58 @@
 		 }); */
 
 		$(".account-details .finish_account_add").click(function() {
-			$.get("/admin/accounts/ajax_finishLineChange", function(data) {
-				var div = $("<div></div>");
-				div.html(data.html);
-				div.dialog({
-					width: '600',
-					height: '570',
-					title: '<?php echo __('Finish Account Changes'); ?>',
-					open: function(event, ui) {
-						$(this).find("button").button();
-					}
-				});
-			}, 'json')
+			if (inAjaxCall) {
+				return false;
+			}
+			inAjaxCall = true;
+		
+			jQuery.ajax({
+				type: 'get',
+				url: "/admin/accounts/ajax_finishLineChange",
+				success: function(data) {
+					var div = $("<div></div>");
+					div.html(data.html);
+					div.dialog({
+						width: '600',
+						height: '570',
+						title: '<?php echo __('Finish Account Changes'); ?>',
+						open: function(event, ui) {
+							$(this).find("button").button();
+						}
+					});
+
+				},
+				complete: function() {
+					inAjaxCall = false;
+				},
+				error: function() {
+
+				},
+				dataType: 'json'
+			});
 		});
 		
 		$(".pay_fail_message a").click(function(e) {
+			if (inAjaxCall) {
+				return false;
+			}
+			inAjaxCall = true;
+			
 			e.preventDefault();
-			$.get("/admin/accounts/ajax_addPreviousItems", function(data) {
-				$(".account-details .finish_account_add").trigger('click');
-			}, 'json');
+			jQuery.ajax({
+				type: 'get',
+				url: "/admin/accounts/ajax_addPreviousItems",
+				success: function(data) {
+					$(".account-details .finish_account_add").trigger('click');
+				},
+				complete: function() {
+					inAjaxCall = false;
+				},
+				error: function() {
+
+				},
+				dataType: 'json'
+			});
 		});
 		
 	});
@@ -228,7 +266,7 @@
 						<?php else: ?>
 							<button data_id='<?php echo $line_item['AccountLineItem']['id']; ?>' class='add_item'>Add</button>
 						<?php endif; ?>
-	<!--<span>Active</span><input <?php echo $line_item['AccountLineItem']['active'] ? 'CHECKED' : ''; ?> type='checkbox' name='data[AccountLineItem][]'  data_id='<?php echo $line_item['AccountLineItem']['id']; ?>' /> -->
+						<!--<span>Active</span><input <?php echo $line_item['AccountLineItem']['active'] ? 'CHECKED' : ''; ?> type='checkbox' name='data[AccountLineItem][]'  data_id='<?php echo $line_item['AccountLineItem']['id']; ?>' /> -->
 						<span class="toggle">Show Details</span><i class="icon-angle-down"></i>
 					</div>
 					<div style="clear:both"></div>

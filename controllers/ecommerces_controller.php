@@ -163,6 +163,9 @@ class EcommercesController extends AppController {
 	}
 	 
 	public function admin_manage_print_sizes() {
+		// START HERE TOMORROW
+		$this->FeatureLimiter->limit_view($this, 'basic_shopping_cart', 'ecommerce');
+		//$this->FeatureLimiter->limit_function($this, 'basic_shopping_cart');
 		$this->HashUtil->set_new_hash('ecommerce');
 		
 		$photo_avail_sizes = $this->PhotoAvailSize->find('all', array(
@@ -308,6 +311,7 @@ class EcommercesController extends AppController {
 	}
 	
 	public function admin_delete_print_type($photo_print_type_id) {
+		
 		$this->HashUtil->set_new_hash('ecommerce');
 		
 		if (!$this->PhotoPrintType->delete($photo_print_type_id)) {
