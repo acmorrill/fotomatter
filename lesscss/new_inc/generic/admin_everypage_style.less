@@ -20,6 +20,30 @@ p {
 	line-height: 24px;
 	color: @gray_text;
 }
+ol  {
+	.Code-Pro-LC;
+	font-size: 20px;
+	color: @gray_text;
+	list-style-type: decimal;
+	list-style-position: outside;
+	text-align: left;
+	margin-top: 23px;
+	li { 
+		margin-left: 60px;
+		list-style-type: decimal; 
+		margin-bottom: 15px;
+		> span {
+			display: inline-block;
+			vertical-align: top;
+			font-size: 18px;
+			padding-left: 20px;
+			line-height: 23px;
+		}
+		&.first {
+			//margin-left: 63px;
+		}
+	}
+}
 
 /********************************************
  GENERIC PALETTE AND SETTINGS CSS

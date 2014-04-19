@@ -163,8 +163,7 @@ class EcommercesController extends AppController {
 	}
 	 
 	public function admin_manage_print_sizes() {
-		// START HERE TOMORROW
-		$this->FeatureLimiter->limit_view($this, 'basic_shopping_cart', 'ecommerce');
+		$this->FeatureLimiter->limit_view($this, 'basic_shopping_cart', 'ecommerce'); // $controller, $feature_ref_name, $element_path in /elements/admin/limit_views
 		//$this->FeatureLimiter->limit_function($this, 'basic_shopping_cart');
 		$this->HashUtil->set_new_hash('ecommerce');
 		
