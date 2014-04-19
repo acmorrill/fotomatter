@@ -1,7 +1,7 @@
 <?php
 
 class GlobalWelcomeHash extends AppModel {
-    public $name = 'GlobalWelcomeHash';
+	public $name = 'GlobalWelcomeHash';
 	public $useDbConfig = 'server_global';
 	public $useTable = "welcome_hashes";
 	

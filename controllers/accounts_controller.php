@@ -26,7 +26,7 @@ class AccountsController extends AppController {
 	* @author Adam Holsinger
 	*/
 	public function admin_index() {
-		$overlord_account_info = $this->FotomatterBilling->get_info_account();
+		$overlord_account_info = $this->FotomatterBilling->get_account_info();
 		
 		$this->Session->delete('account_line_items');
 		$this->Session->write('account_line_items', array('checked'=>array(), 'unchecked'=>array()));
@@ -181,20 +181,19 @@ class AccountsController extends AppController {
 		return $this->element('admin/accounts/add_profile', compact(array('countries', 'current_data', 'closeWhenDone', 'error_message')));
 	}
    
-   private function rekey_account_info($account_info) {
-       //rekey the original array
-       $tmp_array = array();
-       $current_bill = 0;
-       foreach($account_info['items'] as $line_item) {
-           if ($line_item['AccountLineItem']['active']) {
-               $current_bill += $line_item['AccountLineItem']['current_cost'];
-           }
-           $tmp_array['items'][$line_item['AccountLineItem']['id']] = $line_item;
-       }
-	   $tmp_array['Account'] = $account_info['Account'];
-       return $tmp_array;
-       
-   }
+	private function rekey_account_info($account_info) {
+		//rekey the original array
+		$tmp_array = array();
+		$current_bill = 0;
+		foreach($account_info['items'] as $line_item) {
+			if ($line_item['AccountLineItem']['active']) {
+				$current_bill += $line_item['AccountLineItem']['current_cost'];
+			}
+			$tmp_array['items'][$line_item['AccountLineItem']['id']] = $line_item;
+		}
+		$tmp_array['Account'] = $account_info['Account'];
+		return $tmp_array;
+	}
    
 	private function findAmountDueToday($account_changes, $account_info) {
 		//add everything being added
@@ -348,7 +347,6 @@ class AccountsController extends AppController {
 			$this->return_json($return);
 		}
 
-		$this->log($change_to_send, 'finalize');
 		$return = $this->FotomatterBilling->makeAccountChanges($change_to_send);
 		if ($return == false) {
 			$this->Session->setFlash(__('Your credit card has been declined, if you need help please contact us at support@fotomatter.net for help.', true), 'admin/flashMessage/error');
