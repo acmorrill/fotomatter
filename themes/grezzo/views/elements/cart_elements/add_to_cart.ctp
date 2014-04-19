@@ -34,9 +34,6 @@
 			<div class="submit_button_cont">
 				<button class="submit_inner"><?php __('Add to Cart'); ?></button>
 			</div>
-			<div>
-				<button class="submit_inner"><?php __('Check Out'); ?></button>
-			</div>
 		</form>
 	</div>
 	<?php endforeach; ?>
