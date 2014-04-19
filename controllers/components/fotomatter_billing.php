@@ -1,22 +1,23 @@
 <?php
 require_once(ROOT . DS . 'app' . DS. 'controllers' . DS . 'components' . DS . 'fotomatter_overlord_api.php');
 class FotomatterBillingComponent extends FotoMatterOverlordApi {
-    
-   // public $server_url = 'https://overlord.fotomatter.net';
-    //
-    //public $server_url = 'http://local.fotomatter.net';
-    //adam TODO this should be ssl
+	// DREW TODO this should be ssl
+	
+	public $account_info_apc_key;
     
 	public function __construct() {
 		$this->server_url = Configure::read('OVERLORD_URL');
+		$this->account_info_apc_key =  'account_info_'.$_SERVER['local']['database'];
 	}
 	
 	public function remove_item($line_item_id) {
+		apc_delete($this->account_info_apc_key);
 		$result = json_decode($this->send_api_request('api_billing/remove_item', array('line_item_id'=>$line_item_id)), true);
 		return $result;
 	}
 	
 	public function undo_cancellation($line_item_id) {
+		apc_delete($this->account_info_apc_key);
 		$result = json_decode($this->send_api_request('api_billing/undo_cancellation', array('line_item_id'=>$line_item_id)), true);
 		return $result;
 	}
@@ -32,6 +33,7 @@ class FotomatterBillingComponent extends FotoMatterOverlordApi {
 	}
     
 	public function makeAccountChanges($changes) {
+		apc_delete($this->account_info_apc_key);
 		$result = json_decode($this->send_api_request('api_billing/makeAccountChanges', $changes), true);
 		if ($result['code']) {
 			return true;
@@ -40,6 +42,7 @@ class FotomatterBillingComponent extends FotoMatterOverlordApi {
 	}
     
 	public function save_payment_profile($profile_data) {
+		apc_delete($this->account_info_apc_key);
 		$save_result = json_decode($this->send_api_request('api_billing/save_payment_profile', $profile_data), true);
 		if ($save_result['code']) {
 			return $save_result['data']['authnet_profile_id'];
@@ -47,9 +50,31 @@ class FotomatterBillingComponent extends FotoMatterOverlordApi {
 		return false;
 	}
     
-	public function get_info_account($params=array()) {
-		$result_of_find = json_decode($this->send_api_request('api_billing/get_info_account', $params), true);
-
+	public function get_current_on_off_features() {
+		apc_clear_cache('user');
+		if (apc_exists($this->account_info_apc_key)) {
+			return apc_fetch($this->account_info_apc_key);
+		}
+		
+		$account_info = $this->get_account_info();
+		if ($account_info === false) {
+			return false;
+		}
+		$formatted_current_on_off_features = Set::combine($account_info['items'], '{n}.AccountLineItem.ref_name', '{n}.AccountLineItem');
+		foreach ($formatted_current_on_off_features as $key => &$formatted_current_on_off_feature) {
+			if ($formatted_current_on_off_feature['active'] == 1 || $formatted_current_on_off_feature['removed_scheduled'] == 1) {
+				$formatted_current_on_off_feature = true;
+			} else {
+				$formatted_current_on_off_feature = false;
+			}
+		}
+		apc_store($this->account_info_apc_key, $formatted_current_on_off_features, 10800); // 3 hours
+		
+		return $formatted_current_on_off_features;
+	}
+	
+	public function get_account_info($params = array()) {
+		$result_of_find = json_decode($this->send_api_request('api_billing/get_account_info', $params), true);
 		if($result_of_find['code']) {
 			return $result_of_find['payload'];
 		}
@@ -57,7 +82,6 @@ class FotomatterBillingComponent extends FotoMatterOverlordApi {
 		$this->MajorError = ClassRegistry::init("MajorError");
 		$this->MajorError->major_error('Remote find from overlord returned with error.', $params);
 		return false;
-		//overlord returned an error so store it
 	}
 	
 	private function clear_values($params) {

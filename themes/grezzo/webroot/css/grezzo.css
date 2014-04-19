@@ -1,3 +1,18 @@
+@font-face {
+  font-family: 'Nexa Bold';
+  src: url('/fonts/nexa_bold/Nexa_Free_Bold-webfont.eot');
+  src: url('/fonts/nexa_bold/Nexa_Free_Bold-webfont.eot?#iefix') format('embedded-opentype'), url('/fonts/nexa_bold/Nexa_Free_Bold-webfont.woff') format('woff'), url('/fonts/nexa_bold/Nexa_Free_Bold-webfont.ttf') format('truetype'), url('/fonts/nexa_bold/Nexa_Free_Bold-webfont.svg#wf') format('svg');
+}
+@font-face {
+  font-family: 'Museo-500';
+  src: url('/fonts/museo_500/Museo500-Regular-webfont.eot');
+  src: url('/fonts/museo_500/Museo500-Regular-webfont.eot?#iefix') format('embedded-opentype'), url('/fonts/museo_500/Museo500-Regular-webfont.woff') format('woff'), url('/fonts/museo_500/Museo500-Regular-webfont.ttf') format('truetype'), url('/fonts/museo_500/Museo500-Regular-webfont.svg#wf') format('svg');
+}
+@font-face {
+  font-family: 'Museo-300';
+  src: url('/fonts/museo_300/Museo300-Regular-webfont.eot');
+  src: url('/fonts/museo_300/Museo300-Regular-webfont.eot?#iefix') format('embedded-opentype'), url('/fonts/museo_300/Museo300-Regular-webfont.woff') format('woff'), url('/fonts/museo_300/Museo300-Regular-webfont.ttf') format('truetype'), url('/fonts/museo_300/Museo300-Regular-webfont.svg#wf') format('svg');
+}
 #outer_nav {
   background-color: #000;
   width: 100%;
@@ -26,37 +41,76 @@
   margin-top: 80px;
   float: right;
   display: inline-block;
+  z-index: 999;
 }
-#outer_nav #nav_location #main_nav ul li {
+#outer_nav #nav_location #main_nav ul.top_level {
+  position: relative;
+  bottom: 19px;
+}
+#outer_nav #nav_location #main_nav ul.top_level > li {
   list-style-type: none;
   float: left;
   margin-left: 38px;
   color: #fff;
+  position: relative;
 }
-#outer_nav #nav_location #main_nav ul li a {
+#outer_nav #nav_location #main_nav ul.top_level > li a {
   color: #fff;
+  text-decoration: none;
 }
-#outer_nav #nav_location #main_nav ul li ul {
+#outer_nav #nav_location #main_nav ul.top_level > li ul.second_level {
   display: none;
+  padding: 0px;
+  position: absolute;
+  background-color: #ffffff;
+  margin-top: 18px;
+  z-index: 1;
+  padding-top: 16px;
+  padding-bottom: 26px;
 }
-#outer_nav #nav_location #main_nav ul li ul li {
+#outer_nav #nav_location #main_nav ul.top_level > li ul.second_level li {
   float: none;
+  list-style-type: none;
+  margin-left: 4px;
+  margin-right: 4px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 8px;
+}
+#outer_nav #nav_location #main_nav ul.top_level > li ul.second_level li,
+#outer_nav #nav_location #main_nav ul.top_level > li ul.second_level li a {
+  color: #4d4d4f;
+  text-decoration: none;
+}
+#outer_nav #nav_location #main_nav ul.top_level > li ul.second_level li:hover {
+  background-color: #dcdcdc;
+}
+#outer_nav #nav_location #main_nav ul.top_level > li ul.second_level li:hover,
+#outer_nav #nav_location #main_nav ul.top_level > li ul.second_level li:hover a {
+  color: #000;
+}
+#outer_nav #nav_location #main_nav ul.top_level > li.hover ul {
+  display: block;
 }
 #gray_spacing {
-  border-bottom: 2px solid #cccccc;
+  border-bottom: 2px solid #939598;
   position: relative;
-  top: 168px;
+  top: -12px;
 }
-#page_content {
+.out_page_content {
+  position: relative;
+  top: 200px;
+}
+.out_page_content #page_content {
   position: relative;
   height: 850px;
   top: 180px;
 }
-#page_content #gallery_outer_cont {
+.out_page_content #page_content #gallery_outer_cont {
   height: 515px;
   position: relative;
 }
-#page_content #gallery_outer_cont #grezzo_listing_actual_container {
+.out_page_content #page_content #gallery_outer_cont #grezzo_listing_actual_container {
   position: absolute;
   width: 100%;
   margin: 0px;
@@ -65,82 +119,83 @@
   overflow-x: scroll;
   overflow-y: visible;
 }
-#page_content #gallery_outer_cont #grezzo_listing_actual_container .endless_loading {
+.out_page_content #page_content #gallery_outer_cont #grezzo_listing_actual_container .endless_loading {
   position: absolute;
   top: 0px;
   right: 0px;
   outline: 1px solid red;
   color: red;
 }
-#page_content #gallery_outer_cont #grezzo_listing_actual_container img {
+.out_page_content #page_content #gallery_outer_cont #grezzo_listing_actual_container img {
   vertical-align: top;
   display: inline-block;
   border-right: 1px solid white;
 }
-#page_content #gray_border_bottom {
+.out_page_content #page_content #gray_border_bottom {
   background-image: url("/img/border_bottom.png");
   height: 21px;
   margin-bottom: 19px;
 }
-#page_content .vertical_border {
-  border-right: 1px solid #cccccc;
+.out_page_content #page_content .vertical_border {
+  border-right: 1px solid #bfbfbf;
 }
-#page_content #image_info_container {
+.out_page_content #page_content #image_info_container {
   width: 300px;
   bottom: 95px;
   left: 50%;
   width: 750px;
   margin: auto;
 }
-#page_content #image_info_container #gray_border_small {
-  border-bottom: 1px solid #cccccc;
+.out_page_content #page_content #image_info_container #gray_border_small {
+  border-bottom: 1px solid #939598;
   position: relative;
   top: 56px;
 }
-#page_content #image_info_container #gallery_name {
+.out_page_content #page_content #image_info_container #gallery_name {
   display: none;
   background-color: #000;
   color: #fff;
   text-align: center;
   padding: 5px;
 }
-#page_content #image_info_container #gallery_name h2 {
+.out_page_content #page_content #image_info_container #gallery_name h2 {
   max-width: 300px;
   margin: 0 auto;
 }
-#page_content #image_info_container .image_info {
+.out_page_content #page_content #image_info_container .image_info {
   display: none;
 }
-#page_content #image_info_container .image_info .photo_details {
+.out_page_content #page_content #image_info_container .image_info .photo_details {
   float: left;
   width: 500px;
-  margin-top: 22px;
+  margin-top: 34px;
   margin-left: 22px;
 }
-#page_content #image_info_container .image_info .photo_details h4 {
+.out_page_content #page_content #image_info_container .image_info .photo_details h4 {
   margin: 0 0 20px 0;
 }
-#page_content #image_info_container .image_info .photo_details p {
+.out_page_content #page_content #image_info_container .image_info .photo_details p {
   height: 150px;
   overflow: auto;
   padding: 0 15px 0 5px;
 }
-#page_content #image_info_container .image_info .side_control_options {
+.out_page_content #page_content #image_info_container .image_info .side_control_options {
   float: right;
-  margin-top: 22px;
+  margin-top: 34px;
 }
-#page_content #image_info_container .image_info .side_control_options #add_to_cart_buttons_cont {
+.out_page_content #page_content #image_info_container .image_info .side_control_options #add_to_cart_buttons_cont {
   height: 200px;
   overflow: auto;
   overflow-x: hidden;
   padding-right: 30px;
 }
-#page_content #image_info_container .image_info .side_control_options button {
+.out_page_content #page_content #image_info_container .image_info .side_control_options button {
   display: block;
   position: relative;
   margin: 5px 2px;
   padding: 5px 30px;
   width: 150px;
+  cursor: pointer;
 }
 #grezzo_listing_actual_container img.blank,
 #grezzo_scroll_control_inner img.blank {
@@ -158,7 +213,6 @@
   top: 100px;
   right: 0px;
   z-index: 1000;
-  font-family: 'PT Sans', sans-serif;
   font-size: 45px;
   line-height: 70px;
   padding-left: 15px;
@@ -166,26 +220,27 @@
   color: #333;
   display: none;
 }
+body {
+  font-family: Museo-300;
+  font-weight: normal;
+  font-style: normal;
+}
 #right_arrow {
   background-image: url(/img/arrow_right.png);
   background-repeat: no-repeat;
-  height: 30px;
-  width: 30px;
-  right: 10px;
+  right: 0px;
 }
 #left_arrow {
   background-image: url(/img/arrow_left.png);
   background-repeat: no-repeat;
-  height: 30px;
-  width: 30px;
-  left: 10px;
+  left: 0px;
 }
 .navigation_arrow {
-  border: 25px solid transparent;
   position: absolute;
-  height: 0;
-  width: 0;
-  top: 300px;
+  height: 50px;
+  width: 50px;
+  top: 200px;
+  cursor: pointer;
 }
 #white_slider_scroll_control {
   width: 75%;
@@ -227,6 +282,7 @@
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
+  width: 154px !important;
 }
 .chosen-container .chosen-drop {
   position: absolute;
@@ -633,11 +689,11 @@
   visibility: hidden;
 }
 #add_to_cart_buttons_cont .print_type_outer_cont {
-  margin: 0 0 15px;
+  margin: 32px 0 15px;
 }
 #add_to_cart_buttons_cont .print_type_outer_cont h2 {
   font-size: 14px;
-  margin: 2px 0;
+  margin: 5px 0;
 }
 #cart .page-content {
   margin: auto;
@@ -646,6 +702,7 @@
 #cart .page-content table {
   width: 100%;
   margin: 10px;
+  border: 1px solid #B9B9B9;
 }
 #cart .page-content table tbody td.image img {
   border: 1px solid black;
@@ -655,7 +712,6 @@
   line-height: 150%;
 }
 #cart .page-content table td {
-  border: 1px solid #B9B9B9;
   text-align: center;
   padding: 2px 0;
 }

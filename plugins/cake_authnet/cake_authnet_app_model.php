@@ -17,17 +17,17 @@ class CakeAuthnetAppModel extends AppModel {
         parent::__construct();
     }
     
-    /**
-     * create and instance of the AuthnetXML.class
-     */
-    public function get_authnet_instance() {
-        $auth_net_args = Configure::read('cake_authnet');
-        if ($auth_net_args['is_dev']) {
-            return new AuthnetXML($auth_net_args['id'], $auth_net_args['key'], AUTHNETXML::USE_DEVELOPMENT_SERVER);
-        } else {
-            return new AuthnetXML($auth_net_args['id'], $auth_net_args['key'], AUTHNETXML::USE_PRODUCTION_SERVER);
-        }
-    }
+	/**
+	 * create and instance of the AuthnetXML.class
+	 */
+	public function get_authnet_instance() {
+		$auth_net_args = Configure::read('cake_authnet');
+		if ($auth_net_args['is_dev']) {
+			return new AuthnetXML($auth_net_args['id'], $auth_net_args['key'], AUTHNETXML::USE_DEVELOPMENT_SERVER);
+		} else {
+			return new AuthnetXML($auth_net_args['id'], $auth_net_args['key'], AUTHNETXML::USE_PRODUCTION_SERVER);
+		}
+	}
     
     public function authnet_error($description, $extra_data = null, $severity = 'normal') {
 		$stackTrace = debug_backtrace(false);
