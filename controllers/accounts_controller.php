@@ -25,19 +25,19 @@ class AccountsController extends AppController {
     * action for the page to add/remove line items. 
     * @author Adam Holsinger
     */
-   public function admin_index() {
-       $overlord_account_info = $this->FotomatterBilling->get_info_account();
-	  
-       $this->Session->delete('account_line_items');
-       $this->Session->write('account_line_items', array('checked'=>array(), 'unchecked'=>array()));
-       
-       $this->Session->delete('account_info');
-       $this->Session->write('account_info', $overlord_account_info);
-       
-       $this->set(compact(array('overlord_account_info')));
+	public function admin_index() {
+	   $overlord_account_info = $this->FotomatterBilling->get_info_account();
 
-       $this->layout = 'admin/accounts';
-   }
+	   $this->Session->delete('account_line_items');
+	   $this->Session->write('account_line_items', array('checked'=>array(), 'unchecked'=>array()));
+
+	   $this->Session->delete('account_info');
+	   $this->Session->write('account_info', $overlord_account_info);
+
+	   $this->set(compact(array('overlord_account_info')));
+
+	   $this->layout = 'admin/accounts';
+	}
    
    public function admin_ajax_addPreviousItems() {
 	   $overlord_account_info = $this->Session->read('account_info');
