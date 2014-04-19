@@ -9,16 +9,19 @@
 	</head>
 	<body>
 		<div id='outer_nav'>
-			<?php echo $this->Element('nameTitle'); ?>
-			<?php echo $this->Element('menu/two_level_navbar'); ?>
+			<div id="logo_nav_cont">
+				<?php echo $this->Element('nameTitle'); ?>
+				<?php echo $this->Element('menu/two_level_navbar'); ?>
+			</div>	
 		</div>
 		<div style="clear:both"></div>
-		<div id="cart">
-			<div class="page-content">
-				<?php echo $content_for_layout; ?>
-				<?php echo $this->Element('footer'); ?>
+			<div class="out_page_content">
+				<div id="cart">
+					<div class="page-content">
+						<?php echo $content_for_layout; ?>
+						<?php echo $this->Element('footer'); ?>
+					</div>
+				</div>
 			</div>
-		</div>
-		
 	</body>
 </html>

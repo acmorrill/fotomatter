@@ -1,124 +1,128 @@
-#page_content {
-	position:relative;
-	height:850px;
-	top:180px;
-	#gallery_outer_cont {
-		height:515px;
+.out_page_content{
+	position: relative;
+	top: 200px;
+	
+	#page_content {
 		position:relative;
-		#grezzo_listing_actual_container {
-			position: absolute;
-			
-		/*	outline: 1px solid red;*/
-			
-			width: 100%;
-			margin: 0px;
-			white-space: nowrap;
-			vertical-align: top;
-			overflow-x: scroll;
-			overflow-y: visible;
-
-			.endless_loading {
+		height:850px;
+		top:180px;
+		#gallery_outer_cont {
+			height:515px;
+			position:relative;
+			#grezzo_listing_actual_container {
 				position: absolute;
-				top: 0px; right: 0px;
-				outline: 1px solid red;
-				color: red;
-			}
-			img {
+
+			/*	outline: 1px solid red;*/
+
+				width: 100%;
+				margin: 0px;
+				white-space: nowrap;
 				vertical-align: top;
-				display: inline-block;
-				border-right: 1px solid white;
-			}
-			img.blank {
+				overflow-x: scroll;
+				overflow-y: visible;
+
+				.endless_loading {
+					position: absolute;
+					top: 0px; right: 0px;
+					outline: 1px solid red;
+					color: red;
+				}
+				img {
+					vertical-align: top;
+					display: inline-block;
+					border-right: 1px solid white;
+				}
+				img.blank {
+				}
 			}
 		}
-	}
-	#gray_border_bottom{
-		background-image: url("/img/border_bottom.png");
-		height: 21px;
-		margin-bottom: 19px;
-		//outline: 1px solid red;
-	}
-	
-	.vertical_border{
-		border-right: 1px solid @gray_line_vertical;
-/*		position: absolute;
-		margin-top: 33px;
-		height: 135px;*/
-		//outline: 1px solid red;
-		
-	}
+		#gray_border_bottom{
+			background-image: url("/img/border_bottom.png");
+			height: 21px;
+			margin-bottom: 19px;
+			//outline: 1px solid red;
+		}
 
-	#image_info_container {
-		width:300px;
-		bottom:95px;
-		left:50%;
-		width:750px;
-		margin:auto;
-		
-		#gray_border_small{
-			border-bottom: 1px solid @gray_line_horizontal;
-			position: relative;
-			top: 56px;
+		.vertical_border{
+			border-right: 1px solid @gray_line_vertical;
+	/*		position: absolute;
+			margin-top: 33px;
+			height: 135px;*/
 			//outline: 1px solid red;
 
 		}
-			#gallery_name {
-				display:none;
-				background-color: @black;
-				color: @top_header_text_color;
-				text-align:center;
-				padding:5px;
-				h2 {
-					max-width: 300px;
-					margin:0 auto;
-				}
+
+		#image_info_container {
+			width:300px;
+			bottom:95px;
+			left:50%;
+			width:750px;
+			margin:auto;
+
+			#gray_border_small{
+				border-bottom: 1px solid @gray_line_horizontal;
+				position: relative;
+				top: 56px;
+				//outline: 1px solid red;
 
 			}
-			.image_info {
-				display:none;
-
-				@div_margin_top : 34px;
-				@div_margin_side : 22px;
-				.photo_details {
-					float:left;
-					width:500px;
-					margin-top: @div_margin_top;
-					margin-left: @div_margin_side;
-					h4 {
-						margin:0 0 20px 0;
+				#gallery_name {
+					display:none;
+					background-color: @black;
+					color: @top_header_text_color;
+					text-align:center;
+					padding:5px;
+					h2 {
+						max-width: 300px;
+						margin:0 auto;
 					}
-					p {
-						height:150px;
-						overflow:auto;
-						padding:0 15px 0 5px;
+
+				}
+				.image_info {
+					display:none;
+
+					@div_margin_top : 34px;
+					@div_margin_side : 22px;
+					.photo_details {
+						float:left;
+						width:500px;
+						margin-top: @div_margin_top;
+						margin-left: @div_margin_side;
+						h4 {
+							margin:0 0 20px 0;
+						}
+						p {
+							height:150px;
+							overflow:auto;
+							padding:0 15px 0 5px;
+						}
+					}
+
+					.side_control_options {
+						float:right;
+						margin-top: @div_margin_top;
+
+						#add_to_cart_buttons_cont {
+							height:200px;
+							overflow:auto;
+							overflow-x:hidden;
+							padding-right:30px;
+
+						}
+
+						button {
+							display:block;
+							position: relative;
+							margin:5px 2px;
+							padding:5px 30px;
+							width:150px;
+							cursor: pointer;
+						}
 					}
 				}
-
-				.side_control_options {
-					float:right;
-					margin-top: @div_margin_top;
-				
-					#add_to_cart_buttons_cont {
-						height:200px;
-						overflow:auto;
-						overflow-x:hidden;
-						padding-right:30px;
-						
-					}
-
-					button {
-						display:block;
-						position: relative;
-						margin:5px 2px;
-						padding:5px 30px;
-						width:150px;
-						cursor: pointer;
-					}
-				}
-			}
+		}
 	}
 }
-
 
 
 #grezzo_listing_actual_container img.blank, #grezzo_scroll_control_inner img.blank {
