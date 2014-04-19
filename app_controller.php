@@ -23,6 +23,7 @@ class AppController extends Controller {
 		'Email',
 		'FotomatterEmail',
 		'FotomatterBilling',
+		'FeatureLimiter',
 	);
 	
 	public $helpers = array(
@@ -52,61 +53,12 @@ class AppController extends Controller {
 	* @access public
 	*/
 	function beforeFilter() {
-		$data = $this->FotomatterBilling->get_info_account();
-		// START HERE TOMORROW	
-		// features list
-		//	Storage
-		//		-- 200 photos/unlimited photos
-		//		-- 200 Photos - 1.99
-		//		-- unlimited photos - 4.99
-		//		
-		//		option 1:
-		//			-- 20 - free
-		//			-- 100 - $1.99
-		//			-- unlimited - $3.99
-		//		option 2:
-		//			-- 20 free
-		//			-- unlimited - $3.99		
-		//	
-		//		
-		//	Ecommerce
-		//		-- basic shopping cart - $4.99
-		//	Themes
-		//		-- Mobile Theme - $99
-		//		-- Page Builder - $1.99
-		//	Branding
-		//		-- Remove Fotomatter Branding - $.99
-		//	Misc
-		//		-- Email Support - $.99
-		
-		
-		// 200 photos - 1.99
-		// Shopping cart - 3.99
-		// Remove fotomatter branding  - $.99
-		// Page Builder - $1.99
-		// Mobile Theme - $.99
-		
-		
-		
-		
-		
-		// for later
-	//		-- Google Analytics
-	//		-- SEO???
-	//		-- extra themes
-	//		-- auto fulfillment
-		
-		// Other Ideas??
-//			-- upload logo??
-//			-- theme settings??
-//			-- smart galleries??
-		
-			
-		
-		//$this->log($data, 'get_info_account');
-		
-		
-		//apc_clear_cache('user');
+		//////////////////////////////////////////////////////////////////////////////
+		// find out what features are on or off (apc cached)
+		$this->current_on_off_features = $this->FotomatterBilling->get_current_on_off_features();
+		$this->set('current_on_off_features', $this->current_on_off_features);
+//		$this->log($this->current_on_off_features, 'current_on_off_features');
+
 		
 		//////////////////////////////////////////////////////
 		// stuff todo just in the admin

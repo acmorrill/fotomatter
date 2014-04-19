@@ -28,7 +28,6 @@ class SerializeBehavior extends ModelBehavior {
 			}
 		}
 		
-		$this->log('came here 1', 'afterFind');
 		return $results;
 	}
 
