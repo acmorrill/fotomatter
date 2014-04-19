@@ -51,6 +51,11 @@
 		-- git clone git@github.com:cakephp/cakephp.git cake_lib
 		-- git checkout tags/1.3.14
 		-- git config core.fileMode false
+		-- git config core.fileMode false --global
+		-- git config core.fileMode false --system
+		-- git config --global user.name "Andrew Morrill"
+		-- git config --global user.email "acmorrill@gmail.com"
+		-- git config --global color.ui auto
 	-- cake_lib2
 		-- cake 2.3.9
 		-- cd /var/www
@@ -61,6 +66,7 @@
 		-- git config core.fileMode false --system
 		-- git config --global user.name "Andrew Morrill"
 		-- git config --global user.email "acmorrill@gmail.com"
+		-- git config --global color.ui auto
 	-- current
 		-- git clone git@github.com:acmorrill/fotomatter.git current
 		-- git config core.fileMode false
@@ -68,8 +74,12 @@
 		-- git config core.fileMode false --system
 		-- git config --global user.name "Andrew Morrill"
 		-- git config --global user.email "acmorrill@gmail.com"
+<<<<<<< HEAD
+		-- git config --global color.ui auto
+=======
 		-- core_ignored
 			-- Configure::write('OVERLORD_URL', 'builds.fotomatter.dev');
+>>>>>>> 43cb257363b246664dca4342201e2c538f8f9a48
 	-- upgrade
 		-- git clone git@github.com:acmorrill/fotomatter.git upgrade
 		-- git config core.fileMode false
@@ -77,6 +87,7 @@
 		-- git config core.fileMode false --system
 		-- git config --global user.name "Andrew Morrill"
 		-- git config --global user.email "acmorrill@gmail.com"
+		-- git config --global color.ui auto
 	-- accounts
 		-- mkdir
 	-- domains
@@ -85,7 +96,7 @@
 		-- phpmyadmin
 			-- cd /usr/share/phpmyadmin/
 		-- databases
-			-- fm_app_global
+			-- fm_app_global (NO!!! - do not set this up or have a global_settings user!)
 			-- fm_frontend
 			-- fm_overlord
 			-- fm_server_metrics
@@ -97,6 +108,7 @@
 			-- git config core.fileMode false --system
 			-- git config --global user.name "Andrew Morrill"
 			-- git config --global user.email "acmorrill@gmail.com"
+			-- git config --global color.ui auto
 			-- ln -s /var/www/cake_lib2/lib/ lib
 			-- setup
 				-- dbupdate submodule (ask adam)
@@ -112,6 +124,7 @@
 			-- git config core.fileMode false --system
 			-- git config --global user.name "Andrew Morrill"
 			-- git config --global user.email "acmorrill@gmail.com"
+			-- git config --global color.ui auto
 			-- ln -s /var/www/cake_lib2/lib/ lib
 			-- setup
 				-- core_ignored
@@ -142,6 +155,7 @@
 			-- ln -s /var/www/cake_lib/cake cake
 			-- git clone git@github.com:acmorrill/server_metrics.git app
 			-- git config core.fileMode false
+			-- git config --global color.ui auto
 			-- setup
 				-- cp core.php.default core.php
 					-- Change Core
