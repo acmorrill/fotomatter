@@ -29,7 +29,7 @@ ol  {
 	text-align: left;
 	margin-top: 23px;
 	li { 
-		margin-left: 60px;
+		margin-left: 38px;
 		list-style-type: decimal; 
 		margin-bottom: 15px;
 		> span {
@@ -306,6 +306,36 @@ select {
 		font-size: 18px;
 		background-color: @off_black;
 		min-width: 65px;
+		&.highlight {
+			height: 50px;
+			.Code-Pro-Bold-LC;
+			font-size: 20px;
+			padding-left: 30px;
+			padding-right: 30px;
+			border: 0px;
+			.content {
+				margin-top: 18px;
+				&, a { color: @white };
+			}
+			background-color: @button_highlight;
+			.right_arrow_lines {
+				margin-top: 15px;
+				.right_facing_triangle(10, @white);
+				div {
+					.right_facing_triangle(10, @button_highlight);
+				}
+			}
+			&:hover {
+				background-color: @button_highlight + @button_bg_increase;
+				.right_arrow_lines {
+					margin-top: 15px;
+					.right_facing_triangle(10, @white);
+					div {
+						.right_facing_triangle(10, @button_highlight + @button_bg_increase);
+					}
+				}
+			}
+		}
 		&.icon { min-width: 5px; }
 		&:hover {
 			background-color: @off_black + @button_bg_increase;

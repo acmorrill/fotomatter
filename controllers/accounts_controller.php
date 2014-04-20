@@ -23,10 +23,11 @@ class AccountsController extends AppController {
     
 	/**
 	* action for the page to add/remove line items. 
-	* @author Adam Holsinger
 	*/
-	public function admin_index() {
+	public function admin_index($add_feature_ref_name = null) {
+		$this->log($add_feature_ref_name, 'account_index');
 		$overlord_account_info = $this->FotomatterBilling->get_account_info();
+		$this->log($overlord_account_info, 'account_index');
 		
 		$this->Session->delete('account_line_items');
 		$this->Session->write('account_line_items', array('checked'=>array(), 'unchecked'=>array()));
@@ -34,7 +35,7 @@ class AccountsController extends AppController {
 		$this->Session->delete('account_info');
 		$this->Session->write('account_info', $overlord_account_info);
 
-		$this->set(compact(array('overlord_account_info')));
+		$this->set(compact(array('overlord_account_info', 'add_feature_ref_name')));
 
 		$this->layout = 'admin/accounts';
 	}
@@ -83,7 +84,6 @@ class AccountsController extends AppController {
 	/**
 	* Gets called when a line item is selected or deselected
 	* @return Json indicating that we have recorded whether that item is checked on unchecked
-	* @author Adam Holsinger
 	*/
 	public function admin_ajax_setItemChecked() {
 		$line_items = $this->Session->read('account_line_items');
@@ -137,7 +137,6 @@ class AccountsController extends AppController {
 	/**
 	* Ajax function that gets called to save client billing and send it to overlord
 	* @return This function will either return a error or call ajax_finishLineChange
-	* @author Adam Holsinger
 	*/
 	public function admin_ajax_save_client_billing() {
 		if (empty($this->data) == false) {
@@ -239,7 +238,6 @@ class AccountsController extends AppController {
 	* Figure out exactly what changed from what they have selected and display that to the user. They will be warned as far
 	* as how their bill is changing. 
 	* @return Function will get the html for the account_change_finish_element. 
-	* @author Adam Holsinger
 	*/
 	public function admin_ajax_finishLineChange() {
 		//If payment needed collect authnet 

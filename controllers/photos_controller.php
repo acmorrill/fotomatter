@@ -221,32 +221,34 @@ class PhotosController extends AppController {
 			
 			///////////////////////////////////////////////////////
 			// save the sellable print data
-			foreach ($this->data['PhotoSellablePrint'] as $curr_photo_sellable_data) {
-				if ($curr_photo_sellable_data['override_for_photo'] === '1') {
-					if (isset($curr_photo_sellable_data['available'])) {
-						$curr_photo_sellable_data['available'] = '1';
-					} else {
-						$curr_photo_sellable_data['available'] = '0';
-					}
-					
-					//////////////////////////////////////////////////////////////////////////////////////////////////////////
-					// if the value is the same as the default then save as null it so it will use a changed default
-					// this currently doesn't effect 'availability' right now (as its not passed in the default array)
-					foreach ($curr_photo_sellable_data['defaults'] as $default_name => $default_value) {
-						if ($curr_photo_sellable_data[$default_name] == $default_value) {
-							$curr_photo_sellable_data[$default_name] = null;
+			if (!empty($this->current_on_off_features['basic_shopping_cart'])) {
+				foreach ($this->data['PhotoSellablePrint'] as $curr_photo_sellable_data) {
+					if ($curr_photo_sellable_data['override_for_photo'] === '1') {
+						if (isset($curr_photo_sellable_data['available'])) {
+							$curr_photo_sellable_data['available'] = '1';
+						} else {
+							$curr_photo_sellable_data['available'] = '0';
 						}
+
+						//////////////////////////////////////////////////////////////////////////////////////////////////////////
+						// if the value is the same as the default then save as null it so it will use a changed default
+						// this currently doesn't effect 'availability' right now (as its not passed in the default array)
+						foreach ($curr_photo_sellable_data['defaults'] as $default_name => $default_value) {
+							if ($curr_photo_sellable_data[$default_name] == $default_value) {
+								$curr_photo_sellable_data[$default_name] = null;
+							}
+						}
+
+						$this->PhotoSellablePrint->create();
+						if (!$this->PhotoSellablePrint->save(array('PhotoSellablePrint' => $curr_photo_sellable_data))) {
+							$this->PhotoSellablePrint->major_error('failed to save photo sellable print on photo save', compact('curr_photo_sellable_data'));
+						}
+					} else {
+						$this->PhotoSellablePrint->deleteAll(array(
+							'PhotoSellablePrint.photo_avail_sizes_photo_print_type_id' => $curr_photo_sellable_data['photo_avail_sizes_photo_print_type_id'],
+							'PhotoSellablePrint.photo_id' => $this->data['Photo']['id'],
+						));
 					}
-					
-					$this->PhotoSellablePrint->create();
-					if (!$this->PhotoSellablePrint->save(array('PhotoSellablePrint' => $curr_photo_sellable_data))) {
-						$this->PhotoSellablePrint->major_error('failed to save photo sellable print on photo save', compact('curr_photo_sellable_data'));
-					}
-				} else {
-					$this->PhotoSellablePrint->deleteAll(array(
-						'PhotoSellablePrint.photo_avail_sizes_photo_print_type_id' => $curr_photo_sellable_data['photo_avail_sizes_photo_print_type_id'],
-						'PhotoSellablePrint.photo_id' => $this->data['Photo']['id'],
-					));
 				}
 			}
 			
@@ -280,7 +282,10 @@ class PhotosController extends AppController {
 		/////////////////////////////////////////////////
 		// Get available print types and sizes 
 		// and any overridden values for the photo
-		$photo_sellable_prints = $this->Photo->get_sellable_print_sizes($this->data);
+		$photo_sellable_prints = array();
+		if (!empty($this->current_on_off_features['basic_shopping_cart'])) {
+			$photo_sellable_prints = $this->Photo->get_sellable_print_sizes($this->data);
+		}
 		$this->set(compact('photo_sellable_prints'));
 		
 		
