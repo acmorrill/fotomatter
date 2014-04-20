@@ -15,6 +15,21 @@ class EcommercesController extends AppController {
 
 		$this->Auth->allow(array('view_cart', 'add_to_cart', 'checkout_login_or_guest', 'checkout_get_address', 'get_available_states_for_country_options', 'checkout_finalize_payment', 'change_fe_password', 'checkout_thankyou'));
 		
+		
+		/////////////////////////////////////////////
+		// limit ecommerce
+		if (in_array($this->action, array(
+			'admin_manage_print_sizes',
+			'admin_manage_print_types_and_pricing',
+			'admin_order_management',
+			'admin_get_paid',
+		))) {
+			$this->FeatureLimiter->limit_view($this, 'basic_shopping_cart', 'ecommerce'); // $controller, $feature_ref_name, $element_path in /elements/admin/limit_views
+		} else {
+			$this->FeatureLimiter->limit_function($this, 'basic_shopping_cart'); // $controller, $feature_ref_name
+		}
+		
+		
 //		$this->front_end_auth = array('checkout_get_address');
 	}
 
@@ -163,8 +178,6 @@ class EcommercesController extends AppController {
 	}
 	 
 	public function admin_manage_print_sizes() {
-		$this->FeatureLimiter->limit_view($this, 'basic_shopping_cart', 'ecommerce'); // $controller, $feature_ref_name, $element_path in /elements/admin/limit_views
-		//$this->FeatureLimiter->limit_function($this, 'basic_shopping_cart');
 		$this->HashUtil->set_new_hash('ecommerce');
 		
 		$photo_avail_sizes = $this->PhotoAvailSize->find('all', array(

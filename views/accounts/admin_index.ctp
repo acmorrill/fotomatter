@@ -107,6 +107,8 @@
 			});
 		});
 
+		// START HERE TOMORROW - $add_feature_ref_name - finish making it so an item will start queued
+
 		$("#line_item_cont .line_item .bar button.add_item").click(function(e) {
 			e.preventDefault();
 			if (inAjaxCall) {
@@ -242,7 +244,6 @@
 <div class='clear' id="line_item_cont">
 	<?php echo $this->Element('/admin/get_help_button'); ?>
 			<div style="clear: both;"></div> 
-	<p>Adam TODO investigate adding feature in which no value is charged</p>
 	<?php echo $this->Session->flash(); ?>
 	<?php if($overlord_account_info['is_pay_fail']): ?>
 	<div class='pay_fail_message rounded-corners'>
@@ -254,8 +255,9 @@
     </div>
     <div class="body_container">   
 		<?php foreach ($overlord_account_info['items'] as $line_item): ?>
+			<?php $start_queued = ($line_item['AccountLineItem']['ref_name'] == $add_feature_ref_name); ?>
 			<div data-customer_cost="<?php echo $line_item['AccountLineItem']['current_cost']; ?>" 
-				class="line_item <?php echo $line_item['AccountLineItem']['addable'] ||  $line_item['AccountLineItem']['removed_scheduled'] ? 'line_not_added' : ''; ?> ">
+				class="line_item <?php echo ($start_queued == false && $line_item['AccountLineItem']['addable'] || $line_item['AccountLineItem']['removed_scheduled']) ? 'line_not_added' : ''; ?> ">
 				<div class="bar hidden rounded-corners-tiny">
 					<h5><?php echo $line_item['AccountLineItem']['name']; ?> - <span class='cost'><?php echo $line_item['AccountLineItem']['current_cost']; ?></span></h5>
 					<div class="bar-right custom_ui">
@@ -264,7 +266,11 @@
 						<?php elseif ($line_item['AccountLineItem']['removed_scheduled']): ?>
 							<button data_id='<?php echo $line_item['AccountLineItem']['id']; ?>' class='cancel_remove'>Undo Cancellation</button>
 						<?php else: ?>
-							<button data_id='<?php echo $line_item['AccountLineItem']['id']; ?>' class='add_item'>Add</button>
+							<?php if ($start_queued): ?>
+								<button data_id='<?php echo $line_item['AccountLineItem']['id']; ?>' class='add_item'>Queued</button>
+							<?php else: ?>
+								<button data_id='<?php echo $line_item['AccountLineItem']['id']; ?>' class='add_item'>Add</button>
+							<?php endif; ?>
 						<?php endif; ?>
 						<!--<span>Active</span><input <?php echo $line_item['AccountLineItem']['active'] ? 'CHECKED' : ''; ?> type='checkbox' name='data[AccountLineItem][]'  data_id='<?php echo $line_item['AccountLineItem']['id']; ?>' /> -->
 						<span class="toggle">Show Details</span><i class="icon-angle-down"></i>

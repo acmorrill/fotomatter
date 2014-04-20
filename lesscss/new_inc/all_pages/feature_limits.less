@@ -3,11 +3,15 @@
 		margin-bottom: 10px;
 	}
 	ol {
-		max-width: (@body_content_width - 100px);
+		margin-top: 40px;
+		max-width: 550px;
+		display: inline-block;
+		margin-bottom: 40px;
 	}
 	.page_content_header {
 		border: 1px solid @off_black;
 		max-width: @body_content_width;
+		margin-top: 0px;
 		text-align: center;
 		h2 {
 			.Code-Pro-Bold-LC;
@@ -17,10 +21,25 @@
 	}
 	
 	.buy_now_box {
+		margin-top: 30px;
+		margin-bottom: 50px;
 		max-width: @body_content_width;
 		outline: 1px solid @top_white;
+		overflow: hidden;
 		.buy_add_container {
-			min-height: 200px;
+			min-height: 140px;
+			text-align: center;
+			p {
+				.Code-Pro-LC;
+				font-size: 30px;
+				margin-top: 40px;
+				span {
+					.Code-Pro-Bold-LC;
+				}
+			}
+			.add_button {
+				margin-top: 30px;
+			}
 		}
 	}
 }

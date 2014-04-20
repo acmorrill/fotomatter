@@ -258,7 +258,7 @@
 		});
 	</script>
 	<div id="image_sellable_prints" class="image_edit_block" style="width: 575px;">
-		<h1><?php __('Choose Available Sizes'); ?></h1>
+		<h1><?php __('Choose Available Sizes'); ?></h1><?php // DREW TODO - add in an advertisement for ecommerce here ?>
 		<table class="list">
 			<thead>
 				<tr>

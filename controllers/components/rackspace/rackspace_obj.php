@@ -4,7 +4,6 @@
  *  They don't really have documentation for any of the further apis, so I am going to use this for now. I used this library for
  *  reference: https://github.com/eyecreate/Rackspace-Cloud-PHP-Library
  *
- *  @author Adam Holsinger
  */
 class RackspaceObj extends Object {
     
