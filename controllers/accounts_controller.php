@@ -1,7 +1,7 @@
 <?php
 class AccountsController extends AppController {
     
-	public $uses = array('GlobalCountry', 'GlobalCountryState', 'Photo', 'SitePage', 'PhotoGallery');
+	public $uses = array('GlobalCountry', 'GlobalCountryState', 'Photo', 'SitePage', 'PhotoGallery', 'Account');
 
 	public $layout = 'admin/accounts';
    
@@ -25,9 +25,7 @@ class AccountsController extends AppController {
 	* action for the page to add/remove line items. 
 	*/
 	public function admin_index($add_feature_ref_name = null) {
-		$this->log($add_feature_ref_name, 'account_index');
 		$overlord_account_info = $this->FotomatterBilling->get_account_info();
-		$this->log($overlord_account_info, 'account_index');
 		
 		$this->Session->delete('account_line_items');
 		$this->Session->write('account_line_items', array('checked'=>array(), 'unchecked'=>array()));
@@ -35,9 +33,22 @@ class AccountsController extends AppController {
 		$this->Session->delete('account_info');
 		$this->Session->write('account_info', $overlord_account_info);
 
-		$this->set(compact(array('overlord_account_info', 'add_feature_ref_name')));
-
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// set item checked if have passed in $add_feature_ref_name
+		// grab the starting element popup html if $add_feature_ref_name set
+		$add_feature_ref_name_popup_html = '';
+		if (!empty($add_feature_ref_name)) {
+			$parsed_features_data = Set::combine($overlord_account_info['items'], '{n}.AccountLineItem.ref_name', '{n}.AccountLineItem');
+			if (isset($parsed_features_data[$add_feature_ref_name]['id'])) {
+				$this->Account->set_item_checked($parsed_features_data[$add_feature_ref_name]['id'], true);
+			}
+			$add_feature_ref_name_popup_html = $this->Account->finish_line_change($this, $this->FotomatterBilling->getPaymentProfile());
+		}
+		
+		$this->set(compact(array('overlord_account_info', 'add_feature_ref_name', 'add_feature_ref_name_popup_html')));
+		
 		$this->layout = 'admin/accounts';
+		$this->render('/accounts/admin_index'); // required to overcome the element calls in finish_line_changes
 	}
    
 	public function admin_ajax_addPreviousItems() {
@@ -86,22 +97,11 @@ class AccountsController extends AppController {
 	* @return Json indicating that we have recorded whether that item is checked on unchecked
 	*/
 	public function admin_ajax_setItemChecked() {
-		$line_items = $this->Session->read('account_line_items');
-
-		$line_item_id = $this->params['form']['id'];
-		if ($this->params['form']['checked']) {
-			if (isset($line_items['unchecked'][$line_item_id])) {
-				unset($line_items['unchecked'][$line_item_id]);
-			}
-			$line_items['checked'][$line_item_id] = 'checked';
+		if ($this->Account->set_item_checked($this->params['form']['id'], $this->params['form']['checked'])) {
+			print(json_encode(array('code' => true)));
 		} else {
-			if (isset($line_items['checked'][$line_item_id])) {
-				unset($line_items['checked'][$line_item_id]);
-			}
-			$line_items['unchecked'][$line_item_id] = 'unchecked';
+			print(json_encode(array('code' => false)));
 		}
-		$this->Session->write('account_line_items', $line_items);
-		print(json_encode(array('code'=>true)));
 		exit();
 	}
    
@@ -109,14 +109,14 @@ class AccountsController extends AppController {
 	* Get the payment profile form to update payment details
 	*/
 	public function admin_ajax_update_payment() {
-	if ($this->params['named']['closeWhenDone'] == 'false') {
-	   $this->params['named']['closeWhenDone'] = false;
-	} else {
-	   $this->params['named']['closeWhenDone'] = true;
-	}
-	$currentData = $this->FotomatterBilling->getPaymentProfile();
-	$return['html'] = $this->get_add_profile_form($currentData['data'], $this->params['named']['closeWhenDone']);
-	$this->return_json($return);
+		if ($this->params['named']['closeWhenDone'] == 'false') {
+		   $this->params['named']['closeWhenDone'] = false;
+		} else {
+		   $this->params['named']['closeWhenDone'] = true;
+		}
+		$currentData = $this->FotomatterBilling->getPaymentProfile();
+		$return['html'] = $this->Account->get_add_profile_form($this, $currentData['data'], $this->params['named']['closeWhenDone']);
+		$this->return_json($return);
 	}
    
 	/**
@@ -148,7 +148,7 @@ class AccountsController extends AppController {
 				} else {
 				$this->params['named']['closeWhenDone'] = false;
 				}
-				$return['html'] = $this->get_add_profile_form($this->data,$this->params['named']['closeWhenDone'], $e->getMessage());
+				$return['html'] = $this->Account->get_add_profile_form($this, $this->data,$this->params['named']['closeWhenDone'], $e->getMessage());
 				$return['message'] = $e->getMessage();
 				$return['result'] = false;
 				print(json_encode($return));
@@ -174,65 +174,7 @@ class AccountsController extends AppController {
 		exit();
 	}
    
-	private function get_add_profile_form($current_data=array(), $closeWhenDone=false, $error_message='') {
-		$return = array();
-		$countries = $this->GlobalCountry->get_available_countries();   
-		return $this->element('admin/accounts/add_profile', compact(array('countries', 'current_data', 'closeWhenDone', 'error_message')));
-	}
-   
-	private function rekey_account_info($account_info) {
-		//rekey the original array
-		$tmp_array = array();
-		$current_bill = 0;
-		foreach($account_info['items'] as $line_item) {
-			if ($line_item['AccountLineItem']['active']) {
-				$current_bill += $line_item['AccountLineItem']['current_cost'];
-			}
-			$tmp_array['items'][$line_item['AccountLineItem']['id']] = $line_item;
-		}
-		$tmp_array['Account'] = $account_info['Account'];
-		return $tmp_array;
-	}
-   
-	private function findAmountDueToday($account_changes, $account_info) {
-		//add everything being added
-		$whole_month_cost = 0;
-		foreach ($account_changes['checked'] as $id => $change) {
-		   $whole_month_cost += $account_info['items'][$id]['AccountLineItem']['current_cost'];
-		}
-
-		if (empty($account_info['Account']['next_bill_date'])) {
-			return $whole_month_cost;
-		}
-
-		//figure out how many days we are billing for
-		$next_billing_date = strtotime($account_info['Account']['next_bill_date']);
-		$now = time();
-
-		if ($now > $next_billing_date) {
-			$this->major_error('Billing date is in the past, probably billing problem.', $account_changes, 'high');
-			return 0;
-		}
-
-		$days_difference = ($next_billing_date - $now) / (60 * 60 * 24);
-		if ($days_difference > 35) {
-			$this->major_error('Trying to prorate bill for too many days!', compact('account_changes', 'account_info'), 'high');
-			return 0;
-		}
-
-		//figure out cost per day for features added
-		$year_cost_for_features_added = $whole_month_cost * 12;
-		$cost_per_day = $year_cost_for_features_added / 365;
-		$pro_rated_amount = round($days_difference * $cost_per_day, 2);
-		
-		if ($pro_rated_amount > $whole_month_cost) {
-			$this->major_error('Prorated monthly cost higher than monthly cost!', compact('account_changes', 'account_info'), 'high');
-			return $whole_month_cost;
-		} else {
-			return $pro_rated_amount;
-		}
-	}
-   
+  
    
 	/**
 	* Figure out exactly what changed from what they have selected and display that to the user. They will be warned as far
@@ -240,69 +182,9 @@ class AccountsController extends AppController {
 	* @return Function will get the html for the account_change_finish_element. 
 	*/
 	public function admin_ajax_finishLineChange() {
-		//If payment needed collect authnet 
-
-		$account_info = $this->Session->read('account_info');
-		$account_changes = $this->Session->read('account_line_items');
-
-
-		$account_info = $this->rekey_account_info($account_info);
-		$current_bill = 0;
-		foreach($account_info['items'] as $line_item) {
-			if ($line_item['AccountLineItem']['active']) {
-				$current_bill += $line_item['AccountLineItem']['customer_cost'];
-			}
-		}
-
-		//compare checked items
-		foreach ($account_changes['checked'] as $id => $change) {
-			if ($account_info['items'][$id]['AccountLineItem']['active']) {
-				unset($account_changes['checked'][$id]);
-			}
-		}
-
-		//compare unchecked items
-		foreach ($account_changes['unchecked'] as $id => $change) {
-			if ($account_info['items'][$id]['AccountLineItem']['active'] == false) {
-				unset($account_changes['unchecked'][$id]);
-			}
-		}
-
-		$bill_today = $this->findAmountDueToday($account_changes, $account_info);
-//		$this->log('===============', 'authnet_profile');
-//		$this->log($bill_today, 'authnet_profile');
-//		$this->log('===============', 'authnet_profile');
-//		$this->log($account_info['Account']['promo_credit_balance'], 'authnet_profile');
-
-		if (empty($this->params['named']['noCCPromoConfirm']) && empty($account_info['Account']['authnet_profile_id'])) {
-			if ($account_info['Account']['promo_credit_balance'] >= $bill_today) {
-				$return = array();
-				$return['html'] = $this->element('admin/accounts/promo_notification_form', compact(array('account_info', 'bill_today', 'current_bill', 'account_changes')));
-				print(json_encode($return));
-				exit();
-			} else {
-				$return = array();
-				$return['html'] = $this->get_add_profile_form();
-				print(json_encode($return));
-				exit();
-			}
-		}
-		
-
-		$this->Session->delete('final_account_changes');
-		$this->Session->write('final_account_changes', $account_changes);
-		$payment_profile = $this->FotomatterBilling->getPaymentProfile();
-
 		$return = array();
-		$return['html'] = $this->element('admin/accounts/account_change_finish', array(
-			'current_bill'=>$current_bill,
-			'account_changes'=>$account_changes,
-			'account_info'=>$account_info,
-			'bill_today'=>$bill_today,
-			'payment_profile'=>$payment_profile)
-		);
-		print(json_encode($return));
-		exit();
+		$return['html'] = $this->Account->finish_line_change($this, $this->FotomatterBilling->getPaymentProfile());
+		$this->return_json($return);
 	}
    
 	/**
@@ -328,7 +210,7 @@ class AccountsController extends AppController {
 			$this->return_json($return);
 		}
 
-		$account_info = $this->rekey_account_info($account_info);
+		$account_info = $this->Account->rekey_account_info($account_info);
 		
 
 		foreach($account_changes['checked'] as $key => $item_to_add) {
@@ -338,7 +220,7 @@ class AccountsController extends AppController {
 		foreach ($account_changes['unchecked'] as $key => $item_to_remove) {
 			$change_to_send['remove'][] = $account_info['items'][$key];
 		}
-		$change_to_send['amount_due_today'] = $this->findAmountDueToday($account_changes, $account_info);
+		$change_to_send['amount_due_today'] = $this->Account->find_amount_due_today($account_changes, $account_info);
 		if ($change_to_send['amount_due_today'] === false) {
 			$this->major_error('Someone tried to send billing even though their billing date was in the past, probably a hacking attempt.', $change_to_send, 'high');
 			$result['code'] = false;
