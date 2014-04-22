@@ -38,6 +38,17 @@
 		}
 	}
 	
+	function open_add_feature_popup(selector) {
+		jQuery(selector).dialog({
+			width: '600',
+			height: '570',
+			title: '<?php echo __('Finish Account Changes'); ?>',
+			open: function(event, ui) {
+				$(this).find("button").button();
+			}
+		});
+	}
+	
 	$(document).ready(function() {
 		
 		reload_buttons();
@@ -68,13 +79,13 @@
 				dataType: 'json',
 				type: 'GET',
 				success: function(data) {
-					window.location.reload();
+					window.location.href = '/admin/accounts/index';
 				},
 				complete: function(data) {
 					inAjaxCall = false;
 				},
 				error: function(data) {
-					window.location.reload();
+					window.location.href = '/admin/accounts/index';
 				}
 			});
 		});
@@ -94,20 +105,18 @@
 						type: 'GET',
 						url: '/admin/accounts/ajax_remove_item/'+ line_item_id,
 						success: function(data) {
-							window.location.reload();
+							window.location.href = '/admin/accounts/index';
 						},
 						complete: function(data) {
 							inAjaxCall = false;
 						},
 						error: function(data) {
-							window.location.reload();
+							window.location.href = '/admin/accounts/index';
 						}
 					});
 				}
 			});
 		});
-
-		// START HERE TOMORROW - $add_feature_ref_name - finish making it so an item will start queued
 
 		$("#line_item_cont .line_item .bar button.add_item").click(function(e) {
 			e.preventDefault();
@@ -196,15 +205,7 @@
 				success: function(data) {
 					var div = $("<div></div>");
 					div.html(data.html);
-					div.dialog({
-						width: '600',
-						height: '570',
-						title: '<?php echo __('Finish Account Changes'); ?>',
-						open: function(event, ui) {
-							$(this).find("button").button();
-						}
-					});
-
+					open_add_feature_popup(div);
 				},
 				complete: function() {
 					inAjaxCall = false;
@@ -241,6 +242,18 @@
 		
 	});
 </script>
+
+<?php if (!empty($add_feature_ref_name)): ?>
+	<script type="text/javascript">
+		jQuery(document).ready(function() {
+			open_add_feature_popup('#add_feature_ref_name_popup_html');
+		});
+	</script>
+	<div id="add_feature_ref_name_popup_html">
+		<?php echo $add_feature_ref_name_popup_html; ?>
+	</div>
+<?php endif; ?>
+
 <div class='clear' id="line_item_cont">
 	<?php echo $this->Element('/admin/get_help_button'); ?>
 			<div style="clear: both;"></div> 
@@ -290,8 +303,8 @@
 			</div>
 		<?php endforeach; ?>
     </div>
-	<div class="account-details rounded-corners-small">
-		<div style="display:none;" class='finish-outer-cont'>
+	<div class="account-details rounded-corners-small <?php if (!empty($add_feature_ref_name)): ?>finish-shown<?php endif; ?>">
+		<div style="<?php if (empty($add_feature_ref_name)): ?>display:none;<?php endif; ?>" class='finish-outer-cont'>
 			<p><?php echo __('When you are done making feature changes, click below.'); ?></p>
 			<button class='finish_account_add'><?php echo __('Finalize Feature Changes'); ?></button>
 		</div>

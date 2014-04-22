@@ -100,6 +100,7 @@ class AppModel extends LazyModel {
 		return $insults[rand(0, count($insults)-1)];
 	}
 	
+	
 	/*public function beforeFind($conditions) {
 		if ( !isset($conditions['contain']) ) {
 			$conditions['contain'] = false;

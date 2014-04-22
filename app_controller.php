@@ -307,7 +307,8 @@ class AppController extends Controller {
 		$view->viewPath = 'elements';
 
 		/* Grab output into variable without the view actually outputting! */
-		return $view->render($element_path);
+		$return_html = $view->render($element_path);
+		return $return_html;
 	}
 	
 	public function return_json($data) {
