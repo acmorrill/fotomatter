@@ -57,6 +57,7 @@ class UtilShell extends Shell {
 	}
 
 	function fix_local_user_permissions() {
+		$default_user = Configure::read('file_folder_default_user');
 		$this->check_shell_running_as_root();
 		$this->fix_mode_and_default_user_permissions();
 
@@ -64,18 +65,18 @@ class UtilShell extends Shell {
 
 
 		$permissions = array(
-			'current_theme_webroot' => array('p' => 'server_stats:server_stats'),
-			'default_theme_webroot' => array('p' => 'server_stats:server_stats'),
-			'parent_theme_webroot' => array('p' => 'server_stats:server_stats'),
-			'themes' => array('p' => 'server_stats:server_stats'),
-			'image_tmp' => array('r' => 'server_stats:server_stats'),
-			'local_master_cache' => array('r' => 'server_stats:server_stats'),
-			'local_smaller_master_cache' => array('r' => 'server_stats:server_stats'),
-			'site_background' => array('r' => 'server_stats:server_stats'),
-			'site_logo' => array('r' => 'server_stats:server_stats'),
-			'xhprof-0.9.4' => array('r' => 'server_stats:server_stats'),
-			'tmp' => array('r' => 'server_stats:server_stats'),
-			'.' => array('p' => 'server_stats:server_stats'),
+			'current_theme_webroot' => array('p' => "$default_user:$default_user"),
+			'default_theme_webroot' => array('p' => "$default_user:$default_user"),
+			'parent_theme_webroot' => array('p' => "$default_user:$default_user"),
+			'themes' => array('p' => "$default_user:$default_user"),
+			'image_tmp' => array('r' => "$default_user:$default_user"),
+			'local_master_cache' => array('r' => "$default_user:$default_user"),
+			'local_smaller_master_cache' => array('r' => "$default_user:$default_user"),
+			'site_background' => array('r' => "$default_user:$default_user"),
+			'site_logo' => array('r' => "$default_user:$default_user"),
+			'xhprof-0.9.4' => array('r' => "$default_user:$default_user"),
+			'tmp' => array('r' => "$default_user:$default_user"),
+			'.' => array('p' => "$default_user:$default_user"),
 		);
 
 
@@ -83,41 +84,42 @@ class UtilShell extends Shell {
 	}
 
 	function fix_shared_user_permissions() {
+		$default_user = Configure::read('file_folder_default_user');
 		$this->check_shell_running_as_root();
 
 		$permissions = array(
 			'app' => array(
 				'themes' => array(
-					'adam' => array('webroot' => array('css' => array('r' => 'server_stats:server_stats'))),
-					'amazing' => array('webroot' => array('css' => array('r' => 'server_stats:server_stats'))),
+					'adam' => array('webroot' => array('css' => array('r' => "$default_user:$default_user"))),
+					'amazing' => array('webroot' => array('css' => array('r' => "$default_user:$default_user"))),
 					'andrewmorrill' => array(
 						'subthemes' => array(
-							'difandrew' => array('webroot' => array('css' => array('r' => 'server_stats:server_stats'))),
+							'difandrew' => array('webroot' => array('css' => array('r' => "$default_user:$default_user"))),
 						),
-						'webroot' => array('css' => array('r' => 'server_stats:server_stats'))
+						'webroot' => array('css' => array('r' => "$default_user:$default_user"))
 					),
 					'test_bg_theme' => array(
 						'subthemes' => array(
-							'difandrew' => array('webroot' => array('css' => array('r' => 'server_stats:server_stats'))),
+							'difandrew' => array('webroot' => array('css' => array('r' => "$default_user:$default_user"))),
 						),
-						'webroot' => array('css' => array('r' => 'server_stats:server_stats'))
+						'webroot' => array('css' => array('r' => "$default_user:$default_user"))
 					),
-					'default' => array('webroot' => array('css' => array('r' => 'server_stats:server_stats'))),
-					'simple_lightgrey_textured' => array('webroot' => array('css' => array('r' => 'server_stats:server_stats'))),
-					'white_angular' => array('webroot' => array('css' => array('r' => 'server_stats:server_stats'))),
-					'white_slider' => array('webroot' => array('css' => array('r' => 'server_stats:server_stats'))),
-					'grezzo' => array('webroot' => array('css' => array('r' => 'server_stats:server_stats'))),
+					'default' => array('webroot' => array('css' => array('r' => "$default_user:$default_user"))),
+					'simple_lightgrey_textured' => array('webroot' => array('css' => array('r' => "$default_user:$default_user"))),
+					'white_angular' => array('webroot' => array('css' => array('r' => "$default_user:$default_user"))),
+					'white_slider' => array('webroot' => array('css' => array('r' => "$default_user:$default_user"))),
+					'grezzo' => array('webroot' => array('css' => array('r' => "$default_user:$default_user"))),
 				),
 				'webroot' => array(
-					'css' => array('r' => 'server_stats:server_stats'),
+					'css' => array('r' => "$default_user:$default_user"),
 					'img' => array(
 						'photo_default' => array(
-							'caches' => array('r' => 'server_stats:server_stats'),
+							'caches' => array('r' => "$default_user:$default_user"),
 						),
 					),
 				),
 				'tmp' => array(
-					'r' => 'server_stats:server_stats'
+					'r' => "$default_user:$default_user"
 				),
 			),
 		);
