@@ -101,16 +101,16 @@
   position: relative;
   top: 200px;
 }
-.out_page_content #page_content {
+#page_content {
   position: relative;
   height: 850px;
   top: 180px;
 }
-.out_page_content #page_content #gallery_outer_cont {
+#page_content #gallery_outer_cont {
   height: 515px;
   position: relative;
 }
-.out_page_content #page_content #gallery_outer_cont #grezzo_listing_actual_container {
+#page_content #gallery_outer_cont #grezzo_listing_actual_container {
   position: absolute;
   width: 100%;
   margin: 0px;
@@ -119,77 +119,77 @@
   overflow-x: scroll;
   overflow-y: visible;
 }
-.out_page_content #page_content #gallery_outer_cont #grezzo_listing_actual_container .endless_loading {
+#page_content #gallery_outer_cont #grezzo_listing_actual_container .endless_loading {
   position: absolute;
   top: 0px;
   right: 0px;
   outline: 1px solid red;
   color: red;
 }
-.out_page_content #page_content #gallery_outer_cont #grezzo_listing_actual_container img {
+#page_content #gallery_outer_cont #grezzo_listing_actual_container img {
   vertical-align: top;
   display: inline-block;
   border-right: 1px solid white;
 }
-.out_page_content #page_content #gray_border_bottom {
+#page_content #gray_border_bottom {
   background-image: url("/img/border_bottom.png");
   height: 21px;
   margin-bottom: 19px;
 }
-.out_page_content #page_content .vertical_border {
+#page_content .vertical_border {
   border-right: 1px solid #bfbfbf;
 }
-.out_page_content #page_content #image_info_container {
+#page_content #image_info_container {
   width: 300px;
   bottom: 95px;
   left: 50%;
   width: 750px;
   margin: auto;
 }
-.out_page_content #page_content #image_info_container #gray_border_small {
+#page_content #image_info_container #gray_border_small {
   border-bottom: 1px solid #939598;
   position: relative;
   top: 56px;
 }
-.out_page_content #page_content #image_info_container #gallery_name {
+#page_content #image_info_container #gallery_name {
   display: none;
   background-color: #000;
   color: #fff;
   text-align: center;
   padding: 5px;
 }
-.out_page_content #page_content #image_info_container #gallery_name h2 {
+#page_content #image_info_container #gallery_name h2 {
   max-width: 300px;
   margin: 0 auto;
 }
-.out_page_content #page_content #image_info_container .image_info {
+#page_content #image_info_container .image_info {
   display: none;
 }
-.out_page_content #page_content #image_info_container .image_info .photo_details {
+#page_content #image_info_container .image_info .photo_details {
   float: left;
   width: 500px;
   margin-top: 34px;
   margin-left: 22px;
 }
-.out_page_content #page_content #image_info_container .image_info .photo_details h4 {
+#page_content #image_info_container .image_info .photo_details h4 {
   margin: 0 0 20px 0;
 }
-.out_page_content #page_content #image_info_container .image_info .photo_details p {
+#page_content #image_info_container .image_info .photo_details p {
   height: 150px;
   overflow: auto;
   padding: 0 15px 0 5px;
 }
-.out_page_content #page_content #image_info_container .image_info .side_control_options {
+#page_content #image_info_container .image_info .side_control_options {
   float: right;
   margin-top: 34px;
 }
-.out_page_content #page_content #image_info_container .image_info .side_control_options #add_to_cart_buttons_cont {
+#page_content #image_info_container .image_info .side_control_options #add_to_cart_buttons_cont {
   height: 200px;
   overflow: auto;
   overflow-x: hidden;
   padding-right: 30px;
 }
-.out_page_content #page_content #image_info_container .image_info .side_control_options button {
+#page_content #image_info_container .image_info .side_control_options button {
   display: block;
   position: relative;
   margin: 5px 2px;
