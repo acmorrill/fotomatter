@@ -36,7 +36,7 @@
  * In development mode, you need to click the flash message to continue.
  */
 	Configure::write('debug', 0);
-	Configure::write('show_major_error_bar', true);
+	Configure::write('show_major_error_bar', false);
 
 /**
  * CakePHP Log Level:

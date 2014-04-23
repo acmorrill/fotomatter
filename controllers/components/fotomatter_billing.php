@@ -33,6 +33,10 @@ class FotomatterBillingComponent extends FotoMatterOverlordApi {
 	}
     
 	public function get_account_info($params = array()) {
+		if (Configure::read('SHOW_FAKE_BILLING_DATA') === true) {
+			return $this->get_fake_account_info();
+		}
+		
 		if (apc_exists($this->account_info_apc_key)) {
 			return apc_fetch($this->account_info_apc_key);
 		}
@@ -48,7 +52,9 @@ class FotomatterBillingComponent extends FotoMatterOverlordApi {
 		return false;
 	}
 	
+	
 	public function get_current_on_off_features() {
+		$this->clear_billing_apc();
 		$account_info = $this->get_account_info();
 		if ($account_info === false) {
 			return false;
@@ -132,5 +138,149 @@ class FotomatterBillingComponent extends FotoMatterOverlordApi {
 	}
     
     
+	private function get_fake_account_info() {
+		return array(
+			'items' => array(
+				array(
+					'AccountLineItem' => array(
+						'id' => 2,
+						'display_group' => '',
+						'ref_name' => 'unlimited_photos',
+						'better_best_group' => '',
+						'order' => 1,
+						'better_best_group_order' => '',
+						'name' => 'Unlimited Photos',
+						'current_cost' => '2.99',
+						'created' => '2014-04-12 21:39:09',
+						'modified' => '2014-04-18 10:58:43',
+						'is_pay_fail' => false,
+						'active' => '1',
+						'removed_scheduled' => '0',
+						'addable' => '0',
+						'previous' => '0',
+					),
+				),
+				array(
+					'AccountLineItem' => array(
+						'id' => 3,
+						'display_group' => '',
+						'ref_name' => 'basic_shopping_cart',
+						'better_best_group' => '',
+						'order' => 2,
+						'better_best_group_order' => '',
+						'name' => 'Shopping Cart',
+						'current_cost' => '4.99',
+						'created' => '2014-04-12 21:39:09',
+						'modified' => '2014-04-18 10:58:43',
+						'is_pay_fail' => false,
+						'active' => '1',
+						'removed_scheduled' => '0',
+						'addable' => '0',
+						'previous' => '0',
+					),
+				),
+				array(
+					'AccountLineItem' => array(
+						'id' => 5,
+						'display_group' => '',
+						'ref_name' => 'page_builder',
+						'better_best_group' => '',
+						'order' => 3,
+						'better_best_group_order' => '',
+						'name' => 'Page  Builder',
+						'current_cost' => '.99',
+						'created' => '2014-04-12 21:39:09',
+						'modified' => '2014-04-18 10:58:43',
+						'is_pay_fail' => false,
+						'active' => '1',
+						'removed_scheduled' => '0',
+						'addable' => '0',
+						'previous' => '0',
+					),
+				),
+				array(
+					'AccountLineItem' => array(
+						'id' => 4,
+						'display_group' => '',
+						'ref_name' => 'mobile_theme',
+						'better_best_group' => '',
+						'order' => 4,
+						'better_best_group_order' => '',
+						'name' => 'Mobile Theme',
+						'current_cost' => '.99',
+						'created' => '2014-04-12 21:39:09',
+						'modified' => '2014-04-18 10:58:43',
+						'is_pay_fail' => false,
+						'active' => '1',
+						'removed_scheduled' => '0',
+						'addable' => '0',
+						'previous' => '0',
+					),
+				),
+				array(
+					'AccountLineItem' => array(
+						'id' => 6,
+						'display_group' => '',
+						'ref_name' => 'remove_fotomatter_branding',
+						'better_best_group' => '',
+						'order' => 5,
+						'better_best_group_order' => '',
+						'name' => 'Remove Fotomatter Branding',
+						'current_cost' => '.99',
+						'created' => '2014-04-12 21:39:09',
+						'modified' => '2014-04-18 10:58:43',
+						'is_pay_fail' => false,
+						'active' => '1',
+						'removed_scheduled' => '0',
+						'addable' => '0',
+						'previous' => '0',
+					),
+				),
+				array(
+					'AccountLineItem' => array(
+						'id' => 7,
+						'display_group' => '',
+						'ref_name' => 'email_support',
+						'better_best_group' => '',
+						'order' => 6,
+						'better_best_group_order' => '',
+						'name' => 'Email Support',
+						'current_cost' => '.99',
+						'created' => '2014-04-12 21:39:09',
+						'modified' => '2014-04-18 10:58:43',
+						'is_pay_fail' => false,
+						'active' => '1',
+						'removed_scheduled' => '0',
+						'addable' => '0',
+						'previous' => '0',
+					),
+				),
+			),
+			'total_bill' => '6.97',
+			'is_pay_fail' => false,
+			'Account' => array(
+				'id' => '534a015a-c7c4-474b-ac8d-2d5b9e3f42ff',
+				'email' => 'acmorrill@gmail.com',
+				'promo_credit_balance' => '0.00',
+				'account_status_id' => 2,
+				'account_payment_status_id' => 2,
+				'next_bill_date' => '2014-05-16 22:57:34',
+				'site_domain' => 'drew',
+				'welcome_hash' => 'QpM01rpHimMvzZpMVvRpFi5ER0ImHZpyoczpDZ7WlTrUTRGOmye2RjHIkp52ouBNHadlakhveIp7z6VWF9YwtFfO4kRtOshvDuQNP8i3QHaqO6mtgkZKZey4zpyoSPTv',
+				'first_name' => 'Andrew',
+				'last_name' => 'Morrill',
+				'country_id' => 223,
+				'business_name' => '', 
+				'industry_type_id' => 1,
+				'authnet_profile_id' => 5,
+				'billing_in_progress' => 0,
+				'is_welcome' => 0,
+				'market_source' => 'direct',
+				'partner_id' => 0,
+				'created' => '2014-04-12 21:15:38',
+				'modified' => '2014-04-16 22:05:31',
+			),
+		);
+	}
     
 }
