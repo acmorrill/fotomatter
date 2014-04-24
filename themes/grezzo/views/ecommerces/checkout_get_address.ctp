@@ -66,10 +66,12 @@
 
 <?php //$billing_address = $this->Ecommerce->get_cart_billing_address(); ?>
 <?php $shipping_address = $this->Ecommerce->get_cart_shipping_address(); ?>
- 
+<div class='black_box'>
+	<h1><?php __('Shipping Address'); ?></h1>
+</div>
 <form action="/ecommerces/checkout_get_address" method="post">
 	<div id="shipping_address_container" class="address_cont">
-		<h1><?php __('Shipping Address'); ?></h1>
+<!--		<h1>php __('Shipping Address'); ?></h1>-->
 				<?php /*<div class="input same_as_billing">
 			<label><?php __('Same as Billing'); ?>:</label> <input type="checkbox" name="data[ShippingAddress][same_as_billing]" <?php if (isset($shipping_address['same_as_billing']) && $shipping_address['same_as_billing'] == '1'): ?>checked="checked"<?php endif; ?> /><br/>
 		</div> */ ?>

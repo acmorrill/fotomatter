@@ -697,7 +697,7 @@ body {
 }
 #cart .page-content {
   margin: auto;
-  width: 60%;
+  width: 80%;
 }
 #cart .page-content table {
   width: 100%;
@@ -717,6 +717,62 @@ body {
 }
 #cart .page-content button#standard_checkout_button {
   margin: 10px 0;
+}
+.black_box {
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  padding: 5px;
+  margin-top: -20px;
+}
+.black_box h1 {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+#gray_spacing_bar {
+  border-bottom: 2px solid #939598;
+  position: relative;
+  top: -32px;
+}
+#shipping_address_container {
+  width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  outline: none;
+}
+.no_label {
+  width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0px;
+}
+#footer {
+  margin-top: 60px;
+  width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+input[type="submit"] {
+  padding: 7px;
+  width: 70px;
+}
+input[type=text],
+textarea {
+  -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -ms-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
+  outline: none;
+  padding: 3px 0px 3px 3px;
+  margin: 5px 1px 3px 0px;
+  border: 1px solid #DDDDDD;
+}
+input[type=text]:focus,
+textarea:focus {
+  box-shadow: 0 0 5px black;
+  padding: 3px 0px 3px 3px;
+  margin: 5px 1px 3px 0px;
+  border: 1px solid black;
 }
 #custom-page {
   margin: auto;
