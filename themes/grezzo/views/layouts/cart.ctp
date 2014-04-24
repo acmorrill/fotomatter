@@ -16,12 +16,13 @@
 		</div>
 		<div style="clear:both"></div>
 			<div class="out_page_content">
-				<div id="cart">
-					<div class="page-content">
-						<?php echo $content_for_layout; ?>
-						<?php echo $this->Element('footer'); ?>
+				<div id="gray_spacing_bar"></div>
+					<div id="cart">
+						<div class="page-content">
+							<?php echo $content_for_layout; ?>
+							<?php echo $this->Element('footer'); ?>
+						</div>
 					</div>
 				</div>
-			</div>
-	</body>
-</html>
+		</body>
+	</html>
