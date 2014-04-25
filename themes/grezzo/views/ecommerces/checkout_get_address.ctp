@@ -1,5 +1,6 @@
-<?php echo $this->Session->flash(); ?>
-
+<div style="padding-bottom: 20px;">
+	<?php echo $this->Session->flash(); ?>
+</div>
 <script type="text/javascript">
 	jQuery(document).ready(function() {
 		function country_select_reset(context, country_id, first_load) {
