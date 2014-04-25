@@ -21,9 +21,16 @@ class PhotoGalleriesPhoto extends AppModel {
 	);
 	
 	public function get_gallery_photos_ids_by_weight($gallery_id, $limit = null) {
+		$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
+		$max_photo_extra_condition = '';
+		if (!empty($max_photo_id)) {
+			$max_photo_extra_condition = "PhotoGalleriesPhoto.photo_id <= $max_photo_id";
+		}
+		
 		$photo_gallery_photos = $this->find('all', array(
 			'conditions' => array(
 				'PhotoGalleriesPhoto.photo_gallery_id' => $gallery_id,
+				$max_photo_extra_condition
 			),
 			'order' => array(
 				'PhotoGalleriesPhoto.photo_order ASC'

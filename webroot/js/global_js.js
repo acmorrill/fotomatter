@@ -12,14 +12,19 @@ var verticle_sortable_defaults = {
  *Global start up behavio
  ****/
 jQuery(document).ready(function() {
-    jQuery(document).ajaxStart(function(event, request, settings) {
-//        console.log('start');
+	jQuery('.add_feature_button').click(function() {
+		var ref_feature_name = jQuery(this).attr('ref_feature_name');
+		window.location.href = '/admin/accounts/index/' + ref_feature_name;
+	});
+	
+	jQuery(document).ajaxStart(function(event, request, settings) {
+	//        console.log('start');
 		jQuery('body, div, img, button').addClass('cursor-progress');
-    });
-    jQuery(document).ajaxStop(function(event, request, settings) {
-//        console.log('stop');
+	});
+	jQuery(document).ajaxStop(function(event, request, settings) {
+	//        console.log('stop');
 		jQuery('body, div, img, button').removeClass('cursor-progress');	
-    });
+	});
         
 	
 	/************************************/

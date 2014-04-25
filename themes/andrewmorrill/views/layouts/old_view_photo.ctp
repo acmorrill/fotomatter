@@ -557,7 +557,7 @@ een to be believed.</p></div></div>
 			<br/><br/><br/><br/><br/>
 			<br/><br/><br/><br/><br/>
 	
-			<?php echo $this->Element('footer'); ?>
+			<?php echo $this->Element('global_theme_footer_copyright'); ?>
 		</div>
 <?php 
 			// figure out the right arrow

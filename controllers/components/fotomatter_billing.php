@@ -54,7 +54,6 @@ class FotomatterBillingComponent extends FotoMatterOverlordApi {
 	
 	
 	public function get_current_on_off_features() {
-		$this->clear_billing_apc();
 		$account_info = $this->get_account_info();
 		if ($account_info === false) {
 			return false;
@@ -67,6 +66,7 @@ class FotomatterBillingComponent extends FotoMatterOverlordApi {
 				$formatted_current_on_off_feature = false;
 			}
 		}
+		
 		
 		return $formatted_current_on_off_features;
 	}
@@ -115,7 +115,7 @@ class FotomatterBillingComponent extends FotoMatterOverlordApi {
 		return false;
 	}
 	
-	private function clear_billing_apc() {
+	public function clear_billing_apc() {
 		apc_delete($this->account_details_apc_key);
 		apc_delete($this->account_info_apc_key);
 		apc_delete($this->account_payment_profile_apc_key);

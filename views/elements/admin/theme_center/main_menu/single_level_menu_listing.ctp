@@ -76,6 +76,10 @@
 		<script type="text/javascript">
 			jQuery(document).ready(function() { 
 				jQuery('#single_menu_page_add_button').click(function() { 
+					<?php if (empty($current_on_off_features['page_builder'])): ?>
+						return false;
+					<?php endif; ?>
+					
 					var select_box = jQuery(this).parent().find('#single_menu_page_add_list');
 					var site_page_id = select_box.val();
 
@@ -139,18 +143,23 @@
 		<?php $all_pages = $this->Page->get_all_pages(); ?>
 		<div class="custom_ui">
 			<h2><?php __('Add Information Page To Main Menu'); ?></h2>
-			<div class="drop_down_sub_title">	
-				<select id="single_menu_page_add_list">
+			<div class="drop_down_sub_title" >	
+				<select id="single_menu_page_add_list" class="<?php if (empty($current_on_off_features['page_builder'])): ?> disabled <?php endif; ?>">
 					<?php foreach ($all_pages as $curr_page): ?>
 						<option value="<?php echo $curr_page['SitePage']['id']; ?>"><?php echo $curr_page['SitePage']['title']; ?></option>
 					<?php endforeach; ?>
 				</select>
-				<div id="single_menu_page_add_button" class="custom_ui tools_button">
+				<div id="single_menu_page_add_button" class="custom_ui tools_button <?php if (empty($current_on_off_features['page_builder'])): ?> disabled <?php endif; ?>">
 					<div class="add_button">
 						<div class="content"><?php __('Add'); ?></div>
 						<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
 					</div>
 				</dIv>
+				<?php if (empty($current_on_off_features['page_builder'])): ?>
+					<div style="margin-left: 10px;" id="add_feature_button" class="add_button highlight add_feature_button" type="submit" ref_feature_name="page_builder">
+						<div class="content"><?php echo __("Add Page Builder"); ?></div><div class="right_arrow_lines"><div></div></div>
+					</div>
+				<?php endif; ?>
 			</div>
 		</div>
 		<div class="hr_element"></div>

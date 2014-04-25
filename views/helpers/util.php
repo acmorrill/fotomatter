@@ -26,4 +26,12 @@ class UtilHelper extends AppHelper {
 		
 		return date($created_format, strtotime($created));
 	}
+	
+	public function global_cdn($file_name, $force_ssl = true) {
+		if ($force_ssl || !empty($_SERVER['HTTPS'])) {
+			return GLOBAL_FOTOMATTER_CONTAINER_SECURE_URL.$file_name;
+		} else {
+			return GLOBAL_FOTOMATTER_CONTAINER_URL.$file_name;
+		}
+	}
 }

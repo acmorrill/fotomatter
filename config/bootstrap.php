@@ -53,6 +53,14 @@ define("CARDNUMBER_MASK", 'XXXXXXXXXXXX');
 
 define("OVERLORD_API_KEY", 'baYMbSR0EM0REmSheFHc0Qo2RUmEGoToNFnPWFcyAEUYRlaOgSynnI1F9DyI');
 
+// global container urls
+define("GLOBAL_FOTOMATTER_CONTAINER_URL", 'http://d032ca0eed6846c31fe8-4af0fb97e675ed71f0af4b096cd907ac.r56.cf2.rackcdn.com/');
+define("GLOBAL_FOTOMATTER_CONTAINER_SECURE_URL", 'https://d4f9baf5b96f3eeed9c9-4af0fb97e675ed71f0af4b096cd907ac.ssl.cf2.rackcdn.com/');
+
+// limit functions
+define("LIMIT_MAX_FREE_PHOTOS", 4); // DREW TODO - change this back to 100
+
+
 define('DOMAIN_MARKUP_DOLLAR', '0');
 
 // webroot abs path

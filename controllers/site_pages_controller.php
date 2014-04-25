@@ -18,6 +18,19 @@ class SitePagesController extends AppController {
 		$this->layout = 'admin/pages';
 		
 		$this->Auth->allow('landing_page', 'custom_page', 'htaccess');
+		
+		/////////////////////////////////////////////
+		// limit pages
+		if (in_array($this->action, array(
+			'admin_index',
+		))) {
+			$this->FeatureLimiter->limit_view($this, 'page_builder', 'page_builder'); // $controller, $feature_ref_name, $element_path in /elements/admin/limit_views
+		} else if(!in_array($this->action, array(
+			'ping',
+			'landing_page',
+		))) {
+			$this->FeatureLimiter->limit_function($this, 'page_builder'); // $controller, $feature_ref_name
+		} 
 	}
 	
 	public function ping() {
@@ -29,13 +42,13 @@ class SitePagesController extends AppController {
 	}
 	
 	public function landing_page() {
-		$this->cacheAction = FRONTEND_VIEW_CACHING_STRTOTIME_TTL;
+		$this->setup_front_end_view_cache($this);
 		
 		$this->ThemeRenderer->render($this);
 	}
 	
 	public function custom_page($site_page_id) {
-		$this->cacheAction = FRONTEND_VIEW_CACHING_STRTOTIME_TTL;
+		$this->setup_front_end_view_cache($this);
 		
 		$site_page = $this->SitePage->find('first', array(
 			'conditions' => array(

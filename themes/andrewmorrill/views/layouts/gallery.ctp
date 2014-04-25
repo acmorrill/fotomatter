@@ -149,7 +149,7 @@ if(!isset($HTTP_COOKIE_VARS["usersAvailScreenWidth"]) || !isset($HTTP_COOKIE_VAR
 
 
 				<img src="/images/misc/horiz_gradientline.png">
-				<?php echo $this->Element('footer'); ?>
+				<?php echo $this->Element('global_theme_footer_copyright'); ?>
 			</div>
 		</div>
 		

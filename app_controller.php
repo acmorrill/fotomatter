@@ -79,7 +79,7 @@ class AppController extends Controller {
 		///////////////////////////////////////////////////////
 		// setup mobile settings for mobile theming
 		$this->is_mobile = false;
-		if ($this->MobileDetect->isMobile()) {
+		if (!empty($this->current_on_off_features['mobile_theme']) && $this->MobileDetect->isMobile()) {
 			$this->is_mobile = true;
 			//$this->autoRender = false;
 		}
@@ -206,6 +206,12 @@ class AppController extends Controller {
 //		$this->render('/elements/empty_theme_page');
 //	}
 	
+	
+	function setup_front_end_view_cache(&$controller) {
+		if (Configure::read('debug') == 0) {
+			$controller->cacheAction = FRONTEND_VIEW_CACHING_STRTOTIME_TTL;
+		}
+	}
 	
  	function redirect($url) {
 		parent::redirect($url);

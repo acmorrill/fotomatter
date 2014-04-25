@@ -189,6 +189,10 @@
 		<script type="text/javascript">
 			jQuery(document).ready(function() {
 				jQuery('#two_level_menu_page_add_button').click(function() {
+					<?php if (empty($current_on_off_features['page_builder'])): ?>
+						return false;
+					<?php endif; ?>
+					
 					var context = this;
 					
 					var select_box = jQuery(context).parent().find('#two_level_menu_page_add_list');
@@ -437,15 +441,22 @@
 		
 		<?php $all_pages = $this->Page->get_all_pages(); ?>
 		<div class="custom_ui">
-			<span><?php __('Add Page:'); ?></span>
-			<select id="two_level_menu_page_add_list">
-				<?php foreach ($all_pages as $curr_page): ?>
-					<option value="<?php echo $curr_page['SitePage']['id']; ?>"><?php echo $curr_page['SitePage']['title']; ?></option>
-				<?php endforeach; ?>
-			</select>
-			<span><?php __('to'); ?></span>
-			<?php echo $this->Element('admin/theme_center/main_menu/container_select_box', array('all_containers' => $all_containers)); ?>
-			<input id="two_level_menu_page_add_button" class="add_button" type="submit" value="<?php __('Go'); ?>" />
+			<div class="<?php if (empty($current_on_off_features['page_builder'])): ?> disabled <?php endif; ?>" style="display: inline-block;">
+				<span><?php __('Add Page:'); ?></span>
+				<select id="two_level_menu_page_add_list">
+					<?php foreach ($all_pages as $curr_page): ?>
+						<option value="<?php echo $curr_page['SitePage']['id']; ?>"><?php echo $curr_page['SitePage']['title']; ?></option>
+					<?php endforeach; ?>
+				</select>
+				<span><?php __('to'); ?></span>
+				<?php echo $this->Element('admin/theme_center/main_menu/container_select_box', array('all_containers' => $all_containers)); ?>
+				<input id="two_level_menu_page_add_button" class="add_button" type="submit" value="<?php __('Go'); ?>" />
+			</div>
+			<?php if (empty($current_on_off_features['page_builder'])): ?>
+				<div style="margin-left: 10px;" id="add_feature_button" class="add_button highlight add_feature_button" type="submit" ref_feature_name="page_builder">
+					<div class="content"><?php echo __("Add Page Builder"); ?></div><div class="right_arrow_lines"><div></div></div>
+				</div>
+			<?php endif; ?>
 		</div>
 		
 		<?php $all_galleries = $this->Gallery->get_all_galleries(); ?>

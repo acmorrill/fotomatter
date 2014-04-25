@@ -49,7 +49,7 @@
 				</div>
 				<br />
 				<img src="/images/misc/horiz_gradientline.png">
-				<?php echo $this->Element('footer'); ?>
+				<?php echo $this->Element('global_theme_footer_copyright'); ?>
 			</div>
 		</div>
 		

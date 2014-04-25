@@ -25,6 +25,7 @@ class AccountsController extends AppController {
 	* action for the page to add/remove line items. 
 	*/
 	public function admin_index($add_feature_ref_name = null) {
+		$this->FotomatterBilling->clear_billing_apc();
 		$overlord_account_info = $this->FotomatterBilling->get_account_info();
 		
 		$this->Session->delete('account_line_items');
