@@ -78,10 +78,13 @@
 	//outline: 1px solid red;
 }
 	#shipping_address_container{
-		width: 500px;
+		width: 400px;
 		margin-left: auto;
 		margin-right: auto;
 		outline: none;
+		label{
+			margin-top: 5px;
+		}
 	}
 	.no_label{
 		width: 400px;
@@ -109,10 +112,11 @@
 		  -moz-transition: all 0.30s ease-in-out;
 		  -ms-transition: all 0.30s ease-in-out;
 		  -o-transition: all 0.30s ease-in-out;
-		  outline: none;
+		  outline: 1px solid @outline_textarea;
 		  padding: 3px 0px 3px 3px;
 		  margin: 5px 1px 3px 0px;
-		  border: 1px solid #DDDDDD;
+		  border: 1px solid @boarder_textarea;
+		  
 		  
 	}
 
@@ -126,3 +130,38 @@
 			  
 		  }
 		}
+		select{
+			width: 180px;
+			margin-top: 5px;
+			&:focus{
+				outline: 1px solid @black;
+			}
+		}
+		
+		#gray_border_bottom{
+			background-image: url("/img/border_bottom.png");
+			height: 21px;
+			margin-bottom: 19px;
+			outline: 1px solid red;
+		}
+		/* checkout_login_or_guest.ctp styles */
+	#login_container {
+		margin-top: 30px;
+		//outline: 1px solid black;
+		padding: 20px;
+	}
+	#login_container label {
+		display: inline-block;
+		vertical-align: top;
+		width: 100px;
+		text-align: right;
+		margin-right: 10px;
+	}
+	#login_container .input {
+		margin-bottom: 10px;
+		
+	}
+	#login_container .submit {
+		padding-left: 114px;
+	}
+		

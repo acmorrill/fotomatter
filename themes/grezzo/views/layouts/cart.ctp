@@ -20,7 +20,7 @@
 					<div id="cart">
 						<div class="page-content">
 							<?php echo $content_for_layout; ?>
-							<?php echo $this->Element('footer'); ?>
+							<?php echo $this->Element('footer'); ?>							
 						</div>
 					</div>
 				</div>

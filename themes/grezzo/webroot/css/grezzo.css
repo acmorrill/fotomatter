@@ -735,10 +735,13 @@ body {
   top: -32px;
 }
 #shipping_address_container {
-  width: 500px;
+  width: 400px;
   margin-left: auto;
   margin-right: auto;
   outline: none;
+}
+#shipping_address_container label {
+  margin-top: 5px;
 }
 .no_label {
   width: 400px;
@@ -762,10 +765,10 @@ textarea {
   -moz-transition: all 0.30s ease-in-out;
   -ms-transition: all 0.30s ease-in-out;
   -o-transition: all 0.30s ease-in-out;
-  outline: none;
+  outline: 1px solid #939598;
   padding: 3px 0px 3px 3px;
   margin: 5px 1px 3px 0px;
-  border: 1px solid #DDDDDD;
+  border: 1px solid #dddddd;
 }
 input[type=text]:focus,
 textarea:focus {
@@ -773,6 +776,36 @@ textarea:focus {
   padding: 3px 0px 3px 3px;
   margin: 5px 1px 3px 0px;
   border: 1px solid black;
+}
+select {
+  width: 180px;
+  margin-top: 5px;
+}
+select:focus {
+  outline: 1px solid #000;
+}
+#gray_border_bottom {
+  background-image: url("/img/border_bottom.png");
+  height: 21px;
+  margin-bottom: 19px;
+  outline: 1px solid red;
+}
+#login_container {
+  margin-top: 30px;
+  padding: 20px;
+}
+#login_container label {
+  display: inline-block;
+  vertical-align: top;
+  width: 100px;
+  text-align: right;
+  margin-right: 10px;
+}
+#login_container .input {
+  margin-bottom: 10px;
+}
+#login_container .submit {
+  padding-left: 114px;
 }
 #custom-page {
   margin: auto;
