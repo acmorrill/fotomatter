@@ -30,7 +30,7 @@
 				'background_color' => '#efefef',
 			)); ?>
 			
-			<?php echo $this->Element('footer'); ?>
+			<?php echo $this->Element('global_theme_footer_copyright'); ?>
 		</div>
 		
 		<p id="introBlurb">&nbsp;&nbsp;<b>Welcome</b> to the online gallery of fine art photographer Andrew Morrill. For tips on viewing this site click <a href="viewingTips.php">here</a>. To purchase prints, navigate to an image in the image galleries section. Thank you for visting. Enjoy!

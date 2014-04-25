@@ -306,20 +306,27 @@ select {
 		font-size: 18px;
 		background-color: @off_black;
 		min-width: 65px;
-		&.highlight {
+		&.bigger {
 			height: 50px;
 			.Code-Pro-Bold-LC;
 			font-size: 20px;
+			.content {
+				margin-top: 18px;
+			}
+			.right_arrow_lines {
+				margin-top: 15px;
+			}
+			&:hover .right_arrow_lines { margin-top: 15px; }
+		}
+		&.highlight {
 			padding-left: 30px;
 			padding-right: 30px;
 			border: 0px;
 			.content {
-				margin-top: 18px;
 				&, a { color: @white };
 			}
 			background-color: @button_highlight;
 			.right_arrow_lines {
-				margin-top: 15px;
 				.right_facing_triangle(10, @white);
 				div {
 					.right_facing_triangle(10, @button_highlight);
@@ -328,7 +335,6 @@ select {
 			&:hover {
 				background-color: @button_highlight + @button_bg_increase;
 				.right_arrow_lines {
-					margin-top: 15px;
 					.right_facing_triangle(10, @white);
 					div {
 						.right_facing_triangle(10, @button_highlight + @button_bg_increase);
@@ -354,4 +360,9 @@ select {
 			}
 		}
 	}
+}
+
+.disabled {
+	.el_opacity(.4, 40);
+	&, * { cursor: text !important; }
 }

@@ -39,8 +39,9 @@ class PhotosController extends AppController {
 	public function view_photo($photo_id = null) {
 		$total_photos = $this->Photo->count_total_photos(true);
 		if ($total_photos <= 100) { // only do photo view caching on sites with less than 100 photos
-			$this->cacheAction = FRONTEND_VIEW_CACHING_STRTOTIME_TTL;
+			$this->setup_front_end_view_cache($this);
 		}
+		
 		
 		$conditions = array();
 		if (isset($photo_id)) {
@@ -48,6 +49,13 @@ class PhotosController extends AppController {
 				'Photo.id' => $photo_id
 			);
 		}
+		
+		
+		$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
+		if (!empty($max_photo_id)) {
+			$conditions['Photo.id <='] = $max_photo_id;
+		}
+		
 		
 		// find the photo
 		$curr_photo = $this->Photo->find('first', array(
@@ -57,6 +65,10 @@ class PhotosController extends AppController {
 			)
 		));
 		$photo_id = $curr_photo['Photo']['id'];
+		
+		if (empty($curr_photo)) {
+			$this->redirect('/');
+		}
 		
 		
 		// what gallery are we currently in

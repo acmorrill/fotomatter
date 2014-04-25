@@ -97,6 +97,11 @@ class SiteMenusController extends AppController {
 	}
 	
 	public function admin_add_one_level_menu_item($external_model, $external_id) {
+		if ($external_model == 'SitePage') {
+			$this->FeatureLimiter->limit_function($this, 'page_builder'); // $controller, $feature_ref_name
+		}
+		
+		
 		$returnArr = array();
 		
 		$data = array();
@@ -123,6 +128,11 @@ class SiteMenusController extends AppController {
 	}
 	
 	public function admin_add_two_level_menu_item($external_model, $external_id) {
+		if ($external_model == 'SitePage') {
+			$this->FeatureLimiter->limit_function($this, 'page_builder'); // $controller, $feature_ref_name
+		}
+		
+		
 		$returnArr = array();
 		
 		$data = array();

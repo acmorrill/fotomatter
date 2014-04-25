@@ -18,7 +18,8 @@ class ThemeMenuHelper extends AppHelper {
 		$single_menu_items = $this->SiteOneLevelMenu->find('all', array(
 			'order' => array(
 				'SiteOneLevelMenu.weight'
-			)
+			),
+			'contain' => false,
 		));
 		
 		return $single_menu_items;

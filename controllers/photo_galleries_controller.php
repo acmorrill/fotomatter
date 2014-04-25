@@ -47,13 +47,13 @@ class PhotoGalleriesController extends AppController {
 	}
 	
 	public function choose_gallery() {
-		$this->cacheAction = FRONTEND_VIEW_CACHING_STRTOTIME_TTL;
+		$this->setup_front_end_view_cache($this);
 		
 		$this->ThemeRenderer->render($this);
 	}
 	
 	public function view_gallery($gallery_id = null) {
-		$this->cacheAction = FRONTEND_VIEW_CACHING_STRTOTIME_TTL;
+		$this->setup_front_end_view_cache($this);
 		
 		$gallery_listing_config = $this->viewVars['theme_config']['admin_config']['theme_gallery_listing_config'];
 		
@@ -95,10 +95,17 @@ class PhotoGalleriesController extends AppController {
 			$photos = $this->paginate('Photo');      
 			
 		} else {
+			$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
+			$max_photo_extra_condition = '';
+			if (!empty($max_photo_id)) {
+				$max_photo_extra_condition = "PhotoGalleriesPhoto.photo_id <= $max_photo_id";
+			}
+			
 			$this->paginate = array(
 				'PhotoGalleriesPhoto' => array(
 					'conditions' => array(
-						'PhotoGalleriesPhoto.photo_gallery_id' => $gallery_id
+						'PhotoGalleriesPhoto.photo_gallery_id' => $gallery_id,
+						$max_photo_extra_condition,
 					),
 					'limit' => $limit,
 					'contain' => array(
@@ -138,7 +145,7 @@ class PhotoGalleriesController extends AppController {
 			$save_settings['date_taken_from'] = (isset($smart_settings['date_taken_from']) && $smart_settings['date_taken_from'] != $smart_settings['date_taken_from_default']) ? date( 'm/d/Y', strtotime($smart_settings['date_taken_from'])) : null;
 			$save_settings['date_taken_to'] = (isset($smart_settings['date_taken_to']) && $smart_settings['date_taken_to'] != $smart_settings['date_taken_to_default']) ? date( 'm/d/Y', strtotime($smart_settings['date_taken_to'])) : null;
 			$save_settings['photo_format'] = isset($smart_settings['photo_format']) ? $smart_settings['photo_format'] : array();
-			$save_settings['order_by'] = isset($smart_settings['order_by']) ? $smart_settings['order_by'] : 'date_added';
+			$save_settings['order_by'] = isset($smart_settings['order_by']) ? $smart_settings['order_by'] : 'created';
 			$save_settings['order_direction'] = isset($smart_settings['order_direction']) ? $smart_settings['order_direction'] : 'desc';
 			
 			

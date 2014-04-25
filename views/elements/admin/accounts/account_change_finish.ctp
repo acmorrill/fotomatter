@@ -4,7 +4,7 @@
 			type: 'POST',
 			url: "/admin/accounts/ajax_finish_account_change",
 			success: function(data) {
-				window.location.reload();
+				window.location.href = "/admin/accounts/index";
 			},
 			dataType: 'json'
 		});

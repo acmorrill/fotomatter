@@ -15,7 +15,7 @@
 		<div class="standardContent">
 			<div class="contentBackgroundInside">
 				<?php echo $content_for_layout; ?>
-				<?php echo $this->Element('footer'); ?>
+				<?php echo $this->Element('global_theme_footer_copyright'); ?>
 			</div>
 		</div>
 		

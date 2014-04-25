@@ -11,7 +11,6 @@ class AppModel extends LazyModel {
 		'Containable'
 	);
 	
-	
 	public function recursive_remove_directory($directory, $empty=FALSE) {
 		// if the path has a slash at the end we remove it here
 		if(substr($directory,-1) == '/')

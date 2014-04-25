@@ -17,7 +17,7 @@
 	});
 </script>
 
-<link rel="stylesheet" type="text/css" href="/css/global_ecommerce.css" />
+<link rel="stylesheet" type="text/css" href="/css/theme_global.css" />
 
 <?php if (Configure::read('debug') >= 2): ?>
 <!--<script src="/js/live.js"></script>-->

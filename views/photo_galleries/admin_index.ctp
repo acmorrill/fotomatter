@@ -126,9 +126,13 @@
 						</td> 
 						<td class="gallery_action last">
 							<span class="custom_ui">
-								<a href="/admin/photo_galleries/edit_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"data-step="6" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom"><?php __('Edit'); ?></a>
-								<a href="/admin/photo_galleries/edit_gallery_connect_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/" data-step="7" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom"><?php __('Connect'); ?></a>
-								<a href="/admin/photo_galleries/edit_gallery_arrange_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/" data-step="8" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom"><?php __('Arrange'); ?></a>
+								<?php if ($curr_gallery['PhotoGallery']['type'] == 'smart'): ?>
+									<a href="/admin/photo_galleries/edit_smart_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Edit'); ?></a>
+								<?php else: ?>
+									<a href="/admin/photo_galleries/edit_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Edit'); ?></a>
+									<a href="/admin/photo_galleries/edit_gallery_connect_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Connect'); ?></a>
+									<a href="/admin/photo_galleries/edit_gallery_arrange_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Arrange'); ?></a>
+								<?php endif; ?>
 								<a href="/admin/photo_galleries/delete_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><div class="add_button icon"><div class="content">X</div></div></a>
 							</span>
 						</td>

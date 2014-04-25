@@ -37,9 +37,49 @@ class Photo extends AppModel {
 		)
 	);
 	public $hasAndBelongsToMany = array('Tag');
-
+	public $limit_last_photo_apc_key;
+	public $photos_count_apc_key;
+	
+	public function __construct($id = false, $table = null, $ds = null) {
+		parent::__construct($id, $table, $ds);
+		
+		$this->limit_last_photo_apc_key =  'limit_last_photo_'.$_SERVER['local']['database'];
+		$this->photos_count_apc_key =  'photos_count_'.$_SERVER['local']['database'];
+	}
+	
+	public function clear_apc_cache() {
+		apc_delete($this->limit_last_photo_apc_key);
+		apc_delete($this->photos_count_apc_key);
+	}
+	
+	public function get_last_photo_id_based_on_limit() {
+		if (apc_exists($this->limit_last_photo_apc_key)) {
+			return apc_fetch($this->limit_last_photo_apc_key);
+		}
+		
+		$max_num_photos = LIMIT_MAX_FREE_PHOTOS - 1;
+		$query = "
+			SELECT id FROM photos as Photo
+			ORDER BY Photo.id
+			LIMIT 1 OFFSET  $max_num_photos
+		";
+		$max_nth_photo = $this->query($query);
+		if (!empty($max_nth_photo[0]['Photo']['id'])) {
+			$max_nth_photo = $max_nth_photo[0]['Photo']['id'];
+		} else {
+			$max_nth_photo = false;
+		}
+		
+		apc_store($this->limit_last_photo_apc_key, $max_nth_photo, 604800); // 1 week
+		
+		return $max_nth_photo;
+	}
+	
+	
+	
 	public function beforeDelete() {
 		parent::beforeDelete();
+		$this->clear_apc_cache();
 		
 		
 		$photo = $this->find("first", array(
@@ -82,6 +122,7 @@ class Photo extends AppModel {
 	
 	public function beforeSave($options = array()) {
 		parent::beforeSave($options);
+		$this->clear_apc_cache();
 		
 
 		if (!isset($this->data['Photo']['date_taken'])) {
@@ -723,17 +764,16 @@ class Photo extends AppModel {
 		}
 	
 	public function count_total_photos($cache = false) {
-		$apc_key = 'total_photos_'.$_SERVER['local']['database'];
 		if ($cache === true) {
-			if (apc_exists($apc_key)) {
-				return apc_fetch($apc_key);
+			if (apc_exists($this->photos_count_apc_key)) {
+				return apc_fetch($this->photos_count_apc_key);
 			}
 		}
 		
 		
 		$total = $this->find('count');
 		if ($cache === true) {
-			 apc_store($apc_key, $total, 10800); // 3 hours
+			 apc_store($this->photos_count_apc_key, $total, 10800); // 3 hours
 		}
 		
 		return $total;

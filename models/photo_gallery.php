@@ -17,7 +17,6 @@ class PhotoGallery extends AppModel {
 		$gallery_id = $this->id;
 		
 		$delete_one_level_menu_query = "DELETE FROM site_one_level_menus WHERE external_id = :gallery_id AND external_model = 'PhotoGallery'";
-		//die($delete_one_level_menu_query);
 		if (!$this->query($delete_one_level_menu_query, array('gallery_id' => $gallery_id))) {
 			$this->major_error('Failed to delete one level menu connection on photo gallery delete', compact('gallery_id'));
 			return false;
@@ -75,19 +74,43 @@ class PhotoGallery extends AppModel {
 	public function afterFind($results, $primary = false) {
 		parent::afterFind($results, $primary);
 		
+		
 		if ($primary === true) {
 			foreach ($results as $key => $result) {
-				if ( !empty($result['PhotoGallery']['smart_settings']) && $result['PhotoGallery']['type'] == 'smart' ) {
-					$results[$key]['PhotoGallery']['smart_settings'] = unserialize($result['PhotoGallery']['smart_settings']);
+				if ($result['PhotoGallery']['type'] == 'smart') {
+					if (!empty($result['PhotoGallery']['smart_settings'])) {
+						$results[$key]['PhotoGallery']['smart_settings'] = unserialize($result['PhotoGallery']['smart_settings']);
+					} else {
+						$this->fill_default_smart_settings($results[$key]['PhotoGallery']['smart_settings']);
+					}
 				}
 			}
 		} else {
-			if ( !empty($results['smart_settings']) && $results['type'] == 'smart' ) {
-				$results['smart_settings'] = unserialize($results['smart_settings']);
+			if ($results['type'] == 'smart' ) {
+				if (!empty($results['smart_settings'])) {
+					$results['smart_settings'] = unserialize($results['smart_settings']);
+				} else {
+					$this->fill_default_smart_settings($results['smart_settings']);
+				}
 			}
 		}
 		
 		return $results;
+	}
+	
+	private function fill_default_smart_settings(&$smart_settings) { 
+		if (empty($smart_settings)) {
+			$smart_settings['tags'] = array();
+			$smart_settings['date_added_from'] = null;
+			$smart_settings['date_added_to'] = null;
+			$smart_settings['date_taken_from'] = null;
+			$smart_settings['date_taken_to'] = null;
+			$smart_settings['photo_format'] = array();
+			$smart_settings['order_by'] = 'created';
+			$smart_settings['order_direction'] = 'desc';
+		}
+		
+		return true;
 	}
 	
 	
@@ -98,12 +121,18 @@ class PhotoGallery extends AppModel {
 		$this->PhotoFormat = ClassRegistry::init('PhotoFormat');
 		$this->Photo = ClassRegistry::init('Photo');
 		
+		$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
 		
 		// find photos by tag
 		if (!empty($smart_settings['tags'])) {
+			$max_photo_extra_condition = '';
+			if (!empty($max_photo_id)) {
+				$max_photo_extra_condition = "PhotosTag.photo_id <= $max_photo_id";
+			}
 			$photos_tags = $this->PhotosTag->find('all', array(
 				'conditions' => array(
-					'PhotosTag.tag_id' => $smart_settings['tags']
+					'PhotosTag.tag_id' => $smart_settings['tags'],
+					$max_photo_extra_condition
 				),
 				'group' => array(
 					'PhotosTag.photo_id'
@@ -127,6 +156,10 @@ class PhotoGallery extends AppModel {
 			if (!empty($found_photo_ids)) {
 				$conditions['Photo.id'] = $found_photo_ids;
 			}
+			if (!empty($max_photo_id)) {
+				$conditions['Photo.id <='] = $max_photo_id;
+			}
+			
 			$conditions['Photo.photo_format_id'] = $photo_format_ids;
 			$photos_by_format = $this->Photo->find('all', array(
 				'conditions' => $conditions,
@@ -146,6 +179,9 @@ class PhotoGallery extends AppModel {
 			$conditions = array();
 			if (!empty($found_photo_ids)) {
 				$conditions['Photo.id'] = $found_photo_ids;
+			}
+			if (!empty($max_photo_id)) {
+				$conditions['Photo.id <='] = $max_photo_id;
 			}
 			if (isset($smart_settings['date_added_from'])) {
 				$conditions['Photo.created >='] = date('Y-m-d H:i:s', strtotime($smart_settings['date_added_from']));
@@ -168,6 +204,9 @@ class PhotoGallery extends AppModel {
 			$conditions = array();
 			if (!empty($found_photo_ids)) {
 				$conditions['Photo.id'] = $found_photo_ids;
+			}
+			if (!empty($max_photo_id)) {
+				$conditions['Photo.id <='] = $max_photo_id;
 			}
 			if (isset($smart_settings['date_taken_from'])) {
 				$conditions['Photo.date_taken >='] = date('Y-m-d H:i:s', strtotime($smart_settings['date_taken_from']));
