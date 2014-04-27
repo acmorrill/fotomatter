@@ -1,7 +1,8 @@
 
 <br/>
+<div class="guest_button"
 <a href="/ecommerces/checkout_get_address"><button><?php __('Checkout as Guest'); ?></button></a>
-
+</div>
 <script type="text/javascript">
 	jQuery(document).ready(function() {
 		jQuery('#forgot_password_link').click(function(e) { 
