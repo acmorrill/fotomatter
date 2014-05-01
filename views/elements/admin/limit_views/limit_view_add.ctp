@@ -7,13 +7,15 @@
 		<p>ADD IT TODAY FOR JUST &nbsp;<span><?php echo $price; ?></span> / MO.</p>
 		<div id="add_feature_button" class="add_button highlight bigger add_feature_button" type="submit" ref_feature_name="<?php echo $feature_ref_name; ?>"><div class="content"><?php echo __("Add $feature_name"); ?></div><div class="right_arrow_lines"><div></div></div></div>
 		<br />
-		<ol>
-			<?php $count = 1; foreach ($feature_reasons as $feature_reason): ?>
-				<li <?php if ($count === 1): ?>class='first'<?php endif; ?>>
-					<span><?php echo $feature_reason; ?></span>
-				</li>
-			<?php $count++; endforeach; ?>
-		</ol>
+		<?php if (!empty($feature_reasons)): ?>
+			<ol>
+				<?php $count = 1; foreach ($feature_reasons as $feature_reason): ?>
+					<li <?php if ($count === 1): ?>class='first'<?php endif; ?>>
+						<span><?php echo $feature_reason; ?></span>
+					</li>
+				<?php $count++; endforeach; ?>
+			</ol>
+		<?php endif; ?>
 	</div>
 	<img src="<?php echo $feature_image_src; ?>" />
 </div>

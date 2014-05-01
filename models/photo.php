@@ -68,7 +68,9 @@ class Photo extends AppModel {
 			$max_nth_photo = $this->query($query);
 			if (!empty($max_nth_photo[0]['Photo']['id'])) {
 				$max_nth_photo = $max_nth_photo[0]['Photo']['id'];
-			} 
+			} else {
+				$max_nth_photo = false;
+			}
 		}
 		
 		apc_store($this->limit_last_photo_apc_key, $max_nth_photo, 604800); // 1 week
