@@ -58,7 +58,7 @@ define("GLOBAL_FOTOMATTER_CONTAINER_URL", 'http://d032ca0eed6846c31fe8-4af0fb97e
 define("GLOBAL_FOTOMATTER_CONTAINER_SECURE_URL", 'https://d4f9baf5b96f3eeed9c9-4af0fb97e675ed71f0af4b096cd907ac.ssl.cf2.rackcdn.com/');
 
 // limit functions
-define("LIMIT_MAX_FREE_PHOTOS", 4); // DREW TODO - change this back to 100
+define("LIMIT_MAX_FREE_PHOTOS", 3); // DREW TODO - change this back to 100
 
 
 define('DOMAIN_MARKUP_DOLLAR', '0');
