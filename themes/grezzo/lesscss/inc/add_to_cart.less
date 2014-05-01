@@ -17,6 +17,11 @@
 		}
 	}
 }
+.guest_button{
+	width: 220px;
+	margin-left: auto;
+	margin-right: auto;
+}
 
 #cart {
 	.page-content {
@@ -130,6 +135,25 @@
 			  
 		  }
 		}
+		
+input[type="password"] {
+	border: 1px solid @boarder_textarea;
+    margin: 5px 1px 3px 0;
+    outline: 1px solid @outline_password;
+    padding: 3px 0 3px 3px;
+    transition: all 0.3s ease-in-out 0s;
+}
+
+input[type="password"]:focus, textarea:focus {
+		  box-shadow: 0 0 5px black;
+		  padding: 3px 0px 3px 3px;
+		  margin: 5px 1px 3px 0px;
+		  border: 1px solid black;
+		  
+		  select:not([size]):not([multiple]){
+			  
+		  }
+		}
 		select{
 			width: 180px;
 			margin-top: 5px;
@@ -149,6 +173,9 @@
 		margin-top: 30px;
 		//outline: 1px solid black;
 		padding: 20px;
+		width: 400px;
+		margin-left: auto;
+		margin-right: auto;
 	}
 	#login_container label {
 		display: inline-block;
