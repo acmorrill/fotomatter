@@ -75,7 +75,7 @@ class PhotoGallery extends AppModel {
 		parent::afterFind($results, $primary);
 		
 		
-		if ($primary != true || isset($results['type'])) {
+		if ($primary != true && isset($results['type'])) {
 			if ($results['type'] == 'smart' ) {
 				if (!empty($results['smart_settings'])) {
 					$results['smart_settings'] = unserialize($results['smart_settings']);
