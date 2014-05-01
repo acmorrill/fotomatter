@@ -80,6 +80,11 @@
 			dataType: 'json',
 			//'fileInput': jQuery('#upload_files'),
 			sequentialUploads: true,
+//			getNumberOfFiles: function() {
+//				console.log ("came freaking here");
+//				return 3;
+//			},
+			maxNumberOfFiles: <?php echo $photos_left_to_add; ?>,
 			done: function (e, data) {
 				//console.log('upload done');
 				uploaded_complete = parseInt($(".upload_in_progress_cont .count_uploaded_cont .uploaded_complete").html()) + 1;
@@ -107,7 +112,7 @@
 			},
 			start: function(e, data) {
 				$(".upload_in_progress_cont .count_uploaded_cont .total_to_upload").html($('#fileupload .files_ready_to_upload_cont table tbody tr').length); //-1 to account for header
-				console.log($(".upload_in_progress_cont .count_uploaded_cont .total_to_upload").html());
+				//console.log($(".upload_in_progress_cont .count_uploaded_cont .total_to_upload").html());
 				init_global_progress();				
 			},
 			progressall: function(e, data) {
