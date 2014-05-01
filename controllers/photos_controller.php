@@ -89,13 +89,22 @@ class PhotosController extends AppController {
 	}
 
 	public function admin_index() {
+		$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
+		
 		$data = $this->paginate('Photo');    
 		$imageContainerUrl = $this->SiteSetting->getImageContainerUrl();
-		$this->set(compact('data', 'imageContainerUrl'));
+		$this->set(compact('data', 'imageContainerUrl', 'max_photo_id'));
 	}
 	
 	public function admin_mass_upload() {
-		//$this->layout = 'ajax';
+		$total_photos = $this->Photo->count_total_photos();
+		$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
+		$photos_left_to_add = LIMIT_MAX_FREE_PHOTOS - $total_photos;
+		if (!empty($max_photo_id) && $photos_left_to_add <= 0) {
+			$this->FeatureLimiter->limit_view_go($this, 'unlimited_photos');
+		}
+		
+		$this->set(compact('photos_left_to_add'));
 	}
 	
 	public function admin_process_mass_photos() {
@@ -170,6 +179,12 @@ class PhotosController extends AppController {
 	}
 	
 	public function admin_edit($id) {
+		$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
+		if (!empty($max_photo_id) && $id > $max_photo_id) {
+			$this->FeatureLimiter->limit_function_403();
+		}
+		
+		
 		$this->HashUtil->set_new_hash('ecommerce');
 		
 		if ($id != null) { // edit or save mode?
