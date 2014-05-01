@@ -209,8 +209,10 @@
 </form>
 
 <br />
-<hr />
-<h1><?php __('Order Summary'); ?></h1>
+<!--<hr />-->
+<div id="title_name">
+	<h1><?php __('Order Summary'); ?></h1>
+</div>
 <?php echo $this->Element('cart_checkout/cart_table_summary', array(
 	'hide_checkout' => true
 )); ?>

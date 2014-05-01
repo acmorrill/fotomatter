@@ -700,6 +700,9 @@ body {
   margin-left: auto;
   margin-right: auto;
 }
+.guest_button button {
+  cursor: pointer;
+}
 #cart .page-content {
   margin: auto;
   width: 80%;
@@ -707,7 +710,6 @@ body {
 #cart .page-content table {
   width: 100%;
   margin: 10px;
-  border: 1px solid #B9B9B9;
 }
 #cart .page-content table tbody td.image img {
   border: 1px solid black;
@@ -762,7 +764,7 @@ body {
 }
 input[type="submit"] {
   padding: 7px;
-  width: 70px;
+  width: 103px;
 }
 input[type=text],
 textarea {
@@ -807,7 +809,6 @@ select:focus {
   background-image: url("/img/border_bottom.png");
   height: 21px;
   margin-bottom: 19px;
-  outline: 1px solid red;
 }
 #login_container {
   margin-top: 30px;
@@ -828,6 +829,35 @@ select:focus {
 }
 #login_container .submit {
   padding-left: 114px;
+}
+#title_name h1 {
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  padding: 2px;
+}
+#shipping_address_summary {
+  outline: none;
+}
+#shipping_address_summary h1 {
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  padding: 2px;
+}
+#shipping_address_summary h1 a {
+  color: #ffffff;
+  font-size: 12px;
+  text-decoration: none;
+}
+#shipping_address_summary h1 a:hover {
+  cursor: pointer;
+  color: #999999;
+}
+#shipping_address_summary #shipping_address_output {
+  width: 150px;
+  margin-right: auto;
+  margin-left: auto;
 }
 #custom-page {
   margin: auto;
