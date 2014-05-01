@@ -472,6 +472,15 @@ class EcommercesController extends AppController {
 			$short_side_inches = $this->data['Photo']['short_side_inches'];
 			
 			
+			////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			// make sure a limited photo is not added to the cart
+			$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
+			if (!empty($max_photo_id) && $photo_id > $max_photo_id) {
+				$this->major_error("tried to add limited photo to the cart", array('data' => $this->data, 'params' => $this->params));
+				$this->Session->setFlash('Error adding item to cart.');
+				$this->redirect($this->referer());
+				exit();
+			}
 			
 
 			$photo_exists = $this->Photo->find('first', array(
@@ -509,6 +518,8 @@ class EcommercesController extends AppController {
 			// validate the price againts the print type and size
 			
 		// end validation
+		
+			
 			
 		$this->Cart->add_to_cart($photo_id, $photo_print_type_id, $short_side_inches);
 		if (empty($this->data['redirect_url'])) {

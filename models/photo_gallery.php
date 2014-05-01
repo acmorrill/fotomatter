@@ -75,7 +75,15 @@ class PhotoGallery extends AppModel {
 		parent::afterFind($results, $primary);
 		
 		
-		if ($primary === true) {
+		if ($primary != true || isset($results['type'])) {
+			if ($results['type'] == 'smart' ) {
+				if (!empty($results['smart_settings'])) {
+					$results['smart_settings'] = unserialize($results['smart_settings']);
+				} else {
+					$this->fill_default_smart_settings($results['smart_settings']);
+				}
+			}
+		} else {
 			foreach ($results as $key => $result) {
 				if ($result['PhotoGallery']['type'] == 'smart') {
 					if (!empty($result['PhotoGallery']['smart_settings'])) {
@@ -83,14 +91,6 @@ class PhotoGallery extends AppModel {
 					} else {
 						$this->fill_default_smart_settings($results[$key]['PhotoGallery']['smart_settings']);
 					}
-				}
-			}
-		} else {
-			if ($results['type'] == 'smart' ) {
-				if (!empty($results['smart_settings'])) {
-					$results['smart_settings'] = unserialize($results['smart_settings']);
-				} else {
-					$this->fill_default_smart_settings($results['smart_settings']);
 				}
 			}
 		}

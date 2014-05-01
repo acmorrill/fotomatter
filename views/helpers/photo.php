@@ -40,7 +40,25 @@ class PhotoHelper extends AppHelper {
 	}
 	
 	private function _get_image_neighbor_web_path($photo_id, $gallery_id, $order_modifier) {
-		$this->PhotoGalleriesPhoto = ClassRegistry::init('PhotoGalleriesPhoto');
+		if (!isset($this->PhotoGalleriesPhoto)) {
+			$this->PhotoGalleriesPhoto = ClassRegistry::init('PhotoGalleriesPhoto');
+		}
+		if (!isset($this->Photo)) {
+			$this->Photo = ClassRegistry::init('Photo');
+		}
+		
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// return the photo gallery url if the photo is out of  the limit
+		$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
+		if (!empty($max_photo_id) && $photo_id > $max_photo_id) {
+			return $this->Html->url(array(    
+				'controller' => 'photo_galleries',    
+				'action' => 'view_gallery',    
+				$gallery_id
+			));
+		}
+		
 		
 		$photo_galleries_photo = $this->PhotoGalleriesPhoto->find('first', array(
 			'conditions' => array(
@@ -59,16 +77,40 @@ class PhotoHelper extends AppHelper {
 			));
 		}
 		
-		$prev_gallery_photo = $this->PhotoGalleriesPhoto->find('first', array(
-			'conditions' => array(
-				'PhotoGalleriesPhoto.photo_order' => ((int)$photo_galleries_photo['PhotoGalleriesPhoto']['photo_order']) + $order_modifier,
-				'PhotoGalleriesPhoto.photo_gallery_id' => $gallery_id
-			), 
-			'contain' => false
-		));
+		
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		// FILTER OUT ANY NON VIEWABLE PHOTOS BASED ON LIMIT
+		$max_photo_extra_condition = '';
+		if (!empty($max_photo_id)) {
+			$max_photo_extra_condition = "PhotoGalleriesPhoto.photo_id <= $max_photo_id";
+		}
+		if ($order_modifier > 0) { // FIND NEXT PHOTO BASED ON ORDER THAT IS NOT LIMITED
+			$prev_gallery_photo = $this->PhotoGalleriesPhoto->find('first', array(
+				'conditions' => array(
+					'PhotoGalleriesPhoto.photo_order >' => ((int)$photo_galleries_photo['PhotoGalleriesPhoto']['photo_order']),
+					'PhotoGalleriesPhoto.photo_gallery_id' => $gallery_id,
+					$max_photo_extra_condition
+				), 
+				'order' => array(
+					'PhotoGalleriesPhoto.photo_order ASC'
+				),
+				'contain' => false
+			));
+		} else { // FIND PREV PHOTO BASED ON ORDER THAT IS NOT LIMITED
+			$prev_gallery_photo = $this->PhotoGalleriesPhoto->find('first', array(
+				'conditions' => array(
+					'PhotoGalleriesPhoto.photo_order <' => ((int)$photo_galleries_photo['PhotoGalleriesPhoto']['photo_order']),
+					'PhotoGalleriesPhoto.photo_gallery_id' => $gallery_id,
+					$max_photo_extra_condition
+				), 
+				'order' => array(
+					'PhotoGalleriesPhoto.photo_order DESC'
+				),
+				'contain' => false
+			));
+		}
 		
 		if (!isset($prev_gallery_photo['PhotoGalleriesPhoto']['photo_id'])) {
-			// DREW TODO - make it so this code will return the first page for previous but the last page for next
 			return $this->Html->url(array(    
 				'controller' => 'photo_galleries',    
 				'action' => 'view_gallery',    

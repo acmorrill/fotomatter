@@ -57,17 +57,18 @@ class Photo extends AppModel {
 			return apc_fetch($this->limit_last_photo_apc_key);
 		}
 		
-		$max_num_photos = LIMIT_MAX_FREE_PHOTOS - 1;
-		$query = "
-			SELECT id FROM photos as Photo
-			ORDER BY Photo.id
-			LIMIT 1 OFFSET  $max_num_photos
-		";
-		$max_nth_photo = $this->query($query);
-		if (!empty($max_nth_photo[0]['Photo']['id'])) {
-			$max_nth_photo = $max_nth_photo[0]['Photo']['id'];
-		} else {
-			$max_nth_photo = false;
+		$max_nth_photo = false;
+		if (empty($GLOBALS['current_on_off_features']['unlimited_photos'])) {
+			$max_num_photos = LIMIT_MAX_FREE_PHOTOS - 1;
+			$query = "
+				SELECT id FROM photos as Photo
+				ORDER BY Photo.id
+				LIMIT 1 OFFSET  $max_num_photos
+			";
+			$max_nth_photo = $this->query($query);
+			if (!empty($max_nth_photo[0]['Photo']['id'])) {
+				$max_nth_photo = $max_nth_photo[0]['Photo']['id'];
+			} 
 		}
 		
 		apc_store($this->limit_last_photo_apc_key, $max_nth_photo, 604800); // 1 week
@@ -367,11 +368,17 @@ class Photo extends AppModel {
 
 	// a function to efficiently add photo format to a list of photos (without a bunch of extra queries)
 	public function add_photo_format(&$photos) {
-		$this->PhotoFormat = ClassRegistry::init('PhotoFormat');
-		$photo_formats = $this->PhotoFormat->find('all', array(
-			'contain' => false
-		));
-		$formats = Set::combine($photo_formats, '{n}.PhotoFormat.id', '{n}.PhotoFormat');
+		$format_apc_key = 'format_apc_key';
+		if (apc_exists($format_apc_key)) {
+			$formats = apc_fetch($format_apc_key);
+		} else {
+			$this->PhotoFormat = ClassRegistry::init('PhotoFormat');
+			$photo_formats = $this->PhotoFormat->find('all', array(
+				'contain' => false
+			));
+			$formats = Set::combine($photo_formats, '{n}.PhotoFormat.id', '{n}.PhotoFormat');
+			apc_store($format_apc_key, $formats, 604800); // 1 week
+		}
 		
 		if (isset($photos[0])) {
 			foreach ($photos as &$photo) {
@@ -399,16 +406,36 @@ class Photo extends AppModel {
 		}
 		
 		
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		// get extra conditions based on photo limit
+//		$max_photo_id = $this->get_last_photo_id_based_on_limit();
+//		if (!empty($max_photo_id) && $photo_id > $max_photo_id) {
+//			$this->major_error('Called get photo path on limited photo', compact('width', 'height', 'photo_id'));
+//			return $this->PhotoCache->get_dummy_error_image_path($height, $width, false, $return_tag_attributes, $crop);
+//		}
+		
+		
 		/////////////////////////////////
 		// get the photo
 		$the_photo = $this->find('first', array(
-			'conditions' => array('Photo.id' => $photo_id),
+			'conditions' => array(
+				'Photo.id' => $photo_id,
+			),
 			'contain' => false
 		));
 		
 		
+		//////////////////////////////////////////////////
+		// if $the_photo is empty throw an error
+		if (empty($the_photo)) {
+			$this->major_error('Called get photo path on empty photo', compact('width', 'height', 'photo_id'));
+			return $this->PhotoCache->get_dummy_error_image_path($height, $width, false, $return_tag_attributes, $crop);
+		}
+		
+		
 		// check to make sure the photo has a file attached 
 		if ( empty($the_photo['Photo']['cdn-filename-forcache']) || empty($the_photo['Photo']['cdn-filename']) || empty($the_photo['Photo']['cdn-filename-smaller-forcache']) ) {
+			$this->major_error('Called get photo path with empty filename', compact('width', 'height', 'the_photo'));
 			return $this->PhotoCache->get_dummy_error_image_path($height, $width, false, $return_tag_attributes, $crop);
 		}
 		
@@ -480,6 +507,14 @@ class Photo extends AppModel {
 	public function get_full_path($id) {
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
 		
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		// get extra conditions based on photo limit
+//		$max_photo_id = $this->get_last_photo_id_based_on_limit();
+//		if (!empty($max_photo_id) && $id > $max_photo_id) {
+//			$this->major_error('Called get_full_path on limited photo', compact('id'));
+//			return '';
+//		}
+		
 		$photo = $this->find('first', array(
 			'conditions' => array('Photo.id' => $id),
 			'contain' => false,
@@ -540,6 +575,15 @@ class Photo extends AppModel {
 	 * @param type $photo_id
 	 */
 	public function get_enabled_photo_sellable_prints($photo_id) {
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		// get extra conditions based on photo limit
+//		$max_photo_id = $this->get_last_photo_id_based_on_limit();
+//		if (!empty($max_photo_id) && $photo_id > $max_photo_id) {
+//			$this->major_error('Called get_enabled_photo_sellable_prints on limited photo', compact('photo_id'));
+//			return array();
+//		}
+		
+		
 		$sellable_datas = $this->get_sellable_print_sizes_by_id($photo_id);
 		
 		
@@ -565,6 +609,14 @@ class Photo extends AppModel {
 	}
 	
 	public function get_sellable_print_sizes_by_id($photo_id, $photo_print_type_id = null) {
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		// get extra conditions based on photo limit
+//		$max_photo_id = $this->get_last_photo_id_based_on_limit();
+//		if (!empty($max_photo_id) && $photo_id > $max_photo_id) {
+//			$this->major_error('Called get_sellable_print_sizes_by_id on limited photo', compact('photo_id'));
+//			return array();
+//		}
+		
 		$photo = $this->find('first', array(
 			'conditions' => array(
 				'Photo.id' => $photo_id

@@ -59,6 +59,8 @@ class AppController extends Controller {
 		$this->current_feature_prices = $this->FotomatterBilling->get_current_feature_pricing();
 		$this->set('current_on_off_features', $this->current_on_off_features);
 		$this->set('current_feature_prices', $this->current_feature_prices);
+		$GLOBALS['current_on_off_features'] = $this->current_on_off_features;
+		$GLOBALS['current_feature_prices'] = $this->current_feature_prices;
 //		$this->log($this->current_on_off_features, 'current_on_off_features');
 //		$this->log($this->current_feature_prices, 'current_feature_prices');
 
