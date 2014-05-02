@@ -836,6 +836,9 @@ select:focus {
   text-align: center;
   padding: 2px;
 }
+#title_name h1 span {
+  font-size: 12px;
+}
 #shipping_address_summary {
   outline: none;
 }
@@ -855,9 +858,17 @@ select:focus {
   color: #999999;
 }
 #shipping_address_summary #shipping_address_output {
-  width: 150px;
+  width: 170px;
   margin-right: auto;
   margin-left: auto;
+}
+#final_payment_info {
+  outline: none;
+}
+#final_payment_info .address_cont {
+  margin-left: auto;
+  margin-right: auto;
+  width: 400px;
 }
 #custom-page {
   margin: auto;
