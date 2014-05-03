@@ -97,6 +97,11 @@
   position: relative;
   top: -12px;
 }
+#gray_spacing_custom {
+  border-bottom: 2px solid #939598;
+  position: relative;
+  top: -32px;
+}
 .out_page_content {
   position: relative;
   top: 200px;
