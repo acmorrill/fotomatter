@@ -85,19 +85,21 @@
 	
 	<?php if ($logged_in !== true): ?>
 		<div id="create_account">
-			<h1><?php __('Create Account'); ?> (Optional)</h1>
-			<div class="input email">
-				<label><?php __('Email Address'); ?>:</label> 
-				<input autocomplete="off" type="text" name="data[CreateAccount][email_address]" value="<?php if (isset($CreateAccount['email_address'])): ?><?php echo $CreateAccount['email_address']; ?><?php endif; ?>" />
-			</div>
-			<div class="input password">
-				<label><?php __('Password'); ?>:</label> 
-				<input autocomplete="off" type="password" name="data[CreateAccount][password]" value="<?php if (isset($CreateAccount['password'])): ?><?php echo $CreateAccount['password']; ?><?php endif; ?>" />
-			</div>
-			<div class="input password_repeat">
-				<label><?php __('Repeat'); ?></label> 
-				<input autocomplete="off" type="password" name="data[CreateAccount][repeat_password]" value="<?php if (isset($CreateAccount['repeat_password'])): ?><?php echo $CreateAccount['repeat_password']; ?><?php endif; ?>" />
-			</div>
+			<div id="title_name">
+				<h1><?php __('Create Account'); ?> <span>(Optional)</span></h1>
+			</div>	
+				<div class="input email">
+					<label><?php __('Email Address'); ?>:</label> 
+					<input autocomplete="off" type="text" name="data[CreateAccount][email_address]" value="<?php if (isset($CreateAccount['email_address'])): ?><?php echo $CreateAccount['email_address']; ?><?php endif; ?>" />
+				</div>
+				<div class="input password">
+					<label><?php __('Password'); ?>:</label> 
+					<input autocomplete="off" type="password" name="data[CreateAccount][password]" value="<?php if (isset($CreateAccount['password'])): ?><?php echo $CreateAccount['password']; ?><?php endif; ?>" />
+				</div>
+				<div class="input password_repeat">
+					<label><?php __('Repeat'); ?></label> 
+					<input autocomplete="off" type="password" name="data[CreateAccount][repeat_password]" value="<?php if (isset($CreateAccount['repeat_password'])): ?><?php echo $CreateAccount['repeat_password']; ?><?php endif; ?>" />
+				</div>
 		</div>
 	<?php endif; ?>
 
@@ -127,7 +129,9 @@
 			<?php if (!empty($Payment['credit_card_method'])): ?><?php echo $Payment['credit_card_method']; ?><br /><?php endif;  */ ?>
 		</div>
 		<div class="payment_edit" <?php if ($logged_in === true): ?>style="display: none;"<?php endif; ?>>
-			<h1><?php __('Payment Info'); ?></h1>
+			<div id="title_name">
+				<h1><?php __('Payment Info'); ?></h1>
+			</div>	
 			<div class="address_cont">
 				<div class="input firstname">
 					<label><?php __('First Name'); ?>:</label> <input type="text" name="data[BillingAddress][firstname]" value="<?php if (isset($billing_address['firstname'])): ?><?php echo $billing_address['firstname']; ?><?php endif; ?>" /><br/>
@@ -164,6 +168,8 @@
 					</select>
 				</div>
 			</div>
+			<div class="form_center">
+				
 			<div class="input phone">
 				<label><?php __('Phone Number'); ?>:</label> <input type="text" name="data[BillingAddress][phone]" value="<?php if (isset($billing_address['phone'])): ?><?php echo $billing_address['phone']; ?><?php endif; ?>" /> (optional)
 			</div>
@@ -199,6 +205,7 @@
 				<label><?php __('Security Code'); ?>:</label>
 				<input type="text" name="data[Payment][security_code]" value="<?php if (isset($Payment['security_code'])): ?><?php echo $Payment['security_code']; ?><?php endif; ?>" />
 			</div>
+	</div> <!--	End from_center-->
 		</div>
 	</div>
 
@@ -209,8 +216,10 @@
 </form>
 
 <br />
-<hr />
-<h1><?php __('Order Summary'); ?></h1>
+<!--<hr />-->
+<div id="title_name">
+	<h1><?php __('Order Summary'); ?></h1>
+</div>
 <?php echo $this->Element('cart_checkout/cart_table_summary', array(
 	'hide_checkout' => true
 )); ?>

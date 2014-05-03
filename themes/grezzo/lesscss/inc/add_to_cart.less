@@ -21,6 +21,7 @@
 	width: 220px;
 	margin-left: auto;
 	margin-right: auto;
+	button{cursor: pointer; }
 }
 
 #cart {
@@ -32,7 +33,7 @@
 		table {
 			width:100%;
 			margin:10px;
-			border:1px solid #B9B9B9;
+			//border:1px solid #B9B9B9;
 
 			tbody {
 				td.image {
@@ -59,6 +60,7 @@
 
 		button#standard_checkout_button {
 			margin:10px 0;
+			
 		}
 	}
 }
@@ -109,7 +111,7 @@
 	
 	input[type="submit"] {
 		padding: 7px;
-		width: 70px;
+		width: 103px;
 	}
 
 	input[type=text], textarea {
@@ -166,7 +168,7 @@ input[type="password"]:focus, textarea:focus {
 			background-image: url("/img/border_bottom.png");
 			height: 21px;
 			margin-bottom: 19px;
-			outline: 1px solid red;
+			//outline: 1px solid red;
 		}
 		/* checkout_login_or_guest.ctp styles */
 	#login_container {
@@ -191,4 +193,50 @@ input[type="password"]:focus, textarea:focus {
 	#login_container .submit {
 		padding-left: 114px;
 	}
-		
+	
+	#title_name {
+		//display: none;
+		h1{
+			background-color: #000;
+			color: #fff;
+			text-align: center;
+			padding: 2px;
+			span{
+				font-size: 12px;
+			}
+		}
+	}
+	
+	#shipping_address_summary{
+		outline: none;
+		h1 {
+			background-color: #000;
+			color: #fff;
+			text-align: center;
+			padding: 2px;
+				a{
+					color: @a_text;
+					font-size: 12px;
+					text-decoration: none;
+
+					&:hover{
+						cursor: pointer;
+						color: @text_color_edit;
+					}
+				}
+			}
+		#shipping_address_output{
+				width: 170px;
+				margin-right: auto;
+				margin-left: auto;
+		}
+	}
+	
+	#final_payment_info{
+		outline: none;
+		.address_cont{
+			margin-left: auto;
+			margin-right: auto;
+			width: 400px;
+		}
+	}

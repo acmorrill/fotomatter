@@ -2,7 +2,7 @@
 	<?php echo $this->Element('/admin/get_help_button'); ?>
 </h1>
 <p>
-	This is the theme settings page - cool right?
+	This is the theme settings page - cool right? Kent- "SO SO cool!"
 </p>
 <?php if (empty($avail_settings_list)): ?>
 	<h1><?php __('The current theme has no custom settings'); ?></h1>
