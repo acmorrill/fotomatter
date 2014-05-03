@@ -1,6 +1,11 @@
 <?php 
 	$cache_image_height = 100;
 	$cache_image_width = 100;
+	
+	$total_photos = $this->Photo->count_total_photos(true);
+	$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
+	$photos_left_to_add = LIMIT_MAX_FREE_PHOTOS - $total_photos;
+	$curr_limit = LIMIT_MAX_FREE_PHOTOS; 
 ?>
 
 <script type="text/javascript">
@@ -28,44 +33,50 @@
 
 				container.find('.image_size_text').text('('+ucwords(curr_size)+')');
 			});
-			
-			// setup the image file upload
-			$('.image_upload', page_element_cont).fileupload({
-				url: '/admin/photos/process_mass_photos/',
-				formData: function() {
-					return [
-						{
-							name: 'height',
-							value: <?php echo $cache_image_height; ?>
-						},
-						{
-							name: 'width',
-							value: <?php echo $cache_image_width; ?>
+	
+			// DREW TODO - test the below limiting code
+			<?php if (empty($current_on_off_features['unlimited_photos']) && $photos_left_to_add <= 0): ?>
+				$('.image_upload', page_element_cont).click(function() {
+					$.foto('alert', '<?php echo __("You are currently using $total_photos of the $curr_limit photos available for free &mdash; to upload more photos or modify photos in galleries you can also delete existing photos over the limit of $curr_limit.", true); ?>');
+				});
+			<?php else: ?>
+				// setup the image file upload
+				$('.image_upload', page_element_cont).fileupload({
+					url: '/admin/photos/process_mass_photos/',
+					formData: function() {
+						return [
+							{
+								name: 'height',
+								value: <?php echo $cache_image_height; ?>
+							},
+							{
+								name: 'width',
+								value: <?php echo $cache_image_width; ?>
+							}
+						];
+					},
+					start: function() {
+						show_modal('<?php __('Uploading'); ?>', 0, undefined, false);
+					},
+					stop: function() {
+						remove_modal();
+					},
+					done: function(e, data) {
+						var result = jQuery.parseJSON(data.result);
+						if (result.code == 1) {
+							jQuery('.image_cont .para_header_image_photo_id', page_element_cont).val(result.new_photo_id);
+							jQuery('.image_cont img', page_element_cont).attr('src', result.new_photo_path);
+
+							save_page_elements();
+						} else {
+							major_error_recover('The image failed to upload in done');
 						}
-					];
-				},
-				start: function() {
-					show_modal('<?php __('Uploading'); ?>', 0, undefined, false);
-				},
-				stop: function() {
-					remove_modal();
-				},
-				done: function(e, data) {
-					var result = jQuery.parseJSON(data.result);
-					if (result.code == 1) {
-						jQuery('.image_cont .para_header_image_photo_id', page_element_cont).val(result.new_photo_id);
-						jQuery('.image_cont img', page_element_cont).attr('src', result.new_photo_path);
-						
-						save_page_elements();
-					} else {
-						major_error_recover('The image failed to upload in done');
+					},
+					fail: function(e, data) {
+						major_error_recover('The image failed to upload in fail');
 					}
-				},
-				fail: function(e, data) {
-					major_error_recover('The image failed to upload in fail');
-				}
-			});
-			
+				});
+			<?php endif; ?>
 			
 			/////////////////////////////////////////
 			// testing code

@@ -63,7 +63,7 @@
 					save_page_elements();
 				}, save_timeout_count);
 			});
-		}
+		};
 		
 //		if (params.save !== undefined) {
 //			this.save = params.save;
@@ -76,7 +76,7 @@
 		
 		this.toString = function() {
 			//console.log ("this is a method to describe this object");
-		}
+		};
 	}
 	
 	var element_callbacks_array = {};
@@ -105,8 +105,6 @@
 	}
 	
 	function save_page_elements() {
-		console.log ("came into save page elements");
-		
 		var page_element_data_to_save = {};
 		page_element_data_to_save['element_data'] = {};
 		
@@ -145,8 +143,6 @@
 	
 	function setup_page_element_delete(selector) {
 		var page_element_cont = jQuery(selector);
-		
-		console.log (element_callbacks_array);
 		
 		jQuery('.page_element_delete', page_element_cont).click(function() {
 			var context = this;
