@@ -284,6 +284,15 @@ class PhotoGalleriesController extends AppController {
 	}
 	
 	public function admin_edit_gallery_connect_photos($gallery_id, $last_photo_id = 0) {
+		$total_photos = $this->Photo->count_total_photos();
+		$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
+		$photos_left_to_add = LIMIT_MAX_FREE_PHOTOS - $total_photos;
+		if (!empty($max_photo_id) && $photos_left_to_add < 0) {
+			$this->FeatureLimiter->limit_view_go($this, 'unlimited_photos');
+			return;
+		}
+		
+		
 		$limit = 30;
 		
 		$this->data = $this->PhotoGallery->find('first', array(
@@ -448,6 +457,15 @@ class PhotoGalleriesController extends AppController {
 	}
 	
 	public function admin_edit_gallery_arrange_photos($gallery_id) {
+		$total_photos = $this->Photo->count_total_photos();
+		$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
+		$photos_left_to_add = LIMIT_MAX_FREE_PHOTOS - $total_photos;
+		if (!empty($max_photo_id) && $photos_left_to_add < 0) {
+			$this->FeatureLimiter->limit_view_go($this, 'unlimited_photos');
+			return;
+		}
+		
+		
 		$this->data = $this->PhotoGallery->find('first', array(
 			'conditions' => array('PhotoGallery.id' => $gallery_id),
 			'contain' => array(

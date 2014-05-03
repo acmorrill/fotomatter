@@ -83,43 +83,44 @@
 			<tbody>
 				<tr class="spacer"><td colspan="3"></td></tr>
 				<?php foreach($data as $curr_photo): ?> 
-					<tr data-step="4" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom">
+					<?php $photo_is_enabled = !empty($max_photo_id) && $curr_photo['Photo']['id'] <= $max_photo_id; ?>
+					<tr>
 						<td class="photo_id first <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr<?php endif; ?>">
 							<div class="rightborder"></div>
-							<span><?php echo $curr_photo['Photo']['id']; ?></span>
+							<span class=" <?php if (!$photo_is_enabled):?>disabled<?php endif; ?>"><?php echo $curr_photo['Photo']['id']; ?></span>
 						</td> 
 						<?php /* <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr<?php endif; ?>"><?php echo $curr_photo['Photo']['id']; ?> */ ?>
 						<?php $img_path = $this->Photo->get_photo_path($curr_photo['Photo']['id'], 70, 70); ?>
 						<td class="photo_image" data-step="5" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom">
 							<div class="rightborder"></div>
-							<span><img src="<?php echo $img_path; ?>" /><?php //echo $curr_photo['Photo']['id']; ?></span>
+							<span class=" <?php if (!$photo_is_enabled):?>disabled<?php endif; ?>"><img src="<?php echo $img_path; ?>" /><?php //echo $curr_photo['Photo']['id']; ?></span>
 						</td> 
 						<td class="photo_title <?php if ($this->Paginator->sortKey('Photo') == 'Photo.display_title'): ?> curr<?php endif; ?>">
 							<div class="rightborder"></div>
-							<span><?php echo $curr_photo['Photo']['display_title']; ?></span>
+							<span class=" <?php if (!$photo_is_enabled):?>disabled<?php endif; ?>"><?php echo $curr_photo['Photo']['display_title']; ?></span>
 						</td> 
 						<td class="photo_enabled <?php if ($this->Paginator->sortKey('Photo') == 'Photo.enabled'): ?> curr<?php endif; ?>">
 							<div class="rightborder"></div>
-							<span><?php echo ($curr_photo['Photo']['enabled'] == 0) ? __('NO', true): __('YES', true); ?></span>
+							<span class=" <?php if (!$photo_is_enabled):?>disabled<?php endif; ?>"><?php echo ($curr_photo['Photo']['enabled'] == 0) ? __('NO', true): __('YES', true); ?></span>
 						</td> 
 						<td class="photo_format <?php if ($this->Paginator->sortKey('Photo') == 'PhotoFormat.display_name'): ?> curr<?php endif; ?>">
 							<div class="rightborder"></div>
-							<span><?php echo $curr_photo['PhotoFormat']['display_name']; ?></span>
+							<span class=" <?php if (!$photo_is_enabled):?>disabled<?php endif; ?>"><?php echo $curr_photo['PhotoFormat']['display_name']; ?></span>
 						</td> 
 						<?php $modified_date = $this->Util->get_formatted_created_date($curr_photo['Photo']['modified']); ?>
 						<?php $created_date = $this->Util->get_formatted_created_date($curr_photo['Photo']['created']); ?>
 						<td class="photo_modified <?php if ($this->Paginator->sortKey('Photo') == 'Photo.modified'): ?> curr<?php endif; ?>">
 							<div class="rightborder"></div>
-							<span><?php echo $modified_date; ?></span>
+							<span class=" <?php if (!$photo_is_enabled):?>disabled<?php endif; ?>"><?php echo $modified_date; ?></span>
 						</td> 
 						<td class="photo_created <?php if ($this->Paginator->sortKey('Photo') == 'Photo.created'): ?> curr<?php endif; ?>">
 							<div class="rightborder"></div>
-							<span><?php echo $created_date; ?></span>
+							<span class=" <?php if (!$photo_is_enabled):?>disabled<?php endif; ?>"><?php echo $created_date; ?></span>
 						</td> 
 						<td class="photo_action last">
 							<div class="rightborder"></div>
 							<span class="custom_ui">
-								<?php if (!empty($max_photo_id) && $curr_photo['Photo']['id'] <= $max_photo_id): ?>
+								<?php if ($photo_is_enabled): ?>
 									<a href="/admin/photos/edit/<?php echo $curr_photo['Photo']['id']; ?>/"><div class="add_button"><div class="content"><?php __('Edit'); ?></div><div class="right_arrow_lines"><div></div></div></div></a>
 								<?php endif;?>
 								<a href="/admin/photos/delete_photo/<?php echo $curr_photo['Photo']['id']; ?>/"><div class="add_button icon"><div class="content">X</div></div></a>

@@ -38,7 +38,7 @@ class PhotosController extends AppController {
 	
 	public function view_photo($photo_id = null) {
 		$total_photos = $this->Photo->count_total_photos(true);
-		if ($total_photos <= 100) { // only do photo view caching on sites with less than 100 photos
+		if ($total_photos <= 100) { // only do photo view caching on sites with less than 100 photos // DREW TODO - maybe make this based on the free limit
 			$this->setup_front_end_view_cache($this);
 		}
 		
@@ -124,6 +124,12 @@ class PhotosController extends AppController {
 			}
 		}
 	
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// fail if trying to add more than the max num photos if not paying for unlimited_photos
+		if (empty($this->current_on_off_features['unlimited_photos']) && $this->Photo->count_total_photos() >= LIMIT_MAX_FREE_PHOTOS) {
+			$this->FeatureLimiter->limit_function_403();
+		}
+		
 		if (isset($this->params['form']['files'])) {
 			$upload_data['name'] = $this->params['form']['files']['name'][0];
 			$upload_data['tmp_name'] = $this->params['form']['files']['tmp_name'][0];
@@ -479,49 +485,48 @@ class PhotosController extends AppController {
 	
 	
 	public function admin_list_oldphotos($category = 'all') {
-
-	  if ($category == 'all') {
-		   $allOldPhotos = $this->OldPhoto->find('all', array(
+		if ($category == 'all') {
+			$allOldPhotos = $this->OldPhoto->find('all', array(
 				'order' => 'OldPhoto.position'
-		   ));
-	  } else {
-		   $allOldPhotos = $this->OldPhoto->find('all', array(
+			));
+		} else {
+			$allOldPhotos = $this->OldPhoto->find('all', array(
 				'order' => 'OldPhoto.position',
-			   'conditions' => array('OldPhoto.galleries LIKE' => '%largeFormatColor%')
-		   ));
-	  }
+				'conditions' => array('OldPhoto.galleries LIKE' => '%largeFormatColor%')
+			));
+		}
 
-	  $this->set('allOldPhotos', $allOldPhotos);
+		$this->set('allOldPhotos', $allOldPhotos);
 	}
 
 
 	/////////////////////////////////////////////
 	// this is also the ADD
 	public function admin_edit_oldphoto($id = null) {
-	  if ($id != null) { // edit or save mode?
-		   $this->set('mode', 'edit');
-	  } else {
-		   $this->set('mode', 'add');
-	  }
+		if ($id != null) { // edit or save mode?
+			$this->set('mode', 'edit');
+		} else {
+			$this->set('mode', 'add');
+		}
 
 
-	  if (empty($this->data)) {
-		   $this->data = $this->OldPhoto->findById($id);
-		   if ($id == null) { // adding (default data for when your adding)
+		if (empty($this->data)) {
+			$this->data = $this->OldPhoto->findById($id);
+			if ($id == null) { // adding (default data for when your adding)
 				$this->data['OldPhoto']['used'] = 1;
 				$this->data['OldPhoto']['tier'] = 1;
 				$this->data['OldPhoto']['pricePerFoot'] = 15;
 				$this->data['OldPhoto']['format'] = 'landscape';
-		   }
-	  } else {
-		   // set the upload destination folder
-		   $largeDestination = str_replace(DS, '/', realpath('../../app/webroot/photos/large/') . "/");
-		   $extraLargeDestination = str_replace(DS, '/', realpath('../../app/webroot/photos/extraLarge/') . "/");
-		   $thumbDestination = str_replace(DS, '/', realpath('../../app/webroot/photos/thumbs/') . "/");
+			}
+		} else {
+			// set the upload destination folder
+			$largeDestination = str_replace(DS, '/', realpath('../../app/webroot/photos/large/') . "/");
+			$extraLargeDestination = str_replace(DS, '/', realpath('../../app/webroot/photos/extraLarge/') . "/");
+			$thumbDestination = str_replace(DS, '/', realpath('../../app/webroot/photos/thumbs/') . "/");
 
 
-		   $thumbFile = $this->data['OldPhoto']['thumbImage'];
-		   if (!empty($thumbFile['tmp_name'])) {
+			$thumbFile = $this->data['OldPhoto']['thumbImage'];
+			if (!empty($thumbFile['tmp_name'])) {
 				$thumbFile['name'] = $this->data['OldPhoto']['title'];
 				$thumbResult = $this->Upload->upload($thumbFile, $thumbDestination, null, array('type' => 'resize','quality' => 100, 'size' => '600', 'output' => 'jpg'));
 				if (!$thumbResult) {
@@ -535,11 +540,11 @@ class PhotosController extends AppController {
 					 if(is_array($errors)){ $errors = implode("<br />",$errors); }
 					 $this->Session->setFlash($errors);
 				}
-		   }
+			}
 
 
-		   $largeFile = $this->data['OldPhoto']['largeImage'];
-		   if (!empty($largeFile['tmp_name'])) {
+			$largeFile = $this->data['OldPhoto']['largeImage'];
+			if (!empty($largeFile['tmp_name'])) {
 				$largeFile['name'] = $this->data['OldPhoto']['title'];
 				$largeResult = $this->Upload->upload($largeFile, $largeDestination, null, array('type' => 'resize','quality' => 100, 'size' => '1000', 'output' => 'jpg'));
 				if (!$largeResult) {
@@ -567,9 +572,9 @@ class PhotosController extends AppController {
 					 $smallThumbNailMoveToo = str_replace(DS, '/', realpath('../../app/webroot/photos/smallThumbs/')."/");
 
 
-	//                         if (isset($this->Upload->result) && !copy($thumbPath, $thumbNailMoveToo.$this->Upload->result)) {
-	//                              $this->Session->setFlash("Failed to copy thumbnail to its directory.");
-	//                         }
+			//                         if (isset($this->Upload->result) && !copy($thumbPath, $thumbNailMoveToo.$this->Upload->result)) {
+			//                              $this->Session->setFlash("Failed to copy thumbnail to its directory.");
+			//                         }
 					 if (isset($this->Upload->result) && !copy($smallThumbPath, $smallThumbNailMoveToo.$this->data['OldPhoto']['title'])) {
 						  $this->Session->setFlash("Failed to copy small thumbnail to its directory.");
 					 }
@@ -579,10 +584,10 @@ class PhotosController extends AppController {
 					 if(is_array($errors)){ $errors = implode("<br />",$errors); }
 					 $this->Session->setFlash($errors);
 				}
-		   }
+			}
 
-		   $extraLargeFile = $this->data['OldPhoto']['extraLargeImage'];
-		   if (!empty($extraLargeFile['tmp_name'])) {
+			$extraLargeFile = $this->data['OldPhoto']['extraLargeImage'];
+			if (!empty($extraLargeFile['tmp_name'])) {
 				$extraLargeFile['name'] = $this->data['OldPhoto']['title'];
 				$extraLargeResult = $this->Upload->upload($extraLargeFile, $extraLargeDestination, null, array('type' => 'resize','quality' => 100, 'size' => '1500', 'output' => 'jpg'));
 				if (!$extraLargeResult) {
@@ -596,54 +601,52 @@ class PhotosController extends AppController {
 					 if(is_array($errors)){ $errors = implode("<br />",$errors); }
 					 $this->Session->setFlash($errors);
 				}
-		   }
+			}
 
 
 
-		   $this->data['OldPhoto']['galleries'] = implode(',', $this->data['OldPhoto']['galleries']);
-		   $this->data['OldPhoto']['availSizes'] = implode(',', $this->data['OldPhoto']['availSizes']);
-		   if ($id == null) { // adding
+			$this->data['OldPhoto']['galleries'] = implode(',', $this->data['OldPhoto']['galleries']);
+			$this->data['OldPhoto']['availSizes'] = implode(',', $this->data['OldPhoto']['availSizes']);
+			if ($id == null) { // adding
 				$this->data['OldPhoto']['position'] = -1;
-		   }
-		   $this->data['OldPhoto']['id'] = $id;
+			}
+			$this->data['OldPhoto']['id'] = $id;
 
-		   if ($this->OldPhoto->save($this->data)) {
+			if ($this->OldPhoto->save($this->data)) {
 				$this->OldPhoto->replicatePriceCal($this->OldPhoto->id); // this is to calculate the price in the old way for the old website (so when you add you don't have to run priceCal.php)
 				$this->Session->setFlash('Photo saved');
 				if ($id == null) { // adding
 					 $this->redirect('/photos/list_oldphotos/');
 				}
-		   } else {
+			} else {
 				$this->Session->setFlash('Error saving photo');
 				unlink($destination.$this->Upload->result);
-		   }
-	  }
+			}
+		}
 	}
 
 
 	public function admin_calc_photoprice($id) {
-	  $this->set('data', $this->OldPhoto->findById($id));
+		$this->set('data', $this->OldPhoto->findById($id));
 
-	  $this->set('prices', $this->OldPhoto->recalcPricesForImage($id));
+		$this->set('prices', $this->OldPhoto->recalcPricesForImage($id));
 	}
 
 	public function admin_update_order() {
+		$count = 0;
+		foreach ($this->params['form']['imageOrder'] as $imgId) {
+			$data['OldPhoto']['position'] = $count;
+			$this->OldPhoto->id = $imgId;
+			$this->OldPhoto->save($data);
+			$count++;
+		}
 
-	  $count = 0;
-	  foreach ($this->params['form']['imageOrder'] as $imgId) {
-		   $data['OldPhoto']['position'] = $count;
-		   $this->OldPhoto->id = $imgId;
-		   $this->OldPhoto->save($data);
-		   $count++;
-	  }
-
-
-	  echo json_encode($this->params['form']);
-	  exit();
+		echo json_encode($this->params['form']);
+		exit();
 	}
 
 	public function admin_image_wizards_quote() {
-	  $this->set('quote', $this->ImageWizards->getQuote());
+		$this->set('quote', $this->ImageWizards->getQuote());
 	}
 
 }

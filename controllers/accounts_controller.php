@@ -10,6 +10,21 @@ class AccountsController extends AppController {
 		'Session',
 		'Validation',
 	);
+	
+	public function  beforeFilter() {
+		if ($this->action == 'clear_billing_cache') {
+			$this->is_mobile = false;
+			$this->layout = false;
+			$this->Auth->allow('clear_billing_cache');
+		} else {
+			parent::beforeFilter();
+		}
+	}
+	
+	public function clear_billing_cache() {
+		$this->FotomatterBilling->clear_billing_apc();
+		exit();
+	}
    
 	public function admin_account_details() {
 		$accountDetails = $this->FotomatterBilling->getAccountDetails();

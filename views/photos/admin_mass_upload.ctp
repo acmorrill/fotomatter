@@ -84,7 +84,9 @@
 //				console.log ("came freaking here");
 //				return 3;
 //			},
+		<?php if (empty($current_on_off_features['unlimited_photos'])): ?>
 			maxNumberOfFiles: <?php echo $photos_left_to_add; ?>,
+		<?php endif; ?>
 			done: function (e, data) {
 				//console.log('upload done');
 				uploaded_complete = parseInt($(".upload_in_progress_cont .count_uploaded_cont .uploaded_complete").html()) + 1;
