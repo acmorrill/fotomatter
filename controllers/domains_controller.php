@@ -22,7 +22,7 @@ class DomainsController extends Appcontroller {
 		$domains = $this->paginate('AccountDomain');
 		$primary_domain = $this->AccountDomain->find('first', array(
 			'conditions'=>array(
-				'AccountDomain.is_primary'=>'1'
+				'AccountDomain.is_primary' => '1'
 			),
 			'contain'=>false
 		));
@@ -37,51 +37,51 @@ class DomainsController extends Appcontroller {
 	public function admin_add_profile() {
 		$json_result = $this->get_json_from_input();
 		$this->data = $json_result['data'];
-		
+
 		if (empty($this->data) === false) {
 			try {
 			   $this->validatePaymentProfile();
 			} catch (Exception $e) {
 			   $return['message'] = $e->getMessage();
 			   $return['result'] = false;
-               $this->return_json($return);
-               exit();
+			   $this->return_json($return);
+			   exit();
 			}
 		}
-		
+
 		//Adam Todo consoldate logic with that in the accounts controller
-       if (empty($this->data) == false) {
-           try {
-               $this->validatePaymentProfile();
-           
-           } catch (Exception $e) {
-   			   $return['message'] = $e->getMessage();
-			   $return['result'] = false;
-               $this->return_json($return);
-               exit();
-           }
-           
-           $this->data['AuthnetProfile']['payment_cc_last_four'] = substr($this->data['AuthnetProfile']['payment_cardNumber'], -4, 4);
-           $this->data['AuthnetProfile']['id'] = $this->FotomatterBilling->save_payment_profile($this->data);
-		   
-		   if ($this->data['AuthnetProfile']['id'] != false) {
-			   $return['result'] = true;
-			   $return['data'] = $this->data;
-			   $return['message'] = "Profile saved";
-			   $this->return_json($return);
-			   exit();
-		   } else {
-			   $return['result'] = false;
-			   $return['message'] = "unknown error";
-			   $this->major_error('domains profile creation passed validation but failed overlord api call');
-			   $this->return_json($return);
-			   exit();
-		   }
-		   
-       }
-       $this->major_error('admin_ajax_save_client_billing was called without data');
-       exit();
-   }
+		if (empty($this->data) == false) {
+			   try {
+				   $this->validatePaymentProfile();
+
+			   } catch (Exception $e) {
+				   $return['message'] = $e->getMessage();
+				   $return['result'] = false;
+				   $this->return_json($return);
+				   exit();
+			   }
+
+			   $this->data['AuthnetProfile']['payment_cc_last_four'] = substr($this->data['AuthnetProfile']['payment_cardNumber'], -4, 4);
+			   $this->data['AuthnetProfile']['id'] = $this->FotomatterBilling->save_payment_profile($this->data);
+
+			   if ($this->data['AuthnetProfile']['id'] != false) {
+				   $return['result'] = true;
+				   $return['data'] = $this->data;
+				   $return['message'] = "Profile saved";
+				   $this->return_json($return);
+				   exit();
+			   } else {
+				   $return['result'] = false;
+				   $return['message'] = "unknown error";
+				   $this->major_error('domains profile creation passed validation but failed overlord api call');
+				   $this->return_json($return);
+				   exit();
+			   }
+
+		}
+		$this->major_error('admin_ajax_save_client_billing was called without data');
+		exit();
+	}
    
 	public function admin_purchase() {
 		ignore_user_abort(true);
@@ -127,6 +127,7 @@ class DomainsController extends Appcontroller {
 
 		$overlord_domain_charge_result = $this->FotomatterDomainManagement->charge_domain($domain_to_buy);
 		if ($overlord_domain_charge_result === false) {
+			$this->major_error('failed to charge for domain on overlord', compact('inputFromClient'), 'high');
 			$this->system_domain_fail_generic();
 			exit();
 		} elseif ($overlord_domain_charge_result === null) {
@@ -137,12 +138,14 @@ class DomainsController extends Appcontroller {
 		}
 		
 		if ($this->FotomatterDomain->buy_domain($inputFromClient['contact'], $domain_to_buy) === false) {
+			$this->major_error('failed to buy domain on overlord', compact('inputFromClient'), 'high');
 			$this->system_domain_fail_generic();
 			exit();
 		}
 
 		$domain_setup_overlord_info = $this->FotomatterDomainManagement->setupDomain($domain_to_buy);
 		if ($domain_setup_overlord_info === false) {
+			$this->major_error('failed to setup domain on overlord', compact('inputFromClient'), 'high');
 			$this->system_domain_fail_generic();
 			exit();
 		}
@@ -190,13 +193,13 @@ class DomainsController extends Appcontroller {
 		exit();
 	}
 	
-	public function domain_checkout() {
+	public function admin_domain_checkout() { 
 		$this->layout = 'ajax';
 		$countries = $this->GlobalCountry->get_available_countries();
 		$this->set(compact(array('countries')));
 	}
 	
-	public function get_account_details() {
+	public function admin_get_account_details() {
 		$return = array();
 		$return['account_details'] = $this->FotomatterBilling->getAccountDetails();
 		$return['domain_markup_price'] = DOMAIN_MARKUP_DOLLAR;
@@ -209,14 +212,21 @@ class DomainsController extends Appcontroller {
 		if (empty($data_posted['primary_domain_id']) === false) {
 			$new_primary_domain = $this->AccountDomain->find('first', array(
 				'conditions'=>array(
-					'AccountDomain.id'=>$data_posted['primary_domain_id']
+					'AccountDomain.id' => $data_posted['primary_domain_id']
 				),
 				'contain'=>false
 			));
 			if (empty($new_primary_domain)) {
-				$this->major_error("Tried to set primary domain with id that doesn't exist, should ever happen.", $data_posted);
+				$this->major_error("Tried to set primary domain with id that doesn't exist, should never happen.", $data_posted);
 				$this->return_json(array('code'=>false));
 				exit();
+			}
+			
+			$remove_primary_query = "
+				UPDATE account_domains SET is_primary = 0
+			";
+			if ($this->AccountDomain->query($remove_primary_query) === false) {
+				$this->major_error('Failed remove all domains primary', $new_primary_domain);
 			}
 			
 			

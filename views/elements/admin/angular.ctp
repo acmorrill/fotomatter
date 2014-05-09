@@ -9,7 +9,7 @@
 <script type='text/javascript' src='/js/angular/services/util_services.js'></script>
 <script type='text/javascript'>
 	angular.module('fmAdmin.constants', []).
-			value('serverConstants', {
-				REQUEST_URI : '<?php echo $_SERVER['REQUEST_URI']; ?>'
-			}); 
+	value('serverConstants', {
+		REQUEST_URI : '<?php echo $_SERVER['REQUEST_URI']; ?>'
+	}); 
 </script>

@@ -12,7 +12,7 @@ var domains_index = function($scope, $modal, $http, domainUtil, errorUtil) {
 	
 	$scope.buyDomain = function(domain) {
 		var modal = $modal.open({
-			templateUrl: '/domains/domain_checkout',
+			templateUrl: '/admin/domains/domain_checkout',
 			windowClass : 'ui-dialog ui-widget ui-widget-content',
 			controller : 'domain_checkout',
 			resolve: {
@@ -26,14 +26,13 @@ var domains_index = function($scope, $modal, $http, domainUtil, errorUtil) {
 	$scope.setDomainPrimary = function(domain_id) {
 		var toPost = {};
 		toPost.primary_domain_id = domain_id;
-		$http.post("/admin/domains/set_as_primary", toPost)
-				.success(function(result) {
-					
-				});
+		$http.post("/admin/domains/set_as_primary", toPost).success(function(result) {
+
+		});
 		
 	};
 	
-	if (primary_domain_id !== '') {
+	if (typeof primary_domain_id !== 'undefined') {
 		$scope.primary_domain = primary_domain_id;
 	}
 	
@@ -48,7 +47,7 @@ var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domai
 	};
 	$scope.setStep('loading');
 	
-	$http.get('/domains/get_account_details')
+	$http.get('/admin/domains/get_account_details')
 		.success(function(page_meta_data) {
 			$scope.profile = jQuery.extend(true, AuthnetProfile.initObject({}), page_meta_data.account_details.data.AuthnetProfile)
 			

@@ -6,7 +6,7 @@ angular.module('fmAdmin.modelServices', ['fmAdmin.utilServices'])
 			
 			/**
 			 * I was having some problems with expected fields not being their when populated from the server. 
-			 * The fields aren't in the scope untill a value has been entered, so this function will make sure that they are all their.
+			 * The fields aren't in the scope untill a value has been entered, so this function will make sure that they are all there.
 			 * @param {type} obj object passed from server. 
 			 * @returns {object} object that has been fully initialized
 			 */

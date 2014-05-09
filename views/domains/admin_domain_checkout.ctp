@@ -5,8 +5,8 @@
 	</a>
 </div>
 <div ng-switch on='currentStep' class="ui-dialog-content ui-widget-content" style="width:auto; min-height: 520px;" scrolltop="0" scrollleft="0">
-	<?php  echo $this->element('admin/domains/loading'); ?>
-	<?php  echo $this->element('admin/domains/cc_profile', array('countries'=>$countries)); ?>
+	<?php echo $this->element('admin/domains/loading'); ?>
+	<?php echo $this->element('admin/domains/cc_profile', array('countries'=>$countries)); ?>
 	<?php echo $this->element("admin/domains/domain_contact", array('countries'=>$countries)); ?>
 	<?php echo $this->element("admin/domains/confirm"); ?>
 </div>
