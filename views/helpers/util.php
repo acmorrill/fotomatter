@@ -1,6 +1,93 @@
 <?php
 class UtilHelper extends AppHelper {
 	
+	public function get_not_empty_theme_setting_or(&$theme_custom_settings, $key, $default = 'nope') {
+		if ($default !== 'nope') {
+			return $this->get_not_empty_or($theme_custom_settings, array($key, 'current_value'), $default);
+		} else {
+			return $this->get_not_empty_or($theme_custom_settings, array($key, 'current_value'), $theme_custom_settings[$key]['default_value']);
+		}
+	}
+	public function get_isset_theme_setting_or(&$theme_custom_settings, $key, $default = 'nope') {
+		if ($default !== 'nope') {
+			return $this->get_isset_or($theme_custom_settings, array($key, 'current_value'), $default);
+		} else {
+			return $this->get_isset_or($theme_custom_settings, array($key, 'current_value'), $theme_custom_settings[$key]['default_value']);
+		}
+	}
+	
+	public function get_not_empty_or(&$haystack, $keys, $default = false) {
+		return $this->_get_or($haystack, $keys, $default, 'not_empty');
+	}
+	
+	public function get_isset_or(&$haystack, $keys, $default = false) {
+		return $this->_get_or($haystack, $keys, $default, 'isset');
+	}
+	
+	private function _get_or(&$haystack, $keys, $default, $type) {
+		$use_isset = $type == 'isset';
+		
+		if (is_array($keys)) {
+			switch (count($keys)) {
+				case 2:
+					if ($use_isset) { 
+						if (isset($haystack[$keys[0]][$keys[1]])) {
+							return $haystack[$keys[0]][$keys[1]];
+						}
+					} else {
+						if (!empty($haystack[$keys[0]][$keys[1]])) {
+							return $haystack[$keys[0]][$keys[1]];
+						}
+					}
+					break;
+				case 3:
+					if ($use_isset) { 
+						if (isset($haystack[$keys[0]][$keys[1]][$keys[2]])) {
+							return $haystack[$keys[0]][$keys[1]][$keys[2]];
+						}
+					} else {
+						if (!empty($haystack[$keys[0]][$keys[1]][$keys[2]])) {
+							return $haystack[$keys[0]][$keys[1]][$keys[2]];
+						}
+					}
+					break;
+				case 4:
+					if ($use_isset) { 
+						if (isset($haystack[$keys[0]][$keys[1]][$keys[2]][$keys[3]])) {
+							return $haystack[$keys[0]][$keys[1]][$keys[2]][$keys[3]];
+						}
+					} else {
+						if (!empty($haystack[$keys[0]][$keys[1]][$keys[2]][$keys[3]])) {
+							return $haystack[$keys[0]][$keys[1]][$keys[2]][$keys[3]];
+						}
+					}
+					break;
+				default:
+					if ($use_isset) { 
+						if (isset($haystack[$keys[0]])) {
+							return $haystack[$keys[0]];
+						}
+					} else {
+						if (!empty($haystack[$keys[0]])) {
+							return $haystack[$keys[0]];
+						}
+					}
+					break;
+			}
+		} else {
+			if ($use_isset) { 
+				if (isset($haystack[$keys])) {
+					return $haystack[$keys];
+				}
+			} else {
+				if (!empty($haystack[$keys])) {
+					return $haystack[$keys];
+				}
+			}
+		}
+		return $default;
+	}
+	
 	public function startsWith($haystack, $needle) {
 		$this->Photo = ClassRegistry::init('Photo');
 		

@@ -12,7 +12,8 @@ class ThemeHelper extends AppHelper {
 		$this->Theme = ClassRegistry::init('Theme');
 		
 		return call_user_func_array(array($this->Theme, $method_name), $args);
-    }
+	}
+	
 	
 	public function get_theme_setting($name, $default = false) {
 		$this->ThemeGlobalSetting = ClassRegistry::init('ThemeGlobalSetting', 'Model');

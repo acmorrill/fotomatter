@@ -7,9 +7,10 @@ class ThemeRendererComponent extends Object {
 	
 	public function startup(&$controller) {
 		$theme_config = $this->_process_theme_config_with_user_settings();
+		$theme_custom_settings = isset($theme_config['admin_config']['theme_avail_custom_settings']['settings']) ? $theme_config['admin_config']['theme_avail_custom_settings']['settings'] : array();
 
 		// save the config for the view
-			$controller->set(compact('theme_config'));
+			$controller->set(compact('theme_config', 'theme_custom_settings'));
 		
 			
 		// check to see if current action needs to have theme rendering done to it

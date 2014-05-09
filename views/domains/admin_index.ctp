@@ -56,8 +56,8 @@
 			<tr>
 				<th class='first'><?php echo $this->Paginator->sort(__('Domain Name'), 'AccountDomain.url'); ?></th>
 				<th><?php echo __('Is Primary Domain?'); ?></th>
-				<th class='first'><?php echo $this->Paginator->sort(__('Expires'), 'AccountDomain.expires'); ?>
-				<th class=''><?php echo $this->Paginator->sort(__('Created'), 'AccountDomain.created'); ?></th>
+				<th><?php echo $this->Paginator->sort(__('Expires'), 'AccountDomain.expires'); ?>
+				<th class='last'><?php echo $this->Paginator->sort(__('Created'), 'AccountDomain.created'); ?></th>
 			</tr>
 			<?php foreach ($domains as $domain): ?>
 			<tr>

@@ -1,11 +1,8 @@
-
 <?php 
-	$theme_custom_settings = $theme_config['admin_config']['theme_avail_custom_settings']['settings'];
-	
-	$speed = (!empty($theme_custom_settings['landing_page_slideshow_transition_time']['current_value'])) ? $theme_custom_settings['landing_page_slideshow_transition_time']['current_value'] : $theme_custom_settings['landing_page_slideshow_transition_time']['default_value'];
-	$interval = (!empty($theme_custom_settings['landing_page_slideshow_interval_time']['current_value'])) ? $theme_custom_settings['landing_page_slideshow_interval_time']['current_value'] : $theme_custom_settings['landing_page_slideshow_interval_time']['default_value'];
-	$max_num_images = (!empty($theme_custom_settings['landing_page_slideshow_max_images']['current_value'])) ? $theme_custom_settings['landing_page_slideshow_max_images']['current_value'] : $theme_custom_settings['landing_page_slideshow_max_images']['default_value'];
-	$gallery_to_use_id = (!empty($theme_custom_settings['landing_page_gallery']['current_value'])) ? $theme_custom_settings['landing_page_gallery']['current_value'] : null;
+	$speed = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'landing_page_slideshow_transition_time');
+	$interval = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'landing_page_slideshow_interval_time');
+	$max_num_images = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'landing_page_slideshow_max_images');
+	$gallery_to_use_id = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'landing_page_gallery', null);
 ?>
 
 <script type="text/javascript">
