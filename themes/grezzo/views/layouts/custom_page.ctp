@@ -8,7 +8,12 @@
 		<?php echo $this->Element('theme_global_includes'); ?>
 	</head>
 	<body>
-		<div id='outer_nav'>
+<!--		THis will help with me implementing the theme settings on all the pages.-->
+		<?php 
+			$background_color = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'background_color');
+			debug($background_color);
+		?>
+		<div id='outer_nav' style="background-color: <?php echo $background_color; ?>">
 			<div id="logo_nav_cont">
 				<?php echo $this->Element('nameTitle'); ?>
 				<?php echo $this->Element('menu/two_level_navbar'); ?>
