@@ -75,15 +75,23 @@ $theme_config = array(
 					'help_message' => "Background color test",
 					'possible_values' => array(
 						'black' => array('display' => 'Black'),
-						'white' => array('display' => 'White'),
-						'pink' => array('display' => 'Pink'),
-						'red' => array('display' => 'Red'),
-						'yellow' => array('display' => 'Yellow'),
 						'blue' => array('display' => 'Blue'),
+						'yellow' => array('display' => 'Yellow'),
+						'red' => array('display' => 'Red'),
+						'pink' => array('display' => 'Pink'),
 					),
 					'default_value' => 'black'
 				),
 				
+//					'possible_values' => array(
+//						'#000000', //Black
+//						'#33ffff', //Light Blue
+//						'#ffcc00', // Yellow
+//						'#ff0000', // Red
+//					),
+//					'default_value' => '#000000',
+//				),
+									
 				'header_is_full_width' => array(
 					'type' => 'on_off',
 					'display_name' => 'Header is Full Width',
@@ -96,26 +104,26 @@ $theme_config = array(
 					'default_value' => 'on',
 				),
 				
-				'footer_text' => array(
-					'type' => 'textarea',
-					'display_name' => 'Footer text',
-					'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unch",
-					'help_message' => 'Footer Text test',
-					'possible_values' => '.*\\\S+.*', // can be regex
-					'default_value' => "Andrew's face is all over the place. It's his face. BA-BOOM!",	
-				),
+//				'footer_text' => array(
+//					'type' => 'textarea',
+//					'display_name' => 'Footer text',
+//					'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unch",
+//					'help_message' => 'Footer Text test',
+//					'possible_values' => '.*\\\S+.*', // can be regex
+//					'default_value' => "Andrew's face is all over the place. It's his face. BA-BOOM!",	
+//				),
 				
-				'footer_menu' => array(
-					'type' => 'on_off',
-					'display_name' => 'Footer Menu',
-					'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unch",
-					'help_message' => 'Footer menu on off test',
-					'possible_values' => array(
-						'on' => array('display' => 'On'),
-						'off' => array('display' => 'Off'),
-					),
-					'default_value' => 'on',
-				),
+//				'footer_menu' => array(
+//					'type' => 'on_off',
+//					'display_name' => 'Footer Menu',
+//					'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unch",
+//					'help_message' => 'Footer menu on off test',
+//					'possible_values' => array(
+//						'on' => array('display' => 'On'),
+//						'off' => array('display' => 'Off'),
+//					),
+//					'default_value' => 'on',
+//				),
 				
 				'gallery_selection' => array(
 					'type' => 'gallery_chooser',
@@ -128,13 +136,13 @@ $theme_config = array(
 					'default_value' => '',
 				),
 				
-				'font_selection' => array(
-					'type' => 'dropdown',
-					'display_name' => 'Choose a font type',
-					'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-					'help_message' => 'Choose a font type',
-					
-				),
+//				'font_selection' => array(
+//					'type' => 'dropdown',
+//					'display_name' => 'Choose a font type',
+//					'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+//					'help_message' => 'Choose a font type',
+//					
+//				),
 			)
 		),
 	)
