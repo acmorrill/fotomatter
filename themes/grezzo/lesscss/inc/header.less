@@ -1,3 +1,71 @@
+body {
+	//Black
+	&.black #outer_nav { 
+		background-color: @black; 
+		#nav_location #main_nav ul.top_level > li {
+			color: @top_header_text_color;
+			ul.second_level {
+				color: @top_header_text_color;
+			}
+		}
+	}
+	//Yellow
+	&.yellow #outer_nav { 
+		background-color: @yellow; 
+		#nav_location #main_nav ul.top_level > li {
+			color: @black;
+			ul.second_level {
+				color: @black;
+			}
+		}
+	}
+	&.yellow #page_content #image_info_container #gallery_name{
+			background-color: @blue;
+			color: @white;
+		}
+		//Blue
+	&.blue #outer_nav { 
+		background-color: @blue; 
+		#nav_location #main_nav ul.top_level > li {
+			color: @white;
+			ul.second_level {
+				color: @white;
+			}
+		}
+	}
+	&.blue #page_content #image_info_container #gallery_name{
+			background-color: @blue;
+			color: @white;
+		}
+		//Red
+	&.red #outer_nav { 
+		background-color: @red; 
+		#nav_location #main_nav ul.top_level > li {
+			color: @white;
+			ul.second_level {
+				color: @white;
+			}
+		}
+	}
+	&.red #page_content #image_info_container #gallery_name{
+			background-color: @red;
+			color: @white;
+		}
+	&.pink #outer_nav { 
+		background-color: @pink; 
+		#nav_location #main_nav ul.top_level > li {
+			color: @black;
+			ul.second_level {
+				color: @black;
+			}
+		}
+	}
+	&.pink #page_content #image_info_container #gallery_name{
+			background-color: @pink;
+			color: @black;
+		}
+}
+
 #outer_nav {
 	#logo_nav_cont{
 		width: 1000px;
@@ -6,7 +74,6 @@
 		height: 140px;
 		position: relative;
 	}
-	background-color:@black;
 	width:100%;
 	position: absolute;
 	//height: 140px;
