@@ -1,12 +1,42 @@
 var domains_index = function($scope, $modal, $http, domainUtil, errorUtil) {
 	$scope.search = function() {
-		domainUtil.domainSearch($scope.query)
+		// sanitize the query
+		var valid_tlds = {
+			'com': true,
+			'org': true,
+			'net': true,
+			'me': true,
+			'biz': true
+		};
+		var tld = $scope.query.match(/\..{2,3}$/);
+		if  (tld != null) {
+			tld = tld[0];
+			tld = tld.replace(/[^a-zA-Z]/g, '');
+		} else {
+			tld = 'com';
+		}
+		if (typeof valid_tlds[tld] != 'boolean') {
+			tld = 'com';
+		}
+		
+		
+		
+		var query = $scope.query.replace(/\..{2,3}$/, '');
+		query = query.replace(/[^a-zA-Z-]/g, '');
+		query = query.toLowerCase();
+		
+		if (tld != '') {
+			$scope.query = query + '.' + tld;
+		} else {
+			$scope.query = query + '.com';
+		}
+		
+		domainUtil.domainSearch(query, tld)
 			.success(function(data, status) {
 				if (status !== 200) return;
-				
-				$scope.domain_searched = domainUtil.getActualDomainSearched($scope.query);
-				$scope.domain_found = data[$scope.domain_searched]['avail'];
-				$scope.domains = domainUtil.parseSearchResult(data);
+				$scope.domain_searched = $scope.query;
+				$scope.domain_found = data.domain_available;
+				$scope.domains = domainUtil.parseSearchResult(data.domain_list);
 			});
 	};
 	

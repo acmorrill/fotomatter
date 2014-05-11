@@ -40,6 +40,12 @@ a * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.o
  * ));
  *
  i*/
+
+// postmark credentials
+Configure::write('Postmark.uri', 'https://api.postmarkapp.com/email');
+Configure::write('Postmark.key', '34ede038-cd7b-4c34-b92b-7234d09ab03c');
+
+
 define("HELP_TOUR_ENGLISH_TEXT", 'Get Help With This Page'); 
 
 define("SITE_SETTINGS_APC_CACHE_TTL", 28800); // 8  hours

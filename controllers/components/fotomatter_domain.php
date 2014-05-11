@@ -6,16 +6,13 @@
  */
 class FotomatterDomainComponent extends Object {
 	
-	private $_account = 'adamdude828-ote';
+	private $_account;
     
-	private $_api_token = '07dc29fd052cf2d92413feaae9fea17d3967ccb5';
+	private $_api_token;
 
-	private $_api_url = 'https://api.dev.name.com';
+	private $_api_url;
 
-	private $_dns_servers = array(
-		'dns1.fotomatter.net',
-		'dns2.fotomatter.net'
-	);
+	private $_dns_servers;
 
 	private $_ttl_to_use = 3600;
 
@@ -25,16 +22,16 @@ class FotomatterDomainComponent extends Object {
 
 		// DREW TODO test real api
 		if (false && Configure::read('debug') == 0) {
-			$this->_account = 'adamdude828';
-			$this->_api_token = '26580a43ea7e072288446b67f15af073e53aeab6';
+			$this->_account = 'acmorrill';
+			$this->_api_token = '6fa1adbd6bf414426a84b3eed8fc57aaa69de8a8';
 			$this->_api_url = 'https://api.name.com';
 			$this->_dns_servers = array(
 				'dns1.fotomatter.net',
 				'dns2.fotmatter.net'
 			);
 		} else {
-			$this->_account = "adamdude828-ote";
-			$this->_api_token = "07dc29fd052cf2d92413feaae9fea17d3967ccb5";
+			$this->_account = 'acmorrill-ote';
+			$this->_api_token = '30867e7ace1d5c9194aa176e2a2f416192a3af7f';
 			$this->_api_url = 'https://api.dev.name.com';
 			$this->_dns_servers = array(
 				'ns1.name.com',
@@ -57,43 +54,37 @@ class FotomatterDomainComponent extends Object {
 	* @return bool true of false depending on domain availability
 	* 
 	*/
-	public function check_availability($domain_name, $return_list) {
-		$domain_parts = explode('.', $domain_name);
-		$keyword = '';
-		$tld = '';
-		if (count($domain_parts) == 3) {
-			$keyword = $domain_parts[1];
-			$tld = $domain_parts[2];
-		} else if (count($domain_parts) == 2) {
-			$keyword = $domain_parts[0];
-			$tld = $domain_parts[1];
-		} else {
-			$keyword = $domain_parts[0];
-			$tld = 'com';
-		}
-
-		//$tld = '.' . $tld;
+	public function check_availability($domain_name, $tld) {
+		$tlds_list = array(
+			'com',
+			'org',
+			'net',
+			'me',
+			'biz',
+		);
 		$api_args = array(
-			"keyword" => $keyword,
-			'tld' => array(
-				$tld
-			),
-			'services'=>array(
-				'availability'
-			)
+			"keyword" => $domain_name,
+			'tlds' => $tlds_list,
 		);
 		$api_results = json_decode($this->_send_request("/api/domain/check", 'POST', $api_args), true);
-		if ($return_list){
-			return $api_results['domains'];
+		if ($api_results['result']['code'] !== 100 || empty($api_results['domains'])) {
+			return false;
 		}
-
-		$domain_searched = $keyword . '.' . $tld;
-		foreach($api_results['domains'] as $domain_name => $domain_info) {
-			if ($domain_name == $domain_searched) {
-				return true;
+		
+		$return_data = array();
+		$return_data['domain_list'] = $api_results['domains'];
+		
+		
+		$domain_searched = $domain_name . '.' . $tld;
+		$return_data['domain_available'] = false;
+		foreach($return_data['domain_list'] as $domain_name => &$domain_info) {
+			if ($domain_name == $domain_searched && $domain_info['avail'] == true) {
+				$return_data['domain_available'] = true;
 			}
 		}
-		return false;
+		
+		
+		return $return_data;
 	}
     
 	/**
