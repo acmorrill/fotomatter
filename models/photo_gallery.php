@@ -85,7 +85,7 @@ class PhotoGallery extends AppModel {
 			}
 		} else {
 			foreach ($results as $key => $result) {
-				if ($result['type'] == 'smart') {
+				if ($result['PhotoGallery']['type'] == 'smart') {
 					if (!empty($result['PhotoGallery']['smart_settings'])) {
 						$results[$key]['PhotoGallery']['smart_settings'] = unserialize($result['PhotoGallery']['smart_settings']);
 					} else {
