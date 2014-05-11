@@ -108,10 +108,10 @@ class DomainsController extends Appcontroller {
 		}
 
 		//double check domain is still avail, and check price
-		$domain_list = $this->FotomatterDomain->check_availability($inputFromClient['domain']['name'], true);
+		$domain_data = $this->FotomatterDomain->check_availability($inputFromClient['domain']['name']);
 		
 		$domain_to_buy = array();
-		foreach ($domain_list as $domain_name => $domain) {
+		foreach ($domain_data['domain_list'] as $domain_name => $domain) {
 			if ($domain_name == $inputFromClient['domain']['name']) {
 				$domain_to_buy = $domain;
 				$domain_to_buy['name'] = $domain_name;
@@ -172,22 +172,21 @@ class DomainsController extends Appcontroller {
 		exit();
 	}
 	
-	private function system_domain_fail_generic() {
-		$return['result'] = false;
-		$return['message'] = __('There was a problem with purchasing your domain. We have been notified about the problem and will work to correct it.', true);
-		$this->return_json($return);
-		exit();
-	}
 	
 	public function admin_search() {
 		$this->params['form'] = $this->get_json_from_input();
-		if (isset($this->params['form']['q'])) {
-			$domains = $this->FotomatterDomain->check_availability($this->params['form']['q'], true);
+		if (isset($this->params['form']['domain']) && isset($this->params['form']['tld'])) {
+			// sanitize the search
+			$domain_name = strtolower(preg_replace('/[^a-zA-Z-]/', '', $this->params['form']['domain']));
+			$tld = strtolower(preg_replace('/[^a-zA-Z]/', '', $this->params['form']['tld']));
+			
+			
+			$domain_data = $this->FotomatterDomain->check_availability($domain_name, $tld);
 
-			foreach($domains as $key => $domain) {
-				$domains[$key]['price'] += DOMAIN_MARKUP_DOLLAR;
+			foreach($domain_data['domain_list'] as $key => &$domain) {
+				$domain['price'] += DOMAIN_MARKUP_DOLLAR;
 			}
-			$this->return_json($domains);
+			$this->return_json($domain_data);
 		}
 		
 		exit();
@@ -244,6 +243,37 @@ class DomainsController extends Appcontroller {
 			exit();
 		}
 		header('HTTP/1.0 500 Internal Server Error');
+		exit();
+	}
+	
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// PRIVATE FUNCTIONS
+	private function filter_var_domain($domain) {
+		if(stripos($domain, 'http://') === 0) {
+			$domain = substr($domain, 7); 
+		}
+		if(stripos($domain, 'https://') === 0) {
+			$domain = substr($domain, 8); 
+		}
+
+		///Not even a single . this will eliminate things like abcd, since http://abcd is reported valid
+		if(!substr_count($domain, '.')) {
+			return false;
+		}
+
+		if(stripos($domain, 'www.') === 0) {
+			$domain = substr($domain, 4); 
+		}
+
+		$again = 'http://' . $domain;
+		return filter_var ($again, FILTER_VALIDATE_URL);
+	}
+	
+	private function system_domain_fail_generic() {
+		$return['result'] = false;
+		$return['message'] = __('There was a problem with purchasing your domain. We have been notified about the problem and will work to correct it.', true);
+		$this->return_json($return);
 		exit();
 	}
 }

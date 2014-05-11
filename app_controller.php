@@ -20,7 +20,7 @@ class AppController extends Controller {
 		'LessCss',
 		'MobileDetect',
 		'Validation',
-		'Email',
+		'Postmark',
 		'FotomatterEmail',
 		'FotomatterBilling',
 		'FeatureLimiter',

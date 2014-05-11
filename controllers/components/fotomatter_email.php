@@ -1,4 +1,5 @@
 <?php
+
 class FotomatterEmailComponent extends Object {
 
 	public function send_forgot_password_email(&$controller, $change_password_user) {

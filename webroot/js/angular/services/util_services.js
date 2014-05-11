@@ -3,34 +3,13 @@ angular.module('fmAdmin.utilServices', ['fmAdmin.constants'])
 	
 		var self = this;
 		
-		self.domainSearch = function(query) {
-			var promiseResult = $http.post('/admin/domains/search',
-				{
-					q: query
-				});
+		self.domainSearch = function(domain, tld) {
+			var promiseResult = $http.post('/admin/domains/search', {
+				domain: domain,
+				tld: tld
+			});
 			promiseResult.error = errorUtil.handleError;
 			return promiseResult;
-		};
-		
-		/**
-		 * @param {type} query - The actual keyword searched
-		 * @returns {String} - The domain that we are looking for. 
-		 * For example example.net needs to be example.net and not example.net.com
-		 * 
-		 * While if they type example then they are searching for example.com
-		 */
-		self.getActualDomainSearched = function(query) {
-			var domain_pieces = query.split('.');
-			var domain_title = '';
-
-			if (domain_pieces.length === 3) {
-				domain_title = domain_pieces[1] + '.' + domain_pieces[2];
-			} else if(domain_pieces.length === 2) {
-				domain_title = domain_pieces[0] + '.' + domain_pieces[1];
-			} else {
-				domain_title = domain_pieces[0] + '.com';
-			}
-			return domain_title;
 		};
 		
 		self.parseSearchResult = function(data) {
