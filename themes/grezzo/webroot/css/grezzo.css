@@ -25,15 +25,29 @@ body.black #outer_nav #nav_location #main_nav ul.top_level > li ul.second_level 
 body.yellow #outer_nav {
   background-color: #ffff66;
 }
-body.yellow #outer_nav #nav_location #main_nav ul.top_level > li {
+body.yellow #outer_nav #nav_location #main_nav ul.top_level > li,
+body.yellow #outer_nav #nav_location #main_nav ul.top_level > li a {
   color: #000000;
 }
 body.yellow #outer_nav #nav_location #main_nav ul.top_level > li ul.second_level {
   color: #000000;
 }
 body.yellow #page_content #image_info_container #gallery_name {
-  background-color: #000099;
-  color: #ffffff;
+  background-color: #ffff66;
+  color: #000000;
+}
+body.yellow .navigation_arrow {
+  background-color: #ffff66;
+}
+body.yellow #left_arrow {
+  background-image: url(/img/arrow_left_black.png);
+}
+body.yellow #right_arrow {
+  background-image: url(/img/arrow_right_black.png);
+}
+body.yellow button {
+  background-color: #ffff66;
+  color: #000000;
 }
 body.blue #outer_nav {
   background-color: #000099;
@@ -48,23 +62,20 @@ body.blue #page_content #image_info_container #gallery_name {
   background-color: #000099;
   color: #ffffff;
 }
-body.red #outer_nav {
-  background-color: #cc0033;
+body.blue .navigation_arrow {
+  background-color: #000099;
 }
-body.red #outer_nav #nav_location #main_nav ul.top_level > li {
-  color: #ffffff;
-}
-body.red #outer_nav #nav_location #main_nav ul.top_level > li ul.second_level {
-  color: #ffffff;
-}
-body.red #page_content #image_info_container #gallery_name {
-  background-color: #cc0033;
-  color: #ffffff;
+body.blue button {
+  background-color: #000099;
 }
 body.pink #outer_nav {
   background-color: #ffcccc;
 }
 body.pink #outer_nav #nav_location #main_nav ul.top_level > li {
+  color: #000000;
+}
+body.pink #outer_nav #nav_location #main_nav ul.top_level > li,
+body.pink #outer_nav #nav_location #main_nav ul.top_level > li a {
   color: #000000;
 }
 body.pink #outer_nav #nav_location #main_nav ul.top_level > li ul.second_level {
@@ -73,6 +84,22 @@ body.pink #outer_nav #nav_location #main_nav ul.top_level > li ul.second_level {
 body.pink #page_content #image_info_container #gallery_name {
   background-color: #ffcccc;
   color: #000000;
+}
+body.pink .navigation_arrow {
+  background-color: #ffcccc;
+}
+body.pink #left_arrow {
+  background-image: url(/img/arrow_left_black.png);
+}
+body.pink #right_arrow {
+  background-image: url(/img/arrow_right_black.png);
+}
+body.pink button {
+  background-color: #ffcccc;
+  color: #000000;
+}
+.header_is_full_width #outer_nav #logo_nav_cont {
+  width: auto;
 }
 #outer_nav {
   width: 100%;
@@ -294,17 +321,19 @@ body {
   background-image: url(/img/arrow_right.png);
   background-repeat: no-repeat;
   right: 0px;
+  background-position: 17px 6px, center;
 }
 #left_arrow {
-  background-color: #000000;
   left: 0px;
   background-image: url(/img/arrow_left.png);
   background-repeat: no-repeat;
+  background-position: 12px 5px, center;
 }
 .navigation_arrow {
+  background-color: #000000;
   position: absolute;
-  height: 50px;
-  width: 50px;
+  height: 51px;
+  width: 51px;
   top: 200px;
   cursor: pointer;
 }
