@@ -75,6 +75,7 @@ class PhotoGallery extends AppModel {
 		parent::afterFind($results, $primary);
 		
 		
+		$this->log($results, 'results');
 		foreach ($results as $key => $result) {
 			if (is_array($result)) {
 				$has_deep = false;
