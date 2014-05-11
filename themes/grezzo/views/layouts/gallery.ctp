@@ -11,7 +11,8 @@
 		<script src="/js/scrollto/jquery.scrollTo.min.js"></script>
 		<script src="/js/jquery.endless-scroll_horizontal.js"></script>
 	</head>
-	<body>
+	<?php $background_color = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'background_color'); ?>
+	<body class="<?php echo $background_color; ?>">
 		
 		<?php 
 			
