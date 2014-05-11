@@ -7,7 +7,12 @@
 		<link rel="stylesheet" type="text/css" href="/css/grezzo.css" />
 		<?php echo $this->Element('theme_global_includes'); ?>
 	</head>
-	<body>
+	<?php $background_color = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'background_color'); ?>
+	<body class="<?php echo $background_color; ?>">
+<!--		THis will help with me implementing the theme settings on all the pages.-->
+		<?php 
+		//	debug($background_color);
+		?>
 		<div id='outer_nav'>
 			<div id="logo_nav_cont">
 				<?php echo $this->Element('nameTitle'); ?>

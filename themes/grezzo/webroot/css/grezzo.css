@@ -13,8 +13,68 @@
   src: url('/fonts/museo_300/Museo300-Regular-webfont.eot');
   src: url('/fonts/museo_300/Museo300-Regular-webfont.eot?#iefix') format('embedded-opentype'), url('/fonts/museo_300/Museo300-Regular-webfont.woff') format('woff'), url('/fonts/museo_300/Museo300-Regular-webfont.ttf') format('truetype'), url('/fonts/museo_300/Museo300-Regular-webfont.svg#wf') format('svg');
 }
+body.black #outer_nav {
+  background-color: #000000;
+}
+body.black #outer_nav #nav_location #main_nav ul.top_level > li {
+  color: #fff;
+}
+body.black #outer_nav #nav_location #main_nav ul.top_level > li ul.second_level {
+  color: #fff;
+}
+body.yellow #outer_nav {
+  background-color: #ffff66;
+}
+body.yellow #outer_nav #nav_location #main_nav ul.top_level > li {
+  color: #000000;
+}
+body.yellow #outer_nav #nav_location #main_nav ul.top_level > li ul.second_level {
+  color: #000000;
+}
+body.yellow #page_content #image_info_container #gallery_name {
+  background-color: #000099;
+  color: #ffffff;
+}
+body.blue #outer_nav {
+  background-color: #000099;
+}
+body.blue #outer_nav #nav_location #main_nav ul.top_level > li {
+  color: #ffffff;
+}
+body.blue #outer_nav #nav_location #main_nav ul.top_level > li ul.second_level {
+  color: #ffffff;
+}
+body.blue #page_content #image_info_container #gallery_name {
+  background-color: #000099;
+  color: #ffffff;
+}
+body.red #outer_nav {
+  background-color: #cc0033;
+}
+body.red #outer_nav #nav_location #main_nav ul.top_level > li {
+  color: #ffffff;
+}
+body.red #outer_nav #nav_location #main_nav ul.top_level > li ul.second_level {
+  color: #ffffff;
+}
+body.red #page_content #image_info_container #gallery_name {
+  background-color: #cc0033;
+  color: #ffffff;
+}
+body.pink #outer_nav {
+  background-color: #ffcccc;
+}
+body.pink #outer_nav #nav_location #main_nav ul.top_level > li {
+  color: #000000;
+}
+body.pink #outer_nav #nav_location #main_nav ul.top_level > li ul.second_level {
+  color: #000000;
+}
+body.pink #page_content #image_info_container #gallery_name {
+  background-color: #ffcccc;
+  color: #000000;
+}
 #outer_nav {
-  background-color: #000;
   width: 100%;
   position: absolute;
 }
@@ -87,7 +147,7 @@
 }
 #outer_nav #nav_location #main_nav ul.top_level > li ul.second_level li:hover,
 #outer_nav #nav_location #main_nav ul.top_level > li ul.second_level li:hover a {
-  color: #000;
+  color: #000000;
 }
 #outer_nav #nav_location #main_nav ul.top_level > li.hover ul {
   display: block;
@@ -158,7 +218,7 @@
 }
 #page_content #image_info_container #gallery_name {
   display: none;
-  background-color: #000;
+  background-color: #000000;
   color: #fff;
   text-align: center;
   padding: 5px;
@@ -236,9 +296,10 @@ body {
   right: 0px;
 }
 #left_arrow {
+  background-color: #000000;
+  left: 0px;
   background-image: url(/img/arrow_left.png);
   background-repeat: no-repeat;
-  left: 0px;
 }
 .navigation_arrow {
   position: absolute;
@@ -731,7 +792,7 @@ body {
   margin: 10px 0;
 }
 .black_box {
-  background-color: #000;
+  background-color: #000000;
   color: #fff;
   text-align: center;
   padding: 5px;
@@ -808,7 +869,7 @@ select {
   margin-top: 5px;
 }
 select:focus {
-  outline: 1px solid #000;
+  outline: 1px solid #000000;
 }
 #gray_border_bottom {
   background-image: url("/img/border_bottom.png");
@@ -880,11 +941,11 @@ select:focus {
   width: 80%;
 }
 #custom-page .page-content img.left {
-  border: 4px solid #000;
+  border: 4px solid #000000;
   margin: 0 45px 25px 0;
 }
 #custom-page .page-content img.right {
-  border: 4px solid #000;
+  border: 4px solid #000000;
   margin: 0 0 25px 45px;
 }
 #custom-page .page-content .site_element {
