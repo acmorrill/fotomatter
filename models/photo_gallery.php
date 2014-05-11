@@ -75,21 +75,24 @@ class PhotoGallery extends AppModel {
 		parent::afterFind($results, $primary);
 		
 		
-		if ($primary != true && isset($results['type'])) {
-			if ($results['type'] == 'smart' ) {
-				if (!empty($results['smart_settings'])) {
-					$results['smart_settings'] = unserialize($results['smart_settings']);
-				} else {
-					$this->fill_default_smart_settings($results['smart_settings']);
-				}
+		foreach ($results as $key => $result) {
+			$has_deep = false;
+			if (isset($result['PhotoGallery'])) {
+				$result = $result['PhotoGallery'];
+				$has_deep = true;
 			}
-		} else {
-			foreach ($results as $key => $result) {
-				if ($result['PhotoGallery']['type'] == 'smart') {
-					if (!empty($result['PhotoGallery']['smart_settings'])) {
-						$results[$key]['PhotoGallery']['smart_settings'] = unserialize($result['PhotoGallery']['smart_settings']);
+			if ($result['type'] == 'smart') {
+				if (!empty($result['smart_settings'])) {
+					if ($has_deep) {
+						$results[$key]['PhotoGallery']['smart_settings'] = unserialize($result['smart_settings']);
 					} else {
+						$results[$key]['smart_settings'] = unserialize($result['smart_settings']);
+					}
+				} else {
+					if ($has_deep) {
 						$this->fill_default_smart_settings($results[$key]['PhotoGallery']['smart_settings']);
+					} else {
+						$this->fill_default_smart_settings($results[$key]['smart_settings']);
 					}
 				}
 			}
