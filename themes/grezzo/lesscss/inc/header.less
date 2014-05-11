@@ -1,3 +1,5 @@
+
+//This changes the color of the background
 body {
 	//Black
 	&.black #outer_nav { 
@@ -13,16 +15,31 @@ body {
 	&.yellow #outer_nav { 
 		background-color: @yellow; 
 		#nav_location #main_nav ul.top_level > li {
-			color: @black;
+			&, a{
+				color: @black;				
+			}
 			ul.second_level {
 				color: @black;
 			}
 		}
 	}
 	&.yellow #page_content #image_info_container #gallery_name{
-			background-color: @blue;
-			color: @white;
+			background-color: @yellow;
+			color: @black;
 		}
+	&.yellow .navigation_arrow {
+			background-color: @yellow;
+		}
+	&.yellow #left_arrow {
+		background-image: url(/img/arrow_left_black.png);
+		}	
+	&.yellow #right_arrow {
+		background-image: url(/img/arrow_right_black.png);
+		}
+	&.yellow button{
+		background-color: @yellow;
+		color: @black;
+		}		
 		//Blue
 	&.blue #outer_nav { 
 		background-color: @blue; 
@@ -34,27 +51,17 @@ body {
 		}
 	}
 	&.blue #page_content #image_info_container #gallery_name{
-			background-color: @blue;
-			color: @white;
-		}
-		//Red
-	&.red #outer_nav { 
-		background-color: @red; 
-		#nav_location #main_nav ul.top_level > li {
-			color: @white;
-			ul.second_level {
-				color: @white;
-			}
-		}
-	}
-	&.red #page_content #image_info_container #gallery_name{
-			background-color: @red;
-			color: @white;
-		}
+			background-color: @blue; color: @white;	}
+	&.blue .navigation_arrow {background-color: @blue;}
+	&.blue button{background-color: @blue;}	
+		//Pink
 	&.pink #outer_nav { 
 		background-color: @pink; 
 		#nav_location #main_nav ul.top_level > li {
 			color: @black;
+			&, a{
+				color: @black;				
+			}
 			ul.second_level {
 				color: @black;
 			}
@@ -64,7 +71,28 @@ body {
 			background-color: @pink;
 			color: @black;
 		}
+	&.pink .navigation_arrow {
+		background-color: @pink;
+		}
+	&.pink #left_arrow {
+		background-image: url(/img/arrow_left_black.png);
+		}
+	&.pink #right_arrow {
+		background-image: url(/img/arrow_right_black.png);
+		}
+	&.pink button{
+		background-color: @pink;
+		color: @black;
+		}		
 }
+
+// End background
+
+// Header width
+	.header_is_full_width #outer_nav #logo_nav_cont{
+			width: auto;
+		}	
+// End header width
 
 #outer_nav {
 	#logo_nav_cont{

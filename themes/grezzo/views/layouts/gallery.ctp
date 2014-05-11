@@ -37,12 +37,15 @@
 			}
 			$photos = $photo_tmp;
 		?>
+		<?php $header_is_full_width = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'header_is_full_width'); ?>
+	<div class="<?php if ($header_is_full_width == 'on') echo ' header_is_full_width '; ?>">
 		<div id='outer_nav'>
 			<div id="logo_nav_cont">
 			<?php echo $this->Element('nameTitle'); ?>
 			<?php echo $this->Element('menu/two_level_navbar'); ?>
 			</div>	
 		</div>
+	</div>	
 		
 		<div id='page_content'>
 			<div id="gray_spacing"></div>
