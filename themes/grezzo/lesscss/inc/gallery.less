@@ -169,19 +169,17 @@ body{
 #right_arrow {
 	background-image: url(/img/arrow_right.png);
 	background-repeat:no-repeat;
-/*	height: 30px;
-	width: 30px;
-	border-top: 25px solid transparent;
-	border-bottom: 25px solid transparent;
-	border-left: 25px solid #333;*/
 	right: 0px;
+	background-position: 17px 6px, center;
 }
 #left_arrow {
-	background-color: @black;
+	
 	left: 0px;
-	background-image: url(/img/arrow_left.png);
+	background-image: url(/img/arrow_left.png) ;
 	background-repeat:no-repeat;
-	/*height: 30px;
+	background-position: 12px 5px, center;
+	/*
+	height: 50px;
 	width: 30px;
 	border-top: 25px solid transparent;
 	border-bottom: 25px solid transparent; 
@@ -189,10 +187,11 @@ body{
 }
 
 .navigation_arrow {
+	background-color: @black;
 	//border: 25px solid transparent;
 	position: absolute;
-	height: 50px;
-	width: 50px;
+	height: 51px;
+	width: 51px;
 	top: 200px;	
 	cursor: pointer;
 }
