@@ -76,23 +76,25 @@ class PhotoGallery extends AppModel {
 		
 		
 		foreach ($results as $key => $result) {
-			$has_deep = false;
-			if (isset($result['PhotoGallery'])) {
-				$result = $result['PhotoGallery'];
-				$has_deep = true;
-			}
-			if ($result['type'] == 'smart') {
-				if (!empty($result['smart_settings'])) {
-					if ($has_deep) {
-						$results[$key]['PhotoGallery']['smart_settings'] = unserialize($result['smart_settings']);
+			if (is_array($result)) {
+				$has_deep = false;
+				if (isset($result['PhotoGallery'])) {
+					$result = $result['PhotoGallery'];
+					$has_deep = true;
+				}
+				if ($result['type'] == 'smart') {
+					if (!empty($result['smart_settings'])) {
+						if ($has_deep) {
+							$results[$key]['PhotoGallery']['smart_settings'] = unserialize($result['smart_settings']);
+						} else {
+							$results[$key]['smart_settings'] = unserialize($result['smart_settings']);
+						}
 					} else {
-						$results[$key]['smart_settings'] = unserialize($result['smart_settings']);
-					}
-				} else {
-					if ($has_deep) {
-						$this->fill_default_smart_settings($results[$key]['PhotoGallery']['smart_settings']);
-					} else {
-						$this->fill_default_smart_settings($results[$key]['smart_settings']);
+						if ($has_deep) {
+							$this->fill_default_smart_settings($results[$key]['PhotoGallery']['smart_settings']);
+						} else {
+							$this->fill_default_smart_settings($results[$key]['smart_settings']);
+						}
 					}
 				}
 			}
