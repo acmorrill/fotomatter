@@ -109,7 +109,7 @@ class AppController extends Controller {
 		$this->Auth->allow('display', 'view');//IMPORTANT for CakePHP 1.2 final release change this to $this->Auth->allow(array('display'));
 		//$this->Auth->allow(array('*'));//IMPORTANT for CakePHP 1.2 final release change this to $this->Auth->allow(array('display'));
 		//Set the default redirect for users who logout
-		$this->Auth->logoutRedirect = '/';
+		$this->Auth->logoutRedirect = '/admin';
 		//Set the default redirect for users who login
 		$this->Auth->loginRedirect = '/admin/dashboards/index';
 		//Extend auth component to include authorisation via isAuthorized action
