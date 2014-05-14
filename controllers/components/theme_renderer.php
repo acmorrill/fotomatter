@@ -20,7 +20,6 @@ class ThemeRendererComponent extends Object {
 			$theme_layout_data = $theme_config['theme_controller_action_mobile_layouts'];
 		}
 		if (isset($theme_layout_data[$controller->name][$controller->action])) {
-			
 			if (isset($theme_config['theme_include_helpers'])) {
 				foreach ($theme_config['theme_include_helpers'] as $helper_name) {
 					$controller->helpers[] = $helper_name;
@@ -63,9 +62,9 @@ class ThemeRendererComponent extends Object {
 	}
 	
 
-	public function shutdown(&$controller) {}
+	//public function shutdown(&$controller) {}
 	
-	public function beforeRedirect(&$controller, $url, $status=null, $exit) {}
+	//public function beforeRedirect(&$controller, $url, $status=null, $exit) {}
 	
 	/**
 	 * public function read the default theme config and the current theme config - 

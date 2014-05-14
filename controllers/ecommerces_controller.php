@@ -630,7 +630,7 @@ class EcommercesController extends AppController {
 		}
 		
 		
-		$logged_in = $this->is_logged_in();
+		$logged_in = $this->is_logged_in_frontend();
 		if ($logged_in) {
 //			if ($no_addresses) { // DREW TODO
 //				redirect to collect address
@@ -710,7 +710,10 @@ class EcommercesController extends AppController {
 		
 		
 		$logged_in_user = $this->Auth->user();
-		$logged_in = !empty($logged_in_user) ? true : false ;
+		$logged_in = (!empty($logged_in_user) && isset($logged_in_user['User']['admin']) && $logged_in_user['User']['admin'] != 1) ? true : false ;
+		if ($logged_in !== true) { 
+			$logged_in_user = array();
+		}
 		$this->set('logged_in', $logged_in);
 		
 		
@@ -807,7 +810,7 @@ class EcommercesController extends AppController {
 					));
 				} else {
 					$authnet_data = array();
-					$user_id = $this->User->create_user($this->data['CreateAccount']['email_address'], $this->data['CreateAccount']['password'], false);
+					$user_id = $this->User->create_user($this->data['CreateAccount']['email_address'], $this->data['CreateAccount']['password'], false); // NOTE - the email address was validated above
 				}
 				
 				// try and save the credit card data to authorize.net CIM
