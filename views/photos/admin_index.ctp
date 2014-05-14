@@ -23,6 +23,7 @@
 		<div style="clear: both;"></div>
 	</div>
 </div>
+
 <div class="clear"></div>
 <?php if (!empty($data)): ?>
 	<div class="table_container" data-step="1" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="top">
@@ -82,8 +83,15 @@
 			</thead>
 			<tbody>
 				<tr class="spacer"><td colspan="3"></td></tr>
+				
 				<?php foreach($data as $curr_photo): ?> 
-					<?php $photo_is_enabled = !empty($max_photo_id) && $curr_photo['Photo']['id'] <= $max_photo_id; ?>
+				
+					<?php 
+						$photo_is_enabled = true;
+						if (!empty($max_photo_id) && $curr_photo['Photo']['id'] <= $max_photo_id) {
+							$photo_is_enabled = !empty($max_photo_id) && $curr_photo['Photo']['id'] <= $max_photo_id;
+						}
+					?>
 					<tr>
 						<td class="photo_id first <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr<?php endif; ?>">
 							<div class="rightborder"></div>

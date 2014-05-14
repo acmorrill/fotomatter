@@ -6,9 +6,16 @@ class FotomatterEmailComponent extends Object {
 	
 	// DREW TODO - upgrade this to work with admin users (and change the layout for admin users)
 	public function send_forgot_password_email(&$controller, $change_password_user) {
+		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+		$site_domain = $this->SiteSetting->getVal('site_domain', false);
+		
 		$modified_hash = openssl_digest($change_password_user['User']['modified'].FORGOT_PASSWORD_SALT, 'sha512');
 		$user_id = $change_password_user['User']['id'];
-		$return_link = "http://fotomatter.dev/ecommerces/change_fe_password/$user_id/$modified_hash/"; // DREW TODO - change this to the live domain
+		if ($change_password_user['User']['admin'] == 1) {
+			$return_link = "http://$site_domain.fotomatter.net/users/change_admin_password/$user_id/$modified_hash/"; 
+		} else {
+			$return_link = "http://$site_domain.fotomatter.net/ecommerces/change_fe_password/$user_id/$modified_hash/"; 
+		}
 		
 		$controller->set(compact('modified_hash', 'user_id', 'return_link'));
 		
@@ -19,9 +26,13 @@ class FotomatterEmailComponent extends Object {
 		$controller->Postmark->replyTo = $this->from_email;
 		$controller->Postmark->to = "<$to_email>";
 		$controller->Postmark->subject = 'Change Password Requested';
-		$controller->Postmark->template = 'forgot_password';
+		if ($change_password_user['User']['admin'] == 1) {
+			$controller->Postmark->template = 'forgot_password_admin';
+		} else {
+			$controller->Postmark->template = 'forgot_password_frontend';
+		}
 		$controller->Postmark->sendAs = 'html'; // because we like to send pretty mail
-		if ($change_password_user['User']['admin'] == true) {
+		if ($change_password_user['User']['admin'] == 1) {
 			$controller->Postmark->tag = 'admin_user_forgot_password';
 		} else {
 			$controller->Postmark->tag = 'end_user_forgot_password';

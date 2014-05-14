@@ -329,10 +329,10 @@ class AppController extends Controller {
 	}
 	
 	
-	public function is_logged_in() {
+	public function is_logged_in_frontend() {
 		$user = $this->Auth->user();
 		
-		if (!empty($user)) {
+		if (!empty($user) && isset($user['User']['admin']) && $user['User']['admin'] != 1) {
 			return true;
 		} else {
 			return false;
