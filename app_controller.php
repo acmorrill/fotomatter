@@ -64,6 +64,13 @@ class AppController extends Controller {
 //		$this->log($this->current_feature_prices, 'current_feature_prices');
 
 		
+		///////////////////////////////////////////////////////////////
+		// clear apc cache if in debug mode
+		if (Configure::read('debug') > 0) {
+			apc_clear_cache('user');
+		}
+		
+		
 		//////////////////////////////////////////////////////
 		// stuff todo just in the admin
 		if (isset($this->params['admin']) && $this->params['admin'] == 1) {

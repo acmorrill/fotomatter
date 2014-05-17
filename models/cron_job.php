@@ -4,7 +4,7 @@ class CronJob extends AppModel {
     public $name = 'CronJob';
 
 	
-	public function check_all_crons() {
+	public function check_all_crons($force_run_now = false) {
 		$all_crons = $this->find('all', array(
 			'contain' => false,
 		));
@@ -16,7 +16,7 @@ class CronJob extends AppModel {
 				$next_run = strtotime($current_cron['CronJob']['strtotime'], strtotime($current_cron['CronJob']['last_run']));
 			}
 			
-			if ($next_run <= time()) {
+			if ($force_run_now || $next_run <= time()) {
 				if ($this->run_cron($current_cron) !== true) {
 					$this->major_error("failed to run cron {$current_cron['CronJob']['id']}", compact('current_cron'), 'high');
 				}

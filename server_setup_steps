@@ -44,6 +44,13 @@
 (d)-- Install apache2-mpm-itk
 	-- http://www.nusuni.com/2011/11/how-to-install-setup-and-test-apache-mpm-itk-and-php-in-ubuntu/
 	-- sudo apt-get install apache2-mpm-itk libapache2-mod-php5
+-- Setup Cron Jobs
+	-- crontab -e 
+		(NOTE: to ignore everything use - "> /dev/null 2>&1" - ignore everything but errors do "> /dev/null")
+		(NOTE: add "true" after /app to force run now for testing)
+		// server_metrics
+			MAILTO=support@fotomatter.net
+			*/15 * * * * /var/www/cake_lib/cake/console/cake cron run -app /var/www/custom_hosts/server_metrics/app > /dev/null 2>&1
 (d)-- Setup /var/www
 	-- cake_lib
 		-- cake 1.3.14
