@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Routes configuration
  *
@@ -26,17 +27,17 @@
  * its action called 'display', and we pass a param to select the view file
  * to use (in this case, /app/views/pages/home.ctp)...
  */
-	Router::connect('/', array('controller' => 'site_pages', 'action' => 'landing_page'));
+Router::connect('/', array('controller' => 'site_pages', 'action' => 'landing_page'));
 /**
  * ...and connect the rest of 'Pages' controller's urls.
  */
-	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
+Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
 
 //Router::connect('/admin/login', array('controller' => 'Admins', 'action' => 'login','admin'=>true,'prefixName'=>true));
 //Router::connect('/admin/forgotPassword', array('controller' => 'Admins', 'action' => 'forgotPassword','admin'=>true,'prefixName'=>true));
 //Router::connect('/admin/logout', array('controller' => 'Admins', 'action' => 'logout','admin'=>true,'prefixName'=>true));
-Router::connect('/admin', array('controller' => 'Dashboards', 'action' => 'index', 'admin'=>true,'prefix'=>'admin'));
-	
-Router::connect('/admin/:controller/:action/*', array( 
-    'action' => null, 'prefix' => 'admin', 'admin' => true 
+Router::connect('/admin', array('controller' => 'Dashboards', 'action' => 'index', 'admin' => true, 'prefix' => 'admin'));
+
+Router::connect('/admin/:controller/:action/*', array(
+	'action' => null, 'prefix' => 'admin', 'admin' => true
 ));

@@ -43,4 +43,27 @@ class FotomatterEmailComponent extends Object {
 			$controller->major_error('failed to send forgot password email', compact('result', 'change_password_user', 'return_link'));
 		}
 	}
+	
+	public function send_domain_renew_reminder_email(&$controller, $data_to_send) {
+		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+		$account_email = $this->SiteSetting->getVal('account_email', false);
+		$site_domain = $this->SiteSetting->getVal('site_domain', false);
+		$login_url = "http://$site_domain.fotomatter.net/admin/domains"; 
+		
+		$controller->set(compact('data_to_send', 'login_url'));
+		
+		$controller->Postmark->delivery = 'postmark';
+		$controller->Postmark->from = $this->from_email;
+		$controller->Postmark->replyTo = $this->from_email;
+		$controller->Postmark->to = "<$account_email>";
+		$controller->Postmark->subject = 'Fotomatter domain expiration notice';
+		$controller->Postmark->template = 'domain_renew_reminder';
+		$controller->Postmark->sendAs = 'html'; // because we like to send pretty mail
+		$controller->Postmark->tag = 'domain_renewal_reminder';
+		$result = $controller->Postmark->send();
+		
+		if (!isset($result['ErrorCode']) || $result['ErrorCode'] != 0) {
+			$controller->major_error('failed to send domain_renewal reminder email', compact('result', 'change_password_user', 'return_link'));
+		}
+	}
 }
