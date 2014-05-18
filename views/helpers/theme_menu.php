@@ -7,8 +7,6 @@ class ThemeMenuHelper extends AppHelper {
 		
 		$containers = $this->SiteTwoLevelMenuContainer->get_containers();
 		
-//		debug($containers);
-		
 		
 		return $containers;
 	}
@@ -19,7 +17,6 @@ class ThemeMenuHelper extends AppHelper {
 			'order' => array(
 				'SiteOneLevelMenu.weight'
 			),
-			'contain' => false,
 		));
 		
 		return $single_menu_items;
@@ -68,6 +65,7 @@ class ThemeMenuHelper extends AppHelper {
 		} else {
 			return false;
 		}
+		
 		
 		
 		$data['type'] = $start_data;
