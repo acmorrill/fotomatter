@@ -27,16 +27,72 @@ class UtilShell extends Shell {
 			$kind = $this->args[0];
 		}
 
+		$str = "cake util";
 		switch ($kind) {
 			default:
 				$this->out("
-	add_default_data
+---- $str add_user {email_address} {password}
+	- create or edit a user with email_address
+	- will perform edit if email address exists
 	
-
+---- sudo $str fix_all_permissions
+	- script to fix all permissions for app
+	- must be run as sudo
+	
+---- $str kent_defaults
+	- setup kent's cdn defaults
+	
+---- $str add_tags
+	- add random tags to site
+	
+---- $str add_menu_items
+	- add random menu items to site
+	
+---- $str add_pages
+	- add random pages to site
+	
+---- $str andrew_defaults (not working)
+	- setup andrews cdn defaults and run defaults
+	
+---- $str defaults (not working)
+	- run lots of defaults
 ");
 		}
 	}
 
+	public function add_user() {
+		if (count($this->args) != 2) {
+			$this->error('You must supply an email address and password.');
+			exit(1);
+		}
+		
+		App::import('Core', 'Security');
+		
+		$devGroup = $this->Group->find('first', array(
+			'conditions' => array('Group.name' => 'System Developers')
+		));
+		
+		
+		$data['User']['email_address'] = $this->args[0];
+		$data['User']['password'] = Security::hash($this->args[1], null, true);
+		$data['User']['active'] = '1';
+		$data['Group'][0] = $devGroup['Group']['id'];
+		
+		$exists = $this->User->find('first', array(
+			'conditions' => array('User.email_address' => $this->args[0])
+		));
+		if ($exists != array()) {
+			$data['User']['id'] = $exists['User']['id'];
+		}
+		
+		if ($this->User->save($data)) {
+			$this->out('User created '.$data['User']['email_address']);
+		} else {
+			$this->error('Failed to create user.');
+		}
+		exit();
+	}
+	
 	function fix_all_permissions() {
 		$this->check_shell_running_as_root();
 
