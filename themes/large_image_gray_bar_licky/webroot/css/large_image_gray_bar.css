@@ -4,17 +4,21 @@
   top: 0px;
   left: 0px;
   right: 0px;
+  outline: 1px solid red;
 }
 .content .outer_nav {
   position: relative;
   min-width: 1000px;
-  background: url(img/nav_bar.png) repeat-x;
+  background: url(/img/nav-bar.png) repeat-x;
   color: #ffffff;
   height: 84px;
 }
 .content .outer_nav .nav {
   position: relative;
-  top: -141px;
+  margin-left: auto;
+  margin-right: auto;
+  top: -155px;
+  height: 30px;
   width: 700px;
   outline: 1px solid red;
 }
@@ -23,6 +27,7 @@
 }
 .content .outer_nav .nav #main_nav li {
   display: inline-block;
+  list-style-type: none;
   margin-right: 38px;
 }
 .content .outer_nav .nav #main_nav li a {
