@@ -1,0 +1,34 @@
+.content {
+  position: absolute;
+  width: 100%;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+}
+.content .outer_nav {
+  position: relative;
+  min-width: 1000px;
+  background: url(img/nav_bar.png) repeat-x;
+  color: #ffffff;
+  height: 84px;
+}
+.content .outer_nav .nav {
+  position: relative;
+  top: -141px;
+  width: 700px;
+  outline: 1px solid red;
+}
+.content .outer_nav .nav #main_nav {
+  float: right;
+}
+.content .outer_nav .nav #main_nav li {
+  display: inline-block;
+  margin-right: 38px;
+}
+.content .outer_nav .nav #main_nav li a {
+  color: #ffffff;
+  text-decoration: none;
+}
+.content .outer_nav .nav #main_nav li a:hover {
+  color: #cc3333;
+}
