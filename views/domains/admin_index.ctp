@@ -38,12 +38,13 @@
 										<?php echo $this->Paginator->sort(__('Expires', true), 'AccountDomain.expires'); ?>
 									</div>
 								</th>
-								<th class="last <?php if ($this->Paginator->sortKey('AccountDomain') == 'AccountDomain.created'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>">
+								<th class="<?php if ($this->Paginator->sortKey('AccountDomain') == 'AccountDomain.created'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>">
 									<div class="content one_line">
 										<div class="direction_arrow"></div>
 										<?php echo $this->Paginator->sort(__('Created', true), 'AccountDomain.created'); ?>
 									</div>
 								</th>
+								<th class="last actions_call"></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -66,6 +67,14 @@
 										<div class="rightborder"></div>
 										<span><?php echo $this->Util->get_formatted_created_date($domain['AccountDomain']['created']); ?></span>
 									</td>
+									<td class="last table_actions">
+										<span class="custom_ui">
+											<div ng-click='renewDomain("<?php echo $domain['AccountDomain']['id']; ?>")' class="add_button">
+												<div class="content"><?php echo __('Add 1 Year', true);?></div>
+												<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
+											</div>
+										</span>
+									</td>
 								</tr>
 							<?php endforeach; ?>
 						</tbody>
@@ -79,13 +88,15 @@
 	<input type='hidden' ng-model='domain_mark_up' value='<?php echo DOMAIN_MARKUP_DOLLAR; ?>' />
 	<div class='domain_header' style="margin-top: 30px;">
 		<div class='search_box custom_ui'>
-			<input ng-model='query' placeholder='<?php echo __('{your_domain}.com', true); ?>' class='domain_field' ng-model='domain_field' />
-			<div class="add_button search" ng-click='search()'>
-				<div class="content"><?php echo __('Search',true);?></div><div class="right_arrow_lines"><div></div></div>
-			</div>
-		</div>
-		<div class='direct_result' ng-class="{'not_avail' : domain_found == false, 'avail' : domain_found}" ng-show="domain_searched != undefined">
-			<h3><span ng-show='domain_found == false'><?php echo __('not available'); ?></span><span ng-show='domain_found'><?php echo __('available'); ?></span></h3>
+			<form ng-submit="search()">
+				<input ng-model='query' placeholder='<?php echo __('{your_domain}.com', true); ?>' class='domain_field' ng-model='domain_field' />
+				<div class="add_button search" ng-click='search()' ng-show="domain_searched == undefined">
+					<div class="content"><?php echo __('Search',true);?></div><div class="right_arrow_lines"><div></div></div>
+				</div>
+				<div class="add_button search" ng-show="domain_searched != undefined">
+					<div class="content">Searching ...</div>
+				</div>
+			</form>
 		</div>
 	</div>
 	<div class='domain_result'>
@@ -139,9 +150,12 @@
 						<td class="last table_actions">
 							<div class="rightborder"></div>
 							<span class="custom_ui">
-								<div ng-click='buyDomain(domain)' class="add_button">
+								<div ng-click='buyDomain(domain)' class="add_button" ng-show="domain.avail == 1">
 									<div class="content"><?php echo __('Buy Now', true);?></div>
 									<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
+								</div>
+								<div ng-show="domain.avail != 1">
+									unavailable
 								</div>
 							</span>
 						</td>

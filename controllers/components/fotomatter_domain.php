@@ -39,6 +39,30 @@ class FotomatterDomainComponent extends Object {
 			);
 		}
 	}
+	
+	public function hello() {
+		$api_results = $this->_send_request("/api/hello", "GET");
+		
+		return $api_results;
+	}
+	public function get_account() {
+		$api_results = $this->_send_request("/api/account/get", "GET");
+		return $api_results;
+	}
+	public function list_domains() {
+		$api_results = $this->_send_request("/api/domain/list", "GET");
+		return $api_results;
+	}
+	
+	public function domain_get($domain_name) {
+		$api_results = $this->_send_request("/api/domain/get/$domain_name", "GET");
+		
+		if (empty($api_results['result']['code']) || $api_results['result']['code'] != 100) {
+			return false;
+		}
+		return $api_results;
+	}
+	
     
 	/**
 	* This funciton is used to check the availabiliity to check a single domain name
@@ -66,7 +90,7 @@ class FotomatterDomainComponent extends Object {
 			"keyword" => $domain_name,
 			'tlds' => $tlds_list,
 		);
-		$api_results = json_decode($this->_send_request("/api/domain/check", 'POST', $api_args), true);
+		$api_results = $this->_send_request("/api/domain/check", 'POST', $api_args);
 		if ($api_results['result']['code'] !== 100 || empty($api_results['domains'])) {
 			return false;
 		}
@@ -98,7 +122,7 @@ class FotomatterDomainComponent extends Object {
 			'period'=>'1',
 		);
 		$api_args['items'][] = $order;
-		$api_results = json_decode($this->_send_request("/api/order", "POST", $api_args), true);
+		$api_results = $this->_send_request("/api/order", "POST", $api_args);
 		if ($api_results['result']['code'] == '100') {
 			return true;
 		}
@@ -139,7 +163,7 @@ class FotomatterDomainComponent extends Object {
 		);
 		$api_args['items'][] = $order;
 
-		$api_results = json_decode($this->_send_request("/api/order", "POST", $api_args), true);
+		$api_results = $this->_send_request("/api/order", "POST", $api_args);
 		if ($api_results['result']['code'] != '100') {
 			return false;
 		}
@@ -152,8 +176,8 @@ class FotomatterDomainComponent extends Object {
 	* @param String request_type GET or POST
 	* @param request_args array Parameter required for api call.. see docs here https://www.name.com/files/name_api_documentation.pdf
 	*/
-	private function _send_request($api_call, $request_type='GET', $request_args) {
-		$api_result = $this->Http->request(array(
+	private function _send_request($api_call, $request_type='GET', $request_args = array()) {
+		$api_result_json = $this->Http->request(array(
 			'method' => $request_type,
 			'uri' => $this->_api_url .  $api_call,
 			'body' => json_encode($request_args),
@@ -163,6 +187,13 @@ class FotomatterDomainComponent extends Object {
 			)
 		));
 
+		$api_result = json_decode($api_result_json, true);
+		
+		if (!isset($api_result['result']['code']) || $api_result['result']['code'] != 100) {
+			$this->MajorError = ClassRegistry::init('MajorError');
+			$this->MajorError->major_error('name.com api error: ' . $api_result['result']['message'], compact('api_result', 'api_call', 'request_type', 'request_args'), 'high');
+		}
+		
 		return $api_result;
 	}
    
