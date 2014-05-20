@@ -88,7 +88,7 @@
 						</td>
 						<td class="table_actions">
 							<span class="custom_ui">
-								<a href="/admin/ecommerces/add_print_type_and_pricing/<?php echo $photo_print_type['PhotoPrintType']['id']; ?>/"><div class="add_button" data-step="5" data-intro="<?php echo __('Edit your current print type. Rename, change the price, and update shipping cost. <br> Get to it. Start making some magic.', true); ?>" data-position="top"><div class="content"><?php echo __('Edit', true); ?></div><div class="right_arrow_lines"><div></div></div></div></a>
+								<a href="/admin/ecommerces/add_print_type_and_pricing/<?php echo $photo_print_type['PhotoPrintType']['id']; ?>/"><div class="add_button"><div class="content"><?php echo __('Edit', true); ?></div><div class="right_arrow_lines"><div></div></div></div></a>
 								<a href="/admin/ecommerces/delete_print_type/<?php echo $photo_print_type['PhotoPrintType']['id']; ?>/"><div class="add_button icon"><div class="content">X</div></div></a>
 							</span>
 						</td>

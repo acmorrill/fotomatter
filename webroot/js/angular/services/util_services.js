@@ -15,11 +15,12 @@ angular.module('fmAdmin.utilServices', ['fmAdmin.constants'])
 		self.parseSearchResult = function(data) {
 			var domains_to_display = [];
 			jQuery.each(data, function(key, domain) {
-				if (domain.avail) {
-					domain.name = key;
-					domain.price = accounting.formatMoney(domain.price);
-					domains_to_display.push(domain);
-				}
+				domain.name = key;
+				domain.price = accounting.formatMoney(domain.price);
+				domains_to_display.push(domain);
+			});
+			domains_to_display.sort(function(a, b){
+				return b.avail - a.avail;
 			});
 			return domains_to_display;
 		};

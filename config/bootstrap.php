@@ -67,7 +67,7 @@ define("GLOBAL_FOTOMATTER_CONTAINER_SECURE_URL", 'https://d4f9baf5b96f3eeed9c9-4
 define("LIMIT_MAX_FREE_PHOTOS", 10); // DREW TODO - change this back to 100
 
 
-define('DOMAIN_MARKUP_DOLLAR', '0');
+define('DOMAIN_MARKUP_DOLLAR', '2');
 
 // webroot abs path
 define("WEBROOT_ABS", ROOT.DS.APP_DIR.DS.'webroot');

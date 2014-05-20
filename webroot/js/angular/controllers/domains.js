@@ -1,5 +1,7 @@
 var domains_index = function($scope, $modal, $http, domainUtil, errorUtil) {
 	$scope.search = function() {
+		$scope.domain_searched = true;
+		
 		// sanitize the query
 		var valid_tlds = {
 			'com': true,
@@ -34,7 +36,7 @@ var domains_index = function($scope, $modal, $http, domainUtil, errorUtil) {
 		domainUtil.domainSearch(query, tld)
 			.success(function(data, status) {
 				if (status !== 200) return;
-				$scope.domain_searched = $scope.query;
+				$scope.domain_searched = undefined;
 				$scope.domain_found = data.domain_available;
 				$scope.domains = domainUtil.parseSearchResult(data.domain_list);
 			});
@@ -48,6 +50,22 @@ var domains_index = function($scope, $modal, $http, domainUtil, errorUtil) {
 			resolve: {
 				domain: function() {
 					return domain;
+				}
+			}
+		});
+	};
+	
+	$scope.renewDomain = function(owned_domain) {
+		console.log("adding 1 year");
+		console.log(owned_domain);
+		
+		var modal = $modal.open({
+			templateUrl: '/admin/domains/domain_renew_checkout/' + owned_domain,
+			windowClass : 'ui-dialog ui-widget ui-widget-content',
+			controller : 'domain_checkout',
+			resolve: {
+				domain: function() {
+					return owned_domain;
 				}
 			}
 		});
@@ -77,25 +95,23 @@ var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domai
 	};
 	$scope.setStep('loading');
 	
-	$http.get('/admin/domains/get_account_details')
-		.success(function(page_meta_data) {
-			$scope.profile = jQuery.extend(true, AuthnetProfile.initObject({}), page_meta_data.account_details.data.AuthnetProfile)
-			
-			$scope.contact = {};
-			console.log($scope.profile);
-			$scope.countryChange('states_for_selected_country', $scope.profile.country_id);
+	$http.get('/admin/domains/get_account_details').success(function(page_meta_data) {
+		$scope.profile = jQuery.extend(true, AuthnetProfile.initObject({}), page_meta_data.account_details.data.AuthnetProfile)
 
-			if (jQuery.isEmptyObject(page_meta_data.account_details.data.AuthnetProfile) === false) {
-				$scope.setStep('domain_contact');
-				domainUtil.populateDomainContact($scope.contact, $scope.profile);
-				$scope.countryChange('contact_states_for_selected_country', $scope.contact.country_id, function() {
-					$scope.contact.country_state_id = $scope.profile.country_state_id;
-				});
-				$scope.contact.phone = '2083532813'; //Adam Todo remove this
-			} else {
-				$scope.setStep('cc_profile');
-			}
-		});
+		$scope.contact = {};
+		$scope.countryChange('states_for_selected_country', $scope.profile.country_id);
+
+		if (jQuery.isEmptyObject(page_meta_data.account_details.data.AuthnetProfile) === false) {
+			$scope.setStep('domain_contact');
+			domainUtil.populateDomainContact($scope.contact, $scope.profile);
+			$scope.countryChange('contact_states_for_selected_country', $scope.contact.country_id, function() {
+				$scope.contact.country_state_id = $scope.profile.country_state_id;
+			});
+			$scope.contact.phone = '2083532813'; //Adam Todo remove this
+		} else {
+			$scope.setStep('cc_profile');
+		}
+	});
 	
 	//initial logic end for opening domain checkout
 	$scope.countryChange = function(scope_var_for_state_list, country_id, callback) {

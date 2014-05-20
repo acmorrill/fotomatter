@@ -18,6 +18,27 @@ class DomainsController extends Appcontroller {
 		'order'=>'AccountDomain.created DESC'
 	);
 	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// DOMAIN TESTING FUNCTIONS
+	public function admin_hello() {
+		print_r("<pre>".print_r($this->FotomatterDomain->hello(), true)."</pre>");
+		exit();
+	}
+	public function admin_get_account() {
+		print_r("<pre>".print_r($this->FotomatterDomain->get_account(), true)."</pre>");
+		exit();
+	}
+	public function admin_list_domains() {
+		print_r("<pre>".print_r($this->FotomatterDomain->list_domains(), true)."</pre>");
+		exit();
+	}
+	public function admin_domain_get($domain_name) {
+		print_r("<pre>".print_r($this->FotomatterDomain->domain_get($domain_name), true)."</pre>");
+		exit();
+	}
+	
+	
+	
 	public function admin_index() {
 		$domains = $this->paginate('AccountDomain');
 		$primary_domain = $this->AccountDomain->find('first', array(
@@ -82,7 +103,7 @@ class DomainsController extends Appcontroller {
 		$this->major_error('admin_ajax_save_client_billing was called without data');
 		exit();
 	}
-   
+
 	public function admin_purchase() {
 		ignore_user_abort(true);
 		set_time_limit(1200);
@@ -112,7 +133,7 @@ class DomainsController extends Appcontroller {
 		
 		$domain_to_buy = array();
 		foreach ($domain_data['domain_list'] as $domain_name => $domain) {
-			if ($domain_name == $inputFromClient['domain']['name']) {
+			if ($domain_name == $inputFromClient['domain']['name'] && $domain['avail'] == 1) {
 				$domain_to_buy = $domain;
 				$domain_to_buy['name'] = $domain_name;
 				$domain_to_buy['price'] += DOMAIN_MARKUP_DOLLAR;
@@ -196,6 +217,34 @@ class DomainsController extends Appcontroller {
 		$this->layout = 'ajax';
 		$countries = $this->GlobalCountry->get_available_countries();
 		$this->set(compact(array('countries')));
+	}
+	
+	public function admin_domain_renew_checkout($account_domain_id) { 
+		$this->layout = 'ajax';
+		
+		$account_domain = $this->AccountDomain->find('first', array(
+			'conditions' => array(
+				'AccountDomain.id' => $account_domain_id,
+			),
+			'contain' => false,
+		));
+		
+		if (empty($account_domain['AccountDomain']['url'])) {
+			$this->major_error('tried to add renew domain  to checkout with bad id', compact('account_domain_id'), 'high');
+			exit();
+		}
+		
+		$extra_domain_data = $this->FotomatterDomain->domain_get($account_domain['AccountDomain']['url']);
+		if (empty($extra_domain_data['addons']['domain/renew']['price']) || empty($extra_domain_data['expire_date'])) {
+			$this->major_error('tried to add renew domain but failed to grab renew price', compact('extra_domain_data', 'account_domain', 'account_domain_id'), 'high');
+			exit();
+		}
+		$account_domain['AccountDomain']['renew_price'] = $extra_domain_data['addons']['domain/renew']['price'];
+		$account_domain['AccountDomain']['actual_expires'] = $extra_domain_data['expire_date'];
+		$account_domain['AccountDomain']['renew_expires'] = date('Y-m-d H:i:s', strtotime('+1 year', strtotime($extra_domain_data['expire_date'])));
+		// START HERE TOMORROW
+		$countries = $this->GlobalCountry->get_available_countries();
+		$this->set(compact(array('countries'), 'account_domain'));
 	}
 	
 	public function admin_get_account_details() {
