@@ -9,20 +9,21 @@ class FotomatterDomainManagementComponent extends FotoMatterOverlordApi {
 	}
 
 	public function setupDomain($domain) {
-		$api_result = json_decode($this->send_api_request("api_domain/setup", $domain), true);
-		if ($api_result['code']) {
+		$api_result = $this->send_api_request("api_domain/setup", $domain);
+		if ($api_result['code'] == 1) {
 			return $api_result;
 		}
 		return false;
 	}
 
-	public function charge_domain($domain) {
-		$api_result = json_decode($this->send_api_request("api_domain/charge_domain", $domain), true);
-
-		if (empty($api_result['data']['AuthnetDomainOrder']['id']) === false) {
-			return true;
-		}
-		return $api_result['data']['AuthnetDomainOrder']['id'];
+	////////////////////////////////////
+	// charge domain codes
+	// 1: success
+	// -1: card declined
+	// -2: other error
+	public function charge_for_domain($domain) {
+		$api_result = $this->send_api_request("api_domain/charge_domain", $domain);
+		return $api_result;
 	}
 
 }

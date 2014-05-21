@@ -18,7 +18,7 @@ class FotomatterBillingComponent extends FotoMatterOverlordApi {
 		if (apc_exists($this->account_details_apc_key)) {
 			return apc_fetch($this->account_details_apc_key);
 		}
-		$details = json_decode($this->send_api_request('api_billing/get_account_details', array()), true);
+		$details = $this->send_api_request('api_billing/get_account_details', array());
 		apc_store($this->account_details_apc_key, $details, 10800); // 3 hours
 		return $details;
 	}
@@ -27,7 +27,7 @@ class FotomatterBillingComponent extends FotoMatterOverlordApi {
 		if (apc_exists($this->account_payment_profile_apc_key)) {
 			return apc_fetch($this->account_payment_profile_apc_key);
 		}
-		$result = json_decode($this->send_api_request('api_billing/get_payment_profile', array()), true);
+		$result = $this->send_api_request('api_billing/get_payment_profile', array());
 		apc_store($this->account_payment_profile_apc_key, $result, 10800); // 3 hours
 		return $result;
 	}
@@ -41,7 +41,7 @@ class FotomatterBillingComponent extends FotoMatterOverlordApi {
 			return apc_fetch($this->account_info_apc_key);
 		}
 		
-		$result_of_find = json_decode($this->send_api_request('api_billing/get_account_info', $params), true);
+		$result_of_find = $this->send_api_request('api_billing/get_account_info', $params);
 		if($result_of_find['code']) {
 			apc_store($this->account_info_apc_key, $result_of_find['payload'], 10800); // 3 hours
 			return $result_of_find['payload'];
@@ -87,19 +87,19 @@ class FotomatterBillingComponent extends FotoMatterOverlordApi {
 	
 	public function remove_item($line_item_id) {
 		$this->clear_billing_apc();
-		$result = json_decode($this->send_api_request('api_billing/remove_item', array('line_item_id'=>$line_item_id)), true);
+		$result = $this->send_api_request('api_billing/remove_item', array('line_item_id'=>$line_item_id));
 		return $result;
 	}
 	
 	public function undo_cancellation($line_item_id) {
 		$this->clear_billing_apc();
-		$result = json_decode($this->send_api_request('api_billing/undo_cancellation', array('line_item_id'=>$line_item_id)), true);
+		$result = $this->send_api_request('api_billing/undo_cancellation', array('line_item_id'=>$line_item_id));
 		return $result;
 	}
 	
 	public function makeAccountChanges($changes) {
 		$this->clear_billing_apc();
-		$result = json_decode($this->send_api_request('api_billing/makeAccountChanges', $changes), true);
+		$result = $this->send_api_request('api_billing/makeAccountChanges', $changes);
 		if ($result['code']) {
 			return true;
 		}
@@ -108,7 +108,7 @@ class FotomatterBillingComponent extends FotoMatterOverlordApi {
     
 	public function save_payment_profile($profile_data) {
 		$this->clear_billing_apc();
-		$save_result = json_decode($this->send_api_request('api_billing/save_payment_profile', $profile_data), true);
+		$save_result = $this->send_api_request('api_billing/save_payment_profile', $profile_data);
 		if ($save_result['code']) {
 			return $save_result['data']['authnet_profile_id'];
 		}

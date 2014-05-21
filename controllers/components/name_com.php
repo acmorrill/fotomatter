@@ -2,9 +2,9 @@
 /**
  * Description of fotomatter_domain
  *
- * @author aholsinger
+ * @author acmorrill
  */
-class FotomatterDomainComponent extends Object {
+class NameComComponent extends Object {
 	
 	private $_account;
     
@@ -37,6 +37,8 @@ class FotomatterDomainComponent extends Object {
 				'ns1.name.com',
 				'ns2.name.com'
 			);
+			// https://dev.name.com
+			// dev1l3den 443
 		}
 	}
 	

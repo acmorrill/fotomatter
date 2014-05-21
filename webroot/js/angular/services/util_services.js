@@ -25,6 +25,44 @@ angular.module('fmAdmin.utilServices', ['fmAdmin.constants'])
 			return domains_to_display;
 		};
 		
+		self.validate_domain_name = function(domain_name) {
+			// sanitize the query
+			var valid_tlds = {
+				'com': true,
+				'org': true,
+				'net': true,
+				'me': true,
+				'biz': true
+			};
+			var tld = domain_name.match(/\..{2,3}$/);
+			if  (tld != null) {
+				tld = tld[0];
+				tld = tld.replace(/[^a-zA-Z]/g, '');
+			} else {
+				tld = 'com';
+			}
+			if (typeof valid_tlds[tld] != 'boolean') {
+				tld = 'com';
+			}
+
+			var query = domain_name.replace(/\..{2,3}$/, '');
+			query = query.replace(/[^a-zA-Z-]/g, '');
+			query = query.toLowerCase();
+
+			var final_query = '';
+			if (tld != '') {
+				final_query = query + '.' + tld;
+			} else {
+				final_query = query + '.com';
+			}
+			
+			return {
+				'query': query,
+				'tld': tld,
+				'final_query': final_query
+			};
+		};
+		
 		self.populateDomainContact = function(contact, payment_profile) {
 			contact.first_name = payment_profile.billing_firstname;
 			contact.last_name = payment_profile.billing_lastname;
@@ -34,10 +72,21 @@ angular.module('fmAdmin.utilServices', ['fmAdmin.constants'])
 			contact.zip = payment_profile.billing_zip;
 		};
 		
-		self.purchase = function(domain, contact) {
+		self.purchase = function(domain, tld, contact) {
 			var toPost = {
-				domain: jQuery.extend(true, {}, domain),
-			    contact: jQuery.extend(true, {}, contact)
+				domain: domain,
+				tld: tld,
+				contact: jQuery.extend(true, {}, contact)
+			};
+			toPost.domain.price = accounting.unformat(domain.price);
+			return $http.post("/admin/domains/purchase", toPost);
+		};
+		
+		self.renew = function(domain, tld, contact) {
+			var toPost = {
+				domain: domain,
+				tld: tld,
+				contact: jQuery.extend(true, {}, contact)
 			};
 			toPost.domain.price = accounting.unformat(domain.price);
 			return $http.post("/admin/domains/purchase", toPost);

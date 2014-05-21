@@ -10,7 +10,7 @@ class DomainsController extends Appcontroller {
 	
 	public $layout = 'admin/accounts';
 	
-	public $components = array('FotomatterDomain', 'FotomatterBilling', 'FotomatterDomainManagement');
+	public $components = array('NameCom', 'FotomatterBilling', 'FotomatterDomainManagement');
 	
 	public $paginate = array(
 		'contain'=>false,
@@ -21,19 +21,19 @@ class DomainsController extends Appcontroller {
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// DOMAIN TESTING FUNCTIONS
 	public function admin_hello() {
-		print_r("<pre>".print_r($this->FotomatterDomain->hello(), true)."</pre>");
+		print_r("<pre>".print_r($this->NameCom->hello(), true)."</pre>");
 		exit();
 	}
 	public function admin_get_account() {
-		print_r("<pre>".print_r($this->FotomatterDomain->get_account(), true)."</pre>");
+		print_r("<pre>".print_r($this->NameCom->get_account(), true)."</pre>");
 		exit();
 	}
 	public function admin_list_domains() {
-		print_r("<pre>".print_r($this->FotomatterDomain->list_domains(), true)."</pre>");
+		print_r("<pre>".print_r($this->NameCom->list_domains(), true)."</pre>");
 		exit();
 	}
 	public function admin_domain_get($domain_name) {
-		print_r("<pre>".print_r($this->FotomatterDomain->domain_get($domain_name), true)."</pre>");
+		print_r("<pre>".print_r($this->NameCom->domain_get($domain_name), true)."</pre>");
 		exit();
 	}
 	
@@ -108,6 +108,10 @@ class DomainsController extends Appcontroller {
 		ignore_user_abort(true);
 		set_time_limit(1200);
 		$inputFromClient = $this->get_json_from_input();
+		
+		// sanitize the domain
+		$inputFromClient['domain'] = strtolower(preg_replace('/[^a-zA-Z-]/', '', $inputFromClient['domain']));
+		$inputFromClient['tld'] = strtolower(preg_replace('/[^a-zA-Z]/', '', $inputFromClient['tld']));
 
 		//check input
 		try {
@@ -120,7 +124,8 @@ class DomainsController extends Appcontroller {
 			$this->Validation->validate('not_empty', $inputFromClient['contact'], 'zip', __('You must provide your zip.', true));
 			$this->Validation->validate('not_empty', $inputFromClient['contact'], 'country_state_id', __('You must provide your state.', true));
 			$this->Validation->validate('not_empty', $inputFromClient['contact'], 'phone', __('You must provide your phone.', true));
-			$this->Validation->validate('not_empty', $inputFromClient['domain'], 'name', __('You must provide the domain name you want to purchase.', true)); 
+			$this->Validation->validate('not_empty', $inputFromClient, 'domain', __('You must provide the domain name you want to purchase.', true)); 
+			$this->Validation->validate('not_empty', $inputFromClient, 'tld', __('You must provide the domain name you want to purchase.', true)); 
 		} catch(Exception $e) {
 			$return['message'] = $e->getMessage();
 			$return['result'] = false;
@@ -128,12 +133,14 @@ class DomainsController extends Appcontroller {
 			exit();
 		}
 
+		
 		//double check domain is still avail, and check price
-		$domain_data = $this->FotomatterDomain->check_availability($inputFromClient['domain']['name']);
+		$full_domain_name = $inputFromClient['domain'] . "." . $inputFromClient['tld'];
+		$domain_data = $this->NameCom->check_availability($inputFromClient['domain'], $inputFromClient['tld']);
 		
 		$domain_to_buy = array();
 		foreach ($domain_data['domain_list'] as $domain_name => $domain) {
-			if ($domain_name == $inputFromClient['domain']['name'] && $domain['avail'] == 1) {
+			if ($domain_name == $full_domain_name && $domain['avail'] == 1) {
 				$domain_to_buy = $domain;
 				$domain_to_buy['name'] = $domain_name;
 				$domain_to_buy['price'] += DOMAIN_MARKUP_DOLLAR;
@@ -146,19 +153,19 @@ class DomainsController extends Appcontroller {
 			exit();
 		}
 
-		$overlord_domain_charge_result = $this->FotomatterDomainManagement->charge_domain($domain_to_buy);
-		if ($overlord_domain_charge_result === false) {
+		$overlord_domain_charge_result = $this->FotomatterDomainManagement->charge_for_domain($domain_to_buy);
+		if ($overlord_domain_charge_result['code'] == -2) {
 			$this->major_error('failed to charge for domain on overlord', compact('inputFromClient'), 'high');
 			$this->system_domain_fail_generic();
 			exit();
-		} elseif ($overlord_domain_charge_result === null) {
+		} elseif ($overlord_domain_charge_result['code'] == -1) {
 			$return['result'] = false;
 			$return['message'] = __('Your credit card has been declined.', true);
 			$this->return_json($return);
 			exit();
 		}
 		
-		if ($this->FotomatterDomain->buy_domain($inputFromClient['contact'], $domain_to_buy) === false) {
+		if ($this->NameCom->buy_domain($inputFromClient['contact'], $domain_to_buy) === false) {
 			$this->major_error('failed to buy domain on overlord', compact('inputFromClient'), 'high');
 			$this->system_domain_fail_generic();
 			exit();
@@ -180,7 +187,11 @@ class DomainsController extends Appcontroller {
 			$domain_setup_overlord_info['AccountDomain']['is_primary'] = true;
 		}
 		
-		$this->AccountDomain->save($domain_setup_overlord_info);
+		if (!$this->AccountDomain->save($domain_setup_overlord_info)) {
+			$this->major_error('failed to save account domain', compact('domain_setup_overlord_info', 'inputFromClient'), 'high');
+			$this->system_domain_fail_generic();
+			exit();
+		}
 		
 		$this->AccountSubDomain = ClassRegistry::init("AccountSubDomain");
 		$this->AccountSubDomain->create();
@@ -202,7 +213,7 @@ class DomainsController extends Appcontroller {
 			$tld = strtolower(preg_replace('/[^a-zA-Z]/', '', $this->params['form']['tld']));
 			
 			
-			$domain_data = $this->FotomatterDomain->check_availability($domain_name, $tld);
+			$domain_data = $this->NameCom->check_availability($domain_name, $tld);
 
 			foreach($domain_data['domain_list'] as $key => &$domain) {
 				$domain['price'] += DOMAIN_MARKUP_DOLLAR;
@@ -234,7 +245,7 @@ class DomainsController extends Appcontroller {
 			exit();
 		}
 		
-		$extra_domain_data = $this->FotomatterDomain->domain_get($account_domain['AccountDomain']['url']);
+		$extra_domain_data = $this->NameCom->domain_get($account_domain['AccountDomain']['url']);
 		if (empty($extra_domain_data['addons']['domain/renew']['price']) || empty($extra_domain_data['expire_date'])) {
 			$this->major_error('tried to add renew domain but failed to grab renew price', compact('extra_domain_data', 'account_domain', 'account_domain_id'), 'high');
 			exit();
