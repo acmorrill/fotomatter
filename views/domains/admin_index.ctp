@@ -53,7 +53,7 @@
 								<tr>
 									<td class="first <?php if ($this->Paginator->sortKey('AccountDomain') == 'AccountDomain.url'): ?> curr<?php endif; ?>">
 										<div class="rightborder"></div>
-										<span><?php echo $domain['AccountDomain']['url']; ?></span>
+										<span style='max-width: 400px; overflow: hidden;'><?php echo $domain['AccountDomain']['url']; ?></span>
 									</td>
 									<td>
 										<div class="rightborder"></div>
@@ -137,7 +137,7 @@
 					<tr ng-repeat='(domain_name, domain) in domains'>
 						<td>
 							<div class="rightborder"></div>
-							<span>{{domain.name}}</span>
+							<span style='max-width: 400px; overflow: hidden;'>{{domain.name}}</span>
 						</td>
 						<td>
 							<div class="rightborder"></div>

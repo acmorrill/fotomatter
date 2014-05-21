@@ -2,36 +2,10 @@ var domains_index = function($scope, $modal, $http, domainUtil, errorUtil) {
 	$scope.search = function() {
 		$scope.domain_searched = true;
 		
-		// sanitize the query
-		var valid_tlds = {
-			'com': true,
-			'org': true,
-			'net': true,
-			'me': true,
-			'biz': true
-		};
-		var tld = $scope.query.match(/\..{2,3}$/);
-		if  (tld != null) {
-			tld = tld[0];
-			tld = tld.replace(/[^a-zA-Z]/g, '');
-		} else {
-			tld = 'com';
-		}
-		if (typeof valid_tlds[tld] != 'boolean') {
-			tld = 'com';
-		}
-		
-		
-		
-		var query = $scope.query.replace(/\..{2,3}$/, '');
-		query = query.replace(/[^a-zA-Z-]/g, '');
-		query = query.toLowerCase();
-		
-		if (tld != '') {
-			$scope.query = query + '.' + tld;
-		} else {
-			$scope.query = query + '.com';
-		}
+		var query_data = domainUtil.validate_domain_name($scope.query);
+		var tld = query_data.tld;
+		var query = query_data.query;
+		$scope.query = query_data.final_query;
 		
 		domainUtil.domainSearch(query, tld)
 			.success(function(data, status) {
@@ -107,7 +81,7 @@ var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domai
 			$scope.countryChange('contact_states_for_selected_country', $scope.contact.country_id, function() {
 				$scope.contact.country_state_id = $scope.profile.country_state_id;
 			});
-			$scope.contact.phone = '2083532813'; //Adam Todo remove this
+//			$scope.contact.phone = '2083532813'; //Adam Todo remove this
 		} else {
 			$scope.setStep('cc_profile');
 		}
@@ -197,6 +171,7 @@ var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domai
 		}
 		
 		$scope.errorMessage = '';
+		// DREW TODO - START HERE TOMORROW - go to renew_confirm if need be
 		$scope.setStep('confirm');
 		
 		return;
@@ -204,15 +179,41 @@ var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domai
 	
 	$scope.submitPurchase = function() {
 		$scope.setStep('loading');
-		domainUtil.purchase($scope.domain_to_purchase, $scope.contact)
-			.success(function(data, status) {
-				if (data.result){
-					window.location.reload();
-				} else {
-					$scope.setStep('confirm');
-					$scope.errorMessage = data.message;
-				}
-			});
+		
+		var query_data = domainUtil.validate_domain_name($scope.domain_to_purchase.name);
+		var tld = query_data.tld;
+		var domain_name = query_data.query;
+		$scope.domain_to_purchase = query_data.final_query;
+		
+		domainUtil.purchase(domain_name, tld, $scope.contact).success(function(data, status) {
+			if (data.result) {
+				window.location.reload();
+			} else {
+				$scope.setStep('confirm');
+				$scope.errorMessage = data.message;
+			}
+		});
 	};
-}
+	
+	$scope.submit_renew_purchase = function(renew_domain_name) {
+		$scope.setStep('loading');
+		
+		console.log("=========================");
+		console.log(renew_domain_name);
+		console.log("=========================");
+		
+		var query_data = domainUtil.validate_domain_name(renew_domain_name);
+		var tld = query_data.tld;
+		var domain_name = query_data.query;
+		
+		domainUtil.renew(domain_name, tld, $scope.contact).success(function(data, status) {
+			if (data.result) {
+				window.location.reload();
+			} else {
+				$scope.setStep('renew_confirm');
+				$scope.errorMessage = data.message;
+			}
+		});
+	};
+};
 domain_checkout.$inject = ['$scope','AuthnetProfile', '$http', 'generalUtil', 'domainUtil', '$modalInstance', 'domain'];

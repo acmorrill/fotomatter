@@ -24,8 +24,21 @@ class FotoMatterOverlordApi extends Object {
 			'Content-Type: application/json',
 			'API_SIGNATURE: '.$request['Access']['signature']
 		));
-		$response = curl_exec($ch);
+		$json_response = curl_exec($ch);
+		
+		if ($json_response === false) {
+			$curl_error = curl_error($ch);
+			$this->MajorError = ClassRegistry::init('MajorError');
+			$this->MajorError->major_error('api call to overlord failed', compact('url_to_use', 'request', 'curl_error'), 'high');
+		}
 		curl_close($ch);
+		
+		$response = json_decode($json_response, true);
+		if (isset($response['code']) && $response['code'] != 1) {
+			$this->MajorError = ClassRegistry::init('MajorError');
+			$this->MajorError->major_error('api call to overlord returned with fail code', compact('url_to_use', 'request', 'json_response', 'response'), 'high');
+		}
+		
 		return $response;
 	}
 }

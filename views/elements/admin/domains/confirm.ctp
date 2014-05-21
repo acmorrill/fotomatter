@@ -12,7 +12,7 @@
 		</div>
 		<div class='confirm_line'>
 			<div class='label'><?php echo __('Renewal Date'); ?></div>
-			<div class='value'><?php printf(__('Will renew on %1$s.', true), date('d/m/y', strtotime("+1 year"))); ?></div>
+			<div class='value'><?php echo $this->Util->get_formatted_created_date(date('Y-m-d H:i:s', strtotime("+1 year"))); ?></div>
 		</div>
 	</div>
 	<div style='position:relative' class="input continue">
