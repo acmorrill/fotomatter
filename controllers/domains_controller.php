@@ -42,7 +42,7 @@ class DomainsController extends Appcontroller {
 	public function admin_index() {
 		$domains = $this->paginate('AccountDomain');
 		$primary_domain = $this->AccountDomain->find('first', array(
-			'conditions'=>array(
+			'conditions' => array(
 				'AccountDomain.is_primary' => '1'
 			),
 			'contain'=>false
@@ -101,6 +101,130 @@ class DomainsController extends Appcontroller {
 
 		}
 		$this->major_error('admin_ajax_save_client_billing was called without data');
+		exit();
+	}
+	
+	public function admin_renew() {
+		ignore_user_abort(true);
+		set_time_limit(1200);
+		$inputFromClient = $this->get_json_from_input();
+		
+		// sanitize the domain
+		$inputFromClient['domain'] = strtolower(preg_replace('/[^a-zA-Z-]/', '', $inputFromClient['domain']));
+		$inputFromClient['tld'] = strtolower(preg_replace('/[^a-zA-Z]/', '', $inputFromClient['tld']));
+
+		//check input
+		try {
+			$this->Validation->validate('not_empty', $inputFromClient, 'domain', __('You must provide the domain name you want to purchase.', true)); 
+			$this->Validation->validate('not_empty', $inputFromClient, 'tld', __('You must provide the domain name you want to purchase.', true)); 
+		} catch(Exception $e) {
+			$return['message'] = $e->getMessage();
+			$return['result'] = false;
+			$this->return_json($return);
+			exit();
+		}
+
+		
+		//double check domain owned by client and check price
+		$full_domain_name = $inputFromClient['domain'] . "." . $inputFromClient['tld'];
+		$account_domain = $this->AccountDomain->find('first', array(
+			'conditions' => array(
+				'AccountDomain.url' => $full_domain_name,
+			),
+			'contain' => false,
+		));
+		
+		if (empty($account_domain['AccountDomain']['url'])) {
+			$return['message'] = "You do not own the domain $full_domain_name.";
+			$return['result'] = false;
+			$this->return_json($return);
+			exit();
+		}
+		if (empty($account_domain['AccountDomain']['expires']) || $account_domain['AccountDomain']['expires'])
+		
+		
+		
+		// START HERE TOMORROW
+		// 1) make sure they own the domain and that it can be renewed
+			// - grab domain from db
+			// - make sure domain is not too old
+			// - grab actual renew price
+		// 2) charge to renew domain
+		// 3) renew domain on name.com
+		// 4) save domain to reset expire date
+		
+		
+		
+		$domain_data = $this->NameCom->check_availability($inputFromClient['domain'], $inputFromClient['tld']);
+		
+		
+		
+		
+		// below not finished
+		return;
+		$domain_to_buy = array();
+		foreach ($domain_data['domain_list'] as $domain_name => $domain) {
+			if ($domain_name == $full_domain_name && $domain['avail'] == 1) {
+				$domain_to_buy = $domain;
+				$domain_to_buy['name'] = $domain_name;
+				$domain_to_buy['price'] += DOMAIN_MARKUP_DOLLAR;
+			}
+		}
+		if (empty($domain_to_buy)) {
+			$return['result'] = false;
+			$return['message'] = __('The domain you are trying to purchase is no longer available.', true);
+			$this->return_json($return);
+			exit();
+		}
+
+		$overlord_domain_charge_result = $this->FotomatterDomainManagement->charge_for_domain($domain_to_buy);
+		if ($overlord_domain_charge_result['code'] == -2) {
+			$this->major_error('failed to charge for domain on overlord', compact('inputFromClient'), 'high');
+			$this->system_domain_fail_generic();
+			exit();
+		} elseif ($overlord_domain_charge_result['code'] == -1) {
+			$return['result'] = false;
+			$return['message'] = __('Your credit card has been declined.', true);
+			$this->return_json($return);
+			exit();
+		}
+		
+		if ($this->NameCom->buy_domain($inputFromClient['contact'], $domain_to_buy) === false) {
+			$this->major_error('failed to buy domain on overlord', compact('inputFromClient'), 'high');
+			$this->system_domain_fail_generic();
+			exit();
+		}
+
+		$domain_setup_overlord_info = $this->FotomatterDomainManagement->setupDomain($domain_to_buy);
+		if ($domain_setup_overlord_info === false) {
+			$this->major_error('failed to setup domain on overlord', compact('inputFromClient'), 'high');
+			$this->system_domain_fail_generic();
+			exit();
+		}
+		$this->AccountDomain = ClassRegistry::init("AccountDomain");
+		$this->AccountDomain->create();
+		$domain_setup_overlord_info['AccountDomain']['expires'] = date('y-m-d H:i:s', strtotime('+1 year'));
+		
+		//if we have no other AccountDomains saved then mark as primary
+		$current_domain_count = $this->AccountDomain->find('count');
+		if (empty($current_domain_count)) {
+			$domain_setup_overlord_info['AccountDomain']['is_primary'] = true;
+		}
+		
+		if (!$this->AccountDomain->save($domain_setup_overlord_info)) {
+			$this->major_error('failed to save account domain', compact('domain_setup_overlord_info', 'inputFromClient'), 'high');
+			$this->system_domain_fail_generic();
+			exit();
+		}
+		
+		$this->AccountSubDomain = ClassRegistry::init("AccountSubDomain");
+		$this->AccountSubDomain->create();
+		$domain_setup_overlord_info['AccountSubDomain']['account_domain_id'] = $this->AccountDomain->id;
+		$this->AccountSubDomain->save($domain_setup_overlord_info);
+		
+		$return['result'] = true;
+		$this->Session->setFlash(__('Your domain has been purchased, please allow 3-5 minutes for your new domain to be operational.', true), 'admin/flashMessage/success');
+		$this->return_json($return);
 		exit();
 	}
 
@@ -253,7 +377,6 @@ class DomainsController extends Appcontroller {
 		$account_domain['AccountDomain']['renew_price'] = $extra_domain_data['addons']['domain/renew']['price'];
 		$account_domain['AccountDomain']['actual_expires'] = $extra_domain_data['expire_date'];
 		$account_domain['AccountDomain']['renew_expires'] = date('Y-m-d H:i:s', strtotime('+1 year', strtotime($extra_domain_data['expire_date'])));
-		// START HERE TOMORROW
 		$countries = $this->GlobalCountry->get_available_countries();
 		$this->set(compact(array('countries'), 'account_domain'));
 	}

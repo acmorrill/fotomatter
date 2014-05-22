@@ -82,14 +82,13 @@ angular.module('fmAdmin.utilServices', ['fmAdmin.constants'])
 			return $http.post("/admin/domains/purchase", toPost);
 		};
 		
-		self.renew = function(domain, tld, contact) {
+		self.renew = function(domain, tld) {
 			var toPost = {
 				domain: domain,
-				tld: tld,
-				contact: jQuery.extend(true, {}, contact)
+				tld: tld
 			};
 			toPost.domain.price = accounting.unformat(domain.price);
-			return $http.post("/admin/domains/purchase", toPost);
+			return $http.post("/admin/domains/renew", toPost);
 		};
 	})
 	.service('generalUtil', function($http, errorUtil) {

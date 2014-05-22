@@ -7,19 +7,19 @@
             <input type='hidden' id='billing_id' ng-model="profile.created" />
             <input type='hidden' id='billing_id' ng-model="profile.modified" />
             <div class="input">
-                <label for="billing_firstname"><?php echo __('First Name'); ?></label>
+                <label for="billing_firstname"><?php echo __('First Name', true); ?></label>
                 <input type="text" id="billing_firstname" ng-model="profile.billing_firstname" required />
             </div>
             <div class="input">
-                <label for="billing_lastname"><?php echo __('Last Name'); ?></label>
+                <label for="billing_lastname"><?php echo __('Last Name', true); ?></label>
                 <input type="text" id="billing_lastname" ng-model="profile.billing_lastname" required />
             </div>
             <div class="input">
-                <label for="billing_address"><?php echo __('Address'); ?></label>
+                <label for="billing_address"><?php echo __('Address', true); ?></label>
                 <input type="text" id="billing_address" ng-model='profile.billing_address' required />
             </div>
             <div class="input">
-                <label for="billing_country"><?php echo __('Country'); ?></label>
+                <label for="billing_country"><?php echo __('Country', true); ?></label>
                 <select ng-model='profile.country_id' ng-change="countryChange('states_for_selected_country', profile.country_id)" id="billing_country">
                     <?php foreach ($countries as $key => $country): ?>
                     <option value="<?php echo $country['GlobalCountry']['country_code_2']; ?>"><?php echo $country['GlobalCountry']['country_name']; ?></option>
@@ -27,40 +27,40 @@
                 </select>
             </div>
             <div class="input">
-                <label for="billing_city"><?php echo __('City'); ?></label>
+                <label for="billing_city"><?php echo __('City', true); ?></label>
                 <input type="text" id="billing_city" ng-model='profile.billing_city' />
             </div>
             <div class="input">
-                <label for="billing_state"><?php echo __('State'); ?></label>
+                <label for="billing_state"><?php echo __('State', true); ?></label>
                 <select id="billing_state" ng-model="profile.country_state_id" ng-options="state.GlobalCountryState.state_code_3 as state.GlobalCountryState.state_name for state in states_for_selected_country">
                     <?php echo $this->element('admin/accounts/state_list', array('country_code'=>'US')); ?>
                 </select>
             </div>
             <div class="input">
-                <label for="billing_zip"><?php echo __('Zip'); ?></label>
+                <label for="billing_zip"><?php echo __('Zip', true); ?></label>
                 <input type="text" id="billing_zip" ng-model='profile.billing_zip' />
             </div>
         </div>
         <div class="payment">
             <div class="input">
-                <label for="billing_zip"><?php echo __('Card Number'); ?></label>
+                <label for="billing_zip"><?php echo __('Card Number', true); ?></label>
                 <input type="text" id="billing_cardNumber" ng-model='profile.payment_cardNumber' />
             </div>
             <div class="input exp_date">
-                <label for ="card_exp"><?php echo __('Expiration Date'); ?></label>
+                <label for ="card_exp"><?php echo __('Expiration Date', true); ?></label>
                 <select ng-model='profile.expiration.month'>
-                    <option value="01"><?php echo __('January'); ?></option>
-                    <option value="02"><?php echo __('February'); ?></option>
-                    <option value="03"><?php echo __('March'); ?></option>
-                    <option value="04"><?php echo __('April'); ?></option>
-                    <option value="05"><?php echo __('May'); ?></option>
-                    <option value="06"><?php echo __('June'); ?></option>
-                    <option value="07"><?php echo __('July'); ?></option>
-                    <option value="08"><?php echo __('August'); ?></option>
-                    <option value="09"><?php echo __('September'); ?></option>
-                    <option value="10"><?php echo __('October'); ?></option>
-                    <option value="11"><?php echo __('Novembe'); ?>r</option>
-                    <option value="12"><?php echo __('December'); ?></option>                
+                    <option value="01"><?php echo __('January', true); ?></option>
+                    <option value="02"><?php echo __('February', true); ?></option>
+                    <option value="03"><?php echo __('March', true); ?></option>
+                    <option value="04"><?php echo __('April', true); ?></option>
+                    <option value="05"><?php echo __('May', true); ?></option>
+                    <option value="06"><?php echo __('June', true); ?></option>
+                    <option value="07"><?php echo __('July', true); ?></option>
+                    <option value="08"><?php echo __('August', true); ?></option>
+                    <option value="09"><?php echo __('September', true); ?></option>
+                    <option value="10"><?php echo __('October', true); ?></option>
+                    <option value="11"><?php echo __('Novembe', true); ?>r</option>
+                    <option value="12"><?php echo __('December', true); ?></option>                
                 </select>
                 <select ng-model='profile.expiration.year'>
                     <?php for($i=0; $i < 3; $i++): ?>
@@ -69,11 +69,11 @@
                 </select>
             </div>
             <div class="input">
-                <label for="billing_csv"><?php echo __('Csv Code'); ?></label>
+                <label for="billing_csv"><?php echo __('Csv Code', true); ?></label>
                 <input type="text" id="billing_csv" ng-model='profile.payment_cardCode' />
             </div>
             <div style='position:relative' class="input continue">
-                <input fm-button ng-click='submitPayment()' type="button" value="<?php echo __('Next'); ?>" />
+                <input fm-button ng-click='submitPayment()' type="button" value="<?php echo __('Next', true); ?>" />
             </div>
         </div>
     </form>

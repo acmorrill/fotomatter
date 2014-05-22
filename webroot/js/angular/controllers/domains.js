@@ -24,6 +24,9 @@ var domains_index = function($scope, $modal, $http, domainUtil, errorUtil) {
 			resolve: {
 				domain: function() {
 					return domain;
+				},
+				is_renew: function() {
+					return false;
 				}
 			}
 		});
@@ -40,6 +43,9 @@ var domains_index = function($scope, $modal, $http, domainUtil, errorUtil) {
 			resolve: {
 				domain: function() {
 					return owned_domain;
+				},
+				is_renew: function() {
+					return true;
 				}
 			}
 		});
@@ -61,7 +67,8 @@ var domains_index = function($scope, $modal, $http, domainUtil, errorUtil) {
 };
 domains_index.$inject = ['$scope', '$modal', '$http', 'domainUtil', 'errorUtil'];
 
-var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domainUtil, $modalInstance, domain) {
+var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domainUtil, $modalInstance, domain, is_renew) {
+	$scope.is_renew = is_renew;
 	$scope.domain_to_purchase = domain;
 
 	$scope.setStep = function(step_name) {
@@ -76,11 +83,16 @@ var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domai
 		$scope.countryChange('states_for_selected_country', $scope.profile.country_id);
 
 		if (jQuery.isEmptyObject(page_meta_data.account_details.data.AuthnetProfile) === false) {
-			$scope.setStep('domain_contact');
 			domainUtil.populateDomainContact($scope.contact, $scope.profile);
 			$scope.countryChange('contact_states_for_selected_country', $scope.contact.country_id, function() {
 				$scope.contact.country_state_id = $scope.profile.country_state_id;
 			});
+			
+			if ($scope.is_renew == true) {
+				$scope.setStep('renew_confirm');
+			} else {
+				$scope.setStep('domain_contact');
+			}
 //			$scope.contact.phone = '2083532813'; //Adam Todo remove this
 		} else {
 			$scope.setStep('cc_profile');
@@ -122,9 +134,13 @@ var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domai
 					$scope.errorMessage = data.message;
 				} else {
 					$scope.errorMessage = '';
-					$scope.setStep('domain_contact');
-					domainUtil.populateDomainContact($scope.contact, $scope.profile);
-					$scope.countryChange('contact_states_for_selected_country', $scope.contact.country_id);
+					if ($scope.is_renew) {
+						$scope.setStep('renew_confirm');
+					} else {
+						$scope.setStep('domain_contact');
+						domainUtil.populateDomainContact($scope.contact, $scope.profile);
+						$scope.countryChange('contact_states_for_selected_country', $scope.contact.country_id);
+					}
 				}
 			});
 	};
@@ -171,8 +187,11 @@ var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domai
 		}
 		
 		$scope.errorMessage = '';
-		// DREW TODO - START HERE TOMORROW - go to renew_confirm if need be
-		$scope.setStep('confirm');
+		if ($scope.is_renew) {
+			$scope.setStep('renew_confirm');
+		} else {
+			$scope.setStep('confirm');
+		}
 		
 		return;
 	};
@@ -198,15 +217,11 @@ var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domai
 	$scope.submit_renew_purchase = function(renew_domain_name) {
 		$scope.setStep('loading');
 		
-		console.log("=========================");
-		console.log(renew_domain_name);
-		console.log("=========================");
-		
 		var query_data = domainUtil.validate_domain_name(renew_domain_name);
 		var tld = query_data.tld;
 		var domain_name = query_data.query;
 		
-		domainUtil.renew(domain_name, tld, $scope.contact).success(function(data, status) {
+		domainUtil.renew(domain_name, tld).success(function(data, status) {
 			if (data.result) {
 				window.location.reload();
 			} else {
@@ -216,4 +231,4 @@ var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domai
 		});
 	};
 };
-domain_checkout.$inject = ['$scope','AuthnetProfile', '$http', 'generalUtil', 'domainUtil', '$modalInstance', 'domain'];
+domain_checkout.$inject = ['$scope','AuthnetProfile', '$http', 'generalUtil', 'domainUtil', '$modalInstance', 'domain', 'is_renew'];

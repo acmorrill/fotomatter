@@ -41,8 +41,11 @@
 					// Components							
 					slide_links: 'blank', // Individual links for each slide (Options: false, 'num', 'name', 'blank')
 					slides: [// Slideshow Images
-
-						{image: 'http://www.lik.com/img/webloop/coastaldreams.jpg', title: '', thumb: '', url: 'http://www.lik.com/thework/newrelease.html'},
+						<?php $slide_show_photo_ids = $this->Theme->get_landing_page_slideshow_images($max_num_images, $gallery_to_use_id); ?>
+						<?php foreach ($slide_show_photo_ids as $slide_show_photo_id): ?>
+							<?php $img_src = $this->Photo->get_photo_path($slide_show_photo_id, 453, 556, .4, true, true); ?>
+							{image: '<?php echo $img_src['url']; ?>', title: '', thumb: '', url: '/'},
+						<?php endforeach; ?>
 						{image: 'http://www.lik.com/img/webloop/enchantedmorning.jpg', title: '', thumb: '', url: 'http://www.lik.com/thework/lakes-rivers-waterfalls/enchantedmorning.html'},
 						{image: 'http://www.lik.com/img/webloop/oceandance.jpg', title: '', thumb: '', url: 'http://www.lik.com/thework/oceans-beaches-harbours/oceandance.html'},
 						{image: 'http://www.lik.com/img/webloop/secret_morning.jpg', title: '', thumb: '', url: 'http://www.lik.com/thework/lakes-rivers-waterfalls/secretmorning.html'}
@@ -407,7 +410,8 @@
 								</div>
 							</form></div>
 					</div>
-				</div><div class="main">
+				</div>
+				<div class="main">
 					<div class="col-main">
 						<div class="std">&nbsp;</div>
 
