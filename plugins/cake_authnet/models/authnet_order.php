@@ -27,7 +27,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 	}
 
 	private function call_paypal($methodName, $base_call = '') {
-		// START HERE TOMORROW - DREW TODO - change the crendials to live
+		// DREW TODO - change the crendials to live
 		// paypal sandbox credentials - 
 //		$credentials = array(
 //			'API_USERNAME' => 'acmorrill-facilitator_api1.gmail.com',

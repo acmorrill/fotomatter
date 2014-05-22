@@ -18,7 +18,7 @@
 		</div>
 	</div>
 	<div style='position:relative' class="input continue">
-		<button fm-button ng-click='setStep("domain_contact")'><?php echo __('Edit Payment Details'); ?></button>
+		<button fm-button ng-click='setStep("cc_profile")'><?php echo __('Edit Payment Details'); ?></button>
 		<button fm-button ng-click='submit_renew_purchase("<?php echo $account_domain['AccountDomain']['url']; ?>")'><?php echo __('Renew Domain'); ?></button>
 	</div>
 </div>
