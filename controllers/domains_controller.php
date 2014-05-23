@@ -104,7 +104,7 @@ class DomainsController extends Appcontroller {
 		exit();
 	}
 	
-	public function admin_renew() {
+	public function admin_domain_renew_checkout() {
 		ignore_user_abort(true);
 		set_time_limit(1200);
 		$inputFromClient = $this->get_json_from_input();
@@ -127,28 +127,44 @@ class DomainsController extends Appcontroller {
 		
 		//double check domain owned by client and check price
 		$full_domain_name = $inputFromClient['domain'] . "." . $inputFromClient['tld'];
-		$account_domain = $this->AccountDomain->find('first', array(
-			'conditions' => array(
-				'AccountDomain.url' => $full_domain_name,
-			),
-			'contain' => false,
-		));
-		
-		if (empty($account_domain['AccountDomain']['url'])) {
-			$return['message'] = "You do not own the domain $full_domain_name.";
-			$return['result'] = false;
-			$this->return_json($return);
-			exit();
-		}
-		if (empty($account_domain['AccountDomain']['expires']) || $account_domain['AccountDomain']['expires'])
-		
+		// 1) make sure they own the domain and that it can be renewed
+			// - grab domain from db
+			$account_domain = $this->AccountDomain->find('first', array(
+				'conditions' => array(
+					'AccountDomain.url' => $full_domain_name,
+				),
+				'contain' => false,
+			));
+			if (empty($account_domain['AccountDomain']['url'])) {
+				$return['message'] = sprintf(__("You do not own the domain %s.", true), $full_domain_name);
+				$return['result'] = false;
+				$this->major_error('tried to renew a domain the client does not own', compact('account_domain', 'inputFromClient', 'full_domain_name'), 'high');
+				$this->return_json($return);
+				exit();
+			}
+			// - make sure domain is not too old
+			if (empty($account_domain['AccountDomain']['expires'])) {
+				$return['message'] = sprintf(__("%s is expired.", true), $full_domain_name);
+				$this->major_error('account domain expires empty on domain renew', compact('account_domain', 'inputFromClient', 'full_domain_name'), 'high');
+				$return['result'] = false;
+				$this->return_json($return);
+				exit();
+			}
+			$days_till_expired = $this->AccountDomain->get_days_until_expired($account_domain['AccountDomain']['expires']);
+			if (true || $days_till_expired < DOMAIN_MAX_DAYS_PAST_EXPIRE) {
+				$return['message'] = sprintf(__("%s is expired. Please contact support at %s.", true), $full_domain_name, FOTOMATTER_SUPPORT_EMAIL);
+				$this->major_error('tried to renew an expired domain', compact('account_domain', 'inputFromClient', 'full_domain_name'), 'low');
+				$return['result'] = false;
+				$this->return_json($return);
+				exit();
+			}
+			// - grab actual renew price
+			$name_com_domain = $this->NameCom->domain_get($full_domain_name);
+			$this->log($name_com_domain, 'name_com_domain');
 		
 		
 		// START HERE TOMORROW
-		// 1) make sure they own the domain and that it can be renewed
-			// - grab domain from db
-			// - make sure domain is not too old
-			// - grab actual renew price
+			
 		// 2) charge to renew domain
 		// 3) renew domain on name.com
 		// 4) save domain to reset expire date
