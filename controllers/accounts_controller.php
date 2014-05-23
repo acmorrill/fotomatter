@@ -91,7 +91,7 @@ class AccountsController extends AppController {
 		if($result['code']){
 			$this->return_json(array('code'=>true));
 		} else {
-			$this->Session->setFlash(__('There has been a problem while undoing your cancellation. Please contact us at support@fotomatter.net for help.', true), 'admin/flashMessage/error');
+			$this->Session->setFlash(sprintf(__("There has been a problem while undoing your cancellation. Please contact us at %s for help.", true), FOTOMATTER_SUPPORT_EMAIL), 'admin/flashMessage/error');
 			$this->return_json(array('code'=>false));
 		}
 		exit();
@@ -102,7 +102,7 @@ class AccountsController extends AppController {
 		   if($result['code']){
 			   $this->return_json(array('code'=>true));
 		   } else {
-			   $this->Session->setFlash(__('There has been a problem while undoing your cancellation. Please contact us at support@fotomatter.net for help.', true), 'admin/flashMessage/error');
+			   $this->Session->setFlash(sprintf(__('There has been a problem while removing an item. Please contact us at %s for help.', true),  FOTOMATTER_SUPPORT_EMAIL), 'admin/flashMessage/error');
 			   $this->return_json(array('code'=>false));
 		   }
 		   exit();
@@ -244,8 +244,8 @@ class AccountsController extends AppController {
 		}
 
 		$return = $this->FotomatterBilling->makeAccountChanges($change_to_send);
-		if ($return == false) {
-			$this->Session->setFlash(__('Your credit card has been declined, if you need help please contact us at support@fotomatter.net for help.', true), 'admin/flashMessage/error');
+		if ($return == false) { // DREW TODO - test this line
+			$this->Session->setFlash(__('Your credit card has been declined.', true), 'admin/flashMessage/error');
 			$result['code'] = false;
 			$this->return_json($return);
 		} else {

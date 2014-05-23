@@ -41,6 +41,9 @@ a * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.o
  *
  i*/
 
+define("FOTOMATTER_SUPPORT_EMAIL", 'support@fotomatter.net'); 
+
+
 // postmark credentials
 Configure::write('Postmark.uri', 'https://api.postmarkapp.com/email');
 Configure::write('Postmark.key', '34ede038-cd7b-4c34-b92b-7234d09ab03c');
@@ -66,8 +69,9 @@ define("GLOBAL_FOTOMATTER_CONTAINER_SECURE_URL", 'https://d4f9baf5b96f3eeed9c9-4
 // limit functions
 define("LIMIT_MAX_FREE_PHOTOS", 10); // DREW TODO - change this back to 100
 
-
+// domain variables
 define('DOMAIN_MARKUP_DOLLAR', '2');
+define('DOMAIN_MAX_DAYS_PAST_EXPIRE', -20);
 
 // webroot abs path
 define("WEBROOT_ABS", ROOT.DS.APP_DIR.DS.'webroot');

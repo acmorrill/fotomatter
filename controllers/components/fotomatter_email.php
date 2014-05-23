@@ -2,7 +2,7 @@
 
 class FotomatterEmailComponent extends Object {
 	
-	public $from_email = '<support@fotomatter.net>';
+	public $from_email = FOTOMATTER_SUPPORT_EMAIL;
 	
 	// DREW TODO - upgrade this to work with admin users (and change the layout for admin users)
 	public function send_forgot_password_email(&$controller, $change_password_user) {
@@ -22,8 +22,8 @@ class FotomatterEmailComponent extends Object {
 		$to_email = $change_password_user['User']['email_address'];
 		
 		$controller->Postmark->delivery = 'postmark';
-		$controller->Postmark->from = $this->from_email;
-		$controller->Postmark->replyTo = $this->from_email;
+		$controller->Postmark->from = "<$this->from_email>";
+		$controller->Postmark->replyTo = "<$this->from_email>";
 		$controller->Postmark->to = "<$to_email>";
 		$controller->Postmark->subject = 'Change Password Requested';
 		if ($change_password_user['User']['admin'] == 1) {
