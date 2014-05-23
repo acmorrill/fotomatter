@@ -6,26 +6,7 @@
 		<meta name="description" content="Large format landscape photography by Utah based photographer Andrew Morrill.">
 		<?php echo $this->Element('theme_global_includes'); ?>
 		
-		
-		<!-- STUFF FROM LICKY -->
-		<link rel="stylesheet" type="text/css" href="http://www.lik.com/skin/frontend/default/home/css/styles.css" media="all" />
-		<link rel="stylesheet" type="text/css" href="http://www.lik.com/skin/frontend/default/home/css/widgets.css" media="all" />
-		<link rel="stylesheet" type="text/css" href="http://www.lik.com/skin/frontend/default/default/aw_blog/css/style.css" media="all" />
-		<link rel="stylesheet" type="text/css" href="http://www.lik.com/skin/frontend/default/home/css/print.css" media="print" />
-		<script type="text/javascript" src="http://www.lik.com/js/mage/cookies.js"></script>
-
-		<script type="text/javascript" src="http://www.lik.com/js/hrd4mli.js"></script>
-		<script type="text/javascript">try {
-				Typekit.load();
-			} catch (e) {
-			}</script>
-
-
-		<script type="text/javascript" src="http://www.lik.com/js/jquery.easing.min.js"></script>
-
-		<?php echo $this->Element('landing_slideshows/licky', array()); ?>
-		<!-- END STUFF FROM LICKY -->
-		
+		<?php echo $this->Element('landing_slideshows/supersize', array()); ?>
 		
 		<link rel="stylesheet" type="text/css" href="/css/large_image_gray_bar.css" />
 	</head>
