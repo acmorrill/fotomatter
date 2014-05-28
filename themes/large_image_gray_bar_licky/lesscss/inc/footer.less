@@ -1,0 +1,40 @@
+.footer{
+	width: 100%;
+	background-color: @black;
+	color: #666;
+	height: 50px;
+	line-height: 45px;
+	position: fixed;
+	bottom: 0px;
+	left: 0px;
+	//outline: 1px solid red;
+	.inner_footer{
+		position: relative;
+		top: 8px;
+		float: left;
+		margin-left: 40px;
+		background-color: inherit;
+		font-size: 12px;
+		z-index: 1100;
+		line-height: 45;
+		//outline: 1px solid red;
+		#footer_tagline {
+			margin-top: 0px;
+			.footer_tagline_container_outer{
+				margin-bottom: 0px;
+			}
+		}
+	}
+	
+}
+
+
+
+/*<div style="width: 100%; background-color: #000; color: #666; line-height: 45px; position: fixed; bottom: 0px; left: 0px; clear: both; z-index: 1100;">
+					<div style="float: left; margin-left: 40px; background-color: inherit; font-size: 11px; z-index: 1100; line-height: 45px;">
+						<?php echo $this->Element('global_theme_footer_copyright'); ?>
+					</div>
+					<div style="float: right; margin-right: 40px; background-color: inherit; font-size: 11px; z-index: 1100; width:160px; text-align:right;">
+						<p style="padding-top:13px;" border="0">Kent is awesome</p>
+					</div>
+				</div>*/
