@@ -52,7 +52,8 @@ class AppController extends Controller {
 				'Account',
 				'SiteSetting',
 				'Number',
-				'Cache'
+				'Cache',
+				'Page'
 			);
 		}
 		

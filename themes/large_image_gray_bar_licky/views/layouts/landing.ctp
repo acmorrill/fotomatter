@@ -16,16 +16,16 @@
 				<div class="outer_nav">
 					<?php echo $this->Element('nameTitle'); ?>
 					<div class="nav">
-						<?php echo $this->Element('menu/navBar', array( 'page' => 'home' )); ?>
+						<?php echo $this->Element('menu/two_level_navbar'); ?>
 					</div>
 				</div>
-				<div style="width: 100%; background-color: #000; color: #666; line-height: 45px; position: fixed; bottom: 0px; left: 0px; clear: both; z-index: 1100;">
-					<div style="float: left; margin-left: 40px; background-color: inherit; font-size: 11px; z-index: 1100; line-height: 45px;">
+				<div class="footer">
+					<div class="inner_footer">
 						<?php echo $this->Element('global_theme_footer_copyright'); ?>
 					</div>
-					<div style="float: right; margin-right: 40px; background-color: inherit; font-size: 11px; z-index: 1100; width:160px; text-align:right;">
+<!--					<div style="float: right; margin-right: 40px; background-color: inherit; font-size: 11px; z-index: 1100; width:160px; text-align:right;">
 						<p style="padding-top:13px;" border="0">Kent is awesome</p>
-					</div>
+					</div>-->
 				</div>
 			</div>
 	</body>
