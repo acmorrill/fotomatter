@@ -1,4 +1,4 @@
-(d)-- Install Apache (2.2) / php5 (5.3.10) / mysql (5.5.22)
+ls(d)-- Install Apache (2.2) / php5 (5.3.10) / mysql (5.5.22)
 	-- a2enmod vhost_alias
 	-- a2enmod ssl
 	-- php modules
