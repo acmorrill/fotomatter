@@ -16,8 +16,8 @@
 				<div class="outer_nav">
 					<?php echo $this->Element('nameTitle'); ?>
 					<div class="nav">
-						<?php echo $this->Element('menu/two_level_navbar'); ?>
-					</div>
+						<?php echo $this->Element('menu/two_level_navbar'); ?>											
+					</div>	
 				</div>
 				<div class="footer">
 					<div class="inner_footer">
