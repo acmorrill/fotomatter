@@ -58,7 +58,7 @@ $theme_config = array(
 	),
 	'admin_config' => array(
 		'main_menu' => array(
-			'levels' => 1
+			'levels' => 2
 		),
 		'logo_config' => array(
 			'available_space' => array(
@@ -66,8 +66,8 @@ $theme_config = array(
 				'height' => 200
 			),
 			'available_space_screenshot' => array(
-				'absolute_path' => 	PATH_TO_THEMES.DS.'andrewmorrill/webroot/andrew_morrill_theme_logo_space.jpg', // this image should be max 735 pixels width
-				'web_path' => '/andrew_morrill_theme_logo_space.jpg',
+				'absolute_path' => 	PATH_TO_THEMES.DS.'large_image_gray_bar_licky/webroot/img/kent_test_theme_logo_space.jpg', // this image should be max 735 pixels width
+				'web_path' => '/img/kent_test_theme_logo_space.jpg',
 				'padding' => array(
 					'left' => 0,
 					'top' => 0,
@@ -83,8 +83,8 @@ $theme_config = array(
 		'theme_background_config' => array(
 			'theme_has_dynamic_background' => true,
 			'overlay_image' => array(
-				'absolute_path' => 	PATH_TO_THEMES.DS.'andrewmorrill/webroot/test_bg.png', // this image should be max 1390 x 953 (DREW TODO - not sure about this)
-				'web_path' => '/test_bg.png',
+				'absolute_path' => 	PATH_TO_THEMES.DS.'large_image_gray_bar_licky/webroot/img/kent_test_logo.jpg', // this image should be max 1390 x 953 (DREW TODO - not sure about this)
+				'web_path' => '/img/kent_test_logo.jpg',
 				'custom_overlay_transparency_fade' => array(
 					'header' => array(
 						'tl' => array(
