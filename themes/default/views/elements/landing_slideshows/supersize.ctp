@@ -1,7 +1,8 @@
-<link rel="stylesheet" href="http://www.lik.com/css/supersized.css" type="text/css" media="screen" />
-<link rel="stylesheet" href="http://www.lik.com/theme/supersized.shutter.css" type="text/css" media="screen" />
-<script type="text/javascript" src="http://www.lik.com/js/supersized.3.2.7.js"></script>
-<script type="text/javascript" src="http://www.lik.com/theme/supersized.shutter.min.js"></script>
+<link rel="stylesheet" href="/jquery/supersized/slideshow/css/supersized.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="/jquery/supersized/slideshow/theme/supersized.shutter.css" type="text/css" media="screen" />
+<script type="text/javascript" src="/jquery/supersized/slideshow/js/supersized.3.2.7.js"></script>
+<script type="text/javascript" src="/jquery/supersized/slideshow/theme/supersized.shutter.min.js"></script>
+<script type="text/javascript" src="/jquery/supersized/slideshow/js/jquery.easing.min.js"></script>
 <script type="text/javascript">
 	jQuery(function($) {
 		<?php 
