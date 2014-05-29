@@ -179,21 +179,31 @@ class NameComComponent extends Object {
 	* @param request_args array Parameter required for api call.. see docs here https://www.name.com/files/name_api_documentation.pdf
 	*/
 	private function _send_request($api_call, $request_type='GET', $request_args = array()) {
-		$api_result_json = $this->Http->request(array(
-			'method' => $request_type,
-			'uri' => $this->_api_url .  $api_call,
-			'body' => json_encode($request_args),
-			'header' => array(
-				'Api-Username' => $this->_account,
-				'Api-Token' => $this->_api_token
-			)
+		$call_url = $this->_api_url .  $api_call;
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL , $call_url);
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $request_type);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($request_args));
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+			'Content-Type: application/json',
+			'Api-Username: '.$this->_account,
+			'Api-Token: '.$this->_api_token
 		));
-
+		$api_result_json = curl_exec($ch);
+		
+		if ($api_result_json === false) {
+			$curl_error = curl_error($ch);
+			$this->MajorError = ClassRegistry::init('MajorError');
+			$this->MajorError->major_error('api call to name.com failed', compact('curl_error', 'call_url', 'api_result_json', 'api_call', 'request_type', 'request_args'), 'high');
+		}
+		curl_close($ch);
+		
 		$api_result = json_decode($api_result_json, true);
 		
 		if (!isset($api_result['result']['code']) || $api_result['result']['code'] != 100) {
 			$this->MajorError = ClassRegistry::init('MajorError');
-			$this->MajorError->major_error('name.com api error: ' . $api_result['result']['message'], compact('api_result', 'api_call', 'request_type', 'request_args'), 'high');
+			$this->MajorError->major_error('name.com api error', compact('call_url', 'api_result', 'api_result_json', 'api_call', 'request_type', 'request_args'), 'high');
 		}
 		
 		return $api_result;

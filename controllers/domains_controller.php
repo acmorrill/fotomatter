@@ -104,7 +104,7 @@ class DomainsController extends Appcontroller {
 		exit();
 	}
 	
-	public function admin_domain_renew_checkout() {
+	public function admin_renew() {
 		ignore_user_abort(true);
 		set_time_limit(1200);
 		$inputFromClient = $this->get_json_from_input();
@@ -386,6 +386,7 @@ class DomainsController extends Appcontroller {
 		}
 		
 		$extra_domain_data = $this->NameCom->domain_get($account_domain['AccountDomain']['url']);
+		$this->log($extra_domain_data, 'extra_domain_data');
 		if (empty($extra_domain_data['addons']['domain/renew']['price']) || empty($extra_domain_data['expire_date'])) {
 			$this->major_error('tried to add renew domain but failed to grab renew price', compact('extra_domain_data', 'account_domain', 'account_domain_id'), 'high');
 			exit();
