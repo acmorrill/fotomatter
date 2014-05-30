@@ -1,6 +1,6 @@
 <?php
 
-// config for theme: large_image_gray_bar_licky
+// config for theme: large_image_gray_bar_licky "Your Face"
 
 $theme_config = array(
 	'theme_controller_action_layouts' => array(
@@ -83,8 +83,8 @@ $theme_config = array(
 		'theme_background_config' => array(
 			'theme_has_dynamic_background' => true,
 			'overlay_image' => array(
-				'absolute_path' => 	PATH_TO_THEMES.DS.'large_image_gray_bar_licky/webroot/img/kent_test_logo.jpg', // this image should be max 1390 x 953 (DREW TODO - not sure about this)
-				'web_path' => '/img/kent_test_logo.jpg',
+				'absolute_path' => 	PATH_TO_THEMES.DS.'large_image_gray_bar_licky/webroot/img/kent_test_logo.png', // this image should be max 1390 x 953 (DREW TODO - not sure about this)
+				'web_path' => '/img/kent_test_logo.png',
 				'custom_overlay_transparency_fade' => array(
 					'header' => array(
 						'tl' => array(
