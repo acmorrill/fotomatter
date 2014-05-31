@@ -94,7 +94,7 @@ nav_location {
 .footer {
   width: 100%;
   background-color: #000000;
-  color: #666;
+  color: #666666;
   height: 50px;
   line-height: 45px;
   position: fixed;
@@ -116,4 +116,8 @@ nav_location {
 }
 .footer .inner_footer #footer_tagline .footer_tagline_container_outer {
   margin-bottom: 0px;
+}
+#controls-wrapper {
+  bottom: 45px;
+  background: none;
 }
