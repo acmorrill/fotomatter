@@ -108,7 +108,7 @@ $theme_config = array(
 	),
 	'admin_config' => array(
 		'main_menu' => array(
-			'levels' => 2
+			'levels' => 1
 		),
 		'logo_config' => array(
 			'available_space' => array( // the max width and height of the logo (overridden by settings below in the available space screenshot)

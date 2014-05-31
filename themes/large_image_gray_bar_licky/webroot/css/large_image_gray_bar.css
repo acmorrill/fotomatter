@@ -16,27 +16,85 @@
   position: relative;
   margin-left: 600px;
   margin-right: auto;
-  bottom: 35px;
+  bottom: 16px;
   height: auto;
   width: auto;
   white-space: nowrap;
 }
-.content .outer_nav .nav #main_nav li {
-  display: inline-block;
-  list-style-type: none;
-  margin-right: 38px;
+.content .outer_nav .nav #main_nav ul.top_level {
+  position: relative;
+  bottom: 19px;
 }
-.content .outer_nav .nav #main_nav li a {
+.content .outer_nav .nav #main_nav ul.top_level > li {
+  margin-top: -10px;
+  padding-right: 14px;
+  padding-left: 10px;
+  padding-top: 7px;
+  padding-bottom: 10px;
+  list-style-type: none;
+  float: left;
+  margin-left: 30px;
+  color: #ffffff;
+  position: relative;
+}
+.content .outer_nav .nav #main_nav ul.top_level > li a {
   color: #ffffff;
   text-decoration: none;
 }
-.content .outer_nav .nav #main_nav li a:hover {
-  color: #cc3333;
+.content .outer_nav .nav #main_nav ul.top_level > li.hover {
+  background-color: #ffffff;
+  color: #000000;
+}
+.content .outer_nav .nav #main_nav ul.top_level > li ul.second_level {
+  -moz-box-shadow: 2px 2px 2px #333333;
+  -webkit-box-shadow: 2px 2px 2px #333333;
+  box-shadow: 2px 2px 2px #333333;
+  left: 0px;
+  top: 33px;
+  display: none;
+  padding: 0px;
+  position: absolute;
+  background-color: #ffffff;
+  z-index: 1;
+  padding-top: 6px;
+  padding-bottom: 15px;
+}
+.content .outer_nav .nav #main_nav ul.top_level > li ul.second_level li {
+  border-bottom: 1px solid #cccccc;
+  float: none;
+  list-style-type: none;
+  margin-left: 12px;
+  margin-right: 12px;
+  padding-left: 1px;
+  padding-right: 16px;
+  padding-top: 8px;
+}
+.content .outer_nav .nav #main_nav ul.top_level > li ul.second_level li,
+.content .outer_nav .nav #main_nav ul.top_level > li ul.second_level li a {
+  color: #000000;
+  text-decoration: none;
+}
+.content .outer_nav .nav #main_nav ul.top_level > li ul.second_level li:hover,
+.content .outer_nav .nav #main_nav ul.top_level > li ul.second_level li:hover a {
+  color: #cccccc;
+}
+.content .outer_nav .nav #main_nav ul.top_level > li.hover ul {
+  display: block;
+}
+#logo_cont {
+  position: relative;
+}
+#mainName {
+  position: absolute;
+}
+nav_location {
+  position: relative;
+  top: 30px;
 }
 .footer {
   width: 100%;
   background-color: #000000;
-  color: #666;
+  color: #666666;
   height: 50px;
   line-height: 45px;
   position: fixed;
@@ -58,4 +116,8 @@
 }
 .footer .inner_footer #footer_tagline .footer_tagline_container_outer {
   margin-bottom: 0px;
+}
+#controls-wrapper {
+  bottom: 45px;
+  background: none;
 }
