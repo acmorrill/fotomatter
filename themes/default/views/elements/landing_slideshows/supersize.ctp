@@ -19,12 +19,13 @@
 			slide_interval: <?php echo $interval; ?>, // Length between transitions
 			transition: 1, // 0-None, 1-Fade, 2-Slide Top, 3-Slide Right, 4-Slide Bottom, 5-Slide Left, 6-Carousel Right, 7-Carousel Left
 			transition_speed: <?php echo $speed; ?>, // Speed of transition
+			// Look into the cropping of the image. Can that become a user setting. Read the documentation 
 
 			// Components							
 			slide_links: 'blank', // Individual links for each slide (Options: false, 'num', 'name', 'blank')
 			slides: [// Slideshow Images
 				<?php $count = 1; foreach ($slide_show_photo_ids as $slide_show_photo_id): ?>
-					<?php $img_src = $this->Photo->get_photo_path($slide_show_photo_id, 453, 556, .4, true, true); ?>
+					<?php $img_src = $this->Photo->get_photo_path($slide_show_photo_id, $height, $width, .4, true, $crop); ?>
 					{image: '<?php echo $img_src['url']; ?>', title: '', thumb: '', url: '/'}<?php if ($count != $total_images): ?>,<?php endif; ?>
 				<?php $count++; endforeach; ?>
 			]
