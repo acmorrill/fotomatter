@@ -65,6 +65,7 @@ class GenericDbShell extends Shell {
 		$status = $this->_run_sql($schema_path.DS.$last_schema_file, $output, $is_global, true, null);
 		if ($status !== true) {
 			$this->_format_update_file_output($output);
+			$this->out("--RUN SQL Failed--");
 			exit($status);
 		}
 		$this->_format_update_file_output($output);
