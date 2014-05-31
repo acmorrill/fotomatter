@@ -23,7 +23,7 @@ $theme_config = array(
 				'view' => false,
 			),
 			'view_gallery' => array(
-				'layout' => 'gallery',
+				'layout' => 'gallery_page_example',
 				'view' => false,
 			),
 		),
