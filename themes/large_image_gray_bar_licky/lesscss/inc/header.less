@@ -6,33 +6,90 @@
 	right: 0px;
 	//outline: 1px solid red;
 	.outer_nav{
-			position: relative;
-			min-width: 1000px;
-			background: url(/img/nav-bar.png) repeat-x; 
-			color: @white;
-			height: 84px;
-			//right: 0px;
-			//outline: 1px solid red;
+		position: relative;
+		min-width: 1000px;
+		background: url(/img/nav-bar.png) repeat-x; 
+		color: @white;
+		height: 84px;
+		//right: 0px;
+		//outline: 1px solid red;
 		.nav{
 			position: relative;
 			margin-left: 600px;
 			margin-right: auto;
-			bottom: 35px;
+			bottom: 16px;
 			height: auto;
 			width: auto;
 			//outline: 1px solid red;
 			white-space: nowrap;
-			#main_nav{
-				//float: right;
-				li{
-					display: inline-block;
-					list-style-type: none;
-					margin-right: 38px;
-					a{
+			#main_nav {
+				ul.top_level {
+					position: relative;
+					bottom: 19px;
+					> li {					
+						margin-top: -10px;
+						padding-right: 14px;
+						padding-left: 10px;
+						padding-top: 7px;
+						padding-bottom: 10px;
+						//padding-bottom: 13px;
+						list-style-type: none;
+						float: left;
+						margin-left: 30px;
 						color: @white;
-						text-decoration: none;
-						&:hover{
-							color: @red;
+						position: relative;
+
+						a {
+							color: @white;
+							text-decoration: none;
+						}
+							&.hover{
+								background-color: @white;
+								color: @black;
+								&, a{
+									//color: @light_gray;
+								}
+							}
+
+						ul.second_level { 
+							-moz-box-shadow: 2px 2px 2px @shadow;
+							-webkit-box-shadow: 2px 2px 2px @shadow;
+							box-shadow: 2px 2px 2px @shadow;
+							left: 0px;
+							top: 33px;
+							display:none;
+							padding: 0px;
+							position: absolute;
+							background-color: @white;
+							//margin-top: 18px;
+							z-index: 1;
+							padding-top: 6px;
+							padding-bottom: 15px;
+							li {
+								border-bottom: 1px solid @light_gray;								
+								float:none;
+								list-style-type: none;
+								margin-left: 12px;
+								margin-right: 12px;
+								padding-left: 1px;
+								padding-right: 16px;
+								padding-top: 8px;
+								//padding-bottom: 8px;
+								&, a { 
+									color: @black; 
+									text-decoration: none;
+								}
+								&:hover{
+									//background-color: @gray;
+									&, a { 
+										color: @light_gray;
+										//font-weight: 700;
+									}
+								}	
+							}
+						}
+						&.hover {
+							ul { display: block; }
 						}
 					}
 				}
@@ -41,23 +98,6 @@
 	}	
 }
 
-/*.nav li:hover ul {
-display: block;
-padding-top: 12px;
-padding-bottom: 12px;
--moz-box-shadow: 2px 2px 2px #333;
--webkit-box-shadow: 2px 2px 2px #333;
-box-shadow: 2px 2px 2px #333;
-
-.nav li ul {
-background-color: #FFF;
-display: none;
-height: auto;
-padding: 0px;
-margin: 0px;
-border: 0px;
-position: absolute;
-z-index: 200;
-
-.nav ul {
-list-style: none;*/
+#logo_cont{	position: relative;}
+#mainName{ position: absolute;}
+nav_location{ position: relative; top: 30px;}
