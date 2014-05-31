@@ -36,9 +36,6 @@
 					<div class="inner_footer">
 						<?php echo $this->Element('global_theme_footer_copyright'); ?>
 					</div>
-<!--					<div style="float: right; margin-right: 40px; background-color: inherit; font-size: 11px; z-index: 1100; width:160px; text-align:right;">
-						<p style="padding-top:13px;" border="0">Kent is awesome</p>
-					</div>-->
 				</div>
 			</div>
 	</body>
