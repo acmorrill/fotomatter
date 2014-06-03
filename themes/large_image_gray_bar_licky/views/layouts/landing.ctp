@@ -24,7 +24,8 @@
 					</div>					
 				</div>
 				<!--Control Bar-->
-					<div id="controls-wrapper" class="load-item">
+				<!--Kent is awesome! Yeah-->
+				<div id="controls-wrapper" class="load-item">
 						<div id="controls">
 
 							<!--Navigation-->
