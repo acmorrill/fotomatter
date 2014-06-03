@@ -6,13 +6,10 @@
 		<title>Kent Gigger's In Your Face Photography</title>
 		<meta name="keywords" content="Kent Gigger, photography, fine art, utah photography, utah photographer, National Park, Utah, California">
 			<meta name="description" content="Large format landscape photography by Utah based photographer Andrew Morrill.">
-
-
-				<link rel="stylesheet" type="text/css" href="http://www.lik.com/skin/frontend/default/products/css/styles.css" media="all" />
+				<link rel="stylesheet" type="text/css" href="/css/large_image_gray_bar.css" />
 
 				<?php echo $this->Element('theme_global_includes'); ?>
 
-				<link rel="stylesheet" type="text/css" href="/css/large_image_gray_bar.css" />
 				</head>
 
 				<body>
@@ -30,12 +27,13 @@
 
 							<div class="background">
 
-								<h1>Categories</h1>
+								<h1><?php __('Galleries'); ?></h1>
 
 								<div class="gallery">
 
-									<?php echo $this->Element('gallery/gallery_image_lists/4_column_dymanic');       ?>
-									
+									<?php echo $this->Element('gallery/gallery_image_lists/4_column_dymanic'); ?>
+
+
 								</div> <!--- gallery-->
 							</div><!--- Picture-->
 						</div><!--- gallerywrapper-->
