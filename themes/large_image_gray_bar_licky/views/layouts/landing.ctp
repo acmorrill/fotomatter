@@ -27,7 +27,7 @@
 					<div id="controls-wrapper" class="load-item">
 						<div id="controls">
 
-							<!--Navigation-->
+							<!--Image Navigation-->
 							<ul id="slide-list"></ul>
 
 						</div>
