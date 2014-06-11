@@ -4,6 +4,12 @@ class CronJob extends AppModel {
 
 	public $name = 'CronJob';
 
+	public function send_cron_working_email() {
+		$this->send_fotomatter_email('send_cron_working_email');
+		
+		return true;
+	}
+	
 	public function check_all_crons($force_run_now = false) {
 		$all_crons = $this->find('all', array(
 			'contain' => false,
