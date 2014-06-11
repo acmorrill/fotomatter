@@ -3,48 +3,48 @@
 	<head>
 
 
-		<title>Kent Gigger's In Your Face Photography</title>
-		<meta name="keywords" content="Kent Gigger, photography, fine art, utah photography, utah photographer, National Park, Utah, California">
-			<meta name="description" content="Large format landscape photography by Utah based photographer Andrew Morrill.">
-				<link rel="stylesheet" type="text/css" href="/css/large_image_gray_bar.css" />
+	<title>Kent Gigger's In Your Face Photography</title>
+	<meta name="keywords" content="Kent Gigger, photography, fine art, utah photography, utah photographer, National Park, Utah, California">
+		<meta name="description" content="Large format landscape photography by Utah based photographer Andrew Morrill.">
+			<link rel="stylesheet" type="text/css" href="/css/large_image_gray_bar.css" />
 
-				<?php echo $this->Element('theme_global_includes'); ?>
+			<?php echo $this->Element('theme_global_includes'); ?>
 
-				</head>
+			</head>
 
-				<body>
+			<body>
 
-					<div class="content">
-						<div class="outer_nav">
-							<?php echo $this->Element('nameTitle'); ?>
-							<div class="nav">
-								<?php echo $this->Element('menu/two_level_navbar'); ?>											
-							</div>					
+				<div class="content">
+					<div class="outer_nav">
+						<?php echo $this->Element('nameTitle'); ?>
+						<div class="nav">
+							<?php echo $this->Element('menu/two_level_navbar'); ?>											
+						</div>					
+					</div>
+
+
+					<div class="gallerywrapper">
+
+						<div class="background">
+
+							<h1><?php __('Galleries'); ?></h1>
+
+							<div class="gallery">
+
+								<?php echo $this->Element('gallery/gallery_image_lists/4_column_dymanic'); ?>
+
+
+							</div> <!--- gallery-->
+						</div><!--- Picture-->
+					</div><!--- gallerywrapper-->
+
+					<div class="footer">
+						<div class="inner_footer">
+							<?php echo $this->Element('global_theme_footer_copyright'); ?>
 						</div>
+					</div>
 
+				</div><!--- End Content-->
 
-						<div class="gallerywrapper">
-
-							<div class="background">
-
-								<h1><?php __('Galleries'); ?></h1>
-
-								<div class="gallery">
-
-									<?php echo $this->Element('gallery/gallery_image_lists/4_column_dymanic'); ?>
-
-
-								</div> <!--- gallery-->
-							</div><!--- Picture-->
-						</div><!--- gallerywrapper-->
-
-						<div class="footer">
-							<div class="inner_footer">
-								<?php echo $this->Element('global_theme_footer_copyright'); ?>
-							</div>
-						</div>
-
-					</div><!--- End Content-->
-
-				</body>
-				</html>
+			</body>
+</html>
