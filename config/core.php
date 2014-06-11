@@ -37,6 +37,7 @@
  */
 	Configure::write('debug', 0);
 	Configure::write('show_major_error_bar', false);
+        
 
 /**
  * CakePHP Log Level:
