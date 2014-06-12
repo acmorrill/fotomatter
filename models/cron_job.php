@@ -5,7 +5,9 @@ class CronJob extends AppModel {
 	public $name = 'CronJob';
 
 	public function send_cron_working_email() {
-		$this->send_fotomatter_email('send_cron_working_email');
+		if (Configure::read('debug') > 0) {
+			$this->send_fotomatter_email('send_cron_working_email');
+		}
 		
 		return true;
 	}
