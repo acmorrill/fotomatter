@@ -16,13 +16,16 @@ body .content .gallerywrapper {
 body .content .gallerywrapper .background {
   background: url(/img/background_content_bar.png) repeat;
   padding-top: 25px;
-  width: 889px;
+  width: 1050px;
+  height: auto;
   margin: 94px 0 70px 290px;
   padding-left: 30px;
   padding-right: 30px;
   padding-bottom: 10px;
   color: #555555;
   position: relative;
+  margin-left: auto;
+  margin-right: auto;
   text-align: center;
 }
 body .content .gallerywrapper .background .gallery {
@@ -31,26 +34,38 @@ body .content .gallerywrapper .background .gallery {
   margin-bottom: 15px;
   text-align: left;
 }
-body .content .gallerywrapper .background .gallery .photos {
+body .content .gallerywrapper .background .gallery .gallery_photos {
   display: block;
   float: left;
   margin-right: 20px;
   margin-top: 15px;
 }
-body .content .gallerywrapper .background .gallery .photos,
-body .content .gallerywrapper .background .gallery .photos a {
+body .content .gallerywrapper .background .gallery .gallery_photos .gallery_photo_size {
+  background-color: black;
+}
+body .content .gallerywrapper .background .gallery .gallery_photos .gallery_photo_size,
+body .content .gallerywrapper .background .gallery .gallery_photos .gallery_photo_size td {
+  width: 154px;
+  height: 140px;
+}
+body .content .gallerywrapper .background .gallery .gallery_photos .gallery_photo_size td {
+  text-align: center;
+  vertical-align: middle;
+}
+body .content .gallerywrapper .background .gallery .gallery_photos .gallery_photo_size td,
+body .content .gallerywrapper .background .gallery .gallery_photos .gallery_photo_size td a {
   text-transform: uppercase;
   color: #555555;
   text-decoration: none;
   cursor: auto;
+  margin-right: 15px;
+  margin-top: 5px;
 }
-body .content .gallerywrapper .background .gallery .photos,
-body .content .gallerywrapper .background .gallery .photos img,
-body .content .gallerywrapper .background .gallery .photos a,
-body .content .gallerywrapper .background .gallery .photos a img {
+body .content .gallerywrapper .background .gallery .gallery_photos .gallery_photo_size td,
+body .content .gallerywrapper .background .gallery .gallery_photos .gallery_photo_size td img,
+body .content .gallerywrapper .background .gallery .gallery_photos .gallery_photo_size td a,
+body .content .gallerywrapper .background .gallery .gallery_photos .gallery_photo_size td a img {
   border: 0;
-  vertical-align: top;
-  width: 200px;
 }
 h1 {
   padding-bottom: 5px;
@@ -68,6 +83,13 @@ h1 {
   -webkit-margin-after: 0.67em;
   -webkit-margin-start: 0px;
   -webkit-margin-end: 0px;
+}
+.clear {
+  clear: both;
+}
+* {
+  margin: 0px;
+  padding: 0px;
 }
 .content {
   position: absolute;
@@ -101,7 +123,7 @@ h1 {
   padding-right: 14px;
   padding-left: 10px;
   padding-top: 7px;
-  padding-bottom: 10px;
+  padding-bottom: 12px;
   list-style-type: none;
   float: left;
   margin-left: 30px;
@@ -116,10 +138,15 @@ h1 {
   background-color: #ffffff;
   color: #000000;
 }
+.content .outer_nav .nav #main_nav ul.top_level > li.hover,
+.content .outer_nav .nav #main_nav ul.top_level > li.hover a {
+  color: #999999;
+}
 .content .outer_nav .nav #main_nav ul.top_level > li ul.second_level {
   -moz-box-shadow: 2px 2px 2px #333333;
   -webkit-box-shadow: 2px 2px 2px #333333;
   box-shadow: 2px 2px 2px #333333;
+  width: 205px;
   left: 0px;
   top: 33px;
   display: none;
@@ -131,12 +158,13 @@ h1 {
   padding-bottom: 15px;
 }
 .content .outer_nav .nav #main_nav ul.top_level > li ul.second_level li {
-  border-bottom: 1px solid #cccccc;
+  border-bottom: 1px solid #999999;
   float: none;
+  text-align: left;
   list-style-type: none;
   margin-left: 12px;
   margin-right: 12px;
-  padding-left: 1px;
+  padding-left: 5px;
   padding-right: 16px;
   padding-top: 8px;
 }
@@ -147,7 +175,7 @@ h1 {
 }
 .content .outer_nav .nav #main_nav ul.top_level > li ul.second_level li:hover,
 .content .outer_nav .nav #main_nav ul.top_level > li ul.second_level li:hover a {
-  color: #cccccc;
+  color: #999999;
 }
 .content .outer_nav .nav #main_nav ul.top_level > li.hover ul {
   display: block;
@@ -187,6 +215,10 @@ nav_location {
 }
 .footer .inner_footer #footer_tagline .footer_tagline_container_outer {
   margin-bottom: 0px;
+}
+.footer .inner_footer #footer_tagline .footer_tagline_container_inner,
+.footer .inner_footer #footer_tagline .footer_tagline_container_inner a {
+  color: #666666;
 }
 #controls-wrapper {
   bottom: 45px;

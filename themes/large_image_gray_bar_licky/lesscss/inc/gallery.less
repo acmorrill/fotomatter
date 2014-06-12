@@ -1,70 +1,88 @@
 body{
-	background-color: @black;
-	text-align: center;
-	.content{
-		margin: 0;
-		padding: 0;
-		border: 0;
-		vertical-align: baseline;
-		background: transparent;
-		.gallerywrapper{
-			top: 30px;
-			padding-bottom: 5px;
-			.background{
-				background: url(/img/background_content_bar.png) repeat;
-				padding-top: 25px;
-				width: 889px;
-				margin: 94px 0 70px 290px;
-				padding-left: 30px;
-				padding-right: 30px;
-				padding-bottom: 10px;
-				color: @dark_grey;
-				position: relative;
-				text-align: center;
-				.gallery{
-					text-align: center;
-					margin-top: 10px;
-					margin-bottom: 15px;
-					text-align: left;
-					.photos{
-						display: block;
-						float: left;
-						margin-right: 20px;
-						margin-top: 15px;
-						&, a{
-							text-transform: uppercase;
-							color: @dark_grey;
-							text-decoration: none;
-							cursor: auto;
-							&, img{
-								border: 0;
-								vertical-align: top;
-								width: 200px;
-							}
-						}
-					}
-				}
-			}
-		}	
-	}
+    background-color: @black;
+    text-align: center;
+    .content{
+        margin: 0;
+        padding: 0;
+        border: 0;
+        vertical-align: baseline;
+        background: transparent;
+        .gallerywrapper{
+            top: 30px;
+            padding-bottom: 5px;
+            .background{
+                background: url(/img/background_content_bar.png)  repeat;
+                padding-top: 25px;
+                width: 1050px;
+                height: auto;
+                margin: 94px 0 70px 290px;
+                padding-left: 30px;
+                padding-right: 30px;
+                padding-bottom: 10px;
+                color: @dark_grey;
+                position: relative;
+                margin-left: auto;
+                margin-right: auto;
+                text-align: center;
+                .gallery{
+                    text-align: center;
+                    margin-top: 10px;
+                    margin-bottom: 15px;
+                    text-align: left;                    
+                    .gallery_photos{
+                        display: block;
+                        float: left;
+                        margin-right: 20px;
+                        margin-top: 15px;
+                        .gallery_photo_size{
+                            background-color: black;                            
+                            &, td {
+                                width: 154px;
+                                height: 140px;
+                            }
+                            td {
+                                text-align: center;
+                                vertical-align: middle;
+                                &, a{
+                                    text-transform: uppercase;
+                                    color: @dark_grey;
+                                    text-decoration: none;
+                                    cursor: auto;
+                                    margin-right: 15px;
+                                    margin-top: 5px;
+
+                                    &, img{
+                                        //margin-top: 10px; 
+                                        border: 0;
+                                    }
+                                }
+                            }
+                        }
+                    } 
+                }
+            }
+        }	
+    }
 }	
 h1{
-	padding-bottom: 5px;
-	color: @header;
-	border-bottom: 1px solid @border;
-	font-size: 24px;
-	background: transparent;
-	margin: 0;
-	padding: 0;
-	vertical-align: baseline;
-	line-height: 32px;
-	text-transform: uppercase;
-	display: block;
-	-webkit-margin-before: 0.67em;
-	-webkit-margin-after: 0.67em;
-	-webkit-margin-start: 0px;
-	-webkit-margin-end: 0px;
+    padding-bottom: 5px;
+    color: @header;
+    border-bottom: 1px solid @border;
+    font-size: 24px;
+    background: transparent;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+    line-height: 32px;
+    text-transform: uppercase;
+    display: block;
+    -webkit-margin-before: 0.67em;
+    -webkit-margin-after: 0.67em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
 
 
 }
-
+.clear {
+    clear: both;
+}
