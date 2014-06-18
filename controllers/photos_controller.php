@@ -3,7 +3,7 @@ class PhotosController extends AppController {
 	public $name = 'Photos';
 	public $uses = array(/*'OldPhoto', */'Photo', 'SiteSetting', 'PhotoFormat', 'SiteSetting', 'PhotoGalleriesPhoto', 'PhotoGallery', 'PhotosTag', 'Tag', 'PhotoAvailSizesPhotoPrintType', 'PhotoSellablePrint');
 	public $helpers = array('Menu', 'Photo', 'Gallery');
-	public $components = array('Upload', "ImageVersion", "Gd", "ImageWizards", "CloudFiles");
+	public $components = array('Upload', "ImageVersion", "Gd", "CloudFiles");
 	public $paginate = array(
 		'limit' => 50,        
 		'order' => array(            
