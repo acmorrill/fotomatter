@@ -62,9 +62,11 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		curl_setopt($ch, CURLOPT_URL, $credentials['API_ENDPOINT']);
 		curl_setopt($ch, CURLOPT_VERBOSE, 1);
 
-		//Turning off the server and peer verification(TrustManager Concept).
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+		curl_setopt($ch, CURLOPT_CAPATH, '/etc/ssl/certs');
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+		if (Configure::read('debug') > 0) {
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+		}
 
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_POST, 1);

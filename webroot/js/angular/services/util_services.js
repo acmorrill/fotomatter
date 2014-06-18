@@ -4,6 +4,7 @@ angular.module('fmAdmin.utilServices', ['fmAdmin.constants'])
 		var self = this;
 		
 		self.domainSearch = function(domain, tld) {
+			console.log("searching the domain");
 			var promiseResult = $http.post('/admin/domains/search', {
 				domain: domain,
 				tld: tld
@@ -29,10 +30,10 @@ angular.module('fmAdmin.utilServices', ['fmAdmin.constants'])
 			// sanitize the query
 			var valid_tlds = {
 				'com': true,
-				'org': true,
-				'net': true,
-				'me': true,
-				'biz': true
+				'net': true//,
+//				'org': true, // DREW TODO - these don't seem to work - need to test live
+//				'me': true,
+//				'biz': true
 			};
 			var tld = domain_name.match(/\..{2,3}$/);
 			if  (tld != null) {

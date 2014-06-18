@@ -1,14 +1,12 @@
 <?php
 require_once(ROOT . DS . 'app' . DS. 'controllers' . DS . 'components' . DS . 'fotomatter_overlord_api.php');
 class FotomatterBillingComponent extends FotoMatterOverlordApi {
-	// DREW TODO this should be ssl
-	
 	public $account_details_apc_key;
 	public $account_info_apc_key;
 	public $account_payment_profile_apc_key;
     
 	public function __construct() {
-		$this->server_url = Configure::read('OVERLORD_URL');
+		$this->server_url = 'https://'.Configure::read('OVERLORD_URL');
 		$this->account_details_apc_key =  'account_details_'.$_SERVER['local']['database'];
 		$this->account_info_apc_key =  'account_info_'.$_SERVER['local']['database'];
 		$this->account_payment_profile_apc_key =  'account_payment_profile_'.$_SERVER['local']['database'];
