@@ -19,7 +19,7 @@ $theme_config = array(
 		),
 		'PhotoGalleries' => array(
 			'choose_gallery' => array(
-				'layout' => 'gallery_landing',
+				'layout' => false,
 				'view' => false,
 			),
 			'view_gallery' => array(

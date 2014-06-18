@@ -46,7 +46,10 @@
                     </ul>
                     <ul class="dark_background separator">
                         <li class="small_text_header"><strong>Categories</strong></li>
-                        <li class="list_item"><a href="THIS NEEDS TO BE ADDED"><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></a></li>
+						<?php $galleries = $this->Gallery->get_all_galleries(); ?>
+						<?php foreach($galleries as $curr_gallery): ?>
+							<li class="list_item"><a href="<?php '/photo_galleries/view_gallery/'.$curr_gallery['PhotoGallery']['id']; ?>"><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></a></li>
+						<?php endforeach; ?>
                     </ul>
 
 
