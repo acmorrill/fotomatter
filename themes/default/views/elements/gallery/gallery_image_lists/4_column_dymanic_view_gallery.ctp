@@ -1,7 +1,7 @@
 <?php for ($index = 0; $index < count($photos); $index++): ?>
 	<?php $curr_photo = $photos[$index]; ?>
 	<div class="gallery_photos">
-            <?php $photoUrl = "/photo_galleries/view_gallery/gallery/{$curr_photo['Photo']['id']}/gid:$gallery_id/"; ?>
+            <?php $photoUrl = "/photos/view_photo/{$curr_photo['Photo']['id']}/gid:$gallery_id/"; ?>
             <a href="<?php echo $photoUrl; ?>">
             <?php $imgSrc = $this->Photo->get_photo_path($curr_photo['Photo']['id'], $image_max_size, $image_max_size, .5, true); ?>
             <div class="gallery_photo_size">

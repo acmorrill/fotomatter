@@ -1,0 +1,86 @@
+.sidebar{
+    position: absolute;
+    left: 28px;
+    top: 168px;
+    ul{
+        padding: 20px;
+        width: 230px;
+            &, .dark_background{
+                background: url(/img/background_content_bar.png)  repeat;
+                margin-bottom: 0px;            
+            }
+            &, .separator{
+               margin-top: 10px; 
+            }
+            
+        li{
+            text-transform: uppercase;
+            list-style-type: none;
+            font-size: 24px;
+            text-align: left;
+            &, a{
+                color: @white;                
+                text-decoration: none;
+                a:hover{
+                    color: @gray; 
+                }
+            }
+        }
+        .small_text_header{
+            font-size: 13px; 
+            margin-left: 5px; 
+            padding-bottom: 5px; 
+            margin-bottom: 5px; 
+            line-height: 16px; 
+            border-bottom: 1px dotted @gray; 
+            color: @white;
+        }
+        .list_item{
+            font-size: 12px;
+            margin-left: 5px;
+            line-height: 16px;
+            border-bottom: 0px dotted @gray;
+        }
+    }
+}
+
+.background_photo{
+    background: url(/img/background_content_bar.png) repeat;
+    padding-top: 25px;
+    width: 735px;
+    height: auto;
+    margin: 94px 0 70px 290px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 10px;
+    color: #555555;
+    position: relative;
+    margin-left: 311px;
+    margin-right: auto;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.photo_description{
+    width: 735px;
+    height: auto;
+    margin-left: 311px;
+    margin-right: auto;
+    padding:25px;
+    padding-top:30px;
+    padding-left:30px;
+    padding-right:30px;
+    padding-bottom:60px;
+    margin-top:0px;
+    margin-bottom:100px;
+    background: url(/img/background_content_bar.png) repeat;
+    li{
+        text-transform: uppercase;
+        list-style-type: none;
+        font-size: 24px;
+        text-align: left;
+        color: @white;                
+        text-decoration: none;
+
+    }
+}
