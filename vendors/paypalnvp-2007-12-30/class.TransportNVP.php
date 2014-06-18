@@ -62,6 +62,11 @@ class TransportNVP
         $this->mCurl->setopt(CURLOPT_URL, $this->mURL) ;
         $this->mCurl->setopt(CURLOPT_FOLLOWLOCATION, true) ;
         $this->mCurl->setopt(CURLOPT_POST, true) ;
+		curl_setopt($ch, CURLOPT_CAPATH, '/etc/ssl/certs');
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+//		if (Configure::read('debug') > 0) { // DREW TODO - get this working for security
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+//		}
 
         $xxx =
             array(

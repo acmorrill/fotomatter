@@ -1,4 +1,8 @@
 <div id="domains-outer-cont" class='domains-outer-cont' ng-controller='domains_index'>
+	<?php if (!empty($debugging)): ?>
+		<h1 style="margin-top: 30px;">Debugging</h1>
+		<pre style="color: white; max-height: 350px; overflow-y: auto; margin-bottom: 30px;"><?php print_r($debugging); ?></pre>
+	<?php endif; ?>
 	<h1>
 		<?php echo __('Manage Domains', true); ?>
 		<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
@@ -83,7 +87,6 @@
 			</form>
 		<?php endif; ?>
 	</div>
-	
 	<h1 style="margin-top: 50px;"><?php echo __('Search Domains', true); ?></h1>
 	<input type='hidden' ng-model='domain_mark_up' value='<?php echo DOMAIN_MARKUP_DOLLAR; ?>' />
 	<div class='domain_header' style="margin-top: 30px;">

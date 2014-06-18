@@ -51,6 +51,11 @@ class RackspaceObj extends Object {
         curl_setopt($ch, CURLOPT_HTTPHEADER, $authHeaders);
         curl_setopt($ch, CURLOPT_HEADER, TRUE);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($ch, CURLOPT_CAPATH, '/etc/ssl/certs');
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+		if (Configure::read('debug') > 0) {
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+		}
         $response = curl_exec($ch);
        
         curl_close($ch);
@@ -117,6 +122,11 @@ class RackspaceObj extends Object {
         curl_setopt($ch, CURLOPT_ENCODING, 'gzip,deflate');
         curl_setopt($ch, CURLOPT_TIMEOUT, 30);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($ch, CURLOPT_CAPATH, '/etc/ssl/certs');
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+		if (Configure::read('debug') > 0) {
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+		}
 
         $response_headers = curl_exec($ch);
         $returnArgs = array();
