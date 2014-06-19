@@ -84,3 +84,49 @@
 
     }
 }
+.right_sidebar{
+    position: absolute;
+    right: 128px;
+    top: 168px;
+    ul {
+        li {
+            list-style-type: none;
+            display: inline-block;
+            vertical-align: top;
+            overflow:hidden;
+            width: 78px;
+            height: 96px;
+            a {
+                width: 78px;
+                height: 96px;
+                display: block;
+                background-image: url(/img/arrows_right_left.png); 
+                background-repeat: no-repeat;
+                background-position: 0px 0px; 
+            }
+            &.first {
+                a {
+                    background-position: 0px 0px;
+                    &:hover {
+                        background-position: 0px -96px;
+                    }
+                }
+            }
+            &.last {
+                a {
+                    background-position: -78px 0px;
+                    &:hover {
+                        background-position: -78px -96px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+/*.right_sidebar .dark_background ul li a {background-image:url('/img/arrows_right_left.png')}
+.right_sidebar .dark_background ul li a.item1 {background-position:0px 0px}
+.right_sidebar .dark_background ul li a:hover.item1 {background-position:0px -72px}
+.right_sidebar .dark_background ul li a.item2 {background-position:0px -143px;}
+.right_sidebar .dark_background ulli a:hover.item2 {background-position:0px -215px;}*/

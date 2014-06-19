@@ -310,3 +310,36 @@ nav_location {
   color: #ffffff;
   text-decoration: none;
 }
+.right_sidebar {
+  position: absolute;
+  right: 128px;
+  top: 168px;
+}
+.right_sidebar ul li {
+  list-style-type: none;
+  display: inline-block;
+  vertical-align: top;
+  overflow: hidden;
+  width: 78px;
+  height: 96px;
+}
+.right_sidebar ul li a {
+  width: 78px;
+  height: 96px;
+  display: block;
+  background-image: url(/img/arrows_right_left.png);
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+}
+.right_sidebar ul li.first a {
+  background-position: 0px 0px;
+}
+.right_sidebar ul li.first a:hover {
+  background-position: 0px -96px;
+}
+.right_sidebar ul li.last a {
+  background-position: -78px 0px;
+}
+.right_sidebar ul li.last a:hover {
+  background-position: -78px -96px;
+}
