@@ -87,17 +87,18 @@
 			</form>
 		<?php endif; ?>
 	</div>
-	<h1 style="margin-top: 50px;"><?php echo __('Search Domains', true); ?></h1>
+	<h1 style="margin-top: 50px;"><?php echo __('Search Domains to Buy', true); ?></h1>
 	<input type='hidden' ng-model='domain_mark_up' value='<?php echo DOMAIN_MARKUP_DOLLAR; ?>' />
 	<div class='domain_header' style="margin-top: 30px;">
 		<div class='search_box custom_ui'>
 			<form ng-submit="search()">
-				<input ng-model='query' placeholder='<?php echo __('{your_domain}.com', true); ?>' class='domain_field' ng-model='domain_field' />
+				<input ng-model='query' placeholder='<?php echo __('{your_domain}.com', true); ?>' />
 				<div class="add_button search" ng-click='search()' ng-show="domain_searched == undefined">
-					<div class="content"><?php echo __('Search',true);?></div><div class="right_arrow_lines"><div></div></div>
+					<div class="content"><?php echo __('Search',true);?></div>
+					<div class="right_arrow_lines"><div></div></div>
 				</div>
 				<div class="add_button search" ng-show="domain_searched != undefined">
-					<div class="content">Searching ...</div>
+					<div class="content"><?php echo __('Searching ...', true); ?></div>
 				</div>
 			</form>
 		</div>
@@ -165,6 +166,18 @@
 					</tr>
 				</tbody>
 			</table>
+		</div>
+	</div>
+	<h1 style="margin-top: 50px;"><?php echo __('Connect Domains Managed Elsewhere (Advanced)', true); ?></h1>
+	<div class='domain_header' style="margin-top: 30px;">
+		<div class='search_box custom_ui'>
+			<form ng-submit="add_external_domain()">
+				<input ng-model='external_domain_query' placeholder='<?php echo __('{your_domain}.com', true); ?>' />
+				<div class="add_button search" ng-click='add_external_domain()'>
+					<div class="content"><?php echo __('Add',true);?></div>
+					<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>

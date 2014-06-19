@@ -1,4 +1,26 @@
 var domains_index = function($scope, $modal, $http, domainUtil, errorUtil) {
+	$scope.add_external_domain = function() {
+		$scope.external_domain_searched = true;
+		
+		var external_domain = $scope.external_domain_query;
+		var validated_external_domain = external_domain.match(/^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,6}$/);
+		if (typeof validated_external_domain[0] == 'object') {
+			validated_external_domain = validated_external_domain[0];
+			var modal = $modal.open({
+				templateUrl: '/admin/domains/add_external_domain_confirm',
+				windowClass : 'ui-dialog ui-widget ui-widget-content',
+				controller : 'domain_checkout',
+				resolve: {
+					validated_external_domain: function() {
+						return validated_external_domain;
+					}
+				}
+			});
+		} else {
+			alert('error my friend');
+		}
+	};
+	
 	$scope.search = function() {
 		$scope.domain_searched = true;
 		
@@ -33,9 +55,6 @@ var domains_index = function($scope, $modal, $http, domainUtil, errorUtil) {
 	};
 	
 	$scope.renewDomain = function(owned_domain) {
-		console.log("adding 1 year");
-		console.log(owned_domain);
-		
 		var modal = $modal.open({
 			templateUrl: '/admin/domains/domain_renew_checkout/' + owned_domain,
 			windowClass : 'ui-dialog ui-widget ui-widget-content',

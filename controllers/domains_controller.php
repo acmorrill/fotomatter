@@ -351,6 +351,11 @@ class DomainsController extends Appcontroller {
 		$countries = $this->GlobalCountry->get_available_countries();
 		$this->set(compact(array('countries')));
 	}
+	
+	public function add_external_domain_confirm() {
+		$this->layout = 'ajax';
+	}
+	
 
 	public function admin_domain_renew_checkout($account_domain_id) {
 		$this->layout = 'ajax';

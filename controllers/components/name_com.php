@@ -23,8 +23,8 @@ class NameComComponent extends Object {
 			$this->_api_token = '6fa1adbd6bf414426a84b3eed8fc57aaa69de8a8';
 			$this->_api_url = 'https://api.name.com';
 			$this->_dns_servers = array(
-				'dns1.fotomatter.net',
-				'dns2.fotmatter.net'
+				'ns1.fotomatter.net',
+				'ns2.fotmatter.net'
 			);
 		} else {
 			$this->_account = 'acmorrill-ote';
