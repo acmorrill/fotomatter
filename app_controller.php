@@ -71,6 +71,7 @@ class AppController extends Controller {
 		// clear apc cache if in debug mode
 		if (Configure::read('debug') > 0) {
 			apc_clear_cache('user');
+			apc_clear_cache();
 		}
 
 

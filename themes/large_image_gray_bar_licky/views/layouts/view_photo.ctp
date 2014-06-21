@@ -36,10 +36,9 @@
                     </ul>	
                     <ul class="dark_background separator">
                         <li class="small_text_header"><strong>Add to cart</strong></li>
-                        <li class="list_item"><?php echo $curr_photo['Photo']['date_taken']; ?></li>
-                        <li class="list_item"><?php echo $curr_photo['Photo']['display_title']; ?></li>
-                        <li class="list_item"><?php echo $curr_photo['Photo']['display_subtitle']; ?></li>
-                        <li class="list_item"><?php echo $curr_photo['Photo']['description']; ?></li>
+                        <li>
+                            <?php echo $this->Element('cart_checkout/image_add_to_cart_form_simple'); ?>
+                        </li>
                     </ul>
                     <ul class="dark_background separator">
                         <li class="small_text_header"><strong>Categories</strong></li>
