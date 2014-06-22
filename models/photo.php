@@ -138,7 +138,7 @@ class Photo extends AppModel {
 		
 		////////////////////////////////////////////////////////////////////////////////////////////
 		// if a file was uploaded then upload it to cloud files and then delete any previous file
-	//	$data_from_array 
+		//	$data_from_array 
 		if (is_array($this->data['Photo']['cdn-filename']) && !empty($this->data['Photo']['cdn-filename']['tmp_name'])) {
 			
 			// fail if the file is greater than max upload size

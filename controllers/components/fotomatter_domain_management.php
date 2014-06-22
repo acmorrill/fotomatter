@@ -5,9 +5,15 @@ require_once(ROOT . DS . 'app' . DS . 'controllers' . DS . 'components' . DS . '
 class FotomatterDomainManagementComponent extends FotoMatterOverlordApi {
 
 	public function __construct() {
-		$this->server_url = Configure::read('OVERLORD_URL');
+		$this->server_url = 'https://' . Configure::read('OVERLORD_URL');
 	}
 
+	public function domain_taken_in_dns($domain) {
+		$api_result = $this->send_api_request("api_domain/domain_taken_in_dns", $domain);
+		
+		return $api_result;
+	}
+	
 	public function setupDomain($domain) {
 		$api_result = $this->send_api_request("api_domain/setup", $domain);
 		if ($api_result['code'] == 1) {

@@ -73,10 +73,12 @@
 									</td>
 									<td class="last table_actions">
 										<span class="custom_ui">
-											<div ng-click='renewDomain("<?php echo $domain['AccountDomain']['id']; ?>")' class="add_button">
-												<div class="content"><?php echo __('Add 1 Year', true);?></div>
-												<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
-											</div>
+											<?php if ($domain['AccountDomain']['type'] === 'purchased'): ?>
+												<div ng-click='renewDomain("<?php echo $domain['AccountDomain']['id']; ?>")' class="add_button">
+													<div class="content"><?php echo __('Add 1 Year', true);?></div>
+													<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
+												</div>
+											<?php endif; ?>
 										</span>
 									</td>
 								</tr>
@@ -168,16 +170,18 @@
 			</table>
 		</div>
 	</div>
-	<h1 style="margin-top: 50px;"><?php echo __('Connect Domains Managed Elsewhere (Advanced)', true); ?></h1>
-	<div class='domain_header' style="margin-top: 30px;">
-		<div class='search_box custom_ui'>
-			<form ng-submit="add_external_domain()">
-				<input ng-model='external_domain_query' placeholder='<?php echo __('{your_domain}.com', true); ?>' />
-				<div class="add_button search" ng-click='add_external_domain()'>
-					<div class="content"><?php echo __('Add',true);?></div>
-					<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
-				</div>
-			</form>
-		</div>
-	</div>
+	<?php if ($total_external_domains <= 2): ?>
+		<h1 style="margin-top: 50px;"><?php echo __('Connect Domains Managed Elsewhere (Advanced)', true); ?></h1>
+		<div class='domain_header' style="margin-top: 30px;">
+			<div class='search_box custom_ui'>
+				<form ng-submit="add_external_domain()">
+					<input ng-model='external_domain_query' placeholder='<?php echo __('{your_domain}.com', true); ?>' />
+					<div class="add_button search" ng-click='add_external_domain()'>
+						<div class="content"><?php echo __('Add',true);?></div>
+						<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
+					</div>
+				</form>
+			</div>
+		</div>	 
+	<?php endif; ?>
 </div>

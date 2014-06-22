@@ -1,6 +1,11 @@
 <?php
 class AccountDomain extends AppModel {
 
+	public function __construct($id = false, $table = null, $ds = null) {
+		parent::__construct($id, $table, $ds);
+		
+		$this->primary_domain_apc_key = 'primary_domain_'.$_SERVER['local']['database'];
+	}
 	
 	public function send_expired_domain_emails($data = array()) {
 		$three_months_from_now = date('Y-m-d H:i:s', strtotime('23:59:59', strtotime('+3 months')));
@@ -55,5 +60,32 @@ class AccountDomain extends AppModel {
 		}
 		
 		return $days_till_expired;
+	}
+	
+	public function beforeSave($options = array()) {
+		parent::beforeSave($options);
+		apc_delete($this->primary_domain_apc_key);
+		
+		return true;
+	}
+	
+	public function get_current_primary_domain() {
+		if (apc_exists($this->primary_domain_apc_key)) {
+			return apc_fetch($this->primary_domain_apc_key);
+		}
+		
+		$primary_domain = $this->find('first', array(
+			'conditions' => array(
+				'AccountDomain.is_primary' => 1,
+			),
+			'contain' => false,
+		));
+		$result = false;
+		if (!empty($primary_domain['AccountDomain']['url'])) {
+			$result = $primary_domain['AccountDomain']['url'];
+		}
+		apc_store($this->primary_domain_apc_key, $result, 28800); // 8 hours
+		
+		return $result;
 	}
 }

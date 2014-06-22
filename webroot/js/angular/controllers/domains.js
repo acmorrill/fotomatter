@@ -2,22 +2,27 @@ var domains_index = function($scope, $modal, $http, domainUtil, errorUtil) {
 	$scope.add_external_domain = function() {
 		$scope.external_domain_searched = true;
 		
+		$scope.external_domain_query = $scope.external_domain_query.toLowerCase();
 		var external_domain = $scope.external_domain_query;
-		var validated_external_domain = external_domain.match(/^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,6}$/);
-		if (typeof validated_external_domain[0] == 'object') {
+		var validated_external_domain = external_domain.match(/^[a-z0-9][a-z0-9-]{1,61}[a-z0-9]\.[a-z]{2,6}$/);
+		if (validated_external_domain !== null) {
+			$scope.validated_external_domain = validated_external_domain;
 			validated_external_domain = validated_external_domain[0];
 			var modal = $modal.open({
 				templateUrl: '/admin/domains/add_external_domain_confirm',
 				windowClass : 'ui-dialog ui-widget ui-widget-content',
-				controller : 'domain_checkout',
+				controller : 'add_external',
 				resolve: {
-					validated_external_domain: function() {
+					domain: function() {
 						return validated_external_domain;
+					},
+					is_renew: function() {
+						return false;
 					}
 				}
 			});
 		} else {
-			alert('error my friend');
+			$scope.external_domain_query = '';
 		}
 	};
 	
@@ -85,6 +90,33 @@ var domains_index = function($scope, $modal, $http, domainUtil, errorUtil) {
 	
 };
 domains_index.$inject = ['$scope', '$modal', '$http', 'domainUtil', 'errorUtil'];
+
+var add_external = function($scope, AuthnetProfile, $http, generalUtil, domainUtil, $modalInstance, domain) {
+	$scope.external_domain = domain;
+
+	$scope.setStep = function(step_name) {
+		$scope.currentStep = step_name;
+	};
+	$scope.setStep('add_external');
+	
+	$scope.cancel = function() {
+		$modalInstance.dismiss('cancel');
+	};
+	
+	$scope.submit_external_domain = function() {
+		$scope.setStep('loading');
+		domainUtil.add_external_domain($scope.external_domain).success(function(data, status) {
+			console.log(data);
+			if (data.result) {
+				window.location.reload();
+			} else {
+				$scope.setStep('add_external');
+				$scope.errorMessage = data.message;
+			}
+		});
+	};
+};
+add_external.$inject = ['$scope','AuthnetProfile', '$http', 'generalUtil', 'domainUtil', '$modalInstance', 'domain'];
 
 var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domainUtil, $modalInstance, domain, is_renew) {
 	$scope.is_renew = is_renew;

@@ -15,6 +15,12 @@ class ValidationComponent extends Object {
 					return;
 				}
 				break;
+			case 'external_domain':
+				if (preg_match('/^[a-z0-9][a-z0-9-]{1,61}[a-z0-9]\.[a-z]{2,6}$/', $data[$value]) != 1) {
+					throw new Exception($flash_message);
+					return;
+				}
+				break;
 			case 'valid_email':
 				if (!filter_var($data[$value], FILTER_VALIDATE_EMAIL)) {
 					throw new Exception($flash_message);
@@ -65,13 +71,13 @@ class ValidationComponent extends Object {
 					return;
 				}
 				break;
-                        case 'date_is_future':
-                                $timestamp = strtotime($data[$value]);
-                                if ($timestamp === false || $timestamp < time()) {
-                                    throw new Exception($flash_message);
-                                    return;
-                                }
-                            break;
+			case 'date_is_future':
+				$timestamp = strtotime($data[$value]);
+				if ($timestamp === false || $timestamp < time()) {
+					throw new Exception($flash_message);
+					return;
+				}
+			break;
 			default:
 				break;
 		}

@@ -50,6 +50,12 @@ class DomainsController extends Appcontroller {
 		if (empty($primary_domain) === false) {
 			$primary_domain_id = $primary_domain['AccountDomain']['id'];
 		}
+		
+		$total_external_domains = $this->AccountDomain->find('count', array(
+			'conditions' => array(
+				'AccountDomain.type' => 'external',
+			),
+		));
 
 		////////////////////////////////////////////////////////////
 		// FOR DEBUGGING - ONLY IN DEBUG MODE
@@ -60,7 +66,7 @@ class DomainsController extends Appcontroller {
 			$debugging['list_domains'] = $this->NameCom->list_domains();
 		}
 
-		$this->set(compact(array('domains', 'primary_domain_id', 'debugging')));
+		$this->set(compact(array('domains', 'primary_domain_id', 'debugging', 'total_external_domains')));
 	}
 
 	public function admin_add_profile() {
@@ -121,8 +127,8 @@ class DomainsController extends Appcontroller {
 
 		//check input
 		try {
-			$this->Validation->validate('not_empty', $inputFromClient, 'domain', __('You must provide the domain name you want to purchase.', true));
-			$this->Validation->validate('not_empty', $inputFromClient, 'tld', __('You must provide the domain name you want to purchase.', true));
+			$this->Validation->validate('not_empty', $inputFromClient, 'domain', __('You must provide the domain name you want to renew.', true));
+			$this->Validation->validate('not_empty', $inputFromClient, 'tld', __('You must provide the domain name you want to renew.', true));
 		} catch (Exception $e) {
 			$return['message'] = $e->getMessage();
 			$return['result'] = false;
@@ -148,6 +154,14 @@ class DomainsController extends Appcontroller {
 			$this->return_json($return);
 			exit();
 		}
+		if ($account_domain['AccountDomain']['type'] !== 'purchased') {
+			$return['message'] = __("You cannot renew an external domain.", true);
+			$return['result'] = false;
+			$this->major_error('tried to renew an external domain', compact('account_domain', 'inputFromClient', 'full_domain_name'), 'high');
+			$this->return_json($return);
+			exit();
+		}
+		
 			// - make sure domain is not too old
 		if (empty($account_domain['AccountDomain']['expires'])) {
 			$return['message'] = sprintf(__("%s is expired.", true), $full_domain_name);
@@ -220,7 +234,88 @@ class DomainsController extends Appcontroller {
 		$this->return_json($return);
 		exit();
 	}
+	
+	public function admin_add_external_domain() {
+		ignore_user_abort(true);
+		set_time_limit(1200);
+		$inputFromClient = $this->get_json_from_input();
 
+		////////////////////////////////////////////////////////////////////////////////////////
+		// check to make sure they are not trying to add more than 2 external domains
+		$total_external_domains = $this->AccountDomain->find('count', array(
+			'conditions' => array(
+				'AccountDomain.type' => 'external',
+			),
+		));
+		if ($total_external_domains > 2) {
+			$this->major_error('tried to add more than 2 external domains', compact('inputFromClient'), 'high');
+			$return['result'] = false;
+			$return['message'] = __('You cannot connect more than 2 external domains.', true);
+			$this->return_json($return);
+			exit();
+		}
+		
+		//////////////////////////////////////////////////////////////////////////////
+		// VALIDATE THE INPUT
+		try {
+			$this->Validation->validate('external_domain', $inputFromClient, 'domain', __('You must provide the domain name you want to purchase.', true));
+		} catch (Exception $e) {
+			$return['message'] = $e->getMessage();
+			$return['result'] = false;
+			$this->return_json($return);
+			exit();
+		}
+		
+		
+		////////////////////////////////////////////////////////////////////////////////////////
+		// make sure domain is not already in dns 
+		if ($this->FotomatterDomainManagement->domain_taken_in_dns($inputFromClient['domain'])) {
+			$this->major_error('tried to add domain dns that was already taken 1', compact('inputFromClient'), 'high');
+			$return['result'] = false;
+			$return['message'] = __('Failed to connect external domain to fotomatter.net.', true);
+			$this->return_json($return);
+			exit();
+		}
+		
+		
+		///////////////////////////////////////////////////////////////////////////////////////////
+		// SETUP THE DOMAIN 
+		// -- ADD DOMAIN SYMLINK VIA SERVER METRICS
+		// -- ADD DOMAIN TO OVERLORD DNS (POINT DOMAIN TO OUR SERVER WITH A RECORD)
+		// -- SAVE ACCOUNT DOMAIN AS EXTERNAL DOMAIN
+		$domain['name'] = $inputFromClient['domain'];
+		$domain_setup_overlord_info = $this->FotomatterDomainManagement->setupDomain($domain);
+		if ($domain_setup_overlord_info === false) {
+			$this->major_error('failed to setup external domain on overlord', compact('inputFromClient'), 'high');
+			$return['result'] = false;
+			$return['message'] = __('Failed to connect external domain to fotomatter.net.', true);
+			$this->return_json($return);
+			exit();
+		}
+		$this->AccountDomain = ClassRegistry::init("AccountDomain");
+		$this->AccountDomain->create();
+		//if we have no other AccountDomains saved then mark as primary
+		$current_domain_count = $this->AccountDomain->find('count');
+		if (empty($current_domain_count)) {
+			$domain_setup_overlord_info['AccountDomain']['is_primary'] = true;
+		}
+		$domain_setup_overlord_info['AccountDomain']['type'] = 'external';
+		if (!$this->AccountDomain->save($domain_setup_overlord_info)) {
+			$this->major_error('failed to save external account domain', compact('domain_setup_overlord_info', 'inputFromClient'), 'high');
+			$return['result'] = false;
+			$return['message'] = __('Failed to connect external domain to fotomatter.net.', true);
+			$this->return_json($return);
+			exit();
+		}
+		
+		
+		// return a successfull result
+		$return['result'] = true;
+		$this->Session->setFlash(__('Your external domain has been connected. If you changed the domain dns nameservers to ns1.fotomatter.net and ns2.fotomatter.net then the domain should point to your fotomatter.net website in 1 to 48 hours.', true), 'admin/flashMessage/success');
+		$this->return_json($return);
+		exit();
+	}
+	
 	public function admin_purchase() {
 		ignore_user_abort(true);
 		set_time_limit(1200);
@@ -250,6 +345,17 @@ class DomainsController extends Appcontroller {
 			exit();
 		}
 
+		
+		////////////////////////////////////////////////////////////////////////////////////////
+		// make sure domain is not already in dns 
+		if ($this->FotomatterDomainManagement->domain_taken_in_dns($inputFromClient['domain'])) {
+			$this->major_error('tried to add domain dns that was already taken 2', compact('inputFromClient'), 'high');
+			$return['result'] = false;
+			$return['message'] = __('Failed to connect external domain to fotomatter.net.', true);
+			$this->return_json($return);
+			exit();
+		}
+		
 
 		//double check domain is still avail, and check price
 		$full_domain_name = $inputFromClient['domain'] . "." . $inputFromClient['tld'];
@@ -269,6 +375,10 @@ class DomainsController extends Appcontroller {
 			$this->return_json($return);
 			exit();
 		}
+		
+		////////////////////////////////////////////////////////////////////////////////////////
+		// DREW TODO -  make sure domain is not already in dns 
+		//$this->FotomatterDomainManagement->domain_taken_in_dns($domain);
 
 		$overlord_domain_charge_result = $this->FotomatterDomainManagement->charge_for_domain($domain_to_buy);
 		if ($overlord_domain_charge_result['code'] == -2) {
@@ -330,7 +440,6 @@ class DomainsController extends Appcontroller {
 
 
 			$domain_data = $this->NameCom->check_availability($domain_name, $tld);
-			$this->log($domain_data, 'admin_search');
 
 			if (empty($domain_data['domain_list'])) {
 				$domain_data['domain_list'] = array();
@@ -352,7 +461,7 @@ class DomainsController extends Appcontroller {
 		$this->set(compact(array('countries')));
 	}
 	
-	public function add_external_domain_confirm() {
+	public function admin_add_external_domain_confirm() {
 		$this->layout = 'ajax';
 	}
 	

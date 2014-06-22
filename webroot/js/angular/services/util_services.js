@@ -4,7 +4,6 @@ angular.module('fmAdmin.utilServices', ['fmAdmin.constants'])
 		var self = this;
 		
 		self.domainSearch = function(domain, tld) {
-			console.log("searching the domain");
 			var promiseResult = $http.post('/admin/domains/search', {
 				domain: domain,
 				tld: tld
@@ -81,6 +80,12 @@ angular.module('fmAdmin.utilServices', ['fmAdmin.constants'])
 			};
 			toPost.domain.price = accounting.unformat(domain.price);
 			return $http.post("/admin/domains/purchase", toPost);
+		};
+		self.add_external_domain = function(domain) {
+			var toPost = {
+				domain: domain
+			};
+			return $http.post("/admin/domains/add_external_domain", toPost);
 		};
 		
 		self.renew = function(domain, tld) {

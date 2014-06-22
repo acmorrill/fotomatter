@@ -36,7 +36,45 @@ class AppController extends Controller {
 	 * @access public
 	 */
 	function beforeFilter() {
-		// stuff to do only on cli
+		//////////////////////////////////////////////////////
+		// stuff todo just in the admin
+		$in_admin = isset($this->params['admin']) && $this->params['admin'] == 1;
+		if ($in_admin) {
+			clearCache();
+		}
+		
+		
+		//////////////////////////////////////////////////////////////////////
+		// redirect to ssl if need be
+		$in_checkout = false;
+		if ($this->startsWith($_SERVER['REQUEST_URI'], '/ecommerces') && !$this->startsWith($_SERVER['REQUEST_URI'], '/ecommerces/view_cart') && !$this->startsWith($_SERVER['REQUEST_URI'], '/ecommerces/add_to_cart')) {
+			$in_checkout = true;
+		}
+		$redirect_to_ssl = $in_admin || $in_checkout;
+		if (empty($_SERVER['HTTPS']) && $redirect_to_ssl) {
+			$this->SiteSetting = ClassRegistry::init('SiteSetting');
+			$site_domain = $this->SiteSetting->getVal('site_domain');
+			$this->redirect("https://$site_domain.fotomatter.net{$_SERVER['REQUEST_URI']}");
+			exit();
+		}
+		
+		
+		
+		//////////////////////////////////////////////////////////////////////////
+		// redirect to primary domain if:
+		// 1) not already on primary
+		// 2) if don't need to redirect to ssl
+		$this->AccountDomain = ClassRegistry::init('AccountDomain');
+		$current_primary_domain = $this->AccountDomain->get_current_primary_domain();
+		$http_host = $_SERVER["HTTP_HOST"];
+		if (Configure::read('debug') == 0 && !$redirect_to_ssl && $http_host != $current_primary_domain) {
+			$this->redirect("http://$current_primary_domain");
+			exit();
+		}
+		
+		
+		
+		// stuff to do only on not cli
 		if (php_sapi_name() !== 'cli-server') {
 			$this->helpers = array(
 				'Session',
@@ -74,11 +112,6 @@ class AppController extends Controller {
 		}
 
 
-		//////////////////////////////////////////////////////
-		// stuff todo just in the admin
-		if (isset($this->params['admin']) && $this->params['admin'] == 1) {
-			clearCache();
-		}
 
 		// DREW TODO - for testing only!
 		if (Configure::read('debug') > 0 && !$this->Session->check('Message.flash')) {
@@ -317,4 +350,18 @@ class AppController extends Controller {
 		}
 	}
 
+	/*********************************************************
+	* HELPER FUNCTIONS
+	* 
+	*/
+	public function startsWith($haystack, $needle) {
+		$length = strlen($needle);
+		return (substr($haystack, 0, $length) === $needle);
+	}
+
+	public function endsWith($haystack, $needle) {
+		$length = strlen($needle);
+		$start  = $length * -1; //negative
+		return (substr($haystack, $start) === $needle);
+	}
 }

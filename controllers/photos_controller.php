@@ -15,7 +15,7 @@ class PhotosController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-
+		
 		$this->layout = 'admin/photos';
 
 		$this->Auth->allow('view_photo');
