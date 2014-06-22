@@ -46,7 +46,7 @@ class FotomatterBillingComponent extends FotoMatterOverlordApi {
 		}
 
 		$this->MajorError = ClassRegistry::init("MajorError");
-		$this->MajorError->major_error('Remote find from overlord returned with error.', $params);
+		$this->MajorError->major_error('Remote find from overlord returned with error.', compact('params', 'result_of_find'));
 		return false;
 	}
 	

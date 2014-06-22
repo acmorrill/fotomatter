@@ -32,8 +32,10 @@ class FotoMatterOverlordApi extends Object {
 		
 		if ($json_response === false) {
 			$curl_error = curl_error($ch);
+			$curl_getinfo = curl_getinfo($ch);
+            
 			$this->MajorError = ClassRegistry::init('MajorError');
-			$this->MajorError->major_error('api call to overlord failed', compact('url_to_use', 'request', 'curl_error'), 'high');
+			$this->MajorError->major_error('api call to overlord failed', compact('curl_getinfo', 'url_to_use', 'request', 'curl_error'), 'high');
 		}
 		curl_close($ch);
 		
