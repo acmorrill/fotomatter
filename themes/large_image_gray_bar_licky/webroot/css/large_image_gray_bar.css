@@ -343,3 +343,13 @@ nav_location {
 .right_sidebar ul li.last a:hover {
   background-position: -78px -96px;
 }
+.cart_ajustment {
+  margin-left: 6px;
+}
+.cart_ajustment h2 {
+  font-size: 12px;
+  margin-top: 12px;
+}
+.cart_ajustment button {
+  padding-right: 2px;
+}

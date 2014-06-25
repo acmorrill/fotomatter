@@ -36,7 +36,7 @@
                     </ul>	
                     <ul class="dark_background separator">
                         <li class="small_text_header"><strong>Add to cart</strong></li>
-                        <li>
+                        <li class="cart_ajustment">
                             <?php echo $this->Element('cart_checkout/image_add_to_cart_form_simple'); ?>
                         </li>
                     </ul>
