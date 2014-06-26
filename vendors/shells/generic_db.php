@@ -78,7 +78,9 @@ class GenericDbShell extends Shell {
 	}
 	
 	protected function _update($is_global) {
-		ClassRegistry::init("SiteSetting");
+		if ($is_global == false) {
+			ClassRegistry::init("SiteSetting");
+		}
 		$datasource = ConnectionManager::getDataSource('default');
 		$datasource->cacheSources = false;
 		Configure::write('Cache.disable', true);
