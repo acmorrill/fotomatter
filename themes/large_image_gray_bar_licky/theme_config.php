@@ -35,7 +35,7 @@ $theme_config = array(
 		),
 		'Ecommerces' => array(
 			'view_cart' => array(
-				'layout' => 'custom_page',
+				'layout' => 'cart',
 				'view' => 'view_cart',
 			),
 			'checkout_login_or_guest' => array(

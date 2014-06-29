@@ -84,7 +84,9 @@ class PhotosController extends AppController {
 			'contain' => false
 		));
 
-
+		if (empty($curr_photo['Photo']['display_title'])) {
+			$curr_photo['Photo']['display_title'] = "Untitled";
+		}
 		$this->set(compact('curr_photo', 'curr_gallery', 'photo_sellable_prints', 'photo_id'));
 		$this->ThemeRenderer->render($this);
 	}

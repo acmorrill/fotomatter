@@ -1,5 +1,9 @@
 <?php if (!empty($current_on_off_features['basic_shopping_cart'])): ?>
-	<?php $photo_sellable_prints = $this->Photo->get_enabled_photo_sellable_prints($photo_id); ?>
+	<?php
+		if (empty($photo_sellable_prints)) {
+			$photo_sellable_prints = $this->Photo->get_enabled_photo_sellable_prints($photo_id);
+		}
+	?>
 	<script type="text/javascript">
 		jQuery(document).ready(function() {
 			jQuery('#add_to_cart_buttons_cont .submit_button_cont').click(function() { 
@@ -28,7 +32,7 @@
 					<?php endforeach; ?>
 				</select> 
 				<div class="submit_button_cont">
-					<button class="submit_inner"><?php __('Submit'); ?></button>
+					<button class="submit_inner"><?php echo isset($submit_button_text) ? $submit_button_text : __('Submit', true); ?></button>
 				</div>
 			</form>
 		<?php endforeach; ?>
