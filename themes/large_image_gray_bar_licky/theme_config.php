@@ -39,7 +39,7 @@ $theme_config = array(
 				'view' => 'view_cart',
 			),
 			'checkout_login_or_guest' => array(
-				'layout' => 'custom_page',
+				'layout' => 'login_or_guest',
 				'view' => 'checkout_login_or_guest',
 			),
 			'checkout_get_address' => array(
