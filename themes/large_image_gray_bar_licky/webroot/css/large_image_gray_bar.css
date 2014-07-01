@@ -402,3 +402,7 @@ h1.no_line {
 #cart_table {
   width: 100%;
 }
+.image {
+  border: 1px solid red;
+  padding-top: 20px;
+}
