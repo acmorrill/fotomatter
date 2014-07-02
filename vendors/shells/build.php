@@ -41,9 +41,4 @@ class BuildShell extends Shell {
 		}
 	}
 
-	public function apc_clear() {
-		apc_clear_cache();
-		apc_clear_cache('user');
-	}
-
 }
