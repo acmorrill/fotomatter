@@ -481,6 +481,7 @@ h1.no_line {
   color: #ffffff;
 }
 .background_photo button {
+  position: relative;
   border: 1px solid #32373b;
   background-color: #333333;
   height: 40px;
@@ -496,16 +497,18 @@ h1.no_line {
 }
 .background_photo #login_container {
   outline: none;
-  border-top: 1px solid #ffffff;
+  border-top: 1px dotted #666666;
 }
 .background_photo #login_container .success {
   position: relative;
-  left: 50px;
+  left: 30px;
   padding-bottom: 20px;
+  text-align: left;
 }
 .background_photo #login_container form {
   position: relative;
   right: 50px;
+  text-align: left;
 }
 .background_photo #login_container form input:not([type=submit]):not([type=file]) {
   border: 2px solid #ffffff;
@@ -534,12 +537,84 @@ h1.no_line {
 }
 .background_photo #login_container #forgot_your_password_container {
   position: relative;
-  right: 50px;
+  right: 271px;
+}
+.background_photo #login_container #forgot_your_password_container .step_1 {
+  position: relative;
+  left: 220px;
 }
 .background_photo #login_container #forgot_your_password_container .step_2 {
   position: relative;
-  left: 50px;
+  left: 270px;
+  margin-bottom: 20px;
 }
 .background_photo #login_container #forgot_your_password_container .step_2 hr {
   margin-bottom: 20px;
+  border: 1px dotted #666666;
+}
+.background_photo {
+  text-align: left;
+}
+.background_photo #shipping_address_container {
+  outline: none;
+  margin-top: 0px;
+}
+.background_photo #shipping_address_container .shipping_data_cont .input input:not([type=submit]):not([type=file]) {
+  border: 2px solid #ffffff;
+  -webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.2), 0 0 5px rgba(0,0,0,0.2);
+  -moz-box-shadow: inset 0 0 2px rgba(0,0,0,0.2), 0 0 5px rgba(0,0,0,0.2);
+  box-shadow: inset 0 0 2px rgba(0,0,0,0.2), 0 0 5px rgba(0,0,0,0.2);
+  padding: 5px;
+  background: #666666;
+  margin: 0 0 2px 0;
+}
+.background_photo #shipping_address_container .shipping_data_cont select {
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+.background_photo .no_label input {
+  position: relative;
+  left: 30px;
+  text-align: center;
+  margin-bottom: 10px;
+  border: 1px solid #32373b;
+  background-color: #333333;
+  height: 40px;
+  padding-left: 70px;
+  padding-right: 70px;
+  font-size: 15px;
+  color: #999999;
+}
+.background_photo .no_label input:hover {
+  cursor: pointer;
+  background-color: #cc3333;
+  color: #ffffff;
+}
+.bottom_margin {
+  margin-bottom: 100px;
+}
+.bottom_margin .background_photo #create_account {
+  outline: none;
+  margin-top: 0px;
+  border-bottom: 1px dotted #666666;
+}
+.bottom_margin .background_photo #final_payment_info {
+  margin-top: 0px;
+  outline: none;
+}
+.bottom_margin .background_photo form input {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #32373b;
+  background-color: #333333;
+  height: 40px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-size: 15px;
+  color: #999999;
+}
+.bottom_margin .background_photo form input:hover {
+  cursor: pointer;
+  background-color: #cc3333;
+  color: #ffffff;
 }
