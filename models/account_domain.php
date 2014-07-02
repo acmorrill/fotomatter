@@ -84,6 +84,14 @@ class AccountDomain extends AppModel {
 		if (!empty($primary_domain['AccountDomain']['url'])) {
 			$result = $primary_domain['AccountDomain']['url'];
 		}
+		
+		// DREW TODO - change this when build domain is part of default domains
+		if ($result === false) { // if no primary domain return the build domain
+			$this->SiteSetting = ClassRegistry::init('SiteSetting');
+			$site_domain = $this->SiteSetting->getVal('site_domain');
+			$result = "$site_domain.fotomatter.net";
+		}
+		
 		apc_store($this->primary_domain_apc_key, $result, 28800); // 8 hours
 		
 		return $result;
