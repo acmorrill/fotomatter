@@ -39,15 +39,15 @@ $theme_config = array(
 				'view' => 'view_cart',
 			),
 			'checkout_login_or_guest' => array(
-				'layout' => 'custom_page',
+				'layout' => 'login_or_guest',
 				'view' => 'checkout_login_or_guest',
 			),
 			'checkout_get_address' => array(
-				'layout' => 'custom_page',
+				'layout' => 'address',
 				'view' => 'checkout_get_address',
 			),
 			'checkout_finalize_payment' => array(
-				'layout' => 'custom_page',
+				'layout' => 'payment',
 				'view' => 'checkout_finalize_payment',
 			),
 			'checkout_thankyou' => array(
