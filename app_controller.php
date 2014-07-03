@@ -40,7 +40,21 @@ class AppController extends Controller {
 		// stuff todo just in the admin
 		$in_admin = isset($this->params['admin']) && $this->params['admin'] == 1;
 		if ($in_admin) {
+			$dirp = opendir(VIEW_CACHE_PATH);
+			if ($dirp) {
+				while (FALSE !== ($file = readdir($dirp))) {
+					if ($file == '.' || $file == '..') continue;
+					opcache_invalidate(VIEW_CACHE_PATH . '/' . $file);
+				}
+				closedir($dirp);
+			}
 			clearCache();
+		}
+		
+		///////////////////////////////////////////////////////////////
+		// clear apc cache if in debug mode
+		if (Configure::read('debug') > 0) {
+			apc_clear_cache('user');
 		}
 		
 		
@@ -105,11 +119,6 @@ class AppController extends Controller {
 		$GLOBALS['current_feature_prices'] = $this->current_feature_prices;
 //		$this->log($this->current_on_off_features, 'current_on_off_features');
 //		$this->log($this->current_feature_prices, 'current_feature_prices');
-		///////////////////////////////////////////////////////////////
-		// clear apc cache if in debug mode
-		if (Configure::read('debug') > 0) {
-			apc_clear_cache('user');
-		}
 
 
 

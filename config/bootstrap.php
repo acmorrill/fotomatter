@@ -124,6 +124,8 @@ define('MAX_UPLOAD_SIZE_MEGS', 5);
 define('FREE_MAX_RES', 2000);
 define("USE_CACHE_SPEED", true);
 
+define("VIEW_CACHE_PATH", ROOT . '/tmp/cache/views');
+
 //path to overlord. (so it can change for development)
 Configure::write('OVERLORD_URL', 'builds.fotomatter.net');
 Configure::write('SHOW_FAKE_BILLING_DATA', false);
