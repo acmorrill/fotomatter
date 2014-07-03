@@ -16,10 +16,12 @@
                 </div>					
 			</div>
 			 <div class="gallerywrapper">
-                <div class="background_photo">
-					<h1><?php __('Shopping Cart'); ?></h1>
-					<?php echo $content_for_layout; ?>
-				</div> 
+				 <div class="bottom_margin"> 
+					<div class="background_photo">
+						<h1><?php __('Shopping Cart'); ?></h1>
+						<?php echo $content_for_layout; ?>
+					</div>
+				 </div>	 
 				 <div class="clear"></div>
 				 <div class="sidebar">
                     <ul class="dark_background" >

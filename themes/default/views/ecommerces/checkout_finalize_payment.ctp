@@ -203,8 +203,9 @@
 	</div>
 
 	<br />
-	<input type="submit" value="<?php __('Pay Now'); ?>" />
-	
+	<div class="pay_now">
+		<input type="submit" value="<?php __('Pay Now'); ?>" />
+	</div>
 	
 </form>
 
