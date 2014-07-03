@@ -54,6 +54,7 @@ define("HELP_TOUR_ENGLISH_TEXT", 'Get Help With This Page');
 define("SITE_SETTINGS_APC_CACHE_TTL", 28800); // 8  hours
 define("SITE_SETTINGS_APC_DEFAULT_KEY", 'USE_THE_DEFAULT'); // the string to store for site settings apc to indicate to use the default setting
 define("FRONTEND_VIEW_CACHING_STRTOTIME_TTL", '1 week'); // how long to keep view caching
+define("VIEW_CACHE_PATH", ROOT . '/tmp/cache/views');
 
 date_default_timezone_set('America/Denver');
 
@@ -123,6 +124,7 @@ define("SMALL_MASTER_CACHE_SIZE", 250);
 define('MAX_UPLOAD_SIZE_MEGS', 5);
 define('FREE_MAX_RES', 2000);
 define("USE_CACHE_SPEED", true);
+
 
 //path to overlord. (so it can change for development)
 Configure::write('OVERLORD_URL', 'builds.fotomatter.net');
