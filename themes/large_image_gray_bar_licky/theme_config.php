@@ -14,7 +14,7 @@ $theme_config = array(
 			),
 			'custom_page' => array(
 				'layout' => 'custom_page',
-				'view' => 'custom_page',
+				'view' => false,
 			),
 		),
 		'PhotoGalleries' => array(

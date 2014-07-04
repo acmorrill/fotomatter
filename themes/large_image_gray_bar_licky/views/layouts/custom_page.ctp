@@ -1,1 +1,1 @@
-this is the custom pages
+<p style="color: black;">Kent is awesome! What what!!</p>
