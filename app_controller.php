@@ -40,6 +40,7 @@ class AppController extends Controller {
 		// stuff todo just in the admin
 		$in_admin = isset($this->params['admin']) && $this->params['admin'] == 1;
 		if ($in_admin) {
+			// invalide the view cache opcaches
 			$dirp = opendir(VIEW_CACHE_PATH);
 			if ($dirp) {
 				while (FALSE !== ($file = readdir($dirp))) {
@@ -48,6 +49,8 @@ class AppController extends Controller {
 				}
 				closedir($dirp);
 			}
+			//end invalide the view cache opcaches
+			// clear cake view cache for site
 			clearCache();
 		}
 		
@@ -65,7 +68,7 @@ class AppController extends Controller {
 			$in_checkout = true;
 		}
 		$redirect_to_ssl = $in_admin || $in_checkout;
-		if (empty($_SERVER['HTTPS']) && $redirect_to_ssl) {
+		if (empty($_SERVER['HTTPS']) && Configure::read('debug') == 0 && $redirect_to_ssl) {
 			$this->SiteSetting = ClassRegistry::init('SiteSetting');
 			$site_domain = $this->SiteSetting->getVal('site_domain');
 			$this->redirect("https://$site_domain.fotomatter.net{$_SERVER['REQUEST_URI']}");
