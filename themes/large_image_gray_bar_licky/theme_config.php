@@ -14,7 +14,7 @@ $theme_config = array(
 			),
 			'custom_page' => array(
 				'layout' => 'custom_page',
-				'view' => 'custom_page',
+				'view' => false,
 			),
 		),
 		'PhotoGalleries' => array(
@@ -174,7 +174,24 @@ $theme_config = array(
 					'type' => 'group_name',
 					'display_name' => 'Group 1',
 				),
-				'setting_one' => array(
+//				'setting_one' => array(
+//					'background_color' => array(
+//						'type' => 'dropdown',
+//						'display_name' => 'Background Color',
+//						'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unch",
+//						'help_message' => "Background color test",
+//						'possible_values' => array(
+//							'black' => array('display' => 'Black'),
+//							'blue' => array('display' => 'Blue'),
+//							'yellow' => array('display' => 'Yellow'),
+//							'pink' => array('display' => 'Pink'),
+//						),
+//						'default_value' => 'black'
+//					),
+//				),
+				
+				
+				'setting_two' => array(
 					'type' => 'on_off',
 					'display_name' => 'On Off Test',
 					'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unch",
@@ -185,7 +202,7 @@ $theme_config = array(
 					),
 					'default_value' => 'off',
 				),
-				'setting_two' => array(
+				'setting_three' => array(
 					'type' => 'dropdown',
 					'display_name' => 'Drop Down Test',
 					'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unch",
@@ -202,7 +219,7 @@ $theme_config = array(
 					'type' => 'group_name',
 					'display_name' => 'Group 2',
 				),
-				'setting_three' => array(
+				'setting_four' => array(
 					'type' => 'numeric_dropdown',
 					'display_name' => 'Numeric Dropdown Test',
 					'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unch",
@@ -213,7 +230,7 @@ $theme_config = array(
 					),
 					'default_value' => '45',
 				),
-				'setting_four' => array(
+				'setting_five' => array(
 					'type' => 'radio',
 					'display_name' => 'Radio Test',
 					'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unch",
@@ -226,7 +243,7 @@ $theme_config = array(
 					),
 					'default_value' => 'option3',
 				),
-				'setting_five' => array(
+				'setting_six' => array(
 					'type' => 'color_radio',
 					'display_name' => 'Color Radio Test',
 					'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unch",
@@ -244,7 +261,7 @@ $theme_config = array(
 					'type' => 'group_name',
 					'display_name' => 'Group 3',
 				),
-				'setting_six' => array(
+				'setting_seven' => array(
 					'type' => 'checkboxes',
 					'display_name' => 'Checkboxes Test',
 					'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unch",
@@ -258,7 +275,7 @@ $theme_config = array(
 					),
 					'default_value' => 'option5|option4|option2',
 				),
-				'setting_seven' => array(
+				'setting_eight' => array(
 					'type' => 'text_input',
 					'display_name' => 'Text Input Test',
 					'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unch",
@@ -266,7 +283,7 @@ $theme_config = array(
 					'possible_values' => ".*\\\S+.*", // can be regex
 					'default_value' => 'default',
 				),
-				'setting_eight' => array(
+				'setting_nine' => array(
 					'type' => 'textarea',
 					'display_name' => 'Text Area Test',
 					'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unch",

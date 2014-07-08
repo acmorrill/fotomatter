@@ -481,7 +481,7 @@ h1.no_line {
   background-color: #cc3333;
   color: #ffffff;
 }
-.background_photo button {
+.background_photo a button {
   position: relative;
   left: 83px;
   border: 1px solid #32373b;
@@ -492,7 +492,7 @@ h1.no_line {
   font-size: 15px;
   color: #999999;
 }
-.background_photo button:hover {
+.background_photo a button:hover {
   cursor: pointer;
   background-color: #cc3333;
   color: #ffffff;
@@ -651,6 +651,7 @@ h1.no_line {
   outline: none;
   margin-top: 0px;
   color: #ffffff;
+  border-top: 1px dotted #666666;
 }
 .bottom_margin .background_photo #shipping_address_summary a {
   color: #999999;
@@ -714,5 +715,4 @@ h1.no_line {
   padding-bottom: 40px;
   padding-right: 40px;
   line-height: 25px;
-  border-bottom: 1px dotted #666666;
 }
