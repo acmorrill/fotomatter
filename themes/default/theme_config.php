@@ -251,6 +251,20 @@ $theme_config = array(
 //					),
 //					'default_value' => '#B7001C',
 //				),
+//				'setting_five_half' => array(
+//					'type' => 'color_radio',
+//					'display_name' => 'Color Radio Test',
+//					'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unch",
+//					'help_message' => 'Color Radio Test',
+//					'possible_values' => array(
+//						'color1' => '#53B97D',
+//						'color2' => '#FFF400',
+//						'color3' => '#FF9F00',
+//						'color4' => '#B7001C',
+//						'color5' => '#B70086',
+//					),
+//					'default_value' => 'color1',
+//				),
 //				'setting_six' => array(
 //					'type' => 'checkboxes',
 //					'display_name' => 'Checkboxes Test',

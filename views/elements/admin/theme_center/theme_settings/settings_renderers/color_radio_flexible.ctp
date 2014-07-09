@@ -24,8 +24,8 @@
 	<label class="color_radio_text"><?php echo $curr_setting['display_name']; ?></label>
 	<div class="theme_setting_inputs_container">
 		<form class="color_radio">
-			<?php $count = 1; foreach ($curr_setting['possible_values'] as $value_name): ?>
-				<input type="radio" name="<?php echo $setting_name; ?>" value="<?php echo $value_name; ?>" <?php if ($value_name == $curr_setting['current_value'] || (empty($curr_setting['current_value']) == true && $count == 1)): ?>checked="checked"<?php endif; ?>  /> <span class="color_chooser" style="background-color: <?php echo $value_name; ?>;">&nbsp;</span><br/>
+			<?php $count = 1; foreach ($curr_setting['possible_values'] as $key => $value_name): ?>
+				<input type="radio" name="<?php echo $setting_name; ?>" value="<?php echo $key; ?>" <?php if ($key == $curr_setting['current_value'] || (empty($curr_setting['current_value']) == true && $count == 1)): ?>checked="checked"<?php endif; ?>  /> <span class="color_chooser" style="background-color: <?php echo $value_name; ?>;">&nbsp;</span><br/>
 			<?php $count++; endforeach; ?>
 		</form>
 	</div>
