@@ -13,7 +13,6 @@
 			'crop' => false
 		));
 		?>
-
         <link rel="stylesheet" type="text/css" href="/css/large_image_gray_bar.css" />
     </head>
     <body>

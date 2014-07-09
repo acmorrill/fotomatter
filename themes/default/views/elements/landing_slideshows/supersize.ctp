@@ -10,6 +10,8 @@
 			$interval = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'landing_page_slideshow_interval_time');
 			$max_num_images = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'landing_page_slideshow_max_images');
 			$gallery_to_use_id = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'landing_page_gallery', null);
+			$transition = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'landing_page_transition_type');
+			//$random = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'random');
 		?>
 		<?php $slide_show_photo_ids = $this->Theme->get_landing_page_slideshow_images($max_num_images, $gallery_to_use_id); ?>
 		<?php $total_images = count($slide_show_photo_ids); ?>
@@ -17,8 +19,9 @@
 		$.supersized({
 			// Functionality
 			slide_interval: <?php echo $interval; ?>, // Length between transitions
-			transition: 1, // 0-None, 1-Fade, 2-Slide Top, 3-Slide Right, 4-Slide Bottom, 5-Slide Left, 6-Carousel Right, 7-Carousel Left
+			transition: <?php echo $transition; ?>, // 0-None, 1-Fade, 2-Slide Top, 3-Slide Right, 4-Slide Bottom, 5-Slide Left, 6-Carousel Right, 7-Carousel Left
 			transition_speed: <?php echo $speed; ?>, // Speed of transition
+			//random: <php echo $random; ?> // random slides. No order.
 			// Look into the cropping of the image. Can that become a user setting. Read the documentation 
 
 			// Components							

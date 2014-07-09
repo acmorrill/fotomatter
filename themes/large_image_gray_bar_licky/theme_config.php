@@ -170,50 +170,79 @@ $theme_config = array(
 					),
 					'default_value' => '8',
 				),
-				'setting_zero' => array(
-					'type' => 'group_name',
-					'display_name' => 'Group 1',
+				
+				'landing_page_transition_type' => array(
+					'type' => 'dropdown',
+					'display_name' => 'Slide show transition  type',
+					'description' => "Transition type. (fade, slide top, slide right and so on).",
+					'help_message' => 'Numeric Dropdown Test',
+					'possible_values' => array(					
+						'1' => array( 'display' => 'Fade' ),
+						'2' => array( 'display' => 'Slide in from top' ),
+						'3' => array( 'display' => 'Slide in from right' ),
+						'4' => array( 'display' => 'Slide in from bottom' ),
+						'5' => array( 'display' => 'Slide in from left' ),
+						'6' => array( 'display' => 'Carousel from right to left' ),
+						'7' => array( 'display' => 'Carousel from left to right' ),
+					),
+					'default_value' => 'Fade',
 				),
-//				'setting_one' => array(
-//					'background_color' => array(
-//						'type' => 'dropdown',
-//						'display_name' => 'Background Color',
-//						'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unch",
-//						'help_message' => "Background color test",
-//						'possible_values' => array(
-//							'black' => array('display' => 'Black'),
-//							'blue' => array('display' => 'Blue'),
-//							'yellow' => array('display' => 'Yellow'),
-//							'pink' => array('display' => 'Pink'),
-//						),
-//						'default_value' => 'black'
-//					),
-//				),
 				
-				
-				'setting_two' => array(
+				'random' => array(
 					'type' => 'on_off',
-					'display_name' => 'On Off Test',
-					'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unch",
+					'display_name' => 'Random Slides',
+					'description' => "Images will appear in random order.",
 					'help_message' => 'On Off Test',
 					'possible_values' => array(
 						'on' => array( 'display' => 'On' ),
 						'off' => array( 'display' => 'Off' ),
 					),
 					'default_value' => 'off',
+				),				
+				
+				'setting_zero' => array(
+					'type' => 'group_name',
+					'display_name' => 'All page settings',
 				),
-				'setting_three' => array(
-					'type' => 'dropdown',
-					'display_name' => 'Drop Down Test',
-					'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unch",
-					'help_message' => 'Drop Down Test',
+				
+				'image_cropping' => array(
+					'type' => 'on_off',
+					'display_name' => 'Image cropping',
+					'description' => "Allows for the image to be cropped and placed on a back background or the image can be fitted to the space allowed.",
+					'help_message' => 'On Off Test',
 					'possible_values' => array(
-						'option1' => array( 'display' => 'Option 1' ),
-						'option2' => array( 'display' => 'Option 2' ),
-						'option3' => array( 'display' => 'Option 3' ),
-						'option4' => array( 'display' => 'Option 4' ),
+						'on' => array( 'display' => 'On' ),
+						'off' => array( 'display' => 'Off' ),
 					),
-					'default_value' => 'option2',
+					'default_value' => 'On',
+				),
+				
+
+//				'accent_colors_across_liky_theme' => array(
+//					'type' => 'dropdown',
+//					'display_name' => 'Accent colors',
+//					'description' => "Changes the accent colors. Hover on buttons and header underline.",
+//					'help_message' => 'Background color test',
+//					'possible_values' => array(
+//						'option1' => array( 'display' => 'Red' ),
+//						'option2' => array( 'display' => 'Blue' ),
+//						'option3' => array( 'display' => 'Yellow' ),
+//						'option4' => array( 'display' => 'Pink' ),
+//					),
+//					'default_value' => 'Red',
+//				),
+				'accent_colors_across_liky_theme' => array(
+					'type' => 'color_radio',
+					'display_name' => 'Accent colors',
+					'description' => "Changes the accent colors. Hover on buttons and header underline.",
+					'help_message' => 'Color Radio Test',
+					'possible_values' => array(
+						'#cc0000',
+						'#0000cc',
+						'#ffff00',
+						'#ff0099',
+					),
+					'default_value' => '#cc0000',
 				),
 				'setting_twopoint5' => array(
 					'type' => 'group_name',
