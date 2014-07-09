@@ -11,6 +11,7 @@
 		<?php echo $this->Element('theme_global_includes'); ?>
 	</head>
 	<body>
+	<?php $accent_colors = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'accent_colors'); ?>	
 		<div class="content">
             <div class="outer_nav">
                 <?php echo $this->Element('nameTitle'); ?>
@@ -20,8 +21,8 @@
 			</div>
 			 <div class="gallerywrapper">
 				 <div class="bottom_margin">
-					<div class="background_photo">
-	<!--					<h1><?php __('Login'); ?></h1>-->
+					<div class="background_photo <?php echo $accent_colors; ?>">
+<!--						<h1><?php __('Login'); ?></h1>-->
 						<?php echo $content_for_layout; ?>
 					</div> 
 				 </div>	 

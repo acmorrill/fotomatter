@@ -6,6 +6,7 @@
         <link rel="stylesheet" type="text/css" href="/css/large_image_gray_bar.css" />
     </head>
     <body>
+	<?php $accent_colors = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'accent_colors'); ?>
         <div class="content">
             <div class="outer_nav">
                     <?php echo $this->Element('nameTitle'); ?>
@@ -14,9 +15,10 @@
                 </div>					
             </div>
             <div class="gallerywrapper">
+				<div class="bottom_margin"> 
                 <div class="background_photo">
                     <h1 class="no_line">"<?php echo $curr_photo['Photo']['display_title']; ?>"</h1>
-					<ul>
+					<ul class="<?php echo $accent_colors; ?>">
 						<li><?php echo $curr_photo['Photo']['date_taken']; ?></li>						
 						<li><?php echo $curr_photo['Photo']['display_subtitle']; ?></li>
 					</ul>
@@ -27,11 +29,12 @@
                 </div>
 				<?php if (!empty($curr_photo['Photo']['description'])): ?>
 					<div class="photo_description">
-						<h1><strong><?php __('Photo Description'); ?></strong></h1>
+						<h1 class="<?php echo $accent_colors; ?>"><strong><?php __('Photo Description'); ?></strong></h1>
 						<ul>                      
 							<li><span class="text_change"><?php echo $curr_photo['Photo']['description']; ?></span></li>
 						</ul>
 					</div>
+				</div>
 				<?php endif; ?>
                 <div class="sidebar">
                     <ul class="dark_background" >
@@ -41,7 +44,7 @@
 					<?php if (!empty($photo_sellable_prints)): ?>
 						<ul class="dark_background separator">
 							<li class="small_text_header"><strong><?php __('Add to cart'); ?></strong></li>
-							<li class="cart_ajustment">
+							<li class="cart_ajustment <?php echo $accent_colors; ?>">
 								<?php echo $this->Element('cart_checkout/image_add_to_cart_form_simple', array(
 									'submit_button_text' => __('Add to Cart', true),
 									'photo_sellable_prints' => $photo_sellable_prints,
@@ -61,13 +64,12 @@
                         <?php endforeach; ?>
                     </ul>
                 </div><!--sidebar --> 
-                
                 <div class="right_sidebar">  
                     <ul>
                         <?php $prev_image_web_path = $this->Photo->get_prev_image_web_path($curr_photo['Photo']['id'], $curr_gallery['PhotoGallery']['id']); ?>
                         <?php $next_image_web_path = $this->Photo->get_next_image_web_path($curr_photo['Photo']['id'], $curr_gallery['PhotoGallery']['id']); ?>
-                        <li class="first"><a href="<?php echo $prev_image_web_path; ?>"></a></li>                        
-                        <li class="last"><a href="<?php echo $next_image_web_path; ?>"></a></li>                        
+                        <li class="first <?php echo $accent_colors; ?>"><a href="<?php echo $prev_image_web_path; ?>"></a></li>                        
+                        <li class="last <?php echo $accent_colors; ?>"><a href="<?php echo $next_image_web_path; ?>"></a></li>                        
                     </ul>
                 </div><!--right_sidebar-->
                 

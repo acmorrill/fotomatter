@@ -1,4 +1,28 @@
 .background_photo{
+	&.blue button:hover { background-color: @blue; }
+	&.pink button:hover { background-color: @pink; }
+	&.yellow button:hover { background-color: @yellow; }
+	&.red button:hover { background-color: @red; }
+	
+	&.blue #login_container form .submit input:hover { background-color: @blue; }
+	&.pink #login_container form .submit input:hover { background-color: @pink; }
+	&.yellow #login_container form .submit input:hover { background-color: @yellow; }
+	&.red #login_container form .submit input:hover { background-color: @red; }
+	
+	&.blue h1{border-bottom: 1px solid @blue;	}
+	&.red h1{border-bottom: 1px solid @red;}
+	&.yellow h1{ border-bottom: 1px solid @yellow;}
+	&.pink h1{border-bottom: 1px solid @pink;}
+	
+	&.blue .no_label input:hover { background-color: @blue; }
+	&.pink .no_label input:hover { background-color: @pink; }
+	&.yellow .no_label input:hover { background-color: @yellow; }
+	&.red .no_label input:hover { background-color: @red; }	
+
+	&.blue .pay_now input:hover { background-color: @blue; }
+	&.pink .pay_now input:hover { background-color: @pink; }
+	&.yellow .pay_now input:hover { background-color: @yellow; }
+	&.red .pay_now input:hover { background-color: @red; }	
 	a{
 		button{
 			position: relative;
@@ -12,7 +36,7 @@
 			color: @header;
 			&:hover{
 				cursor: pointer;
-				background-color: @red;
+				//background-color: @red;
 				color: @white;
 			}
 		}
@@ -58,7 +82,7 @@
 					color: @header;
 					&:hover{
 						cursor: pointer;
-						background-color: @red;
+						//background-color: @red;
 						color: @white;
 					}
 				}

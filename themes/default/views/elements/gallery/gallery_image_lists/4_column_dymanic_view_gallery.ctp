@@ -2,8 +2,14 @@
 	<?php $curr_photo = $photos[$index]; ?>
 	<div class="gallery_photos">
             <?php $photoUrl = "/photos/view_photo/{$curr_photo['Photo']['id']}/gid:$gallery_id/"; ?>
+			<?php
+				$do_crop = false;
+				if (isset($crop)) {
+					$do_crop = $crop;
+				}
+			?>
             <a href="<?php echo $photoUrl; ?>">
-            <?php $imgSrc = $this->Photo->get_photo_path($curr_photo['Photo']['id'], $image_max_size, $image_max_size, .5, true); ?>
+            <?php $imgSrc = $this->Photo->get_photo_path($curr_photo['Photo']['id'], $image_max_size, $image_max_size, .5, true, $do_crop); ?>
             <div class="gallery_photo_size">
                 <table>
                     <tr>

@@ -66,24 +66,34 @@
                 background-repeat: no-repeat;
                 background-position: 0px 0px; 
             }
+			&.red {
+				&:hover {
+				   background-color: @red;
+				}
+			}
+			&.blue {
+				&:hover {
+				   background-color: @blue;
+				}
+			}
+			&.yellow {
+				&:hover {
+				   background-color: @yellow;
+				}
+			}
+			&.pink {
+				&:hover {
+				   background-color: @pink;
+				}
+			}
             &.first {
                 a {
                     background-position: 0px 0px;
-                    &:hover {
-                       background-color: @red;
-					   //background-color: @blue;
-						//background-position: 0px -96px;
-                    }
                 }
             }
             &.last {
                 a {
                     background-position: -78px 0px;
-                    &:hover {
-						background-color: @red;
-						//background-color: @blue;
-                        //background-position: -78px -96px;
-                    }
                 }
             }
         }
@@ -102,7 +112,10 @@ h1{
 
 .cart_ajustment{
 	margin-left: 6px;
-	
+	&.blue button:hover { background-color: @blue; }
+	&.pink button:hover { background-color: @pink; }
+	&.yellow button:hover { background-color: @yellow; }
+	&.red button:hover { background-color: @red; }
 	h2{
 		font-size: 18px;
 		margin-top: 20px;
@@ -120,7 +133,6 @@ h1{
 		color: @header;
 		&:hover{
 			cursor: pointer;
-			background-color: @red;
 			color: @white;
 		}
 	}
@@ -176,11 +188,14 @@ h1{
     text-align: center;
     margin-bottom: 10px;
 	ul{
-		border-bottom: 1px solid @border;
 		color: @header;
 		font-size: 15px;
 		padding-bottom: 12px;
 		margin-bottom: 12px;
+		&.blue{border-bottom: 1px solid @blue;}
+		&.red{border-bottom: 1px solid @red;}
+		&.yellow{border-bottom: 1px solid @yellow;}
+		&.pink{border-bottom: 1px solid @pink;}
 		li{
 			list-style-type: none;
 			text-align: left;

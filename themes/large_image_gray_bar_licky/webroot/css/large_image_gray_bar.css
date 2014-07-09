@@ -70,7 +70,6 @@ body .content .gallerywrapper .background .gallery .gallery_photos .gallery_phot
 h1 {
   padding-bottom: 5px;
   color: #999999;
-  border-bottom: 1px solid #cc0000;
   font-size: 24px;
   background: transparent;
   margin: 0;
@@ -83,6 +82,18 @@ h1 {
   -webkit-margin-after: 0.67em;
   -webkit-margin-start: 0px;
   -webkit-margin-end: 0px;
+}
+h1.blue {
+  border-bottom: 1px solid #0000cc;
+}
+h1.red {
+  border-bottom: 1px solid #cc3333;
+}
+h1.yellow {
+  border-bottom: 1px solid #ffff00;
+}
+h1.pink {
+  border-bottom: 1px solid #ff0099;
 }
 .clear {
   clear: both;
@@ -292,17 +303,23 @@ nav_location {
   background-repeat: no-repeat;
   background-position: 0px 0px;
 }
+.right_sidebar ul li.red:hover {
+  background-color: #cc3333;
+}
+.right_sidebar ul li.blue:hover {
+  background-color: #0000cc;
+}
+.right_sidebar ul li.yellow:hover {
+  background-color: #ffff00;
+}
+.right_sidebar ul li.pink:hover {
+  background-color: #ff0099;
+}
 .right_sidebar ul li.first a {
   background-position: 0px 0px;
 }
-.right_sidebar ul li.first a:hover {
-  background-color: #cc3333;
-}
 .right_sidebar ul li.last a {
   background-position: -78px 0px;
-}
-.right_sidebar ul li.last a:hover {
-  background-color: #cc3333;
 }
 h1 {
   text-align: left;
@@ -315,6 +332,18 @@ h1.no_line {
 }
 .cart_ajustment {
   margin-left: 6px;
+}
+.cart_ajustment.blue button:hover {
+  background-color: #0000cc;
+}
+.cart_ajustment.pink button:hover {
+  background-color: #ff0099;
+}
+.cart_ajustment.yellow button:hover {
+  background-color: #ffff00;
+}
+.cart_ajustment.red button:hover {
+  background-color: #cc3333;
 }
 .cart_ajustment h2 {
   font-size: 18px;
@@ -334,7 +363,6 @@ h1.no_line {
 }
 .cart_ajustment button:hover {
   cursor: pointer;
-  background-color: #cc3333;
   color: #ffffff;
 }
 .cart_ajustment select {
@@ -385,11 +413,22 @@ h1.no_line {
   margin-bottom: 10px;
 }
 .background_photo ul {
-  border-bottom: 1px solid #cc0000;
   color: #999999;
   font-size: 15px;
   padding-bottom: 12px;
   margin-bottom: 12px;
+}
+.background_photo ul.blue {
+  border-bottom: 1px solid #0000cc;
+}
+.background_photo ul.red {
+  border-bottom: 1px solid #cc3333;
+}
+.background_photo ul.yellow {
+  border-bottom: 1px solid #ffff00;
+}
+.background_photo ul.pink {
+  border-bottom: 1px solid #ff0099;
 }
 .background_photo ul li {
   list-style-type: none;
@@ -478,8 +517,67 @@ h1.no_line {
 }
 #cart_table tfoot tr td button:hover {
   cursor: pointer;
-  background-color: #cc3333;
   color: #ffffff;
+}
+.background_photo.blue button:hover {
+  background-color: #0000cc;
+}
+.background_photo.pink button:hover {
+  background-color: #ff0099;
+}
+.background_photo.yellow button:hover {
+  background-color: #ffff00;
+}
+.background_photo.red button:hover {
+  background-color: #cc3333;
+}
+.background_photo.blue #login_container form .submit input:hover {
+  background-color: #0000cc;
+}
+.background_photo.pink #login_container form .submit input:hover {
+  background-color: #ff0099;
+}
+.background_photo.yellow #login_container form .submit input:hover {
+  background-color: #ffff00;
+}
+.background_photo.red #login_container form .submit input:hover {
+  background-color: #cc3333;
+}
+.background_photo.blue h1 {
+  border-bottom: 1px solid #0000cc;
+}
+.background_photo.red h1 {
+  border-bottom: 1px solid #cc3333;
+}
+.background_photo.yellow h1 {
+  border-bottom: 1px solid #ffff00;
+}
+.background_photo.pink h1 {
+  border-bottom: 1px solid #ff0099;
+}
+.background_photo.blue .no_label input:hover {
+  background-color: #0000cc;
+}
+.background_photo.pink .no_label input:hover {
+  background-color: #ff0099;
+}
+.background_photo.yellow .no_label input:hover {
+  background-color: #ffff00;
+}
+.background_photo.red .no_label input:hover {
+  background-color: #cc3333;
+}
+.background_photo.blue .pay_now input:hover {
+  background-color: #0000cc;
+}
+.background_photo.pink .pay_now input:hover {
+  background-color: #ff0099;
+}
+.background_photo.yellow .pay_now input:hover {
+  background-color: #ffff00;
+}
+.background_photo.red .pay_now input:hover {
+  background-color: #cc3333;
 }
 .background_photo a button {
   position: relative;
@@ -494,7 +592,6 @@ h1.no_line {
 }
 .background_photo a button:hover {
   cursor: pointer;
-  background-color: #cc3333;
   color: #ffffff;
 }
 .background_photo #login_container {
@@ -534,7 +631,6 @@ h1.no_line {
 }
 .background_photo #login_container form .submit input:hover {
   cursor: pointer;
-  background-color: #cc3333;
   color: #ffffff;
 }
 .background_photo #login_container #forgot_your_password_container {
@@ -556,6 +652,18 @@ h1.no_line {
 }
 .background_photo {
   text-align: left;
+}
+.background_photo.blue #cart_table tfoot tr td button:hover {
+  background-color: #0000cc;
+}
+.background_photo.pink #cart_table tfoot tr td button:hover {
+  background-color: #ff0099;
+}
+.background_photo.yellow #cart_table tfoot tr td button:hover {
+  background-color: #ffff00;
+}
+.background_photo.red #cart_table tfoot tr td button:hover {
+  background-color: #cc3333;
 }
 .background_photo #shipping_address_container {
   outline: none;
@@ -613,7 +721,6 @@ h1.no_line {
 }
 .bottom_margin .background_photo .pay_now input:hover {
   cursor: pointer;
-  background-color: #cc3333;
   color: #ffffff;
 }
 .bottom_margin .background_photo #final_payment_info {

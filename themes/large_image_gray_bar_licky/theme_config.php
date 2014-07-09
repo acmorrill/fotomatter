@@ -194,10 +194,10 @@ $theme_config = array(
 					'description' => "Images will appear in random order.",
 					'help_message' => 'On Off Test',
 					'possible_values' => array(
-						'on' => array( 'display' => 'On' ),
-						'off' => array( 'display' => 'Off' ),
+						'true' => array( 'display' => 'On' ),
+						'false' => array( 'display' => 'Off' ),
 					),
-					'default_value' => 'off',
+					'default_value' => 'false',
 				),				
 				
 				'setting_zero' => array(
@@ -211,10 +211,10 @@ $theme_config = array(
 					'description' => "Allows for the image to be cropped and placed on a back background or the image can be fitted to the space allowed.",
 					'help_message' => 'On Off Test',
 					'possible_values' => array(
-						'on' => array( 'display' => 'On' ),
-						'off' => array( 'display' => 'Off' ),
+						'true' => array( 'display' => 'On' ),
+						'false' => array( 'display' => 'Off' ),
 					),
-					'default_value' => 'On',
+					'default_value' => 'false',
 				),
 				
 
@@ -231,18 +231,18 @@ $theme_config = array(
 //					),
 //					'default_value' => 'Red',
 //				),
-				'accent_colors_across_liky_theme' => array(
-					'type' => 'color_radio',
+				'accent_colors' => array(
+					'type' => 'color_radio_flexible',
 					'display_name' => 'Accent colors',
 					'description' => "Changes the accent colors. Hover on buttons and header underline.",
 					'help_message' => 'Color Radio Test',
 					'possible_values' => array(
-						'#cc0000',
-						'#0000cc',
-						'#ffff00',
-						'#ff0099',
+						'red' => '#cc0000',
+						'blue' => '#0000cc',
+						'yellow' => '#ffff00',
+						'pink' => '#ff0099',
 					),
-					'default_value' => '#cc0000',
+					'default_value' => 'red',
 				),
 				'setting_twopoint5' => array(
 					'type' => 'group_name',
