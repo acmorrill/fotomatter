@@ -5,6 +5,7 @@
         <meta name="keywords" content="Kent Gigger, photography, fine art, utah photography, utah photographer, National Park, Utah, California">
         <meta name="description" content="Large format landscape photography by Utah based photographer Andrew Morrill.">
 		<link rel="stylesheet" type="text/css" href="/css/large_image_gray_bar.css" />
+		<link href='http://fonts.googleapis.com/css?family=Didact+Gothic' rel='stylesheet' type='text/css'>
 		<!--[if lt IE 9]>
 		<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
 		<![endif]-->

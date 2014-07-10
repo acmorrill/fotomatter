@@ -13,6 +13,8 @@
 		jQuery('#main_nav li.main_menu_item').mouseover(function() {
 			jQuery('#main_nav li.main_menu_item').removeClass('hover');
 			jQuery(this).addClass('hover');
+		}).mouseout(function() {
+			jQuery('#main_nav li.main_menu_item').removeClass('hover');
 		});
 	});
 </script>

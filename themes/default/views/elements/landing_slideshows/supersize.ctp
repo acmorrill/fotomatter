@@ -28,7 +28,7 @@
 			slides: [// Slideshow Images
 				<?php $count = 1; foreach ($slide_show_photo_ids as $slide_show_photo_id): ?>
 					<?php $img_src = $this->Photo->get_photo_path($slide_show_photo_id, $height, $width, .4, true, $crop); ?>
-					{image: '<?php echo $img_src['url']; ?>', title: '', thumb: '', url: '/'}<?php if ($count != $total_images): ?>,<?php endif; ?>
+					{image: '<?php echo $img_src['url']; ?>', title: '', thumb: ''}<?php if ($count != $total_images): ?>,<?php endif; ?>
 				<?php $count++; endforeach; ?>
 			]
 

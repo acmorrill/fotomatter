@@ -4,6 +4,7 @@
         <title><?php echo $curr_photo['Photo']['display_title'] . '&nbsp;&nbsp;|&nbsp;&nbsp;' . $curr_gallery['PhotoGallery']['display_name']; ?></title>
 		<?php echo $this->Element('theme_global_includes'); ?>
         <link rel="stylesheet" type="text/css" href="/css/large_image_gray_bar.css" />
+		<link href='http://fonts.googleapis.com/css?family=Didact+Gothic' rel='stylesheet' type='text/css'>
     </head>
     <body>
 	<?php $accent_colors = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'accent_colors'); ?>

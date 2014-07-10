@@ -16,19 +16,20 @@
         li{
             text-transform: uppercase;
             list-style-type: none;
-            font-size: 30px;
+            font-size: 33px;
             text-align: left;
 			color: @white;  
             & a{
+				font-size: 18px;
                 color: @header;               
                 text-decoration: none;
-                a:hover{
-                    color: @gray; 
+                &:hover{
+                    color: @white; 
                 }
             }
         }
         .small_text_header{
-            font-size: 24px; 
+            font-size: 23px; 
             margin-left: 5px; 
             padding-bottom: 10px; 
             margin-bottom: 5px; 
@@ -37,7 +38,7 @@
             color: @header;
         }
         .list_item{
-            font-size: 12px;
+            //font-size: 400px;
             margin-left: 5px;
             line-height: 16px;
             border-bottom: 0px dotted @gray;
@@ -117,7 +118,7 @@ h1{
 	&.yellow button:hover { background-color: @yellow; }
 	&.red button:hover { background-color: @red; }
 	h2{
-		font-size: 18px;
+		font-size: 20px;
 		margin-top: 20px;
 		margin-bottom: 7px;
 		color: @header;
@@ -129,7 +130,7 @@ h1{
 		height: 40px;
 		padding-left: 15px;
 		padding-right: 15px;
-		font-size: 15px;
+		font-size: 18px;
 		color: @header;
 		&:hover{
 			cursor: pointer;
@@ -139,6 +140,7 @@ h1{
 	select{
 		padding-bottom: 5px;
 		padding-top: 5px;
+		font-size: 16px;
 		
 	}
 }
@@ -166,7 +168,7 @@ h1{
 		& .text_change{
 			text-transform: none;
 			color: @header;
-			font-size: 15px;
+			font-size: 18px;
 			
 		}
     }
@@ -189,7 +191,7 @@ h1{
     margin-bottom: 10px;
 	ul{
 		color: @header;
-		font-size: 15px;
+		font-size: 18px;
 		padding-bottom: 12px;
 		margin-bottom: 12px;
 		&.blue{border-bottom: 1px solid @blue;}

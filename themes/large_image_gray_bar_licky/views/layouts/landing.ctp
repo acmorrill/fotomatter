@@ -14,6 +14,7 @@
 		));
 		?>
         <link rel="stylesheet" type="text/css" href="/css/large_image_gray_bar.css" />
+		<link href='http://fonts.googleapis.com/css?family=Didact+Gothic' rel='stylesheet' type='text/css'>
     </head>
     <body>
         <?php //echo $content_for_layout; ?>
