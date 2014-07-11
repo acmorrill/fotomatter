@@ -12,6 +12,12 @@ angular.module('fmAdmin.utilServices', ['fmAdmin.constants'])
 			return promiseResult;
 		};
 		
+		self.delete_domain = function(domain_id) {
+			var promiseResult = $http.post('/admin/domains/delete_domain/' + domain_id);
+			promiseResult.error = errorUtil.handleError;
+			return promiseResult;
+		};
+		
 		self.parseSearchResult = function(data) {
 			var domains_to_display = [];
 			jQuery.each(data, function(key, domain) {

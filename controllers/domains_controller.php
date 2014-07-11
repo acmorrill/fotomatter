@@ -466,6 +466,70 @@ class DomainsController extends Appcontroller {
 	}
 	
 
+	public function admin_domain_confirm_delete($account_domain_id) {
+		$this->layout = 'ajax';
+
+		$account_domain = $this->AccountDomain->find('first', array(
+			'conditions' => array(
+				'AccountDomain.id' => $account_domain_id,
+			),
+			'contain' => false,
+		));
+		
+		if (empty($account_domain['AccountDomain']['url'])) {
+			$this->major_error('tried to delete a domain with a bad id', compact('account_domain_id'), 'high');
+			exit();
+		}
+	}
+	
+	public function admin_delete_domain($account_domain_id) {
+		$this->layout = 'ajax';
+
+		$account_domain = $this->AccountDomain->find('first', array(
+			'conditions' => array(
+				'AccountDomain.id' => $account_domain_id,
+			),
+			'contain' => false,
+		));
+		
+		if (empty($account_domain['AccountDomain']['url'])) {
+			$this->major_error('tried to delete a domain with a bad id', compact('account_domain_id'), 'high');
+			exit();
+		}
+		
+		if ($account_domain['AccountDomain']['type'] === 'system') {
+			$this->major_error('tried to delete a domain of type system', compact('account_domain_id'), 'high');
+			exit();
+		}
+		
+		
+		// check to see if domain was primary - if so set system domain as primary
+		if ($account_domain['AccountDomain']['is_primary'] == 1) {
+			$this->AccountDomain->set_system_domain_as_primary();
+		}
+
+		
+		// remove rackspace dns entry for deleted domain
+		// remove domain link on server
+		$this->FotomatterDomainManagement->unsetup_domain($account_domain_id);
+		
+		
+		$result = array();
+//		if ($this->AccountDomain->delete($account_domain_id) === false) { // DREW TODO - turn this back on
+//			$result['code'] = false;
+//			$result['message'] = 'Failed to delete domain.';
+//			$this->return_json($result);
+//			exit();
+//		}
+		$result['code'] = true;
+		$result['message'] = 'Domain deleted.';
+		
+		
+		$this->return_json($result);
+		exit();
+	}
+	
+	
 	public function admin_domain_renew_checkout($account_domain_id) {
 		$this->layout = 'ajax';
 
@@ -482,7 +546,6 @@ class DomainsController extends Appcontroller {
 		}
 
 		$extra_domain_data = $this->NameCom->domain_get($account_domain['AccountDomain']['url']);
-		$this->log($extra_domain_data, 'extra_domain_data');
 		if (empty($extra_domain_data['addons']['domain/renew']['price']) || empty($extra_domain_data['expire_date'])) {
 			$this->major_error('tried to add renew domain but failed to grab renew price', compact('extra_domain_data', 'account_domain', 'account_domain_id'), 'high');
 			exit();
@@ -504,35 +567,12 @@ class DomainsController extends Appcontroller {
 
 	public function admin_set_as_primary() {
 		$data_posted = $this->get_json_from_input();
-		if (empty($data_posted['primary_domain_id']) === false) {
-			$new_primary_domain = $this->AccountDomain->find('first', array(
-				'conditions' => array(
-					'AccountDomain.id' => $data_posted['primary_domain_id']
-				),
-				'contain' => false
-			));
-			if (empty($new_primary_domain)) {
-				$this->major_error("Tried to set primary domain with id that doesn't exist, should never happen.", $data_posted);
+		if (!empty($data_posted['primary_domain_id'])) {
+			if ($this->AccountDomain->set_as_primary($data_posted['primary_domain_id']) === false) {
 				$this->return_json(array('code' => false));
 				exit();
 			}
-
-			$remove_primary_query = "
-				UPDATE account_domains SET is_primary = 0
-			";
-			if ($this->AccountDomain->query($remove_primary_query) === false) {
-				$this->major_error('Failed remove all domains primary', $new_primary_domain);
-			}
-
-
-
-			$new_primary_domain['AccountDomain']['is_primary'] = 1;
-			$this->AccountDomain->create();
-			if ($this->AccountDomain->save($new_primary_domain) === false) {
-				$this->major_error('Tried to set new domain as primary but the save failed', $new_primary_domain);
-				$this->return_json(array('code' => false));
-				exit();
-			}
+			
 			$result['code'] = true;
 			$result['message'] = 'New Domain set as primary';
 			$this->return_json($result);

@@ -21,6 +21,14 @@ class FotomatterDomainManagementComponent extends FotoMatterOverlordApi {
 		}
 		return false;
 	}
+	
+	public function unsetup_domain($account_domain_id) {
+		$api_result = $this->send_api_request("api_domain/unsetup", compact('account_domain_id'));
+		if ($api_result['code'] == 1) {
+			return $api_result;
+		}
+		return false;
+	}
 
 	////////////////////////////////////
 	// charge domain codes

@@ -36,6 +36,11 @@
 										<?php echo __('Is Primary Domain?', true); ?>
 									</div>
 								</th>
+								<th>
+									<div class="content one_line">
+										<?php echo __('Domain Type', true); ?>
+									</div>
+								</th>
 								<th class="<?php if ($this->Paginator->sortKey('AccountDomain') == 'AccountDomain.expires'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>">
 									<div class="content one_line">
 										<div class="direction_arrow"></div>
@@ -63,6 +68,10 @@
 										<div class="rightborder"></div>
 										<input type='radio' name='primary_domain' ng-model='primary_domain' ng-change='setDomainPrimary("<?php echo $domain['AccountDomain']['id']; ?>")' value='<?php echo $domain['AccountDomain']['id']; ?>' />
 									</td>
+									<td class="<?php if ($this->Paginator->sortKey('AccountDomain') == 'AccountDomain.type'): ?> curr<?php endif; ?>">
+										<div class="rightborder"></div>
+										<span><?php echo ucwords($domain['AccountDomain']['type']); ?></span>
+									</td>
 									<td class="<?php if ($this->Paginator->sortKey('AccountDomain') == 'AccountDomain.expires'): ?> curr<?php endif; ?>">
 										<div class="rightborder"></div>
 										<span><?php echo $this->Util->get_formatted_created_date($domain['AccountDomain']['expires']); ?></span>
@@ -77,6 +86,11 @@
 												<div ng-click='renewDomain("<?php echo $domain['AccountDomain']['id']; ?>")' class="add_button">
 													<div class="content"><?php echo __('Add 1 Year', true);?></div>
 													<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
+												</div>
+											<?php endif; ?>
+											<?php if ($domain['AccountDomain']['type'] !== 'system'): ?>
+												<div ng-click='confirm_delete_domain("<?php echo $domain['AccountDomain']['id']; ?>", "<?php echo $domain['AccountDomain']['url']; ?>")' class="add_button icon">
+													<div class="content">X</div>
 												</div>
 											<?php endif; ?>
 										</span>

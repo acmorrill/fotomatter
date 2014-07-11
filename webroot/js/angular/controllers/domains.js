@@ -75,6 +75,23 @@ var domains_index = function($scope, $modal, $http, domainUtil, errorUtil) {
 		});
 	};
 	
+	$scope.confirm_delete_domain = function(owned_domain, domain_url) {
+		var modal = $modal.open({
+			templateUrl: '/admin/domains/domain_confirm_delete/' + owned_domain,
+			windowClass : 'ui-dialog ui-widget ui-widget-content',
+			controller : 'delete_domain',
+			resolve: {
+				domain: function() {
+					return owned_domain;
+				},
+				is_renew: function() {
+					return true;
+				}
+			}
+		});
+	};
+	
+	
 	$scope.setDomainPrimary = function(domain_id) {
 		var toPost = {};
 		toPost.primary_domain_id = domain_id;
@@ -91,6 +108,25 @@ var domains_index = function($scope, $modal, $http, domainUtil, errorUtil) {
 };
 domains_index.$inject = ['$scope', '$modal', '$http', 'domainUtil', 'errorUtil'];
 
+var delete_domain = function($scope, AuthnetProfile, $http, generalUtil, domainUtil, $modalInstance, domain) {
+	$scope.external_domain = domain;
+
+	$scope.cancel = function() {
+		$modalInstance.dismiss('cancel');
+	};
+	
+	$scope.delete_domain = function() {
+		domainUtil.delete_domain($scope.external_domain).success(function(data, status) {
+			if (data.result) {
+				window.location.reload();
+			} else {
+				$scope.errorMessage = data.message;
+			}
+		});
+	};
+};
+delete_domain.$inject = ['$scope','AuthnetProfile', '$http', 'generalUtil', 'domainUtil', '$modalInstance', 'domain'];
+
 var add_external = function($scope, AuthnetProfile, $http, generalUtil, domainUtil, $modalInstance, domain) {
 	$scope.external_domain = domain;
 
@@ -106,7 +142,6 @@ var add_external = function($scope, AuthnetProfile, $http, generalUtil, domainUt
 	$scope.submit_external_domain = function() {
 		$scope.setStep('loading');
 		domainUtil.add_external_domain($scope.external_domain).success(function(data, status) {
-			console.log(data);
 			if (data.result) {
 				window.location.reload();
 			} else {
@@ -165,6 +200,7 @@ var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domai
 	$scope.cancel = function() {
 		$modalInstance.dismiss('cancel');
 	};
+
 	
 	$scope.submitPayment = function() {
 		$scope.setStep('loading');

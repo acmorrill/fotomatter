@@ -7,6 +7,50 @@ class AccountDomain extends AppModel {
 		$this->primary_domain_apc_key = 'primary_domain_'.$_SERVER['local']['database'];
 	}
 	
+	public function set_system_domain_as_primary() { 
+		$system_domain = $this->find('first', array(
+			'conditions' => array(
+				'AccountDomain.type' => 'system',
+			),
+			'contain' => false,
+		));
+
+		return $this->set_as_primary($system_domain['AccountDomain']['id']);
+	}
+	
+	public function set_as_primary($primary_domain_id) {
+		$new_primary_domain = $this->find('first', array(
+			'conditions' => array(
+				'AccountDomain.id' => $primary_domain_id,
+			),
+			'contain' => false
+		));
+		if (empty($new_primary_domain)) {
+			$this->major_error("Tried to set primary domain with id that doesn't exist, should never happen.", compact('new_primary_domain', 'primary_domain_id'));
+			return false;
+		}
+
+		$remove_primary_query = "
+			UPDATE account_domains SET is_primary = 0
+		";
+		if ($this->query($remove_primary_query) === false) {
+			$this->major_error('Failed remove all domains primary', compact('new_primary_domain', 'primary_domain_id'));
+			return false;
+		}
+
+
+
+		$new_primary_domain['AccountDomain']['is_primary'] = 1;
+		$this->create();
+		if ($this->save($new_primary_domain) === false) {
+			$this->major_error('Tried to set new domain as primary but the save failed', compact('new_primary_domain', 'primary_domain_id'));
+			return false;
+		}
+		
+		return true;
+	}
+	
+	
 	public function send_expired_domain_emails($data = array()) {
 		$three_months_from_now = date('Y-m-d H:i:s', strtotime('23:59:59', strtotime('+3 months')));
 		$account_domains = $this->find('all', array(
