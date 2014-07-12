@@ -303,7 +303,11 @@ $theme_config = array(
 /**
  * to create a theme
  * 
- * * Run cake theme add_theme (Todo paste example command)
+ * * Run cake theme add_theme (Todo paste example command) Name the theme and all that goodness.
+ * * db update. Take the code given to you by cake and add a file to the config folder( config- versioning- local- dev ....)
+ * * commit all your added files. 
+ * * Run cake db update
+ * * slap hands
  * * Make sure to copy all of logo_config section 
  * * All css must be named the same as the theme, to account for css cache. 
  * * Make sure all less that is not the main for the theme is a folder so it doesn't get compiled
