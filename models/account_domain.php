@@ -1,6 +1,12 @@
 <?php
 class AccountDomain extends AppModel {
 
+	public $hasMany = array(
+		'AccountSubDomain' => array(
+			'dependent' => true,
+		),
+	);
+	
 	public function __construct($id = false, $table = null, $ds = null) {
 		parent::__construct($id, $table, $ds);
 		
@@ -129,7 +135,6 @@ class AccountDomain extends AppModel {
 			$result = $primary_domain['AccountDomain']['url'];
 		}
 		
-		// DREW TODO - change this when build domain is part of default domains
 		if ($result === false) { // if no primary domain return the build domain
 			$this->SiteSetting = ClassRegistry::init('SiteSetting');
 			$site_domain = $this->SiteSetting->getVal('site_domain');

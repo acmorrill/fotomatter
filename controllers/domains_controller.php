@@ -7,7 +7,7 @@
  */
 class DomainsController extends Appcontroller {
 
-	public $uses = array('GlobalCountry', 'AccountDomain');
+	public $uses = array('GlobalCountry', 'AccountDomain', 'MajorError');
 	public $layout = 'admin/accounts';
 	public $components = array('NameCom', 'FotomatterBilling', 'FotomatterDomainManagement');
 	public $paginate = array(
@@ -515,12 +515,12 @@ class DomainsController extends Appcontroller {
 		
 		
 		$result = array();
-//		if ($this->AccountDomain->delete($account_domain_id) === false) { // DREW TODO - turn this back on
-//			$result['code'] = false;
-//			$result['message'] = 'Failed to delete domain.';
-//			$this->return_json($result);
-//			exit();
-//		}
+		if ($this->AccountDomain->delete($account_domain_id) === false) {
+			$result['code'] = false;
+			$result['message'] = 'Failed to delete domain.';
+			$this->return_json($result);
+			exit();
+		}
 		$result['code'] = true;
 		$result['message'] = 'Domain deleted.';
 		

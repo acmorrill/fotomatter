@@ -117,7 +117,7 @@ var delete_domain = function($scope, AuthnetProfile, $http, generalUtil, domainU
 	
 	$scope.delete_domain = function() {
 		domainUtil.delete_domain($scope.external_domain).success(function(data, status) {
-			if (data.result) {
+			if (data.code) {
 				window.location.reload();
 			} else {
 				$scope.errorMessage = data.message;
