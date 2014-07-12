@@ -1,0 +1,9 @@
+.content {
+  background-color: gray;
+}
+.content #logo_cont {
+  position: relative;
+}
+.content #mainName {
+  position: absolute;
+}
