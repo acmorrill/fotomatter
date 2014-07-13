@@ -56,12 +56,12 @@ class AccountDomain extends AppModel {
 		return true;
 	}
 	
-	
 	public function send_expired_domain_emails($data = array()) {
 		$three_months_from_now = date('Y-m-d H:i:s', strtotime('23:59:59', strtotime('+3 months')));
 		$account_domains = $this->find('all', array(
 			'conditions' => array(
 				'AccountDomain.expires <=' => $three_months_from_now,
+				'AccountDomain.type !=' => 'system',
 			),
 			'contain' => false,
 		));
@@ -124,8 +124,10 @@ class AccountDomain extends AppModel {
 			return apc_fetch($this->primary_domain_apc_key);
 		}
 		
+		$end_of_day_today = date('Y-m-d H:i:s', strtotime('23:59:59'));
 		$primary_domain = $this->find('first', array(
 			'conditions' => array(
+				'AccountDomain.expires >' => $end_of_day_today,
 				'AccountDomain.is_primary' => 1,
 			),
 			'contain' => false,

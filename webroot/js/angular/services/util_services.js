@@ -127,11 +127,5 @@ angular.module('fmAdmin.utilServices', ['fmAdmin.constants'])
 		self.handleError = function(serverResponse, code) {
 			major_error_recover('http request failed with a ' + code);
 		};
-		
-		self.then = function(response) {
-			if(response.status === 403) {
-				window.location.replace("/admin/users/login?ajax_autoredirect=" + serverConstants.REQUEST_URI);
-			}
-		};
 	});
 	

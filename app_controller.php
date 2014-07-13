@@ -50,6 +50,7 @@ class AppController extends Controller {
 				closedir($dirp);
 			}
 			//end invalide the view cache opcaches
+			
 			// clear cake view cache for site
 			clearCache();
 		}
@@ -80,7 +81,8 @@ class AppController extends Controller {
 		//////////////////////////////////////////////////////////////////////////
 		// redirect to primary domain if:
 		// 1) not already on primary
-		// 2) if don't need to redirect to ssl
+		// 2) primary is not expired
+		// 3) if don't need to redirect to ssl
 		$this->AccountDomain = ClassRegistry::init('AccountDomain');
 		$current_primary_domain = $this->AccountDomain->get_current_primary_domain();
 		$http_host = $_SERVER["HTTP_HOST"];
@@ -153,7 +155,7 @@ class AppController extends Controller {
 		}
 
 
-		// locking hash code
+		// ajax redirect code
 		if (isset($this->params['url']['ajax_autoredirect'])) {
 			$this->Session->write('Auth.redirect', $this->params['url']['ajax_autoredirect']);
 		}
@@ -171,6 +173,7 @@ class AppController extends Controller {
 		$this->Auth->authorize = 'controller';
 		//Restrict access to only users with an active account
 		$this->Auth->userScope = array('User.active = 1');
+		$this->Auth->ajaxLogin = 'admin/ajax_login';
 		//Pass auth component data over to view files
 		$this->set('Auth', $this->Auth->user());
 

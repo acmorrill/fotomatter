@@ -108,7 +108,7 @@ var domains_index = function($scope, $modal, $http, domainUtil, errorUtil) {
 };
 domains_index.$inject = ['$scope', '$modal', '$http', 'domainUtil', 'errorUtil'];
 
-var delete_domain = function($scope, AuthnetProfile, $http, generalUtil, domainUtil, $modalInstance, domain) {
+var delete_domain = function($scope, AuthnetProfile, $http, generalUtil, domainUtil, errorUtil, $modalInstance, domain) {
 	$scope.external_domain = domain;
 
 	$scope.cancel = function() {
@@ -125,9 +125,9 @@ var delete_domain = function($scope, AuthnetProfile, $http, generalUtil, domainU
 		});
 	};
 };
-delete_domain.$inject = ['$scope','AuthnetProfile', '$http', 'generalUtil', 'domainUtil', '$modalInstance', 'domain'];
+delete_domain.$inject = ['$scope','AuthnetProfile', '$http', 'generalUtil', 'domainUtil', 'errorUtil', '$modalInstance', 'domain'];
 
-var add_external = function($scope, AuthnetProfile, $http, generalUtil, domainUtil, $modalInstance, domain) {
+var add_external = function($scope, AuthnetProfile, $http, generalUtil, domainUtil, errorUtil, $modalInstance, domain) {
 	$scope.external_domain = domain;
 
 	$scope.setStep = function(step_name) {
@@ -151,9 +151,9 @@ var add_external = function($scope, AuthnetProfile, $http, generalUtil, domainUt
 		});
 	};
 };
-add_external.$inject = ['$scope','AuthnetProfile', '$http', 'generalUtil', 'domainUtil', '$modalInstance', 'domain'];
+add_external.$inject = ['$scope','AuthnetProfile', '$http', 'generalUtil', 'domainUtil', 'errorUtil', '$modalInstance', 'domain'];
 
-var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domainUtil, $modalInstance, domain, is_renew) {
+var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domainUtil, errorUtil, $modalInstance, domain, is_renew) {
 	$scope.is_renew = is_renew;
 	$scope.domain_to_purchase = domain;
 
@@ -318,4 +318,4 @@ var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domai
 		});
 	};
 };
-domain_checkout.$inject = ['$scope','AuthnetProfile', '$http', 'generalUtil', 'domainUtil', '$modalInstance', 'domain', 'is_renew'];
+domain_checkout.$inject = ['$scope','AuthnetProfile', '$http', 'generalUtil', 'domainUtil', 'errorUtil', '$modalInstance', 'domain', 'is_renew'];
