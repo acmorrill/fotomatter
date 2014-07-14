@@ -60,11 +60,11 @@ class DomainsController extends Appcontroller {
 		////////////////////////////////////////////////////////////
 		// FOR DEBUGGING - ONLY IN DEBUG MODE
 		$debugging = array();
-		if (Configure::read('debug') > 0) {
-			$debugging['hello'] = $this->NameCom->hello();
-			$debugging['account'] = $this->NameCom->get_account();
-			$debugging['list_domains'] = $this->NameCom->list_domains();
-		}
+//		if (Configure::read('debug') > 0) {
+//			$debugging['hello'] = $this->NameCom->hello();
+//			$debugging['account'] = $this->NameCom->get_account();
+//			$debugging['list_domains'] = $this->NameCom->list_domains();
+//		}
 
 		$this->set(compact(array('domains', 'primary_domain_id', 'debugging', 'total_external_domains')));
 	}
