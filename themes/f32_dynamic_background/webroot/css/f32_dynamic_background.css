@@ -1,9 +1,50 @@
-.content {
-  background-color: gray;
+body {
+  background-image: url(http://www.bobdentphotography.com/images/graphics/bkg.jpg);
+  background-repeat: no-repeat;
+  background-color: #999999;
+  background-position: 0% 0%;
+  font-family: 'Actor', sans-serif;
+}
+body .content #logo_cont {
+  position: relative;
+}
+body .content #mainName {
+  position: absolute;
+}
+body .content .outer_nav .nav #main_nav {
+  font-size: 12px;
+  text-transform: lowercase;
+  line-height: 24px;
+  text-align: right;
+  margin: 150px 26px 0 0;
+  width: 190px;
+  float: left;
+  color: #959595;
+}
+body .content .outer_nav .nav #main_nav ul {
+  list-style-type: none;
+}
+body .content .outer_nav .nav #main_nav ul li a {
+  color: #959595;
+  text-decoration: none;
+}
+body .content .outer_nav .nav #main_nav ul li a:hover {
+  color: #ffffff;
 }
 .content #logo_cont {
   position: relative;
 }
 .content #mainName {
   position: absolute;
+}
+.content .footer {
+  position: relative;
+  top: 180px;
+}
+.content .footer #footer_tagline {
+  font-size: 12px;
+}
+.content .footer #footer_tagline .footer_tagline_container_outer {
+  left: 35%;
+  margin-bottom: 0px;
 }
