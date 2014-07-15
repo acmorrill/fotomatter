@@ -67,6 +67,8 @@ class SitePagesController extends AppController {
 
 	public function admin_index() {
 		$this->HashUtil->set_new_hash('site_pages');
+
+		$this->layout = 'admin/sidebar_less';
 		
 		$site_pages = $this->SitePage->find('all', array(
 			'limit' => 100,
@@ -189,8 +191,6 @@ class SitePagesController extends AppController {
 	}
 	
 	public function admin_edit_page($id) {
-		$this->layout = 'admin/pages_configure';
-		
 		if ( empty($this->data) ) {
 			if (isset($id)) {
 				$this->data = $this->SitePage->find('first', array(
@@ -216,8 +216,6 @@ class SitePagesController extends AppController {
 	}
 	
 	public function admin_configure_page($page_id) {
-		$this->layout = 'admin/pages_configure';
-		
 		$this->data = $this->SitePage->find('first', array(
 			'conditions' => array(
 				'SitePage.id' => $page_id

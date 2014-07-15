@@ -127,6 +127,8 @@ class PhotoGalleriesController extends AppController {
 	}
 
 	public function admin_index() {
+		$this->layout = 'admin/sidebar_less';
+		
 		$galleries = $this->PhotoGallery->find('all', array(
 			'limit' => 100,
 			'contain' => false
