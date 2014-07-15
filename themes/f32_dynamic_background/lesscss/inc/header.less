@@ -1,5 +1,35 @@
-.content{   
-    background-color: gray;
-    #logo_cont{position: relative;}
-    #mainName{ position: absolute;}
+body{
+    background-image: url(http://www.bobdentphotography.com/images/graphics/bkg.jpg);
+    background-repeat: no-repeat;
+    background-color: @bg_color;
+    background-position: 0% 0%;
+    font-family: 'Actor', sans-serif;
+    .content{  
+        #logo_cont{position: relative;}
+        #mainName{ position: absolute;}
+        .outer_nav{
+            .nav{
+                #main_nav{    
+                    font-size: 12px;
+                    text-transform: lowercase;
+                    line-height: 24px;
+                    text-align: right;
+                    margin: 150px 26px 0 0;
+                    width: 190px;
+                    float: left;
+                    color: @menu_color; // This is for the "Home" that isn't a link
+                    ul{                        
+                        list-style-type: none;
+                        li{
+                            a{
+                                color: @menu_color;
+                                text-decoration: none;
+                                &:hover{ color: @hover_color;}
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }  
 }
