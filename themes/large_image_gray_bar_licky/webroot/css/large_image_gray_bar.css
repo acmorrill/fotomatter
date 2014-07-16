@@ -41,7 +41,7 @@ body .content .gallerywrapper .background .gallery .gallery_photos {
   margin-top: 15px;
 }
 body .content .gallerywrapper .background .gallery .gallery_photos .gallery_photo_size {
-  background-color: black;
+  background-color: #000000;
 }
 body .content .gallerywrapper .background .gallery .gallery_photos .gallery_photo_size,
 body .content .gallerywrapper .background .gallery .gallery_photos .gallery_photo_size td {

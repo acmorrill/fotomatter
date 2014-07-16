@@ -312,13 +312,13 @@ $theme_config = array(
 					'possible_values' => ".*\\\S+.*", // can be regex
 					'default_value' => 'default',
 				),
-				'setting_eight' => array(
+				'welcome_paragraph' => array(
 					'type' => 'textarea',
 					'display_name' => 'Text Area Test',
-					'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unch",
+					'description' => "Leave this blank if you do not wish to have a welcome paragraph. The space allows for 370 characters ",
 					'help_message' => 'Text Area Test',
 					'possible_values' => '.*\\\S+.*', // can be regex
-					'default_value' => 'default',
+					'default_value' => 'Welcome to my online gallery!',
 				),
 			)
 		)

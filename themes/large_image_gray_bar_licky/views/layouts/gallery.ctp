@@ -23,7 +23,7 @@
                         <?php echo $this->Element('gallery/gallery_image_lists/4_column_dymanic_view_gallery', array(
                                 'photos' => $photos,
                                 'image_max_size' => 150,
-								'crop' => $image_cropping,
+				'crop' => $image_cropping,
                         )); ?>
                     </div> 
                 </div>
