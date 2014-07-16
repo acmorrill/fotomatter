@@ -19,16 +19,14 @@
                 </div>					
             </div>
             <!-- The slideshow .js needs to be replaced-->
-            <div id="slide_show">
-                    <?php echo $this->Element('landing_slideshows/basic', array(
-                            'width' => 800,
-                            'height' => 540,
-                            'background_color' => '#efefef',
-                    )); ?>                    
+            <h1><?php echo "<b>", $curr_gallery['PhotoGallery']['display_name'], "</b>"; ?></h1>
+            <div class="gallery">
+                <?php echo $this->Element('gallery/gallery_image_lists/4_column_dymanic_view_gallery', array(
+                        'photos' => $photos,
+                        'image_max_size' => 250,
+                        //'crop' => $image_cropping,
+                )); ?>
             </div> 
-            <div class="welcome_paragraph">
-                <?php echo substr($welcome_paragraph, 0, 370); ?>
-            </div>
             <div class="footer">
                 <div class="inner_footer">
                     <?php echo $this->Element('global_theme_footer_copyright'); ?>

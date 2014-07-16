@@ -39,7 +39,7 @@ body .content .outer_nav .nav #main_nav ul li a:hover {
 }
 .content .footer {
   position: relative;
-  top: 180px;
+  top: 30px;
 }
 .content .footer #footer_tagline {
   font-size: 12px;
@@ -47,4 +47,26 @@ body .content .outer_nav .nav #main_nav ul li a:hover {
 .content .footer #footer_tagline .footer_tagline_container_outer {
   left: 35%;
   margin-bottom: 0px;
+}
+.welcome_paragraph {
+  font-family: 'Actor', sans-serif;
+  position: relative;
+  top: 20px;
+  left: 240px;
+  width: 700px;
+  font-size: 13px;
+}
+#landing_slide_show_container {
+  right: 6px;
+}
+.welcome_paragraph {
+  font-family: 'Actor', sans-serif;
+  position: relative;
+  top: 20px;
+  left: 240px;
+  width: 700px;
+  font-size: 13px;
+}
+#landing_slide_show_container {
+  right: 6px;
 }
