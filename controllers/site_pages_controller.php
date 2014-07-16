@@ -67,6 +67,8 @@ class SitePagesController extends AppController {
 
 	public function admin_index() {
 		$this->HashUtil->set_new_hash('site_pages');
+
+		$this->layout = 'admin/sidebar_less';
 		
 		$site_pages = $this->SitePage->find('all', array(
 			'limit' => 100,
