@@ -10,7 +10,8 @@ var domains_index = function($scope, $modal, $http, domainUtil, errorUtil) {
 			validated_external_domain = validated_external_domain[0];
 			var modal = $modal.open({
 				templateUrl: '/admin/domains/add_external_domain_confirm',
-				windowClass : 'ui-dialog ui-widget ui-widget-content',
+				backdrop: true,
+				windowClass : 'ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable',
 				controller : 'add_external',
 				resolve: {
 					domain: function() {
@@ -46,7 +47,8 @@ var domains_index = function($scope, $modal, $http, domainUtil, errorUtil) {
 	$scope.buyDomain = function(domain) {
 		var modal = $modal.open({
 			templateUrl: '/admin/domains/domain_checkout',
-			windowClass : 'ui-dialog ui-widget ui-widget-content',
+			backdrop: true,
+			windowClass : 'ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable',
 			controller : 'domain_checkout',
 			resolve: {
 				domain: function() {
@@ -62,7 +64,8 @@ var domains_index = function($scope, $modal, $http, domainUtil, errorUtil) {
 	$scope.renewDomain = function(owned_domain) {
 		var modal = $modal.open({
 			templateUrl: '/admin/domains/domain_renew_checkout/' + owned_domain,
-			windowClass : 'ui-dialog ui-widget ui-widget-content',
+			backdrop: true,
+			windowClass : 'ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable',
 			controller : 'domain_checkout',
 			resolve: {
 				domain: function() {
@@ -75,14 +78,18 @@ var domains_index = function($scope, $modal, $http, domainUtil, errorUtil) {
 		});
 	};
 	
-	$scope.confirm_delete_domain = function(owned_domain, domain_url) {
+	$scope.confirm_delete_domain = function(account_domain_id, account_domain_url) {
 		var modal = $modal.open({
-			templateUrl: '/admin/domains/domain_confirm_delete/' + owned_domain,
-			windowClass : 'ui-dialog ui-widget ui-widget-content',
+			templateUrl: '/admin/domains/domain_confirm_delete/' + account_domain_id,
+			backdrop: true,
+			windowClass : 'ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable',
 			controller : 'delete_domain',
 			resolve: {
-				domain: function() {
-					return owned_domain;
+				domain_id: function() {
+					return account_domain_id;
+				},
+				domain_url: function() {
+					return account_domain_url;
 				},
 				is_renew: function() {
 					return true;
@@ -108,14 +115,21 @@ var domains_index = function($scope, $modal, $http, domainUtil, errorUtil) {
 };
 domains_index.$inject = ['$scope', '$modal', '$http', 'domainUtil', 'errorUtil'];
 
-var delete_domain = function($scope, AuthnetProfile, $http, generalUtil, domainUtil, errorUtil, $modalInstance, domain) {
-	$scope.external_domain = domain;
+var delete_domain = function($scope, AuthnetProfile, $http, generalUtil, domainUtil, errorUtil, $modalInstance, domain_id, domain_url) {
+	$scope.external_domain = domain_id;
+	$scope.domain_url = domain_url;
+
+	$scope.setStep = function(step_name) {
+		$scope.currentStep = step_name;
+	};
+	$scope.setStep('confirm_delete');
 
 	$scope.cancel = function() {
 		$modalInstance.dismiss('cancel');
 	};
 	
 	$scope.delete_domain = function() {
+		$scope.setStep('loading');
 		domainUtil.delete_domain($scope.external_domain).success(function(data, status) {
 			if (data.code) {
 				window.location.reload();
@@ -125,7 +139,7 @@ var delete_domain = function($scope, AuthnetProfile, $http, generalUtil, domainU
 		});
 	};
 };
-delete_domain.$inject = ['$scope','AuthnetProfile', '$http', 'generalUtil', 'domainUtil', 'errorUtil', '$modalInstance', 'domain'];
+delete_domain.$inject = ['$scope','AuthnetProfile', '$http', 'generalUtil', 'domainUtil', 'errorUtil', '$modalInstance', 'domain_id', 'domain_url'];
 
 var add_external = function($scope, AuthnetProfile, $http, generalUtil, domainUtil, errorUtil, $modalInstance, domain) {
 	$scope.external_domain = domain;

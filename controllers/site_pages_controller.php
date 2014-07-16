@@ -189,6 +189,8 @@ class SitePagesController extends AppController {
 	}
 	
 	public function admin_edit_page($id) {
+		$this->layout = 'admin/pages_configure';
+		
 		if ( empty($this->data) ) {
 			if (isset($id)) {
 				$this->data = $this->SitePage->find('first', array(
@@ -214,6 +216,8 @@ class SitePagesController extends AppController {
 	}
 	
 	public function admin_configure_page($page_id) {
+		$this->layout = 'admin/pages_configure';
+		
 		$this->data = $this->SitePage->find('first', array(
 			'conditions' => array(
 				'SitePage.id' => $page_id

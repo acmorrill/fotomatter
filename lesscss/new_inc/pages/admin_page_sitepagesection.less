@@ -1,0 +1,79 @@
+// start configure page */
+#configure_page_cont {
+	.tiny_mce_test { display: none; }
+	.page_content_header {
+		overflow: hidden;
+		margin-bottom: 16px;
+		h2 { margin-bottom: 0px; }
+	}
+	.page_content_cont {
+		position: relative;
+		margin-bottom: 100px;
+		min-height: 500px;
+		.page_content_inner_cont {
+			position: relative;
+			margin-top: 40px;
+			margin-bottom: 40px;
+			width: 763px;
+			margin-left: auto;
+			margin-right: auto;
+			.page_element_cont {
+				margin: 25px;
+				position: relative;
+				min-height: 50px;
+			}
+			.reorder_page_grabber {
+				cursor: move;
+			}
+			.page_element_top_section {
+				padding: 18px;
+				background-color: @dark-background;
+				min-height: 60px;
+			}
+			.page_element_bottom_section .custom_ui_radio {
+				margin-bottom: 7px;
+			}
+		}
+	}
+	.avail_page_elements_cont {
+		float: left;
+		width: 200px;
+		margin-right: 30px;
+		.content-background {
+			width: auto;
+		}
+		.avail_element_cont {
+			position: relative;
+			margin: 30px auto;
+			text-align: center;
+			// IE 8
+			-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+			// IE 5-7 
+			filter: alpha(opacity=80);
+			// Netscape
+			-moz-opacity: 0.8;
+			// Safari 1.x 
+			-khtml-opacity: 0.8;
+			// Good browsers 
+			opacity: 0.8;
+			&:hover { 
+				// IE 8
+				-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+				// IE 5-7 
+				filter: alpha(opacity=100);
+				// Netscape 
+				-moz-opacity: 1;
+				// Safari 1.x 
+				-khtml-opacity: 1;
+				// Good browsers 
+				opacity: 1;
+				//cursor: url(/img/admin/icons/HARDWARE.cur), url(/img/admin/icons/HARDWARE.cur), default;
+				cursor: pointer;
+			}
+			.icon_div {
+				width: 155px; height: 116px; display: inline-block;
+			}
+		}
+	}
+}
+// end configure page 

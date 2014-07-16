@@ -266,11 +266,19 @@
 		setup_page_element_delete('#configure_page_cont .page_content_cont');
 	});
 </script>
-<?php echo $this->Element('/admin/get_help_button'); ?>
-			<div style="clear: both;"></div> 
 <div id="confirm_delete_page_element" class="dialog_confirm custom_dialog" title="<?php __('Remove Page Element'); ?>">
 	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span><?php __('Permenently delete page element?'); ?></p>
 </div>
+
+
+<h1>Configure Page
+	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
+</h1>
+<p>
+	What is this page anyhow?
+</p>
+<div style="clear: both;"></div> 
+
 
 <div id="configure_page_cont" class="clear">
 	<div class="avail_page_elements_cont">
@@ -287,7 +295,10 @@
 			<?php endforeach; ?>
 		</div>
 	</div>
-	<div class="page_content_cont content-background">
+	<div class="page_content_header">
+		<h2>Select a Dimension and Format</h2>
+	</div>
+	<div class="page_content_cont generic_palette_container">
 		<?php echo $this->Element('page_elements/list_admin_page_elements', array(compact(
 			'sitePagesSitePageElements'
 		))); ?>
