@@ -17,11 +17,9 @@
 									<?php endforeach; ?>
 								<?php else: ?>
 									<li class="sub_menu_item hover highlight">
-										Empty-Add menu items <span class="extra"></span>
+										Empty - Add menu items <span class="extra"></span>
 									</li>
 								<?php endif; ?>
-								
-								
 							</ul>
 						</li>
 					<?php else: ?>

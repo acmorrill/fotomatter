@@ -6,12 +6,13 @@ class SitePage extends AppModel {
 		'SitePagesSitePageElement' => array(
 			'dependent' => true
 		),
-		'SiteTwoLevelMenu' => array(
-			'dependent' => true
-		),
-		'SiteTwoLevelMenuContainerItem' => array(
-			'dependent' => true
-		)
+		// these are both rightly done in the beforeDelete
+//		'SiteTwoLevelMenu' => array( 
+//			'dependent' => true
+//		),
+//		'SiteTwoLevelMenuContainerItem' => array(
+//			'dependent' => true
+//		),
 	);
 	public $actsAs = array('Ordered' => array('foreign_key' => false));
 	
@@ -54,5 +55,14 @@ class SitePage extends AppModel {
 		} else {
 			return false;
 		}
+	}
+	
+	public function count_pages_of_type($type) {
+		return $this->find('count', array(
+			'conditions' => array(
+				'SitePage.type' => $type,
+			),
+			'contain' => false
+		));
 	}
 }

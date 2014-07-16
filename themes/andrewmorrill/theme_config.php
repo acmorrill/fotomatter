@@ -16,6 +16,10 @@ $theme_config = array(
 				'layout' => 'custom_page',
 				'view' => 'custom_page',
 			),
+			'contact_us' => array(
+				'layout' => 'custom_page',
+				'view' => 'contact',
+			),
 		),
 		'PhotoGalleries' => array(
 			'choose_gallery' => array(

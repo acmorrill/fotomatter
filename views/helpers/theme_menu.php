@@ -91,7 +91,14 @@ class ThemeMenuHelper extends AppHelper {
 			case 'SitePage':
 				$data['name'] = $all_menu_item_data['SitePage']['title'];
 				$data['display_type'] = __('Page', true);
-				$data['url'] = '/site_pages/custom_page/'.$menu_item['external_id'];
+				if ($all_menu_item_data['SitePage']['type'] == 'custom') {
+					$data['url'] = '/site_pages/custom_page/'.$menu_item['external_id'];
+				} else if ($all_menu_item_data['SitePage']['type'] == 'contact_us') {
+					$data['url'] = '/site_pages/contact_us/'.$menu_item['external_id'];
+				} else if ($all_menu_item_data['SitePage']['type'] == 'external') {
+					$data['target_blank'] = true;
+					$data['url'] = $all_menu_item_data['SitePage']['external_link'];
+				}
 				break;
 			case 'SiteTwoLevelMenuContainer':
 				$data['name'] = $all_menu_item_data['SiteTwoLevelMenuContainer']['display_name'];

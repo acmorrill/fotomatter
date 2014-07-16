@@ -10,8 +10,8 @@
 				case 'external':
 					window.location = '/admin/site_pages/add_external_page';
 					break;
-				default:
-					// DREW TODO - handle smart pages here (or above)
+				case 'contact_us':
+					window.location = '/admin/site_pages/add_contact_us_page';
 					break;
 			}
 		});
@@ -23,7 +23,7 @@
 	<select class="add_page_select">
 		<option value="custom"><?php __('Custom'); ?></option>
 		<option value="external"><?php __('External'); ?></option>
-		<option value="smart"><?php __('Smart'); ?></option>
+		<option value="contact_us"><?php __('Contact Us'); ?></option>
 	</select>
 	<input id="add_new_page_button" class="add_button" type="submit" value="<?php __('Go'); ?>" />
 </div>

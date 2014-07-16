@@ -531,7 +531,7 @@ class PhotoGalleriesController extends AppController {
 			$this->Session->setFlash(__('Gallery deleted successfully.', true), 'admin/flashMessage/success');
 		} else {
 			$this->Session->setFlash(__('Failed to delete gallery.', true), 'admin/flashMessage/error');
-			$this->Photo->major_error('Failed to delete photo gallery in admin_delete_gallery', compact($gallery_id));
+			$this->Photo->major_error('Failed to delete photo gallery in admin_delete_gallery', compact('gallery_id'));
 		}
 		
 		

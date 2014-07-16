@@ -7,6 +7,10 @@
 	if (isset($this->data['SitePage']['type']) && $this->data['SitePage']['type'] == 'external') {
 		echo $this->Form->input('external_link');
 	}
+	if (isset($this->data['SitePage']['type']) && $this->data['SitePage']['type'] == 'contact_us') {
+		echo $this->Form->input('contact_header');
+		echo $this->Form->input('contact_message');
+	}
 	echo $this->Form->end('Save'); 
 ?>
 

@@ -2,7 +2,10 @@
 class SitePagesController extends AppController { 
 	public $name = 'SitePages'; 
 	public $uses = array(
-		'SitePage', 'SitePageElement', 'SitePagesSitePageElement'
+		'SiteSetting', 
+		'SitePage', 
+		'SitePageElement', 
+		'SitePagesSitePageElement'
 	);
 	public $helpers = array(
 		'Page',
@@ -17,7 +20,7 @@ class SitePagesController extends AppController {
 
 		$this->layout = 'admin/pages';
 		
-		$this->Auth->allow('landing_page', 'custom_page', 'htaccess');
+		$this->Auth->allow('landing_page', 'custom_page', 'htaccess', 'contact_us', 'send_contact_us_email');
 		
 		/////////////////////////////////////////////
 		// limit pages
@@ -25,10 +28,10 @@ class SitePagesController extends AppController {
 			'admin_index',
 		))) {
 			$this->FeatureLimiter->limit_view($this, 'page_builder', 'page_builder'); // $controller, $feature_ref_name, $element_path in /elements/admin/limit_views
-		} else if(!in_array($this->action, array(
+		} else if(!in_array($this->action, array( // this allowed no matter what
 			'ping',
 			'landing_page',
-		))) {
+		))) { // everything else allowed only if have page feature
 			$this->FeatureLimiter->limit_function($this, 'page_builder'); // $controller, $feature_ref_name
 		} 
 	}
@@ -63,6 +66,27 @@ class SitePagesController extends AppController {
 	
 		$this->set(compact('site_page_id', 'site_page'));
 		$this->ThemeRenderer->render($this);
+	}
+	
+	public function contact_us($site_page_id) {
+		$this->setup_front_end_view_cache($this);
+		
+		$site_page = $this->SitePage->find('first', array(
+			'conditions' => array(
+				'SitePage.id' => $site_page_id
+			),
+			'contain' => false,
+		));
+	
+		$this->set(compact('site_page_id', 'site_page'));
+		$this->ThemeRenderer->render($this);
+	}
+	public function send_contact_us_email($site_page_id) {
+		print_r($this->data['SitePage']);
+		exit();
+		
+		
+		$this->redirect("/site_pages/contact_us/$site_page_id");
 	}
 
 	public function admin_index() {
@@ -177,11 +201,11 @@ class SitePagesController extends AppController {
 		$new_page = array();
 		$new_page['SitePage']['title'] = 'External Page';
 		$new_page['SitePage']['type'] = 'external';
-		$new_page['SitePage']['external_link'] = 'www.externalsite.com';
+		$new_page['SitePage']['external_link'] = 'http://www.externalsite.com';
 		
 		$this->SitePage->create();
 		if (!$this->SitePage->save($new_page)) {
-			$this->Session->setFlash('Failed to create new external page');
+			$this->Session->setFlash('Failed to create new external page', 'admin/flashMessage/error');
 			$this->SitePage->major_error('Failed to create new external page in (admin_add_external_page) in site_pages_controller.php', compact('new_page'));
 			$this->redirect('/admin/site_pages');
 		} else {
@@ -190,29 +214,54 @@ class SitePagesController extends AppController {
 		}
 	}
 	
+	public function admin_add_contact_us_page() {
+		// check to see if there is a contact us page already
+		if ($this->SitePage->count_pages_of_type('contact_us') > 0) {
+			$this->Session->setFlash('Failed to create new contact us page.', 'admin/flashMessage/error');
+			$this->SitePage->major_error('tried to create duplicate contact us page in site_pages_controller.php', array());
+			$this->redirect('/admin/site_pages');
+		}
+		
+		$new_page = array();
+		$new_page['SitePage']['title'] = 'Contact';
+		$new_page['SitePage']['type'] = 'contact_us';
+		$first_name = $this->SiteSetting->getVal('first_name', '');
+		$last_name = $this->SiteSetting->getVal('last_name', '');
+		$new_page['SitePage']['contact_header'] = sprintf(__("Contact %s %s", true), $first_name, $last_name);
+		$new_page['SitePage']['contact_message'] = __("Please fill out the form below to contact me.", true);
+		
+		$this->SitePage->create();
+		if (!$this->SitePage->save($new_page)) {
+			$this->Session->setFlash('Failed to create new contact us page', 'admin/flashMessage/error');
+			$this->SitePage->major_error('Failed to create contact us page in (admin_contact_us_page) in site_pages_controller.php', compact('new_page'));
+			$this->redirect('/admin/site_pages');
+		} else {
+			$this->redirect('/admin/site_pages/edit_page/'.$this->SitePage->id);
+		}
+	}
+	
 	public function admin_edit_page($id) {
-		if ( empty($this->data) ) {
-			if (isset($id)) {
-				$this->data = $this->SitePage->find('first', array(
-					'conditions' => array(
-						'SitePage.id' => $id
-					),
-					'contain' => false
-				));
-			}
- 		} else {
+		if ( !empty($this->data) ) {
 			// set or unset the id (depending on if its an edit or add)
 			$this->data['SitePage']['id'] = $id;
 			
 
 			if (!$this->SitePage->save($this->data)) {
 				$this->SitePage->major_error('failed to save page in edit page', $this->data);
-				$this->Session->setFlash('Failed to save page');
+				$this->Session->setFlash('Failed to save page', 'admin/flashMessage/error');
 			} else {
-				$this->Session->setFlash('Page saved');
+				$this->Session->setFlash('Page saved', 'admin/flashMessage/success');
 			}
-		}
+ 		}
 		
+		if (isset($id)) {
+			$this->data = $this->SitePage->find('first', array(
+				'conditions' => array(
+					'SitePage.id' => $id
+				),
+				'contain' => false
+			));
+		}
 	}
 	
 	public function admin_configure_page($page_id) {
@@ -253,6 +302,23 @@ class SitePagesController extends AppController {
 		}
 		
 		$this->return_json($returnArr);
+	}
+	
+	public function admin_delete_page($page_id = null) {
+		if ($page_id == null) {
+			 $this->redirect('/admin/site_pages');
+		}
+		
+		
+		if ($this->SitePage->delete($page_id)) {
+			$this->Session->setFlash(__('Page deleted successfully.', true), 'admin/flashMessage/success');
+		} else {
+			$this->Session->setFlash(__('Failed to delete page.', true), 'admin/flashMessage/error');
+			$this->Photo->major_error('Failed to delete page in admin_delete_page', compact('page_id'));
+		}
+		
+		
+		$this->redirect('/admin/site_pages');
 	}
 	
 	public function admin_ajax_remove_page_element($site_pages_site_page_element_id) {
