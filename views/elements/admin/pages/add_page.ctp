@@ -23,7 +23,8 @@
 	<select class="add_page_select">
 		<option value="custom"><?php __('Custom'); ?></option>
 		<option value="external"><?php __('External'); ?></option>
-		<option value="contact_us"><?php __('Contact Us'); ?></option>
+		<?php $contact_us_count = $this->Page->count_pages_of_type("contact_us"); ?>
+		<option value="contact_us" <?php if ($contact_us_count > 0): ?>disabled="disabled"<?php endif; ?>><?php __('Contact Us'); ?></option>
 	</select>
 	<input id="add_new_page_button" class="add_button" type="submit" value="<?php __('Go'); ?>" />
 </div>

@@ -4,6 +4,39 @@ class FotomatterEmailComponent extends Object {
 	
 	public $from_email = FOTOMATTER_SUPPORT_EMAIL;
 	
+	
+	public function send_end_user_contact_us_email(&$controller, $end_user_data) {
+		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+		
+		$account_email = $this->SiteSetting->getVal('account_email', false);
+		$site_domain = $this->SiteSetting->getVal('site_domain', false);
+		$website_url = $site_domain . ".fotomatter.net";
+		$controller->set(compact('account_email', 'website_url', 'end_user_data'));
+		
+		if ($account_email === false) {
+			$controller->major_error('failed to send end user contact us email 1', compact('website_url', 'end_user_data'));
+			return false;
+		}
+		
+		$controller->Postmark->delivery = 'postmark';
+		$controller->Postmark->from = "<$this->from_email>";
+		$controller->Postmark->replyTo = "<{$end_user_data['contact_us_email']}>";
+		$controller->Postmark->to = "<$account_email>";
+		$controller->Postmark->subject = "fotomatter.net contact email from {$end_user_data['contact_us_name']} ({$end_user_data['contact_us_email']})";
+		$controller->Postmark->template = 'end_user_contact_us';
+		$controller->Postmark->sendAs = 'html'; // because we like to send pretty mail
+		$controller->Postmark->tag = 'frontend_contact_us';
+		$result = $controller->Postmark->send();
+
+		if (!isset($result['ErrorCode']) || $result['ErrorCode'] != 0) {
+			$controller->major_error('failed to send end user contact us email 2', compact('result', 'website_url', 'end_user_data'));
+			return false;
+		}
+		
+		return true;
+	}
+	
+	
 	public function send_cron_working_email(&$controller) {
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
 		
@@ -30,7 +63,6 @@ class FotomatterEmailComponent extends Object {
 		}
 	}
 	
-	// DREW TODO - upgrade this to work with admin users (and change the layout for admin users)
 	public function send_forgot_password_email(&$controller, $change_password_user) {
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
 		$site_domain = $this->SiteSetting->getVal('site_domain', false);

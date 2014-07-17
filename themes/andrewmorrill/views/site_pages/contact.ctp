@@ -1,5 +1,6 @@
 <?php //debug($site_page); ?>
 
+<?php echo $this->Session->flash(); ?>
 <div class="site_element">
 	<?php if (!empty($site_page['SitePage']['contact_header'])): ?>
 		<h2><b><?php echo $site_page['SitePage']['contact_header']; ?></b></h2>
@@ -25,7 +26,7 @@
 			<textarea name="data[SitePage][contact_us_content]" cols="30" rows="6" id="ContactUsContent"></textarea>
 		</div>
 		<div class="submit">
-			<input type="submit" value="Save">
+			<input type="submit" value="Send">
 		</div>
 	</form>
 </div>

@@ -1,5 +1,11 @@
 <?php
 class PageHelper extends AppHelper {
+
+	function __call($method_name, $args) {
+		$this->SitePage = ClassRegistry::init('SitePage');
+		
+		return call_user_func_array(array($this->SitePage, $method_name), $args);
+	}
 	
 	public function get_avail_page_elements() {
 		$this->SitePageElement = ClassRegistry::init('SitePageElement');

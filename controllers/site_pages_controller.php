@@ -82,10 +82,29 @@ class SitePagesController extends AppController {
 		$this->ThemeRenderer->render($this);
 	}
 	public function send_contact_us_email($site_page_id) {
-		print_r($this->data['SitePage']);
-		exit();
+		//check input
+		try {
+			$this->Validation->validate('not_empty', $this->data['SitePage'], 'contact_us_name', __('You must provide your name', true));
+			$this->Validation->validate('not_empty', $this->data['SitePage'], 'contact_us_email', __('You must provide an email address', true));
+			$this->Validation->validate('valid_email', $this->data['SitePage'], 'contact_us_email', __('Email address invalid', true));
+			$this->Validation->validate('not_empty', $this->data['SitePage'], 'contact_us_content', __('You must provide a message', true));
+		} catch (Exception $e) {
+			$this->Session->setFlash($e->getMessage(), 'admin/flashMessage/error');
+			$this->redirect("/site_pages/contact_us/$site_page_id");
+			exit();
+		}
 		
 		
+		////////////////////////////////////////////
+		// send the actual email
+		if ($this->FotomatterEmail->send_end_user_contact_us_email($this, $this->data['SitePage']) === false) {
+			$this->Session->setFlash("Failed to send email", 'admin/flashMessage/error');
+			$this->redirect("/site_pages/contact_us/$site_page_id");
+			exit();
+		}
+		
+		
+		$this->Session->setFlash("Email sent", 'admin/flashMessage/success');
 		$this->redirect("/site_pages/contact_us/$site_page_id");
 	}
 
@@ -288,7 +307,7 @@ class SitePagesController extends AppController {
 		));
 		
 		
-		$this->set(compact('page_id', 'sitePagesSitePageElements'));
+		$this->set(compact('page_id', 'sitePagesSitePageElements', 'contact_us_count'));
 	}
 	
 	public function admin_ajax_set_page_element_order($site_pages_site_page_element_id, $order) {
