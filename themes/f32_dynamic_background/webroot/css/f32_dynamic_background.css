@@ -1,7 +1,7 @@
 body {
   background-image: url(http://www.bobdentphotography.com/images/graphics/bkg.jpg);
   background-repeat: no-repeat;
-  background-color: #999999;
+  background-color: #c1c1c1;
   background-position: 0% 0%;
   font-family: 'Actor', sans-serif;
 }
@@ -69,4 +69,36 @@ body .content .outer_nav .nav #main_nav ul li a:hover {
 }
 #landing_slide_show_container {
   right: 6px;
+}
+h1 {
+  font-size: 14px;
+  line-height: 18px;
+  margin-top: 40px;
+  margin-left: 247px;
+}
+#gallery_list_table {
+  margin-left: 250px;
+  margin-top: 15px;
+  width: 280px;
+}
+#gallery_list_table .galleries {
+  margin-left: 20px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+#gallery_list_table .galleries .gallery_image_a_link .gallery_image_actual_image {
+  background-color: white;
+  padding: 8px;
+}
+#gallery_list_table .galleriesLink {
+  font-size: 14px;
+  overflow: hidden;
+  height: 34px;
+}
+#gallery_list_table .galleriesLink a {
+  text-decoration: none;
+  color: black;
+}
+#gallery_list_table .galleriesLink a:hover {
+  color: white;
 }
