@@ -85,6 +85,19 @@ class Theme extends AppModel {
 		
 		return $curr_theme['Theme']['id'];
 	}
+	public function get_current_theme() {
+		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+		$current_theme_ref_name = $this->SiteSetting->getVal('current_theme');
+		
+		$curr_theme = $this->find('first', array(
+			'conditions' => array(
+				'Theme.ref_name' => $current_theme_ref_name
+			),
+			'contain' => false
+		));
+		
+		return $curr_theme;
+	}
 	
 	public function add_theme_display_name($theme_name, $add_theme_display_name, $parent_theme_name = null) {
 		$parent_theme_id = 0;
