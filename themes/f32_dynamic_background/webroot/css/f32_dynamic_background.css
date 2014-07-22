@@ -103,6 +103,8 @@ h1 {
   color: white;
 }
 .gallerywrapper .gallery img {
+  position: relative;
+  right: 5px;
   width: 800px;
   height: 540px;
 }
@@ -116,4 +118,21 @@ h1 {
 }
 .gallerywrapper .view_page_paragraph ul {
   list-style: none;
+}
+.gallerywrapper .view_page_paragraph h1 {
+  position: relative;
+  right: 210px;
+  width: 700px;
+}
+.gallerywrapper .prev_next {
+  position: absolute;
+  top: 110px;
+  right: 560px;
+}
+.gallerywrapper .prev_next ul {
+  list-style: none;
+}
+.gallerywrapper .prev_next ul li {
+  display: inline-block;
+  margin-right: 2px;
 }

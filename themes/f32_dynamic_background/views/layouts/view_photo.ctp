@@ -20,7 +20,7 @@
                             <?php $img_src = $this->Photo->get_photo_path($curr_photo['Photo']['id'], 700, 700, .4, true); ?>
                             <img src="<?php echo $img_src['url']; ?>" <?php echo $img_src['tag_attributes']; ?> alt="<?php echo $curr_photo['Photo']['alt_text']; ?>" />
                         </div>
-                    <?php if (!empty($curr_photo['Photo']['description'])): ?>
+						<?php if (!empty($curr_photo['Photo']['description'])): ?>
                         <div class="view_page_paragraph">
                         <h1>"<?php echo $curr_photo['Photo']['display_title']; ?>"</h1>
                         <ul class="<?php echo $accent_colors; ?>">
@@ -52,7 +52,7 @@
                         </ul>
                         <?php endif; ?>
                     <ul>
-                        <li><strong><?php __('Galleries'); ?></strong></li>
+                        <!--<li><strong><?php __('Galleries'); ?></strong></li>
                                 <?php $galleries = $this->Gallery->get_all_galleries(); ?>
                                 <?php foreach ($galleries as $the_curr_gallery): ?>
                             <li>
@@ -60,7 +60,7 @@
                             <?php echo $the_curr_gallery['PhotoGallery']['display_name']; ?>
                                 </a>
                             </li>
-                    <?php endforeach; ?>
+                    <?php endforeach; ?>-->
                     </ul>
                 </div><!--sidebar --> 
                 <div class="prev_next">  
