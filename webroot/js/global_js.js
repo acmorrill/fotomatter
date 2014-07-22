@@ -12,6 +12,10 @@ var verticle_sortable_defaults = {
  *Global start up behavio
  ****/
 jQuery(document).ready(function() {
+	jQuery('a.disabled, .disabled a').click(function(e) { 
+		e.preventDefault();
+	});
+	
 	jQuery('.add_feature_button').click(function() {
 		var ref_feature_name = jQuery(this).attr('ref_feature_name');
 		window.location.href = '/admin/accounts/index/' + ref_feature_name;

@@ -51,8 +51,9 @@ class ThemeCentersController extends AppController {
 		$avail_settings_list = $this->viewVars['theme_config']['admin_config']['theme_avail_custom_settings']['settings'];
 		
 		$theme_id = $this->Theme->get_current_theme_id();
+		$current_theme = $this->Theme->get_current_theme();
 		
-		$this->set(compact('avail_settings_list', 'theme_id'));
+		$this->set(compact('avail_settings_list', 'theme_id', 'current_theme'));
 	}
 	
 	public function admin_main_menu() {

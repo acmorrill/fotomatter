@@ -1,12 +1,19 @@
-<h1>Theme Settings
-	<?php echo $this->Element('/admin/get_help_button'); ?>
-</h1>
-<p>
-	This is the theme settings page - cool right? Kent- "SO SO cool!"
-</p>
+<?php
+	$theme_name = "";
+	if (!empty($current_theme['Theme']['display_name'])) {
+		$theme_name = ' <span style="font-size: 24px;">(' . $current_theme['Theme']['display_name'] . ')</span>';
+	}
+?>
+
 <?php if (empty($avail_settings_list)): ?>
-	<h1><?php __('The current theme has no custom settings'); ?></h1>
+	<h1><?php echo sprintf(__('No Settings For Theme %s', true), $theme_name); ?></h1>
 <?php else: ?>
+	<h1>Theme Settings <?php echo $theme_name; ?>
+		<?php echo $this->Element('/admin/get_help_button'); ?>
+	</h1>
+	<p>
+		This is the theme settings page - cool right? Kent- "SO SO lame!"
+	</p>
 	<?php echo $this->Element('admin/theme_center/theme_settings/theme_settings_list', compact('avail_settings_list', 'theme_id')); ?>
 <?php endif; ?>
 

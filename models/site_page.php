@@ -43,6 +43,10 @@ class SitePage extends AppModel {
 		return true;
 	}
 	
+	public function get_total_pages() {
+		return $this->find('count');
+	}
+	
 	public function add_element_to_page($site_page_id, $site_page_element_id, $config) {
 		$data['SitePagesSitePageElement']['site_page_id'] = $site_page_id;
 		$data['SitePagesSitePageElement']['site_page_element_id'] = $site_page_element_id;

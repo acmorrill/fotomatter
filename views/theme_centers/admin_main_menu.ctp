@@ -1,3 +1,10 @@
+<?php
+	$starting_tab = 0;
+	if (isset($theme_config['admin_config']['main_menu']['levels']) && $theme_config['admin_config']['main_menu']['levels'] == 2) {
+		$starting_tab = 1;
+	}
+?>
+
 <div  id="configure_main_menu_cont">
 	<?php echo $this->Element('/admin/get_help_button'); ?>
 	<div style="clear: both;"></div>
@@ -8,6 +15,7 @@
 				'Tier Two Menu' => 'admin/theme_center/main_menu/two_level_menu_listing',
 			),
 			'css' => 'margin-top: -26px;',
+			'starting_tab' => $starting_tab,
 		));
 	?>
 
@@ -29,6 +37,8 @@
 </div>
 
 <div class="clear"></div>
+
+
 
 <?php ob_start(); ?>
 <ol>This page is used to build the menu for the theme.

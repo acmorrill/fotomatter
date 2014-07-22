@@ -1,10 +1,14 @@
-<?php $uuid = $this->Util->uuid(); ?>
+<?php 
+	$uuid = $this->Util->uuid(); 
+	if (!isset($starting_tab)) {
+		$starting_tab = 0;
+	}
+?>
 
 
 <script type="text/javascript">
 	jQuery(document).ready(function() {
-		jQuery('#<?php echo $uuid; ?> .sub_submenu_tab_cont:first').show();
-		
+		jQuery('#<?php echo $uuid; ?> .sub_submenu_tab_cont:nth-child(<?php echo $starting_tab + 1; ?>)').show();
 		
 		jQuery('#<?php echo $uuid; ?> .sub_submenu_left_cont .sub_submenu_tab').click(function() {
 			jQuery('#<?php echo $uuid; ?> .sub_submenu_tab').removeClass('selected');
@@ -18,12 +22,11 @@
 	
 	
 </script>
-
 <div id="<?php echo $uuid; ?>" class="sub_submenu_cont" style="<?php echo isset($css) ? $css : ''; ?>">
 	<div class="sub_submenu_left_cont" data-step="2" data-intro="<?php echo __('All themes have menus. Some have one tier menu and others two tier menus. One tier menus are single links while two tier menus have a dropdown menu system. ', true); ?>" data-position="left">
 		<div class="sub_menu_bottom_border"></div>
 		<?php $count = 0; foreach ($tabs as $tab_name => $tab): ?>
-			<div class="sub_submenu_tab <?php if ($count == 0): ?>selected<?php endif; ?>">
+			<div class="sub_submenu_tab <?php if ($count == $starting_tab): ?>selected<?php endif; ?>">
 				<div class="sub_menu_tab_right_angle_side"></div>
 				<div class="sub_menu_tab_border_bottom"></div>
 				<div class="content"><?php echo $tab_name; ?></div>
