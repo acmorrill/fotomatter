@@ -102,3 +102,37 @@ h1 {
 #gallery_list_table .galleriesLink a:hover {
   color: white;
 }
+.gallerywrapper .gallery img {
+  position: relative;
+  right: 5px;
+  width: 800px;
+  height: 540px;
+}
+.gallerywrapper .view_page_paragraph {
+  font-family: 'Actor', sans-serif;
+  position: relative;
+  top: 20px;
+  left: 180px;
+  width: 700px;
+  font-size: 13px;
+}
+.gallerywrapper .view_page_paragraph ul {
+  list-style: none;
+}
+.gallerywrapper .view_page_paragraph h1 {
+  position: relative;
+  right: 210px;
+  width: 700px;
+}
+.gallerywrapper .prev_next {
+  position: absolute;
+  top: 110px;
+  right: 560px;
+}
+.gallerywrapper .prev_next ul {
+  list-style: none;
+}
+.gallerywrapper .prev_next ul li {
+  display: inline-block;
+  margin-right: 2px;
+}
