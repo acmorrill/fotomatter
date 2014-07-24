@@ -39,7 +39,15 @@ a * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.o
  *     'locales' => array('/full/path/to/locale/', '/next/full/path/to/locale/')
  * ));
  *
- i*/
+ */
+
+
+// site_default_images
+define("SITE_DEFAULT_CONTAINER_NAME", 'site_default_images'); 
+define("SITE_DEFAULT_CONTAINER_URL", 'http://5b3fca59f2744e30ab19-83f12fdaaac179c142328b923267ceea.r18.cf2.rackcdn.com'); 
+define("SITE_DEFAULT_CONTAINER_SECURE_URL", 'https://d8da4ad7f3fcaf47b7ae-83f12fdaaac179c142328b923267ceea.ssl.cf2.rackcdn.com'); 
+
+
 
 define("FOTOMATTER_SUPPORT_EMAIL", 'support@fotomatter.net'); 
 

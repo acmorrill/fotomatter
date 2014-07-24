@@ -346,12 +346,18 @@ class PhotoCache extends AppModel {
 			return;
 		}
 
+		$container_url = ClassRegistry::init("SiteSetting")->getImageContainerUrl();
+		if ($photoCache['Photo']['is_globally_shared'] == 1) {
+			$container_url = ClassRegistry::init("SiteSetting")->get_site_default_container_url();
+		}
 		
 		if (is_writable(TEMP_IMAGE_PATH)) {
 			if ($photoCache['PhotoCache']['max_height'] <= SMALL_MASTER_CACHE_SIZE && $photoCache['PhotoCache']['max_width'] <= SMALL_MASTER_CACHE_SIZE) {
 				if (!file_exists(LOCAL_SMALLER_MASTER_CACHE.DS.$photoCache['Photo']['cdn-filename-smaller-forcache'])) {
+					$cdn_filename_smaller_forcache = $container_url.$photoCache['Photo']['cdn-filename-smaller-forcache'];
+					
 					copy( // from cloud files to local (only happens if not used for a while)
-						ClassRegistry::init("SiteSetting")->getImageContainerUrl().$photoCache['Photo']['cdn-filename-smaller-forcache'], 
+						$cdn_filename_smaller_forcache, 
 						LOCAL_SMALLER_MASTER_CACHE.DS.$photoCache['Photo']['cdn-filename-smaller-forcache']
 					);
 				} 
@@ -359,8 +365,10 @@ class PhotoCache extends AppModel {
 				$large_image_url = LOCAL_SMALLER_MASTER_CACHE.DS.$photoCache['Photo']['cdn-filename-smaller-forcache'];
 			} else {
 				if (!file_exists(LOCAL_MASTER_CACHE.DS.$photoCache['Photo']['cdn-filename-forcache'])) {
+					$cdn_filename_forcache = $container_url.$photoCache['Photo']['cdn-filename-forcache'];
+					
 					copy( // from cloud files to local (only happens if not used for a while)
-						ClassRegistry::init("SiteSetting")->getImageContainerUrl().$photoCache['Photo']['cdn-filename-forcache'], 
+						$cdn_filename_forcache, 
 						LOCAL_MASTER_CACHE.DS.$photoCache['Photo']['cdn-filename-forcache']
 					);
 				} 
@@ -369,8 +377,10 @@ class PhotoCache extends AppModel {
 			}
 			
 			
+			// grab the crop to put into cdn-filename
+			$crop_str = ($photoCache['PhotoCache']['crop'] == '1') ? 'crop' : 'nocrop';
 			
-			$cache_image_name = $cache_prefix.$max_height_display.'x'.$max_width_display.'_'.$photoCache['Photo']['cdn-filename'];
+			$cache_image_name = $cache_prefix.$max_height_display.'x'.$max_width_display."_".$crop_str."_".$photoCache['Photo']['cdn-filename'];
 			$new_cache_image_path = TEMP_IMAGE_PATH.DS.$cache_image_name;
                         
 			$unsharp_amount = null;
@@ -380,7 +390,7 @@ class PhotoCache extends AppModel {
 			
 			
 			if ($this->convert($large_image_url, $new_cache_image_path, $max_width, $max_height, true, $unsharp_amount, $photoCache['PhotoCache']['crop']) == false) {
-				$this->major_error('failed to create new cache file in finish_create_cache', array($large_image_url, $new_cache_image_path, $max_width, $max_height));
+				$this->major_error('failed to create new cache file in finish_create_cache', compact('large_image_url', 'new_cache_image_path', 'max_width', 'max_height'));
 				$photoCache['PhotoCache']['status'] = 'failed';
 				$this->save($photoCache);
 				if ( !empty($photoCache['PhotoCache']['max_height']) || !empty($photoCache['PhotoCache']['max_width']) ) {

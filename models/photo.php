@@ -89,10 +89,15 @@ class Photo extends AppModel {
 			"conditions" => array("Photo.id" => $this->id),
 			'contain' => false
 		));
-                		
-		if (isset($photo['Photo']['cdn-filename'])) {
-			$dthis->CloudFiles = $this->get_cloud_file();
-			
+            
+		
+		$globally_shared = false;
+		if ($photo['Photo']['is_globally_shared'] == 1) {
+			$globally_shared = true;
+		}
+		
+		if (!$globally_shared && isset($photo['Photo']['cdn-filename'])) {
+			$this->CloudFiles = $this->get_cloud_file();
 			
 			if (!$this->CloudFiles->delete_object($photo['Photo']['cdn-filename'])) {
 				$this->major_error("failed to delete object cdn-filename in photo before delete", $photo['Photo']['cdn-filename']);
@@ -100,23 +105,25 @@ class Photo extends AppModel {
 		}
 		
 		if (isset($photo['Photo']['cdn-filename-forcache'])) {
-			$this->CloudFiles = $this->get_cloud_file();
-			
-			if (!$this->CloudFiles->delete_object($photo['Photo']['cdn-filename-forcache'])) {
-				$this->major_error("failed to delete object cdn-filename-forcache in photo before delete", $photo['Photo']['cdn-filename-forcache']);
+			if (!$globally_shared) {
+				$this->CloudFiles = $this->get_cloud_file();
+				if (!$this->CloudFiles->delete_object($photo['Photo']['cdn-filename-forcache'])) {
+					$this->major_error("failed to delete object cdn-filename-forcache in photo before delete", $photo['Photo']['cdn-filename-forcache']);
+				}
 			}
 			
-			unlink(LOCAL_MASTER_CACHE.DS.$photo['Photo']['cdn-filename-forcache']);
+			@ unlink(LOCAL_MASTER_CACHE.DS.$photo['Photo']['cdn-filename-forcache']);
 		}
 		
 		if (isset($photo['Photo']['cdn-filename-smaller-forcache'])) {
-			$this->CloudFiles = $this->get_cloud_file();
+			if (!$globally_shared) {
+				$this->CloudFiles = $this->get_cloud_file();
+				if (!$this->CloudFiles->delete_object($photo['Photo']['cdn-filename-smaller-forcache'])) {
+					$this->major_error("failed to delete object cdn-filename-smaller-forcache in photo before delete", $photo['Photo']['cdn-filename-smaller-forcache']);                                
+				}
+			}
 			
-			if (!$this->CloudFiles->delete_object($photo['Photo']['cdn-filename-smaller-forcache'])) {
-                            $this->major_error("failed to delete object cdn-filename-smaller-forcache in photo before delete", $photo['Photo']['cdn-filename-smaller-forcache']);                                
-                        }
-			
-			unlink(LOCAL_SMALLER_MASTER_CACHE.DS.$photo['Photo']['cdn-filename-smaller-forcache']);
+			@ unlink(LOCAL_SMALLER_MASTER_CACHE.DS.$photo['Photo']['cdn-filename-smaller-forcache']);
 		}
 		
 		return true;
@@ -448,6 +455,7 @@ class Photo extends AppModel {
 			'PhotoCache.max_width' => $width,
 			'PhotoCache.crop' => ($crop === true) ? 1 : 0,
 		);
+		
 		
 		$photoCache = $this->PhotoCache->find('first', array(
 			'conditions' => $conditions,

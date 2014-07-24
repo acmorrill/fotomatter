@@ -7,20 +7,23 @@ class SiteSetting extends AppModel {
 	}
 	
 	public function getImageContainerUrl() {
-		$imageContainerUrl = $this->getVal('image-container-url');
-		if (empty($imageContainerUrl)) {
-			return '';
+		if (empty($_SERVER['HTTPS'])) {
+			$imageContainerUrl = $this->getVal('image-container-url', '');
+		} else {
+			$imageContainerUrl = $this->getVal('image-container-secure_url', '');
 		}
 		
 		return trim($imageContainerUrl, '/').'/';
 	}
-	public function getImageContainerSecureUrl() {
-		$imageContainerSecureUrl = $this->getVal('image-container-secure_url');
-		if (empty($imageContainerSecureUrl)) {
-			return '';
+	
+	public function get_site_default_container_url() {
+		if (empty($_SERVER['HTTPS'])) {
+			$imageContainerUrl = SITE_DEFAULT_CONTAINER_URL;
+		} else {
+			$imageContainerUrl = SITE_DEFAULT_CONTAINER_SECURE_URL;
 		}
 		
-		return trim($imageContainerSecureUrl, '/').'/';
+		return trim($imageContainerUrl, '/').'/';
 	}
 	
 	public function getVal ($name, $default = false) {
