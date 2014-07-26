@@ -102,16 +102,19 @@ h1 {
 #gallery_list_table .galleriesLink a:hover {
   color: white;
 }
+.gallerywrapper .gallery {
+  margin-bottom: -20px;
+}
 .gallerywrapper .gallery img {
   position: relative;
-  right: 5px;
+  right: 6px;
   width: 800px;
   height: 540px;
 }
 .gallerywrapper .view_page_paragraph {
   font-family: 'Actor', sans-serif;
   position: relative;
-  top: 20px;
+  top: 0px;
   left: 180px;
   width: 700px;
   font-size: 13px;
@@ -126,8 +129,9 @@ h1 {
 }
 .gallerywrapper .prev_next {
   position: absolute;
-  top: 110px;
-  right: 560px;
+  top: 124px;
+  right: 580px;
+  font-size: 12px;
 }
 .gallerywrapper .prev_next ul {
   list-style: none;
@@ -135,4 +139,11 @@ h1 {
 .gallerywrapper .prev_next ul li {
   display: inline-block;
   margin-right: 2px;
+}
+.gallerywrapper .cart_bottom ul {
+  min-width: 969px;
+  list-style: none;
+}
+.gallerywrapper .cart_bottom ul li {
+  display: block;
 }
