@@ -47,6 +47,7 @@ body .content .outer_nav .nav #main_nav ul li a:hover {
 .content .footer #footer_tagline .footer_tagline_container_outer {
   left: 35%;
   margin-bottom: 0px;
+  clear: both;
 }
 .welcome_paragraph {
   font-family: 'Actor', sans-serif;
@@ -116,7 +117,7 @@ h1 {
   position: relative;
   top: 0px;
   left: 180px;
-  width: 700px;
+  width: 600px;
   font-size: 13px;
 }
 .gallerywrapper .view_page_paragraph ul {
@@ -139,11 +140,20 @@ h1 {
 .gallerywrapper .prev_next ul li {
   display: inline-block;
   margin-right: 2px;
+  color: #cccccc;
+}
+.gallerywrapper .prev_next ul li a {
+  color: #cccccc;
+  text-decoration: none;
+}
+.gallerywrapper .prev_next ul li a:hover {
+  color: #ffffff;
+}
+.gallerywrapper .cart_bottom {
+  position: absolute;
+  right: 595px;
+  top: 695px;
 }
 .gallerywrapper .cart_bottom ul {
-  min-width: 969px;
   list-style: none;
-}
-.gallerywrapper .cart_bottom ul li {
-  display: block;
 }

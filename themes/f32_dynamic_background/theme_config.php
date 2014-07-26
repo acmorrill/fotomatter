@@ -40,8 +40,8 @@ $theme_config = array(
 		),
 		'Ecommerces' => array(
 			'view_cart' => array(
-				'layout' => 'custom_page',
-				'view' => false,
+				'layout' => 'cart',
+				'view' => 'view_cart',
 			),
 			'checkout_login_or_guest' => array(
 				'layout' => 'custom_page',

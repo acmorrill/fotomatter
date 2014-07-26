@@ -35,7 +35,7 @@
                 <?php endif; ?>
                 <div class="cart_bottom">
                     <ul>
-                        <li><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></li>
+<!--                        <li><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></li>-->
                     </ul>
                     <?php $photo_sellable_prints = $this->Photo->get_enabled_photo_sellable_prints($photo_id); ?>
                     <?php if (!empty($photo_sellable_prints)): ?>
@@ -67,11 +67,10 @@
                     <ul>
                         <?php $prev_image_web_path = $this->Photo->get_prev_image_web_path($curr_photo['Photo']['id'], $curr_gallery['PhotoGallery']['id']); ?>
                         <?php $next_image_web_path = $this->Photo->get_next_image_web_path($curr_photo['Photo']['id'], $curr_gallery['PhotoGallery']['id']); ?>
-                        <li <?php echo $accent_colors; ?>><< previous<a href="<?php echo $prev_image_web_path; ?>"></a>&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</li>                        
-                        <li <?php echo $accent_colors; ?>>next<a href="<?php echo $next_image_web_path; ?>"></a> >></li>                        
+                        <li <?php echo $accent_colors; ?>><a href="<?php echo $prev_image_web_path; ?>"><< previous</a>&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</li>                        
+                        <li <?php echo $accent_colors; ?>><a href="<?php echo $next_image_web_path; ?>">next >></a></li>                        
                     </ul>
-                </div><!--right_sidebar-->
-
+                </div><!--/prev_next-->
             </div>
             <div class="footer">
                 <div class="inner_footer">
