@@ -1,47 +1,63 @@
 .gallerywrapper{
-    
-.gallery{
 
-    img{
-		position: relative;
-		right: 5px;
-        width: 800px;
-        height: 540px;
+    .gallery{
+        margin-bottom: -20px;
+        img{
+            position: relative;
+            right: 6px;
+            width: 800px;
+            height: 540px;
+        }
     }
-}
     .view_page_paragraph{
         font-family: 'Actor', sans-serif;
         position: relative;
-        top: 20px;
+        top: 0px;
         left: 180px;
-        width: 700px;
+        width: 600px;
         font-size: 13px;
         ul{
             list-style: none;
         }
-		h1{
-			position: relative;
-			right: 210px;
-			width: 700px;
-			
-		}
+        h1{
+            position: relative;
+            right: 210px;
+            width: 700px;
+
+        }
     }
     .prev_next{
-		position: absolute;
-		top: 110px;
-		right: 560px;
-		ul{
-			list-style: none;
-			li{
-				display: inline-block;
-				margin-right: 2px;
-			}
-		}
-		
-        
-    }
-    
-}
-    
-    
+        position: absolute;
+        top: 124px;
+        right: 580px;
+        font-size: 12px;
+        ul{
+            list-style: none;
+            li{
+                display: inline-block;
+                margin-right: 2px;
+                color: @next_pre;
+                a{
+                    color: @next_pre;
+                    text-decoration: none;
+                    &:hover{ color: @hover_color;}
+                }
+            }
+        }
 
+    }
+    .cart_bottom{
+        position: relative;
+        left: 795px;
+        top: 15px;
+        ul{       
+            list-style: none;
+        }
+    }
+
+}
+
+
+
+//Make it so that there is a little box at the bottom of the image that will be made with css so if the image is vertical you can better see the image behind the gallery. 
+//Andrew said that the 2 colume and 4 colume and so on are set up to be smart and know what to do it the image is square or pano and so on. Check this out.
