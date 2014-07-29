@@ -44,11 +44,11 @@ $theme_config = array(
 				'view' => 'view_cart',
 			),
 			'checkout_login_or_guest' => array(
-				'layout' => 'custom_page',
+				'layout' => 'login_or_guest',
 				'view' => false,
 			),
 			'checkout_get_address' => array(
-				'layout' => 'custom_page',
+				'layout' => 'address',
 				'view' => false,
 			),
 			'checkout_finalize_payment' => array(

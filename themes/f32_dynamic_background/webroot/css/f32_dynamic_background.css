@@ -31,20 +31,14 @@ body .content .outer_nav .nav #main_nav ul li a {
 body .content .outer_nav .nav #main_nav ul li a:hover {
   color: #ffffff;
 }
-.content #logo_cont {
-  position: relative;
-}
-.content #mainName {
-  position: absolute;
-}
-.content .footer {
+.footer {
   position: relative;
   top: 30px;
 }
-.content .footer #footer_tagline {
+.footer #footer_tagline {
   font-size: 12px;
 }
-.content .footer #footer_tagline .footer_tagline_container_outer {
+.footer #footer_tagline .footer_tagline_container_outer {
   left: 35%;
   margin-bottom: 0px;
   clear: both;
@@ -150,10 +144,88 @@ h1 {
   color: #ffffff;
 }
 .gallerywrapper .cart_bottom {
-  position: absolute;
-  right: 595px;
-  top: 695px;
+  position: relative;
+  left: 795px;
+  top: 15px;
 }
 .gallerywrapper .cart_bottom ul {
   list-style: none;
+}
+#cart_table {
+  height: auto;
+  border-collapse: collapse;
+  margin-top: 30px;
+  text-align: center;
+  width: 700px;
+  margin-left: 249px;
+}
+#cart_table thead tr th {
+  border-bottom: 1px solid #666666;
+  border-top: 1px solid #cccccc;
+}
+#cart_table thead tr th.total {
+  border-right: 1px solid #666666;
+  background-color: #cccccc;
+}
+#cart_table thead tr th.image {
+  border-left: 1px solid #666666;
+  background-color: #cccccc;
+}
+#cart_table thead tr th.price {
+  background-color: #cccccc;
+}
+#cart_table thead tr th.qty {
+  background-color: #cccccc;
+}
+#cart_table tbody {
+  border-bottom: 1px solid #666666;
+  background-color: #ffffff;
+}
+#cart_table tbody tr td.total {
+  border-right: 1px solid #666666;
+  border-left: 1px solid #666666;
+  border-bottom: 1px solid #666666;
+}
+#cart_table tbody tr td.image {
+  border-left: 1px solid #666666;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-top: 12px;
+  border: 1px solid #666666;
+  height: 100px;
+}
+#cart_table tbody tr td.image img {
+  float: left;
+  margin-left: 10px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+#cart_table tbody tr td.price {
+  border-left: 1px solid #666666;
+  border-bottom: 1px solid #666666;
+}
+#cart_table tbody tr td.qty {
+  border-left: 1px solid #666666;
+  border-bottom: 1px solid #666666;
+}
+#cart_table tfoot {
+  color: #000000;
+}
+#cart_table tfoot tr td {
+  padding-top: 10px;
+  padding-bottom: 40px;
+  padding-right: 40px;
+  line-height: 25px;
+}
+#cart_table tfoot tr td button {
+  margin-top: 20px;
+  height: 40px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-size: 15px;
+  color: ;
+}
+#cart_table tfoot tr td button:hover {
+  cursor: pointer;
+  color: #333333;
 }

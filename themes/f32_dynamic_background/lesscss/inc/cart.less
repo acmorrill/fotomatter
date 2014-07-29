@@ -1,38 +1,40 @@
-
-#cart_table {
-    color: @black;
-    width: 100%;
+#cart_table{
     height: auto;
     border-collapse: collapse;
     margin-top: 30px;
     text-align: center;
+    width: 700px;
+    margin-left: 249px;
     thead{
 
         tr{
             th{
                 border-bottom: 1px solid @gray;
-                border-top: 1px solid @title;
+                border-top: 1px solid @table_header;
                 &.total{
                     border-right: 1px solid @gray;
-                    background-color: @title;
+                    background-color: @table_header;
                 }
                 &.image{
                     border-left: 1px solid @gray;
-                    background-color: @title;
+                    background-color:@table_header;
+                    ;
 
                 }
                 &.price{
-                    background-color: @title;
+                    background-color: @table_header;
+                    ;
 
                 }
                 &.qty{
-                    background-color: @title;
+                    background-color: @table_header;
+                    ;
 
                 }
 
             }
         }
-    }
+    }    
     tbody{
         border-bottom: 1px solid @gray;
         background-color: @white;
@@ -52,7 +54,6 @@
                     border: 1px solid @gray;
                     height: 100px;
                     img{
-                        border: 1px solid @black;
                         float: left;
                         margin-left: 10px;
                         margin-bottom: 5px;
@@ -73,7 +74,7 @@
         }
     }
     tfoot{
-        color: @white;
+        color: @black;
         tr{
             td{	
                 padding-top: 10px;	
@@ -83,8 +84,6 @@
 
                 button{
                     margin-top:20px;
-                    //border: 1px solid #32373b;
-                    background-color: @button;
                     height: 40px;
                     padding-left: 15px;
                     padding-right: 15px;
@@ -92,15 +91,10 @@
                     color: @header;
                     &:hover{
                         cursor: pointer;
-                        //background-color: @red;
-                        color: @white;
+                        color: @button_hover;
                     }
                 }
             }
         }
     }
 }
-
-
-
-

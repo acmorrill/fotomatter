@@ -1,40 +1,40 @@
 .footer{
-	width: 100%;
-	background-color: @black;
-	color: @gray;
-	height: 50px;
-	line-height: 45px;
-	position: fixed;
-	bottom: 0px;
-	left: 0px;
-	//outline: 1px solid red;
-	.inner_footer{
-		position: relative;
-		top: 8px;
-		float: left;
-		margin-left: 40px;
-		background-color: inherit;
-		font-size: 12px;
-		z-index: 1100;
-		line-height: 45;
-		//outline: 1px solid red;
-		#footer_tagline {
-			margin-top: 0px;
-			.footer_tagline_container_outer{
-				margin-bottom: 0px;
-			}
-                        .footer_tagline_container_inner{
-                            &, a{
-                                color: @gray;
-                            }
-                            
-                        }
-		}
-	}
-	
+    width: 100%;
+    background-color: @black;
+    color: @gray;
+    height: 50px;
+    line-height: 45px;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    //outline: 1px solid red;
+    .inner_footer{
+        position: relative;
+        top: 8px;
+        float: left;
+        margin-left: 40px;
+        background-color: inherit;
+        font-size: 12px;
+        z-index: 1100;
+        line-height: 45;
+        //outline: 1px solid red;
+        #footer_tagline {
+            margin-top: 0px;
+            .footer_tagline_container_outer{
+                margin-bottom: 0px;
+            }
+            .footer_tagline_container_inner{
+                &, a{
+                    color: @gray;
+                }
+
+            }
+        }
+    }
+
 }
 
 #controls-wrapper {
-	bottom: 45px;
-	background: none;
+    bottom: 45px;
+    background: none;
 }
