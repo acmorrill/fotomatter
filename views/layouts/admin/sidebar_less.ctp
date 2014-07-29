@@ -9,7 +9,7 @@
 <div id="main" class="no_subnav">
 	<div id="header">
 		<?php echo $this->Element('admin/logo'); ?>
-		<?php echo $this->Element('admin/menu', array( 'curr_page' => 'pages' )); ?>
+		<?php echo $this->Element('admin/menu', array( 'curr_page' => $curr_page )); ?>
 	</div>
 	<div id="middle" class="rounded-corners">
 		<?php echo $this->Session->flash(); ?>

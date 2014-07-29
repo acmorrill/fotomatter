@@ -46,8 +46,9 @@ class PhotoAvailSize extends AppModel {
 		));
 		$pano_format_ids = Set::extract('/PhotoFormat/id', $pano_formats);
 		
-		$this->query('TRUNCATE TABLE photo_avail_sizes');
 		
+		
+		$this->query('TRUNCATE TABLE photo_avail_sizes');
 		foreach ($defaults as $default) {
 			$new_photo_avail_size = array();
 			$new_photo_avail_size['short_side_length'] = $default['short_size'];
@@ -60,6 +61,16 @@ class PhotoAvailSize extends AppModel {
 			$this->create();
 			$this->save($new_photo_avail_size);
 		}
+		
+		
+		//  make sure setting the default also removes items from photo_avail_sizes_photo_print_types
+		$query = "
+			DELETE FROM photo_avail_sizes_photo_print_types
+			WHERE photo_avail_size_id NOT IN (
+				SELECT id FROM photo_avail_sizes
+			)
+		";
+		$this->PhotoAvailSizesPhotoPrintType->query($query);
 	}
 	
 	public function get_used_short_side_values() {

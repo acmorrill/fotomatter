@@ -10,6 +10,10 @@
 				}
 			});
 		});
+		
+		jQuery('#add_new_printsize_button').click(function() {
+			jQuery(this).closest('form').submit();
+		});
 	});
 </script>
 
@@ -19,14 +23,6 @@
 <p>
 	<?php echo __('Presented are the sizes available to you and it is a complete list of the print size that you sell. You will need to make a Print Type to go along with the Print Size to match the available sizes. That is done in the “Manage Print Types and Default Pricing” tab on the left hand side of the page.', true); ?>
 </p>
-
-<script type="text/javascript">
-	jQuery(document).ready(function() {
-		jQuery('#add_new_printsize_button, #reset_printsize_button').click(function() {
-			jQuery(this).closest('form').submit();
-		});
-	});
-</script>
 
 <div class="right">
 	<div class="add_gallery_element custom_ui" style="margin: 5px; margin-bottom: 15px;">
@@ -42,75 +38,78 @@
 	</div>
 </div>
 <div class="clear"></div>
-<?php //debug($photo_avail_sizes); ?>
-<?php if (!empty($photo_avail_sizes)): ?>
-	<?php /*<div class="table_header">
-		<label class="inline"><?php __('Available Print Sizes:'); ?></label> 
-	</div> */ ?>
-	<div class="table_container"data-step="1" data-intro="<?php echo __('Presented are the sizes available to you and it is a complete list of the print size that you sell. You will need to make a Print Type to go along with the Print Size to match the available sizes. That is done in the “Manage Print Types and Default Pricing” tab on the left hand side of the page.', true); ?>" data-position="left">
-		<div class="fade_background_top"></div>
-		<div class="table_top"></div>
-		<table class="list">
-			<thead>
-				<tr> 
-					<th class="first dimension_col">
-						<div class="content one_line">
-							<?php __('Dimension'); ?>
-						</div>
-					</th> 
-					<th class="format_col">
-						<div class="content one_line">
-							<?php __('Format(s)'); ?>
-						</div>
-					</th> 
-					<th class="last actions_call">
-					</th>
-				</tr> 
-			</thead>
-			<tbody>
-				<tr class="spacer"><td colspan="3"></td></tr>
-				<?php 
-					$count = 1; 
-					$total = count($photo_avail_sizes);
-				?>
-				<?php foreach($photo_avail_sizes as $photo_avail_size): ?> 
-					<?php 
-						$edit_help_code = '';
-						$size_help_code = '';
-						if ($count === 1) {
-							$edit_help_code = 'data-step="3" data-intro="'.__('The edit button allows you to make changes the the print size. Such as landscape vs panoramic and so on.', true).'" data-position="bottom"';
-							$size_help_code = 'data-step="2" data-intro="'.__('The short side is the dimension of the shorter side of an image depending on the format. For example, the short side of a landscape is the height while the short side of a vertical panoramic is the width. The long side will be calculated based on the actual image depending on the format.', true).'" data-position="bottom"';
-						}
-					?>
-					
-					<tr photo_avail_size_id="<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>" class="<?php echo ($count === 1) ? " first " : ""; ?><?php echo ($count === $total) ? " last " : ""; ?>" >
-						<td <?php echo $size_help_code; ?> class="first">
-							<div class="rightborder"></div>
-							<span><?php echo $photo_avail_size['PhotoAvailSize']['short_side_length']; ?> x --</span>
-						</td>
-						<td>
-							<div class="rightborder"></div>
-							<span style="display: inline-block;">
-								<?php $formats = Set::extract('/PhotoFormat/display_name', $photo_avail_size); ?>
-								<?php echo implode(' / ', $formats) ?>
-							</span>
-						</td>
-						<td class="last table_actions">
-							<div class="rightborder"></div>
-							<span class="custom_ui">
-								<a href="/admin/ecommerces/add_print_size/<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>/"><div class="add_button" <?php echo $edit_help_code; ?> ><div class="content"><?php echo __('Edit',true);?></div><div class="right_arrow_lines"><div></div></div></div></a>
-								<a href="/admin/ecommerces/delete_print_size/<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>/"><div class="add_button icon"><div class="content">X</div></div></a>
 
-							</span>
-						</td>
-					</tr>
-				<?php $count++; endforeach; ?> 
-			</tbody>
-		</table>
-	</div>
-<?php else: ?>
-	<h1><?php __('You have not added any sizes yet.'); ?></h1>
-<?php endif; ?>
+<div class="table_container" data-step="1" data-intro="<?php echo __('Presented are the sizes available to you and it is a complete list of the print size that you sell. You will need to make a Print Type to go along with the Print Size to match the available sizes. That is done in the “Manage Print Types and Default Pricing” tab on the left hand side of the page.', true); ?>" data-position="left">
+	<div class="fade_background_top"></div>
+	<div class="table_top"></div>
+	<table class="list">
+		<thead>
+			<tr> 
+				<th class="first dimension_col">
+					<div class="content one_line">
+						<?php echo __('Dimension', true); ?>
+					</div>
+				</th> 
+				<th class="format_col">
+					<div class="content one_line">
+						<?php echo __('Format(s)', true); ?>
+					</div>
+				</th> 
+				<th class="last actions_call">
+				</th>
+			</tr> 
+		</thead>
+		<tbody>
+			<tr class="spacer"><td colspan="3"></td></tr>
+
+			<?php if (empty($photo_avail_sizes)): ?>
+				<tr class="first last">
+					<td class="first last" colspan="3">
+						<div class="rightborder"></div>
+						<span>You have not added any print sizes yet.</span>
+					</td>
+				</tr>
+			<?php endif; ?>
+
+			<?php 
+				$count = 1; 
+				$total = count($photo_avail_sizes);
+			?>
+			<?php foreach($photo_avail_sizes as $photo_avail_size): ?> 
+				<?php 
+					$edit_help_code = '';
+					$size_help_code = '';
+					if ($count === 1) {
+						$edit_help_code = 'data-step="3" data-intro="'.__('The edit button allows you to make changes the the print size. Such as landscape vs panoramic and so on.', true).'" data-position="bottom"';
+						$size_help_code = 'data-step="2" data-intro="'.__('The short side is the dimension of the shorter side of an image depending on the format. For example, the short side of a landscape is the height while the short side of a vertical panoramic is the width. The long side will be calculated based on the actual image depending on the format.', true).'" data-position="bottom"';
+					}
+				?>
+
+				<tr photo_avail_size_id="<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>" class="<?php echo ($count === 1) ? " first " : ""; ?><?php echo ($count === $total) ? " last " : ""; ?>" >
+					<td <?php echo $size_help_code; ?> class="first">
+						<div class="rightborder"></div>
+						<span><?php echo $photo_avail_size['PhotoAvailSize']['short_side_length']; ?> x --</span>
+					</td>
+					<td>
+						<div class="rightborder"></div>
+						<span style="display: inline-block;">
+							<?php $formats = Set::extract('/PhotoFormat/display_name', $photo_avail_size); ?>
+							<?php echo implode(' / ', $formats) ?>
+						</span>
+					</td>
+					<td class="last table_actions">
+						<div class="rightborder"></div>
+						<span class="custom_ui">
+							<a href="/admin/ecommerces/add_print_size/<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>/"><div class="add_button" <?php echo $edit_help_code; ?> ><div class="content"><?php echo __('Edit',true);?></div><div class="right_arrow_lines"><div></div></div></div></a>
+							<a href="/admin/ecommerces/delete_print_size/<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>/"><div class="add_button icon"><div class="content">X</div></div></a>
+
+						</span>
+					</td>
+				</tr>
+			<?php $count++; endforeach; ?> 
+		</tbody>
+	</table>
+</div>
 
 
 <?php ob_start(); ?>

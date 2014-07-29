@@ -25,118 +25,127 @@
 </div>
 
 <div class="clear"></div>
-<?php if (!empty($data)): ?>
-	<div class="table_container" data-step="1" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="top">
-		<div class="fade_background_top"></div>
-		<div class="table_top"></div>
-		<?php $sort_dir = $this->Paginator->sortDir('Photo'); ?>
-		<table class="list">
-			<thead>
-				<tr> 
-					<?php /* <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?> */ ?>
-					<?php /* <?php echo $this->Paginator->sort(__('Photo ID', true), 'Photo.id'); ?> */ ?>
-					<th class="first <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>"data-step="3" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom">
-						<div class="content one_line">
-							<div class="direction_arrow"></div>
-							<?php echo $this->Paginator->sort(__('ID', true), 'Photo.id'); ?>
-						</div>
-					</th> 
-					<th>
-						<div class="content one_line">
-							<div class="direction_arrow"></div>
-							<?php __('Photo'); ?>
-						</div>
-					</th> 
-					<th class="<?php if ($this->Paginator->sortKey('Photo') == 'Photo.display_title'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>">
-						<div class="content one_line">
-							<div class="direction_arrow"></div>
-							<?php echo $this->Paginator->sort(__('Title', true), 'Photo.display_title'); ?>
-						</div>
-					</th> 
-					<th class="<?php if ($this->Paginator->sortKey('Photo') == 'Photo.enabled'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>">
-						<div class="content one_line">
-							<div class="direction_arrow"></div>
-							<?php echo $this->Paginator->sort(__('Enabled', true), 'Photo.enabled'); ?>
-						</div>
-					</th> 
-					<th class="<?php if ($this->Paginator->sortKey('Photo') == 'PhotoFormat.display_name'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>">
-						<div class="content one_line">
-							<div class="direction_arrow"></div>
-							<?php echo $this->Paginator->sort(__('Format', true), 'PhotoFormat.display_name'); ?>
-						</div>
-					</th> 
-					<th class="<?php if ($this->Paginator->sortKey('Photo') == 'Photo.modified'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>">
-						<div class="content one_line">
-							<div class="direction_arrow"></div>
-							<?php echo $this->Paginator->sort(__('Modified', true), 'Photo.modified'); ?>
-						</div>
-					</th> 
-					<th class="<?php if ($this->Paginator->sortKey('Photo') == 'Photo.created'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>">
-						<div class="content one_line">
-							<div class="direction_arrow"></div>
-							<?php echo $this->Paginator->sort(__('Created', true), 'Photo.created'); ?>
-						</div>
-					</th>
-					<th class="last">
-					</th>
-				</tr> 
-			</thead>
-			<tbody>
-				<tr class="spacer"><td colspan="3"></td></tr>
-				
-				<?php foreach($data as $curr_photo): ?> 
-				
-					<?php 
-						$photo_is_enabled = true;
-						if (!empty($max_photo_id) && $curr_photo['Photo']['id'] <= $max_photo_id) {
-							$photo_is_enabled = !empty($max_photo_id) && $curr_photo['Photo']['id'] <= $max_photo_id;
-						}
-					?>
-					<tr>
-						<td class="photo_id first <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr<?php endif; ?>">
-							<div class="rightborder"></div>
-							<span class=" <?php if (!$photo_is_enabled):?>disabled<?php endif; ?>"><?php echo $curr_photo['Photo']['id']; ?></span>
-						</td> 
-						<?php /* <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr<?php endif; ?>"><?php echo $curr_photo['Photo']['id']; ?> */ ?>
-						<?php $img_path = $this->Photo->get_photo_path($curr_photo['Photo']['id'], 70, 70); ?>
-						<td class="photo_image" data-step="5" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom">
-							<div class="rightborder"></div>
-							<span class=" <?php if (!$photo_is_enabled):?>disabled<?php endif; ?>"><img src="<?php echo $img_path; ?>" /><?php //echo $curr_photo['Photo']['id']; ?></span>
-						</td> 
-						<td class="photo_title <?php if ($this->Paginator->sortKey('Photo') == 'Photo.display_title'): ?> curr<?php endif; ?>">
-							<div class="rightborder"></div>
-							<span class=" <?php if (!$photo_is_enabled):?>disabled<?php endif; ?>"><?php echo $curr_photo['Photo']['display_title']; ?></span>
-						</td> 
-						<td class="photo_enabled <?php if ($this->Paginator->sortKey('Photo') == 'Photo.enabled'): ?> curr<?php endif; ?>">
-							<div class="rightborder"></div>
-							<span class=" <?php if (!$photo_is_enabled):?>disabled<?php endif; ?>"><?php echo ($curr_photo['Photo']['enabled'] == 0) ? __('NO', true): __('YES', true); ?></span>
-						</td> 
-						<td class="photo_format <?php if ($this->Paginator->sortKey('Photo') == 'PhotoFormat.display_name'): ?> curr<?php endif; ?>">
-							<div class="rightborder"></div>
-							<span class=" <?php if (!$photo_is_enabled):?>disabled<?php endif; ?>"><?php echo $curr_photo['PhotoFormat']['display_name']; ?></span>
-						</td> 
-						<?php $modified_date = $this->Util->get_formatted_created_date($curr_photo['Photo']['modified']); ?>
-						<?php $created_date = $this->Util->get_formatted_created_date($curr_photo['Photo']['created']); ?>
-						<td class="photo_modified <?php if ($this->Paginator->sortKey('Photo') == 'Photo.modified'): ?> curr<?php endif; ?>">
-							<div class="rightborder"></div>
-							<span class=" <?php if (!$photo_is_enabled):?>disabled<?php endif; ?>"><?php echo $modified_date; ?></span>
-						</td> 
-						<td class="photo_created <?php if ($this->Paginator->sortKey('Photo') == 'Photo.created'): ?> curr<?php endif; ?>">
-							<div class="rightborder"></div>
-							<span class=" <?php if (!$photo_is_enabled):?>disabled<?php endif; ?>"><?php echo $created_date; ?></span>
-						</td> 
-						<td class="photo_action last">
-							<div class="rightborder"></div>
-							<span class="custom_ui">
-								<?php if ($photo_is_enabled): ?>
-									<a href="/admin/photos/edit/<?php echo $curr_photo['Photo']['id']; ?>/"><div class="add_button"><div class="content"><?php __('Edit'); ?></div><div class="right_arrow_lines"><div></div></div></div></a>
-								<?php endif;?>
-								<a href="/admin/photos/delete_photo/<?php echo $curr_photo['Photo']['id']; ?>/"><div class="add_button icon"><div class="content">X</div></div></a>
-							</span>
-						</td>
-					</tr>
-				<?php endforeach; ?> 
-			</tbody>
+
+<div class="table_container" data-step="1" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="top">
+	<div class="fade_background_top"></div>
+	<div class="table_top"></div>
+	<?php $sort_dir = $this->Paginator->sortDir('Photo'); ?>
+	<table class="list">
+		<thead>
+			<tr> 
+				<?php /* <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?> */ ?>
+				<?php /* <?php echo $this->Paginator->sort(__('Photo ID', true), 'Photo.id'); ?> */ ?>
+				<th class="first <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>"data-step="3" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom">
+					<div class="content one_line">
+						<div class="direction_arrow"></div>
+						<?php echo $this->Paginator->sort(__('ID', true), 'Photo.id'); ?>
+					</div>
+				</th> 
+				<th>
+					<div class="content one_line">
+						<div class="direction_arrow"></div>
+						<?php __('Photo'); ?>
+					</div>
+				</th> 
+				<th class="<?php if ($this->Paginator->sortKey('Photo') == 'Photo.display_title'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>">
+					<div class="content one_line">
+						<div class="direction_arrow"></div>
+						<?php echo $this->Paginator->sort(__('Title', true), 'Photo.display_title'); ?>
+					</div>
+				</th> 
+				<th class="<?php if ($this->Paginator->sortKey('Photo') == 'Photo.enabled'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>">
+					<div class="content one_line">
+						<div class="direction_arrow"></div>
+						<?php echo $this->Paginator->sort(__('Enabled', true), 'Photo.enabled'); ?>
+					</div>
+				</th> 
+				<th class="<?php if ($this->Paginator->sortKey('Photo') == 'PhotoFormat.display_name'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>">
+					<div class="content one_line">
+						<div class="direction_arrow"></div>
+						<?php echo $this->Paginator->sort(__('Format', true), 'PhotoFormat.display_name'); ?>
+					</div>
+				</th> 
+				<th class="<?php if ($this->Paginator->sortKey('Photo') == 'Photo.modified'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>">
+					<div class="content one_line">
+						<div class="direction_arrow"></div>
+						<?php echo $this->Paginator->sort(__('Modified', true), 'Photo.modified'); ?>
+					</div>
+				</th> 
+				<th class="<?php if ($this->Paginator->sortKey('Photo') == 'Photo.created'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>">
+					<div class="content one_line">
+						<div class="direction_arrow"></div>
+						<?php echo $this->Paginator->sort(__('Created', true), 'Photo.created'); ?>
+					</div>
+				</th>
+				<th class="last">
+				</th>
+			</tr> 
+		</thead>
+		<tbody>
+			<tr class="spacer"><td colspan="3"></td></tr>
+
+			<?php if (empty($data)): ?>
+				<tr class="first last">
+					<td class="first last" colspan="8">
+						<div class="rightborder"></div>
+						<span>You have not added photos yet.</span>
+					</td>
+				</tr>
+			<?php endif; ?>
+
+			<?php foreach($data as $curr_photo): ?> 
+				<?php 
+					$photo_is_enabled = true;
+					if (!empty($max_photo_id) && $curr_photo['Photo']['id'] <= $max_photo_id) {
+						$photo_is_enabled = !empty($max_photo_id) && $curr_photo['Photo']['id'] <= $max_photo_id;
+					}
+				?>
+				<tr>
+					<td class="photo_id first <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr<?php endif; ?>">
+						<div class="rightborder"></div>
+						<span class=" <?php if (!$photo_is_enabled):?>disabled<?php endif; ?>"><?php echo $curr_photo['Photo']['id']; ?></span>
+					</td> 
+					<?php /* <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr<?php endif; ?>"><?php echo $curr_photo['Photo']['id']; ?> */ ?>
+					<?php $img_path = $this->Photo->get_photo_path($curr_photo['Photo']['id'], 70, 70); ?>
+					<td class="photo_image" data-step="5" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom">
+						<div class="rightborder"></div>
+						<span class=" <?php if (!$photo_is_enabled):?>disabled<?php endif; ?>"><img src="<?php echo $img_path; ?>" /><?php //echo $curr_photo['Photo']['id']; ?></span>
+					</td> 
+					<td class="photo_title <?php if ($this->Paginator->sortKey('Photo') == 'Photo.display_title'): ?> curr<?php endif; ?>">
+						<div class="rightborder"></div>
+						<span class=" <?php if (!$photo_is_enabled):?>disabled<?php endif; ?>"><?php echo $curr_photo['Photo']['display_title']; ?></span>
+					</td> 
+					<td class="photo_enabled <?php if ($this->Paginator->sortKey('Photo') == 'Photo.enabled'): ?> curr<?php endif; ?>">
+						<div class="rightborder"></div>
+						<span class=" <?php if (!$photo_is_enabled):?>disabled<?php endif; ?>"><?php echo ($curr_photo['Photo']['enabled'] == 0) ? __('NO', true): __('YES', true); ?></span>
+					</td> 
+					<td class="photo_format <?php if ($this->Paginator->sortKey('Photo') == 'PhotoFormat.display_name'): ?> curr<?php endif; ?>">
+						<div class="rightborder"></div>
+						<span class=" <?php if (!$photo_is_enabled):?>disabled<?php endif; ?>"><?php echo $curr_photo['PhotoFormat']['display_name']; ?></span>
+					</td> 
+					<?php $modified_date = $this->Util->get_formatted_created_date($curr_photo['Photo']['modified']); ?>
+					<?php $created_date = $this->Util->get_formatted_created_date($curr_photo['Photo']['created']); ?>
+					<td class="photo_modified <?php if ($this->Paginator->sortKey('Photo') == 'Photo.modified'): ?> curr<?php endif; ?>">
+						<div class="rightborder"></div>
+						<span class=" <?php if (!$photo_is_enabled):?>disabled<?php endif; ?>"><?php echo $modified_date; ?></span>
+					</td> 
+					<td class="photo_created <?php if ($this->Paginator->sortKey('Photo') == 'Photo.created'): ?> curr<?php endif; ?>">
+						<div class="rightborder"></div>
+						<span class=" <?php if (!$photo_is_enabled):?>disabled<?php endif; ?>"><?php echo $created_date; ?></span>
+					</td> 
+					<td class="photo_action last">
+						<div class="rightborder"></div>
+						<span class="custom_ui">
+							<?php if ($photo_is_enabled): ?>
+								<a href="/admin/photos/edit/<?php echo $curr_photo['Photo']['id']; ?>/"><div class="add_button"><div class="content"><?php __('Edit'); ?></div><div class="right_arrow_lines"><div></div></div></div></a>
+							<?php endif;?>
+							<a href="/admin/photos/delete_photo/<?php echo $curr_photo['Photo']['id']; ?>/"><div class="add_button icon"><div class="content">X</div></div></a>
+						</span>
+					</td>
+				</tr>
+			<?php endforeach; ?> 
+		</tbody>
+		<?php if (!empty($data)): ?>
 			<tfoot>
 				<tr>
 					<td colspan="8">
@@ -145,20 +154,18 @@
 							'modulus' => 2,
 							'first' => 2,
 							'last' => 2,
-//							'before' => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
-//							'after' => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+	//							'before' => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+	//							'after' => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
 							'separator' => '<div class="paginator_divider"></div>',
 						)); ?>
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $this->Paginator->next(__('Next', true), null, null, array('class' => 'disabled')); ?> 
 					</td>
 				</tr>
 			</tfoot>
-		</table>
-	</div>
+		<?php endif; ?>
+	</table>
+</div>
 
-<?php else: ?>
-	<?php __('You do not have any photos yet.'); ?>
-<?php endif; ?>
 
 
 <?php ob_start(); ?>

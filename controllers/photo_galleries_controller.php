@@ -128,13 +128,14 @@ class PhotoGalleriesController extends AppController {
 
 	public function admin_index() {
 		$this->layout = 'admin/sidebar_less';
+		$curr_page = 'galleries';
 		
 		$galleries = $this->PhotoGallery->find('all', array(
 			'limit' => 100,
 			'contain' => false
 		));
 		
-		$this->set(compact('galleries'));
+		$this->set(compact('galleries', 'curr_page'));
 	}
 	
 	public function admin_edit_smart_gallery($id) {
