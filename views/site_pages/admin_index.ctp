@@ -105,7 +105,7 @@
 							<?php if (isset($curr_page['SitePage']['type']) && $curr_page['SitePage']['type'] == 'custom'): ?>
 								<a href="/admin/site_pages/configure_page/<?php echo $curr_page['SitePage']['id']; ?>/"><?php __('Configure'); ?></a>
 							<?php endif; ?>
-							<a href="/admin/site_pages/delete_page/<?php echo $curr_page['SitePage']['id']; ?>/"><div class="add_button icon"><div class="content">X</div></div></a>
+							<a class="delete_link" href="/admin/site_pages/delete_page/<?php echo $curr_page['SitePage']['id']; ?>/"><div class="add_button icon"><div class="content">X</div></div></a>
 						</span>
 					</td>
 				</tr>

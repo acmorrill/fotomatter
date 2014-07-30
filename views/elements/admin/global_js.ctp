@@ -20,6 +20,22 @@
 		GLOBAL FUNCTIONS
 	****************************************************************************/
 	jQuery(document).ready(function() {
+		// do confirm for link deletes
+		jQuery('.delete_link').click(function(e) {
+			e.preventDefault();
+			var context = this;
+
+			jQuery.foto('confirm', {
+				message: '<?php echo __('Do you really want to remove the item?', true); ?>',
+				onConfirm: function() {
+					window.location.href = jQuery(context).attr('href');
+				},
+				'title' : '<?php echo __('Really delete?', true); ?>',
+				'button_title' : '<?php echo __('Delete', true); ?>'
+			});
+		});
+		
+		
 		jQuery(document).ajaxError(function(event, request, settings) {
 			if (request.status == '403') {
 				window.location.replace("/admin/users/login?ajax_autoredirect=<?php echo urlencode($_SERVER["REQUEST_URI"]); ?>");

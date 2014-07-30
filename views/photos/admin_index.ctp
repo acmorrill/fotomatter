@@ -139,7 +139,7 @@
 							<?php if ($photo_is_enabled): ?>
 								<a href="/admin/photos/edit/<?php echo $curr_photo['Photo']['id']; ?>/"><div class="add_button"><div class="content"><?php __('Edit'); ?></div><div class="right_arrow_lines"><div></div></div></div></a>
 							<?php endif;?>
-							<a href="/admin/photos/delete_photo/<?php echo $curr_photo['Photo']['id']; ?>/"><div class="add_button icon"><div class="content">X</div></div></a>
+							<a class="delete_link" href="/admin/photos/delete_photo/<?php echo $curr_photo['Photo']['id']; ?>/"><div class="add_button icon"><div class="content">X</div></div></a>
 						</span>
 					</td>
 				</tr>

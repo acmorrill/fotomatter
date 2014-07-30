@@ -98,7 +98,7 @@
 
 			var line_item_id = $(this).attr('data_id');
 			jQuery.foto('confirm', {
-				message: '<?php echo __('This feature will remain on your account until your next monthly subscription is charged.'); ?><br /><br /><?php echo __('Are you sure you want to remove this item?'); ?>',
+				message: '<?php echo __('This feature will remain on your account until your next monthly subscription is charged.', true); ?><br /><br /><?php echo __('Are you sure you want to remove this item?'); ?>',
 				onConfirm: function() {
 					inAjaxCall = true;
 					jQuery.ajax({
