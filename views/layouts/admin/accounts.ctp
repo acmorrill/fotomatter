@@ -25,7 +25,7 @@
 				'url' => "/admin/accounts/account_details/"
 			);
 			$subnav['pages'][] = array(
-				'name'=> __('Domains', true),
+				'name'=> __('Site Domains', true),
 				'url'=>"/admin/domains"
 			);
 			echo $this->Element('/admin/submenu', array( 'subnav' => $subnav )); 
