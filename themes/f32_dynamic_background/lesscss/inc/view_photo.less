@@ -14,7 +14,7 @@
         position: relative;
         top: 0px;
         left: 180px;
-        width: 700px;
+        width: 600px;
         font-size: 13px;
         ul{
             list-style: none;
@@ -36,24 +36,34 @@
             li{
                 display: inline-block;
                 margin-right: 2px;
+                color: @next_pre;
+                a{
+                    color: @next_pre;
+                    text-decoration: none;
+                    &:hover{ color: @hover_color;}
+                }
             }
         }
 
     }
-    .cart_bottom{
-			display: block;
-        
+    .cart_bottom{       
         ul{
             min-width: 969px;
             list-style: none;
-            
-            li{
-                
-            }
-        }
-    }
 
+            li{
+
+            }
+			position: relative;
+			left: 795px;
+			top: 15px;
+			ul{       
+				list-style: none;
+			}
+		}
+	}
 }
+
 
 
 //Make it so that there is a little box at the bottom of the image that will be made with css so if the image is vertical you can better see the image behind the gallery. 

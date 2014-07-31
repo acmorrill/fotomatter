@@ -127,7 +127,15 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr class="spacer"><td colspan="3"></td></tr>
+						<tr class="spacer"><td colspan="8"></td></tr>
+						<?php if (empty($photo_avail_sizes)): ?>
+							<tr class="first last">
+								<td class="first last" colspan="8">
+									<div class="rightborder"></div>
+									<span><?php echo __('You have not added any print sizes yet.', true); ?></span>
+								</td>
+							</tr>
+						<?php endif; ?>
 						<?php $count = 0; foreach ($photo_avail_sizes as $photo_avail_size): ?>
 							<?php 
 								$has_non_pano = $this->Ecommerce->print_size_has_non_pano($photo_avail_size);

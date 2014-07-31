@@ -112,13 +112,14 @@ class SitePagesController extends AppController {
 		$this->HashUtil->set_new_hash('site_pages');
 
 		$this->layout = 'admin/sidebar_less';
+		$curr_page = 'pages';
 		
 		$site_pages = $this->SitePage->find('all', array(
 			'limit' => 100,
 			'contain' => false
 		));
 		
-		$this->set(compact('site_pages'));
+		$this->set(compact('site_pages', 'curr_page'));
 	} 
 
 	public function admin_save_page_elements() {
@@ -260,6 +261,8 @@ class SitePagesController extends AppController {
 	}
 	
 	public function admin_edit_page($id) {
+		$this->layout = 'admin/pages_configure';
+		
 		if ( !empty($this->data) ) {
 			// set or unset the id (depending on if its an edit or add)
 			$this->data['SitePage']['id'] = $id;

@@ -44,106 +44,112 @@
 	<?php echo $this->Element('admin/gallery/add_gallery'); ?>
 </div>
 <div class="clear"></div>
-<?php if (!empty($galleries)): ?>
-	<div class="table_container" data-step="1" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom">
-		<div class="fade_background_top"></div>
-		<div class="table_top"></div>
-		<table class="list">
-			<thead>
-				<tr data-step="3" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom"> 
-					<?php /* <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?> */ ?>
-					<?php /* <?php echo $this->Paginator->sort(__('Photo ID', true), 'Photo.id'); ?> */ ?>
-					<th class="first">
-					</th> 
-					<th class="">
-						<div class="content one_line">
-							<?php echo __('Display Name', true); ?>
-						</div>
-					</th> 
-					<th class="">
-						<div class="content one_line">
-							<?php echo __('Description', true); ?>
-						</div>
-					</th> 
-					<th class="">
-						<div class="content one_line">
-							<?php echo __('Modified', true); ?>
-						</div>
-					</th> 
-					<th class="">
-						<div class="content one_line">
-							<?php echo __('Created', true); ?>
-						</div>
-					</th>
-					<th class="last">
-						<div class="content one_line">
-							<?php echo __('Actions', true); ?>
-						</div>
-					</th>
-				</tr> 
-			</thead>
-			<tbody>
-				<tr class="spacer"><td colspan="3"></td></tr>
-				<?php $count = 0; foreach($galleries as $curr_gallery): ?> 
-					
-					<?php
-						$gallery_name_help_code = '';
-						$reoder_help_code = '';
-						$edit_help_code = '';
-						$connect_help_code = '';
-						$arrange_help_code = '';
-						if ($count === 0) {
-							$gallery_name_help_code = 'data-step="4" data-intro="'.__('CONTENT HERE', true).'" data-position="left"';
-							$reoder_help_code = 'data-step="5" data-intro="'.__('CONTENT HERE', true).'" data-position="left"';
-							$edit_help_code = 'data-step="6" data-intro="'.__('CONTENT HERE', true).'" data-position="left"';
-							$connect_help_code = 'data-step="7" data-intro="'.__('CONTENT HERE', true).'" data-position="left"';
-							$arrange_help_code = 'data-step="8" data-intro="'.__('CONTENT HERE', true).'" data-position="left"';
-						}					
-					?>
-				
-					<tr gallery_id="<?php echo $curr_gallery['PhotoGallery']['id']; ?>" data-step="4" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom">
-						<td class="gallery_id first">
-							<div class="rightborder"></div>
-							<div class="reorder_gallery_grabber reorder_grabber" data-step="5" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom"/>
-						</td> 
-						<td class="gallery_name ">
-							<div class="rightborder"></div>
-							<span><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></span>
-						</td> 
-						<td class="gallery_description">
-							<div class="rightborder"></div>
-							<span><?php echo $curr_gallery['PhotoGallery']['description']; ?></span>
-						</td> 
-						<?php $modified_date = $this->Util->get_formatted_created_date($curr_gallery['PhotoGallery']['modified']); ?>
-						<?php $created_date = $this->Util->get_formatted_created_date($curr_gallery['PhotoGallery']['created']); ?>
-						<td class="gallery_modified">
-							<div class="rightborder"></div>
-							<span><?php echo $modified_date; ?></span>
-						</td> 
-						<td class="gallery_created">
-							<div class="rightborder"></div>
-							<span><?php echo $created_date; ?></span>
-						</td> 
-						<td class="gallery_action last">
-							<span class="custom_ui">
-								<?php if ($curr_gallery['PhotoGallery']['type'] == 'smart'): ?>
-									<a href="/admin/photo_galleries/edit_smart_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Edit'); ?></a>
-								<?php else: ?>
-									<a href="/admin/photo_galleries/edit_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Edit'); ?></a>
-									<a href="/admin/photo_galleries/edit_gallery_connect_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Connect'); ?></a>
-									<a href="/admin/photo_galleries/edit_gallery_arrange_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Arrange'); ?></a>
-								<?php endif; ?>
-								<a href="/admin/photo_galleries/delete_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><div class="add_button icon"><div class="content">X</div></div></a>
-							</span>
-						</td>
-					</tr>
-				<?php $count ++; endforeach; ?> 
-			</tbody>
-		</table>
-	</div>
-<?php else: ?>
-	<h1><?php __('You do not have any galleries yet.'); ?></h1>
-<?php endif; ?>
+
+<div class="table_container" data-step="1" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom">
+	<div class="fade_background_top"></div>
+	<div class="table_top"></div>
+	<table class="list">
+		<thead>
+			<tr data-step="3" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom"> 
+				<?php /* <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?> */ ?>
+				<?php /* <?php echo $this->Paginator->sort(__('Photo ID', true), 'Photo.id'); ?> */ ?>
+				<th class="first">
+				</th> 
+				<th class="">
+					<div class="content one_line">
+						<?php echo __('Display Name', true); ?>
+					</div>
+				</th> 
+				<th class="">
+					<div class="content one_line">
+						<?php echo __('Description', true); ?>
+					</div>
+				</th> 
+				<th class="">
+					<div class="content one_line">
+						<?php echo __('Modified', true); ?>
+					</div>
+				</th> 
+				<th class="">
+					<div class="content one_line">
+						<?php echo __('Created', true); ?>
+					</div>
+				</th>
+				<th class="last">
+					<div class="content one_line">
+						<?php echo __('Actions', true); ?>
+					</div>
+				</th>
+			</tr> 
+		</thead>
+		<tbody>
+			<tr class="spacer"><td colspan="6"></td></tr>
+
+			<?php if (empty($galleries)): ?>
+				<tr class="first last">
+					<td class="first last" colspan="6">
+						<div class="rightborder"></div>
+						<span><?php echo __('You have not added any photo galleries yet.', true); ?></span>
+					</td>
+				</tr>
+			<?php endif; ?>
+
+			<?php $count = 0; foreach($galleries as $curr_gallery): ?> 
+				<?php
+					$gallery_name_help_code = '';
+					$reoder_help_code = '';
+					$edit_help_code = '';
+					$connect_help_code = '';
+					$arrange_help_code = '';
+					if ($count === 0) {
+						$gallery_name_help_code = 'data-step="4" data-intro="'.__('CONTENT HERE', true).'" data-position="left"';
+						$reoder_help_code = 'data-step="5" data-intro="'.__('CONTENT HERE', true).'" data-position="left"';
+						$edit_help_code = 'data-step="6" data-intro="'.__('CONTENT HERE', true).'" data-position="left"';
+						$connect_help_code = 'data-step="7" data-intro="'.__('CONTENT HERE', true).'" data-position="left"';
+						$arrange_help_code = 'data-step="8" data-intro="'.__('CONTENT HERE', true).'" data-position="left"';
+					}					
+				?>
+
+				<tr gallery_id="<?php echo $curr_gallery['PhotoGallery']['id']; ?>" data-step="4" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom">
+					<td class="gallery_id first">
+						<div class="rightborder"></div>
+						<div class="reorder_gallery_grabber reorder_grabber" data-step="5" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom"/>
+					</td> 
+					<td class="gallery_name ">
+						<div class="rightborder"></div>
+						<span><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></span>
+					</td> 
+					<td class="gallery_description">
+						<div class="rightborder"></div>
+						<span><?php echo $curr_gallery['PhotoGallery']['description']; ?></span>
+					</td> 
+					<?php $modified_date = $this->Util->get_formatted_created_date($curr_gallery['PhotoGallery']['modified']); ?>
+					<?php $created_date = $this->Util->get_formatted_created_date($curr_gallery['PhotoGallery']['created']); ?>
+					<td class="gallery_modified">
+						<div class="rightborder"></div>
+						<span><?php echo $modified_date; ?></span>
+					</td> 
+					<td class="gallery_created">
+						<div class="rightborder"></div>
+						<span><?php echo $created_date; ?></span>
+					</td> 
+					<td class="gallery_action last">
+						<span class="custom_ui">
+							<?php if ($curr_gallery['PhotoGallery']['type'] == 'smart'): ?>
+								<a href="/admin/photo_galleries/edit_smart_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Edit'); ?></a>
+							<?php else: ?>
+								<a href="/admin/photo_galleries/edit_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Edit'); ?></a>
+								<a href="/admin/photo_galleries/edit_gallery_connect_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Connect'); ?></a>
+								<a href="/admin/photo_galleries/edit_gallery_arrange_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Arrange'); ?></a>
+							<?php endif; ?>
+							<a href="/admin/photo_galleries/delete_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><div class="add_button icon"><div class="content">X</div></div></a>
+						</span>
+					</td>
+				</tr>
+			<?php $count ++; endforeach; ?> 
+		</tbody>
+	</table>
+</div>
 
 
 
