@@ -211,10 +211,9 @@ nav_location {
   background-color: #000000;
   color: #666666;
   height: 50px;
-  line-height: 45px;
   position: fixed;
   bottom: 0px;
-  left: 0px;
+  line-height: 45px;
 }
 .footer .inner_footer {
   position: relative;
