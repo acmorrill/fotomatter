@@ -34,6 +34,8 @@ body .content .outer_nav .nav #main_nav ul li a:hover {
 .footer {
   position: relative;
   top: 30px;
+  width: 700px;
+  left: 350px;
 }
 .footer #footer_tagline {
   font-size: 12px;
@@ -143,19 +145,16 @@ h1 {
 .gallerywrapper .prev_next ul li a:hover {
   color: #ffffff;
 }
-.gallerywrapper .cart_bottom {
+.gallerywrapper .cart_bottom ul {
+  min-width: 969px;
+  list-style: none;
   position: relative;
   left: 795px;
   top: 15px;
 }
-.gallerywrapper .cart_bottom {
-  display: block;
-}
-.gallerywrapper .cart_bottom ul {
+.gallerywrapper .cart_bottom ul ul {
   list-style: none;
 }
-<<<<<<< HEAD
-=======
 #cart_table {
   height: auto;
   border-collapse: collapse;
@@ -234,4 +233,3 @@ h1 {
   cursor: pointer;
   color: #333333;
 }
->>>>>>> 1446424d03b3ad568f295ff50ba257028865c7a2
