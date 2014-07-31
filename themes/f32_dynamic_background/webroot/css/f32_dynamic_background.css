@@ -140,10 +140,10 @@ h1 {
   display: inline-block;
   margin-right: 2px;
 }
+.gallerywrapper .cart_bottom {
+  display: block;
+}
 .gallerywrapper .cart_bottom ul {
   min-width: 969px;
   list-style: none;
-}
-.gallerywrapper .cart_bottom ul li {
-  display: block;
 }
