@@ -19,7 +19,7 @@
                 </div>					
             </div>
             <!-- The slideshow .js needs to be replaced-->
-            <h1><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></h1>
+            <h1 class="gallery_title"><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></h1>
                 <?php echo $this->Element('gallery/gallery_image_lists/2_column', array(
                         'photos' => $photos,
                         'image_max_size' => 250,

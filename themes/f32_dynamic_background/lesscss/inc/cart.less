@@ -1,100 +1,13 @@
-#cart_table{
-    height: auto;
-    border-collapse: collapse;
-    margin-top: 30px;
-    text-align: center;
-    width: 700px;
-    margin-left: 249px;
-    thead{
-
-        tr{
-            th{
-                border-bottom: 1px solid @gray;
-                border-top: 1px solid @table_header;
-                &.total{
-                    border-right: 1px solid @gray;
-                    background-color: @table_header;
-                }
-                &.image{
-                    border-left: 1px solid @gray;
-                    background-color:@table_header;
-                    ;
-
-                }
-                &.price{
-                    background-color: @table_header;
-                    ;
-
-                }
-                &.qty{
-                    background-color: @table_header;
-                    ;
-
-                }
-
-            }
-        }
-    }    
-    tbody{
-        border-bottom: 1px solid @gray;
-        background-color: @white;
-        tr{
-            td{
-
-                &.total{
-                    border-right: 1px solid @gray;
-                    border-left: 1px solid @gray;
-                    border-bottom: 1px solid @gray;
-                }
-                &.image{
-                    border-left: 1px solid @gray;
-                    padding-top: 5px;
-                    padding-bottom: 5px;
-                    margin-top: 12px;
-                    border: 1px solid @gray;
-                    height: 100px;
-                    img{
-                        float: left;
-                        margin-left: 10px;
-                        margin-bottom: 5px;
-                        margin-top: 5px;
-                    }
-                }
-                &.price{
-                    border-left: 1px solid @gray;
-                    border-bottom: 1px solid @gray;
-
-                }
-                &.qty{
-                    border-left: 1px solid @gray;
-                    border-bottom: 1px solid @gray;
-
-                }
-            }
-        }
-    }
-    tfoot{
-        color: @black;
-        tr{
-            td{	
-                padding-top: 10px;	
-                padding-bottom: 40px;	
-                padding-right: 40px;
-                line-height: 25px;
-
-                button{
-                    margin-top:20px;
-                    height: 40px;
-                    padding-left: 15px;
-                    padding-right: 15px;
-                    font-size: 15px;
-                    color: @header;
-                    &:hover{
-                        cursor: pointer;
-                        color: @button_hover;
-                    }
-                }
-            }
+.content {
+    position: absolute;
+    left: 218px;
+    top: 173px;
+    width: 800px;
+    padding-top: 0px;
+    .inner_content {
+        min-height: 440px;
+        #cart_table {
+            width: 100%;
         }
     }
 }
