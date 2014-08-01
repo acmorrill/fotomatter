@@ -130,7 +130,7 @@ define("SMALLER_MASTER_CACHE_PREFIX", 'mastercache_smaller_');
 define("LARGE_MASTER_CACHE_SIZE", 1500);
 define("SMALL_MASTER_CACHE_SIZE", 250);
 define('MAX_UPLOAD_SIZE_MEGS', 50);
-define('FREE_MAX_RES', 5000);
+define('FREE_MAX_RES', 4000);
 define("USE_CACHE_SPEED", true);
 
 
