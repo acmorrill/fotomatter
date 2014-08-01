@@ -1,3 +1,7 @@
+@import url("inc/footer.less");
+h1 {
+  font-size: 14px;
+}
 body {
   background-image: url(http://www.bobdentphotography.com/images/graphics/bkg.jpg);
   background-repeat: no-repeat;
@@ -31,20 +35,6 @@ body .content .outer_nav .nav #main_nav ul li a {
 body .content .outer_nav .nav #main_nav ul li a:hover {
   color: #ffffff;
 }
-.footer {
-  position: relative;
-  top: 30px;
-  width: 700px;
-  left: 350px;
-}
-.footer #footer_tagline {
-  font-size: 12px;
-}
-.footer #footer_tagline .footer_tagline_container_outer {
-  left: 35%;
-  margin-bottom: 0px;
-  clear: both;
-}
 .welcome_paragraph {
   font-family: 'Actor', sans-serif;
   position: relative;
@@ -67,7 +57,7 @@ body .content .outer_nav .nav #main_nav ul li a:hover {
 #landing_slide_show_container {
   right: 6px;
 }
-h1 {
+h1.gallery_title {
   font-size: 14px;
   line-height: 18px;
   margin-top: 40px;
@@ -99,9 +89,6 @@ h1 {
 #gallery_list_table .galleriesLink a:hover {
   color: white;
 }
-.gallerywrapper .gallery {
-  margin-bottom: -20px;
-}
 .gallerywrapper .gallery img {
   position: relative;
   right: 6px;
@@ -111,8 +98,8 @@ h1 {
 .gallerywrapper .extra {
   position: relative;
   top: 0px;
-  left: 190px;
-  width: 1000px;
+  left: 209px;
+  width: 802px;
 }
 .gallerywrapper .extra .view_page_paragraph {
   font-family: 'Actor', sans-serif;
@@ -123,12 +110,8 @@ h1 {
 .gallerywrapper .extra .view_page_paragraph ul {
   list-style: none;
 }
-.gallerywrapper .extra .view_page_paragraph h1 {
-  position: relative;
-  right: 210px;
-}
 .gallerywrapper .extra .cart_bottom {
-  float: right;
+  float: left;
   width: 380px;
   margin-top: 20px;
 }
