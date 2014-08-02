@@ -1,6 +1,143 @@
 @import url("inc/footer.less");
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.no_select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 h1 {
-  font-size: 14px;
+  font-size: 17px;
+}
+h2 {
+  font-size: 20px;
+}
+ul {
+  padding: 0px;
 }
 body {
   background-image: url(http://www.bobdentphotography.com/images/graphics/bkg.jpg);
@@ -9,13 +146,13 @@ body {
   background-position: 0% 0%;
   font-family: 'Actor', sans-serif;
 }
-body .content #logo_cont {
+body #logo_cont {
   position: relative;
 }
-body .content #mainName {
+body #mainName {
   position: absolute;
 }
-body .content .outer_nav .nav #main_nav {
+body .outer_nav .nav #main_nav {
   font-size: 12px;
   text-transform: lowercase;
   line-height: 24px;
@@ -25,14 +162,14 @@ body .content .outer_nav .nav #main_nav {
   float: left;
   color: #959595;
 }
-body .content .outer_nav .nav #main_nav ul {
+body .outer_nav .nav #main_nav ul {
   list-style-type: none;
 }
-body .content .outer_nav .nav #main_nav ul li a {
+body .outer_nav .nav #main_nav ul li a {
   color: #959595;
   text-decoration: none;
 }
-body .content .outer_nav .nav #main_nav ul li a:hover {
+body .outer_nav .nav #main_nav ul li a:hover {
   color: #ffffff;
 }
 .welcome_paragraph {
@@ -105,14 +242,16 @@ h1.gallery_title {
   font-family: 'Actor', sans-serif;
   float: left;
   font-size: 13px;
-  width: 620px;
+  width: 552px;
+  margin-left: 20px;
 }
 .gallerywrapper .extra .view_page_paragraph ul {
   list-style: none;
 }
 .gallerywrapper .extra .cart_bottom {
+  margin-left: 20px;
   float: left;
-  width: 380px;
+  width: 210px;
   margin-top: 20px;
 }
 .gallerywrapper .extra .cart_bottom ul {
@@ -139,81 +278,16 @@ h1.gallery_title {
 .gallerywrapper .prev_next ul li a:hover {
   color: #ffffff;
 }
-#cart_table {
-  height: auto;
-  border-collapse: collapse;
-  margin-top: 30px;
-  text-align: center;
-  width: 700px;
-  margin-left: 249px;
+.content {
+  position: absolute;
+  left: 218px;
+  top: 173px;
+  width: 800px;
+  padding-top: 0px;
 }
-#cart_table thead tr th {
-  border-bottom: 1px solid #666666;
-  border-top: 1px solid #cccccc;
+.content .inner_content {
+  min-height: 440px;
 }
-#cart_table thead tr th.total {
-  border-right: 1px solid #666666;
-  background-color: #cccccc;
-}
-#cart_table thead tr th.image {
-  border-left: 1px solid #666666;
-  background-color: #cccccc;
-}
-#cart_table thead tr th.price {
-  background-color: #cccccc;
-}
-#cart_table thead tr th.qty {
-  background-color: #cccccc;
-}
-#cart_table tbody {
-  border-bottom: 1px solid #666666;
-  background-color: #ffffff;
-}
-#cart_table tbody tr td.total {
-  border-right: 1px solid #666666;
-  border-left: 1px solid #666666;
-  border-bottom: 1px solid #666666;
-}
-#cart_table tbody tr td.image {
-  border-left: 1px solid #666666;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  margin-top: 12px;
-  border: 1px solid #666666;
-  height: 100px;
-}
-#cart_table tbody tr td.image img {
-  float: left;
-  margin-left: 10px;
-  margin-bottom: 5px;
-  margin-top: 5px;
-}
-#cart_table tbody tr td.price {
-  border-left: 1px solid #666666;
-  border-bottom: 1px solid #666666;
-}
-#cart_table tbody tr td.qty {
-  border-left: 1px solid #666666;
-  border-bottom: 1px solid #666666;
-}
-#cart_table tfoot {
-  color: #000000;
-}
-#cart_table tfoot tr td {
-  padding-top: 10px;
-  padding-bottom: 40px;
-  padding-right: 40px;
-  line-height: 25px;
-}
-#cart_table tfoot tr td button {
-  margin-top: 20px;
-  height: 40px;
-  padding-left: 15px;
-  padding-right: 15px;
-  font-size: 15px;
-  color: ;
-}
-#cart_table tfoot tr td button:hover {
-  cursor: pointer;
-  color: #333333;
+.content .inner_content #cart_table {
+  width: 100%;
 }
