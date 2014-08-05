@@ -11,13 +11,13 @@
     <body>
          <?php $welcome_paragraph = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'welcome_paragraph'); ?>
         <?php //echo $content_for_layout; ?>
+        <div class="outer_nav">
+            <?php echo $this->Element('nameTitle'); ?>
+            <div class="nav">
+                <?php echo $this->Element('menu/navBar', array('page' => 'home')); ?>											
+            </div>					
+        </div>		
         <div class="content">
-            <div class="outer_nav">
-                <?php echo $this->Element('nameTitle'); ?>
-                <div class="nav">
-                    <?php echo $this->Element('menu/navBar', array( 'page' => 'home' ));?>											
-                </div>					
-            </div>
             <!-- The slideshow .js needs to be replaced-->
             <div id="slide_show">
                     <?php echo $this->Element('landing_slideshows/basic', array(
