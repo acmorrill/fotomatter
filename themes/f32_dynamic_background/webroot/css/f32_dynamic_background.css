@@ -176,23 +176,9 @@ body .outer_nav .nav #main_nav ul li a:hover {
   font-family: 'Actor', sans-serif;
   position: relative;
   top: 20px;
-  left: 240px;
+  left: 10px;
   width: 700px;
   font-size: 13px;
-}
-#landing_slide_show_container {
-  right: 6px;
-}
-.welcome_paragraph {
-  font-family: 'Actor', sans-serif;
-  position: relative;
-  top: 20px;
-  left: 240px;
-  width: 700px;
-  font-size: 13px;
-}
-#landing_slide_show_container {
-  right: 6px;
 }
 h1.gallery_title {
   font-size: 14px;
@@ -226,56 +212,55 @@ h1.gallery_title {
 #gallery_list_table .galleriesLink a:hover {
   color: white;
 }
-.gallerywrapper .gallery img {
+.gallery img {
   position: relative;
   right: 6px;
   width: 800px;
   height: 540px;
 }
-.gallerywrapper .extra {
+.extra {
   position: relative;
   top: 0px;
-  left: 209px;
   width: 802px;
 }
-.gallerywrapper .extra .view_page_paragraph {
+.extra .view_page_paragraph {
   font-family: 'Actor', sans-serif;
   float: left;
   font-size: 13px;
   width: 552px;
   margin-left: 20px;
 }
-.gallerywrapper .extra .view_page_paragraph ul {
+.extra .view_page_paragraph ul {
   list-style: none;
 }
-.gallerywrapper .extra .cart_bottom {
+.extra .cart_bottom {
   margin-left: 20px;
   float: left;
   width: 210px;
   margin-top: 20px;
 }
-.gallerywrapper .extra .cart_bottom ul {
+.extra .cart_bottom ul {
   list-style: none;
 }
-.gallerywrapper .prev_next {
+.prev_next {
   position: absolute;
   top: 124px;
   right: 580px;
   font-size: 12px;
 }
-.gallerywrapper .prev_next ul {
+.prev_next ul {
   list-style: none;
 }
-.gallerywrapper .prev_next ul li {
+.prev_next ul li {
   display: inline-block;
   margin-right: 2px;
   color: #cccccc;
 }
-.gallerywrapper .prev_next ul li a {
+.prev_next ul li a {
   color: #cccccc;
   text-decoration: none;
 }
-.gallerywrapper .prev_next ul li a:hover {
+.prev_next ul li a:hover {
   color: #ffffff;
 }
 .content {
