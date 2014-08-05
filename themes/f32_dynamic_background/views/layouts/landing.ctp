@@ -22,7 +22,7 @@
             <div id="slide_show">
                     <?php echo $this->Element('landing_slideshows/basic', array(
                             'width' => 800,
-                            'height' => 540,
+                            'height' => 510,
                             'background_color' => '#efefef',
                     )); ?>                    
             </div> 

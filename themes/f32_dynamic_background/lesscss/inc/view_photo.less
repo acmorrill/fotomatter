@@ -1,57 +1,54 @@
-.gallerywrapper{
-
-    .gallery{
-        img{
-            position: relative;
-            right: 6px;
-            width: 800px;
-            height: 540px;
-        }
-    }
-    .extra{
+.gallery{
+    img{
         position: relative;
-        top: 0px;
-        left: 209px;
-        width: 802px;
-       // height: 239px;
-        .view_page_paragraph{
-            //display: inline-block;
-            font-family: 'Actor', sans-serif;
-            float: left;
-            font-size: 13px;
-            width: 552px;
-            margin-left: 20px;
-            ul{
-                list-style: none;
-            }
-        }
-        .cart_bottom{
-            margin-left: 20px;
-            float: left;
-            width: 210px;
-            margin-top: 20px;
-            ul{
-                list-style: none;
-            }
-           
-        }
+        right: 6px;
+        width: 800px;
+        height: 540px;
     }
-    .prev_next{
-        position: absolute;
-        top: 124px;
-        right: 580px;
-        font-size: 12px;
+}
+.extra{
+    position: relative;
+    top: 0px;
+    //left: 209px;
+    width: 802px;
+    // height: 239px;
+    .view_page_paragraph{
+        //display: inline-block;
+        font-family: 'Actor', sans-serif;
+        float: left;
+        font-size: 13px;
+        width: 552px;
+        margin-left: 20px;
         ul{
             list-style: none;
-            li{
-                display: inline-block;
-                margin-right: 2px;
+        }
+    }
+    .cart_bottom{
+        margin-left: 20px;
+        float: left;
+        width: 210px;
+        margin-top: 20px;
+        ul{
+            list-style: none;
+        }
+
+    }
+}
+.prev_next{
+    position: absolute;
+    top: 124px;
+    right: 580px;
+    font-size: 12px;
+    ul{
+        list-style: none;
+        li{
+            display: inline-block;
+            margin-right: 2px;
+            color: @next_pre;
+            a{
                 color: @next_pre;
-                a{
-                    color: @next_pre;
-                    text-decoration: none;
-                    &:hover{ color: @hover_color;}
-                }
+                text-decoration: none;
+                &:hover{ color: @hover_color;}
             }
         }
     }
