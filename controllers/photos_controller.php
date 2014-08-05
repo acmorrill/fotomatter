@@ -114,6 +114,11 @@ class PhotosController extends AppController {
 	}
 
 	public function admin_process_mass_photos() {
+		require(ROOT.DS.APP_DIR.DS.'vendors/jQuery-File-Upload/server/php/UploadHandler.php');		
+		$this->upload_handler = new UploadHandler(null, false, null);
+		
+		
+		
 		$returnArr['code'] = -1;
 		$returnArr['message'] = 'this is not changed';
 		if (isset($this->data['Tag'])) {
@@ -187,7 +192,22 @@ class PhotosController extends AppController {
 			$returnArr['code'] = -1;
 			$returnArr['message'] = 'file params not set in admin_process_mass_photos';
 		}
-		$this->return_json($returnArr);
+		
+		
+		$file = new \stdClass();
+        $file->name = $upload_data['name']; //$this->get_file_name($uploaded_file, $name, $size, $type, $error, $index, $content_range);
+        $file->size = $upload_data['size'];
+        $file->type = $upload_data['type'];
+		$files[] = $file;
+		
+		$upload_response = $this->upload_handler->generate_response(
+            array($this->upload_handler->options['param_name'] => $files),
+            false
+        );
+		
+		
+		echo json_encode($upload_response);
+		exit();
 	}
 
 	public function admin_edit($id) {
