@@ -113,20 +113,13 @@ class PhotosController extends AppController {
 		$this->set(compact('photos_left_to_add', 'curr_page'));
 	}
 
-	public function admin_process_mass_photos() {
-		require(ROOT.DS.APP_DIR.DS.'vendors/jQuery-File-Upload/server/php/UploadHandler.php');		
-		$this->upload_handler = new UploadHandler(null, false, null);
-		
-		
-		
-		$returnArr['code'] = -1;
-		$returnArr['message'] = 'this is not changed';
+	public function admin_process_mass_photos($return_new_image_data = false) {
 		if (isset($this->data['Tag'])) {
 			$this->loadModel('Tag');
 			$tag_result = $this->Tag->process_new_save($this->data['Tag']);
 		}
 
-		if ($this->data['GalleryPhoto']) {
+		if (isset($this->data['GalleryPhoto'])) {
 			$galleries_to_save = array();
 			foreach ($this->data['GalleryPhoto'] as $id => $to_use) {
 				if ($to_use) {
@@ -141,6 +134,7 @@ class PhotosController extends AppController {
 			$this->FeatureLimiter->limit_function_403();
 		}
 
+		$upload_data = array();
 		if (isset($this->params['form']['files'])) {
 			$upload_data['name'] = $this->params['form']['files']['name'][0];
 			$upload_data['tmp_name'] = $this->params['form']['files']['tmp_name'][0];
@@ -148,10 +142,9 @@ class PhotosController extends AppController {
 			$upload_data['size'] = $this->params['form']['files']['size'][0];
 
 			if ($this->params['form']['files']['error'][0]) {
+				$upload_data['error'] = $this->params['form']['files']['error'][0];
 				$this->Photo->major_error('Photo failed to upload, probably due to apache limits', $this->params['form'], 'high');
-				$returnArr['code'] = -1;
-				$returnArr['message'] = 'admin_process_mass_photos';
-				$this->return_json($returnArr);
+				$this->return_mass_upload_json($upload_data);
 			}
 
 			$photo_for_db['Photo']['cdn-filename'] = $upload_data;
@@ -163,9 +156,8 @@ class PhotosController extends AppController {
 			$this->Photo->create();
 			if ($this->Photo->save($photo_for_db) === false) {
 				$this->Photo->major_error('Photo failed to save in admin_process_mass_photos');
-				$returnArr['code'] = -1;
-				$returnArr['message'] = 'admin_process_mass_photos';
-				$this->return_json($returnArr);
+				$upload_data['error'] = 'Photo failed to save.';
+				$this->return_mass_upload_json($upload_data);
 			}
 			if (isset($galleries_to_save)) {
 				foreach ($galleries_to_save as $gallery) {
@@ -174,39 +166,32 @@ class PhotosController extends AppController {
 					$this->PhotoGalleriesPhoto->create();
 					if ($this->PhotoGalleriesPhoto->save($gallery_photo) === false) {
 						$this->PhotoGalleriesPhoto->major_error('PhotoGalleriesphoto failed to save on photo upload.');
-						$returnArr['code'] = -1;
-						$returnArr['message'] = 'PhotoGalleriesphoto failed to save on photo upload.';
-						$this->return_json($returnArr);
+						$upload_data['error'] = 'Failed to add photo to selected galleries.';
+						$this->return_mass_upload_json($upload_data);
 					}
 				}
 			}
-			$returnArr['new_photo_id'] = $this->Photo->id;
-			$returnArr['code'] = 1;
+			
+			
+			$upload_data['new_photo_id'] = $this->Photo->id;
+			$upload_data['code'] = 1;
 			$cache_file_height = isset($this->params['form']['height']) ? $this->params['form']['height'] : null;
 			$cache_file_width = isset($this->params['form']['width']) ? $this->params['form']['width'] : null;
 			if (isset($cache_file_width) && isset($cache_file_height)) {
-				$returnArr['new_photo_path'] = $this->Photo->get_photo_path($this->Photo->id, $cache_file_height, $cache_file_width);
+				$upload_data['new_photo_path'] = $this->Photo->get_photo_path($this->Photo->id, $cache_file_height, $cache_file_width);
 			}
 		} else {
 			$this->Photo->major_error('file params not set in admin_process_mass_photos');
-			$returnArr['code'] = -1;
-			$returnArr['message'] = 'file params not set in admin_process_mass_photos';
+			$upload_data['error'] = "File upload error.";
 		}
 		
 		
-		$file = new \stdClass();
-        $file->name = $upload_data['name']; //$this->get_file_name($uploaded_file, $name, $size, $type, $error, $index, $content_range);
-        $file->size = $upload_data['size'];
-        $file->type = $upload_data['type'];
-		$files[] = $file;
-		
-		$upload_response = $this->upload_handler->generate_response(
-            array($this->upload_handler->options['param_name'] => $files),
-            false
-        );
-		
-		
-		echo json_encode($upload_response);
+		$this->log($upload_data, 'upload_data');
+		$this->return_mass_upload_json($upload_data);
+	}
+	private function return_mass_upload_json($upload_data) {
+		$files[] = $upload_data;
+		echo json_encode(compact('files'));
 		exit();
 	}
 

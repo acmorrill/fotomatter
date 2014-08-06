@@ -19,7 +19,16 @@
 				});
 			<?php else: ?>
 				// setup the image file upload
-				$('.image_element_image_upload', page_element_cont).fileupload({
+				$('#<?php echo $uuid; ?>').fileupload({
+					<?php if (empty($current_on_off_features['unlimited_photos'])): ?>
+						maxNumberOfFiles: <?php echo $photos_left_to_add; ?>,
+					<?php endif; ?>
+					disableImageResize: /Android(?!.*Chrome)|Opera/.test(window.navigator && navigator.userAgent),
+					imageMaxWidth: <?php echo FREE_MAX_RES; ?>,
+					imageMaxHeight: <?php echo FREE_MAX_RES; ?>,
+					dataType: 'json',
+					sequentialUploads: true,
+					autoUpload: true,
 					url: '/admin/photos/process_mass_photos/',
 					formData: function() {
 						return [
@@ -34,13 +43,11 @@
 						];
 					},
 					start: function() {
-						show_modal('<?php __('Uploading'); ?>', 0, undefined, false);
 					},
 					stop: function() {
-						remove_modal();
 					},
 					done: function(e, data) {
-						var result = jQuery.parseJSON(data.result);
+						var result = data.result.files['0'];
 						if (result.code == 1) {
 							jQuery('.image_element_image_cont .image_element_image_photo_id', page_element_cont).val(result.new_photo_id);
 							jQuery('.image_element_image_cont img.image_element_actual_image', page_element_cont).attr('src', result.new_photo_path);
@@ -69,7 +76,14 @@
 			<?php else: ?>
 				<img class="image_element_actual_image" src="<?php echo $this->Photo->get_dummy_error_image_path($image_element_cache_image_height, $image_element_cache_image_width); ?>" />
 			<?php endif; ?>
-			<br/><div class="image_element_image_upload image_upload" style="width: <?php echo $image_element_cache_image_width - 4; ?>px; overflow: hidden; padding-left: 158px; margin-top: 8px;">
+			<br/>
+			<div class="image_element_image_upload image_upload" style="width: <?php echo $image_element_cache_image_width - 4; ?>px; overflow: hidden; padding-left: 158px; margin-top: 8px;">
+				<div class="fileupload-progress fade">
+					<!-- The global progress bar -->
+					<div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+					<!-- The extended global progress state -->
+					<div class="progress-extended">&nbsp;</div>
+				</div>
 				<input type="file" accept="image/jpeg" />
 			</div>
 			<?php /*<div class="image_size_text">

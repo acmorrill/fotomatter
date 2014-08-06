@@ -1,6 +1,3 @@
-<script src="/js/jquery-file-upload/js/jquery.iframe-transport.js"></script>
-<script src="/js/jquery-file-upload/js/jquery.fileupload.js"></script>
-
 <script type="text/javascript">
 	/*
 	 *	A PROTOTYPE FUNCTION TO BE PASSED IN FROM ELEMENTS
