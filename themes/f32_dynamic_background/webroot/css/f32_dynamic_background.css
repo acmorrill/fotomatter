@@ -181,18 +181,19 @@ body .outer_nav .nav #main_nav ul li a:hover {
   font-size: 13px;
 }
 h1.gallery_title {
+  position: relative;
+  top: 20px;
+  bottom: 20px;
+  left: 30px;
   font-size: 14px;
-  line-height: 18px;
-  margin-top: 40px;
-  margin-left: 247px;
 }
 #gallery_list_table {
-  margin-left: 220px;
-  margin-top: 15px;
-  width: 280px;
+  position: relative;
+  left: 50px;
+  top: 40px;
+  width: 700px;
 }
 #gallery_list_table .galleries {
-  margin-left: 70px;
   margin-bottom: 30px;
   text-align: center;
 }
@@ -201,9 +202,11 @@ h1.gallery_title {
   padding: 8px;
 }
 #gallery_list_table .galleriesLink {
+  position: relative;
+  top: 4px;
   font-size: 14px;
   overflow: hidden;
-  height: 34px;
+  height: 28px;
 }
 #gallery_list_table .galleriesLink a {
   text-decoration: none;
@@ -214,7 +217,6 @@ h1.gallery_title {
 }
 .gallery img {
   position: relative;
-  right: 6px;
   width: 800px;
   height: 540px;
 }
@@ -224,6 +226,7 @@ h1.gallery_title {
   width: 802px;
 }
 .extra .view_page_paragraph {
+  margin-top: 20px;
   font-family: 'Actor', sans-serif;
   float: left;
   font-size: 13px;
@@ -244,8 +247,8 @@ h1.gallery_title {
 }
 .prev_next {
   position: absolute;
-  top: 124px;
-  right: 580px;
+  bottom: 866px;
+  right: 0px;
   font-size: 12px;
 }
 .prev_next ul {
@@ -271,8 +274,43 @@ h1.gallery_title {
   padding-top: 0px;
 }
 .content .inner_content {
+  position: relative;
+  left: 40px;
+  top: 40px;
+  width: 700px;
   min-height: 440px;
 }
 .content .inner_content #cart_table {
   width: 100%;
+}
+.content .inner_content #cart_table thead {
+  background-color: white;
+  border: 1px solid black;
+  font-weight: 600;
+}
+.content .inner_content #cart_table thead .total {
+  border-right: 1px solid black;
+}
+.content .inner_content #cart_table tbody {
+  background-color: gray;
+  border: 1px solid black;
+}
+.content .inner_content #cart_table tbody tr {
+  border-bottom: 1px solid black;
+}
+.content .inner_content #cart_table tbody tr td {
+  border-right: 1px solid black;
+  text-align: center;
+  vertical-align: middle;
+}
+.content .inner_content #cart_table tbody tr td img {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 1px solid black;
+}
+.content .inner_content #cart_table tfoot {
+  line-height: 25px;
+}
+.content .inner_content #cart_table tfoot td {
+  padding-top: 10px;
 }
