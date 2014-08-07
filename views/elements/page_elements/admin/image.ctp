@@ -19,7 +19,10 @@
 				});
 			<?php else: ?>
 				// setup the image file upload
-				$('#<?php echo $uuid; ?>').fileupload({
+				jQuery('#<?php echo $uuid; ?> .progress').progressbar({
+					value: false
+				});
+				jQuery('#<?php echo $uuid; ?>').fileupload({
 					<?php if (empty($current_on_off_features['unlimited_photos'])): ?>
 						maxNumberOfFiles: <?php echo $photos_left_to_add; ?>,
 					<?php endif; ?>
@@ -42,29 +45,42 @@
 							}
 						];
 					},
+					progressall: function (e, data) {
+						var progress = parseInt((data.loaded * .6) / data.total * 100, 10); // max is 80 percent until call comes back
+						jQuery('#<?php echo $uuid; ?> .progress').progressbar({value: progress });
+					},
 					start: function() {
+						jQuery('#<?php echo $uuid; ?> .fileupload-progress').show();
 					},
 					stop: function() {
 					},
 					done: function(e, data) {
 						var result = data.result.files['0'];
 						if (result.code == 1) {
+							jQuery('#<?php echo $uuid; ?> .progress').progressbar({value: 100 });
 							jQuery('.image_element_image_cont .image_element_image_photo_id', page_element_cont).val(result.new_photo_id);
 							jQuery('.image_element_image_cont img.image_element_actual_image', page_element_cont).attr('src', result.new_photo_path);
 
-							save_page_elements();
+							save_page_elements(function() {
+								jQuery('#<?php echo $uuid; ?> .fileupload-progress').hide();
+							});
 						} else {
 							major_error_recover('The image failed to upload in done of image element');
 						}
 					},
 					fail: function(e, data) {
 						major_error_recover('The image failed to upload in fail');
+					},
+					always: function(e, data) {
 					}
 				});
 			<?php endif; ?>
 		}
 	}));
 </script>
+
+
+
 
 <form id="<?php echo $uuid; ?>">
 	<div class="image_element_image_cont">
@@ -77,12 +93,10 @@
 				<img class="image_element_actual_image" src="<?php echo $this->Photo->get_dummy_error_image_path($image_element_cache_image_height, $image_element_cache_image_width); ?>" />
 			<?php endif; ?>
 			<br/>
-			<div class="image_element_image_upload image_upload" style="width: <?php echo $image_element_cache_image_width - 4; ?>px; overflow: hidden; padding-left: 158px; margin-top: 8px;">
-				<div class="fileupload-progress fade">
+			<div class="image_element_image_upload image_upload" style="width: <?php echo $image_element_cache_image_width - 4; ?>px; overflow: hidden; margin-top: 8px;">
+				<div class="fileupload-progress fade" style="margin-bottom: 10px; display: none;">
 					<!-- The global progress bar -->
 					<div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
-					<!-- The extended global progress state -->
-					<div class="progress-extended">&nbsp;</div>
 				</div>
 				<input type="file" accept="image/jpeg" />
 			</div>

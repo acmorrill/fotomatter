@@ -24,6 +24,19 @@ class UtilHelper extends AppHelper {
 		return $this->_get_or($haystack, $keys, $default, 'isset');
 	}
 	
+	public function get_all_tags() {
+		$this->Tag = ClassRegistry::init('Tag');
+		
+		$tags = $this->Tag->find('all', array(
+			'order' => array(
+				'Tag.name'
+			),
+			'contain' => false
+		));
+		
+		return $tags;
+	}
+	
 	private function _get_or(&$haystack, $keys, $default, $type) {
 		$use_isset = $type == 'isset';
 		

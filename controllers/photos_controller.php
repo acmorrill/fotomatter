@@ -331,13 +331,6 @@ class PhotosController extends AppController {
 		$this->set(compact('photo_sellable_prints'));
 
 
-		$tags = $this->Tag->find('all', array(
-			'order' => array(
-				'Tag.name'
-			),
-			'contain' => false
-		));
-
 		$photo_tags = $this->PhotosTag->find('all', array(
 			'conditions' => array(
 				'PhotosTag.photo_id' => $this->data['Photo']['id']
@@ -346,7 +339,7 @@ class PhotosController extends AppController {
 		));
 		$photo_tag_ids = Set::extract('/PhotosTag/tag_id', $photo_tags);
 
-		$this->set(compact('tags', 'photo_tag_ids'));
+		$this->set(compact('photo_tag_ids'));
 	}
 
 	/* if (!empty($thumbFile['tmp_name'])) {

@@ -101,7 +101,7 @@
 		}		
 	}
 	
-	function save_page_elements() {
+	function save_page_elements(callback) {
 		var page_element_data_to_save = {};
 		page_element_data_to_save['element_data'] = {};
 		
@@ -129,6 +129,9 @@
 //				console.log (data);
 			},
 			complete: function() {
+				if (typeof callback == 'function') {
+					callback();
+				}
 //				console.log ("came into save page complete");
 			},
 			error: function() {
@@ -296,6 +299,7 @@
 		<h2>Select a Dimension and Format</h2>
 	</div>
 	<div class="page_content_cont generic_palette_container">
+		<div class="fade_background_top"></div>
 		<?php echo $this->Element('page_elements/list_admin_page_elements', array(compact(
 			'sitePagesSitePageElements'
 		))); ?>

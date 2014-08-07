@@ -17,7 +17,7 @@
 </script>
 <div id="photo_mass_upload_outer_wrapper">
 	<form id="fileupload" action="/admin/photos/process_mass_photos" method="POST" enctype="multipart/form-data">
-		<div class="upload_content fileupload-buttonbar">
+		<div class="upload_content">
 			<div class="files_ready_to_upload_cont">
 				<div class='files_ready_to_upload_inner_cont custom_ui_radio'>
 					<!-- Redirect browsers with JavaScript disabled to the origin page -->

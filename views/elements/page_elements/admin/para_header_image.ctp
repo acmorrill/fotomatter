@@ -41,7 +41,10 @@
 				});
 			<?php else: ?>
 				// setup the image file upload
-				$('.image_upload', page_element_cont).fileupload({
+				jQuery('#<?php echo $uuid; ?> .progress').progressbar({
+					value: false
+				});
+				jQuery('#<?php echo $uuid; ?>').fileupload({
 					<?php if (empty($current_on_off_features['unlimited_photos'])): ?>
 						maxNumberOfFiles: <?php echo $photos_left_to_add; ?>,
 					<?php endif; ?>
@@ -56,31 +59,40 @@
 						return [
 							{
 								name: 'height',
-								value: <?php echo $image_element_cache_image_height; ?>
+								value: <?php echo $cache_image_height; ?>
 							},
 							{
 								name: 'width',
-								value: <?php echo $image_element_cache_image_width; ?>
+								value: <?php echo $cache_image_width; ?>
 							}
 						];
 					},
+					progressall: function (e, data) {
+						var progress = parseInt((data.loaded * .6) / data.total * 100, 10); // max is 80 percent until call comes back
+						jQuery('#<?php echo $uuid; ?> .progress').progressbar({value: progress });
+					},
 					start: function() {
+						jQuery('#<?php echo $uuid; ?> .fileupload-progress').show();
 					},
 					stop: function() {
 					},
 					done: function(e, data) {
 						var result = data.result.files['0'];
 						if (result.code == 1) {
-							jQuery('.image_element_image_cont .image_element_image_photo_id', page_element_cont).val(result.new_photo_id);
-							jQuery('.image_element_image_cont img.image_element_actual_image', page_element_cont).attr('src', result.new_photo_path);
+							jQuery('.image_cont .para_header_image_photo_id', page_element_cont).val(result.new_photo_id);
+							jQuery('.image_cont img', page_element_cont).attr('src', result.new_photo_path);
 
-							save_page_elements();
+							save_page_elements(function() {
+								jQuery('#<?php echo $uuid; ?> .fileupload-progress').hide();
+							});
 						} else {
-							major_error_recover('The image failed to upload in done of image element');
+							major_error_recover('The image failed to upload in done');
 						}
 					},
 					fail: function(e, data) {
 						major_error_recover('The image failed to upload in fail');
+					},
+					always: function(e, data) {
 					}
 				});
 			<?php endif; ?>
@@ -89,7 +101,6 @@
 			// testing code
 			jQuery('.generic_sort_and_filters .tiny_mce_test', page_element_cont).click(function() {
 				var textarea_val = jQuery(this).closest('.page_element_cont').find('.tinymce textarea').val();
-				alert(textarea_val);
 			});
 		}
 	}));
@@ -105,8 +116,12 @@
 				<div class="image_cont <?php echo $para_image_header_image_pos; ?>">
 					<?php $para_header_image_photo_id =  isset($config['para_header_image_photo_id']) ? $config['para_header_image_photo_id'] : -1 ; ?>
 					<input class="para_header_image_photo_id" name="para_header_image_photo_id" type="hidden" value="<?php echo $para_header_image_photo_id; ?>" />
-					<div class="image_upload" style="width: <?php echo $cache_image_width - 4; ?>px; overflow: hidden; padding-left: 4px;">
-						<input type="file" accept="image/jpeg" />
+					<div class="image_upload" style="width: <?php echo $cache_image_width - 4; ?>px; overflow: hidden; min-width: 125px;">
+						<input style="padding-left: 0px;" type="file" accept="image/jpeg" />
+						<div class="fileupload-progress fade" style="margin-top: 6px; margin-bottom: 10px; display: none;">
+							<!-- The global progress bar -->
+							<div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+						</div>
 					</div>
 					<?php if ($para_header_image_photo_id != -1): ?>
 						<img src="<?php echo $this->Photo->get_photo_path($para_header_image_photo_id, $cache_image_height, $cache_image_width); ?>" />
@@ -123,6 +138,7 @@
 					<textarea name="para_image_paragraph_text" class="" style="width: 506px; height: 124px;"><?php echo $para_header_image_paragraph_text; ?></textarea>
 				</div>
 			</div>
+			<div style="clear: both;"></div>
 		</div>
 		<div class="generic_sort_and_filters page_element_bottom_section" style="border: 0px; border-top: 1px solid #303030; height: auto; position: relative; padding: 15px;">
 			<?php if (Configure::read('debug') > 1): ?>

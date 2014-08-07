@@ -169,6 +169,7 @@
 			<div class="input text">
 				<label><?php __('Photo Tags'); ?></label><br style="clear: both;"/>
 				<select name="data[Photo][tag_ids][]" multiple="multiple" class="chzn-select" data-placeholder="Find Tags ..." style="width: 300px;">
+					<?php $tags = $this->Util->get_all_tags(); ?>
 					<?php foreach ($tags as $tag): ?>
 						<option value="<?php echo $tag['Tag']['id']; ?>" <?php if (in_array($tag['Tag']['id'], $photo_tag_ids)): ?>selected="selected"<?php endif; ?> ><?php echo $tag['Tag']['name']; ?></option>
 					<?php endforeach; ?>
@@ -184,7 +185,6 @@
 		function setRowValues(attr_name, row_tr) {
 			jQuery('td', row_tr).each(function() {
 				var key_value = jQuery(this).attr(attr_name);
-				console.log (key_value);
 				if (key_value !== undefined) {
 					var checkbox = jQuery('input:checkbox', this);
 					if (checkbox.length > 0) {
