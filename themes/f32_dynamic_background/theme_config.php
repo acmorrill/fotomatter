@@ -45,7 +45,7 @@ $theme_config = array(
             ),
             'checkout_login_or_guest' => array(
                 'layout' => 'login_or_guest',
-                'view' => false,
+                'view' => 'checkout_login_or_guest',
             ),
             'checkout_get_address' => array(
                 'layout' => 'address',
