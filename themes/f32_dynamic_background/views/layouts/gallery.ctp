@@ -11,20 +11,20 @@
     <body>
          <?php $welcome_paragraph = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'welcome_paragraph'); ?>
         <?php //echo $content_for_layout; ?>
+        <div class="outer_nav">
+            <?php echo $this->Element('nameTitle'); ?>
+            <div class="nav">
+                <?php echo $this->Element('menu/navBar', array( 'page' => 'home' ));?>											
+            </div>					
+        </div>
         <div class="content">
-            <div class="outer_nav">
-                <?php echo $this->Element('nameTitle'); ?>
-                <div class="nav">
-                    <?php echo $this->Element('menu/navBar', array( 'page' => 'home' ));?>											
-                </div>					
-            </div>
             <!-- The slideshow .js needs to be replaced-->
             <h1 class="gallery_title"><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></h1>
                 <?php echo $this->Element('gallery/gallery_image_lists/2_column', array(
                         'photos' => $photos,
                         'image_max_size' => 250,
                         //'crop' => $image_cropping,
-                )); ?>
+                )); ?>          
             <div class="footer">
                 <div class="inner_footer">
                     <?php echo $this->Element('global_theme_footer_copyright'); ?>

@@ -5,9 +5,45 @@
     width: 800px;
     padding-top: 0px;
     .inner_content {
+        position: relative;
+        left: 40px;
+        top: 40px;
+        width: 700px;
         min-height: 440px;
         #cart_table {
             width: 100%;
+            thead {
+                background-color: white;
+                border: 1px solid black;
+                font-weight: 600;
+                .total {
+                    border-right: 1px solid black;
+                }
+            }
+            tbody {
+                background-color: gray;
+                border: 1px solid black;
+                tr {
+                    border-bottom: 1px solid black;
+                    td {
+                        border-right: 1px solid black;
+                        text-align: center;
+                        vertical-align: middle;
+                         img {
+                            margin-top: 10px;
+                            margin-bottom: 10px;
+                            border: 1px solid black;
+                        }
+                        
+                    }
+                }
+            }
+            tfoot {
+                line-height: 25px;
+                td{
+                    padding-top: 10px;
+                }
+            }
         }
     }
 }
