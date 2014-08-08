@@ -194,6 +194,7 @@ h1.gallery_title {
   width: 700px;
 }
 #gallery_list_table .galleries {
+  width: 300px;
   margin-bottom: 30px;
   text-align: center;
 }
@@ -236,18 +237,33 @@ h1.gallery_title {
 .extra .view_page_paragraph ul {
   list-style: none;
 }
+.extra .view_page_paragraph ul li {
+  margin-top: 6px;
+}
 .extra .cart_bottom {
   margin-left: 20px;
   float: left;
   width: 210px;
-  margin-top: 20px;
+  margin-top: 5px;
 }
 .extra .cart_bottom ul {
   list-style: none;
 }
+.extra .cart_bottom button {
+  padding: 8px;
+  cursor: pointer;
+}
+.extra .cart_bottom select {
+  padding: 3px;
+  margin-bottom: 4px;
+}
+.extra .cart_bottom #add_to_cart_buttons_cont h2 {
+  margin-top: 10px;
+  margin-bottom: 6px;
+}
 .prev_next {
   position: absolute;
-  bottom: 866px;
+  bottom: 905px;
   right: 0px;
   font-size: 12px;
 }
@@ -313,4 +329,38 @@ h1.gallery_title {
 }
 .content .inner_content #cart_table tfoot td {
   padding-top: 10px;
+}
+.content .inner_content #cart_table tfoot button {
+  padding: 8px;
+  cursor: pointer;
+}
+.inner_content button {
+  padding: 6px;
+  cursor: pointer;
+}
+.inner_content #login_container {
+  padding-top: 20px;
+}
+.inner_content #login_container label {
+  display: inline-block;
+  vertical-align: top;
+  width: 75px;
+  text-align: right;
+  margin-right: 10px;
+}
+.inner_content #login_container .input {
+  margin-bottom: 10px;
+}
+.inner_content #login_container .submit {
+  padding-left: 90px;
+}
+.inner_content #login_container .submit input {
+  cursor: pointer;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+.inner_content #login_container .success {
+  margin-bottom: 15px;
 }
