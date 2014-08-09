@@ -21,11 +21,11 @@
             <!--	<h1><?php __('Login'); ?></h1>-->
                 <?php echo $content_for_layout; ?>
             </div> 		
+			<div class="footer">
+				<div class="inner_footer">
+					<?php echo $this->Element('global_theme_footer_copyright'); ?>
+				</div>
+			</div>		
         </div>
-        <div class="footer">
-            <div class="inner_footer">
-                <?php echo $this->Element('global_theme_footer_copyright'); ?>
-            </div>
-        </div>		
     </body>
 </html>

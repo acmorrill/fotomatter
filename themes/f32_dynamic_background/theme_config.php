@@ -49,7 +49,7 @@ $theme_config = array(
             ),
             'checkout_get_address' => array(
                 'layout' => 'address',
-                'view' => false,
+                'view' => checkout_get_address,
             ),
             'checkout_finalize_payment' => array(
                 'layout' => 'custom_page',
