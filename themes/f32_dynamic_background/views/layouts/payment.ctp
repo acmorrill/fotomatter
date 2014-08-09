@@ -18,13 +18,15 @@
         </div>
         <div class="content">
             <div class="inner_content <?php echo $accent_colors; ?>">
+                <div class="check_out">                    
                 <?php echo $content_for_layout; ?>
-            </div> 		
-			<div class="footer">
-				<div class="inner_footer">
-					<?php echo $this->Element('global_theme_footer_copyright'); ?>
-				</div>
-			</div>		
+                </div>
+            </div>
+            <div class="footer">
+                <div class="inner_footer">
+                    <?php echo $this->Element('global_theme_footer_copyright'); ?>
+                </div>
+            </div>		
         </div>
     </body>
 </html>

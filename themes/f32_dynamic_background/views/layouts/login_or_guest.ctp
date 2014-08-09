@@ -17,7 +17,7 @@
             </div>					
         </div>
         <div class="content">
-            <div class="inner_content" <?php echo $accent_colors; ?>">
+            <div class="inner_content <?php echo $accent_colors; ?>">
                 <h1 class="<?php echo $accent_colors; ?>"><?php __('Login'); ?></h1>
                 <?php echo $content_for_layout; ?>
             </div>   					
