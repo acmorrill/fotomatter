@@ -17,19 +17,23 @@
 	<!-- The template to display files available for upload -->
 	<script id="template-upload" type="text/x-tmpl">
 	{% for (var i=0, file; file=o.files[i]; i++) { %}
-		<tr class="template-upload fade">
-			<td>
+		<tr class="template-upload">
+			<td class="first">
+				<div class="rightborder"></div>
 				<span class="preview"></span>
 			</td>
 			<td>
+				<div class="rightborder"></div>
 				<p class="name">{%=file.name%}</p>
 				<strong class="error"></strong>
 			</td>
 			<td>
+				<div class="rightborder"></div>
 				<p class="size">Processing...</p>
 				<div class="progress"></div>
 			</td>
-			<td>
+			<td class="last">
+				<div class="rightborder"></div>
 				{% if (!i && !o.options.autoUpload) { %}
 					<button class="start" disabled>Start</button>
 				{% } %}

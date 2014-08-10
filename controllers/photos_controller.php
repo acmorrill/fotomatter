@@ -186,7 +186,6 @@ class PhotosController extends AppController {
 		}
 		
 		
-		$this->log($upload_data, 'upload_data');
 		$this->return_mass_upload_json($upload_data);
 	}
 	private function return_mass_upload_json($upload_data) {
