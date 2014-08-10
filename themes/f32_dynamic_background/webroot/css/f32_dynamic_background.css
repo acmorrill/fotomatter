@@ -216,6 +216,27 @@ h1.gallery_title {
 #gallery_list_table .galleriesLink a:hover {
   color: white;
 }
+#shipping_address_container {
+  outline: none !important;
+}
+#shipping_address_container h1 {
+  padding-bottom: 20px;
+}
+#shipping_address_container .country_select {
+  padding: 3px;
+  margin-bottom: 4px;
+}
+#shipping_address_container .state_select {
+  padding: 3px;
+  margin-bottom: 4px;
+}
+.no_label input {
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  cursor: pointer;
+}
 .gallery img {
   position: relative;
   width: 800px;
@@ -363,4 +384,54 @@ h1.gallery_title {
 }
 .inner_content #login_container .success {
   margin-bottom: 15px;
+}
+.check_out h1 {
+  margin-bottom: 20px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid black;
+  margin-top: 20px;
+}
+.check_out hr {
+  display: none;
+}
+.check_out .pay_now {
+  float: right;
+}
+.check_out .pay_now input {
+  padding-right: 40px;
+  padding-left: 40px;
+  padding-bottom: 7px;
+  padding-top: 7px;
+  cursor: pointer;
+}
+.check_out #create_account {
+  outline: none !important;
+}
+.check_out #create_account label {
+  width: 101px;
+}
+.check_out #final_payment_info {
+  outline: none !important;
+  margin-top: 0px;
+}
+.check_out #final_payment_info .payment_edit select {
+  padding: 3px;
+  margin-bottom: 4px;
+}
+.check_out #final_payment_info .payment_edit label {
+  width: 124px;
+}
+.check_out #shipping_address_summary {
+  outline: none !important;
+}
+.check_out #shipping_address_summary h1 a {
+  font-size: 12px;
+  color: black;
+  text-decoration: none;
+}
+.check_out #shipping_address_summary h1 a:hover {
+  color: white;
+}
+.check_out #cart_table .last {
+  border-right: 1px solid black;
 }
