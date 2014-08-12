@@ -18,27 +18,30 @@
 	<script id="template-upload" type="text/x-tmpl">
 	{% for (var i=0, file; file=o.files[i]; i++) { %}
 		<tr class="template-upload">
-			<td class="first">
-				<div class="rightborder"></div>
-				<span class="preview"></span>
-			</td>
+			<td class="first"></td>
 			<td>
 				<div class="rightborder"></div>
 				<p class="name">{%=file.name%}</p>
 				<strong class="error"></strong>
 			</td>
-			<td>
+			<td class="progress_td">
 				<div class="rightborder"></div>
 				<p class="size">Processing...</p>
+				<div class="custom_progress"></div>
 				<div class="progress"></div>
 			</td>
 			<td class="last">
 				<div class="rightborder"></div>
+		
 				{% if (!i && !o.options.autoUpload) { %}
 					<button class="start" disabled>Start</button>
 				{% } %}
 				{% if (!i) { %}
 					<button class="cancel">Cancel</button>
+			
+					<span class="custom_ui cancel_photo_upload">
+						<div class="add_button icon"><div class="content">X</div></div>
+					</span>
 				{% } %}
 			</td>
 		</tr>
@@ -47,15 +50,15 @@
 	<!-- The template to display files available for download -->
 	<script id="template-download" type="text/x-tmpl">
 	{% for (var i=0, file; file=o.files[i]; i++) { %}
-		<tr class="template-download fade">
-			<td>
+		<tr class="template-download">
+			<td class="first thumbnail">
 				<span class="preview">
 					{% if (file.thumbnailUrl) { %}
 						<a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.thumbnailUrl%}"></a>
 					{% } %}
 				</span>
 			</td>
-			<td>
+			<td class="progress_td">
 				<p class="name">
 					<a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" {%=file.thumbnailUrl?'data-gallery':''%}>{%=file.name%}</a>
 				</p>
@@ -66,8 +69,7 @@
 			<td>
 				<span class="size">{%=o.formatFileSize(file.size)%}</span>
 			</td>
-			<td>
-			</td>
+			<td class="last"></td>
 		</tr>
 	{% } %}
 	</script>

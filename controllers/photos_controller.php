@@ -114,20 +114,6 @@ class PhotosController extends AppController {
 	}
 
 	public function admin_process_mass_photos($return_new_image_data = false) {
-		if (isset($this->data['Tag'])) {
-			$this->loadModel('Tag');
-			$tag_result = $this->Tag->process_new_save($this->data['Tag']);
-		}
-
-		if (isset($this->data['GalleryPhoto'])) {
-			$galleries_to_save = array();
-			foreach ($this->data['GalleryPhoto'] as $id => $to_use) {
-				if ($to_use) {
-					$galleries_to_save[] = $id;
-				}
-			}
-		}
-
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// fail if trying to add more than the max num photos if not paying for unlimited_photos
 		if (empty($this->current_on_off_features['unlimited_photos']) && $this->Photo->count_total_photos() >= LIMIT_MAX_FREE_PHOTOS) {
@@ -140,7 +126,9 @@ class PhotosController extends AppController {
 			$upload_data['tmp_name'] = $this->params['form']['files']['tmp_name'][0];
 			$upload_data['type'] = $this->params['form']['files']['type'][0];
 			$upload_data['size'] = $this->params['form']['files']['size'][0];
+			$upload_data['pathinfo'] = pathinfo($upload_data['name']);
 
+			
 			if ($this->params['form']['files']['error'][0]) {
 				$upload_data['error'] = $this->params['form']['files']['error'][0];
 				$this->Photo->major_error('Photo failed to upload, probably due to apache limits', $this->params['form'], 'high');
@@ -148,9 +136,9 @@ class PhotosController extends AppController {
 			}
 
 			$photo_for_db['Photo']['cdn-filename'] = $upload_data;
-			$photo_for_db['Photo']['display_title'] = $this->params['form']['files']['name'][0];
-			if (empty($tag_result) === false) {
-				$photo_for_db['Tag'] = $tag_result;
+			$photo_for_db['Photo']['display_title'] = $upload_data['pathinfo']['filename'];
+			if (empty($this->data['tag_ids']) === false) {
+				$photo_for_db['Tag'] = $this->data['tag_ids'];
 			}
 
 			$this->Photo->create();
@@ -159,10 +147,10 @@ class PhotosController extends AppController {
 				$upload_data['error'] = 'Photo failed to save.';
 				$this->return_mass_upload_json($upload_data);
 			}
-			if (isset($galleries_to_save)) {
-				foreach ($galleries_to_save as $gallery) {
+			if (!empty($this->data['gallery_ids'])) {
+				foreach ($this->data['gallery_ids'] as $gallery_id) {
 					$gallery_photo['PhotoGalleriesPhoto']['photo_id'] = $this->Photo->id;
-					$gallery_photo['PhotoGalleriesPhoto']['photo_gallery_id'] = $gallery;
+					$gallery_photo['PhotoGalleriesPhoto']['photo_gallery_id'] = $gallery_id;
 					$this->PhotoGalleriesPhoto->create();
 					if ($this->PhotoGalleriesPhoto->save($gallery_photo) === false) {
 						$this->PhotoGalleriesPhoto->major_error('PhotoGalleriesphoto failed to save on photo upload.');
@@ -179,6 +167,7 @@ class PhotosController extends AppController {
 			$cache_file_width = isset($this->params['form']['width']) ? $this->params['form']['width'] : null;
 			if (isset($cache_file_width) && isset($cache_file_height)) {
 				$upload_data['new_photo_path'] = $this->Photo->get_photo_path($this->Photo->id, $cache_file_height, $cache_file_width);
+				$upload_data['thumbnailUrl'] = $upload_data['new_photo_path'];
 			}
 		} else {
 			$this->Photo->major_error('file params not set in admin_process_mass_photos');

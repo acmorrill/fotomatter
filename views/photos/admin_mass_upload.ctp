@@ -19,7 +19,18 @@
 			previewMaxWidth: 100,
 			previewMaxHeight: 100,
 			acceptFileTypes: /(\.|\/)(jpe?g)$/i,
-			maxFileSize: <?php echo MAX_UPLOAD_SIZE_MEGS * 1000000; ?>
+			maxFileSize: <?php echo MAX_UPLOAD_SIZE_MEGS * 1000000; ?>,
+			process: function (e, data) {
+				var file_tr = jQuery('.files_ready_to_upload_inner_cont table.list tbody:nth-child(' + (1 + data.index) + ')');
+				jQuery('.custom_progress', file_tr).progressbar({ value: 0 });
+			},
+			submit: function (e, data) {
+				jQuery('.cancel_photo_upload', data.context).remove();
+				jQuery('.progress_td .rightborder', data.context).remove();
+			},
+			send: function (e, data) {
+				jQuery('.custom_progress', data.context).progressbar({ value: false });
+			}
 		});
 
 		$('#fileupload').bind('fileuploadadd', function (e, data) {
@@ -33,10 +44,16 @@
 		jQuery("#start_upload_button").click(function(e) {
 			jQuery('#start_upload_button_old').click();
 		});
+
+		jQuery(document).on('click', '.cancel_photo_upload', function(e) {
+			jQuery(this).parent().find('.cancel').click();
+		});
 	});
 </script>
 <div id="photo_mass_upload_outer_wrapper">
 	<form id="fileupload" action="/admin/photos/process_mass_photos" method="POST" enctype="multipart/form-data">
+		<input type="hidden" name="height" value="110" />
+		<input type="hidden" name="width" value="110" />
 		<div class="files_ready_to_upload_cont">
 			<div class='files_ready_to_upload_inner_cont custom_ui_radio'>
 				<div class="page_content_header">
@@ -47,7 +64,7 @@
 						<div class="fileupload-buttons custom_ui">
 							<!-- The fileinput-button span is used to style the file input field as button -->
 							<div id="upload_photos_button" class="add_button">
-								<div class="content"><?php echo __('Upload Photos', true); ?></div>
+								<div class="content"><?php echo __('Choose Photos', true); ?></div>
 								<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
 							</div>
 							<input id="upload_photos_file_button" type="file" name="files[]" multiple>
@@ -80,7 +97,7 @@
 								<tr class="first last not_added_yet">
 									<td class="first last" colspan="3">
 										<div class="rightborder"></div>
-										<span><?php echo __('You have not chosen any photos yet.', true); ?></span>
+										<span><?php echo __('Drag images here or click "Choose Photos" above.', true); ?></span>
 									</td>
 								</tr> 	
 							</tbody>
@@ -97,8 +114,9 @@
 				<div class="upload_setting_container">
 					<h3><?php __('Galleries'); ?></h3>
 					<?php $galleries = $this->Gallery->get_all_galleries(); ?>
-					<select name="data[GalleryPhoto][gallery_ids][]" multiple="multiple" class="chzn-select" data-placeholder="<?php if (empty($galleries)): ?>No Galleries<?php else: ?>Find Galleries ...<?php endif; ?>" style="width: 300px;">
+					<select name="data[gallery_ids][]" multiple="multiple" class="chzn-select" data-placeholder="<?php if (empty($galleries)): ?>No Galleries<?php else: ?>Find Galleries ...<?php endif; ?>" style="width: 300px;">
 						<?php foreach ($galleries as $gallery): ?>
+							<?php if ($gallery['PhotoGallery']['type'] == 'smart') { continue; } ?>
 							<option value="<?php echo $gallery['PhotoGallery']['id']; ?>"><?php echo $gallery['PhotoGallery']['display_name']; ?></option>
 						<?php endforeach; ?>
 					</select>
@@ -106,7 +124,7 @@
 				<div class="upload_setting_container">
 					<h3><?php __('Tags'); ?></h3>
 					<?php $tags = $this->Util->get_all_tags(); ?>
-					<select name="data[Photo][tag_ids][]" multiple="multiple" class="chzn-select" data-placeholder="<?php if (empty($tags)): ?>No Tags<?php else: ?>Find Tags ...<?php endif; ?>" style="width: 300px;">
+					<select name="data[tag_ids][]" multiple="multiple" class="chzn-select" data-placeholder="<?php if (empty($tags)): ?>No Tags<?php else: ?>Find Tags ...<?php endif; ?>" style="width: 300px;">
 						<?php foreach ($tags as $tag): ?>
 							<option value="<?php echo $tag['Tag']['id']; ?>"><?php echo $tag['Tag']['name']; ?></option>
 						<?php endforeach; ?>
