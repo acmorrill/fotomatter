@@ -9,32 +9,35 @@
         left: 40px;
         top: 40px;
         width: 700px;
-        min-height: 440px;
+        min-height: 500px;
+        &.blue button:hover { background-color: @blue; color: @white; }
+        &.pink button:hover { background-color: @pink; color: @white; }
+        &.yellow button:hover { background-color: @yellow; color: @white; }
+        &.red button:hover { background-color: @red; color: @white; }   
         #cart_table {
             width: 100%;
             thead {
-                background-color: white;
-                border: 1px solid black;
+                background-color: @white;
+                border: 1px solid @black;
                 font-weight: 600;
                 .total {
-                    border-right: 1px solid black;
+                    border-right: 1px solid @black;
                 }
             }
             tbody {
-                background-color: gray;
-                border: 1px solid black;
+                background-color: @bg_color_cart;
+                border: 1px solid @black;
                 tr {
-                    border-bottom: 1px solid black;
+                    border-bottom: 1px solid @black;
                     td {
-                        border-right: 1px solid black;
+                        border-right: 1px solid @black;
                         text-align: center;
                         vertical-align: middle;
-                         img {
+                        img {
                             margin-top: 10px;
                             margin-bottom: 10px;
-                            border: 1px solid black;
+                            border: 1px solid @black;
                         }
-                        
                     }
                 }
             }

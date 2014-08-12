@@ -5,7 +5,7 @@
         height: 540px;
     }
 }
-.extra{
+.outer_cart{
     position: relative;
     top: 0px;
     width: 802px;
@@ -16,6 +16,10 @@
         font-size: 13px;
         width: 552px;
         margin-left: 20px;
+        &.blue h1 { color: @blue; }
+        &.pink h1 { color: @pink; }
+        &.yellow h1 { color: @yellow; }
+        &.red h1 { color: @red; } 
         ul{
             list-style: none;
             li{
@@ -28,16 +32,13 @@
         float: left;
         width: 210px;
         margin-top: 5px;
+        &.blue button:hover { background-color: @blue; color: @white; }
+        &.pink button:hover { background-color: @pink; color: @white; }
+        &.yellow button:hover { background-color: @yellow; color: @white; }
+        &.red button:hover { background-color: @red; color: @white; }   
+
         ul{
             list-style: none;
-        }
-        button{
-            padding: 8px;
-            cursor: pointer; 
-        }
-        select{
-            padding: 3px;
-            margin-bottom: 4px;
         }
         #add_to_cart_buttons_cont{
             h2{
@@ -45,23 +46,36 @@
                 margin-bottom: 6px;
             }
         }
+        .submit_inner{
+            padding: 8px;
+            cursor: pointer; 
+        }
+
+        select{
+            padding: 3px;
+            margin-bottom: 4px;
+        }
     }
 }
 .prev_next{
     position: absolute;
     bottom: 905px;
     right: 0px;
-    font-size: 12px;
+    font-size: 12px;    
     ul{
         list-style: none;
         li{
             display: inline-block;
             margin-right: 2px;
             color: @next_pre;
+            &.blue  a:hover { color: @blue; }
+            &.pink  a:hover { color: @pink; }
+            &.yellow a:hover { color: @yellow; }
+            &.red a:hover { color: @red; }             
             a{
                 color: @next_pre;
                 text-decoration: none;
-                &:hover{ color: @hover_color;}
+                //&:hover{ color: @hover_color;}
             }
         }
     }

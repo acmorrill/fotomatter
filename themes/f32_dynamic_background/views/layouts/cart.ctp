@@ -16,8 +16,8 @@
                 <?php echo $this->Element('menu/navBar', array('page' => 'home')); ?>											
             </div>					
         </div>
-        <div class="content <?php echo $accent_colors; ?>">
-            <div class="inner_content">
+        <div class="content">
+            <div class="inner_content <?php echo $accent_colors; ?>">
                 <?php echo $content_for_layout; ?>
             </div>
             <div class="footer">

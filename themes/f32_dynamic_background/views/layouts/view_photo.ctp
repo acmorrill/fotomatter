@@ -7,7 +7,7 @@
         <link href='http://fonts.googleapis.com/css?family=Actor' rel='stylesheet' type='text/css'>
     </head>
     <body>
-        <!--<?php $accent_colors = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'accent_colors'); ?>    <?php echo $accent_colors; ?>-->
+        <?php $accent_colors = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'accent_colors'); ?> 
         <div class="outer_nav">
             <?php echo $this->Element('nameTitle'); ?>
             <div class="nav">
@@ -19,29 +19,27 @@
                 <?php $img_src = $this->Photo->get_photo_path($curr_photo['Photo']['id'], 700, 700, .4, true); ?>
                 <img src="<?php echo $img_src['url']; ?>" <?php echo $img_src['tag_attributes']; ?> alt="<?php echo $curr_photo['Photo']['alt_text']; ?>" />
             </div>
-            <div class="extra">
+            <div class="outer_cart">
                 <?php if (!empty($curr_photo['Photo']['description'])): ?>
-                    <div class="view_page_paragraph">
+                    <div class="view_page_paragraph <?php echo $accent_colors; ?>">
                         <h1>"<?php echo $curr_photo['Photo']['display_title']; ?>"</h1>
-                        <ul class="<?php echo $accent_colors; ?>">
+                        <ul>
                             <li><?php echo $curr_photo['Photo']['date_taken']; ?></li>						
                             <li><?php echo $curr_photo['Photo']['display_subtitle']; ?></li>
                         </ul>
-                    <!-- <h1 class="<?php echo $accent_colors; ?>"><strong><?php __('Photo Description'); ?></strong></h1>-->
                         <ul>                      
                             <li><?php echo $curr_photo['Photo']['description']; ?></li>
                         </ul>
                     </div><!--/view_page_paragraph --> 
                 <?php endif; ?>
 
-                <div class="cart_bottom">
+                <div class="cart_bottom <?php echo $accent_colors; ?>">
                     <ul>
                     <!-- <li><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></li>-->
                     </ul>
                     <?php $photo_sellable_prints = $this->Photo->get_enabled_photo_sellable_prints($photo_id); ?>
                     <?php if (!empty($photo_sellable_prints)): ?>
                         <ul>
-                        <!--  <li><strong><?php __('Add to cart'); ?></strong></li>-->
                             <li>
                                 <?php
                                 echo $this->Element('cart_checkout/image_add_to_cart_form_simple', array(
@@ -59,8 +57,8 @@
                 <ul>
                     <?php $prev_image_web_path = $this->Photo->get_prev_image_web_path($curr_photo['Photo']['id'], $curr_gallery['PhotoGallery']['id']); ?>
                     <?php $next_image_web_path = $this->Photo->get_next_image_web_path($curr_photo['Photo']['id'], $curr_gallery['PhotoGallery']['id']); ?>
-                    <li <?php echo $accent_colors; ?>><a href="<?php echo $prev_image_web_path; ?>"><< previous</a>&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</li>                        
-                    <li <?php echo $accent_colors; ?>><a href="<?php echo $next_image_web_path; ?>">next >></a></li>                        
+                    <li class="<?php echo $accent_colors; ?>"><a href="<?php echo $prev_image_web_path; ?>"><< previous</a>&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</li>                        
+                    <li class="<?php echo $accent_colors; ?>"><a href="<?php echo $next_image_web_path; ?>">next >></a></li>                        
                 </ul>
             </div><!--/prev_next-->
             <div class="footer">
