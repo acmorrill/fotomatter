@@ -25,9 +25,11 @@
                             'height' => 510,
                             'background_color' => '#efefef',
                     )); ?>                    
-            </div> 
+            </div>
+            <div class="welcome_outer">
             <div class="welcome_paragraph">
                 <?php echo substr($welcome_paragraph, 0, 370); ?>
+            </div>
             </div>
             <div class="footer">
                 <div class="inner_footer">

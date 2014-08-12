@@ -1,67 +1,83 @@
 .gallery{
+        display: inline-block;
+        min-height: 500px;
     img{
         position: relative;
-        width: 800px;
-        height: 540px;
     }
 }
-.extra{
+.outer_cart{
+    background-color: @gray;//@bg_color;
     position: relative;
-    top: 0px;
-    width: 802px;
+    top: -3px;
+    //width: 800px;
+    padding-bottom: 40px;
     .view_page_paragraph{
-        margin-top: 20px;
+        margin-top: 30px;
         font-family: 'Actor', sans-serif;
         float: left;
         font-size: 13px;
-        width: 552px;
-        margin-left: 20px;
+        width: 500px;
+        margin-left: 40px;
+        &.blue h1 { color: @blue; }
+        &.pink h1 { color: @pink; }
+        &.yellow h1 { color: @yellow; }
+        &.red h1 { color: @red; } 
         ul{
             list-style: none;
             li{
-                margin-top: 6px;
+                margin-top: 15px;
             }
         }
     }
-    .cart_bottom{
-        margin-left: 20px;
+    .inner_cart{
+        margin-left: 40px;
         float: left;
         width: 210px;
-        margin-top: 5px;
+        margin-top: 15px;
+        &.blue button:hover { background-color: @blue; color: @white; }
+        &.pink button:hover { background-color: @pink; color: @white; }
+        &.yellow button:hover { background-color: @yellow; color: @white; }
+        &.red button:hover { background-color: @red; color: @white; }   
+
         ul{
             list-style: none;
         }
-        button{
+        #add_to_cart_buttons_cont{
+            h2{
+                margin-top: 20px;
+                margin-bottom: 6px;
+            }
+        }
+        .submit_inner{
             padding: 8px;
             cursor: pointer; 
         }
+
         select{
             padding: 3px;
             margin-bottom: 4px;
-        }
-        #add_to_cart_buttons_cont{
-            h2{
-                margin-top: 10px;
-                margin-bottom: 6px;
-            }
         }
     }
 }
 .prev_next{
     position: absolute;
-    bottom: 905px;
-    right: 0px;
-    font-size: 12px;
+    top: 20px;
+    left: -150px;
+    font-size: 12px;    
     ul{
         list-style: none;
         li{
             display: inline-block;
             margin-right: 2px;
             color: @next_pre;
+            &.blue  a:hover { color: @blue; }
+            &.pink  a:hover { color: @pink; }
+            &.yellow a:hover { color: @yellow; }
+            &.red a:hover { color: @red; }             
             a{
                 color: @next_pre;
                 text-decoration: none;
-                &:hover{ color: @hover_color;}
+                //&:hover{ color: @hover_color;}
             }
         }
     }
