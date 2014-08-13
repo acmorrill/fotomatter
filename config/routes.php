@@ -27,6 +27,10 @@
  * its action called 'display', and we pass a param to select the view file
  * to use (in this case, /app/views/pages/home.ctp)...
  */
+Router::mapResources("tags");
+Router::parseExtensions();
+
+
 Router::connect('/', array('controller' => 'site_pages', 'action' => 'landing_page'));
 /**
  * ...and connect the rest of 'Pages' controller's urls.
@@ -41,3 +45,4 @@ Router::connect('/admin', array('controller' => 'Dashboards', 'action' => 'index
 Router::connect('/admin/:controller/:action/*', array(
 	'action' => null, 'prefix' => 'admin', 'admin' => true
 ));
+

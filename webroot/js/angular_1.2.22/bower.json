@@ -1,0 +1,14 @@
+{
+	"name": "angular-fotomatter",
+	"description": "Fotomatter angular project",
+	"version": "0.0.0",
+	"homepage": "fotomatter.net",
+	"license": "MIT",
+	"private": true,
+	"dependencies": {
+		"angular": "1.2.x",
+		"angular-route": "~1.2.x",
+		"angular-resource": "~1.2.x",
+		"angular-animate": "~1.2.x"
+	}
+}
