@@ -33,7 +33,7 @@
                     </div><!--/view_page_paragraph --> 
                 <?php endif; ?>
 
-                <div class="cart_bottom <?php echo $accent_colors; ?>">
+                <div class="inner_cart <?php echo $accent_colors; ?>">
                     <ul>
                     <!-- <li><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></li>-->
                     </ul>

@@ -237,10 +237,12 @@ h1.gallery_title {
   padding-top: 5px;
   cursor: pointer;
 }
+.gallery {
+  display: inline-block;
+  min-height: 540px;
+}
 .gallery img {
   position: relative;
-  width: 800px;
-  height: 540px;
 }
 .outer_cart {
   position: relative;
@@ -273,47 +275,47 @@ h1.gallery_title {
 .outer_cart .view_page_paragraph ul li {
   margin-top: 6px;
 }
-.outer_cart .cart_bottom {
+.outer_cart .inner_cart {
   margin-left: 20px;
   float: left;
   width: 210px;
   margin-top: 5px;
 }
-.outer_cart .cart_bottom.blue button:hover {
+.outer_cart .inner_cart.blue button:hover {
   background-color: #000099;
   color: #ffffff;
 }
-.outer_cart .cart_bottom.pink button:hover {
+.outer_cart .inner_cart.pink button:hover {
   background-color: #ff0099;
   color: #ffffff;
 }
-.outer_cart .cart_bottom.yellow button:hover {
+.outer_cart .inner_cart.yellow button:hover {
   background-color: #ffff00;
   color: #ffffff;
 }
-.outer_cart .cart_bottom.red button:hover {
+.outer_cart .inner_cart.red button:hover {
   background-color: #cc0000;
   color: #ffffff;
 }
-.outer_cart .cart_bottom ul {
+.outer_cart .inner_cart ul {
   list-style: none;
 }
-.outer_cart .cart_bottom #add_to_cart_buttons_cont h2 {
+.outer_cart .inner_cart #add_to_cart_buttons_cont h2 {
   margin-top: 10px;
   margin-bottom: 6px;
 }
-.outer_cart .cart_bottom .submit_inner {
+.outer_cart .inner_cart .submit_inner {
   padding: 8px;
   cursor: pointer;
 }
-.outer_cart .cart_bottom select {
+.outer_cart .inner_cart select {
   padding: 3px;
   margin-bottom: 4px;
 }
 .prev_next {
   position: absolute;
-  top: -20px;
-  right: 0px;
+  top: 20px;
+  left: -150px;
   font-size: 12px;
 }
 .prev_next ul {
