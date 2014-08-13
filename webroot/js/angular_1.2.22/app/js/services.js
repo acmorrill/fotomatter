@@ -4,8 +4,12 @@
 
 var fotomatterServices = angular.module('fotomatterServices', ['ngResource']);
 
-fotomatterServices.factory('Tag', ['$resource',	function($resource) {
-	return $resource('/:tagId.json', {}, {
-		query: {method: 'GET', params: {tagId: 'tags'}, isArray: true}
+fotomatterServices.factory('Tags', ['$resource', function($resource) {
+	return $resource('/tags/:id.json', {}, {
+		'index': { method: 'GET', isArray: true },
+		'add': { method: 'POST', isArray: true },
+		'view': { method: 'GET', params: { id: '@id' }, isArray: true },
+		'edit': { method: 'PUT', params: { id: '@id' }, isArray: true },
+		'delete': { method: 'DELETE', params: { id: '@id' } }
 	});
 }]);

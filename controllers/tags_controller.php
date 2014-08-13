@@ -12,7 +12,9 @@ class TagsController extends AppController {
    
 	
 	public function index() {
-        $tags = $this->Tag->find('all');
+        $tags = $this->Tag->find('all', array(
+			'contain' => false
+		));
                                         
 		$this->return_json($tags);
     }

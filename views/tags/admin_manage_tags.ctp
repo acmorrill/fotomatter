@@ -45,6 +45,9 @@
 					<span>{{tag.Photo.length}}</span>
 				</td> 
 				<td class='last'>
+					<span class="custom_ui" ng-click="delete_tag($index)">
+						<div class="add_button icon"><div class="content">X</div></div>
+					</span>
 					Actions
 				</td>
 			</tr>
