@@ -14,7 +14,7 @@
                 <?php echo $this->Element('menu/navBar', array('page' => 'home')); ?>											
             </div>					
         </div>
-        <div class="content">
+        <div class="content">            
             <div class="gallery">                  
                 <?php $img_src = $this->Photo->get_photo_path($curr_photo['Photo']['id'], 700, 700, .4, true); ?>
                 <img src="<?php echo $img_src['url']; ?>" <?php echo $img_src['tag_attributes']; ?> alt="<?php echo $curr_photo['Photo']['alt_text']; ?>" />
@@ -35,7 +35,7 @@
 
                 <div class="inner_cart <?php echo $accent_colors; ?>">
                     <ul>
-                    <!-- <li><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></li>-->
+                    <!-- <li><?php //echo $curr_gallery['PhotoGallery']['display_name']; ?></li>-->
                     </ul>
                     <?php $photo_sellable_prints = $this->Photo->get_enabled_photo_sellable_prints($photo_id); ?>
                     <?php if (!empty($photo_sellable_prints)): ?>

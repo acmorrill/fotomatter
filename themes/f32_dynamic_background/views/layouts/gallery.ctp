@@ -18,13 +18,14 @@
             </div>					
         </div>
         <div class="content">
-            <!-- The slideshow .js needs to be replaced-->
-            <h1 class="gallery_title"><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></h1>
-                <?php echo $this->Element('gallery/gallery_image_lists/2_column', array(
-                        'photos' => $photos,
-                        'image_max_size' => 250,
-                        //'crop' => $image_cropping,
-                )); ?>          
+            <div class="gallery_table_outer">                
+                <h1 class="gallery_title"><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></h1>
+                    <?php echo $this->Element('gallery/gallery_image_lists/2_column', array(
+                            'photos' => $photos,
+                            'image_max_size' => 250,
+                            //'crop' => $image_cropping,
+                    )); ?>          
+            </div>
             <div class="footer">
                 <div class="inner_footer">
                     <?php echo $this->Element('global_theme_footer_copyright'); ?>

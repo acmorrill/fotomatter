@@ -139,6 +139,13 @@ h2 {
 ul {
   padding: 0px;
 }
+.footer {
+  margin-top: -4px;
+  background-color: #666666;
+}
+.footer #footer_tagline {
+  margin-top: 0px;
+}
 body {
   background-image: url(http://www.bobdentphotography.com/images/graphics/bkg.jpg);
   background-repeat: no-repeat;
@@ -172,48 +179,57 @@ body .outer_nav .nav #main_nav ul li a {
 body .outer_nav .nav #main_nav ul li a:hover {
   color: #ffffff;
 }
-.welcome_paragraph {
+.welcome_outer {
+  width: 800px;
+  min-height: 120px;
+  background-color: #666666;
+}
+.welcome_outer .welcome_paragraph {
   font-family: 'Actor', sans-serif;
   position: relative;
-  top: 20px;
-  left: 10px;
+  top: 30px;
+  left: 50px;
   width: 700px;
   font-size: 13px;
 }
-h1.gallery_title {
+.gallery_table_outer {
+  background-color: #666666;
+  padding-bottom: 70px;
+}
+.gallery_table_outer h1.gallery_title {
   position: relative;
   top: 20px;
   bottom: 20px;
   left: 30px;
   font-size: 14px;
 }
-#gallery_list_table {
+.gallery_table_outer #gallery_list_table {
   position: relative;
   left: 50px;
   top: 40px;
   width: 700px;
 }
-#gallery_list_table .galleries {
+.gallery_table_outer #gallery_list_table .galleries {
   width: 300px;
   margin-bottom: 30px;
   text-align: center;
 }
-#gallery_list_table .galleries .gallery_image_a_link .gallery_image_actual_image {
+.gallery_table_outer #gallery_list_table .galleries .gallery_image_a_link .gallery_image_actual_image {
   background-color: white;
   padding: 8px;
 }
-#gallery_list_table .galleriesLink {
+.gallery_table_outer #gallery_list_table .galleriesLink {
   position: relative;
   top: 4px;
   font-size: 14px;
   overflow: hidden;
   height: 28px;
 }
-#gallery_list_table .galleriesLink a {
+.gallery_table_outer #gallery_list_table .galleriesLink a {
   text-decoration: none;
   color: black;
 }
-#gallery_list_table .galleriesLink a:hover {
+.gallery_table_outer #gallery_list_table .galleriesLink a:hover {
   color: white;
 }
 #shipping_address_container {
@@ -239,23 +255,24 @@ h1.gallery_title {
 }
 .gallery {
   display: inline-block;
-  min-height: 540px;
+  min-height: 500px;
 }
 .gallery img {
   position: relative;
 }
 .outer_cart {
+  background-color: #666666;
   position: relative;
-  top: 0px;
-  width: 802px;
+  top: -3px;
+  padding-bottom: 40px;
 }
 .outer_cart .view_page_paragraph {
-  margin-top: 20px;
+  margin-top: 30px;
   font-family: 'Actor', sans-serif;
   float: left;
   font-size: 13px;
-  width: 552px;
-  margin-left: 20px;
+  width: 500px;
+  margin-left: 40px;
 }
 .outer_cart .view_page_paragraph.blue h1 {
   color: #000099;
@@ -273,13 +290,13 @@ h1.gallery_title {
   list-style: none;
 }
 .outer_cart .view_page_paragraph ul li {
-  margin-top: 6px;
+  margin-top: 15px;
 }
 .outer_cart .inner_cart {
-  margin-left: 20px;
+  margin-left: 40px;
   float: left;
   width: 210px;
-  margin-top: 5px;
+  margin-top: 15px;
 }
 .outer_cart .inner_cart.blue button:hover {
   background-color: #000099;
@@ -301,7 +318,7 @@ h1.gallery_title {
   list-style: none;
 }
 .outer_cart .inner_cart #add_to_cart_buttons_cont h2 {
-  margin-top: 10px;
+  margin-top: 20px;
   margin-bottom: 6px;
 }
 .outer_cart .inner_cart .submit_inner {

@@ -1,21 +1,23 @@
 .gallery{
         display: inline-block;
-        min-height: 540px;
+        min-height: 500px;
     img{
         position: relative;
     }
 }
 .outer_cart{
+    background-color: @gray;//@bg_color;
     position: relative;
-    top: 0px;
-    width: 802px;
+    top: -3px;
+    //width: 800px;
+    padding-bottom: 40px;
     .view_page_paragraph{
-        margin-top: 20px;
+        margin-top: 30px;
         font-family: 'Actor', sans-serif;
         float: left;
         font-size: 13px;
-        width: 552px;
-        margin-left: 20px;
+        width: 500px;
+        margin-left: 40px;
         &.blue h1 { color: @blue; }
         &.pink h1 { color: @pink; }
         &.yellow h1 { color: @yellow; }
@@ -23,15 +25,15 @@
         ul{
             list-style: none;
             li{
-                margin-top: 6px;
+                margin-top: 15px;
             }
         }
     }
     .inner_cart{
-        margin-left: 20px;
+        margin-left: 40px;
         float: left;
         width: 210px;
-        margin-top: 5px;
+        margin-top: 15px;
         &.blue button:hover { background-color: @blue; color: @white; }
         &.pink button:hover { background-color: @pink; color: @white; }
         &.yellow button:hover { background-color: @yellow; color: @white; }
@@ -42,7 +44,7 @@
         }
         #add_to_cart_buttons_cont{
             h2{
-                margin-top: 10px;
+                margin-top: 20px;
                 margin-bottom: 6px;
             }
         }
