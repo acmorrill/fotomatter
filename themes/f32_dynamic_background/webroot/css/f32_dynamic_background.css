@@ -312,7 +312,7 @@ h1.gallery_title {
 }
 .prev_next {
   position: absolute;
-  bottom: 870px;
+  top: -20px;
   right: 0px;
   font-size: 12px;
 }
