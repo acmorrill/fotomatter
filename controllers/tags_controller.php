@@ -1,7 +1,6 @@
 <?php
 class TagsController extends AppController {
     
-	public $components = array('RequestHandler');
 	public $layout = 'admin/tags';
 	
 	public function admin_manage_tags() {
@@ -12,9 +11,7 @@ class TagsController extends AppController {
    
 	
 	public function index() {
-        $tags = $this->Tag->find('all', array(
-			'contain' => false
-		));
+        $tags = $this->Tag->find('all');
                                         
 		$this->return_json($tags);
     }
@@ -25,11 +22,13 @@ class TagsController extends AppController {
     }
 
     public function add() {
-        //$this->Tag->id = $id;
-        if ($this->Tag->save($this->request->data)) {
+		$new_tag = array();
+		$new_tag['Tag']['name'] = $_GET['name'];
+        if ($this->Tag->save($new_tag)) {
             $message = array(
                 'text' => __('Saved', true),
-                'type' => 'success'
+                'type' => 'success',
+				'new_tag' => $this->Tag->findById($this->Tag->id)
             );
         } else {
             $message = array(
@@ -42,7 +41,7 @@ class TagsController extends AppController {
 
     public function edit($id) {
         $this->Tag->id = $id;
-        if ($this->Tag->save($this->request->data)) {
+        if ($this->Tag->save($this->data)) {
             $message = array(
                 'text' => __('Saved', true),
                 'type' => 'success'
