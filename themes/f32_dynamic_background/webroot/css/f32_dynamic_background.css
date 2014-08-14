@@ -141,13 +141,13 @@ ul {
 }
 .footer {
   margin-top: -4px;
-  background-color: #666666;
+  background-color: #c1c1c1;
 }
 .footer #footer_tagline {
   margin-top: 0px;
 }
 body {
-  background-image: url(http://www.bobdentphotography.com/images/graphics/bkg.jpg);
+  background-image: url('/theme_merged_final_images/f32_dynamic_background.jpg');
   background-repeat: no-repeat;
   background-color: #c1c1c1;
   background-position: 0% 0%;
@@ -182,7 +182,7 @@ body .outer_nav .nav #main_nav ul li a:hover {
 .welcome_outer {
   width: 800px;
   min-height: 120px;
-  background-color: #666666;
+  background-color: #c1c1c1;
 }
 .welcome_outer .welcome_paragraph {
   font-family: 'Actor', sans-serif;
@@ -193,7 +193,7 @@ body .outer_nav .nav #main_nav ul li a:hover {
   font-size: 13px;
 }
 .gallery_table_outer {
-  background-color: #666666;
+  background-color: #c1c1c1;
   padding-bottom: 70px;
 }
 .gallery_table_outer h1.gallery_title {
@@ -256,12 +256,13 @@ body .outer_nav .nav #main_nav ul li a:hover {
 .gallery {
   display: inline-block;
   min-height: 500px;
+  background-color: #c1c1c1;
 }
 .gallery img {
   position: relative;
 }
 .outer_cart {
-  background-color: #666666;
+  background-color: #c1c1c1;
   position: relative;
   top: -3px;
   padding-bottom: 40px;
