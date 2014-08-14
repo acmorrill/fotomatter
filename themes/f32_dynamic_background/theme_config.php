@@ -1,6 +1,6 @@
 <?php
 
-//config for theme: default
+// config for theme: f/32
 
 $theme_config = array(
     'theme_include_helpers' => array(),
@@ -137,26 +137,37 @@ $theme_config = array(
         'theme_background_config' => array(
             'theme_has_dynamic_background' => true,
             'overlay_image' => array(
-                'absolute_path' => PATH_TO_THEMES . DS . 'large_image_gray_bar_licky/webroot/img/kent_test_logo.png', // this image should be max 1390 x 953 (DREW TODO - not sure about this)
-                'web_path' => '/img/kent_test_logo.png',
-//			'custom_overlay_transparency_fade' => array(
-//			'general' => array(
-//			tl' => array(
-//			'x' => 0,
-//			'y' => 0,
-//			),
-//			'br' => array(
-//			'x' => '*', // NOTE - * means full length or width
-//			'y' => '*', // NOTE - * means full length or width
-//			),
-//			'label' => 'General',
-//			),
-//		),
+                'absolute_path' => PATH_TO_THEMES . DS . 'f32_dynamic_background/webroot/img/transparent_bg.png', // this image should be max 1390 x 953 (DREW TODO - not sure about this)
+                'web_path' => '/img/transparent_bg.png',
+                'custom_overlay_transparency_fade' => array(
+                    'header' => array(
+                        'tl' => array(
+                            'x' => 0,
+                            'y' => 0,
+                        ),
+                        'br' => array(
+                            'x' => '*', // NOTE - * means full length or width - also, NOTICE that max width is width minus 1 because the calc starts at 0
+                            'y' => 90,
+                        ),
+                        'label' => 'Header',
+                    ),
+                    'body' => array(
+                        'tl' => array(
+                            'x' => 0,
+                            'y' => 91,
+                        ),
+                        'br' => array(
+                            'x' => '*', // NOTE - * means full length or width - also, NOTICE that max width is width minus 1 because the calc starts at 0
+                            'y' => '*',
+                        ),
+                        'label' => 'Body',
+                    ),
+                ),
             ),
             'default_bg_image' => array(
-                'absolute_path' => '', // max 1600 width and max 1200 height
-                'web_path' => ''
-            ),
+                'absolute_path' => PATH_TO_THEMES . DS . 'f32_dynamic_background/webroot/img/passing-rain.jpg', // max 1600 width and max 1200 height
+                'web_path' => '/img/passing-rain.jpg'
+            )
         ),
         'theme_gallery_listing_config' => array(
             'default_images_per_page' => 8
@@ -237,18 +248,18 @@ $theme_config = array(
                     'default_value' => 'Welcome to my online gallery!',
                 ),
                 'accent_colors' => array(
-                        'type' => 'color_radio_flexible',
-                        'display_name' => 'Accent colors',
-                        'description' => "Changes the accent colors. Hover on buttons and header underline.",
-                        'help_message' => 'Color Radio Test',
-                        'possible_values' => array(
-                                'red' => '#cc0000',
-                                'blue' => '#0000cc',
-                                'yellow' => '#ffff00',
-                                'pink' => '#ff0099',
-                        ),
-                        'default_value' => 'red',
-                ),                
+                    'type' => 'color_radio_flexible',
+                    'display_name' => 'Accent colors',
+                    'description' => "Changes the accent colors. Hover on buttons and header underline.",
+                    'help_message' => 'Color Radio Test',
+                    'possible_values' => array(
+                        'red' => '#cc0000',
+                        'blue' => '#0000cc',
+                        'yellow' => '#ffff00',
+                        'pink' => '#ff0099',
+                    ),
+                    'default_value' => 'red',
+                ),
             )
         )
     )
