@@ -93,8 +93,8 @@
 					<?php $created_date = $this->Util->get_formatted_created_date($curr_page['SitePage']['created']); ?>
 					<td class="page_modified">
 						<div class="rightborder"></div>
-						<span><?php echo ucwords($curr_page['SitePage']['type']); ?></span>
-					</td> 
+						<span><?php echo ucwords(str_replace('_', ' ', $curr_page['SitePage']['type'])); ?></span>
+					</td>
 					<td class="page_created">
 						<div class="rightborder"></div>
 						<span><?php echo $created_date; ?></span>
