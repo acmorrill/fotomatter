@@ -95,7 +95,7 @@
   margin: 0 0 0 10px;
 }
 .flashMessage.error {
-  color: lightcoral;
+  color: ;
 }
 .flashMessage.success {
   color: lightgreen;

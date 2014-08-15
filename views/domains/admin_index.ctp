@@ -1,4 +1,5 @@
-<div id="domains-outer-cont" class='domains-outer-cont' ng-controller='domains_index'>
+<?php echo $this->Element('admin/angular'); ?>
+<div id="domains-outer-cont" class='domains-outer-cont' ng-app='fmAdmin' ng-controller='domains_index'>
 	<?php if (!empty($debugging)): ?>
 		<h1 style="margin-top: 30px;">Debugging</h1>
 		<pre style="color: white; max-height: 350px; overflow-y: auto; margin-bottom: 30px;"><?php print_r($debugging); ?></pre>

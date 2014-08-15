@@ -167,7 +167,7 @@
 			echo $this->Form->input('Photo.photo_format_id');
 		?>
 			<div class="input text">
-				<label><?php __('Photo Tags'); ?></label><br style="clear: both;"/>
+				<label><?php __('Photo Tags'); ?>&nbsp;&nbsp;(<a href="/admin/tags/manage_tags"><?php echo __('manage tags', true); ?></a>)</label><br style="clear: both;"/>
 				<select name="data[Photo][tag_ids][]" multiple="multiple" class="chzn-select" data-placeholder="Find Tags ..." style="width: 300px;">
 					<?php $tags = $this->Util->get_all_tags(); ?>
 					<?php foreach ($tags as $tag): ?>

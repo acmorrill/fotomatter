@@ -6,10 +6,9 @@ var fotomatterServices = angular.module('fotomatterServices', ['ngResource']);
 
 fotomatterServices.factory('Tags', ['$resource', function($resource) {
 	return $resource('/tags/:id.json', {}, {
-		'index': { method: 'GET', isArray: true },
-		'add': { method: 'POST', params: { name: '@name' } },
-		'view': { method: 'GET', params: { id: '@id' }, isArray: true },
-		'edit': { method: 'PUT', params: { id: '@id' }, isArray: true },
-		'delete': { method: 'DELETE', params: { id: '@id' } }
+		'index': { url: '/admin/tags/index', method: 'GET', isArray: true },
+		'add': { url: '/admin/tags/add', method: 'POST', params: { name: '@name' } },
+		'edit': { url: '/admin/tags/edit/:id', method: 'PUT', params: { id: '@id', name: '@name' } },
+		'delete': { url: '/admin/tags/delete/:id', method: 'DELETE', params: { id: '@id' } }
 	});
 }]);
