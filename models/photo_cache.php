@@ -189,7 +189,7 @@ class PhotoCache extends AppModel {
 						'height' => $calculated_data['height'],
 					);
 				} else {
-					return '/photo_caches/create_cache/'.$this->id.'/';
+					return '/photo_caches/create_cache/'.$this->id.'/?firsttime=true';
 				}
 			}
 		}
@@ -258,7 +258,7 @@ class PhotoCache extends AppModel {
 				'height' => $calculated_data['height'],
 			);
 		} else {
-			return '/photo_caches/create_cache/'.$photo_cache_id.'/';
+			return '/photo_caches/create_cache/'.$photo_cache_id.'/?firsttime=false';
 		}
 	}
 	
