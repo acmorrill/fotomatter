@@ -183,7 +183,7 @@ class PhotoCache extends AppModel {
 				if ($return_tag_attributes === true) {
 					$calculated_data = $this->predict_cache_tag_attributes_for_photo_cache($this->id);
 					return array(
-						'url' => '/photo_caches/create_cache/'.$this->id.'/',
+						'url' => '/photo_caches/create_cache/'.$this->id."/?firsttime=true",
 						'tag_attributes' => $calculated_data['tag_attributes'],
 						'width' => $calculated_data['width'],
 						'height' => $calculated_data['height'],
@@ -252,7 +252,7 @@ class PhotoCache extends AppModel {
 		if ($return_tag_attributes === true) {
 			$calculated_data = $this->predict_cache_tag_attributes_for_photo_cache($photo_cache_id);
 			return array(
-				'url' => '/photo_caches/create_cache/'.$photo_cache_id.'/',
+				'url' => '/photo_caches/create_cache/'.$photo_cache_id.'/?firsttime=false',
 				'tag_attributes' => $calculated_data['tag_attributes'],
 				'width' => $calculated_data['width'],
 				'height' => $calculated_data['height'],

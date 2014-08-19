@@ -460,7 +460,7 @@ class Photo extends AppModel {
 			'PhotoCache.photo_id' => $photo_id,
 			'PhotoCache.max_height' => $height,
 			'PhotoCache.max_width' => $width,
-			'PhotoCache.crop' => ($crop === true) ? '1' : '0',
+			'PhotoCache.crop' => ($crop === true) ? 1 : 0,
 		);
 
 
@@ -469,7 +469,7 @@ class Photo extends AppModel {
 			'contain' => false
 		));
 		$return_url = '';
-		if ($photoCache) {
+		if (!empty($photoCache)) {
 			if ($photoCache['PhotoCache']['status'] == 'ready') {
 				$return_url = $this->PhotoCache->get_full_path($photoCache['PhotoCache']['id'], $return_tag_attributes);
 			} else if ($photoCache['PhotoCache']['status'] == 'processing') {
