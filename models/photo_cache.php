@@ -280,19 +280,17 @@ class PhotoCache extends AppModel {
 		if ($direct_output && $photoCache['PhotoCache']['status'] == 'ready') {
 			$cache_full_path = $this->get_full_path($photoCache['PhotoCache']['id']);
 			
-			if (empty($cache_full_path)) {
-				$this->major_error('finish create cache ready and direct ouput full path empty', compact('cache_full_path', 'photocache_id'));
+			if (empty($cache_full_path) || !file_exists($cache_full_path)) {
+				$this->major_error('finish create cache ready and direct ouput full path empty', compact('cache_full_path', 'photocache_id', 'photoCache'));
 				return $this->get_dummy_processing_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], $direct_output, false, $photoCache['PhotoCache']['crop']);
 			}
 			
-			$cache_full_path_size = getimagesize($cache_full_path);
-			$cache_full_path_mime = $cache_full_path_size['mime'];
 			
 			//header('Content-Description: File Transfer');
-			header("Content-type: $cache_full_path_mime");
+			header('Content-type: image/jpeg');
 			//header('Content-Disposition: attachment; filename='.basename($new_cache_image_path));
 			header('Content-Transfer-Encoding: binary');
-			//header('Expires: 0');
+			header('Expires: 0');
 			header('Cache-Control: must-revalidate');
 			header('Pragma: public');
 			//header('Content-Length: ' . filesize($new_cache_image_path));
