@@ -286,26 +286,34 @@ class PhotoCache extends AppModel {
 			}
 			
 			
+			$ch = curl_init(); 
+			curl_setopt($ch, CURLOPT_URL, $cache_full_path); 
+			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, false); 
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
+			curl_setopt($ch, CURLOPT_BINARYTRANSFER, true); 
+			curl_setopt($ch, CURLOPT_CAPATH, '/etc/ssl/certs');
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+			
+			$file = curl_exec($ch); 
+			if ($file === false) {
+				$curl_error = curl_error($ch);
+				$curl_getinfo = curl_getinfo($ch);
+
+				$this->major_error('failed to get full cache path in finish_create_cache for state ready', compact('curl_getinfo', 'cache_full_path', 'curl_error'), 'high');
+				return $this->get_dummy_processing_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], $direct_output, false, $photoCache['PhotoCache']['crop']);
+			}
+			curl_close($ch);
+
 			header('Content-type: image/jpeg');
 			header('Content-Transfer-Encoding: binary');
 			header('Expires: 0');
 			header('Cache-Control: must-revalidate');
 			header('Pragma: public');
-
-			$ch = curl_init(); 
-
-			curl_setopt($ch, CURLOPT_URL, $cache_full_path); 
-			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0); 
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-			curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1); 
-
-			$file = curl_exec($ch); 
-
-			curl_close($ch);
-
 			echo $file;
 			return;
 			
+
+
 			
 			//header('Content-Description: File Transfer');
 //			header("Content-type: $cache_full_path_mime");
