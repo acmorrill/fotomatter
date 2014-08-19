@@ -280,8 +280,11 @@ class PhotoCache extends AppModel {
 		if ($direct_output && $photoCache['PhotoCache']['status'] == 'ready') {
 			$cache_full_path = $this->get_full_path($photoCache['PhotoCache']['id']);
 			
+			$cache_full_path_size = getimagesize($cache_full_path);
+			$cache_full_path_mime = $cache_full_path['mime'];
+			
 			//header('Content-Description: File Transfer');
-			header("Content-type: $newcache_mime");
+			header("Content-type: $cache_full_path_mime");
 			//header('Content-Disposition: attachment; filename='.basename($new_cache_image_path));
 			header('Content-Transfer-Encoding: binary');
 			//header('Expires: 0');

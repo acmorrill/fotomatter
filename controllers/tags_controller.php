@@ -3,6 +3,10 @@ class TagsController extends AppController {
     
 	public $layout = 'admin/accounts';
 	
+	public function admin_test() {
+		die('came into test 2');
+	}
+	
 	public function admin_manage_tags() {
 		$curr_page = 'photos';
 		
