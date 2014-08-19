@@ -6,11 +6,22 @@ class SiteSetting extends AppModel {
 		return "ss_".$_SERVER['local']['database']."_{$name}";
 	}
 	
-	public function getImageContainerUrl() {
-		if (empty($_SERVER['HTTPS'])) {
-			$imageContainerUrl = $this->getVal('image-container-url', '');
-		} else {
+	public function getImageContainerUrl($force_type = null) {
+		$is_ssl = false;
+		if (!empty($_SERVER['HTTPS'])) {
+			$is_ssl = true;
+		}
+		if ($force_type === 'nonssl') {
+			$is_ssl = false;
+		}
+		if ($force_type === 'ssl') {
+			$is_ssl = true;
+		}
+		
+		if ($is_ssl) {
 			$imageContainerUrl = $this->getVal('image-container-secure_url', '');
+		} else {
+			$imageContainerUrl = $this->getVal('image-container-url', '');
 		}
 		
 		return trim($imageContainerUrl, '/').'/';

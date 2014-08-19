@@ -141,7 +141,7 @@ class PhotoCache extends AppModel {
 		}
 	}
 	
-	public function get_full_path($id, $return_tag_attributes = false) {
+	public function get_full_path($id, $return_tag_attributes = false, $force_ssl = null) {
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
 		
 		$photo_cache = $this->find('first', array(
@@ -152,13 +152,13 @@ class PhotoCache extends AppModel {
                
 		if ($return_tag_attributes === true) {
 			return array(
-				'url' => $this->SiteSetting->getImageContainerUrl().$photo_cache['PhotoCache']['cdn-filename'],
+				'url' => $this->SiteSetting->getImageContainerUrl($force_ssl).$photo_cache['PhotoCache']['cdn-filename'],
 				'tag_attributes' => $photo_cache['PhotoCache']['tag_attributes'],
 				'width' => $photo_cache['PhotoCache']['pixel_width'],
 				'height' => $photo_cache['PhotoCache']['pixel_height'],
 			);
 		} else {
-			return $this->SiteSetting->getImageContainerUrl().$photo_cache['PhotoCache']['cdn-filename'];
+			return $this->SiteSetting->getImageContainerUrl($force_ssl).$photo_cache['PhotoCache']['cdn-filename'];
 		}
 	}
 	
@@ -278,55 +278,28 @@ class PhotoCache extends AppModel {
 		}
 
 		if ($direct_output && $photoCache['PhotoCache']['status'] == 'ready') {
-			$cache_full_path = $this->get_full_path($photoCache['PhotoCache']['id']);
+			$cache_full_path = $this->get_full_path($photoCache['PhotoCache']['id'], false, 'nonssl');
 			
 			if (empty($cache_full_path)) {
-				$this->major_error('finish create cache ready and direct ouput full path empty', compact('cache_full_path', 'photocache_id', 'photoCache'));
+				$this->major_error('finish create cache ready and direct output full path empty', compact('cache_full_path', 'photocache_id', 'photoCache'));
 				return $this->get_dummy_processing_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], $direct_output, false, $photoCache['PhotoCache']['crop']);
 			}
 			
+			$cache_full_path_size = getimagesize($cache_full_path);
+			$cache_full_path_mime = $cache_full_path_size['mime'];
 			
-			$ch = curl_init(); 
-			curl_setopt($ch, CURLOPT_URL, $cache_full_path); 
-			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, false); 
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
-			curl_setopt($ch, CURLOPT_BINARYTRANSFER, true); 
-			curl_setopt($ch, CURLOPT_CAPATH, '/etc/ssl/certs');
-			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-			
-			$file = curl_exec($ch); 
-			if ($file === false) {
-				$curl_error = curl_error($ch);
-				$curl_getinfo = curl_getinfo($ch);
-
-				$this->major_error('failed to get full cache path in finish_create_cache for state ready', compact('curl_getinfo', 'cache_full_path', 'curl_error'), 'high');
-				return $this->get_dummy_processing_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], $direct_output, false, $photoCache['PhotoCache']['crop']);
-			}
-			curl_close($ch);
-
-			header('Content-type: image/jpeg');
+			//header('Content-Description: File Transfer');
+			header("Content-type: $cache_full_path_mime");
+			//header('Content-Disposition: attachment; filename='.basename($new_cache_image_path));
 			header('Content-Transfer-Encoding: binary');
 			header('Expires: 0');
 			header('Cache-Control: must-revalidate');
 			header('Pragma: public');
-			echo $file;
-			return;
-			
-
-
-			
-			//header('Content-Description: File Transfer');
-//			header("Content-type: $cache_full_path_mime");
-			//header('Content-Disposition: attachment; filename='.basename($new_cache_image_path));
-//			header('Content-Transfer-Encoding: binary');
-//			header('Expires: 0');
-//			header('Cache-Control: must-revalidate');
-//			header('Pragma: public');
 			//header('Content-Length: ' . filesize($new_cache_image_path));
-//			ob_clean();
-//			flush();
-//			readfile($cache_full_path);
-//			return;
+			ob_clean();
+			flush();
+			readfile($cache_full_path);
+			return;
 		}
 		
 		$photo_cache_id = $photoCache['PhotoCache']['id'];
