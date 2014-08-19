@@ -286,27 +286,39 @@ class PhotoCache extends AppModel {
 			}
 			
 			
-			$cache_full_path_data = getimagesize($cache_full_path);
-			if (empty($cache_full_path_data)) {
-				$this->major_error('finish create cache ready and direct ouput getimagesize fail', compact('cache_full_path', 'photocache_id', 'photoCache'));
-				return $this->get_dummy_processing_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], $direct_output, false, $photoCache['PhotoCache']['crop']);
-			}
-			$cache_full_path_mime = $cache_full_path_data['mime'];
-			
-			
-			
-			//header('Content-Description: File Transfer');
-			header("Content-type: $cache_full_path_mime");
-			//header('Content-Disposition: attachment; filename='.basename($new_cache_image_path));
+			header('Content-type: image/jpeg');
 			header('Content-Transfer-Encoding: binary');
 			header('Expires: 0');
 			header('Cache-Control: must-revalidate');
 			header('Pragma: public');
-			//header('Content-Length: ' . filesize($new_cache_image_path));
-			ob_clean();
-			flush();
-			readfile($cache_full_path);
+
+			$ch = curl_init(); 
+
+			curl_setopt($ch, CURLOPT_URL, $cache_full_path); 
+			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0); 
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+			curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1); 
+
+			$file = curl_exec($ch); 
+
+			curl_close($ch);
+
+			echo $file;
 			return;
+			
+			
+			//header('Content-Description: File Transfer');
+//			header("Content-type: $cache_full_path_mime");
+			//header('Content-Disposition: attachment; filename='.basename($new_cache_image_path));
+//			header('Content-Transfer-Encoding: binary');
+//			header('Expires: 0');
+//			header('Cache-Control: must-revalidate');
+//			header('Pragma: public');
+			//header('Content-Length: ' . filesize($new_cache_image_path));
+//			ob_clean();
+//			flush();
+//			readfile($cache_full_path);
+//			return;
 		}
 		
 		$photo_cache_id = $photoCache['PhotoCache']['id'];
