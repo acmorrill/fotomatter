@@ -4,7 +4,7 @@ class TagsController extends AppController {
 	public $layout = 'admin/accounts';
 	
 	public function admin_test() {
-		die('came into test 2');
+		die('came into test 6');
 	}
 	
 	public function admin_manage_tags() {
