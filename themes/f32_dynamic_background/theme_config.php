@@ -147,18 +147,18 @@ $theme_config = array(
                         ),
                         'br' => array(
                             'x' => '*', // NOTE - * means full length or width - also, NOTICE that max width is width minus 1 because the calc starts at 0
-                            'y' => 90,
+                            'y' => 149,
                         ),
                         'label' => 'Header',
                     ),
                     'body' => array(
                         'tl' => array(
                             'x' => 0,
-                            'y' => 91,
+                            'y' => 149,
                         ),
                         'br' => array(
                             'x' => '*', // NOTE - * means full length or width - also, NOTICE that max width is width minus 1 because the calc starts at 0
-                            'y' => '*',
+                            'y' => 622,
                         ),
                         'label' => 'Body',
                     ),
