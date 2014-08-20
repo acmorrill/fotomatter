@@ -1,0 +1,96 @@
+#tag_manager_container {
+	#add_tag_input {
+		input {
+			margin-right: 20px;
+		}
+	}
+	.list {
+		.no_select;
+		thead .content { cursor: pointer; }
+		tr td { height: 52px; }
+		.first { width: 150px; }
+		.tag_name { width: 650px; }
+	}
+	#tag_tools_cont {
+		margin-top: 40px;
+	}
+}
+
+
+
+/////////////////////////////////////////////////////////////////////////
+// the below is the angular editable wrap css
+.editable-wrap {
+	display:inline-block;
+	white-space:nowrap;
+	margin:0
+	.editable-controls, .editable-error { margin-bottom:0 }
+	.editable-error {
+		margin-top: 13px;
+		color: @error_red !important;
+	}
+	.editable-controls {
+		margin-bottom: 14px;
+		margin-top: 14px;
+		> input, > select, > textarea { margin-bottom:0 }
+		> input, > div {
+			display: inline-block;
+			vertical-align: top;
+		}
+		.editable-buttons {
+			margin-left: 10px;
+			.add_button {
+				margin-right: 10px;
+			}
+		}
+	}
+	.editable-input { 
+		display:inline-block; 
+		&.editable-has-buttons { width:auto; }
+		input[type=text] { width:46px; }
+	}
+}
+.editable-buttons {
+	display:inline-block;
+	vertical-align:top
+	button { margin-left:5px; }
+}
+.editable-bstime .well-small { 
+	margin-bottom:0;
+	padding:10px;
+}
+.editable-range output {
+	display:inline-block;
+	min-width:30px;
+	vertical-align:top;
+	text-align:center;
+}
+.editable-color input[type=color] {
+	width:50px
+}
+.editable-checkbox, .editable-checklist, .editable-radiolist {
+	label span {
+		margin-left:7px;
+		margin-right:10px;
+	}
+}
+.editable-hide { display:none!important; }
+.editable-click, a.editable-click {
+	text-decoration:none;
+	color:@tab2_on_color;
+	border-bottom:dashed 1px @tab2_on_color;
+	&:hover {
+		text-decoration:none;
+		color:@tab2_on_color;
+		border-bottom-color:@tab2_on_color
+	}
+}
+.editable-empty, a.editable-empty {
+	&, &:hover, :focus {
+		font-style:italic;
+		color:#D14;
+		text-decoration:none;
+	}
+}
+
+

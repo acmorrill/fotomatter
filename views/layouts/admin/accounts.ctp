@@ -1,10 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html  ng-app='fmAdmin'>
+<html>
 <head>
 	<title><?php __('Admin Dashboard'); ?></title>
 	<?php echo $this->Element('admin/global_includes'); ?>
 	<?php echo $this->Element('admin/global_js'); ?>
-	<?php echo $this->Element('admin/angular'); ?>
 </head>
 <body>
 <div id="main">
@@ -27,6 +26,10 @@
 			$subnav['pages'][] = array(
 				'name'=> __('Site Domains', true),
 				'url'=>"/admin/domains"
+			);
+			$subnav['pages'][] = array(
+				'name'=> __('Tags', true),
+				'url'=>"/admin/tags/manage_tags"
 			);
 			echo $this->Element('/admin/submenu', array( 'subnav' => $subnav )); 
 		?>

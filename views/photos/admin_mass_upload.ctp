@@ -122,7 +122,7 @@
 					</select>
 				</div>
 				<div class="upload_setting_container">
-					<h3><?php __('Tags'); ?></h3>
+					<h3><?php __('Tags'); ?>&nbsp;&nbsp;(<a href="/admin/tags/manage_tags"><?php echo __('manage tags', true); ?></a>)</h3>
 					<?php $tags = $this->Util->get_all_tags(); ?>
 					<select name="data[tag_ids][]" multiple="multiple" class="chzn-select" data-placeholder="<?php if (empty($tags)): ?>No Tags<?php else: ?>Find Tags ...<?php endif; ?>" style="width: 300px;">
 						<?php foreach ($tags as $tag): ?>
