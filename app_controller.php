@@ -36,23 +36,13 @@ class AppController extends Controller {
 	 * @access public
 	 */
 	function beforeFilter() {
+		$this->AccountDomain = ClassRegistry::init('AccountDomain');
+		
 		//////////////////////////////////////////////////////
 		// stuff todo just in the admin
 		$in_admin = isset($this->params['admin']) && $this->params['admin'] == 1;
 		if ($in_admin) {
-			// invalide the view cache opcaches
-			$dirp = opendir(VIEW_CACHE_PATH);
-			if ($dirp) {
-				while (FALSE !== ($file = readdir($dirp))) {
-					if ($file == '.' || $file == '..') continue;
-					opcache_invalidate(VIEW_CACHE_PATH . '/' . $file);
-				}
-				closedir($dirp);
-			}
-			//end invalide the view cache opcaches
-			
-			// clear cake view cache for site
-			clearCache();
+			$this->AccountDomain->invalidate_and_clear_view_cache();
 		}
 		
 		///////////////////////////////////////////////////////////////
@@ -83,7 +73,6 @@ class AppController extends Controller {
 		// 1) not already on primary
 		// 2) primary is not expired
 		// 3) if don't need to redirect to ssl
-		$this->AccountDomain = ClassRegistry::init('AccountDomain');
 		$current_primary_domain = $this->AccountDomain->get_current_primary_domain();
 		$http_host = $_SERVER["HTTP_HOST"];
 		if (Configure::read('debug') == 0 && !$redirect_to_ssl && $http_host != $current_primary_domain) {
@@ -191,7 +180,7 @@ class AppController extends Controller {
 			}
 		}
 	}
-
+	
 	public function validatePaymentProfile() {
 		$this->Validation->validate('not_empty', $this->data['AuthnetProfile'], 'billing_firstname', __('You must provide your first name.', true));
 		$this->Validation->validate('not_empty', $this->data['AuthnetProfile'], 'billing_lastname', __('You must provide your last name.', true));

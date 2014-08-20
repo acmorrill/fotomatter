@@ -277,6 +277,8 @@ class PhotoCache extends AppModel {
 			return;
 		}
 
+		$this->invalidate_and_clear_view_cache();
+		
 		if ($direct_output && $photoCache['PhotoCache']['status'] == 'ready') {
 			$cache_full_path = $this->get_full_path($photoCache['PhotoCache']['id'], false, 'nonssl');
 			

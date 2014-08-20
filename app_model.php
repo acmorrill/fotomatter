@@ -11,6 +11,22 @@ class AppModel extends LazyModel {
 		'Containable'
 	);
 	
+	public function invalidate_and_clear_view_cache() {
+		// invalide the view cache opcaches
+		$dirp = opendir(VIEW_CACHE_PATH);
+		if ($dirp) {
+			while (FALSE !== ($file = readdir($dirp))) {
+				if ($file == '.' || $file == '..') continue;
+				opcache_invalidate(VIEW_CACHE_PATH . '/' . $file);
+			}
+			closedir($dirp);
+		}
+		//end invalide the view cache opcaches
+
+		// clear cake view cache for site
+		clearCache();
+	}
+	
 	public function recursive_remove_directory($directory, $empty=FALSE) {
 		// if the path has a slash at the end we remove it here
 		if(substr($directory,-1) == '/')
