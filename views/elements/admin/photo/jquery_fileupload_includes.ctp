@@ -5,7 +5,7 @@
 	}
 	</style>
 	<!-- blueimp Gallery styles -->
-	<link rel="stylesheet" href="http://blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
+	<link rel="stylesheet" href="/js/Gallery/css/blueimp-gallery.min.css">
 	<!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
 	<link rel="stylesheet" href="/js/jQuery-File-Upload/css/jquery.fileupload.css">
 	<link rel="stylesheet" href="/js/jQuery-File-Upload/css/jquery.fileupload-ui.css">
@@ -74,13 +74,13 @@
 	{% } %}
 	</script>
 	<!-- The Templates plugin is included to render the upload/download listings -->
-	<script src="http://blueimp.github.io/JavaScript-Templates/js/tmpl.min.js"></script>
+	<script src="/js/JavaScript-Templates/js/tmpl.min.js"></script>
 	<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
-	<script src="http://blueimp.github.io/JavaScript-Load-Image/js/load-image.min.js"></script>
+	<script src="/js/JavaScript-Load-Image/js/load-image.min.js"></script>
 	<!-- The Canvas to Blob plugin is included for image resizing functionality -->
-	<script src="http://blueimp.github.io/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js"></script>
+	<script src="/js/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js"></script>
 	<!-- blueimp Gallery script -->
-	<script src="http://blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
+	<script src="/js/Gallery/js/jquery.blueimp-gallery.min.js"></script>
 	<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
 	<script src="/js/jQuery-File-Upload/js/jquery.iframe-transport.js"></script>
 	<!-- The basic File Upload plugin -->
@@ -101,7 +101,7 @@
 	<script src="/js/jQuery-File-Upload/js/jquery.fileupload-jquery-ui.js"></script>
 	<!-- The main application script -->
 	<!--<script src="/js/jQuery-File-Upload/js/main.js"></script>-->
-	<!-- The XDomainRequest Transport is included for cross-domain file deletion for IE 8 and IE 9 -->
+	<?php /*<!-- The XDomainRequest Transport is included for cross-domain file deletion for IE 8 and IE 9 -->
 	<!--[if (gte IE 8)&(lt IE 10)]>
 	<script src="js/cors/jquery.xdr-transport.js"></script>
-	<![endif]-->
+	<![endif]--> */ ?>
