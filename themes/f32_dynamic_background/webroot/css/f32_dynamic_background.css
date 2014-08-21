@@ -255,7 +255,7 @@ body .outer_nav .nav #main_nav ul li a:hover {
 }
 .gallery {
   display: inline-block;
-  min-height: 500px;
+  min-height: 505px;
   background-color: #c1c1c1;
 }
 .gallery img {
@@ -264,7 +264,7 @@ body .outer_nav .nav #main_nav ul li a:hover {
 .outer_cart {
   background-color: #c1c1c1;
   position: relative;
-  top: -3px;
+  top: 0px;
   padding-bottom: 40px;
 }
 .outer_cart .view_page_paragraph {
@@ -362,8 +362,8 @@ body .outer_nav .nav #main_nav ul li a:hover {
 }
 .content {
   position: absolute;
-  left: 218px;
-  top: 173px;
+  left: 215px;
+  top: 138px;
   width: 800px;
   padding-top: 0px;
 }
