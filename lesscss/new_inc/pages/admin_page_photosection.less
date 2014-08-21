@@ -1,8 +1,9 @@
 /************************************************
 	START PHOTO SECTION
 ************************************************/
-#main.mass_upload {
-	margin-left: 437px;
+#main {
+	&.mass_upload { margin-left: 437px; }
+	&.photo_details { margin-left: 437px; }
 }
 #photo_mass_upload_outer_wrapper {
 	.ui-corner-all {
@@ -126,11 +127,27 @@
 
 /* START PHOTO EDIT PAGE */
 #image_edit_container {
-	.image_edit_block {
-		display: inline-block;
-		vertical-align: top;
-		width: 350px;
-		margin-right: 30px;
+	.actual_image_container {
+		.sub_nav_generic();
+		margin-top: 57px;
+		.actual_image_inner_container {
+			padding: 5px;
+			border: 1px solid @gray_text;
+			display: inline-block;
+			margin-bottom: 33px;
+		}
+		.input.file {
+			position: fixed;
+			left: -500px;
+		}
+	}
+	.sub_submenu_cont .sub_submenu_right_cont .sub_submenu_tab_cont#sub_submenu_tab_0 {
+		display: block;
+		.tag_select {
+			select {
+				width: 600px;
+			}
+		}
 	}
 }
 
