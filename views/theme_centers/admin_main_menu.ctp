@@ -23,18 +23,6 @@
 	<div class="clear"></div>
 </div>
 
-<div style="float: left; margin-left: 20px;">
-	<?php /* <div class='basic_page_heading header'>
-	  <div class='title'><?php __('Pages'); ?></div>
-	  <p><?php __('Choose a page to add to the menu'); ?></p>
-	  </div>
-
-
-
-	  <div class="custom_ui">
-	  <button id="add_menu_item_button" class="add_button"><?php __('Add Menu Item'); ?></button>
-	  </div> */ ?>
-</div>
 
 <div class="clear"></div>
 

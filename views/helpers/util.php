@@ -1,6 +1,18 @@
 <?php
 class UtilHelper extends AppHelper {
 	
+	public function get_all_tags() {
+		$this->Tag = ClassRegistry::init('Tag');
+		
+		$tags = $this->Tag->find('all', array(
+			'order' => array(
+				'Tag.name'
+			),
+			'contain' => false
+		));
+		
+		return $tags;
+	}
 	public function get_not_empty_theme_setting_or(&$theme_custom_settings, $key, $default = 'nope') {
 		if ($default !== 'nope') {
 			return $this->get_not_empty_or($theme_custom_settings, array($key, 'current_value'), $default);
@@ -24,18 +36,6 @@ class UtilHelper extends AppHelper {
 		return $this->_get_or($haystack, $keys, $default, 'isset');
 	}
 	
-	public function get_all_tags() {
-		$this->Tag = ClassRegistry::init('Tag');
-		
-		$tags = $this->Tag->find('all', array(
-			'order' => array(
-				'Tag.name'
-			),
-			'contain' => false
-		));
-		
-		return $tags;
-	}
 	
 	private function _get_or(&$haystack, $keys, $default, $type) {
 		$use_isset = $type == 'isset';

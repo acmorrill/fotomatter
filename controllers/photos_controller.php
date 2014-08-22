@@ -184,6 +184,7 @@ class PhotosController extends AppController {
 	}
 
 	public function admin_edit($id) {
+		$this->layout = 'admin/photo_details';
 		$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
 		if (!empty($max_photo_id) && $id > $max_photo_id) {
 			$this->FeatureLimiter->limit_function_403();
