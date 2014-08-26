@@ -196,8 +196,14 @@ body .outer_nav .nav #main_nav ul li a:hover {
   background-color: #c1c1c1;
   padding-bottom: 70px;
 }
-.gallery_table_outer .galler_table_inner a {
-  display: inline;
+.gallery_table_outer .galler_table_inner {
+  min-height: 500px;
+}
+.gallery_table_outer .galler_table_inner p {
+  display: block;
+}
+.gallery_table_outer .galler_table_inner p a {
+  color: black;
 }
 .gallery_table_outer .galler_table_inner h1.gallery_title {
   position: relative;

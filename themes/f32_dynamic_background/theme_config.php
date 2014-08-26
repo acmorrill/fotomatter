@@ -8,6 +8,16 @@ $theme_config = array(
         'Default' => array(
             'layout' => false, //we are not sure if this works, but are ignoring for now as best practice is to not use
         ),
+        'PhotoGalleries' => array(
+            'choose_gallery' => array(
+                'layout' => 'gallery_landing',
+                'view' => false,
+            ),
+            'view_gallery' => array(
+                'layout' => 'gallery',
+                'view' => false,
+            )
+        ),
         'SitePages' => array(
             'landing_page' => array(
                 'layout' => 'landing',
@@ -21,16 +31,6 @@ $theme_config = array(
                 'layout' => 'custom_page',
                 'view' => 'contact',
             ),
-        ),
-        'PhotoGalleries' => array(
-            'choose_gallery' => array(
-                'layout' => 'gallery_landing',
-                'view' => false,
-            ),
-            'view_gallery' => array(
-                'layout' => 'gallery',
-                'view' => false,
-            )
         ),
         'Photos' => array(
             'view_photo' => array(

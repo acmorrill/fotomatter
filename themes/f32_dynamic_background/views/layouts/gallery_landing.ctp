@@ -28,7 +28,9 @@
                         $curr_gallery['PhotoGallery']['id']
                     ));
                     ?>
-                    <a onmouseover="setImage('portfolioThumb', '/photos/portfolioThumbs/A-Tangerine-Blue.jpg');" href="<?php echo $curr_gallery_href; ?>"><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></a><br />
+                <p>                    
+                <a onmouseover="setImage('portfolioThumb', '/photos/portfolioThumbs/A-Tangerine-Blue.jpg');" href="<?php echo $curr_gallery_href; ?>"><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></a><br />
+                </p>
                 <?php endforeach; ?>
 
                 </div>
