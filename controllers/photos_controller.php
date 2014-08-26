@@ -101,7 +101,7 @@ class PhotosController extends AppController {
 
 	public function admin_mass_upload() {
 		$this->layout = 'admin/mass_upload';
-		$curr_page = 'photos';
+		$curr_page = 'mass_upload';
 		
 		$total_photos = $this->Photo->count_total_photos();
 		$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();

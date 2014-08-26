@@ -3,7 +3,7 @@ class AccountsController extends AppController {
     
 	public $uses = array('GlobalCountry', 'GlobalCountryState', 'Photo', 'SitePage', 'PhotoGallery', 'Account');
 
-	public $layout = 'admin/accounts';
+	public $layout = 'admin/sidebar_less';
    
 	public $components = array(
 		'FotomatterBilling',
@@ -31,9 +31,12 @@ class AccountsController extends AppController {
 		$photo_count = $this->Photo->find('count');
 		$site_page_count = $this->SitePage->find('count');
 		$photo_gallery_count = $this->PhotoGallery->find('count');
+		
+		$curr_page = 'site_settings';
+		$curr_sub_page = 'account_details';
 
 		$this->set('accountDetails', $accountDetails['data']);
-		$this->set(compact('photo_count', 'site_page_count', 'photo_gallery_count'));
+		$this->set(compact('photo_count', 'site_page_count', 'photo_gallery_count', 'curr_page', 'curr_sub_page'));
 	}
     
 	/**
@@ -61,9 +64,10 @@ class AccountsController extends AppController {
 			$add_feature_ref_name_popup_html = $this->Account->finish_line_change($this, $this->FotomatterBilling->getPaymentProfile());
 		}
 		
-		$this->set(compact(array('overlord_account_info', 'add_feature_ref_name', 'add_feature_ref_name_popup_html')));
+		$curr_page = 'add_features';
+		$this->set(compact(array('overlord_account_info', 'add_feature_ref_name', 'add_feature_ref_name_popup_html', 'curr_page')));
 		
-		$this->layout = 'admin/accounts';
+		$this->layout = 'admin/sidebar_less';
 		$this->render('/accounts/admin_index'); // required to overcome the element calls in finish_line_changes
 	}
    

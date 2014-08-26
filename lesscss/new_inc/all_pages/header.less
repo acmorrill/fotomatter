@@ -40,10 +40,10 @@ body {
 		left: 316px;
 		//left: 228px;
 		bottom: 0px;
-		ul {
+		ul.menu {
 			width: 991px;
 		}
-		li {
+		ul.menu li {
 			position: relative;
 			width: @menu_width;
 			height: @tab_height;
@@ -294,9 +294,11 @@ body {
 	height: @header_height - @tab_height;
 	min-width: 25px;
 	top: -(@header_height - @tab_height);
-	right: 47px;
+	right: 130px;
 	margin-right: 10px;
-	a {
+	z-index: @header;
+	> li {
+		position: relative;
 		.Code-Pro-LC;
 		font-size: 13px;
 		color: @on_white_color;
@@ -305,12 +307,42 @@ body {
 		margin-left: 47px;
 		margin-top: 13px;
 		vertical-align: middle;
-		text-decoration: none;
-		i {
-			font-size: 22px;
-			vertical-align: middle;
-			margin-right: 10px;
-		} 
+		> a {
+			color: @on_white_color;
+			text-decoration: none;
+			i {
+				font-size: 22px;
+				vertical-align: middle;
+				margin-right: 10px;
+			} 
+			line-height: 22px;
+			display: inline-block;
+		}
+		@minor_menu_height: 65px;
+		> ul {
+			position: absolute;
+			margin-top: 8px;
+			left: 0px;
+			display: none;
+			> li {
+				.sub_nav_li_reusable();
+				.subnav_bg {
+					.el_opacity(1, 100);
+					height: @minor_menu_height;
+					border: 1px solid @button_border;
+				}
+				height: @minor_menu_height;
+				> a div { height: @minor_menu_height; }
+				> a div > p { height: @minor_menu_height; }
+				margin-bottom: 4px;
+			}
+		}
+		&.active, &.open, &:hover {
+			a i { color: @tab2_on_color; }
+		}
+		&.open {
+			> ul { display: block; }
+		}
 	}
 }
 

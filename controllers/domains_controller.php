@@ -8,7 +8,7 @@
 class DomainsController extends Appcontroller {
 
 	public $uses = array('GlobalCountry', 'AccountDomain', 'MajorError');
-	public $layout = 'admin/accounts';
+	public $layout = 'admin/sidebar_less';
 	public $components = array('NameCom', 'FotomatterBilling', 'FotomatterDomainManagement');
 	public $paginate = array(
 		'contain' => false,
@@ -66,7 +66,9 @@ class DomainsController extends Appcontroller {
 //			$debugging['list_domains'] = $this->NameCom->list_domains();
 //		}
 
-		$this->set(compact(array('domains', 'primary_domain_id', 'debugging', 'total_external_domains')));
+		$curr_page = 'site_settings';
+		$curr_sub_page = 'domains';
+		$this->set(compact(array('domains', 'primary_domain_id', 'debugging', 'total_external_domains', 'curr_page', 'curr_sub_page')));
 	}
 
 	public function admin_add_profile() {

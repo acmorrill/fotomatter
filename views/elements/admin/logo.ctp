@@ -1,3 +1,5 @@
 <div class="logo">
-	<a href="/admin/dashboards"><img src="/img/admin/logo/fotomatter_logo.svg" alt="" /></a>
+	<?php /*<a href="/admin/dashboards"> */ ?>
+		<img src="/img/admin/logo/fotomatter_logo.svg" alt="" />
+	<?php /* </a> */ ?>
 </div>
