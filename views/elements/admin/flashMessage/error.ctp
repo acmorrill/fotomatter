@@ -1,1 +1,1 @@
-<div <?php if (isset($angular_code)) { echo $angular_code; } ?> class='error flashMessage rounded-corners-tiny'><i class='icon-power'></i><span><?php echo $message; ?></span></div>
+<div <?php if (isset($angular_code)) { echo $angular_code; } ?> class='error flashMessage'><i class='icon-power'></i><span><?php echo $message; ?></span></div>

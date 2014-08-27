@@ -118,7 +118,10 @@ class AppController extends Controller {
 
 		// DREW TODO - for testing only!
 		if (Configure::read('debug') > 0 && !$this->Session->check('Message.flash') && rand(1, 7) == 5) {
-			$this->Session->setFlash('If you do not see this on a page that page is not outputting any flash messages and there also is no flash message to display. For testing only.', 'admin/flashMessage/success');
+			$this->Session->setFlash(
+				'If you do not see this on a page that page is not outputting any flash messages and there also is no flash message to display. For testing only.', 
+				'admin/flashMessage/success'
+			);
 		}
 
 

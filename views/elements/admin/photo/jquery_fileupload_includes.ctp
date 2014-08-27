@@ -30,7 +30,7 @@
 				<div class="custom_progress"></div>
 				<div class="progress"></div>
 			</td>
-			<td class="last">
+			<td class="last table_actions">
 				<div class="rightborder"></div>
 		
 				{% if (!i && !o.options.autoUpload) { %}

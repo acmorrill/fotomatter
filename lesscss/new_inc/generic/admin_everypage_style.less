@@ -178,8 +178,17 @@ select, input {
 	margin-top: 20px;
 	margin-bottom: 20px;
 	cursor: pointer;
+	border: 1px solid @button_border;
 	.content {
 		margin-top: 11px;
+		color: @gray_text;
+	}
+	&:hover {
+		background-color: @off_black + @button_bg_increase;
+		&, a { color: @white };
+		.content {
+			&, a { color: @white };
+		}
 	}
 }
 

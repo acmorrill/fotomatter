@@ -94,7 +94,7 @@
 						<div class="rightborder"></div>
 						<span>{{tag.Tag.photos_count}}</span>
 					</td> 
-					<td class='last'>
+					<td class='last table_actions'>
 						<span class="custom_ui" ng-click="delete_tag(tag.Tag.id)" confirm-delete >
 							<div class="add_button icon"><div class="content">X</div></div>
 						</span>

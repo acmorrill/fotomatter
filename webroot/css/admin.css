@@ -82,27 +82,6 @@
   margin-top: 6px;
   margin-left: 5px;
 }
-.flashMessage {
-  padding: 10px 20px 10px;
-  margin-top: 20px;
-  margin-bottom: 30px;
-  display: inline-block;
-  vertical-align: top;
-  border: 1px solid grey;
-  background-color: #333;
-}
-.flashMessage span {
-  margin: 0 0 0 10px;
-}
-.flashMessage.error {
-  color: ;
-}
-.flashMessage.success {
-  color: lightgreen;
-}
-.flashMessage.warning {
-  color: lightsalmon;
-}
 @font-face {
   font-family: 'FontAwesome';
   src: url('../fonts/fontawesome-webfont.eot?v=3.0.1');

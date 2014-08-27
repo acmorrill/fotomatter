@@ -133,7 +133,7 @@
 						<div class="rightborder"></div>
 						<span><?php echo $created_date; ?></span>
 					</td> 
-					<td class="gallery_action last">
+					<td class="gallery_action last table_actions">
 						<span class="custom_ui">
 							<?php if ($curr_gallery['PhotoGallery']['type'] == 'smart'): ?>
 								<a href="/admin/photo_galleries/edit_smart_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Edit'); ?></a>

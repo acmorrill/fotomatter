@@ -133,7 +133,7 @@
 						<div class="rightborder"></div>
 						<span class=" <?php if (!$photo_is_enabled):?>disabled<?php endif; ?>"><?php echo $created_date; ?></span>
 					</td> 
-					<td class="photo_action last">
+					<td class="photo_action last table_actions">
 						<div class="rightborder"></div>
 						<span class="custom_ui">
 							<?php if ($photo_is_enabled): ?>

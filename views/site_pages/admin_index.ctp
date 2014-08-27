@@ -99,7 +99,7 @@
 						<div class="rightborder"></div>
 						<span><?php echo $created_date; ?></span>
 					</td> 
-					<td class="page_action last">
+					<td class="page_action last table_actions">
 						<span class="custom_ui">
 							<a href="/admin/site_pages/edit_page/<?php echo $curr_page['SitePage']['id']; ?>/"><?php __('Edit'); ?></a>
 							<?php if (isset($curr_page['SitePage']['type']) && $curr_page['SitePage']['type'] == 'custom'): ?>

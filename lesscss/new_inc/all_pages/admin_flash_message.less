@@ -1,0 +1,32 @@
+.flashMessage {
+	.Code-Pro-LC;
+	font-size: 14px;
+	padding: 15px 20px 15px 20px;
+	margin-top: 20px;
+	margin-bottom: 30px;
+	display:inline-block;
+	background-color: @off_black + @button_bg_increase;
+	border: 2px solid @button_border + @button_bg_increase;
+	color: @white;
+	vertical-align: top;
+	span {
+		margin: 0 0 0 18px;
+		max-width: 550px;
+		display: inline-block;
+		line-height: 22px;
+	}
+	i {
+		&, &:before { vertical-align: top; }
+		font-size: 22px;
+		line-height: 22px;
+	}
+	&.error i {
+		color: @error_red;
+	}
+	&.success i {
+		color: @tab2_on_color;
+	}
+	&.warning i {
+		color: @warning_tan;
+	}
+}

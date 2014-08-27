@@ -823,9 +823,22 @@ input {
   margin-top: 20px;
   margin-bottom: 20px;
   cursor: pointer;
+  border: 1px solid #32373b;
 }
 .save_button .content {
   margin-top: 11px;
+  color: #7d888e;
+}
+.save_button:hover {
+  background-color: #292929;
+}
+.save_button:hover,
+.save_button:hover a {
+  color: #ffffff;
+}
+.save_button:hover .content,
+.save_button:hover .content a {
+  color: #ffffff;
 }
 .custom_ui.tools_button {
   display: inline-block;
@@ -1160,6 +1173,43 @@ input {
 .modal-backdrop.in {
   opacity: .5;
   filter: alpha(opacity=50);
+}
+.flashMessage {
+  font-family: Code-Pro-LC;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 14px;
+  padding: 15px 20px 15px 20px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  display: inline-block;
+  background-color: #292929;
+  border: 2px solid #43484c;
+  color: #ffffff;
+  vertical-align: top;
+}
+.flashMessage span {
+  margin: 0 0 0 18px;
+  max-width: 550px;
+  display: inline-block;
+  line-height: 22px;
+}
+.flashMessage i {
+  font-size: 22px;
+  line-height: 22px;
+}
+.flashMessage i,
+.flashMessage i:before {
+  vertical-align: top;
+}
+.flashMessage.error i {
+  color: #FF4336;
+}
+.flashMessage.success i {
+  color: #2ac0de;
+}
+.flashMessage.warning i {
+  color: #E88A35;
 }
 html,
 body {
@@ -3041,7 +3091,7 @@ body {
 }
 .editable-wrap .editable-error {
   margin-top: 13px;
-  color: lightcoral !important;
+  color: #FF4336 !important;
 }
 .editable-wrap .editable-controls {
   margin-bottom: 14px;
