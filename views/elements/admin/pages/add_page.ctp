@@ -18,13 +18,12 @@
 	});
 </script>
 
-<div class="add_page_element custom_ui" style="margin: 5px; margin-bottom: 15px;">
-	<span><?php __('Add New Page'); ?></span>
+<div class="add_page_element add_element custom_ui" style="margin-bottom: 15px;">
 	<select class="add_page_select">
-		<option value="custom"><?php __('Custom'); ?></option>
-		<option value="external"><?php __('External'); ?></option>
+		<option value="custom"><?php echo __('Add Custom Page', true); ?></option>
+		<option value="external"><?php echo __('Add External Page', true); ?></option>
 		<?php $contact_us_count = $this->Page->count_pages_of_type("contact_us"); ?>
-		<option value="contact_us" <?php if ($contact_us_count > 0): ?>disabled="disabled"<?php endif; ?>><?php __('Contact Us'); ?></option>
+		<option value="contact_us" <?php if ($contact_us_count > 0): ?>disabled="disabled"<?php endif; ?>><?php echo __('Add Contact Us Page', true); ?></option>
 	</select>
-	<input id="add_new_page_button" class="add_button" type="submit" value="<?php __('Go'); ?>" />
+	<input id="add_new_page_button" class="add_button" type="submit" value="<?php echo __('Go', true); ?>" />
 </div>

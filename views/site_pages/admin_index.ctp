@@ -41,7 +41,7 @@
 </div>
 <div class="clear"></div>
 
-<div class="table_container">
+<div id="pages_list" class="table_container">
 	<div class="fade_background_top"></div>
 	<div class="table_top"></div>
 	<table class="list">
@@ -60,11 +60,6 @@
 						<?php __('Page Type'); ?>
 					</div>
 				</th> 
-				<th class="">
-					<div class="content one_line">
-						<?php __('Created'); ?>
-					</div>
-				</th>
 				<th class="last"></th>
 			</tr> 
 		</thead>
@@ -95,17 +90,25 @@
 						<div class="rightborder"></div>
 						<span><?php echo ucwords(str_replace('_', ' ', $curr_page['SitePage']['type'])); ?></span>
 					</td>
-					<td class="page_created">
-						<div class="rightborder"></div>
-						<span><?php echo $created_date; ?></span>
-					</td> 
 					<td class="page_action last table_actions">
 						<span class="custom_ui">
-							<a href="/admin/site_pages/edit_page/<?php echo $curr_page['SitePage']['id']; ?>/"><?php __('Edit'); ?></a>
+							<a href="/admin/site_pages/edit_page/<?php echo $curr_page['SitePage']['id']; ?>/">
+								<div class="add_button">
+									<div class="content"><?php echo __('Edit', true); ?></div>
+									<div class="right_arrow_lines"><div></div></div>
+								</div>
+							</a>
 							<?php if (isset($curr_page['SitePage']['type']) && $curr_page['SitePage']['type'] == 'custom'): ?>
-								<a href="/admin/site_pages/configure_page/<?php echo $curr_page['SitePage']['id']; ?>/"><?php __('Configure'); ?></a>
+								<a href="/admin/site_pages/configure_page/<?php echo $curr_page['SitePage']['id']; ?>/">
+									<div class="add_button">
+										<div class="content"><?php echo __('Configure', true); ?></div>
+										<div class="right_arrow_lines"><div></div></div>
+									</div>
+								</a>
 							<?php endif; ?>
-							<a class="delete_link" href="/admin/site_pages/delete_page/<?php echo $curr_page['SitePage']['id']; ?>/"><div class="add_button icon"><div class="content">X</div></div></a>
+							<a class="delete_link" href="/admin/site_pages/delete_page/<?php echo $curr_page['SitePage']['id']; ?>/">
+								<div class="add_button icon"><div class="content">X</div></div>
+							</a>
 						</span>
 					</td>
 				</tr>

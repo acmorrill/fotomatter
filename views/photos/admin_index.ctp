@@ -65,18 +65,6 @@
 						<?php echo $this->Paginator->sort(__('Format', true), 'PhotoFormat.display_name'); ?>
 					</div>
 				</th> 
-				<th class="<?php if ($this->Paginator->sortKey('Photo') == 'Photo.modified'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>">
-					<div class="content one_line">
-						<div class="direction_arrow"></div>
-						<?php echo $this->Paginator->sort(__('Modified', true), 'Photo.modified'); ?>
-					</div>
-				</th> 
-				<th class="<?php if ($this->Paginator->sortKey('Photo') == 'Photo.created'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>">
-					<div class="content one_line">
-						<div class="direction_arrow"></div>
-						<?php echo $this->Paginator->sort(__('Created', true), 'Photo.created'); ?>
-					</div>
-				</th>
 				<th class="last">
 				</th>
 			</tr> 
@@ -122,16 +110,6 @@
 					<td class="photo_format <?php if ($this->Paginator->sortKey('Photo') == 'PhotoFormat.display_name'): ?> curr<?php endif; ?>">
 						<div class="rightborder"></div>
 						<span class=" <?php if (!$photo_is_enabled):?>disabled<?php endif; ?>"><?php echo $curr_photo['PhotoFormat']['display_name']; ?></span>
-					</td> 
-					<?php $modified_date = $this->Util->get_formatted_created_date($curr_photo['Photo']['modified']); ?>
-					<?php $created_date = $this->Util->get_formatted_created_date($curr_photo['Photo']['created']); ?>
-					<td class="photo_modified <?php if ($this->Paginator->sortKey('Photo') == 'Photo.modified'): ?> curr<?php endif; ?>">
-						<div class="rightborder"></div>
-						<span class=" <?php if (!$photo_is_enabled):?>disabled<?php endif; ?>"><?php echo $modified_date; ?></span>
-					</td> 
-					<td class="photo_created <?php if ($this->Paginator->sortKey('Photo') == 'Photo.created'): ?> curr<?php endif; ?>">
-						<div class="rightborder"></div>
-						<span class=" <?php if (!$photo_is_enabled):?>disabled<?php endif; ?>"><?php echo $created_date; ?></span>
 					</td> 
 					<td class="photo_action last table_actions">
 						<div class="rightborder"></div>

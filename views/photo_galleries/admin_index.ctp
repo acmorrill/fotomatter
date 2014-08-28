@@ -40,17 +40,17 @@
 	});
 </script>
 
-<div class="right" data-step="2" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="left">
+<div class="right">
 	<?php echo $this->Element('admin/gallery/add_gallery'); ?>
 </div>
 <div class="clear"></div>
 
-<div class="table_container" data-step="1" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom">
+<div id="photo_gallery_list" class="table_container">
 	<div class="fade_background_top"></div>
 	<div class="table_top"></div>
 	<table class="list">
 		<thead>
-			<tr data-step="3" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom"> 
+			<tr> 
 				<?php /* <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?> */ ?>
 				<?php /* <?php echo $this->Paginator->sort(__('Photo ID', true), 'Photo.id'); ?> */ ?>
 				<th class="first">
@@ -65,16 +65,6 @@
 						<?php echo __('Description', true); ?>
 					</div>
 				</th> 
-				<th class="">
-					<div class="content one_line">
-						<?php echo __('Modified', true); ?>
-					</div>
-				</th> 
-				<th class="">
-					<div class="content one_line">
-						<?php echo __('Created', true); ?>
-					</div>
-				</th>
 				<th class="last">
 					<div class="content one_line">
 						<?php echo __('Actions', true); ?>
@@ -110,10 +100,10 @@
 					}					
 				?>
 
-				<tr gallery_id="<?php echo $curr_gallery['PhotoGallery']['id']; ?>" data-step="4" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom">
+				<tr gallery_id="<?php echo $curr_gallery['PhotoGallery']['id']; ?>">
 					<td class="gallery_id first">
 						<div class="rightborder"></div>
-						<div class="reorder_gallery_grabber reorder_grabber" data-step="5" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom"/>
+						<div class="reorder_gallery_grabber reorder_grabber" />
 					</td> 
 					<td class="gallery_name ">
 						<div class="rightborder"></div>
@@ -121,26 +111,40 @@
 					</td> 
 					<td class="gallery_description">
 						<div class="rightborder"></div>
-						<span><?php echo $curr_gallery['PhotoGallery']['description']; ?></span>
-					</td> 
-					<?php $modified_date = $this->Util->get_formatted_created_date($curr_gallery['PhotoGallery']['modified']); ?>
-					<?php $created_date = $this->Util->get_formatted_created_date($curr_gallery['PhotoGallery']['created']); ?>
-					<td class="gallery_modified">
-						<div class="rightborder"></div>
-						<span><?php echo $modified_date; ?></span>
-					</td> 
-					<td class="gallery_created">
-						<div class="rightborder"></div>
-						<span><?php echo $created_date; ?></span>
+						<?php if (empty($curr_gallery['PhotoGallery']['description'])): ?>
+							<span>no description yet</span>
+						<?php else: ?>
+							<span><?php echo $curr_gallery['PhotoGallery']['description']; ?></span>
+						<?php endif; ?>
 					</td> 
 					<td class="gallery_action last table_actions">
 						<span class="custom_ui">
 							<?php if ($curr_gallery['PhotoGallery']['type'] == 'smart'): ?>
-								<a href="/admin/photo_galleries/edit_smart_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Edit'); ?></a>
+								<a href="/admin/photo_galleries/edit_smart_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/">
+									<div class="add_button">
+										<div class="content"><?php echo __('Edit', true); ?></div>
+										<div class="right_arrow_lines"><div></div></div>
+									</div>
+								</a>
 							<?php else: ?>
-								<a href="/admin/photo_galleries/edit_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Edit'); ?></a>
-								<a href="/admin/photo_galleries/edit_gallery_connect_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Connect'); ?></a>
-								<a href="/admin/photo_galleries/edit_gallery_arrange_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><?php __('Arrange'); ?></a>
+								<a href="/admin/photo_galleries/edit_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/">
+									<div class="add_button">
+										<div class="content"><?php echo __('Edit', true); ?></div>
+										<div class="right_arrow_lines"><div></div></div>
+									</div>
+								</a>
+								<a href="/admin/photo_galleries/edit_gallery_connect_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/">
+									<div class="add_button">
+										<div class="content"><?php echo __('Connect', true); ?></div>
+										<div class="right_arrow_lines"><div></div></div>
+									</div>
+								</a>
+								<a href="/admin/photo_galleries/edit_gallery_arrange_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/">
+									<div class="add_button">
+										<div class="content"><?php echo __('Arrange', true); ?></div>
+										<div class="right_arrow_lines"><div></div></div>
+									</div>
+								</a>
 							<?php endif; ?>
 							<a class="delete_link" href="/admin/photo_galleries/delete_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><div class="add_button icon"><div class="content">X</div></div></a>
 						</span>

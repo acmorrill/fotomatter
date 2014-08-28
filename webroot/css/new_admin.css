@@ -1004,6 +1004,16 @@ input {
 .fotomatter_form .input.date select {
   margin-right: 10px;
 }
+.add_element {
+  margin-top: 20px;
+}
+.add_element span {
+  color: #7d888e;
+}
+.add_element span,
+.add_element select {
+  margin-right: 10px;
+}
 .empty_help_content a {
   color: ;
 }
@@ -3054,6 +3064,9 @@ body {
   -khtml-opacity: 0.5;
   opacity: 0.5;
 }
+#pages_list .page_action {
+  width: 430px;
+}
 #tag_manager_container #add_tag_input input {
   margin-right: 20px;
 }
@@ -3172,6 +3185,9 @@ a.editable-empty :focus {
   font-style: italic;
   color: #D14;
   text-decoration: none;
+}
+#photo_gallery_list .gallery_action {
+  width: 550px;
 }
 td.table_actions {
   min-width: 280px;
