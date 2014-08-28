@@ -1,6 +1,12 @@
 <?php //debug($galleries); ?>
 
-<?php echo $this->Element('/admin/get_help_button'); ?>
+<h1><?php echo __('Pages', true); ?>
+	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
+</h1>
+<p>
+	What is this page anyhow?
+</p>
+<div style="clear: both;"></div>
 <div style="clear: both;"></div>
 <script type="text/javascript">
 	jQuery(document).ready(function() {
