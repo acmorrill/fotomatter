@@ -3062,7 +3062,8 @@ body {
 #image_edit_container .sub_submenu_cont .sub_submenu_right_cont .sub_submenu_tab_cont#sub_submenu_tab_0 .tag_select select {
   width: 600px;
 }
-#image_edit_container .sub_submenu_right_cont .submit {
+#image_edit_container .submit {
+  outline: 1px solid red;
   position: fixed;
   left: -500px;
 }

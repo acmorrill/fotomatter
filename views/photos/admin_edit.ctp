@@ -78,7 +78,7 @@
 				
 				
 				jQuery('.photo_details_save_button').click(function() {
-					jQuery('#image_edit_container .sub_submenu_right_cont .submit').click();
+					jQuery('#image_edit_container .submit input').click();
 				});
 			});
 		</script>
