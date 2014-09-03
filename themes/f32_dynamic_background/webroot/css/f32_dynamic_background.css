@@ -196,50 +196,60 @@ body .outer_nav .nav #main_nav ul li a:hover {
   background-color: #c1c1c1;
   padding-bottom: 70px;
 }
-.gallery_table_outer .galler_table_inner {
-  min-height: 500px;
-}
-.gallery_table_outer .galler_table_inner p {
-  display: block;
-}
-.gallery_table_outer .galler_table_inner p a {
-  color: black;
-}
-.gallery_table_outer .galler_table_inner h1.gallery_title {
+.gallery_table_outer h1.gallery_title {
   position: relative;
   top: 20px;
   bottom: 20px;
   left: 30px;
   font-size: 14px;
 }
-.gallery_table_outer .galler_table_inner #gallery_list_table {
+.gallery_table_outer #gallery_list_table {
   position: relative;
   left: 50px;
   top: 40px;
   width: 700px;
 }
-.gallery_table_outer .galler_table_inner #gallery_list_table .galleries {
+.gallery_table_outer #gallery_list_table .galleries {
   width: 300px;
   margin-bottom: 30px;
   text-align: center;
 }
-.gallery_table_outer .galler_table_inner #gallery_list_table .galleries .gallery_image_a_link .gallery_image_actual_image {
+.gallery_table_outer #gallery_list_table .galleries .gallery_image_outer_cont .gallery_image_a_link .gallery_image_actual_image {
   background-color: white;
   padding: 8px;
 }
-.gallery_table_outer .galler_table_inner #gallery_list_table .galleriesLink {
+.gallery_table_outer #gallery_list_table .galleriesLink {
   position: relative;
   top: 4px;
   font-size: 14px;
   overflow: hidden;
   height: 28px;
 }
-.gallery_table_outer .galler_table_inner #gallery_list_table .galleriesLink a {
+.gallery_table_outer #gallery_list_table .galleriesLink a {
   text-decoration: none;
   color: black;
 }
-.gallery_table_outer .galler_table_inner #gallery_list_table .galleriesLink a:hover {
+.gallery_table_outer #gallery_list_table .galleriesLink a:hover {
   color: white;
+}
+.gallery_table_inner {
+  min-height: 500px;
+}
+.gallery_table_inner a {
+  text-decoration: none;
+  color: black;
+}
+.gallery_table_inner a:hover {
+  color: white;
+}
+.gallery_table_inner .gallery_links {
+  position: relative;
+  top: 4px;
+  display: inline-block;
+}
+.gallery_table_inner .gallery_image_actual_image {
+  background-color: white;
+  padding: 8px;
 }
 #shipping_address_container {
   outline: none !important;

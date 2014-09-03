@@ -37,8 +37,38 @@ class PhotoGallery extends AppModel {
 		return true;
 	}
 	
-	public function get_gallery_photo() {
-		
+	public function get_gallery_photo_id($photo_gallery_id) {
+            $this->Photo = ClassRegistry::init('Photo');
+            $max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
+            $extra_condition = '';
+            if (!empty($max_photo_id)) {
+                $extra_condition = "AND photo_id <= :max_photo_id";
+            }
+            
+            $query = "
+                SELECT * FROM photo_galleries_photos AS PhotoGalleriesPhoto
+                WHERE 
+                    photo_gallery_id = :photo_gallery_id 
+                    $extra_condition
+                ORDER BY 
+                    photo_order
+                LIMIT 1
+            ";
+            $photo_gallery_photos = $this->query($query, array(
+                'photo_gallery_id' => $photo_gallery_id,
+                'max_photo_id' => $max_photo_id
+            ));
+            if ($photo_gallery_photos === false) {
+                $this->major_error('Failed to find the gallery photo in get_gallery_photo', compact('photo_gallery_id'));
+                return 0;
+            }
+            
+            
+            if (!empty($photo_gallery_photos[0]['PhotoGalleriesPhoto']['id'])) {
+                return $photo_gallery_photos[0]['PhotoGalleriesPhoto']['id'];
+            } else {
+                return $this->Photo->get_first_photo_id();
+            }
 	}
 	
 	public function get_first_gallery_by_weight() {

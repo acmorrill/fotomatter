@@ -46,6 +46,18 @@ class Photo extends AppModel {
 		$this->photos_count_apc_key = 'photos_count_' . $_SERVER['local']['database'];
 	}
 
+        public function get_first_photo_id() {
+            $first_photo = $this->find('first', array(
+               'contain' => false
+            ));
+            
+            if (!empty($first_photo['Photo']['id'])) {
+                return $first_photo['Photo']['id'];
+            } else {
+                return 0;
+            }
+        }
+        
 	public function clear_apc_cache() {
 		apc_delete($this->limit_last_photo_apc_key);
 		apc_delete($this->photos_count_apc_key);

@@ -22,17 +22,19 @@
                 <?php $all_galleries = $this->Gallery->get_all_galleries(); ?>
                 <?php foreach ($all_galleries as $curr_gallery): ?>
                     <?php
-                    $curr_gallery_href = $this->Html->url(array(
-                        'controller' => 'photo_galleries',
-                        'action' => 'view_gallery',
-                        $curr_gallery['PhotoGallery']['id']
-                    ));
+                        $curr_gallery_href = $this->Html->url(array(
+                            'controller' => 'photo_galleries',
+                            'action' => 'view_gallery',
+                            $curr_gallery['PhotoGallery']['id']
+                        ));
+                        $photo_id = $this->Gallery->get_gallery_photo_id($curr_gallery['PhotoGallery']['id']); 
                     ?>
-                <p>                    
-                <a onmouseover="setImage('portfolioThumb', '/photos/portfolioThumbs/A-Tangerine-Blue.jpg');" href="<?php echo $curr_gallery_href; ?>"><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></a><br />
-                </p>
+                    <?php $img_src = $this->Photo->get_photo_path($photo_id, 250, 250, .4, true); ?>                      
+                    <img class="gallery_image_actual_image" src="<?php echo $img_src['url']; ?>" <?php echo $img_src['tag_attributes']; ?>>
+                    <div class="gallery_links">
+                    <a href="<?php echo $curr_gallery_href; ?>"><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></a>
+                    </div>
                 <?php endforeach; ?>
-
                 </div>
             </div>
             <div class="footer">

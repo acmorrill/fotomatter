@@ -1,14 +1,14 @@
 .gallery_table_outer{
     background-color: @bg_color;  
     padding-bottom: 70px;
-    .galler_table_inner{
+/*    .gallery_table_inner{
         min-height: 500px;
         & p{
             display: block;
             a{
                 color: black;
             }
-        }
+        }*/
         h1.gallery_title{
             position: relative;
             top: 20px;
@@ -26,11 +26,14 @@
                 width: 300px;
                 margin-bottom: 30px;
                 text-align: center;
-                .gallery_image_a_link{
+                .gallery_image_outer_cont{
 
-                    .gallery_image_actual_image{
-                        background-color: white;
-                        padding: 8px;               
+                    .gallery_image_a_link{
+
+                        .gallery_image_actual_image{
+                            background-color: white;
+                            padding: 8px;               
+                        }
                     }
                 }
             }
@@ -49,5 +52,5 @@
                 }
             }
         }
-    }
+    /*} end galler_table_inner */
 }
