@@ -14,7 +14,7 @@
 	}
 	.ui-widget-content {
 		border: 0px;
-		background: @tab2_on_color url("images/ui-bg_highlight-soft_100_eeeeee_1x100.png") 50% top repeat-x;
+		background: @gray_text url("images/ui-bg_highlight-soft_100_eeeeee_1x100.png") 50% top repeat-x;
 		/*color: #333;*/
 	}
 	.ui-widget-header {
@@ -22,6 +22,9 @@
 		background: @tab2_on_color url("images/ui-bg_gloss-wave_35_f6a828_500x100.png") 50% 50% repeat-x;
 /*		color: #fff;
 		font-weight: bold;*/
+	}
+	.ui-progressbar .ui-progressbar-value {
+		margin: 0px;
 	}
 }
 #photo_mass_upload_outer_wrapper {
@@ -57,8 +60,7 @@
 						margin-top: 6px;
 					}
 					.progress {
-						position: fixed;
-						left: -500px;
+						.universal_safe_hide();
 					}
 					.custom_progress {
 						width: 160px;
@@ -71,16 +73,14 @@
 				td.last {
 					min-width: 70px;
 					.cancel, .start {
-						position: fixed;
-						left: -500px;
+						.universal_safe_hide();
 					}
 				}
 			}
 		}
 		.fileupload-buttonbar {
 			#upload_photos_file_button, #start_upload_button_old {
-				position: fixed;
-				left: -500px;
+				.universal_safe_hide();
 			}
 			.fileupload-buttons {
 				margin-top: 17px;
@@ -148,8 +148,7 @@
 		}
 		#photo_details_image_upload_form {
 			input {
-				position: fixed;
-				left: -500px;
+				.universal_safe_hide();
 			}
 		}
 	}
@@ -159,6 +158,11 @@
 			select {
 				width: 600px;
 			}
+		}
+	}
+	.sub_submenu_right_cont {
+		.submit {
+			.universal_safe_hide();
 		}
 	}
 }
