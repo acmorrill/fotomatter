@@ -1,6 +1,12 @@
 <?php
 class GalleryHelper extends AppHelper {
 	
+	function __call($method_name, $args) {
+		$this->PhotoGallery = ClassRegistry::init('PhotoGallery');
+		
+		return call_user_func_array(array($this->PhotoGallery, $method_name), $args);
+    }
+	
 	public function get_all_galleries() {
 		$this->PhotoGallery = ClassRegistry::init("PhotoGallery");
 		return $this->PhotoGallery->find('all', array(

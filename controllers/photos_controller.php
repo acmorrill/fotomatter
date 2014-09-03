@@ -114,9 +114,16 @@ class PhotosController extends AppController {
 	}
 
 	public function admin_process_mass_photos($return_new_image_data = false) {
+		$photo_id = null;
+		if (!empty($this->params['form']['photo_id'])) {
+			$photo_id = $this->params['form']['photo_id'];
+		}
+		
+		
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// fail if trying to add more than the max num photos if not paying for unlimited_photos
-		if (empty($this->current_on_off_features['unlimited_photos']) && $this->Photo->count_total_photos() >= LIMIT_MAX_FREE_PHOTOS) {
+		// don't limit the photo upload if we are just editing an existing photo
+		if (empty($photo_id) && empty($this->current_on_off_features['unlimited_photos']) && $this->Photo->count_total_photos() >= LIMIT_MAX_FREE_PHOTOS) {
 			$this->FeatureLimiter->limit_function_403();
 		}
 
@@ -135,6 +142,7 @@ class PhotosController extends AppController {
 				$this->return_mass_upload_json($upload_data);
 			}
 
+			$photo_for_db['Photo']['id'] = $photo_id;
 			$photo_for_db['Photo']['cdn-filename'] = $upload_data;
 			$photo_for_db['Photo']['display_title'] = $upload_data['pathinfo']['filename'];
 			if (empty($this->data['tag_ids']) === false) {

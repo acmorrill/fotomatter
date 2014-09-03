@@ -4,6 +4,8 @@
 	<title><?php __('Pages'); ?></title>
 	<?php echo $this->Element('admin/global_includes'); ?>
 	<?php echo $this->Element('admin/global_js'); ?>
+	
+	<?php echo $this->Element('admin/photo/jquery_fileupload_includes'); ?>
 </head>
 <body>
 <div id="main" class="photo_details">

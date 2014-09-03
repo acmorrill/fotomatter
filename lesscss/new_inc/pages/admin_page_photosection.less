@@ -5,7 +5,7 @@
 	&.mass_upload { margin-left: 437px; }
 	&.photo_details { margin-left: 437px; }
 }
-#photo_mass_upload_outer_wrapper {
+.progress_bar_global_fixes() {
 	.ui-corner-all {
 		border-bottom-right-radius: 0px;
 		border-bottom-left-radius: 0px;
@@ -23,6 +23,9 @@
 /*		color: #fff;
 		font-weight: bold;*/
 	}
+}
+#photo_mass_upload_outer_wrapper {
+	.progress_bar_global_fixes();
 	.template-upload {
 		.ui-widget-header {
 			background: @tab2_on_color url("images/ui-bg_gloss-wave_35_f6a828_500x100.png") 50% 50% repeat-x;
@@ -62,7 +65,7 @@
 						margin-left: 10px;
 						display: block;
 						position: relative;
-						height: 30px;
+						height: @bigger_progress_bar_height;
 					}
 				}
 				td.last {
@@ -93,7 +96,7 @@
 				top: 34px;
 				margin-left: 30px;
 				.progress {
-					height: 10px;
+					height: @progress_bar_height;
 				}
 			}
 		}
@@ -136,9 +139,18 @@
 			display: inline-block;
 			margin-bottom: 33px;
 		}
-		.input.file {
-			position: fixed;
-			left: -500px;
+		#photo_details_upload_progress {
+			.progress_bar_global_fixes();
+			.progress {
+				height: @bigger_progress_bar_height;
+			}
+			margin-bottom: 30px;
+		}
+		#photo_details_image_upload_form {
+			input {
+				position: fixed;
+				left: -500px;
+			}
 		}
 	}
 	.sub_submenu_cont .sub_submenu_right_cont .sub_submenu_tab_cont#sub_submenu_tab_0 {

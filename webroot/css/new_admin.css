@@ -3026,7 +3026,27 @@ body {
   display: inline-block;
   margin-bottom: 33px;
 }
-#image_edit_container .actual_image_container .input.file {
+#image_edit_container .actual_image_container #photo_details_upload_progress {
+  margin-bottom: 30px;
+}
+#image_edit_container .actual_image_container #photo_details_upload_progress .ui-corner-all {
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-top-left-radius: 0px;
+}
+#image_edit_container .actual_image_container #photo_details_upload_progress .ui-widget-content {
+  border: 0px;
+  background: #2ac0de url("images/ui-bg_highlight-soft_100_eeeeee_1x100.png") 50% top repeat-x;
+}
+#image_edit_container .actual_image_container #photo_details_upload_progress .ui-widget-header {
+  border: 0px;
+  background: #2ac0de url("images/ui-bg_gloss-wave_35_f6a828_500x100.png") 50% 50% repeat-x;
+}
+#image_edit_container .actual_image_container #photo_details_upload_progress .progress {
+  height: 30px;
+}
+#image_edit_container .actual_image_container #photo_details_image_upload_form input {
   position: fixed;
   left: -500px;
 }

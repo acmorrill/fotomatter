@@ -37,6 +37,10 @@ class PhotoGallery extends AppModel {
 		return true;
 	}
 	
+	public function get_gallery_photo() {
+		
+	}
+	
 	public function get_first_gallery_by_weight() {
 		$first_gallery = $this->find('first', array(
 			'order' => array(
