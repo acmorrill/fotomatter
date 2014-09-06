@@ -244,8 +244,8 @@ body .outer_nav .nav #main_nav ul li a:hover {
 }
 .gallery_table_inner .gallery_links {
   position: relative;
-  top: 4px;
-  display: inline-block;
+  margin-top: 4px;
+  display: inline;
 }
 .gallery_table_inner .gallery_image_actual_image {
   background-color: white;
