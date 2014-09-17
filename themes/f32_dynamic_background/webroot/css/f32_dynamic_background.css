@@ -1,4 +1,5 @@
 @import url("inc/footer.less");
+@import url("inc/choose_gallery.less");
 html,
 body,
 div,
@@ -159,6 +160,18 @@ body #logo_cont {
 body #mainName {
   position: absolute;
 }
+body .outer_nav .nav.blue #main_nav li a:hover {
+  color: #000099;
+}
+body .outer_nav .nav.pink #main_nav li a:hover {
+  color: #ff0099;
+}
+body .outer_nav .nav.yellow #main_nav li a:hover {
+  color: #ffff00;
+}
+body .outer_nav .nav.red #main_nav li a:hover {
+  color: #cc0000;
+}
 body .outer_nav .nav #main_nav {
   font-size: 12px;
   text-transform: lowercase;
@@ -175,9 +188,6 @@ body .outer_nav .nav #main_nav ul {
 body .outer_nav .nav #main_nav ul li a {
   color: #959595;
   text-decoration: none;
-}
-body .outer_nav .nav #main_nav ul li a:hover {
-  color: #ffffff;
 }
 .welcome_outer {
   width: 800px;
@@ -232,6 +242,8 @@ body .outer_nav .nav #main_nav ul li a:hover {
 .gallery_table_outer #gallery_list_table .galleriesLink a:hover {
   color: white;
 }
+<<<<<<< HEAD
+=======
 .gallery_table_inner {
   min-height: 500px;
 }
@@ -244,13 +256,14 @@ body .outer_nav .nav #main_nav ul li a:hover {
 }
 .gallery_table_inner .gallery_links {
   position: relative;
-  top: 4px;
-  display: inline-block;
+  margin-top: 4px;
+  display: inline;
 }
 .gallery_table_inner .gallery_image_actual_image {
   background-color: white;
   padding: 8px;
 }
+>>>>>>> 86a0134401e588e0a981eddf2fd54dd782e1efcc
 #shipping_address_container {
   outline: none !important;
 }
@@ -391,7 +404,7 @@ body .outer_nav .nav #main_nav ul li a:hover {
   left: 40px;
   top: 40px;
   width: 700px;
-  min-height: 500px;
+  min-height: 510px;
 }
 .content .inner_content.blue button:hover {
   background-color: #000099;
