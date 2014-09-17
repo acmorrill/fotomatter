@@ -1131,8 +1131,8 @@ ul.icons li [class*=" icon-"] {
 }
 .grey_hr {
   height: 4px;
-  background-color: #303030;
-  color: #303030;
+  background-color: ;
+  color: ;
   width: 100%;
   clear: both;
   margin: 0px;
@@ -1140,7 +1140,7 @@ ul.icons li [class*=" icon-"] {
   margin-top: 3px;
 }
 .empty_help_content {
-  color: #404040;
+  color: ;
   font-size: 50px;
   position: absolute;
   top: 15%;
@@ -1223,8 +1223,8 @@ ul.icons li [class*=" icon-"] {
   float: left;
   min-height: 200px;
   width: 150px;
-  border: 1px solid #303030;
-  background-color: #D8D8D8;
+  border: 1px solid ;
+  background-color: ;
   margin: 15px 35px;
   padding: 10px;
   -webkit-box-shadow: 0px 0px 3px #000000;

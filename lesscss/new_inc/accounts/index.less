@@ -1,4 +1,11 @@
-@import url("domains.less");
+
+
+
+
+
+
+
+
 
 @domain_not_avail: #FFA8A8;
 
@@ -9,55 +16,61 @@
 }
 
 
-	
+
 #account-details {
-    padding: 0px 15px;
-   
-    .fm_summary_cont {
-		.table_header_darker {
-			border-radius:0;
-			-moz-border-radius:0;
-			height:15px;
-			line-height:20px;
-		}
+	.sub_nav_generic();
+	width:380px;
+	.finish-outer-cont {
+		margin-top: 30px;
+		margin-bottom: 30px;
+		text-align: center;
+		position: relative;
+		height: 50px;
 	}
-
-	.fm_summary_cont {
-		.container {
+	.details {
+		.Code-Pro-LC;
+		font-size: 18px;
+		margin-top: 30px;
+		margin-bottom: 30px;
+		.detail {
+			margin: 20px 0;
+			span.title {
+				font-weight:bold;
+				margin:0 10px 0 0;
+			}
+			span.pending_total {
+				color: @warn_text_color;
+			}
 			.info {
-				.label {
-					font-weight:bold;
-				}
-			
-				display:inline-block;
-				margin:15px 45px;
-				width:240px;
+				float: right;
 			}
 		}
 	}
+	.new_bill {
+		display: none;
+	}
+	&.finish-shown {
+		.current_bill {
+			display: none;
+		}
+		.new_bill {
+			display: block;
+		}
+	}
+}	
 
-	.fm_summary_cont {
-		.container {
-			table.list {
-				th {
-					background-color:@darker-background;
-				}
-			}
-		}
-	}
 
-	form {
-		.input {
-			input {
-				border:1px solid black;
-			}
-		}
-	}
-}
 
 #line_item_cont {
-   
-    padding:10px;
+	
+	.page_content_header {
+		border-top: 1px solid transparent;
+		p {
+			margin-top: 20px;
+			margin-left: 20px;
+		}
+	}
+	
 
 	.pay_fail_message {
 		border:1px solid grey;
@@ -68,62 +81,6 @@
 		color: #FFF4F1;
 	}
 
-    .body_container {
-        width:650px;
-		display:inline-block;
-		float:left;
-		margin:0 40px 0 0;
-		
-    }
-
-	.account-details.finish-shown {
-		.finish-outer-cont {
-			border-bottom: 1px solid white;
-		}
-		.details {
-			margin:20px 0 0 0;
-		}
-	}
-
-	.account-details {
-		display:none;
-		border:1px solid grey;
-		width:300px;
-		min-height:100px;
-		float:left;
-		display:inline-block;
-		background-color: @midtone_background;
-		padding:15px;
-		p {
-			font-size:28px;
-		}
-		button {
-			margin: 25px 0 20px;
-			background: none @action_background;
-			color: @action_text;
-		}
-		button:hover {
-			background: none @action_hover_background;
-		}
-		.details {
-			.detail {
-				margin: 20px 0;
-				span.title {
-					font-weight:bold;
-					margin:0 10px 0 0;
-				}
-				span.pending_total {
-					color: @warn_text_color;
-				}
-			}
-		}
-	}
-//&&&&&&
-    .finish {
-        input {
-            display:none;
-        }
-    }
 
 	.line_item.line_not_added {
 		.bar {
@@ -285,6 +242,44 @@
 
 			div.item_cost {
 				padding:5px 50px 5px 64px
+			}
+		}
+	}
+}
+
+table.list {
+	tbody {
+		tr {
+			td {
+				.feature_on { display: none; }
+				.feature_pending { display: inline; }
+				.cancel_pending { display: none; }
+				.cost { display: none; }
+				&.table_actions {
+					width: 300px;
+				}
+			}
+			&.active {
+				td {
+					background-color: @table_hover;
+					color: @top_white;
+					.feature_on { display: inline; }
+					.feature_pending { display: none; }
+					.cancel_pending { display: none; }
+				}
+			}
+			&.line_not_added {
+				td {
+					.feature_pending { display: none; }
+					.cost { display: inline; }
+				}
+			}
+			&.remove_pending {
+				td {
+					.cancel_pending { display: inline; }
+					.feature_pending { display: none; }
+					.cost { display: none; }
+				}
 			}
 		}
 	}

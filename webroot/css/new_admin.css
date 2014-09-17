@@ -678,6 +678,9 @@ a:hover {
   padding-left: 40px;
   padding-right: 40px;
 }
+.generic_palette_container .ui-effects-wrapper {
+  height: inherit !important;
+}
 .generic_palette_container,
 .generic_palette_container a,
 .generic_palette_container p {
@@ -913,6 +916,10 @@ input {
   border-style: solid;
   border-width: 10px 0 10px 11px;
   border-color: transparent transparent transparent #2e8695;
+}
+.custom_ui .add_button.highlight .one,
+.custom_ui .add_button.highlight .two {
+  background-color: #ffffff;
 }
 .custom_ui .add_button.highlight:hover {
   background-color: #3f97a6;
@@ -3220,110 +3227,61 @@ a.editable-empty :focus {
 #photo_gallery_list .gallery_action {
   width: 550px;
 }
-td.table_actions {
-  min-width: 280px;
-}
-td.table_actions .add_button {
-  display: inline-block;
-  vertical-align: top;
-}
-.profile-outer-cont.domains .saving_profile {
-  display: inline-block;
-  position: absolute;
-  left: 125px;
-}
-.profile-outer-cont.domains .saving_profile span {
-  position: relative;
-  bottom: 12px;
-}
-.profile-outer-cont.domains .error.flashMessage {
-  margin: 0px;
-}
-#domains-outer-cont {
-  margin: 10px 5px;
-  margin-bottom: 100px;
-}
-#domains-outer-cont .domain_result {
-  margin-top: 30px;
-  margin-bottom: 30px;
-}
-#domains-outer-cont .domain_header {
-  min-height: 40px;
-}
-#domains-outer-cont .domain_header .direct_result {
-  margin: 4px 15px;
-  display: inline-block;
-}
-#domains-outer-cont .domain_header .direct_result h3 {
-  font-size: 28px;
-}
-#domains-outer-cont .domain_header .direct_result.not_avail span {
-  color: #FFA8A8;
-}
-#domains-outer-cont .domain_header .direct_result.avail span {
-  color: #7FFF74;
-}
-#domains-outer-cont .domain_header .search_box {
-  display: inline-block;
-}
-#domains-outer-cont .domain_header .search_box input {
-  margin-right: 30px;
-}
-.domain_contact .fm_form {
-  display: block;
-}
-.domain_confirmation .domain_confirm_details {
-  margin: 40px 5px;
-}
-.domain_confirmation .domain_confirm_details .confirm_line {
-  margin: 5px 0;
-}
-.domain_confirmation .domain_confirm_details .confirm_line .label {
-  font-weight: bold;
-  display: inline-block;
-  float: left;
-  margin: 0 7px 0 0;
-  color: #fff;
-}
-.domain_confirmation .domain_confirm_details .confirm_line .label:after {
-  content: ':';
-}
-.domain_confirmation .input.continue {
-  margin: 5px 0;
-}
-.domain_confirmation .input.continue button {
-  font-size: 13px;
-}
 .loading {
   position: absolute;
   top: 29%;
   left: 47%;
 }
 #account-details {
-  padding: 0px 15px;
+  position: fixed;
+  top: 150px;
+  left: 60px;
+  z-index: 50;
+  width: 380px;
 }
-#account-details .fm_summary_cont .table_header_darker {
-  border-radius: 0;
-  -moz-border-radius: 0;
-  height: 15px;
-  line-height: 20px;
+#account-details .finish-outer-cont {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  text-align: center;
+  position: relative;
+  height: 50px;
 }
-#account-details .fm_summary_cont .container .info {
-  display: inline-block;
-  margin: 15px 45px;
-  width: 240px;
+#account-details .details {
+  font-family: Code-Pro-LC;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 18px;
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
-#account-details .fm_summary_cont .container .info .label {
+#account-details .details .detail {
+  margin: 20px 0;
+}
+#account-details .details .detail span.title {
   font-weight: bold;
+  margin: 0 10px 0 0;
 }
-#account-details .fm_summary_cont .container table.list th {
-  background-color: ;
+#account-details .details .detail span.pending_total {
+  color: ;
 }
-#account-details form .input input {
-  border: 1px solid black;
+#account-details .details .detail .info {
+  float: right;
 }
-#line_item_cont {
-  padding: 10px;
+#account-details .new_bill {
+  display: none;
+}
+#account-details.finish-shown .current_bill {
+  display: none;
+}
+#account-details.finish-shown .new_bill {
+  display: block;
+}
+#line_item_cont .page_content_header {
+  border-top: 1px solid transparent;
+}
+#line_item_cont .page_content_header p {
+  margin-top: 20px;
+  margin-left: 20px;
 }
 #line_item_cont .pay_fail_message {
   border: 1px solid grey;
@@ -3332,52 +3290,6 @@ td.table_actions .add_button {
   width: 33%;
   background-color: #460E00;
   color: #FFF4F1;
-}
-#line_item_cont .body_container {
-  width: 650px;
-  display: inline-block;
-  float: left;
-  margin: 0 40px 0 0;
-}
-#line_item_cont .account-details.finish-shown .finish-outer-cont {
-  border-bottom: 1px solid white;
-}
-#line_item_cont .account-details.finish-shown .details {
-  margin: 20px 0 0 0;
-}
-#line_item_cont .account-details {
-  display: none;
-  border: 1px solid grey;
-  width: 300px;
-  min-height: 100px;
-  float: left;
-  display: inline-block;
-  background-color: #454545;
-  padding: 15px;
-}
-#line_item_cont .account-details p {
-  font-size: 28px;
-}
-#line_item_cont .account-details button {
-  margin: 25px 0 20px;
-  background: none ;
-  color: ;
-}
-#line_item_cont .account-details button:hover {
-  background: none ;
-}
-#line_item_cont .account-details .details .detail {
-  margin: 20px 0;
-}
-#line_item_cont .account-details .details .detail span.title {
-  font-weight: bold;
-  margin: 0 10px 0 0;
-}
-#line_item_cont .account-details .details .detail span.pending_total {
-  color: ;
-}
-#line_item_cont .finish input {
-  display: none;
 }
 #line_item_cont .line_item.line_not_added .bar {
   background-color: #292929;
@@ -3510,6 +3422,49 @@ td.table_actions .add_button {
 }
 #finish_account_change .change_summary .item_to_add div.item_cost {
   padding: 5px 50px 5px 64px;
+}
+table.list tbody tr td .feature_on {
+  display: none;
+}
+table.list tbody tr td .feature_pending {
+  display: inline;
+}
+table.list tbody tr td .cancel_pending {
+  display: none;
+}
+table.list tbody tr td .cost {
+  display: none;
+}
+table.list tbody tr td.table_actions {
+  width: 300px;
+}
+table.list tbody tr.active td {
+  background-color: #3d3e3f;
+  color: #f4f9f5;
+}
+table.list tbody tr.active td .feature_on {
+  display: inline;
+}
+table.list tbody tr.active td .feature_pending {
+  display: none;
+}
+table.list tbody tr.active td .cancel_pending {
+  display: none;
+}
+table.list tbody tr.line_not_added td .feature_pending {
+  display: none;
+}
+table.list tbody tr.line_not_added td .cost {
+  display: inline;
+}
+table.list tbody tr.remove_pending td .cancel_pending {
+  display: inline;
+}
+table.list tbody tr.remove_pending td .feature_pending {
+  display: none;
+}
+table.list tbody tr.remove_pending td .cost {
+  display: none;
 }
 .sub_submenu_cont {
   margin-top: 40px;

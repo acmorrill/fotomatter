@@ -106,11 +106,11 @@ class PhotosController extends AppController {
 		$total_photos = $this->Photo->count_total_photos();
 		$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
 		$photos_left_to_add = LIMIT_MAX_FREE_PHOTOS - $total_photos;
+		$this->set(compact('photos_left_to_add', 'curr_page'));
 		if (!empty($max_photo_id) && $photos_left_to_add <= 0) {
 			$this->FeatureLimiter->limit_view_go($this, 'unlimited_photos');
 		}
 
-		$this->set(compact('photos_left_to_add', 'curr_page'));
 	}
 
 	public function admin_process_mass_photos($return_new_image_data = false) {

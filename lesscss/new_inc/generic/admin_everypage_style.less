@@ -55,6 +55,9 @@ a {
  GENERIC PALETTE AND SETTINGS CSS
 ********************************************/
 .generic_palette_container {
+	.ui-effects-wrapper {
+		height: inherit !important;
+	}
 	&, a, p{ color: @gray_text; }
 	.page_content_container();
 	padding-left: 40px;
@@ -256,6 +259,7 @@ select, input {
 					.right_facing_triangle(10, @button_highlight);
 				}
 			}
+			.one, .two { background-color: @white; /*position: absolute; top: 0px; left: 0px;*/ }
 			&:hover {
 				background-color: @button_highlight + @button_bg_increase;
 				.right_arrow_lines {
