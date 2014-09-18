@@ -8,6 +8,10 @@ body{
     #mainName{ position: absolute;}
     .outer_nav{
         .nav{
+            &.blue #main_nav li a:hover { color: @blue; }
+            &.pink #main_nav li a:hover { color: @pink; }
+            &.yellow #main_nav li a:hover { color: @yellow; }
+            &.red #main_nav li a:hover { color: @red; }  
             #main_nav{    
                 font-size: 12px;
                 text-transform: lowercase;
@@ -17,13 +21,13 @@ body{
                 width: 190px;
                 float: left;
                 color: @menu_color; // This is for the "Home" that isn't a link
+
                 ul{                        
                     list-style-type: none;
                     li{
                         a{
                             color: @menu_color;
                             text-decoration: none;
-                            &:hover{ color: @hover_color;}
                         }
                     }
                 }

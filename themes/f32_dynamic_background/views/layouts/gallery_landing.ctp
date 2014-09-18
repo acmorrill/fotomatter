@@ -17,25 +17,7 @@
         </div>
         <div class="content">
             <div class="gallery_table_outer">   
-                <div class="gallery_table_inner">
-                <h1 class="gallery_title"><?php __('Choose a Gallery'); ?></h1>
-                <?php $all_galleries = $this->Gallery->get_all_galleries(); ?>
-                <?php foreach ($all_galleries as $curr_gallery): ?>
-                    <?php
-                        $curr_gallery_href = $this->Html->url(array(
-                            'controller' => 'photo_galleries',
-                            'action' => 'view_gallery',
-                            $curr_gallery['PhotoGallery']['id']
-                        ));
-                        $photo_id = $this->Gallery->get_gallery_photo_id($curr_gallery['PhotoGallery']['id']); 
-                    ?>
-                    <?php $img_src = $this->Photo->get_photo_path($photo_id, 250, 250, .4, true); ?>                      
-                    <img class="gallery_image_actual_image" src="<?php echo $img_src['url']; ?>" <?php echo $img_src['tag_attributes']; ?>>
-                    <div class="gallery_links">
-                    <a href="<?php echo $curr_gallery_href; ?>"><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></a>
-                    </div>
-                <?php endforeach; ?>
-                </div>
+             <?php echo $this->Element('gallery/gallery_landing/2_column_gallery_landing', array()); ?>          
             </div>
             <div class="footer">
                 <div class="inner_footer">
