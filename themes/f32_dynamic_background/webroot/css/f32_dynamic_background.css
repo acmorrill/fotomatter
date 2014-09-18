@@ -242,6 +242,28 @@ body .outer_nav .nav #main_nav ul li a {
 .gallery_table_outer #gallery_list_table .galleriesLink a:hover {
   color: white;
 }
+<<<<<<< HEAD
+=======
+.gallery_table_inner {
+  min-height: 500px;
+}
+.gallery_table_inner a {
+  text-decoration: none;
+  color: black;
+}
+.gallery_table_inner a:hover {
+  color: white;
+}
+.gallery_table_inner .gallery_links {
+  position: relative;
+  margin-top: 4px;
+  display: inline;
+}
+.gallery_table_inner .gallery_image_actual_image {
+  background-color: white;
+  padding: 8px;
+}
+>>>>>>> 86a0134401e588e0a981eddf2fd54dd782e1efcc
 #shipping_address_container {
   outline: none !important;
 }

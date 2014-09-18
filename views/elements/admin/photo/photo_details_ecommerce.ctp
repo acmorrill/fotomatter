@@ -142,3 +142,4 @@
 		</tbody>
 	</table>
 </div>
+<div class="photo_details_save_button save_button"><div class="content">Save</div></div>

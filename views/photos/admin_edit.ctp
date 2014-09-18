@@ -14,8 +14,8 @@
 	
 	<div class="actual_image_container">
 		<div class="actual_image_inner_container">
-			<?php $img_path = $this->Photo->get_photo_path($this->data['Photo']['id'], $image_element_cache_image_height, $image_element_cache_image_width); ?>
-			<img src="<?php echo $img_path; ?>" />                                                                                                    
+			<?php $img_path = $this->Photo->get_photo_path($this->data['Photo']['id'], $image_element_cache_image_height, $image_element_cache_image_width, .4, true, false); ?>
+			<img src="<?php echo $img_path['url']; ?>" <?php echo $img_path['tag_attributes']; ?> />
 		</div>
 		<script type="text/javascript">
 			jQuery(document).ready(function() {
@@ -56,6 +56,8 @@
 						var result = data.result.files['0'];
 						if (result.code == 1) {
 							jQuery('#image_edit_container .actual_image_inner_container img').attr('src', result.new_photo_path);
+							jQuery('#image_edit_container .actual_image_inner_container img').attr('width', '');
+							jQuery('#image_edit_container .actual_image_inner_container img').attr('height', '');
 						} else {
 							major_error_recover('The image failed to upload in done of image element');
 						}
@@ -72,6 +74,11 @@
 				
 				jQuery('#upload_replacement_photo_button').click(function() {
 					jQuery(this).closest('.actual_image_container').find('input').click();
+				});
+				
+				
+				jQuery('.photo_details_save_button').click(function() {
+					jQuery('#image_edit_container .submit input').click();
 				});
 			});
 		</script>
@@ -95,8 +102,8 @@
 	</div>
 	
 	<div style="clear: both;"></div>
-	<?php echo $this->Form->create('Photo', array('enctype' => 'multipart/form-data')); ?>
 	<?php
+		echo $this->Form->create('Photo', array('enctype' => 'multipart/form-data'));
 		echo $this->Element('admin/sub_submenu', array(
 			'tabs' => array(
 				'Image Details' => 'admin/photo/photo_details_image_edit',
@@ -105,8 +112,8 @@
 //			'css' => 'margin-top: -26px;',
 //			'starting_tab' => $starting_tab,
 		));
+		echo $this->Form->end('Save');
 	?>
-	<?php echo $this->Form->end('Save'); ?>
 
 
 	<div class="clear"></div>

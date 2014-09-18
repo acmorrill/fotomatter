@@ -561,18 +561,8 @@ class Photo extends AppModel {
 		// remove underscores
 		$name = str_replace("_", "", $name);
 
-
 		// find a name that doesn't already exist
-		$count = 1;
-		do {
-			$name_to_try = $prefix . "_" . $this->number_pad($count, 4) . "_" . $name;
-			$name_exists = $this->find('first', array(
-				'conditions' => array('Photo.cdn-filename' => $name_to_try)
-			));
-
-			$count++;
-		} while ($name_exists != array());
-		$name = $name_to_try;
+		$name = $prefix . "_" . substr(md5(String::uuid()), 0, 20) . "_" . $name;
 		return $name;
 	}
 

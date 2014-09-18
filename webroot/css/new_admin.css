@@ -2910,11 +2910,14 @@ body {
 }
 #photo_mass_upload_outer_wrapper .ui-widget-content {
   border: 0px;
-  background: #2ac0de url("images/ui-bg_highlight-soft_100_eeeeee_1x100.png") 50% top repeat-x;
+  background: #7d888e url("images/ui-bg_highlight-soft_100_eeeeee_1x100.png") 50% top repeat-x;
 }
 #photo_mass_upload_outer_wrapper .ui-widget-header {
   border: 0px;
   background: #2ac0de url("images/ui-bg_gloss-wave_35_f6a828_500x100.png") 50% 50% repeat-x;
+}
+#photo_mass_upload_outer_wrapper .ui-progressbar .ui-progressbar-value {
+  margin: 0px;
 }
 #photo_mass_upload_outer_wrapper .template-upload .ui-widget-header {
   background: #2ac0de url("images/ui-bg_gloss-wave_35_f6a828_500x100.png") 50% 50% repeat-x;
@@ -3037,11 +3040,14 @@ body {
 }
 #image_edit_container .actual_image_container #photo_details_upload_progress .ui-widget-content {
   border: 0px;
-  background: #2ac0de url("images/ui-bg_highlight-soft_100_eeeeee_1x100.png") 50% top repeat-x;
+  background: #7d888e url("images/ui-bg_highlight-soft_100_eeeeee_1x100.png") 50% top repeat-x;
 }
 #image_edit_container .actual_image_container #photo_details_upload_progress .ui-widget-header {
   border: 0px;
   background: #2ac0de url("images/ui-bg_gloss-wave_35_f6a828_500x100.png") 50% 50% repeat-x;
+}
+#image_edit_container .actual_image_container #photo_details_upload_progress .ui-progressbar .ui-progressbar-value {
+  margin: 0px;
 }
 #image_edit_container .actual_image_container #photo_details_upload_progress .progress {
   height: 30px;
@@ -3055,6 +3061,11 @@ body {
 }
 #image_edit_container .sub_submenu_cont .sub_submenu_right_cont .sub_submenu_tab_cont#sub_submenu_tab_0 .tag_select select {
   width: 600px;
+}
+#image_edit_container .submit {
+  outline: 1px solid red;
+  position: fixed;
+  left: -500px;
 }
 #image_sellable_prints table.list tbody td {
   padding: 7px;
@@ -3597,4 +3608,9 @@ td.table_actions .add_button {
   background-color: #262829;
   padding: 50px;
   padding-top: 10px;
+}
+.sub_submenu_cont .sub_submenu_right_cont .sub_submenu_tab_cont .save_button {
+  margin-top: 0px;
+  margin-left: 25px;
+  margin-bottom: 40px;
 }
