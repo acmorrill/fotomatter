@@ -131,6 +131,11 @@ table.list {
 					display: inline-block;
 					vertical-align: middle;	
 				}
+				> span {
+					display: block;
+					margin-left: 0px;
+					border-left: 20px solid transparent;
+				}
 				position: relative;
 				border-top: 1px solid @table_border;
 				&.highlight {
@@ -178,6 +183,10 @@ table.list {
 				&.table_actions{
 					text-align: right;
 					width: 215px;
+					.add_button {
+						margin-bottom: 8px;
+						margin-top: 8px;
+					}
 				}
 				&.menu_type{ text-align: left; }
 				&.table_width_reorder_icon { width: 100px; }

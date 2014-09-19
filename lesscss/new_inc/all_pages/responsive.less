@@ -14,6 +14,9 @@
 		.logo { bottom: 50px; left: 37px; }
 		#top-navigation { 
 			left: 2px; 
+			#extra_buttons > li {
+				margin-left: 28px;
+			}
 		}
 	}
 	#sub-nav {
@@ -43,5 +46,154 @@
 		//ul li {
 		//	height: 40px;
 		//}
+	}
+}
+@media 
+only screen and (max-width : 1100px),
+only screen and (-webkit-min-device-pixel-ratio: 2), 
+only screen and (min-resolution: 192dpi) {
+	#sub-nav {
+		display: none;
+		position: relative;
+		width: 100%;
+		top: initial;
+		margin-bottom: 30px;
+		&:hover { width: 100%; }
+		> ul {
+			> li {
+				width: 100%;
+				.subnav_bg {
+					width: 100%;
+				}
+			}
+		}
+	}
+	#main { 
+		margin: 0px !important;
+		padding: 0px;
+		top: 0px;
+	}
+	#header {
+		position: relative;
+		height: auto;
+		.logo { 
+			position: relative;
+			bottom: initial;
+			left: initial;
+			width: 100%;
+			text-align: center;
+			td {
+				vertical-align: middle;
+				position: relative;
+				&.first {
+					text-align: left;
+					width: 85%;
+					img {
+						margin-top: 10px;
+						margin-bottom: 10px;
+						width: 70%;
+						height: auto;
+						margin-left: 5%;
+					}
+				}
+				&.last {
+					text-align: right;
+					width: 25%;
+					#mobile_navigation_open {
+						display: inline;
+						width: 50%;
+						height: auto;
+						margin-right: 20%;
+						margin-top: 10px;
+						margin-bottom: 10px;
+					}
+				}
+			}
+		}
+		#top-navigation { 
+			position: relative;
+			left: 0px;
+			#extra_buttons {
+				display: none;
+				position: relative;
+				top: initial;
+				right: initial;
+				margin: 0px;
+				height: inherit;
+				text-align: center;
+				/*top:*/ 
+				> li {
+					margin-left: 0px !important;
+					margin-right: 0px !important;
+					margin-top: 8px;
+					margin-bottom: 8px;
+					float: none;
+					> ul {
+						width: 100%;
+						> li {
+							text-align: center;
+							width: 100%;
+							.subnav_bg {
+								width: 100%;
+							}
+							table td div {
+								text-align: center;
+							}
+						}
+					}
+				}
+			}
+			ul.menu {
+				display: none;
+				width: auto;
+				li {
+					display: block;
+					width: auto !important;
+					text-align: center;
+					.tab_bottom {
+						width: 100% !important;
+						left: 0px !important;
+						bottom: 0px !important;
+						.active_color {
+							width: 100% !important;
+							bottom: 0px !important;
+						}
+						z-index: 1;
+					}
+					.last_tab {
+						display: none;
+					}
+				}
+			}
+		}
+		.menu_below_bar {
+			display: none;
+		}
+	}
+	#middle {
+		#account-details {
+			position: relative;
+			top: initial;
+			left: initial;
+			width: auto;
+			margin-bottom: 20px;
+		}
+	}
+	#admin_background {
+		top: 0px;
+	}
+	#help_tour_button {
+		display: none;
+	}
+	.page_content_header {
+		padding-left: 0px;
+		padding-right: 0px;
+	}
+	.generic_palette_container {
+		padding-left: 2px;
+		padding-right: 2px;
+	}
+	.mobile_hide {
+		display: none;
 	}
 }

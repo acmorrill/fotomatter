@@ -1,5 +1,4 @@
 @import url("inc/footer.less");
-@import url("inc/choose_gallery.less");
 html,
 body,
 div,
@@ -206,6 +205,18 @@ body .outer_nav .nav #main_nav ul li a {
   background-color: #c1c1c1;
   padding-bottom: 70px;
 }
+.gallery_table_outer.blue #main_nav li a:hover {
+  color: #000099;
+}
+.gallery_table_outer.pink #main_nav li a:hover {
+  color: #ff0099;
+}
+.gallery_table_outer.yellow #main_nav li a:hover {
+  color: #ffff00;
+}
+.gallery_table_outer.red #main_nav li a:hover {
+  color: #cc0000;
+}
 .gallery_table_outer h1.gallery_title {
   position: relative;
   top: 20px;
@@ -242,8 +253,6 @@ body .outer_nav .nav #main_nav ul li a {
 .gallery_table_outer #gallery_list_table .galleriesLink a:hover {
   color: white;
 }
-<<<<<<< HEAD
-=======
 .gallery_table_inner {
   min-height: 500px;
 }
@@ -263,7 +272,6 @@ body .outer_nav .nav #main_nav ul li a {
   background-color: white;
   padding: 8px;
 }
->>>>>>> 86a0134401e588e0a981eddf2fd54dd782e1efcc
 #shipping_address_container {
   outline: none !important;
 }
