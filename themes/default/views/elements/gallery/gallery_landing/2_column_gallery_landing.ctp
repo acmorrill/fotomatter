@@ -1,5 +1,5 @@
 <table id="gallery_list_table" class="two_column_gallery_list">
-    <tr class="gallery_list_top_message"><td colspan="2"><h1 class="gallery_header"><?php __('Choose a Gallery'); ?></h1></td></tr>
+    <tr class="gallery_list_top_message"><td colspan="2"></td></tr>
     <?php $all_galleries = $this->Gallery->get_all_galleries(); ?>
     <?php for($index = 0; $index < count($all_galleries); $index++): ?>
         <?php $curr_gallery = $all_galleries[$index]; ?>
