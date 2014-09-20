@@ -16,7 +16,8 @@
             </div>					
         </div>
         <div class="content">
-            <div class="gallery_table_outer">   
+            <div class="gallery_table_outer">
+                <h1 class="gallery_header"><?php __('Choose a Gallery'); ?></h1>
              <?php echo $this->Element('gallery/gallery_landing/2_column_gallery_landing', array()); ?>          
             </div>
             <div class="footer">

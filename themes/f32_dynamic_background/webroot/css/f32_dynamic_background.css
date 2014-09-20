@@ -254,7 +254,11 @@ body .outer_nav .nav #main_nav ul li a {
   color: white;
 }
 .gallery_table_outer h1.gallery_header {
-  padding-bottom: 15px;
+  position: relative;
+  top: 20px;
+  bottom: 20px;
+  left: 30px;
+  font-size: 14px;
 }
 .gallery_table_inner {
   min-height: 500px;
