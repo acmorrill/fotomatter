@@ -60,7 +60,7 @@
 						<?php echo __('Display Name', true); ?>
 					</div>
 				</th> 
-				<th class="">
+				<th class="mobile_hide">
 					<div class="content one_line">
 						<?php echo __('Description', true); ?>
 					</div>
@@ -109,7 +109,7 @@
 						<div class="rightborder"></div>
 						<span><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></span>
 					</td> 
-					<td class="gallery_description">
+					<td class="gallery_description mobile_hide">
 						<div class="rightborder"></div>
 						<?php if (empty($curr_gallery['PhotoGallery']['description'])): ?>
 							<span>no description yet</span>

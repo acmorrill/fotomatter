@@ -253,6 +253,8 @@ body .outer_nav .nav #main_nav ul li a {
 .gallery_table_outer #gallery_list_table .galleriesLink a:hover {
   color: white;
 }
+<<<<<<< HEAD
+=======
 .gallery_table_outer h1.gallery_header {
   position: relative;
   top: 20px;
@@ -260,6 +262,7 @@ body .outer_nav .nav #main_nav ul li a {
   left: 30px;
   font-size: 14px;
 }
+>>>>>>> b8aa2c622c1435fdf2a14725119076000e346a91
 .gallery_table_inner {
   min-height: 500px;
 }

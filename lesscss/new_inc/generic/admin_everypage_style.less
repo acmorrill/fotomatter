@@ -217,7 +217,7 @@ select, input {
 		display: inline-block;
 		vertical-align: top;
 		border: 1px solid transparent;
-		height: @button_height;
+		min-height: @button_height;
 		padding-left: 20px;
 		padding-right: 20px;
 		border: 1px solid @button_border;
@@ -226,6 +226,7 @@ select, input {
 			display: inline-block;
 			vertical-align: top;
 			margin-top: 12px;
+			margin-bottom: 12px;
 			color: @gray_text;
 		}
 		.Code-Pro-LC;
@@ -239,9 +240,11 @@ select, input {
 			font-size: 20px;
 			.content {
 				margin-top: 18px;
+				margin-bottom: 18px;
 			}
 			.right_arrow_lines {
 				margin-top: 15px;
+				margin-bottom: 15px;
 			}
 			&:hover .right_arrow_lines { margin-top: 15px; }
 		}

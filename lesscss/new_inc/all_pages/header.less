@@ -25,6 +25,7 @@ body {
 		top: @header_height;
 	}
 	.logo {
+		.no_select;
 		position: absolute;
 		bottom: 15px;
 		left: 58px;
@@ -32,6 +33,9 @@ body {
 		img {
 			width: 200px;
 			height: 37px;
+		}
+		#mobile_navigation_open {
+			display: none;
 		}
 	}
 	#top-navigation {
@@ -324,6 +328,7 @@ body {
 			margin-top: 8px;
 			left: 0px;
 			display: none;
+			z-index: @header;
 			> li {
 				.sub_nav_li_reusable();
 				.subnav_bg {

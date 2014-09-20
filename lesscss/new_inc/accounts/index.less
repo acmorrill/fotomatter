@@ -15,18 +15,15 @@
 	left:47%;
 }
 
-
+.finish-outer-cont {
+	margin-top: 20px;
+	margin-right: 20px;
+	position: relative;
+}
 
 #account-details {
 	.sub_nav_generic();
 	width:380px;
-	.finish-outer-cont {
-		margin-top: 30px;
-		margin-bottom: 30px;
-		text-align: center;
-		position: relative;
-		height: 50px;
-	}
 	.details {
 		.Code-Pro-LC;
 		font-size: 18px;
@@ -66,9 +63,10 @@
 	.page_content_header {
 		border-top: 1px solid transparent;
 		p {
-			margin-top: 20px;
+			margin-top: 35px;
 			margin-left: 20px;
 		}
+		height: 90px;
 	}
 	
 
@@ -252,9 +250,9 @@ table.list {
 		tr {
 			td {
 				.feature_on { display: none; }
-				.feature_pending { display: inline; }
+				.feature_pending { display: block; }
 				.cancel_pending { display: none; }
-				.cost { display: none; }
+				.cost { display: block; }
 				&.table_actions {
 					width: 300px;
 				}
@@ -263,20 +261,21 @@ table.list {
 				td {
 					background-color: @table_hover;
 					color: @top_white;
-					.feature_on { display: inline; }
+					.feature_on { display: block; }
 					.feature_pending { display: none; }
 					.cancel_pending { display: none; }
+					.cost { display: none; }
 				}
 			}
 			&.line_not_added {
 				td {
 					.feature_pending { display: none; }
-					.cost { display: inline; }
+					.cost { display: block; }
 				}
 			}
 			&.remove_pending {
 				td {
-					.cancel_pending { display: inline; }
+					.cancel_pending { display: block; }
 					.feature_pending { display: none; }
 					.cost { display: none; }
 				}

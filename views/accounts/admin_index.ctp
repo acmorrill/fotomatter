@@ -201,7 +201,7 @@
 		 return false;
 		 }); */
 
-		$("#account-details .finish_account_add").click(function() {
+		$(".finish_account_add").click(function() {
 			if (inAjaxCall) {
 				return false;
 			}
@@ -236,7 +236,7 @@
 				type: 'get',
 				url: "/admin/accounts/ajax_addPreviousItems",
 				success: function(data) {
-					$("#account-details .finish_account_add").trigger('click');
+					$(".finish_account_add").trigger('click');
 				},
 				complete: function() {
 					inAjaxCall = false;
@@ -268,19 +268,27 @@
 </h1>
 
 
-
+<?php //debug($overlord_account_info['Account']['next_bill_date']); ?>
 <div id="account-details" class="<?php if (!empty($add_feature_ref_name)): ?> finish-shown <?php endif; ?> generic_photo_gallery_cont">
 	<div class="page_content_header">
 		<h2><?php echo __('Billing Status', true); ?></h2>
 	</div>
 	<div class="generic_palette_container">
+		<?php /*
 		<div style="<?php if (empty($add_feature_ref_name)): ?>display:none;<?php endif; ?>" class='finish-outer-cont custom_ui'>
 			<div class="add_button highlight bigger finish_account_add" type="submit">
 				<div class="content"><?php echo __('Finalize Changes', true); ?></div>
 				<div class="right_arrow_lines"><div></div></div>
 			</div>
 		</div>
+		*/ ?>
 		<div class='details'>
+			<?php if (!empty($overlord_account_info['Account']['next_bill_date'])): ?>
+				<div class='detail next_bill_date'>
+					<span class='title'><?php echo __('Next Bill Date', true); ?></span>
+					<span class='info'><?php echo date("M j", strtotime($overlord_account_info['Account']['next_bill_date'])); ?></span>
+				</div>
+			<?php endif; ?>
 			<div class='detail new_bill'>
 				<span class='title'><?php echo __('Projected Bill', true); ?></span>
 				<span class='info pending_total'></span>
@@ -313,6 +321,12 @@
 	
 	
 	<div class="page_content_header">
+		<div style="<?php if (empty($add_feature_ref_name)): ?>display:none;<?php endif; ?>" class='finish-outer-cont custom_ui right'>
+			<div class="add_button highlight bigger finish_account_add" type="submit">
+				<div class="content"><?php echo __('Finalize Changes', true); ?></div>
+				<div class="right_arrow_lines"><div></div></div>
+			</div>
+		</div>
 		<p><?php echo __('add/remove features below', true); ?></p>
 	</div>
 	<div class="generic_palette_container">
@@ -347,13 +361,13 @@
 							</td>
 							<td>
 								<div class="rightborder"></div>
-								<span class="cost"><?php echo $line_item['AccountLineItem']['current_cost']; ?></span>
-								<span class="feature_on"><?php echo __('Active', true); ?></span>
-								<span class="feature_pending"><?php echo __('Add Pending', true); ?></span>
-								<span class="cancel_pending"><?php echo __('Cancel Pending', true); ?></span>
+								<div class="cost"><?php echo $line_item['AccountLineItem']['current_cost']; ?></div>
+								<div class="feature_on"><?php echo __('Active', true); ?></div>
+								<div class="cancel_pending"><?php echo __('Cancel Pending', t-rue); ?></div>
 							</td>
 							<td class="last table_actions custom_ui">
 								<div class="rightborder"></div>
+								<div class="feature_pending"><?php echo __('Add Pending', true); ?></div>
 								<?php if ($line_item['AccountLineItem']['active']): ?>
 									<div data_id='<?php echo $line_item['AccountLineItem']['id']; ?>' class="add_button icon remove_item"><div class="content">X</div></div>
 								<?php elseif ($line_item['AccountLineItem']['removed_scheduled']): ?>

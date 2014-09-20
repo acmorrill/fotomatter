@@ -468,6 +468,11 @@ table.list tbody tr td > * {
   display: inline-block;
   vertical-align: middle;
 }
+table.list tbody tr td > span {
+  display: block;
+  margin-left: 0px;
+  border-left: 20px solid transparent;
+}
 table.list tbody tr td.highlight,
 table.list tbody tr td.highlight a {
   color: #2ac0de;
@@ -523,6 +528,10 @@ table.list tbody tr td .rightborder {
 table.list tbody tr td.table_actions {
   text-align: right;
   width: 215px;
+}
+table.list tbody tr td.table_actions .add_button {
+  margin-bottom: 8px;
+  margin-top: 8px;
 }
 table.list tbody tr td.menu_type {
   text-align: left;
@@ -859,7 +868,7 @@ input {
   display: inline-block;
   vertical-align: top;
   border: 1px solid transparent;
-  height: 40px;
+  min-height: 40px;
   padding-left: 20px;
   padding-right: 20px;
   border: 1px solid #32373b;
@@ -875,6 +884,7 @@ input {
   display: inline-block;
   vertical-align: top;
   margin-top: 12px;
+  margin-bottom: 12px;
   color: #7d888e;
 }
 .custom_ui .add_button.bigger {
@@ -886,9 +896,11 @@ input {
 }
 .custom_ui .add_button.bigger .content {
   margin-top: 18px;
+  margin-bottom: 18px;
 }
 .custom_ui .add_button.bigger .right_arrow_lines {
   margin-top: 15px;
+  margin-bottom: 15px;
 }
 .custom_ui .add_button.bigger:hover .right_arrow_lines {
   margin-top: 15px;
@@ -1253,6 +1265,12 @@ body {
   top: 94px;
 }
 #header .logo {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   position: absolute;
   bottom: 15px;
   left: 58px;
@@ -1260,6 +1278,9 @@ body {
 #header .logo img {
   width: 200px;
   height: 37px;
+}
+#header .logo #mobile_navigation_open {
+  display: none;
 }
 #header #top-navigation {
   font-family: Code-Pro-LC;
@@ -1649,6 +1670,7 @@ body {
   margin-top: 8px;
   left: 0px;
   display: none;
+  z-index: 100;
 }
 #extra_buttons > li > ul > li {
   position: relative;
@@ -1820,6 +1842,7 @@ body {
   border-width: 10px 0 10px 11px;
   border-color: transparent transparent transparent #7d888e;
   margin-top: 11px;
+  margin-bottom: 11px;
   margin-left: 20px;
 }
 .right_arrow_lines div {
@@ -1837,6 +1860,7 @@ body {
   vertical-align: top;
   position: relative;
   margin-top: 12px;
+  margin-bottom: 12px;
   margin-left: 12px;
   width: 16px;
   height: 16px;
@@ -1984,6 +2008,9 @@ body {
   #header #top-navigation {
     left: 2px;
   }
+  #header #top-navigation #extra_buttons > li {
+    margin-left: 28px;
+  }
   #sub-nav {
     left: 0px;
     width: 48px;
@@ -2009,6 +2036,149 @@ body {
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
+  }
+}
+@media only screen and (max-width: 1100px),only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min-resolution: 192dpi) {
+  #sub-nav {
+    display: none;
+    position: relative;
+    width: 100%;
+    top: initial;
+    margin-bottom: 30px;
+  }
+  #sub-nav:hover {
+    width: 100%;
+  }
+  #sub-nav > ul > li {
+    width: 100%;
+  }
+  #sub-nav > ul > li .subnav_bg {
+    width: 100%;
+  }
+  #main {
+    margin: 0px !important;
+    padding: 0px;
+    top: 0px;
+  }
+  #header {
+    position: relative;
+    height: auto;
+  }
+  #header .logo {
+    position: relative;
+    bottom: initial;
+    left: initial;
+    width: 100%;
+    text-align: center;
+  }
+  #header .logo td {
+    vertical-align: middle;
+    position: relative;
+  }
+  #header .logo td.first {
+    text-align: left;
+    width: 85%;
+  }
+  #header .logo td.first img {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 70%;
+    height: auto;
+    margin-left: 5%;
+  }
+  #header .logo td.last {
+    text-align: right;
+    width: 25%;
+  }
+  #header .logo td.last #mobile_navigation_open {
+    display: inline;
+    width: 50%;
+    height: auto;
+    margin-right: 20%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  #header #top-navigation {
+    position: relative;
+    left: 0px;
+  }
+  #header #top-navigation #extra_buttons {
+    display: none;
+    position: relative;
+    top: initial;
+    right: initial;
+    margin: 0px;
+    height: inherit;
+    text-align: center;
+  }
+  #header #top-navigation #extra_buttons > li {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    float: none;
+  }
+  #header #top-navigation #extra_buttons > li > ul {
+    width: 100%;
+  }
+  #header #top-navigation #extra_buttons > li > ul > li {
+    text-align: center;
+    width: 100%;
+  }
+  #header #top-navigation #extra_buttons > li > ul > li .subnav_bg {
+    width: 100%;
+  }
+  #header #top-navigation #extra_buttons > li > ul > li table td div {
+    text-align: center;
+  }
+  #header #top-navigation ul.menu {
+    display: none;
+    width: auto;
+  }
+  #header #top-navigation ul.menu li {
+    display: block;
+    width: auto !important;
+    text-align: center;
+  }
+  #header #top-navigation ul.menu li .tab_bottom {
+    width: 100% !important;
+    left: 0px !important;
+    bottom: 0px !important;
+    z-index: 1;
+  }
+  #header #top-navigation ul.menu li .tab_bottom .active_color {
+    width: 100% !important;
+    bottom: 0px !important;
+  }
+  #header #top-navigation ul.menu li .last_tab {
+    display: none;
+  }
+  #header .menu_below_bar {
+    display: none;
+  }
+  #middle #account-details {
+    position: relative;
+    top: initial;
+    left: initial;
+    width: auto;
+    margin-bottom: 20px;
+  }
+  #admin_background {
+    top: 0px;
+  }
+  #help_tour_button {
+    display: none;
+  }
+  .page_content_header {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  .generic_palette_container {
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+  .mobile_hide {
+    display: none;
   }
 }
 .introjs-overlay {
@@ -3232,19 +3402,17 @@ a.editable-empty :focus {
   top: 29%;
   left: 47%;
 }
+.finish-outer-cont {
+  margin-top: 20px;
+  margin-right: 20px;
+  position: relative;
+}
 #account-details {
   position: fixed;
   top: 150px;
   left: 60px;
   z-index: 50;
   width: 380px;
-}
-#account-details .finish-outer-cont {
-  margin-top: 30px;
-  margin-bottom: 30px;
-  text-align: center;
-  position: relative;
-  height: 50px;
 }
 #account-details .details {
   font-family: Code-Pro-LC;
@@ -3278,9 +3446,10 @@ a.editable-empty :focus {
 }
 #line_item_cont .page_content_header {
   border-top: 1px solid transparent;
+  height: 90px;
 }
 #line_item_cont .page_content_header p {
-  margin-top: 20px;
+  margin-top: 35px;
   margin-left: 20px;
 }
 #line_item_cont .pay_fail_message {
@@ -3427,13 +3596,13 @@ table.list tbody tr td .feature_on {
   display: none;
 }
 table.list tbody tr td .feature_pending {
-  display: inline;
+  display: block;
 }
 table.list tbody tr td .cancel_pending {
   display: none;
 }
 table.list tbody tr td .cost {
-  display: none;
+  display: block;
 }
 table.list tbody tr td.table_actions {
   width: 300px;
@@ -3443,7 +3612,7 @@ table.list tbody tr.active td {
   color: #f4f9f5;
 }
 table.list tbody tr.active td .feature_on {
-  display: inline;
+  display: block;
 }
 table.list tbody tr.active td .feature_pending {
   display: none;
@@ -3451,14 +3620,17 @@ table.list tbody tr.active td .feature_pending {
 table.list tbody tr.active td .cancel_pending {
   display: none;
 }
+table.list tbody tr.active td .cost {
+  display: none;
+}
 table.list tbody tr.line_not_added td .feature_pending {
   display: none;
 }
 table.list tbody tr.line_not_added td .cost {
-  display: inline;
+  display: block;
 }
 table.list tbody tr.remove_pending td .cancel_pending {
-  display: inline;
+  display: block;
 }
 table.list tbody tr.remove_pending td .feature_pending {
   display: none;
