@@ -12,7 +12,7 @@
         <!--<?php $accent_colors = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'accent_colors'); ?>-->
         <div class="outer_nav">
             <?php echo $this->Element('nameTitle'); ?>
-            <div class="nav">
+            <div class="nav <?php echo $accent_colors; ?>">
                 <?php echo $this->Element('menu/navBar', array('page' => 'home')); ?>											
             </div>					
         </div>
