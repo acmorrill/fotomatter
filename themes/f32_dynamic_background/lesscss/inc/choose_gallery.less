@@ -1,4 +1,8 @@
 .gallery_table_outer{
+    &.blue #gallery_list_table .galleriesLink a:hover { color: @blue; }
+    &.pink #gallery_list_table .galleriesLink a:hover { color: @pink; }
+    &.yellow #gallery_list_table .galleriesLink a:hover { color: @yellow; }
+    &.red #gallery_list_table .galleriesLink a:hover { color: @red; }
     h1.gallery_header{
         position: relative;
         top: 20px;
@@ -15,7 +19,7 @@
         text-decoration: none;   
         color: black;
         &:hover{
-            color: white;
+            color: @white;
         }
     }
     .gallery_links{
@@ -24,7 +28,7 @@
         display: inline;
     }
     .gallery_image_actual_image{
-        background-color: white;
+        background-color: @white;
         padding: 8px;               
     }
 }

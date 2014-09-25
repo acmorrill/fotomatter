@@ -202,19 +202,18 @@ body .outer_nav .nav #main_nav ul li a {
   font-size: 13px;
 }
 .gallery_table_outer {
-  background-color: #c1c1c1;
   padding-bottom: 70px;
 }
-.gallery_table_outer.blue #main_nav li a:hover {
+.gallery_table_outer.blue #gallery_list_table .galleriesLink a:hover {
   color: #000099;
 }
-.gallery_table_outer.pink #main_nav li a:hover {
+.gallery_table_outer.pink #gallery_list_table .galleriesLink a:hover {
   color: #ff0099;
 }
-.gallery_table_outer.yellow #main_nav li a:hover {
+.gallery_table_outer.yellow #gallery_list_table .galleriesLink a:hover {
   color: #ffff00;
 }
-.gallery_table_outer.red #main_nav li a:hover {
+.gallery_table_outer.red #gallery_list_table .galleriesLink a:hover {
   color: #cc0000;
 }
 .gallery_table_outer h1.gallery_title {
@@ -253,35 +252,6 @@ body .outer_nav .nav #main_nav ul li a {
 .gallery_table_outer #gallery_list_table .galleriesLink a:hover {
   color: white;
 }
-<<<<<<< HEAD
-=======
-.gallery_table_outer h1.gallery_header {
-  position: relative;
-  top: 20px;
-  bottom: 20px;
-  left: 30px;
-  font-size: 14px;
-}
->>>>>>> b8aa2c622c1435fdf2a14725119076000e346a91
-.gallery_table_inner {
-  min-height: 500px;
-}
-.gallery_table_inner a {
-  text-decoration: none;
-  color: black;
-}
-.gallery_table_inner a:hover {
-  color: white;
-}
-.gallery_table_inner .gallery_links {
-  position: relative;
-  margin-top: 4px;
-  display: inline;
-}
-.gallery_table_inner .gallery_image_actual_image {
-  background-color: white;
-  padding: 8px;
-}
 #shipping_address_container {
   outline: none !important;
 }
@@ -302,6 +272,51 @@ body .outer_nav .nav #main_nav ul li a {
   padding-bottom: 5px;
   padding-top: 5px;
   cursor: pointer;
+}
+.gallery_table_outer.blue #gallery_list_table .galleriesLink a:hover {
+  color: #000099;
+}
+.gallery_table_outer.pink #gallery_list_table .galleriesLink a:hover {
+  color: #ff0099;
+}
+.gallery_table_outer.yellow #gallery_list_table .galleriesLink a:hover {
+  color: #ffff00;
+}
+.gallery_table_outer.red #gallery_list_table .galleriesLink a:hover {
+  color: #cc0000;
+}
+.gallery_table_outer h1.gallery_header {
+  position: relative;
+  top: 20px;
+  bottom: 20px;
+  left: 30px;
+  font-size: 14px;
+}
+.gallery_table_inner {
+  min-height: 500px;
+}
+.gallery_table_inner a {
+  text-decoration: none;
+  color: black;
+}
+.gallery_table_inner a:hover {
+  color: #ffffff;
+}
+.gallery_table_inner .gallery_links {
+  position: relative;
+  margin-top: 4px;
+  display: inline;
+}
+.gallery_table_inner .gallery_image_actual_image {
+  background-color: #ffffff;
+  padding: 8px;
+}
+.content_view {
+  position: absolute;
+  left: 215px;
+  top: 138px;
+  width: 800px;
+  padding-top: 0px;
 }
 .gallery {
   display: inline-block;
@@ -416,11 +431,12 @@ body .outer_nav .nav #main_nav ul li a {
   top: 138px;
   width: 800px;
   padding-top: 0px;
+  background-color: #c1c1c1;
 }
 .content .inner_content {
   position: relative;
-  left: 40px;
-  top: 40px;
+  left: 45px;
+  top: 60px;
   width: 700px;
   min-height: 510px;
 }
@@ -540,6 +556,18 @@ body .outer_nav .nav #main_nav ul li a {
   color: #ffff00;
 }
 .inner_content.red h1 {
+  color: #cc0000;
+}
+.inner_content.blue #forgot_your_password_container #forgot_password_link:hover {
+  color: #000099;
+}
+.inner_content.pink #forgot_your_password_container #forgot_password_link:hover {
+  color: #ff0099;
+}
+.inner_content.yellow #forgot_your_password_container #forgot_password_link:hover {
+  color: #ffff00;
+}
+.inner_content.red #forgot_your_password_container #forgot_password_link:hover {
   color: #cc0000;
 }
 .inner_content #login_container {
