@@ -69,9 +69,9 @@
 			<textarea rows="4" cols="50"><?php echo $curr_setting['current_value']; ?></textarea>
 		</form>
 	</div>
-	<div class="theme_setting_description text_area_description">
+	<p>
 		<?php echo $curr_setting['description']; ?>
-	</div>
+	</p>
 </div>
 <div style="clear: both"></div>
 

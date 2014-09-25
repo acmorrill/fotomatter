@@ -219,6 +219,37 @@ table {
   -ms-user-select: none;
   user-select: none;
 }
+#universal_save_popup {
+  font-family: Code-Pro-Bold-LC;
+  font-weight: normal;
+  font-style: normal;
+  display: none;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  vertical-align: top;
+  height: 40px;
+  border-top: 1px solid #32373b;
+  font-size: 20px;
+  background-color: #292929;
+  width: 100%;
+  text-align: center;
+  z-index: 100;
+}
+#universal_save_popup,
+#universal_save_popup a {
+  color: #ffffff;
+}
+#universal_save_popup .content {
+  border-top: 1px solid transparent;
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 10px;
+}
+#universal_save_popup .content,
+#universal_save_popup .content a {
+  color: #ffffff;
+}
 .page_content_header {
   font-family: Code-Pro-LC;
   font-weight: normal;
@@ -797,6 +828,7 @@ input {
   -moz-border-radius-topleft: 0px;
   border-top-left-radius: 0px;
   z-index: 50;
+  margin-bottom: 60px;
 }
 .message_div {
   position: fixed;
@@ -1281,6 +1313,8 @@ body {
 }
 #header .logo #mobile_navigation_open {
   display: none;
+  width: 100px;
+  height: 100px;
 }
 #header #top-navigation {
   font-family: Code-Pro-LC;
@@ -2201,6 +2235,10 @@ body {
     width: inherit !important;
     text-align: left;
   }
+  #theme_centers_list_container .theme_setting_container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }
 .introjs-overlay {
   position: absolute;
@@ -2600,222 +2638,59 @@ body {
 .two_level_menu_items_cont .container_item {
   background-color: #636363;
 }
-#theme_centers_list_container,
-.basic_settings {
+#theme_centers_list_container {
   position: relative;
+  max-width: 950px;
 }
-#theme_centers_list_container .theme_setting_container,
-#theme_centers_list_container .basic_setting_cont,
-.basic_settings .theme_setting_container,
-.basic_settings .basic_setting_cont {
-  vertical-align: top;
-  padding-bottom: 30px;
-  padding-top: 30px;
-  background-color: #181818;
-  background-color: rgba(30,30,31,0.21);
-  display: inline-block;
-  border: 1px solid transparent;
+#theme_centers_list_container .page_content_header {
+  margin-top: 40px;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+  height: initial;
 }
-#theme_centers_list_container .theme_setting_container label,
-#theme_centers_list_container .basic_setting_cont label,
-.basic_settings .theme_setting_container label,
-.basic_settings .basic_setting_cont label {
-  text-align: right;
-  vertical-align: top;
-  display: inline-block;
-  min-width: 170px;
-  padding-bottom: 50px;
+#theme_centers_list_container .page_content_header p {
+  margin-left: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
-#theme_centers_list_container .theme_setting_container .on_off,
-#theme_centers_list_container .basic_setting_cont .on_off,
-.basic_settings .theme_setting_container .on_off,
-.basic_settings .basic_setting_cont .on_off {
-  margin-right: -65px;
-  margin-left: -10px;
-}
-#theme_centers_list_container .theme_setting_container .drop_down,
-#theme_centers_list_container .basic_setting_cont .drop_down,
-.basic_settings .theme_setting_container .drop_down,
-.basic_settings .basic_setting_cont .drop_down {
-  margin-right: -97px;
-  margin-left: 19px;
-}
-#theme_centers_list_container .theme_setting_container .numeric_dropdown,
-#theme_centers_list_container .basic_setting_cont .numeric_dropdown,
-.basic_settings .theme_setting_container .numeric_dropdown,
-.basic_settings .basic_setting_cont .numeric_dropdown {
-  margin-right: -154px;
-  margin-left: 84px;
-}
-#theme_centers_list_container .theme_setting_container .radio,
-#theme_centers_list_container .basic_setting_cont .radio,
-.basic_settings .theme_setting_container .radio,
-.basic_settings .basic_setting_cont .radio {
-  margin-right: -94px;
-  margin-left: -4px;
-}
-#theme_centers_list_container .theme_setting_container .radio_buttons,
-#theme_centers_list_container .basic_setting_cont .radio_buttons,
-.basic_settings .theme_setting_container .radio_buttons,
-.basic_settings .basic_setting_cont .radio_buttons {
-  padding-top: 30px;
-  margin-right: 20px;
-  margin-left: 19px;
-}
-#theme_centers_list_container .theme_setting_container .color_radio,
-#theme_centers_list_container .basic_setting_cont .color_radio,
-.basic_settings .theme_setting_container .color_radio,
-.basic_settings .basic_setting_cont .color_radio {
-  padding-top: 31px;
-  margin-left: -114px;
-}
-#theme_centers_list_container .theme_setting_container .color_radio_text,
-#theme_centers_list_container .basic_setting_cont .color_radio_text,
-.basic_settings .theme_setting_container .color_radio_text,
-.basic_settings .basic_setting_cont .color_radio_text {
-  margin-left: 38px;
-}
-#theme_centers_list_container .theme_setting_container .check_boxes,
-#theme_centers_list_container .basic_setting_cont .check_boxes,
-.basic_settings .theme_setting_container .check_boxes,
-.basic_settings .basic_setting_cont .check_boxes {
-  padding-top: 31px;
-  margin-left: -114px;
-}
-#theme_centers_list_container .theme_setting_container .check_boxes_text,
-#theme_centers_list_container .basic_setting_cont .check_boxes_text,
-.basic_settings .theme_setting_container .check_boxes_text,
-.basic_settings .basic_setting_cont .check_boxes_text {
-  margin-left: 38px;
-}
-#theme_centers_list_container .theme_setting_container .theme_setting_inputs_container,
-#theme_centers_list_container .basic_setting_cont .theme_setting_inputs_container,
-.basic_settings .theme_setting_container .theme_setting_inputs_container,
-.basic_settings .basic_setting_cont .theme_setting_inputs_container {
-  margin-top: -3px;
-  min-width: 80px;
-  vertical-align: top;
-  display: inline-block;
-}
-#theme_centers_list_container .theme_setting_container .theme_setting_inputs_container select,
-#theme_centers_list_container .theme_setting_container .theme_setting_inputs_container option,
-#theme_centers_list_container .basic_setting_cont .theme_setting_inputs_container select,
-#theme_centers_list_container .basic_setting_cont .theme_setting_inputs_container option,
-.basic_settings .theme_setting_container .theme_setting_inputs_container select,
-.basic_settings .theme_setting_container .theme_setting_inputs_container option,
-.basic_settings .basic_setting_cont .theme_setting_inputs_container select,
-.basic_settings .basic_setting_cont .theme_setting_inputs_container option {
-  margin-top: 30px;
-}
-#theme_centers_list_container .theme_setting_container .text_input_text,
-#theme_centers_list_container .basic_setting_cont .text_input_text,
-.basic_settings .theme_setting_container .text_input_text,
-.basic_settings .basic_setting_cont .text_input_text {
-  padding-top: 29px;
-  margin-left: -102px;
-}
-#theme_centers_list_container .theme_setting_container .text_input,
-#theme_centers_list_container .basic_setting_cont .text_input,
-.basic_settings .theme_setting_container .text_input,
-.basic_settings .basic_setting_cont .text_input {
-  margin-left: 35px;
-}
-#theme_centers_list_container .theme_setting_container .text_area_text,
-#theme_centers_list_container .basic_setting_cont .text_area_text,
-.basic_settings .theme_setting_container .text_area_text,
-.basic_settings .basic_setting_cont .text_area_text {
-  margin-left: 35px;
-}
-#theme_centers_list_container .theme_setting_container .text_area,
-#theme_centers_list_container .basic_setting_cont .text_area,
-.basic_settings .theme_setting_container .text_area,
-.basic_settings .basic_setting_cont .text_area {
-  padding-top: 29px;
-  margin-left: -102px;
-}
-#theme_centers_list_container .theme_setting_container .theme_setting_description,
-#theme_centers_list_container .basic_setting_cont .theme_setting_description,
-.basic_settings .theme_setting_container .theme_setting_description,
-.basic_settings .basic_setting_cont .theme_setting_description {
-  display: inline-block;
-  vertical-align: top;
-  font-style: italic;
-  margin-left: 80px;
-}
-#theme_centers_list_container .theme_setting_container .on_off_description,
-#theme_centers_list_container .basic_setting_cont .on_off_description,
-.basic_settings .theme_setting_container .on_off_description,
-.basic_settings .basic_setting_cont .on_off_description {
-  width: 587px;
-}
-#theme_centers_list_container .theme_setting_container .text_area_description,
-#theme_centers_list_container .basic_setting_cont .text_area_description,
-.basic_settings .theme_setting_container .text_area_description,
-.basic_settings .basic_setting_cont .text_area_description {
-  width: 232px;
-}
-#theme_centers_list_container .theme_setting_container .drop_down_description,
-#theme_centers_list_container .basic_setting_cont .drop_down_description,
-.basic_settings .theme_setting_container .drop_down_description,
-.basic_settings .basic_setting_cont .drop_down_description {
-  width: 591px;
-}
-#theme_centers_list_container .theme_setting_container .numeric_dropdown_description,
-#theme_centers_list_container .basic_setting_cont .numeric_dropdown_description,
-.basic_settings .theme_setting_container .numeric_dropdown_description,
-.basic_settings .basic_setting_cont .numeric_dropdown_description {
-  width: 584px;
-}
-#theme_centers_list_container .theme_setting_container .radio_description,
-#theme_centers_list_container .basic_setting_cont .radio_description,
-.basic_settings .theme_setting_container .radio_description,
-.basic_settings .basic_setting_cont .radio_description {
-  width: 574px;
-}
-#theme_centers_list_container .theme_setting_container .color_radio_description,
-#theme_centers_list_container .basic_setting_cont .color_radio_description,
-.basic_settings .theme_setting_container .color_radio_description,
-.basic_settings .basic_setting_cont .color_radio_description {
-  width: 476px;
-}
-#theme_centers_list_container .theme_setting_container .check_boxes_description,
-#theme_centers_list_container .basic_setting_cont .check_boxes_description,
-.basic_settings .theme_setting_container .check_boxes_description,
-.basic_settings .basic_setting_cont .check_boxes_description {
-  width: 474px;
-}
-#theme_centers_list_container .theme_setting_container .text_input_description,
-#theme_centers_list_container .basic_setting_cont .text_input_description,
-.basic_settings .theme_setting_container .text_input_description,
-.basic_settings .basic_setting_cont .text_input_description {
-  width: 477px;
-}
-#theme_centers_list_container .saving_theme_setting,
-.basic_settings .saving_theme_setting {
-  position: fixed;
-  right: 48px;
-  bottom: 25px;
-}
-#theme_centers_list_container h2.group_list_name,
-.basic_settings h2.group_list_name {
-  padding-left: 20px;
+#theme_centers_list_container .theme_setting_container > label {
   font-family: Code-Pro-LC;
   font-weight: normal;
   font-style: normal;
   font-size: 24px;
-  line-height: 46px;
-  width: 829px;
-  background-color: #181818;
-  background-color: rgba(30,30,31,0.36);
-  display: inline-block;
-  border: 1px solid transparent;
-  margin-top: 20px;
-  height: 75px;
+  line-height: 24px;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  display: block;
 }
-#theme_centers_list_container h2.group_list_name span,
-.basic_settings h2.group_list_name span {
+#theme_centers_list_container .theme_setting_container .theme_setting_inputs_container {
+  float: left;
+  margin-right: 50px;
+  min-width: 240px;
+  margin-bottom: 40px;
+}
+#theme_centers_list_container .theme_setting_container .theme_setting_inputs_container .radio_buttons > label,
+#theme_centers_list_container .theme_setting_container .theme_setting_inputs_container .check_boxes > label,
+#theme_centers_list_container .theme_setting_container .theme_setting_inputs_container .color_radio > label {
+  margin-right: 30px;
+}
+#theme_centers_list_container .theme_setting_container .theme_setting_inputs_container .radio_buttons input,
+#theme_centers_list_container .theme_setting_container .theme_setting_inputs_container .check_boxes input,
+#theme_centers_list_container .theme_setting_container .theme_setting_inputs_container .color_radio input {
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  height: initial;
+}
+#theme_centers_list_container .theme_setting_container .theme_setting_inputs_container .radio_buttons .color_chooser,
+#theme_centers_list_container .theme_setting_container .theme_setting_inputs_container .check_boxes .color_chooser,
+#theme_centers_list_container .theme_setting_container .theme_setting_inputs_container .color_radio .color_chooser {
+  width: 10px;
   display: inline-block;
-  margin-top: 17px;
+  margin-right: 20px;
+}
+#theme_centers_list_container .generic_palette_container {
+  padding-bottom: 60px;
 }
 #configure_theme_background {
   width: 806px;

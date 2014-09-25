@@ -69,7 +69,7 @@
 				var top_level_item = jQuery(this).closest('.top_level_item');
 				var site_two_level_menu_id_to_delete = top_level_item.attr('top_level_site_two_level_menu_id');
 
-
+				show_universal_save();
 				jQuery.ajax({
 					type: 'post',
 					url: '/admin/site_menus/ajax_delete_two_level_menu_item/'+site_two_level_menu_id_to_delete,
@@ -83,6 +83,7 @@
 						}
 					},
 					complete: function() {
+						hide_universal_save();
 						reload_add_container_lists();
 					},
 					error: function(jqXHR, textStatus, errorThrown) {
@@ -101,7 +102,7 @@
 				var sub_menu_item = jQuery(this).closest('.sub_menu_item');
 				var two_level_menu_container_item_id_to_delete = sub_menu_item.attr('site_two_level_menu_container_item_id');
 
-
+				show_universal_save();
 				jQuery.ajax({
 					type: 'post',
 					url: '/admin/site_menus/ajax_delete_sub_menu_item/'+two_level_menu_container_item_id_to_delete+'/',
@@ -115,7 +116,7 @@
 						}
 					},
 					complete: function() {
-
+						hide_universal_save();
 					},
 					error: function(jqXHR, textStatus, errorThrown) {
 
@@ -143,15 +144,27 @@
 					var site_two_level_menu_id = jQuery(ui.item).attr('top_level_site_two_level_menu_id');
 					var newPosition = position_of_element_among_siblings(jQuery('.top_level_item', context), jQuery(ui.item));
 
-					jQuery.post('/admin/site_menus/ajax_set_site_two_level_order/'+site_two_level_menu_id+'/'+newPosition+'/', function(data) {
-						if (data.code == 1) {
-							// its all good
-						} else {
-							major_error_recover(data.message);
-						}
-						jQuery(context).sortable('enable');
-					}, 'json');
+					show_universal_save();
+					jQuery.ajax({
+						type: 'post',
+						url: '/admin/site_menus/ajax_set_site_two_level_order/'+site_two_level_menu_id+'/'+newPosition+'/',
+						data: {},
+						success: function(data) {
+							if (data.code == 1) {
+								// its all good
+							} else {
+								major_error_recover(data.message);
+							}
+							jQuery(context).sortable('enable');
+						},
+						complete: function() {
+							hide_universal_save();
+						},
+						error: function(jqXHR, textStatus, errorThrown) {
 
+						},
+						dataType: 'json'
+					});
 				}
 			});
 
@@ -173,16 +186,28 @@
 					// figure the new position of the dragged element
 					var site_two_level_menu_container_item_id = jQuery(ui.item).attr('site_two_level_menu_container_item_id');
 					var newPosition = position_of_element_among_siblings(jQuery('.sub_menu_item', context), jQuery(ui.item));
+					
+					show_universal_save();
+					jQuery.ajax({
+						type: 'post',
+						url: '/admin/site_menus/ajax_set_menu_item_order_in_container/'+site_two_level_menu_container_item_id+'/'+newPosition+'/',
+						data: {},
+						success: function(data) {
+							if (data.code == 1) {
+								// its all good
+							} else {
+								major_error_recover(data.message);
+							}
+							jQuery(context).sortable('enable');
+						},
+						complete: function() {
+							hide_universal_save();
+						},
+						error: function(jqXHR, textStatus, errorThrown) {
 
-					jQuery.post('/admin/site_menus/ajax_set_menu_item_order_in_container/'+site_two_level_menu_container_item_id+'/'+newPosition+'/', function(data) {
-						if (data.code == 1) {
-							// its all good
-						} else {
-							major_error_recover(data.message);
-						}
-						jQuery(context).sortable('enable');
-					}, 'json');
-
+						},
+						dataType: 'json'
+					});
 				}
 			});
 
@@ -221,6 +246,7 @@
 
 						if (container_id == 'top_level') {
 							// do the top level add
+							show_universal_save();
 							jQuery.ajax({
 								type: 'post',
 								url: '/admin/site_menus/add_two_level_menu_item/SitePage/'+site_page_id+'/',
@@ -240,12 +266,13 @@
 									}
 								},
 								complete: function() {
-
+									hide_universal_save();
 								},
 								dataType: 'json'
 							});	
 						} else {
 							// do the container add
+							show_universal_save();
 							jQuery.ajax({
 								type: 'post',
 								url: '/admin/site_menus/add_two_level_menu_container_item/'+container_id+'/SitePage/'+site_page_id+'/',
@@ -267,7 +294,7 @@
 									}
 								},
 								complete: function() {
-
+									hide_universal_save();
 								},
 								dataType: 'json'
 							});	
@@ -283,9 +310,10 @@
 						var container_id = container_select_box.val();
 						var site_two_level_menu_id = container_select_box.find('option:selected').attr('site_two_level_menu_id');
 
-
+						
 						if (container_id == 'top_level') {
 							// do the top level add
+							show_universal_save();
 							jQuery.ajax({
 								type: 'post',
 								url: '/admin/site_menus/add_two_level_menu_item/PhotoGallery/'+photo_gallery_id+'/',
@@ -305,12 +333,13 @@
 									}
 								},
 								complete: function() {
-
+									hide_universal_save();
 								},
 								dataType: 'json'
 							});	
 						} else {
 							// do the container add
+							show_universal_save();
 							jQuery.ajax({
 								type: 'post',
 								url: '/admin/site_menus/add_two_level_menu_container_item/'+container_id+'/PhotoGallery/'+photo_gallery_id+'/',
@@ -332,7 +361,7 @@
 									}
 								},
 								complete: function() {
-
+									hide_universal_save();
 								},
 								dataType: 'json'
 							});	
@@ -349,6 +378,7 @@
 						}
 						var new_container_name = new_name_cont.val();
 
+						show_universal_save();
 						jQuery.ajax({
 							type: 'post',
 							url: '/admin/site_menus/add_two_level_menu_container',
@@ -376,6 +406,7 @@
 								}
 							},
 							complete: function() {
+								hide_universal_save();
 								reload_add_container_lists();
 								//				console.log ("complete");
 							},
@@ -397,6 +428,7 @@
 	//					console.log (new_container_name);
 	//					console.log (container_to_rename_id);
 
+						show_universal_save();
 						jQuery.ajax({
 							type: 'post',
 							url: '/admin/site_menus/ajax_rename_site_two_level_menu_container',
@@ -419,6 +451,7 @@
 								}
 							},
 							complete: function() {
+								hide_universal_save();
 								reload_add_container_lists();
 								//				console.log ("complete");
 							},

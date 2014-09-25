@@ -37,11 +37,6 @@
 #configure_page_cont .image_element_image_cont .page_element_top_section .image_element_image_upload {
   display: inline-block;
 }
-.rounded-corners-small {
-  -webkit-border-radius: 7px;
-  -moz-border-radius: 7px;
-  border-radius: 7px;
-}
 .richard_notes {
   z-index: 10000000000000000000;
   display: none;

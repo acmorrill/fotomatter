@@ -1,3 +1,27 @@
+#universal_save_popup {
+	.Code-Pro-Bold-LC;
+	display: none;
+	position: fixed;
+	bottom: 0px;
+	left: 0px;
+	vertical-align: top;
+	height: @button_height;
+	border-top: 1px solid @button_border;
+	font-size: 20px;
+	background-color: @off_black + @button_bg_increase;
+	width: 100%;
+	text-align: center;
+	&, a { color: @white };
+	.content {
+		border-top: 1px solid transparent;
+		display: inline-block;
+		vertical-align: top;
+		margin-top: 10px;
+		&, a { color: @white };
+	}
+	z-index: @header;
+}
+
 .vertical_gradient(@top_color, @bottom_color) {
 	background-color: @top_color;
 	background-image: -webkit-gradient(

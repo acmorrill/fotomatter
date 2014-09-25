@@ -1,1 +1,0 @@
-<h2 class="group_list_name"><span><?php echo $curr_setting['display_name']; ?></span></h2>

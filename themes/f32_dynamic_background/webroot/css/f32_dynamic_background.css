@@ -252,8 +252,6 @@ body .outer_nav .nav #main_nav ul li a {
 .gallery_table_outer #gallery_list_table .galleriesLink a:hover {
   color: white;
 }
-<<<<<<< HEAD
-=======
 #shipping_address_container {
   outline: none !important;
 }
@@ -287,7 +285,6 @@ body .outer_nav .nav #main_nav ul li a {
 .gallery_table_outer.red #gallery_list_table .galleriesLink a:hover {
   color: #cc0000;
 }
->>>>>>> 1e159fb74e0577e799bdb58a6e5fdf6ba1a37861
 .gallery_table_outer h1.gallery_header {
   position: relative;
   top: 20px;

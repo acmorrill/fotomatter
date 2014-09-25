@@ -43,9 +43,9 @@
 			<input type="text" value="<?php echo $curr_setting['current_value']; ?>" />
 		</form>
 	</div>
-	<div class="theme_setting_description text_input_description">
+	<p>
 		<?php echo $curr_setting['description']; ?>
-	</div>
+	</p>
 </div>
 <div style="clear: both"></div>
 

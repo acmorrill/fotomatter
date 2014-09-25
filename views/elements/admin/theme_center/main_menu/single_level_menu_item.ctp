@@ -10,9 +10,9 @@
 		<td class="single_level_menu_id first table_width_reorder_icon"><div class="background"><div class="reorder_single_level_menu_grabber reorder_grabber"></div></div></td>
 		<td class="menu_type"><div class="rightborder"></div><span><?php echo $menu_item_data['display_type']; ?></span></td>
 		<td><span><?php echo $menu_item_data['name']; ?></span></td>
-		<td class="table_actions">
+		<td class="table_actions custom_ui">
 			<?php if ($menu_item_data['display_type'] != 'System'): ?>
-				<div class ="delete_one_level_menu_item" style="cursor: pointer;">delete</div>
+				<div class="delete_one_level_menu_item add_button icon"><div class="content">X</div></div>
 			<?php endif; ?>
 		</td>
 	</tr>
