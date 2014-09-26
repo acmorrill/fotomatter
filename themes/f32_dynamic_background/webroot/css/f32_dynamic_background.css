@@ -131,7 +131,7 @@ table {
   user-select: none;
 }
 h1 {
-  font-size: 17px;
+  font-size: 20px;
 }
 h2 {
   font-size: 20px;
@@ -144,7 +144,7 @@ ul {
   background-color: #c1c1c1;
 }
 .footer #footer_tagline {
-  margin-top: 0px;
+  margin-top: 45px;
 }
 body {
   background-image: url('/theme_merged_final_images/f32_dynamic_background.jpg');
@@ -221,7 +221,6 @@ body .outer_nav .nav #main_nav ul li a {
   top: 20px;
   bottom: 20px;
   left: 30px;
-  font-size: 14px;
 }
 .gallery_table_outer #gallery_list_table {
   position: relative;
@@ -252,8 +251,6 @@ body .outer_nav .nav #main_nav ul li a {
 .gallery_table_outer #gallery_list_table .galleriesLink a:hover {
   color: white;
 }
-<<<<<<< HEAD
-=======
 #shipping_address_container {
   outline: none !important;
 }
@@ -269,10 +266,10 @@ body .outer_nav .nav #main_nav ul li a {
   margin-bottom: 4px;
 }
 .no_label input {
-  padding-right: 20px;
-  padding-left: 20px;
-  padding-bottom: 5px;
-  padding-top: 5px;
+  padding-right: 50px;
+  padding-left: 50px;
+  padding-bottom: 10px;
+  padding-top: 10px;
   cursor: pointer;
 }
 .gallery_table_outer.blue #gallery_list_table .galleriesLink a:hover {
@@ -287,13 +284,11 @@ body .outer_nav .nav #main_nav ul li a {
 .gallery_table_outer.red #gallery_list_table .galleriesLink a:hover {
   color: #cc0000;
 }
->>>>>>> 1e159fb74e0577e799bdb58a6e5fdf6ba1a37861
 .gallery_table_outer h1.gallery_header {
   position: relative;
   top: 20px;
   bottom: 20px;
   left: 30px;
-  font-size: 14px;
 }
 .gallery_table_inner {
   min-height: 500px;
@@ -318,7 +313,7 @@ body .outer_nav .nav #main_nav ul li a {
   position: absolute;
   left: 215px;
   top: 138px;
-  width: 800px;
+  width: 900px;
   padding-top: 0px;
 }
 .gallery {
@@ -330,9 +325,10 @@ body .outer_nav .nav #main_nav ul li a {
   position: relative;
 }
 .outer_cart {
-  background-color: #c1c1c1;
+  background-color: #b3b0b0;
   position: relative;
-  top: 0px;
+  top: 25px;
+  display: inline-block;
   padding-bottom: 40px;
 }
 .outer_cart .view_page_paragraph {
@@ -340,7 +336,7 @@ body .outer_nav .nav #main_nav ul li a {
   font-family: 'Actor', sans-serif;
   float: left;
   font-size: 13px;
-  width: 500px;
+  width: 520px;
   margin-left: 40px;
 }
 .outer_cart .view_page_paragraph.blue h1 {
@@ -364,8 +360,9 @@ body .outer_nav .nav #main_nav ul li a {
 .outer_cart .inner_cart {
   margin-left: 40px;
   float: left;
-  width: 210px;
+  width: 200px;
   margin-top: 15px;
+  margin-right: 50px;
 }
 .outer_cart .inner_cart.blue button:hover {
   background-color: #000099;
@@ -612,10 +609,10 @@ body .outer_nav .nav #main_nav ul li a {
   float: right;
 }
 .check_out .pay_now input {
-  padding-right: 40px;
-  padding-left: 40px;
-  padding-bottom: 7px;
-  padding-top: 7px;
+  padding-right: 50px;
+  padding-left: 50px;
+  padding-bottom: 10px;
+  padding-top: 10px;
   cursor: pointer;
 }
 .check_out #create_account {

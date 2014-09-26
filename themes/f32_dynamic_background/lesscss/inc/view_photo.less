@@ -2,7 +2,7 @@
     position: absolute;
     left: 215px;
     top: 138px;
-    width: 800px;
+    width: 900px;
     padding-top: 0px;
 }
 .gallery{
@@ -14,17 +14,17 @@
     }
 }
 .outer_cart{
-    background-color: @bg_color;
+    background-color: @photo_discription_bg;
     position: relative;
-    top: 0px;
-    //width: 800px;
+    top: 25px;
+    display: inline-block;
     padding-bottom: 40px;
     .view_page_paragraph{
         margin-top: 30px;
         font-family: 'Actor', sans-serif;
         float: left;
         font-size: 13px;
-        width: 500px;
+        width: 520px;
         margin-left: 40px;
         &.blue h1 { color: @blue; }
         &.pink h1 { color: @pink; }
@@ -40,12 +40,14 @@
     .inner_cart{
         margin-left: 40px;
         float: left;
-        width: 210px;
+        width: 200px;
         margin-top: 15px;
+        margin-right: 50px;
+        // color accents
         &.blue button:hover { background-color: @blue; color: @white; }
         &.pink button:hover { background-color: @pink; color: @white; }
         &.yellow button:hover { background-color: @yellow; color: @white; }
-        &.red button:hover { background-color: @red; color: @white; }   
+        &.red button:hover { background-color: @red; color: @white; } 
 
         ul{
             list-style: none;

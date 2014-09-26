@@ -7,7 +7,7 @@
         <link href='http://fonts.googleapis.com/css?family=Actor' rel='stylesheet' type='text/css'>
     </head>
     <body>
-        <?php $accent_colors = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'accent_colors'); ?> 
+        <?php $accent_colors = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'accent_colors'); ?>
         <div class="outer_nav">
             <?php echo $this->Element('nameTitle'); ?>
             <div class="nav <?php echo $accent_colors; ?>">
