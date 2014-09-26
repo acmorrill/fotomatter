@@ -18,6 +18,7 @@
 					var siteOneLevelMenuId = jQuery(ui.item).attr('site_one_level_menu_id');
 					var newPosition = position_of_element_among_siblings(jQuery('.single_level_menu_items_cont .list tbody tr'), jQuery(ui.item));
 
+					show_universal_save();
 					jQuery.ajax({
 						type: 'post',
 						url: '/admin/site_menus/ajax_set_site_single_level_order/'+siteOneLevelMenuId+'/'+newPosition+'/',
@@ -28,6 +29,7 @@
 							}
 						},
 						complete: function() {
+							hide_universal_save();
 							jQuery(context).sortable('enable');
 						},
 						dataType: 'json'
@@ -41,6 +43,7 @@
 				var tr_to_remove = jQuery(this).closest('tr');
 				var site_one_level_menu_id_to_delete = tr_to_remove.attr('site_one_level_menu_id');
 
+				show_universal_save();
 				jQuery.ajax({
 					type: 'post',
 					url: '/admin/site_menus/ajax_delete_one_level_menu_item/'+site_one_level_menu_id_to_delete+'/',
@@ -53,7 +56,7 @@
 						}
 					},
 					complete: function() {
-
+						hide_universal_save();
 					},
 					dataType: 'json'
 				});	
@@ -90,6 +93,7 @@
 						var select_box = jQuery(this).parent().find('#single_menu_page_add_list');
 						var site_page_id = select_box.val();
 
+						show_universal_save();
 						jQuery.ajax({
 							type: 'post',
 							url: '/admin/site_menus/add_one_level_menu_item/SitePage/'+site_page_id+'/',
@@ -109,7 +113,7 @@
 								}
 							},
 							complete: function() {
-
+								hide_universal_save();
 							},
 							dataType: 'json'
 						});	
@@ -117,20 +121,17 @@
 
 
 					jQuery('#single_menu_gallery_add_button').click(function() { 
-						console.log('came into here 2');
-
 						var select_box = jQuery(this).parent().find('#single_menu_gallery_add_list');
 						var photo_gallery_id = select_box.val();
 
+						show_universal_save();
 						jQuery.ajax({
 							type: 'post',
 							url: '/admin/site_menus/add_one_level_menu_item/PhotoGallery/'+photo_gallery_id+'/',
 							data: {},
 							success: function(data) {
-								console.log('came into here 1');
 
 								if (data.code == 1) {
-									console.log('came into here 3');
 									var new_menu_item = jQuery(data.new_menu_item_html);
 									setup_one_level_menu_item_delete(new_menu_item);
 									var move_to_cont = jQuery('.single_level_menu_items_cont .list tbody');
@@ -139,13 +140,12 @@
 									// move scoll to new menu item
 									var menu_cont = jQuery(move_to_cont).closest('.content-background');
 									menu_cont.scrollTop(menu_cont.prop("scrollHeight"));
-									console.log('came into here 4');
 								} else {
 									major_error_recover('Failed to add the gallery menu item');
 								}
 							},
 							complete: function() {
-
+								hide_universal_save();
 							},
 							dataType: 'json'
 						});	

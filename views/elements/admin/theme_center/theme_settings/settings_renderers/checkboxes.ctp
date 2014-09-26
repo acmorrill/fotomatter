@@ -30,13 +30,15 @@
 		<form class="check_boxes">
 			<?php $selected_values = explode('|', $curr_setting['current_value']); ?>
 			<?php foreach ($curr_setting['possible_values'] as $key => $value_name): ?>
-				<input type="checkbox" name="<?php echo $setting_name; ?>" value="<?php echo $key; ?>" <?php if (in_array($key, $selected_values)): ?>checked="checked"<?php endif; ?> /><?php echo $value_name['display']; ?><br/>
+				<input type="checkbox" name="<?php echo $setting_name; ?>" value="<?php echo $key; ?>" <?php if (in_array($key, $selected_values)): ?>checked="checked"<?php endif; ?> />
+				<label><?php echo $value_name['display']; ?></label>
+				<div></div>
 			<?php endforeach; ?>
 		</form>
 	</div>
-	<div class="theme_setting_description check_boxes_description">
+	<p>
 		<?php echo $curr_setting['description']; ?>
-	</div>
+	</p>
 </div>
 <div style="clear: both"></div>
 

@@ -30,9 +30,9 @@
 			<?php endforeach; ?>
 		</select>
 	</div>
-	<div class="theme_setting_description on_off_description">
+	<p>
 		<?php echo $curr_setting['description']; ?>
-	</div>
+	</p>
 </div>
 <div style="clear: both"></div>
 
