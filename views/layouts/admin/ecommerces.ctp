@@ -55,9 +55,9 @@
 		<?php echo $this->Session->flash(); ?>
 		<?php echo $content_for_layout; ?>
 	</div>
-	<div id="footer"></div>
+	<?php echo $this->Element('admin/global_footer'); ?>
 </div>
-<div id="admin_background"></div>
+<?php echo $this->Element('admin/global_after_footer'); ?>
 
 </body>
 </html>

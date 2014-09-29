@@ -12,19 +12,19 @@
         <?php $accent_colors = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'accent_colors'); ?>	
         <div class="outer_nav">
             <?php echo $this->Element('nameTitle'); ?>
-            <div class="nav">
+            <div class="nav <?php echo $accent_colors; ?>">
                 <?php echo $this->Element('menu/navBar', array('page' => 'home')); ?>											
             </div>					
         </div>
         <div class="content">
-            <div class="inner_content <?php echo $accent_colors; ?>">
-                <?php echo $content_for_layout; ?>
-            </div> 		
-			<div class="footer">
-				<div class="inner_footer">
-					<?php echo $this->Element('global_theme_footer_copyright'); ?>
-				</div>
-			</div>		
+                <div class="inner_content <?php echo $accent_colors; ?>">
+                    <?php echo $content_for_layout; ?>
+                </div>
+            <div class="footer">
+                <div class="inner_footer">
+                    <?php echo $this->Element('global_theme_footer_copyright'); ?>
+                </div>
+            </div>		
         </div>
     </body>
 </html>

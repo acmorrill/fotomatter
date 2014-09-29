@@ -4,6 +4,7 @@
 		vertical-align: top;
 		width: 49%;
 		max-width: 445px;
+		min-width: 406px;
 		overflow: hidden;
 		height: 400px;
 		margin-right:20px;
@@ -23,77 +24,41 @@
 					//outline: 5px solid pink;
 					border: 3px solid @off_black;
 				}
-				.container_rectangular_box{
+				.container_rectangular_box {
 					//.el_opacity(.6, 60);
-					float: right;
 					background-color:@off_black;
 					background-color:rgba(30,30,31,.36);
-					display: inline-block;
 					border: 1px solid transparent;
-					margin-top:10px;
-					width: 396px;
-					//outline:1px solid red;
-				}				
-				.add_text {	
-					float:left; 
-					.el_opacity(.60, 60);
-					margin-left:10px;
-					width:260px;
-					word-wrap: break-word;
+					margin-top: 5px;
 					table {
-						height:58px;
-					}
-					td {
-						vertical-align:middle;
-					}
-				}
-				.button_switch_theme{
-					float: right;
-					margin-top: 7px;
-					margin-bottom: 7px;
-				}
-				.add_button {
-					float:right; 
-					color: @grey_hover;
-					cursor: pointer;
-					display: inline-block;
-					vertical-align: top;
-					border: 1px solid transparent;
-					height: 40px;
-					padding-left: 10px;
-					padding-right: 10px;
-					margin-top: 7px;
-					.content {
-						display: inline-block;
-						vertical-align: top;
-						margin-top: 11px;
-						.el_opacity(.7, 70);
-						//color: @top_white;
-					}
-					font-size: 18px;
-					background-color: @button_off;
-					.right_arrow_lines {
-						.right_facing_triangle(10, @grey_hover);				
-						div {
-							.right_facing_triangle(10, @button_off);
-							//This will be replaced with an image.
+						margin: 7px;
+						margin-left: 0px;
+						margin-right: 0px;
+						width: 100%;
+						td { vertical-align: middle; }
+						.choose_theme_text {
+							> * {
+								float:left;
+								margin-left: 15px;
+							}
+							h2 {
+								.el_opacity(.60, 60);
+								word-wrap: break-word;
+								font-size: 20px;
+								line-height: 20px;
+								margin-top: 5px;
+								margin-bottom: 5px;
+							}
 						}
-					}
-					&:hover, &.button_current_theme  {
-						color: @top_white;
-						background-color: @button_on;
-						.content{
-							.el_opacity(1, 100);
-						}
-						.right_arrow_lines {
-							.right_facing_triangle(10, @top_white);				
-							div {
-								.right_facing_triangle(10, @button_on);
-								//This will be replaced with an image.
+						.choose_theme_button {
+							width: 172px;
+							> * {
+								margin-right: 15px;
+								float: right;
 							}
 						}
 					}
-				}
+				}				
 			}
 		}	
 		&:hover, &.current {
@@ -102,7 +67,7 @@
 				border: 3px solid @top_white;
 			}
 			
-			.theme_item_outer_container .theme_item_inner_container .add_text  {
+			.theme_item_outer_container .theme_item_inner_container .container_rectangular_box .choose_theme_text h2  {
 				.el_opacity(1, 100);
 			}
 			

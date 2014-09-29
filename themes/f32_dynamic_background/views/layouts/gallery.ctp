@@ -14,7 +14,7 @@
         <?php //echo $content_for_layout; ?>
         <div class="outer_nav">
             <?php echo $this->Element('nameTitle'); ?>
-            <div class="nav">
+            <div class="nav <?php echo $accent_colors; ?>">
                 <?php echo $this->Element('menu/navBar', array( 'page' => 'home' ));?>											
             </div>					
         </div>

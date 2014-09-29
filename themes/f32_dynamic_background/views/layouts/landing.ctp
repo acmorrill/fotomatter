@@ -9,11 +9,12 @@
         <link href='http://fonts.googleapis.com/css?family=Actor' rel='stylesheet' type='text/css'>
     </head>
     <body>
+        <?php $accent_colors = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'accent_colors'); ?> 
          <?php $welcome_paragraph = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'welcome_paragraph'); ?>
         <?php //echo $content_for_layout; ?>
         <div class="outer_nav">
             <?php echo $this->Element('nameTitle'); ?>
-            <div class="nav">
+            <div class="nav <?php echo $accent_colors; ?>">
                 <?php echo $this->Element('menu/navBar', array('page' => 'home')); ?>											
             </div>					
         </div>		

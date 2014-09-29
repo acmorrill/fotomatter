@@ -7,14 +7,14 @@
         <link href='http://fonts.googleapis.com/css?family=Actor' rel='stylesheet' type='text/css'>
     </head>
     <body>
-        <?php $accent_colors = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'accent_colors'); ?> 
+        <?php $accent_colors = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'accent_colors'); ?>
         <div class="outer_nav">
             <?php echo $this->Element('nameTitle'); ?>
             <div class="nav <?php echo $accent_colors; ?>">
                 <?php echo $this->Element('menu/navBar', array('page' => 'home')); ?>											
             </div>					
         </div>
-        <div class="content">            
+        <div class="content_view">            
             <div class="gallery">                  
                 <?php $img_src = $this->Photo->get_photo_path($curr_photo['Photo']['id'], 700, 700, .4, true); ?>
                 <img src="<?php echo $img_src['url']; ?>" <?php echo $img_src['tag_attributes']; ?> alt="<?php echo $curr_photo['Photo']['alt_text']; ?>" />

@@ -25,13 +25,15 @@
 	<div class="theme_setting_inputs_container">
 		<form class="radio_buttons">
 			<?php $count = 1; foreach ($curr_setting['possible_values'] as $key => $value_name): ?>
-				<input type="radio" name="<?php echo $setting_name; ?>" value="<?php echo $key; ?>" <?php if ($key == $curr_setting['current_value'] || (empty($curr_setting['current_value']) == true && $count == 1)): ?>checked="checked"<?php endif; ?> /><?php echo $value_name['display']; ?><br/>
+				<input type="radio" name="<?php echo $setting_name; ?>" value="<?php echo $key; ?>" <?php if ($key == $curr_setting['current_value'] || (empty($curr_setting['current_value']) == true && $count == 1)): ?>checked="checked"<?php endif; ?> />
+				<label><?php echo $value_name['display']; ?></label>
+				<div></div>
 			<?php $count++; endforeach; ?>
 		</form>
 	</div>
-	<div class="theme_setting_description radio_description">
+	<p>
 		<?php echo $curr_setting['description']; ?>
-	</div>
+	</p>
 </div>
 <div style="clear: both"></div>
 

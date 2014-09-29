@@ -9,14 +9,15 @@
         <link href='http://fonts.googleapis.com/css?family=Actor' rel='stylesheet' type='text/css'>
     </head>
     <body>
+        <?php $accent_colors = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'accent_colors'); ?> 
         <div class="outer_nav">
             <?php echo $this->Element('nameTitle'); ?>
-            <div class="nav">
+            <div class="nav <?php echo $accent_colors; ?>">
                 <?php echo $this->Element('menu/navBar', array('page' => 'home')); ?>											
             </div>					
         </div>
         <div class="content">
-            <div class="gallery_table_outer">
+            <div class="gallery_table_outer <?php echo $accent_colors; ?>">
                 <h1 class="gallery_header"><?php __('Choose a Gallery'); ?></h1>
              <?php echo $this->Element('gallery/gallery_landing/2_column_gallery_landing', array()); ?>          
             </div>

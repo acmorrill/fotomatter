@@ -23,7 +23,6 @@
 		<?php if (isset($this->data['PhotoAvailSize']['id'])): ?>
 			<input type="hidden" name="data[PhotoAvailSize][id]" value="<?php echo $this->data['PhotoAvailSize']['id']; ?>" />
 		<?php endif; ?>
-<!--		<h2 class="group_list_name">Add Dimension</h2>-->
 		<div class="generic_palette_container">
 			<div class="fade_background_top"></div>
 			<div class="bg_effects_controls" style="margin-bottom: 40px;"></div>

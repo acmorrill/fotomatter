@@ -328,6 +328,7 @@
 			</div>
 		</div>
 		<p><?php echo __('add/remove features below', true); ?></p>
+		<div style="clear: both;"></div>
 	</div>
 	<div class="generic_palette_container">
 		<div class="fade_background_top"></div>

@@ -32,9 +32,9 @@
 			</select>
 		</div>	
 	</div>
-	<div class="theme_setting_description drop_down_description">
+	<p>
 		<?php echo $curr_setting['description']; ?>
-	</div>
+	</p>
 </div>
 <div style="clear: both"></div>
 

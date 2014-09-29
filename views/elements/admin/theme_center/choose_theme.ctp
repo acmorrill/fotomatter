@@ -52,32 +52,32 @@ $all_themes = $this->Theme->get_all_available_themes();
 								</div>
 							</div>
 							<div style="clear: both;"></div>
-							<div class="container_rectangular_box" >
-								<div class="add_text">
-									<table>
-										<tbody>
-											<tr>
-												<td>
-													<h2><?php echo $curr_theme['Theme']['display_name']; ?></h2>
-												</td>	
-											</tr>
-										</tbody>
-									</table>
-								</div>
-								<?php if (!$is_current_theme): ?>
-									<form id="choose_theme_<?php echo $curr_theme['Theme']['id']; ?>_form" action="/admin/theme_centers/choose_theme" method="POST">
-										<input type="hidden" name="data[new_theme_id]" value="<?php echo $curr_theme['Theme']['id']; ?>" />
-									</form>
-									<div class="usable_form" action="<?php echo $this->here; ?>" method="post">
-										<div class="button_switch_theme add_button" data-current-theme-id="<?php echo $curr_theme['Theme']['id']; ?>">
-											<div class="content"><?php __('Select'); ?></div><div class="right_arrow_lines"><div></div></div>
-										</div>
-									</div>
-								<?php else: ?>
-									<div class="button_current_theme add_button" data-step="2" data-intro="<?php echo __('Under the current theme the button will stay current.', true); ?>" data-position="bottom">
-										<div type="submit" value="" ><div class="content"><?php __('Current'); ?></div><div class="right_arrow_lines"><div></div></div></div>
-									</div>
-								<?php endif; ?>
+							<div class="container_rectangular_box custom_ui" >
+								<table>
+									<tbody>
+										<tr>
+											<td class="choose_theme_text">
+												<h2><?php echo $curr_theme['Theme']['display_name']; ?></h2>
+											</td>	
+											<td class="choose_theme_button">
+												<?php if (!$is_current_theme): ?>
+													<form id="choose_theme_<?php echo $curr_theme['Theme']['id']; ?>_form" action="/admin/theme_centers/choose_theme" method="POST">
+														<input type="hidden" name="data[new_theme_id]" value="<?php echo $curr_theme['Theme']['id']; ?>" />
+													</form>
+													<div class="usable_form" action="<?php echo $this->here; ?>" method="post">
+														<div class="button_switch_theme add_button" data-current-theme-id="<?php echo $curr_theme['Theme']['id']; ?>">
+															<div class="content"><?php __('Select'); ?></div><div class="right_arrow_lines"><div></div></div>
+														</div>
+													</div>
+												<?php else: ?>
+													<div class="button_current_theme add_button" data-step="2" data-intro="<?php echo __('Under the current theme the button will stay current.', true); ?>" data-position="bottom">
+														<div type="submit" value="" ><div class="content"><?php __('Current'); ?></div><div class="right_arrow_lines"><div></div></div></div>
+													</div>
+												<?php endif; ?>
+											</td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>	

@@ -15,7 +15,6 @@
 	<h2><?php echo __('Create Available Print Type', true); ?></h2>
 </div>
 	<form action="" method="post" data-step="1" data-intro="<?php echo __('Here is a list of all the print sizes that were created that now can be linked to a print type.', true); ?>" data-position="left">
-<!--		<h2 class="group_list_name">Add Dimension</h2>-->
 		<?php if (!empty($photo_print_type['PhotoPrintType']['id']) && $photo_print_type['PhotoPrintType']['id'] != '0'): ?>
 			<input type="hidden" name="data[PhotoPrintType][id]" value="<?php echo $photo_print_type['PhotoPrintType']['id']; ?>" />
 		<?php endif; ?>
