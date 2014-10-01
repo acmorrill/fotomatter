@@ -173,6 +173,7 @@
 				axis: 'y',
 				containment: 'parent',
 				items: '.sub_menu_item',
+				handle: '.main_menu_submenu_grabber',
 				forcePlaceholderSize: true,
 				tolerance: 'pointer',
 				scrollSensitivity: 60,
@@ -219,12 +220,16 @@
 		});
 	</script>
 
-	<div style="margin-bottom: 100px;">
-		<div class="two_level_menu_items_cont menu_items_cont">
+	<div class="large_container">
+		<div class="table_border two_level_menu_items_cont menu_items_cont">
 			<?php $two_level_menu_items = $this->ThemeMenu->get_two_level_menu_items(); ?>
 			<?php //debug($two_level_menu_items); ?>
 
-			<?php echo $this->Element('admin/theme_center/main_menu/two_level_menu_item', array('two_level_menu_items' => $two_level_menu_items)); ?>
+			<table class="list">
+				<tbody>
+					<?php echo $this->Element('admin/theme_center/main_menu/two_level_menu_item', array('two_level_menu_items' => $two_level_menu_items)); ?>
+				</tbody>
+			</table>
 		</div>
 
 

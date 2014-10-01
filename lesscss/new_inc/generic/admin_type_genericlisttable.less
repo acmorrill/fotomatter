@@ -170,6 +170,11 @@ table.list {
 					.reorder_grabber {
 						.el_opacity(.6, 60); 
 					}
+					&:hover {
+						.reorder_grabber {
+							.el_opacity(1, 100); 
+						}
+					}
 				}
 				.rightborder {
 					background-color: @table_divider;
@@ -213,7 +218,7 @@ table.list {
 					color: @top_white;
 				}
 				//border: 1px double @white;
-				.background .reorder_grabber { .el_opacity(1, 1); } 
+				/*.background .reorder_grabber { .el_opacity(1, 1); }*/ 
 			}
 			&.spacer { 
 				border: none;
