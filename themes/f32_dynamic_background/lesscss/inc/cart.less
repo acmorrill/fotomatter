@@ -17,8 +17,10 @@
         &.red button:hover { background-color: @red; color: @white; }   
         #cart_table {
             width: 100%;
+            margin-top: 20px;
             thead {
-                background-color: @white;
+                background-color: @bg_color_cart_header;
+                color: @white;
                 border: 1px solid @black;
                 font-weight: 600;
                 .total {
@@ -34,6 +36,7 @@
                         border-right: 1px solid @black;
                         text-align: center;
                         vertical-align: middle;
+                        color: @white;
                         img {
                             margin-top: 10px;
                             margin-bottom: 10px;
@@ -48,7 +51,10 @@
                     padding-top: 10px;
                 }
                 button {
-                    padding: 8px;
+                    padding-top: 10px;
+                    padding-bottom: 10px;
+                    padding-right: 25px;
+                    padding-left: 25px;
                     cursor: pointer;
                 }
             }
