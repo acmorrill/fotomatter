@@ -128,14 +128,34 @@
 
 		jQuery(document).ready(function() {
 			jQuery('.two_level_menu_items_cont').sortable({
+				helper: function(e, tr) {
+					var $originals = tr.children();
+					var $helper = tr.clone();
+					$helper.find('ul').remove();
+					$helper.height(77);
+					$helper.css('outline', '0px');
+					$helper.find('td').css('border', '0px');
+					$helper.children().each(function(index) {
+						// Set helper cell sizes to match the original sizes
+						$(this).width($originals.eq(index).width());
+					});
+					return $helper;
+				},
+//				start: function(e, ui) {
+//					ui.placeholder.find('ul').hide();
+//				},
+//				end: function(e, ui) {
+//					ui.placeholder.find('ul').show();
+//				},
+				containment: 'parent',
 				handle: '.order_in_two_level_menu_button',
 				axis: 'y',
-				containment: 'parent',
 				items: '.top_level_item',
 				forcePlaceholderSize: true,
 				tolerance: 'pointer',
-				scrollSensitivity: 120,
-				scrollSpeed: 5,
+				scroll: true,
+//				scrollSensitivity: 120,
+//				scrollSpeed: 5,
 				update : function(event, ui) {
 					var context = this;
 					jQuery(context).sortable('disable');
@@ -179,7 +199,7 @@
 				scrollSensitivity: 60,
 				scrollSpeed: 3,
 				cursor: 'move',
-				scroll: false,
+				scroll: true,
 				update : function(event, ui) {
 					var context = this;
 					jQuery(context).sortable('disable');
@@ -260,7 +280,7 @@
 									if (data.code == 1) {
 										var new_menu_item = jQuery(data.new_menu_item_html);
 										setup_two_level_menu_item_delete(new_menu_item);
-										move_to_cont = jQuery('.two_level_menu_items_cont');
+										move_to_cont = jQuery('.two_level_menu_items_cont table tbody');
 										move_to_cont.append(new_menu_item);
 
 										// move scoll to new menu item
@@ -287,13 +307,13 @@
 										var new_menu_item = jQuery(data.new_menu_item_html);
 										setup_two_level_menu_container_item_delete(new_menu_item);
 	//									console.log (site_two_level_menu_id);
-										move_to_cont = jQuery('div[top_level_site_two_level_menu_id="'+site_two_level_menu_id+'"]');
+										move_to_cont = jQuery('tr[top_level_site_two_level_menu_id="'+site_two_level_menu_id+'"] td ul');
 	//									console.log (move_to_cont);
 										move_to_cont.append(new_menu_item);
 
 										// move scoll to new menu item
 										var menu_cont = jQuery(move_to_cont).closest('.content-background');
-										menu_cont.scrollTop(move_to_cont.position().top); // move_to_cont.height() -- DREW TODO - maybe refine this scrollTo
+										menu_cont.scrollTop(move_to_cont.position().top); // DREW TODO - maybe need to fix this
 									} else {
 										major_error_recover('Failed to add the page menu item to a container');
 									}
@@ -327,7 +347,7 @@
 									if (data.code == 1) {
 										var new_menu_item = jQuery(data.new_menu_item_html);
 										setup_two_level_menu_item_delete(new_menu_item);
-										move_to_cont = jQuery('.two_level_menu_items_cont');
+										move_to_cont = jQuery('.two_level_menu_items_cont table tbody');
 										move_to_cont.append(new_menu_item);
 
 										// move scoll to new menu item
@@ -354,7 +374,7 @@
 										var new_menu_item = jQuery(data.new_menu_item_html);
 										setup_two_level_menu_container_item_delete(new_menu_item);
 	//									console.log (site_two_level_menu_id);
-										move_to_cont = jQuery('div[top_level_site_two_level_menu_id="'+site_two_level_menu_id+'"]');
+										move_to_cont = jQuery('tr[top_level_site_two_level_menu_id="'+site_two_level_menu_id+'"] td ul');
 	//									console.log (move_to_cont);
 										move_to_cont.append(new_menu_item);
 
@@ -395,7 +415,7 @@
 									// its all good - now need to add the new container html
 									var new_menu_item = jQuery(the_data.new_menu_item_html);
 									setup_two_level_menu_item_delete(new_menu_item);
-									move_to_cont = jQuery('.two_level_menu_items_cont');
+									move_to_cont = jQuery('.two_level_menu_items_cont table tbody');
 									move_to_cont.append(new_menu_item);
 
 									// move scoll to new menu item
@@ -445,7 +465,7 @@
 								if (data.code == 1) {
 									// change the name in the sortable list
 									var actual_container_to_rename = jQuery('[site_two_level_menu_container_id="'+container_to_rename_id+'"]');
-									jQuery(actual_container_to_rename).find('.container_name').html(new_container_name+' (container)');
+									jQuery(actual_container_to_rename).find('td > span').html(new_container_name);
 
 									// also need to put the default value back for the rename input
 									jQuery('.rename_menu_container_name').val('');
@@ -475,20 +495,37 @@
 
 			<?php $all_containers = $this->ThemeMenu->get_two_level_menu_containers(); ?>
 
+			
+			
 			<div class="custom_ui">
-				<span><?php echo __('Add Menu Container:', true); ?></span>
-				<input class="new_menu_container_name defaultText" title="container name" type="text" style="width: 136px;" />
-				<input id="two_level_menu_container_add_button" class="add_button" type="submit" value="<?php echo __('Go', true); ?>" />
+				<h2><?php echo __('Add Container to Main Menu', true); ?></h2>
+				<div class="drop_down_sub_title">
+					<input class="new_menu_container_name defaultText" title="container name" type="text" />
+					<div id="two_level_menu_container_add_button" class="custom_ui tools_button">
+						<div class="add_button">
+							<div class="content"><?php echo __('Add', true); ?></div>
+							<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
+						</div>
+					</div>
+				</div>
 			</div>
+			<div class="hr_element"></div>
 
+			
 			<div id="rename_container_cont" class="custom_ui" <?php if (empty($all_containers)): ?>style="display: none;"<?php endif; ?>>
-				<span><?php echo __('Rename Container:', true); ?></span>
+				<h2><?php echo __('Rename Main Menu Container', true); ?></h2>
 				<?php echo $this->Element('admin/theme_center/main_menu/container_select_box', array('all_containers' => $all_containers, 'hide_top_level' => true)); ?>
-				<input class="rename_menu_container_name defaultText" title="new container name" type="text" style="width: 136px;" />
-				<input id="two_level_menu_container_rename_button" class="add_button" type="submit" value="<?php echo __('Go', true); ?>" />
+				<input class="rename_menu_container_name defaultText" title="new container name" type="text" />
+				<div id="two_level_menu_container_rename_button" class="custom_ui tools_button">
+					<div class="add_button">
+						<div class="content"><?php echo __('Update', true); ?></div>
+					</div>
+				</div>
 			</div>
+			<div class="hr_element"></div>
 
 
+			
 			<?php $all_pages = $this->Page->get_all_pages(); ?>
 			<?php 
 				$pages_disabled_class = '';
@@ -499,15 +536,20 @@
 			<div class="custom_ui">
 				<?php if (!empty($all_pages)): ?>
 					<div class="<?php echo $pages_disabled_class; ?>" style="display: inline-block;">
-						<span><?php echo __('Add Page:', true); ?></span>
+						<h2><?php echo __('Add Page to Main Menu', true); ?></h2>
 						<select id="two_level_menu_page_add_list">
 							<?php foreach ($all_pages as $curr_page): ?>
 								<option value="<?php echo $curr_page['SitePage']['id']; ?>"><?php echo $curr_page['SitePage']['title']; ?></option>
 							<?php endforeach; ?>
 						</select>
-						<span><?php echo __('to', true); ?></span>
+						<span class="between_actions"><?php echo __('add to', true); ?></span>
 						<?php echo $this->Element('admin/theme_center/main_menu/container_select_box', array('all_containers' => $all_containers)); ?>
-						<input id="two_level_menu_page_add_button" class="add_button" type="submit" value="<?php echo __('Go', true); ?>" />
+						<div id="two_level_menu_page_add_button" class="custom_ui tools_button">
+							<div class="add_button">
+								<div class="content"><?php echo __('Add', true); ?></div>
+								<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
+							</div>
+						</div>
 					</div>
 				<?php else: ?>
 					<div id="add_some_pages_button" class="custom_ui tools_button <?php echo $pages_disabled_class; ?>">
@@ -520,22 +562,42 @@
 					</div>
 				<?php endif; ?>
 				<?php if (empty($current_on_off_features['page_builder'])): ?>
-					<div style="margin-left: 10px;" id="add_feature_button" class="add_button highlight add_feature_button" type="submit" ref_feature_name="page_builder">
+					<div style="margin-left: 10px; margin-top: 40px;" id="add_feature_button" class="add_button highlight add_feature_button" type="submit" ref_feature_name="page_builder">
 						<div class="content"><?php echo __("Add Page Builder", true); ?></div><div class="right_arrow_lines"><div></div></div>
 					</div>
 				<?php endif; ?>
 			</div>
+			<div class="hr_element"></div>
 
+			
+			<?php /*
+			<div class="custom_ui">
+				<h2><?php echo __('Add Container to Main Menu', true); ?></h2>
+				<div class="drop_down_sub_title">
+					<input class="new_menu_container_name defaultText" title="container name" type="text" />
+					<div id="two_level_menu_container_add_button" class="custom_ui tools_button">
+						<div class="add_button">
+							<div class="content"><?php echo __('Add', true); ?></div>
+							<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="hr_element"></div>
+			 */ ?>
+			
+			
+			
 			<?php $all_galleries = $this->Gallery->get_all_galleries(); ?>
 			<div class="custom_ui">
 				<?php if (!empty($all_galleries)): ?>
-					<span><?php __('Add Gallery:'); ?></span>
+					<h2><?php echo __('Add Gallery to Main Menu', true); ?></h2>
 					<select id="two_level_menu_gallery_add_list">
 						<?php foreach ($all_galleries as $curr_gallery): ?>
 							<option value="<?php echo $curr_gallery['PhotoGallery']['id']; ?>"><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></option>
 						<?php endforeach; ?>
 					</select>
-					<span><?php __('to'); ?></span>
+					<span class="between_actions"><?php echo __('add to', true); ?></span>
 					<?php echo $this->Element('admin/theme_center/main_menu/container_select_box', array('all_containers' => $all_containers)); ?>
 					<input id="two_level_menu_gallery_add_button" class="add_button" type="submit" value="<?php __('Go'); ?>" />
 				<?php else: ?>

@@ -472,6 +472,9 @@ table.list thead tr .dimension_col {
 table.list thead tr .actions_call {
   width: 200px;
 }
+table.list tbody {
+  position: relative;
+}
 table.list tbody tr {
   outline: 1px solid #b7b6b4;
 }
@@ -887,7 +890,6 @@ input {
 .custom_ui.tools_button {
   display: inline-block;
   vertical-align: top;
-  margin-left: 10px;
 }
 .custom_ui > span {
   font-family: Code-Pro-LC;
@@ -1160,7 +1162,7 @@ input {
   position: relative;
   overflow: hidden;
   z-index: 50;
-  width: 852px;
+  width: 860px;
 }
 .content-background .fade_background_top {
   position: absolute;
@@ -2612,91 +2614,6 @@ body {
   -khtml-opacity: 1;
   opacity: 1;
 }
-.two_level_menu_items_cont {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  position: relative;
-}
-.two_level_menu_items_cont .container_item td .background {
-  margin-top: 20px;
-  margin-right: 35px;
-}
-.two_level_menu_items_cont .container_item td > span {
-  display: inline-block;
-  margin-top: 25px;
-}
-.two_level_menu_items_cont .container_item td > .remove_from_two_level_menu_button {
-  margin-top: 20px;
-  margin-right: 20px;
-  float: right;
-}
-.two_level_menu_items_cont .container_item td > ul {
-  display: block;
-  margin-top: 24px;
-  margin-bottom: 24px;
-}
-.two_level_menu_items_cont .container_item td > ul > li {
-  font-family: Code-Pro-LC;
-  font-weight: normal;
-  font-style: normal;
-  font-size: 20px;
-  background-color: #5e656a;
-  color: #292726;
-  margin-left: 20px;
-  margin-bottom: 20px;
-  border: 1px solid #181818;
-}
-.two_level_menu_items_cont .container_item td > ul > li:hover {
-  background-color: #6f767b;
-}
-.two_level_menu_items_cont .container_item td > ul > li h3 {
-  margin-left: 35px;
-  margin-top: 23px;
-  float: left;
-}
-.two_level_menu_items_cont .container_item td > ul > li .main_menu_submenu_grabber {
-  cursor: move;
-  margin-top: 18px;
-  margin-left: 23px;
-  background: url('/img/admin/icons/reorder_icon.svg') top center no-repeat;
-  color: #292726;
-  float: left;
-  width: 30px;
-  height: 30px;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
-  -moz-opacity: .6;
-  -khtml-opacity: .6;
-  opacity: .6;
-}
-.two_level_menu_items_cont .container_item td > ul > li .main_menu_submenu_grabber:hover {
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-  -moz-opacity: 1;
-  -khtml-opacity: 1;
-  opacity: 1;
-}
-.two_level_menu_items_cont .container_item td > ul > li .delete_sub_menu_item_button {
-  margin-top: 13px;
-  margin-bottom: 13px;
-  float: right;
-  border-top: 0px;
-  border-right: 0px;
-  border-bottom: 0px;
-  background-color: transparent;
-  border-left: 1px solid #292726;
-  min-height: 36px;
-}
-.two_level_menu_items_cont .container_item td > ul > li .delete_sub_menu_item_button .content {
-  margin-top: 9px;
-  margin-bottom: 9px;
-  color: #292726;
-}
-.two_level_menu_items_cont .container_item td > ul > li .delete_sub_menu_item_button:hover .content {
-  color: #ffffff;
-}
 #theme_centers_list_container {
   position: relative;
   max-width: 950px;
@@ -2890,6 +2807,18 @@ body {
   margin: 20px;
   margin-bottom: 70px;
 }
+.large_container .tab_tools_container .between_actions {
+  font-family: Code-Pro-LC;
+  font-weight: normal;
+  font-style: normal;
+  color: #7d888e;
+  font-size: 18px;
+  padding-right: 9px;
+}
+.large_container .tab_tools_container select,
+.large_container .tab_tools_container input {
+  margin-right: 9px;
+}
 .hr_element {
   height: 1px;
   width: 100%;
@@ -2897,6 +2826,93 @@ body {
   margin-bottom: 30px;
   clear: both;
   background-color: #7d888e;
+}
+.two_level_menu_items_cont {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  position: relative;
+}
+.two_level_menu_items_cont .container_item td .background {
+  margin-top: 20px;
+  margin-right: 35px;
+  margin-bottom: 20px;
+}
+.two_level_menu_items_cont .container_item td > span {
+  display: inline-block;
+  margin-top: 3px;
+}
+.two_level_menu_items_cont .container_item td > .remove_from_two_level_menu_button {
+  margin-top: 20px;
+  margin-right: 20px;
+  float: right;
+}
+.two_level_menu_items_cont .container_item td > ul {
+  display: block;
+  margin-top: 5px;
+  margin-bottom: 24px;
+}
+.two_level_menu_items_cont .container_item td > ul > li {
+  font-family: Code-Pro-LC;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 20px;
+  background-color: #5e656a;
+  color: #292726;
+  margin-left: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #181818;
+}
+.two_level_menu_items_cont .container_item td > ul > li:hover {
+  background-color: #6f767b;
+  color: #ffffff;
+}
+.two_level_menu_items_cont .container_item td > ul > li h3 {
+  margin-left: 35px;
+  margin-top: 23px;
+  float: left;
+}
+.two_level_menu_items_cont .container_item td > ul > li .main_menu_submenu_grabber {
+  cursor: move;
+  margin-top: 18px;
+  margin-left: 23px;
+  background: url('/img/admin/icons/reorder_icon.svg') top center no-repeat;
+  color: #292726;
+  float: left;
+  width: 30px;
+  height: 30px;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+  -moz-opacity: .6;
+  -khtml-opacity: .6;
+  opacity: .6;
+}
+.two_level_menu_items_cont .container_item td > ul > li .main_menu_submenu_grabber:hover {
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  opacity: 1;
+}
+.two_level_menu_items_cont .container_item td > ul > li .delete_sub_menu_item_button {
+  margin-top: 13px;
+  margin-bottom: 13px;
+  float: right;
+  border-top: 0px;
+  border-right: 0px;
+  border-bottom: 0px;
+  background-color: transparent;
+  border-left: 1px solid #292726;
+  min-height: 36px;
+}
+.two_level_menu_items_cont .container_item td > ul > li .delete_sub_menu_item_button .content {
+  margin-top: 9px;
+  margin-bottom: 9px;
+  color: #292726;
+}
+.two_level_menu_items_cont .container_item td > ul > li .delete_sub_menu_item_button:hover .content {
+  color: #ffffff;
 }
 #configure_page_cont .tiny_mce_test {
   display: none;
@@ -3547,7 +3563,7 @@ table.list tbody tr.remove_pending td .cost {
 .sub_submenu_cont .sub_submenu_left_cont,
 .sub_submenu_cont .sub_submenu_right_cont,
 .sub_submenu_cont .sub_submenu_far_right_cont {
-  width: 806px;
+  width: 900px;
   position: relative;
 }
 .sub_submenu_cont .sub_submenu_far_right_cont {
