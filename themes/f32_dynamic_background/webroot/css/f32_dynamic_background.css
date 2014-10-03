@@ -132,6 +132,8 @@ table {
 }
 h1 {
   font-size: 20px;
+  border-bottom: 1px solid #000000;
+  padding-bottom: 15px;
 }
 h2 {
   font-size: 20px;
@@ -255,7 +257,7 @@ body .outer_nav .nav #main_nav ul li a {
   outline: none !important;
 }
 #shipping_address_container h1 {
-  padding-bottom: 20px;
+  margin-bottom: 20px;
 }
 #shipping_address_container .country_select {
   padding: 3px;
@@ -271,6 +273,9 @@ body .outer_nav .nav #main_nav ul li a {
   padding-bottom: 10px;
   padding-top: 10px;
   cursor: pointer;
+}
+.gallery_table_outer {
+  width: 700px;
 }
 .gallery_table_outer.blue #gallery_list_table .galleriesLink a:hover {
   color: #000099;
@@ -316,24 +321,22 @@ body .outer_nav .nav #main_nav ul li a {
   width: 900px;
   padding-top: 0px;
 }
-.gallery {
-  display: inline-block;
-}
 .gallery img {
   position: relative;
 }
 .outer_cart {
-  background-color: #d6d5d5;
+  background-color: #3d3d3d;
   position: relative;
   top: 25px;
   display: inline-block;
   padding-bottom: 40px;
 }
 .outer_cart .view_page_paragraph {
+  color: #ffffff;
   margin-top: 30px;
   font-family: 'Actor', sans-serif;
   float: left;
-  font-size: 13px;
+  font-size: 17px;
   width: 520px;
   margin-left: 40px;
 }
@@ -356,6 +359,7 @@ body .outer_nav .nav #main_nav ul li a {
   margin-top: 15px;
 }
 .outer_cart .inner_cart {
+  color: #ffffff;
   margin-left: 40px;
   float: left;
   width: 200px;
@@ -456,9 +460,11 @@ body .outer_nav .nav #main_nav ul li a {
 }
 .content .inner_content #cart_table {
   width: 100%;
+  margin-top: 20px;
 }
 .content .inner_content #cart_table thead {
-  background-color: #ffffff;
+  background-color: #878585;
+  color: #ffffff;
   border: 1px solid #000000;
   font-weight: 600;
 }
@@ -466,7 +472,7 @@ body .outer_nav .nav #main_nav ul li a {
   border-right: 1px solid #000000;
 }
 .content .inner_content #cart_table tbody {
-  background-color: #999999;
+  background-color: #3b3b3b;
   border: 1px solid #000000;
 }
 .content .inner_content #cart_table tbody tr {
@@ -476,6 +482,7 @@ body .outer_nav .nav #main_nav ul li a {
   border-right: 1px solid #000000;
   text-align: center;
   vertical-align: middle;
+  color: #ffffff;
 }
 .content .inner_content #cart_table tbody tr td img {
   margin-top: 10px;
@@ -489,12 +496,16 @@ body .outer_nav .nav #main_nav ul li a {
   padding-top: 10px;
 }
 .content .inner_content #cart_table tfoot button {
-  padding: 8px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 25px;
+  padding-left: 25px;
   cursor: pointer;
 }
 .inner_content button {
-  padding: 6px;
+  padding: 10px;
   cursor: pointer;
+  margin-left: 90px;
 }
 .inner_content.blue .submit input:hover {
   background-color: #000099;
@@ -586,10 +597,10 @@ body .outer_nav .nav #main_nav ul li a {
 }
 .inner_content #login_container .submit input {
   cursor: pointer;
-  padding-top: 6px;
-  padding-bottom: 6px;
-  padding-left: 12px;
-  padding-right: 12px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 .inner_content #login_container .success {
   margin-bottom: 15px;
