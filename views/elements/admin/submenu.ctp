@@ -42,7 +42,7 @@
 					}
 				}
 			?>	
-			<li class="<?php if ($count === 1): ?> first<?php endif; ?> <?php echo $selected; ?>">
+			<li class="<?php if (!empty($subnav_page['hide_on_mobile'])): ?> hide_on_mobile <?php endif; ?> <?php if ($count === 1): ?> first<?php endif; ?> <?php echo $selected; ?>">
 				<div class="subnav_bg"></div>
 				<table>
 					<tr>

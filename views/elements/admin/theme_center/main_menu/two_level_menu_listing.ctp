@@ -240,7 +240,7 @@
 		});
 	</script>
 
-	<div class="large_container">
+	<div class="large_container no_td_as_block">
 		<div class="table_border two_level_menu_items_cont menu_items_cont">
 			<?php $two_level_menu_items = $this->ThemeMenu->get_two_level_menu_items(); ?>
 			<?php //debug($two_level_menu_items); ?>
@@ -521,8 +521,8 @@
 						<div class="content"><?php echo __('Update', true); ?></div>
 					</div>
 				</div>
+				<div class="hr_element"></div>
 			</div>
-			<div class="hr_element"></div>
 
 
 			
