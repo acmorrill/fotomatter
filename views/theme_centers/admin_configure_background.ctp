@@ -301,7 +301,7 @@
 
 
 
-<div data-step="1" data-intro="<?php echo __('Some themes have a dynamit background and this is where you can edit the background image.', true); ?>" data-position="left" id="configure_theme_background" class="content_only_page">
+<div id="configure_theme_background" class="content_only_page hide_on_mobile" data-step="1" data-intro="<?php echo __('Some themes have a dynamit background and this is where you can edit the background image.', true); ?>" data-position="left">
 	<?php if ($background_settings['theme_has_dynamic_background'] === true): ?>
 		<div class="custom_ui">
 			<?php echo $this->Element('/admin/get_help_button'); ?>
@@ -402,7 +402,12 @@
 		<h1><?php __('The current theme does not have a dynamic background.'); ?></h1>
 	<?php endif; ?>
 </div>
-
+<div class='show_on_mobile'>
+	<h1><?php echo __('Configure Theme Background', true); ?></h1>
+	<p>
+		<?php echo __('This page is only usable on a desktop.', true); ?>
+	</p>
+</div>
 
 
 <?php ob_start(); ?>

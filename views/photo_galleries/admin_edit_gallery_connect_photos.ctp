@@ -385,12 +385,12 @@ $(function() {
 		refresh_not_in_gallery_photos();
 	});
 	
-	jQuery('#not_in_gallery_icon_size div').click(function() {
+	jQuery('#not_in_gallery_icon_size > div').click(function() {
 		if (stop_all_functions()) {
 			return;
 		}
 		
-		jQuery('#not_in_gallery_icon_size div').removeClass('selected');
+		jQuery('#not_in_gallery_icon_size > div').removeClass('selected');
 		jQuery(this).addClass('selected');
 		refresh_not_in_gallery_photos();
 		refresh_in_gallery_photos();
@@ -402,7 +402,30 @@ $(function() {
 
 <div id="connect_gallery_photos_cont">
 	<?php echo $this->Element('/admin/get_help_button'); ?>
-			<div style="clear: both;"></div> 
+	<div style="clear: both;"></div> 
+	
+	<div class="page_content_header custom_ui">
+		<div id="not_in_gallery_icon_size" class="box_icon_size custom_ui">
+			<div id="small_icon" size="small" class="add_button <?php if($not_in_gallery_icon_size == 'small'): ?> selected <?php endif; ?>">
+				<div class="content">S</div>
+			</div>
+			<div id="medium_icon" size="medium" class="add_button <?php if($not_in_gallery_icon_size == 'medium'): ?> selected <?php endif; ?>">
+				<div class="content">M</div>
+			</div>
+			<div id="large_icon" size="large" class="add_button <?php if($not_in_gallery_icon_size == 'large'): ?> selected <?php endif; ?>">
+				<div class="content">L</div>
+			</div>
+		</div>
+		<div id='add_gallery_filters_cont'>
+			<div id="photos_not_in_a_gallery_cont" class="custom_ui_radio add_button">
+				<input type="checkbox" id="photos_not_in_a_gallery" />
+				<?php /*<div class="content"><?php echo __('Photos Not In A Gallery', true); ?></div>*/ ?>
+				<label class='content' for="photos_not_in_a_gallery"><?php echo __('Photos Not In A Gallery', true); ?></label>
+			</div>
+		</div>
+		<div style="clear: both;"></div>
+	</div>
+	
 	<div class="in_gallery_main_cont">
 		<div class="table_header_darker">
 			<div class="actions" style="float: right;"><img id="remove_all_gallery_photos" src="/img/admin/icons/grey_delete_all_icon.png" /></div>
@@ -432,23 +455,23 @@ $(function() {
 			<?php echo $this->Element('/admin/photo/photo_connect_not_in_gallery_photo_cont', array( 'not_connected_photos' => $not_connected_photos, 'not_in_gallery_icon_size' => $not_in_gallery_icon_size )); ?>
 		</div>
 		<div class="generic_sort_and_filters">
-			<div id="not_in_gallery_icon_size" class="box_icon_size">
+			<?php /*<div id="not_in_gallery_icon_size" class="box_icon_size">
 				<div id="small_icon" size="small" <?php if($not_in_gallery_icon_size == 'small'): ?>class="selected"<?php endif; ?> >S</div>
 				<div id="medium_icon" size="medium" <?php if($not_in_gallery_icon_size == 'medium'): ?>class="selected"<?php endif; ?> >M</div>
 				<div id="large_icon" size="large" <?php if($not_in_gallery_icon_size == 'large'): ?>class="selected"<?php endif; ?> >L</div>
-			</div>
+			</div> */ ?>
 			
-			<div id="photos_not_in_a_gallery_cont" class="custom_ui_radio" style="margin-bottom: 7px;">
-				<input type="checkbox" id="photos_not_in_a_gallery" /><label for="photos_not_in_a_gallery"><?php __('Photos Not In A Gallery'); ?></label>
-			</div>
+			<?php /*<div id="photos_not_in_a_gallery_cont" class="custom_ui_radio" style="margin-bottom: 7px;">
+				<input type="checkbox" id="photos_not_in_a_gallery" /><label for="photos_not_in_a_gallery"><?php echo __('Photos Not In A Gallery', true); ?></label>
+			</div> */ ?>
 				
 			<div class="custom_ui_radio">
 				<div id="filter_photo_by_format">
-					<input type="checkbox" value="landscape" id="check1" /><label for="check1"><?php __('Landscape'); ?></label>
-					<input type="checkbox" value="portrait" id="check2" /><label for="check2"><?php __('Portrait'); ?></label>
-					<input type="checkbox" value="square" id="check3" /><label for="check3"><?php __('Square'); ?></label>
-					<input type="checkbox" value="panoramic" id="check4" /><label for="check4"><?php __('Panoramic'); ?></label>
-					<input type="checkbox" value="vertical_panoramic" id="check5" /><label for="check5"><?php __('Vertical Panoramic'); ?></label>
+					<input type="checkbox" value="landscape" id="check1" /><label for="check1"><?php echo __('Landscape', true); ?></label>
+					<input type="checkbox" value="portrait" id="check2" /><label for="check2"><?php echo __('Portrait', true); ?></label>
+					<input type="checkbox" value="square" id="check3" /><label for="check3"><?php echo __('Square', true); ?></label>
+					<input type="checkbox" value="panoramic" id="check4" /><label for="check4"><?php echo __('Panoramic', true); ?></label>
+					<input type="checkbox" value="vertical_panoramic" id="check5" /><label for="check5"><?php echo __('Vertical Panoramic', true); ?></label>
 				</div>
 			</div>
 		</div>

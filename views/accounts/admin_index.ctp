@@ -262,7 +262,6 @@
 	</div>
 <?php endif; ?>
 	
-<?php echo $this->Session->flash(); ?>
 <h1><?php echo __('Manage Features', true); ?>
 	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 </h1>

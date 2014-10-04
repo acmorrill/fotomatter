@@ -274,8 +274,7 @@ select, input {
 			}
 		}
 		&.icon { min-width: 5px; }
-		&:hover {
-			background-color: @off_black + @button_bg_increase;
+		&:hover, &.selected {
 			&, a { color: @white };
 			.content {
 				&, a { color: @white };
@@ -289,6 +288,12 @@ select, input {
 			.plus_icon_lines {
 				.one, .two { background-color: @white; }
 			}
+		}
+		&.selected {	
+			border: 1px solid @gray_text;
+		}
+		&:hover {
+			background-color: @off_black + @button_bg_increase;
 		}
 	}
 	input.add_button {
