@@ -131,9 +131,9 @@ table {
   user-select: none;
 }
 h1 {
-  font-size: 20px;
+  font-size: 25px;
   border-bottom: 1px solid #000000;
-  padding-bottom: 15px;
+  padding-bottom: 7px;
 }
 h2 {
   font-size: 20px;
@@ -171,7 +171,7 @@ body .outer_nav .nav.yellow #main_nav li a:hover {
   color: #ffff00;
 }
 body .outer_nav .nav.red #main_nav li a:hover {
-  color: #cc0000;
+  color: #cc3333;
 }
 body .outer_nav .nav #main_nav {
   font-size: 12px;
@@ -216,7 +216,7 @@ body .outer_nav .nav #main_nav ul li a {
   color: #ffff00;
 }
 .gallery_table_outer.red #gallery_list_table .galleriesLink a:hover {
-  color: #cc0000;
+  color: #cc3333;
 }
 .gallery_table_outer h1.gallery_title {
   position: relative;
@@ -287,7 +287,7 @@ body .outer_nav .nav #main_nav ul li a {
   color: #ffff00;
 }
 .gallery_table_outer.red #gallery_list_table .galleriesLink a:hover {
-  color: #cc0000;
+  color: #cc3333;
 }
 .gallery_table_outer h1.gallery_header {
   position: relative;
@@ -350,7 +350,7 @@ body .outer_nav .nav #main_nav ul li a {
   color: #ffff00;
 }
 .outer_cart .view_page_paragraph.red h1 {
-  color: #cc0000;
+  color: #cc3333;
 }
 .outer_cart .view_page_paragraph ul {
   list-style: none;
@@ -369,33 +369,45 @@ body .outer_nav .nav #main_nav ul li a {
 .outer_cart .inner_cart.blue button:hover {
   background-color: #000099;
   color: #ffffff;
+  border: 1px solid #000099;
 }
 .outer_cart .inner_cart.pink button:hover {
   background-color: #ff0099;
   color: #ffffff;
+  border: 1px solid #ff0099;
 }
 .outer_cart .inner_cart.yellow button:hover {
   background-color: #ffff00;
   color: #ffffff;
+  border: 1px solid #ffff00;
 }
 .outer_cart .inner_cart.red button:hover {
-  background-color: #cc0000;
+  background-color: #cc3333;
   color: #ffffff;
+  border: 1px solid #cc3333;
 }
 .outer_cart .inner_cart ul {
   list-style: none;
 }
 .outer_cart .inner_cart #add_to_cart_buttons_cont h2 {
   margin-top: 20px;
-  margin-bottom: 6px;
+  margin-bottom: 15px;
 }
 .outer_cart .inner_cart .submit_inner {
-  padding: 8px;
+  display: inline-block;
   cursor: pointer;
+  padding: 10px 20px;
+  border: 1px solid #b4b4b4;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  color: #000000;
+  -o-text-overflow: clip;
+  text-overflow: clip;
+  background: #ffffff;
 }
 .outer_cart .inner_cart select {
   padding: 3px;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 }
 .prev_next {
   position: absolute;
@@ -421,7 +433,7 @@ body .outer_nav .nav #main_nav ul li a {
   color: #ffff00;
 }
 .prev_next ul li.red a:hover {
-  color: #cc0000;
+  color: #cc3333;
 }
 .prev_next ul li a {
   color: #cccccc;
@@ -445,18 +457,22 @@ body .outer_nav .nav #main_nav ul li a {
 .content .inner_content.blue button:hover {
   background-color: #000099;
   color: #ffffff;
+  border: 2px solid #000099;
 }
 .content .inner_content.pink button:hover {
   background-color: #ff0099;
   color: #ffffff;
+  border: 2px solid #ff0099;
 }
 .content .inner_content.yellow button:hover {
   background-color: #ffff00;
   color: #ffffff;
+  border: 2px solid #ffff00;
 }
 .content .inner_content.red button:hover {
-  background-color: #cc0000;
+  background-color: #cc3333;
   color: #ffffff;
+  border: 2px solid #cc3333;
 }
 .content .inner_content #cart_table {
   width: 100%;
@@ -520,7 +536,7 @@ body .outer_nav .nav #main_nav ul li a {
   color: #ffffff;
 }
 .inner_content.red .submit input:hover {
-  background-color: #cc0000;
+  background-color: #cc3333;
   color: #ffffff;
 }
 .inner_content.blue .no_label input:hover {
@@ -536,7 +552,7 @@ body .outer_nav .nav #main_nav ul li a {
   color: #ffffff;
 }
 .inner_content.red .no_label input:hover {
-  background-color: #cc0000;
+  background-color: #cc3333;
   color: #ffffff;
 }
 .inner_content.blue .pay_now input:hover {
@@ -552,7 +568,7 @@ body .outer_nav .nav #main_nav ul li a {
   color: #ffffff;
 }
 .inner_content.red .pay_now input:hover {
-  background-color: #cc0000;
+  background-color: #cc3333;
   color: #ffffff;
 }
 .inner_content.blue h1 {
@@ -565,7 +581,7 @@ body .outer_nav .nav #main_nav ul li a {
   color: #ffff00;
 }
 .inner_content.red h1 {
-  color: #cc0000;
+  color: #cc3333;
 }
 .inner_content.blue #forgot_your_password_container #forgot_password_link:hover {
   color: #000099;
@@ -577,7 +593,7 @@ body .outer_nav .nav #main_nav ul li a {
   color: #ffff00;
 }
 .inner_content.red #forgot_your_password_container #forgot_password_link:hover {
-  color: #cc0000;
+  color: #cc3333;
 }
 .inner_content #login_container {
   padding-top: 20px;
