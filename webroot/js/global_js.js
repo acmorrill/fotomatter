@@ -12,6 +12,10 @@ var verticle_sortable_defaults = {
  *Global start up behavio
  ****/
 jQuery(document).ready(function() {
+	jQuery('.javascript_submit').click(function(){ 
+		jQuery(this).closest('form').submit();
+	});
+	
 	jQuery('a.disabled, .disabled a').click(function(e) { 
 		e.preventDefault();
 	});
@@ -102,52 +106,6 @@ function smart_reload(message) {
 var modo_div;
 var message_div;
 
-function remove_modal() {
-	modo_div.remove();
-	message_div.remove();
-}
-
-function show_modal(message, time_to_show, after_hide_callback, remove_after,css) {
-	modo_div = jQuery("<div></div>");
-	modo_div.addClass('ui-widget-overlay');
-	modo_div.css('z-index', '2001'); 
-	modo_div.css('height', '200%');
-	
-	message_div = jQuery("<div class='message_div rounded-corners medium_message_box drop-shadow'>"+message+"</div>");
-	message_div.css('z-index', '2002'); 
-
-	
-	jQuery('body').append(modo_div);
-	jQuery('body').append(message_div);
-	
-	
-	var window_width = jQuery(window).width();
-	var message_width = message_div.width();
-	var center_left = (window_width / 2) - (message_div.width() / 2); 
-	message_div.css('left', center_left);
-	
-	
-	if (css != undefined) {
-		for(var x in css) {
-//			console.log(x);
-//			console.log(css[x]);
-			message_div.css(x, css[x]);
-		}
-	}
-	
-	
-	if(time_to_show == undefined) time_to_show = MODO_SHOW_TIME_DEFAULT;
-	if (remove_after == undefined) remove_after = true;
-	
-	setTimeout(function() {
-		if (after_hide_callback != undefined) {
-			after_hide_callback();
-		}
-		if (remove_after) {
-			remove_modal();
-		}
-	}, time_to_show);
-}
 
 function major_error_recover(message) {
 	alert('error:'+message);

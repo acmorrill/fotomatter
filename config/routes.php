@@ -40,7 +40,7 @@ Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'
 //Router::connect('/admin/login', array('controller' => 'Admins', 'action' => 'login','admin'=>true,'prefixName'=>true));
 //Router::connect('/admin/forgotPassword', array('controller' => 'Admins', 'action' => 'forgotPassword','admin'=>true,'prefixName'=>true));
 //Router::connect('/admin/logout', array('controller' => 'Admins', 'action' => 'logout','admin'=>true,'prefixName'=>true));
-Router::connect('/admin', array('controller' => 'Users', 'action' => 'login', 'admin' => true, 'prefix' => 'admin'));
+//Router::connect('/admin', array('controller' => 'ThemeCenters', 'action' => 'choose_theme', 'admin' => true, 'prefix' => 'admin'));
 
 Router::connect('/admin/:controller/:action/*', array(
 	'action' => null, 'prefix' => 'admin', 'admin' => true

@@ -1180,10 +1180,11 @@ input {
   border: 2px solid #43484c;
   color: #ffffff;
   vertical-align: top;
+  max-width: 600px;
 }
 .flashMessage span {
   margin: 0 0 0 18px;
-  max-width: 550px;
+  max-width: 89%;
   display: inline-block;
   line-height: 22px;
 }
@@ -3290,6 +3291,80 @@ a.editable-empty :focus {
 #connect_gallery_photos_cont .page_content_header #add_gallery_filters_cont {
   margin-top: 10px;
   margin-bottom: 16px;
+}
+body.no_overflow {
+  overflow: hidden;
+}
+#login_forms_cont {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  margin: 0px;
+  margin-top: 94px;
+}
+#login_forms_cont > table {
+  width: 100%;
+  height: 100%;
+}
+#login_forms_cont > table tr td {
+  vertical-align: middle;
+  text-align: center;
+}
+#login_forms_cont .generic_palette_container {
+  width: 90%;
+  max-width: 555px;
+  display: inline-block;
+  padding: 65px;
+  text-align: left;
+}
+#login_forms_cont .generic_palette_container .flashMessage {
+  margin-top: 0px;
+}
+#login_forms_cont .generic_palette_container #forgot_password_form {
+  display: none;
+}
+#login_forms_cont .generic_palette_container form > div {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+#login_forms_cont .generic_palette_container form > div.password {
+  margin-top: 30px;
+}
+#login_forms_cont .generic_palette_container form > div.submit {
+  margin-top: 40px;
+}
+#login_forms_cont .generic_palette_container form > div.hide_submit {
+  display: none;
+}
+#login_forms_cont .generic_palette_container form > div #forgot_password_link {
+  font-family: Code-Pro-LC;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 14px;
+  line-height: 14px;
+  display: inline-block;
+  cursor: pointer;
+  text-decoration: none;
+  margin-top: 12px;
+  border-bottom: 1px solid transparent;
+}
+#login_forms_cont .generic_palette_container form > div #forgot_password_link:hover {
+  border-bottom: 1px solid #7d888e;
+}
+#login_forms_cont .generic_palette_container form > div label {
+  font-family: Code-Pro-LC;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  margin-bottom: 14px;
+  display: block;
+}
+#login_forms_cont .generic_palette_container form > div input {
+  display: block;
+  width: 100%;
 }
 .loading {
   position: absolute;

@@ -5,13 +5,12 @@
 	<?php echo $this->Element('admin/global_includes'); ?>
 	<?php echo $this->Element('admin/global_js'); ?>
 </head>
-<body>
+<body class='no_overflow'>
 <div id="main" class='no_subnav'>
 	<div id="header">
 		<?php echo $this->Element('admin/logo'); ?>
 	</div>
 	<div id="middle">
-		<?php echo $this->Session->flash(); ?>
 		<?php echo $content_for_layout; ?>
 	</div>
 	<?php echo $this->Element('admin/global_footer'); ?>
