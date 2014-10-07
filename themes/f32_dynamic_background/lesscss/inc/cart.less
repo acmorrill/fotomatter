@@ -11,10 +11,11 @@
         top: 60px;
         width: 700px;
         min-height: 510px;
-        &.blue button:hover { background-color: @blue; color: @white; }
-        &.pink button:hover { background-color: @pink; color: @white; }
-        &.yellow button:hover { background-color: @yellow; color: @white; }
-        &.red button:hover { background-color: @red; color: @white; }   
+/*        &.blue button:hover { background-color: @blue; color: @white; border: 2px solid @blue;}
+        &.pink button:hover { background-color: @pink; color: @white; border: 2px solid @pink;}
+        &.yellow button:hover { background-color: @yellow; color: @white; border: 2px solid @yellow;}
+        &.red button:hover { background-color: @red; color: @white; border: 2px solid @red;} */
+        //& button:hover { border: 1px solid @view_photo_button_bg;}
         #cart_table {
             width: 100%;
             margin-top: 20px;
@@ -51,11 +52,17 @@
                     padding-top: 10px;
                 }
                 button {
-                    padding-top: 10px;
-                    padding-bottom: 10px;
-                    padding-right: 25px;
-                    padding-left: 25px;
-                    cursor: pointer;
+                display: inline-block;
+                .box-sizing(content-box);
+                cursor: pointer;
+                padding: 10px 20px;
+                border: 1px solid @view_photo_button_border;
+                color: @view_photo_button_color;
+                -o-text-overflow: clip;
+                text-overflow: clip;
+                background: @view_photo_button_bg;
+                box-shadow: 2px 2px 2px 0 @boxshadow_view_photo_button;
+                &:hover { border: 1px solid @view_photo_button_bg;}
                 }
             }
         }

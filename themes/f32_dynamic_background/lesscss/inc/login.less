@@ -1,35 +1,47 @@
 .inner_content{
     button{
-        padding: 10px;
-        cursor: pointer;
+/*        padding: 10px;
+        cursor: pointer;*/
         margin-left: 90px;
+        display: inline-block;
+        .box-sizing(content-box);
+        cursor: pointer;
+        padding: 10px 20px;
+        border: 1px solid @view_photo_button_border;
+        color: @view_photo_button_color;
+        -o-text-overflow: clip;
+        text-overflow: clip;
+        background: @view_photo_button_bg;
+        box-shadow: 2px 2px 2px 0 @boxshadow_view_photo_button;
+        &:hover { border: 1px solid @view_photo_button_bg;}
+        
     }
-    &.blue .submit input:hover { background-color: @blue; color: @white; }
+/*    &.blue .submit input:hover { background-color: @blue; color: @white; }
     &.pink .submit input:hover { background-color: @pink; color: @white; }
     &.yellow .submit input:hover { background-color: @yellow; color: @white; }
-    &.red .submit input:hover { background-color: @red; color: @white; }  
+    &.red .submit input:hover { background-color: @red; color: @white; }  */
 
     ///checkout_get_address
-    &.blue .no_label input:hover { background-color: @blue; color: @white; }
+/*    &.blue .no_label input:hover { background-color: @blue; color: @white; }
     &.pink .no_label input:hover { background-color: @pink; color: @white; }
     &.yellow .no_label input:hover { background-color: @yellow; color: @white; }
-    &.red .no_label input:hover { background-color: @red; color: @white; } 
+    &.red .no_label input:hover { background-color: @red; color: @white; } */
 
     //checkout_finalize_payment
-    &.blue .pay_now input:hover { background-color: @blue; color: @white; }
+/*    &.blue .pay_now input:hover { background-color: @blue; color: @white; }
     &.pink .pay_now input:hover { background-color: @pink; color: @white; }
     &.yellow .pay_now input:hover { background-color: @yellow; color: @white; }
-    &.red .pay_now input:hover { background-color: @red; color: @white; } 
+    &.red .pay_now input:hover { background-color: @red; color: @white; } */
 
     &.blue h1 { color: @blue; }
     &.pink h1 { color: @pink; }
     &.yellow h1 { color: @yellow; }
     &.red h1 { color: @red; } 
     
-    &.blue #forgot_your_password_container #forgot_password_link:hover { color: @blue; }
+/*    &.blue #forgot_your_password_container #forgot_password_link:hover { color: @blue; }
     &.pink #forgot_your_password_container #forgot_password_link:hover { color: @pink; }
     &.yellow #forgot_your_password_container #forgot_password_link:hover { color: @yellow; }
-    &.red #forgot_your_password_container #forgot_password_link:hover { color: @red; } 
+    &.red #forgot_your_password_container #forgot_password_link:hover { color: @red; } */
 
     #login_container {
         padding-top: 20px;
@@ -46,11 +58,23 @@
         .submit {
             padding-left: 90px;
             input{
-                cursor: pointer;
+/*                cursor: pointer;
                 padding-top: 8px;
                 padding-bottom: 8px;
                 padding-left: 20px;
-                padding-right: 20px;
+                padding-right: 20px;*/
+                display: inline-block;
+                .box-sizing(content-box);
+                cursor: pointer;
+                padding: 10px 40px;
+                border: 1px solid @view_photo_button_border;
+                color: @view_photo_button_color;
+                -o-text-overflow: clip;
+                text-overflow: clip;
+                background: @view_photo_button_bg;
+                box-shadow: 2px 2px 2px 0 @boxshadow_view_photo_button;
+                &:hover { border: 1px solid @view_photo_button_bg;}
+                
 
             }
         }
