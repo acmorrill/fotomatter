@@ -45,11 +45,7 @@
         width: 200px;
         margin-top: 15px;
         margin-right: 50px;
-        // color accents
-        &.blue button:hover { background-color: @blue; color: @white; border: 1px solid @blue;}
-        &.pink button:hover { background-color: @pink; color: @white; border: 1px solid @pink;}
-        &.yellow button:hover { background-color: @yellow; color: @white; border: 1px solid @yellow; }
-        &.red button:hover { background-color: @red; color: @white; border: 1px solid @red;} 
+        button:hover { border: 1px solid @view_photo_button_bg;} 
 
         ul{
             list-style: none;
@@ -61,17 +57,16 @@
             }
         }
         .submit_inner{
-              display: inline-block;
-              .box-sizing(content-box);
-              cursor: pointer;
-              padding: 10px 20px;
-              border: 1px solid @view_photo_button_border;
-              -webkit-border-radius: 3px;
-              border-radius: 3px;
-              color: @view_photo_button_color;
-              -o-text-overflow: clip;
-              text-overflow: clip;
-              background: @view_photo_button_bg;
+                display: inline-block;
+                .box-sizing(content-box);
+                cursor: pointer;
+                padding: 10px 20px;
+                border: 1px solid @view_photo_button_border;
+                color: @view_photo_button_color;
+                -o-text-overflow: clip;
+                text-overflow: clip;
+                background: @view_photo_button_bg;
+                box-shadow: 2px 2px 2px 0 @boxshadow_view_photo_button;
         }
 
         select{

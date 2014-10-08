@@ -268,11 +268,18 @@ body .outer_nav .nav #main_nav ul li a {
   margin-bottom: 4px;
 }
 .no_label input {
-  padding-right: 50px;
-  padding-left: 50px;
-  padding-bottom: 10px;
-  padding-top: 10px;
+  display: inline-block;
   cursor: pointer;
+  padding: 10px 40px;
+  border: 1px solid #b4b4b4;
+  color: #000000;
+  -o-text-overflow: clip;
+  text-overflow: clip;
+  background: #ffffff;
+  box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.32);
+}
+.no_label input:hover {
+  border: 1px solid #ffffff;
 }
 .gallery_table_outer {
   width: 700px;
@@ -366,25 +373,8 @@ body .outer_nav .nav #main_nav ul li a {
   margin-top: 15px;
   margin-right: 50px;
 }
-.outer_cart .inner_cart.blue button:hover {
-  background-color: #000099;
-  color: #ffffff;
-  border: 1px solid #000099;
-}
-.outer_cart .inner_cart.pink button:hover {
-  background-color: #ff0099;
-  color: #ffffff;
-  border: 1px solid #ff0099;
-}
-.outer_cart .inner_cart.yellow button:hover {
-  background-color: #ffff00;
-  color: #ffffff;
-  border: 1px solid #ffff00;
-}
-.outer_cart .inner_cart.red button:hover {
-  background-color: #cc3333;
-  color: #ffffff;
-  border: 1px solid #cc3333;
+.outer_cart .inner_cart button:hover {
+  border: 1px solid #ffffff;
 }
 .outer_cart .inner_cart ul {
   list-style: none;
@@ -398,12 +388,11 @@ body .outer_nav .nav #main_nav ul li a {
   cursor: pointer;
   padding: 10px 20px;
   border: 1px solid #b4b4b4;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
   color: #000000;
   -o-text-overflow: clip;
   text-overflow: clip;
   background: #ffffff;
+  box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.32);
 }
 .outer_cart .inner_cart select {
   padding: 3px;
@@ -454,26 +443,6 @@ body .outer_nav .nav #main_nav ul li a {
   width: 700px;
   min-height: 510px;
 }
-.content .inner_content.blue button:hover {
-  background-color: #000099;
-  color: #ffffff;
-  border: 2px solid #000099;
-}
-.content .inner_content.pink button:hover {
-  background-color: #ff0099;
-  color: #ffffff;
-  border: 2px solid #ff0099;
-}
-.content .inner_content.yellow button:hover {
-  background-color: #ffff00;
-  color: #ffffff;
-  border: 2px solid #ffff00;
-}
-.content .inner_content.red button:hover {
-  background-color: #cc3333;
-  color: #ffffff;
-  border: 2px solid #cc3333;
-}
 .content .inner_content #cart_table {
   width: 100%;
   margin-top: 20px;
@@ -512,64 +481,33 @@ body .outer_nav .nav #main_nav ul li a {
   padding-top: 10px;
 }
 .content .inner_content #cart_table tfoot button {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-right: 25px;
-  padding-left: 25px;
+  display: inline-block;
   cursor: pointer;
+  padding: 10px 20px;
+  border: 1px solid #b4b4b4;
+  color: #000000;
+  -o-text-overflow: clip;
+  text-overflow: clip;
+  background: #ffffff;
+  box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.32);
+}
+.content .inner_content #cart_table tfoot button:hover {
+  border: 1px solid #ffffff;
 }
 .inner_content button {
-  padding: 10px;
-  cursor: pointer;
   margin-left: 90px;
+  display: inline-block;
+  cursor: pointer;
+  padding: 10px 20px;
+  border: 1px solid #b4b4b4;
+  color: #000000;
+  -o-text-overflow: clip;
+  text-overflow: clip;
+  background: #ffffff;
+  box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.32);
 }
-.inner_content.blue .submit input:hover {
-  background-color: #000099;
-  color: #ffffff;
-}
-.inner_content.pink .submit input:hover {
-  background-color: #ff0099;
-  color: #ffffff;
-}
-.inner_content.yellow .submit input:hover {
-  background-color: #ffff00;
-  color: #ffffff;
-}
-.inner_content.red .submit input:hover {
-  background-color: #cc3333;
-  color: #ffffff;
-}
-.inner_content.blue .no_label input:hover {
-  background-color: #000099;
-  color: #ffffff;
-}
-.inner_content.pink .no_label input:hover {
-  background-color: #ff0099;
-  color: #ffffff;
-}
-.inner_content.yellow .no_label input:hover {
-  background-color: #ffff00;
-  color: #ffffff;
-}
-.inner_content.red .no_label input:hover {
-  background-color: #cc3333;
-  color: #ffffff;
-}
-.inner_content.blue .pay_now input:hover {
-  background-color: #000099;
-  color: #ffffff;
-}
-.inner_content.pink .pay_now input:hover {
-  background-color: #ff0099;
-  color: #ffffff;
-}
-.inner_content.yellow .pay_now input:hover {
-  background-color: #ffff00;
-  color: #ffffff;
-}
-.inner_content.red .pay_now input:hover {
-  background-color: #cc3333;
-  color: #ffffff;
+.inner_content button:hover {
+  border: 1px solid #ffffff;
 }
 .inner_content.blue h1 {
   color: #000099;
@@ -581,18 +519,6 @@ body .outer_nav .nav #main_nav ul li a {
   color: #ffff00;
 }
 .inner_content.red h1 {
-  color: #cc3333;
-}
-.inner_content.blue #forgot_your_password_container #forgot_password_link:hover {
-  color: #000099;
-}
-.inner_content.pink #forgot_your_password_container #forgot_password_link:hover {
-  color: #ff0099;
-}
-.inner_content.yellow #forgot_your_password_container #forgot_password_link:hover {
-  color: #ffff00;
-}
-.inner_content.red #forgot_your_password_container #forgot_password_link:hover {
   color: #cc3333;
 }
 .inner_content #login_container {
@@ -612,62 +538,88 @@ body .outer_nav .nav #main_nav ul li a {
   padding-left: 90px;
 }
 .inner_content #login_container .submit input {
+  display: inline-block;
   cursor: pointer;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 10px 40px;
+  border: 1px solid #b4b4b4;
+  color: #000000;
+  -o-text-overflow: clip;
+  text-overflow: clip;
+  background: #ffffff;
+  box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.32);
+}
+.inner_content #login_container .submit input:hover {
+  border: 1px solid #ffffff;
 }
 .inner_content #login_container .success {
   margin-bottom: 15px;
 }
-.check_out h1 {
+.inner_content.blue .check_out #shipping_address_summary h1 a:hover {
+  color: #000099;
+}
+.inner_content.pink .check_out h1 a:hover {
+  color: #ff0099;
+}
+.inner_content.yellow .check_out h1 a:hover {
+  color: #ffff00;
+}
+.inner_content.red .check_out #shipping_address_summary h1 a:hover {
+  color: #cc3333;
+}
+.inner_content .check_out form {
+  margin-bottom: 55px;
+}
+.inner_content .check_out h1 {
   margin-bottom: 20px;
-  padding-bottom: 3px;
+  padding-bottom: 7px;
   border-bottom: 1px solid #000000;
   margin-top: 20px;
 }
-.check_out hr {
+.inner_content .check_out hr {
   display: none;
 }
-.check_out .pay_now {
+.inner_content .check_out .pay_now {
   float: right;
 }
-.check_out .pay_now input {
-  padding-right: 50px;
-  padding-left: 50px;
-  padding-bottom: 10px;
-  padding-top: 10px;
+.inner_content .check_out .pay_now input {
+  display: inline-block;
   cursor: pointer;
+  padding: 10px 60px;
+  border: 1px solid #b4b4b4;
+  color: #000000;
+  -o-text-overflow: clip;
+  text-overflow: clip;
+  background: #ffffff;
+  box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.32);
 }
-.check_out #create_account {
+.inner_content .check_out .pay_now input:hover {
+  border: 1px solid #ffffff;
+}
+.inner_content .check_out #create_account {
   outline: none !important;
 }
-.check_out #create_account label {
+.inner_content .check_out #create_account label {
   width: 101px;
 }
-.check_out #final_payment_info {
+.inner_content .check_out #final_payment_info {
   outline: none !important;
   margin-top: 0px;
 }
-.check_out #final_payment_info .payment_edit select {
+.inner_content .check_out #final_payment_info .payment_edit select {
   padding: 3px;
   margin-bottom: 4px;
 }
-.check_out #final_payment_info .payment_edit label {
+.inner_content .check_out #final_payment_info .payment_edit label {
   width: 124px;
 }
-.check_out #shipping_address_summary {
+.inner_content .check_out #shipping_address_summary {
   outline: none !important;
 }
-.check_out #shipping_address_summary h1 a {
+.inner_content .check_out #shipping_address_summary h1 a {
   font-size: 12px;
   color: #000000;
   text-decoration: none;
 }
-.check_out #shipping_address_summary h1 a:hover {
-  color: white;
-}
-.check_out #cart_table .last {
+.inner_content .check_out #cart_table .last {
   border-right: 1px solid #000000;
 }
