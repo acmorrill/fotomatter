@@ -117,12 +117,12 @@ class AppController extends Controller {
 
 
 		// DREW TODO - for testing only!
-		if (Configure::read('debug') > 0 && !$this->Session->check('Message.flash') && rand(1, 7) == 5 ) {
-			$this->Session->setFlash(
-				'If you do not see this on a page that page is not outputting any flash messages and there also is no flash message to display. For testing only.', 
-				'admin/flashMessage/success'
-			);
-		}
+//		if (Configure::read('debug') > 0 && !$this->Session->check('Message.flash') && rand(1, 7) == 5 ) {
+//			$this->Session->setFlash(
+//				'If you do not see this on a page that page is not outputting any flash messages and there also is no flash message to display. For testing only.', 
+//				'admin/flashMessage/success'
+//			);
+//		}
 
 
 
@@ -158,6 +158,7 @@ class AppController extends Controller {
 		$this->Auth->allow('display', 'view'); //IMPORTANT for CakePHP 1.2 final release change this to $this->Auth->allow(array('display'));
 		//$this->Auth->allow(array('*'));//IMPORTANT for CakePHP 1.2 final release change this to $this->Auth->allow(array('display'));
 		//Set the default redirect for users who logout
+		$this->Auth->flashElement = 'admin/flashMessage/warning';
 		$this->Auth->logoutRedirect = '/admin/users/login';
 		//Set the default redirect for users who login
 		$this->Auth->loginRedirect = '/admin/theme_centers/choose_theme';

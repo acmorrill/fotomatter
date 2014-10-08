@@ -210,7 +210,7 @@ class ThemeCentersController extends AppController {
 			
 			
 			if ($upload_data['size'] > 307200) { // fail if logo image bigger than 300k
-				$this->Session->setFlash(__('Exceeded maximum logo upload size of 300 kilobytes.', true));
+				$this->Session->setFlash(__('Exceeded maximum logo upload size.', true), 'admin/flashMessage/error');
 				$this->redirect('/admin/theme_centers/configure_logo/');
 				exit();
 			}
@@ -224,7 +224,7 @@ class ThemeCentersController extends AppController {
 				$filename_info = pathinfo($upload_data['name']);
 				if (!isset($filename_info['extension']) || $filename_info['extension'] != 'png' || !isset($upload_data['type']) || $upload_data['type'] != 'image/png') {
 					$this->major_error('Tried to upload a non png image.');
-					$this->Session->setFlash(__('Only png images can be uploaded as the logo', true));
+					$this->Session->setFlash(__('Only png images can be uploaded as the logo', true), 'admin/flashMessage/error');
 					$this->redirect('/admin/theme_centers/configure_logo/');
 					exit();
 				}
@@ -242,16 +242,16 @@ class ThemeCentersController extends AppController {
 					}
 					
 					$this->ThemeGlobalSetting->setVal('use_theme_logo', false);
-					$this->Session->setFlash(__('Successfully uploaded logo', true));
+					$this->Session->setFlash(__('Successfully uploaded logo', true), 'admin/flashMessage/success');
 				} else {
 					$this->major_error('failed to move_uploaded_file of an uploaded logo');
-					$this->Session->setFlash(__('Failed to upload logo file', true));
+					$this->Session->setFlash(__('Failed to upload logo file', true), 'admin/flashMessage/error');
 				}
 				
 				
 			} else {
 				$this->major_error('failed to getimagesize of an uploaded logo');
-				$this->Session->setFlash(__('Could not upload the logo file', true));
+				$this->Session->setFlash(__('Could not upload the logo file', true), 'admin/flashMessage/error');
 			}
 		}
 		
@@ -267,7 +267,7 @@ class ThemeCentersController extends AppController {
 			
 			
 			if ($upload_data['size'] > 10485760 || $upload_data['size'] == 0 || empty($_FILES)) {
-				$this->Session->setFlash(__('Exceeded maximum background upload size.', true));
+				$this->Session->setFlash(__('Exceeded maximum background upload size.', true), 'admin/flashMessage/error');
 				$this->redirect('/admin/theme_centers/configure_background/');
 				exit();
 			}
@@ -277,7 +277,7 @@ class ThemeCentersController extends AppController {
 			$is_jpeg_mime_type = isset($upload_data['type']) && ($upload_data['type'] == 'image/jpg' || $upload_data['type'] == 'image/jpeg');
 			if (!$is_jpeg_extension && !$is_jpeg_mime_type) {
 				$this->major_error('Tried to upload a non jpg image.');
-				$this->Session->setFlash(__('Only jpg images can be uploaded as the a theme background', true));
+				$this->Session->setFlash(__('Only jpg images can be uploaded as the a theme background', true), 'admin/flashMessage/error');
 				$this->redirect('/admin/theme_centers/configure_background/');
 				exit();
 			}
@@ -292,8 +292,9 @@ class ThemeCentersController extends AppController {
 			$old_height = imagesy($uploaded_image_handle);
 			$bigger_dimension = ($old_width > $old_height) ? $old_width : $old_height;
 			$downsized_image = null;
-			if ($bigger_dimension > 6000) { // hard fail if background image bigger than 6000 pixels
-				$this->Session->setFlash(__('Exceeded maximum background upload dimension of 5000 pixels.', true));
+			$max_pixels = 6000;
+			if ($bigger_dimension > $max_pixels) { // hard fail if background image bigger than 6000 pixels
+				$this->Session->setFlash(sprintf(__('Exceeded maximum background upload dimension of %d pixels.', true), $max_pixels), 'admin/flashMessage/error');
 				$this->redirect('/admin/theme_centers/configure_background/');
 				exit();
 			} else if ($bigger_dimension > 3000) { // resize down to less than 3000 pixels in this case
@@ -327,15 +328,15 @@ class ThemeCentersController extends AppController {
 					chmod(UPLOADED_BACKGROUND_PATH, 0776);
 					
 					$this->ThemeHiddenSetting->setVal('use_theme_background', true); // use theme background is used for seeing of we are using the theme default background image
-					$this->Session->setFlash(__('Successfully uploaded background', true));
+					$this->Session->setFlash(__('Successfully uploaded background', true), 'admin/flashMessage/success');
 					$this->ThemeHiddenSetting->clear_theme_background_position_cache();
 				} else{
 					$this->major_error('failed to move_uploaded_file of an uploaded background');
-					$this->Session->setFlash(__('Failed to upload background file', true));
+					$this->Session->setFlash(__('Failed to upload background file', true), 'admin/flashMessage/error');
 				}
 			} else {
 				$this->major_error('failed to getimagesize of an uploaded background');
-				$this->Session->setFlash(__('Could not upload the background file', true));
+				$this->Session->setFlash(__('Could not upload the background file', true), 'admin/flashMessage/error');
 			}
 		}
 		
@@ -352,7 +353,7 @@ class ThemeCentersController extends AppController {
 			}
 		} else {
 			$this->major_error('failed to admin_set_use_theme_logo');
-			$this->Session->setFlash(__('Could not change the logo that is used', true));
+			$this->Session->setFlash(__('Could not change the logo that is used', true), 'admin/flashMessage/error');
 		}
 		
 		
@@ -372,7 +373,7 @@ class ThemeCentersController extends AppController {
 			$this->ThemeHiddenSetting->clear_theme_background_position_cache();
 		} else {
 			$this->major_error('failed to admin_set_use_theme_background');
-			$this->Session->setFlash(__('Could not change the background that is used', true));
+			$this->Session->setFlash(__('Could not change the background that is used', true), 'admin/flashMessage/error');
 		}
 		
 		

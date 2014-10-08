@@ -3295,6 +3295,18 @@ a.editable-empty :focus {
 body.no_overflow {
   overflow: hidden;
 }
+#header #login_tagline {
+  position: absolute;
+  left: 308px;
+  top: 56px;
+  color: #7d888e;
+  border-left: 1px solid #7d888e;
+  font-family: Code-Pro-LC;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 30px;
+  padding-left: 37px;
+}
 #login_forms_cont {
   position: fixed;
   top: 0px;
@@ -3313,6 +3325,8 @@ body.no_overflow {
   text-align: center;
 }
 #login_forms_cont .generic_palette_container {
+  position: relative;
+  top: -45px;
   width: 90%;
   max-width: 555px;
   display: inline-block;

@@ -295,7 +295,7 @@ class PhotosController extends AppController {
 			$this->Photo->create();
 			if ($this->Photo->save($this->data)) {
 				//$this->Photo->replicatePriceCal($this->Photo->id); // this is to calculate the price in the old way for the old website (so when you add you don't have to run priceCal.php)
-				$this->Session->setFlash('Photo saved', 'admin/flashMessage/success');
+				$this->Session->setFlash(__('Photo saved', true), 'admin/flashMessage/success');
 				if ($id == null) { // adding
 					$this->redirect('/admin/photos/');
 				}
@@ -312,7 +312,7 @@ class PhotosController extends AppController {
 				));
 			} else {
 				$this->Photo->major_error('Failed to save changes to a photo in admin/photos/edit', $this->data);
-				$this->Session->setFlash('Error saving photo', 'admin/flashMessage/error');
+				$this->Session->setFlash(__('Error saving photo', true), 'admin/flashMessage/error');
 			}
 		}
 
@@ -351,7 +351,7 @@ class PhotosController extends AppController {
 	  $errors = $this->Upload->errors;
 	  // piece together errors
 	  if(is_array($errors)){ $errors = implode("<br />",$errors); }
-	  $this->Session->setFlash($errors);
+	  $this->Session->setFlash($errors, 'admin/flashMessage/error');
 	  }
 	  } */
 
@@ -385,16 +385,16 @@ class PhotosController extends AppController {
 
 
 	  //                         if (isset($this->Upload->result) && !copy($thumbPath, $thumbNailMoveToo.$this->Upload->result)) {
-	  //                              $this->Session->setFlash("Failed to copy thumbnail to its directory.");
+	  //                              $this->Session->setFlash("Failed to copy thumbnail to its directory.", 'admin/flashMessage/error');
 	  //                         }
 	  if (isset($this->Upload->result) && !copy($smallThumbPath, $smallThumbNailMoveToo.$this->data['Photo']['title'])) {
-	  $this->Session->setFlash("Failed to copy small thumbnail to its directory.");
+	  $this->Session->setFlash("Failed to copy small thumbnail to its directory.", 'admin/flashMessage/error');
 	  }
 	  } else {
 	  $errors = $this->Upload->errors;
 	  // piece together errors
 	  if(is_array($errors)){ $errors = implode("<br />",$errors); }
-	  $this->Session->setFlash($errors);
+	  $this->Session->setFlash($errors, 'admin/flashMessage/error');
 	  }
 	  }
 
@@ -411,7 +411,7 @@ class PhotosController extends AppController {
 	  $errors = $this->Upload->errors;
 	  // piece together errors
 	  if(is_array($errors)){ $errors = implode("<br />",$errors); }
-	  $this->Session->setFlash($errors);
+	  $this->Session->setFlash($errors, 'admin/flashMessage/error');
 	  }
 	  } */
 
@@ -569,10 +569,10 @@ class PhotosController extends AppController {
 
 
 					//                         if (isset($this->Upload->result) && !copy($thumbPath, $thumbNailMoveToo.$this->Upload->result)) {
-					//                              $this->Session->setFlash("Failed to copy thumbnail to its directory.");
+					//                              $this->Session->setFlash("Failed to copy thumbnail to its directory.", 'admin/flashMessage/error');
 					//                         }
 					if (isset($this->Upload->result) && !copy($smallThumbPath, $smallThumbNailMoveToo . $this->data['OldPhoto']['title'])) {
-						$this->Session->setFlash("Failed to copy small thumbnail to its directory.", 'admin/flashMessage/error');
+						$this->Session->setFlash(__("Failed to copy small thumbnail to its directory.", true), 'admin/flashMessage/error');
 					}
 				} else {
 					$errors = $this->Upload->errors;
@@ -614,12 +614,12 @@ class PhotosController extends AppController {
 
 			if ($this->OldPhoto->save($this->data)) {
 				$this->OldPhoto->replicatePriceCal($this->OldPhoto->id); // this is to calculate the price in the old way for the old website (so when you add you don't have to run priceCal.php)
-				$this->Session->setFlash('Photo saved', 'admin/flashMessage/success');
+				$this->Session->setFlash(__('Photo saved', true), 'admin/flashMessage/success');
 				if ($id == null) { // adding
 					$this->redirect('/photos/list_oldphotos/');
 				}
 			} else {
-				$this->Session->setFlash('Error saving photo', 'admin/flashMessage/error');
+				$this->Session->setFlash(__('Error saving photo', true), 'admin/flashMessage/error');
 				unlink($destination . $this->Upload->result);
 			}
 		}

@@ -56,7 +56,7 @@ class WelcomeController extends AppController {
 		
 		if ($account_email === false) {
 			$this->SiteSetting->major_error('account_email not set for account');
-			$this->Session->setFlash('An error occured during site build. Please contact support.');
+			$this->Session->setFlash(__('An error occured during site build. Please contact support.', true), 'admin/flashMessage/error');
 		}
 		
 		
@@ -66,7 +66,7 @@ class WelcomeController extends AppController {
 				$this->Validation->validate('account_valid_password', $this->data, 'password', __('The password must be at least 8 characters long.', true));
 				$this->Validation->validate('password_match', $this->data['password'], $this->data['confirm_password'], 'The passwords must match.');
 			} catch (Exception $e) {
-				$this->Session->setFlash($e->getMessage());
+				$this->Session->setFlash($e->getMessage(), 'admin/flashMessage/error');
 				return;
 			}
 			
@@ -76,7 +76,7 @@ class WelcomeController extends AppController {
 				// failed to create user
 				$data = $this->data;
 				$this->User->major_error('Failed to create the initial user!', compact('account_email', 'data'), 'high');
-				$this->Session->setFlash('An error occured during site build. Please contact support.');
+				$this->Session->setFlash(__('An error occured during site build. Please contact support.', true), 'admin/flashMessage/error');
 				return;
 			}
 			
