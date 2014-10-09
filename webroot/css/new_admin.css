@@ -1184,7 +1184,7 @@ input {
 }
 .flashMessage span {
   margin: 0 0 0 18px;
-  max-width: 89%;
+  max-width: 82%;
   display: inline-block;
   line-height: 22px;
 }
@@ -1952,250 +1952,6 @@ body {
 }
 #sub-nav.sell ul li table td .circle {
   background-color: #2ac0de;
-}
-@media only screen and (max-width: 1366px) {
-  #main {
-    margin-left: 253px;
-  }
-  #header .logo {
-    left: 13px;
-  }
-  #header #top-navigation {
-    left: 228px;
-  }
-  #sub-nav {
-    left: 0px;
-  }
-}
-@media only screen and (max-width: 1280px) {
-  #main {
-    margin-left: 38px;
-  }
-  #header .logo {
-    bottom: 50px;
-    left: 37px;
-  }
-  #header #top-navigation {
-    left: 2px;
-  }
-  #header #top-navigation #extra_buttons > li {
-    margin-left: 28px;
-  }
-  #sub-nav {
-    left: 0px;
-    width: 48px;
-    overflow: hidden;
-    -webkit-transition: all 0.3s ease;
-    -moz-transition: all 0.3s ease;
-    -o-transition: all 0.3s ease;
-    transition: all 0.3s ease;
-  }
-  #sub-nav:hover {
-    width: 257px;
-    -webkit-transition: all 0.3s ease;
-    -moz-transition: all 0.3s ease;
-    -o-transition: all 0.3s ease;
-    transition: all 0.3s ease;
-  }
-  #sub-nav:hover ul li .subnav_bg {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-    -moz-opacity: 1;
-    -khtml-opacity: 1;
-    opacity: 1;
-    -webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
-    transition: all 0.5s ease;
-  }
-}
-@media only screen and (max-width: 1100px),only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min-resolution: 192dpi) {
-  #sub-nav {
-    display: none;
-    position: relative;
-    width: 100%;
-    top: initial;
-    margin-bottom: 30px;
-  }
-  #sub-nav:hover {
-    width: 100%;
-  }
-  #sub-nav > ul > li {
-    width: 100%;
-  }
-  #sub-nav > ul > li .subnav_bg {
-    width: 100%;
-  }
-  #main {
-    margin: 0px !important;
-    padding: 0px;
-    top: 0px;
-  }
-  #header {
-    position: relative;
-    height: auto;
-  }
-  #header .logo {
-    position: relative;
-    bottom: initial;
-    left: initial;
-    width: 100%;
-    text-align: center;
-  }
-  #header .logo td {
-    vertical-align: middle;
-    position: relative;
-  }
-  #header .logo td.first {
-    text-align: left;
-    width: 85%;
-  }
-  #header .logo td.first img {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    width: 70%;
-    height: auto;
-    margin-left: 5%;
-  }
-  #header .logo td.last {
-    text-align: right;
-    width: 25%;
-  }
-  #header .logo td.last #mobile_navigation_open {
-    display: inline;
-    width: 50%;
-    height: auto;
-    margin-right: 20%;
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-  #header #top-navigation {
-    position: relative;
-    left: 0px;
-  }
-  #header #top-navigation #extra_buttons {
-    display: none;
-    position: relative;
-    top: initial;
-    right: initial;
-    margin: 0px;
-    height: inherit;
-    text-align: center;
-  }
-  #header #top-navigation #extra_buttons > li {
-    margin-left: 0px !important;
-    margin-right: 0px !important;
-    margin-top: 8px;
-    margin-bottom: 8px;
-    float: none;
-  }
-  #header #top-navigation #extra_buttons > li > ul {
-    width: 100%;
-  }
-  #header #top-navigation #extra_buttons > li > ul > li {
-    text-align: center;
-    width: 100%;
-  }
-  #header #top-navigation #extra_buttons > li > ul > li .subnav_bg {
-    width: 100%;
-  }
-  #header #top-navigation #extra_buttons > li > ul > li table td div {
-    text-align: center;
-  }
-  #header #top-navigation ul.menu {
-    display: none;
-    width: auto;
-  }
-  #header #top-navigation ul.menu li {
-    display: block;
-    width: auto !important;
-    text-align: center;
-  }
-  #header #top-navigation ul.menu li .tab_bottom {
-    width: 100% !important;
-    left: 0px !important;
-    bottom: 0px !important;
-    z-index: 1;
-  }
-  #header #top-navigation ul.menu li .tab_bottom .active_color {
-    width: 100% !important;
-    bottom: 0px !important;
-  }
-  #header #top-navigation ul.menu li .last_tab {
-    display: none;
-  }
-  #header .menu_below_bar {
-    display: none;
-  }
-  #middle #account-details {
-    position: relative;
-    top: initial;
-    left: initial;
-    width: auto;
-    margin-bottom: 20px;
-  }
-  #middle #account-details .details .detail {
-    margin: 20px 20px;
-  }
-  #admin_background {
-    top: 0px;
-  }
-  #help_tour_button {
-    display: none;
-  }
-  .page_content_header {
-    padding-left: 0px;
-    padding-right: 0px;
-  }
-  .generic_palette_container {
-    padding-left: 2px;
-    padding-right: 2px;
-  }
-  .mobile_hide {
-    display: none;
-  }
-  table.list tbody tr td {
-    display: block;
-    padding-left: 20px;
-  }
-  table.list tbody tr td > div,
-  table.list tbody tr td > span {
-    margin-top: 25px;
-  }
-  table.list tbody tr td .rightborder {
-    display: none;
-  }
-  table.list tbody tr td.first {
-    padding-left: 0px;
-  }
-  table.list tbody tr td.table_actions {
-    width: inherit !important;
-    text-align: left;
-  }
-  .no_td_as_block table.list tbody tr td {
-    display: table-cell;
-    padding-left: initial;
-  }
-  .no_td_as_block table.list tbody tr td > div,
-  .no_td_as_block table.list tbody tr td > span {
-    margin-top: initial;
-  }
-  .no_td_as_block table.list tbody tr td .rightborder {
-    display: block;
-  }
-  .no_td_as_block table.list tbody tr td.table_actions {
-    text-align: right;
-    width: 215px;
-  }
-  #theme_centers_list_container .theme_setting_container {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-  .show_on_mobile {
-    display: block;
-  }
-  .hide_on_mobile {
-    display: none !important;
-  }
 }
 .introjs-overlay {
   position: absolute;
@@ -3314,19 +3070,21 @@ body.no_overflow {
   right: 0px;
   bottom: 0px;
   margin: 0px;
-  margin-top: 94px;
 }
 #login_forms_cont > table {
   width: 100%;
   height: 100%;
 }
 #login_forms_cont > table tr td {
-  vertical-align: middle;
   text-align: center;
+}
+#login_forms_cont > table tr td .login_padding_div {
+  width: 100%;
+  height: 25%;
+  min-height: 114px;
 }
 #login_forms_cont .generic_palette_container {
   position: relative;
-  top: -45px;
   width: 90%;
   max-width: 555px;
   display: inline-block;
@@ -3728,4 +3486,280 @@ table.list tbody tr.remove_pending td .cost {
   margin-top: 0px;
   margin-left: 25px;
   margin-bottom: 40px;
+}
+@media only screen and (max-width: 1366px) {
+  #main {
+    margin-left: 253px;
+  }
+  #header .logo {
+    left: 13px;
+  }
+  #header #top-navigation {
+    left: 228px;
+  }
+  #header #login_tagline {
+    left: 263px;
+  }
+  #sub-nav {
+    left: 0px;
+  }
+}
+@media only screen and (max-width: 1280px) {
+  #main {
+    margin-left: 38px;
+  }
+  #header .logo {
+    bottom: 50px;
+    left: 37px;
+  }
+  #header #top-navigation {
+    left: 2px;
+  }
+  #header #top-navigation #extra_buttons > li {
+    margin-left: 28px;
+  }
+  #header #login_tagline {
+    left: 102px;
+    border-left: 0px;
+  }
+  #sub-nav {
+    left: 0px;
+    width: 48px;
+    overflow: hidden;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+  }
+  #sub-nav:hover {
+    width: 257px;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+  }
+  #sub-nav:hover ul li .subnav_bg {
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    -moz-opacity: 1;
+    -khtml-opacity: 1;
+    opacity: 1;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+  }
+}
+@media only screen and (max-width: 1100px),only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min-resolution: 192dpi) {
+  #sub-nav {
+    display: none;
+    position: relative;
+    width: 100%;
+    top: initial;
+    margin-bottom: 30px;
+  }
+  #sub-nav:hover {
+    width: 100%;
+  }
+  #sub-nav > ul > li {
+    width: 100%;
+  }
+  #sub-nav > ul > li .subnav_bg {
+    width: 100%;
+  }
+  #main {
+    margin: 0px !important;
+    padding: 0px;
+    top: 0px;
+  }
+  #main #header {
+    position: relative;
+    height: auto;
+  }
+  #main #header #login_tagline {
+    display: none;
+  }
+  #main #header .logo {
+    position: relative;
+    bottom: initial;
+    left: initial;
+    width: 100%;
+    text-align: center;
+  }
+  #main #header .logo td {
+    vertical-align: middle;
+    position: relative;
+  }
+  #main #header .logo td.first {
+    text-align: left;
+    width: 84%;
+  }
+  #main #header .logo td.first img {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 70%;
+    height: auto;
+    margin-left: 5%;
+  }
+  #main #header .logo td.last {
+    text-align: right;
+    width: 14%;
+  }
+  #main #header .logo td.last #mobile_navigation_open {
+    display: inline;
+    width: 50%;
+    height: 25%;
+    margin-right: 20%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  #main #header #top-navigation {
+    position: relative;
+    left: 0px;
+  }
+  #main #header #top-navigation #extra_buttons {
+    display: none;
+    position: relative;
+    top: initial;
+    right: initial;
+    margin: 0px;
+    height: inherit;
+    text-align: center;
+  }
+  #main #header #top-navigation #extra_buttons > li {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    float: none;
+  }
+  #main #header #top-navigation #extra_buttons > li > ul {
+    width: 100%;
+  }
+  #main #header #top-navigation #extra_buttons > li > ul > li {
+    text-align: center;
+    width: 100%;
+  }
+  #main #header #top-navigation #extra_buttons > li > ul > li .subnav_bg {
+    width: 100%;
+  }
+  #main #header #top-navigation #extra_buttons > li > ul > li table td div {
+    text-align: center;
+  }
+  #main #header #top-navigation ul.menu {
+    display: none;
+    width: auto;
+  }
+  #main #header #top-navigation ul.menu li {
+    display: block;
+    width: auto !important;
+    text-align: center;
+  }
+  #main #header #top-navigation ul.menu li .tab_bottom {
+    width: 100% !important;
+    left: 0px !important;
+    bottom: 0px !important;
+    z-index: 1;
+  }
+  #main #header #top-navigation ul.menu li .tab_bottom .active_color {
+    width: 100% !important;
+    bottom: 0px !important;
+  }
+  #main #header #top-navigation ul.menu li .last_tab {
+    display: none;
+  }
+  #main #header .menu_below_bar {
+    display: none;
+  }
+  #main.no_subnav #header .logo td.first {
+    width: 100%;
+  }
+  #main.no_subnav #header .logo td.last {
+    display: none;
+    width: 0%;
+  }
+  #middle #account-details {
+    position: relative;
+    top: initial;
+    left: initial;
+    width: auto;
+    margin-bottom: 20px;
+  }
+  #middle #account-details .details .detail {
+    margin: 20px 20px;
+  }
+  #admin_background {
+    top: 0px;
+    background-size: 130% auto;
+  }
+  #help_tour_button {
+    display: none;
+  }
+  .page_content_header {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  .generic_palette_container {
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+  .mobile_hide {
+    display: none;
+  }
+  table.list tbody tr td {
+    display: block;
+    padding-left: 20px;
+  }
+  table.list tbody tr td > div,
+  table.list tbody tr td > span {
+    margin-top: 25px;
+  }
+  table.list tbody tr td .rightborder {
+    display: none;
+  }
+  table.list tbody tr td.first {
+    padding-left: 0px;
+  }
+  table.list tbody tr td.table_actions {
+    width: inherit !important;
+    text-align: left;
+  }
+  .no_td_as_block table.list tbody tr td {
+    display: table-cell;
+    padding-left: initial;
+  }
+  .no_td_as_block table.list tbody tr td > div,
+  .no_td_as_block table.list tbody tr td > span {
+    margin-top: initial;
+  }
+  .no_td_as_block table.list tbody tr td .rightborder {
+    display: block;
+  }
+  .no_td_as_block table.list tbody tr td.table_actions {
+    text-align: right;
+    width: 215px;
+  }
+  #theme_centers_list_container .theme_setting_container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .show_on_mobile {
+    display: block;
+  }
+  .hide_on_mobile {
+    display: none !important;
+  }
+  #login_forms_cont {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+  #login_forms_cont > table tr td .login_padding_div {
+    display: none;
+  }
+  #login_forms_cont .generic_palette_container {
+    padding: 40px 20px;
+  }
+  #login_forms_cont .generic_palette_container form > div input {
+    width: 82%;
+  }
 }
