@@ -296,6 +296,30 @@ body .outer_nav .nav #main_nav ul li a {
 .gallery_table_outer.red #gallery_list_table .galleriesLink a:hover {
   color: #cc3333;
 }
+.gallery_table_outer.blue  h1.gallery_title {
+  color: #000099;
+}
+.gallery_table_outer.pink  h1.gallery_title {
+  color: #ff0099;
+}
+.gallery_table_outer.yellow  h1.gallery_title {
+  color: #ffff00;
+}
+.gallery_table_outer.red  h1.gallery_title {
+  color: #cc3333;
+}
+.gallery_table_outer.blue  h1.gallery_header {
+  color: #000099;
+}
+.gallery_table_outer.pink  h1.gallery_header {
+  color: #ff0099;
+}
+.gallery_table_outer.yellow  h1.gallery_header {
+  color: #ffff00;
+}
+.gallery_table_outer.red  h1.gallery_header {
+  color: #cc3333;
+}
 .gallery_table_outer h1.gallery_header {
   position: relative;
   top: 20px;
