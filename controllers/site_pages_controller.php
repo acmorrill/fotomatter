@@ -98,13 +98,13 @@ class SitePagesController extends AppController {
 		////////////////////////////////////////////
 		// send the actual email
 		if ($this->FotomatterEmail->send_end_user_contact_us_email($this, $this->data['SitePage']) === false) {
-			$this->Session->setFlash("Failed to send email", 'admin/flashMessage/error');
+			$this->Session->setFlash(__("Failed to send email", true), 'admin/flashMessage/error');
 			$this->redirect("/site_pages/contact_us/$site_page_id");
 			exit();
 		}
 		
 		
-		$this->Session->setFlash("Email sent", 'admin/flashMessage/success');
+		$this->Session->setFlash(__("Email sent", true), 'admin/flashMessage/success');
 		$this->redirect("/site_pages/contact_us/$site_page_id");
 	}
 
@@ -208,11 +208,11 @@ class SitePagesController extends AppController {
 		
 		$this->SitePage->create();
 		if (!$this->SitePage->save($new_page)) {
-			$this->Session->setFlash('Failed to create new page');
+			$this->Session->setFlash(__('Failed to create new page', true), 'admin/flashMessage/error');
 			$this->SitePage->major_error('Failed to create new custom page in (add_custom_page) in site_pages_controller.php', compact('new_page'));
 			$this->redirect('/admin/site_pages');
 		} else {
-			//$this->Session->setFlash('New page created');
+			//$this->Session->setFlash(__('New page created', true), 'admin/flashMessage/success');
 			$this->redirect('/admin/site_pages/edit_page/'.$this->SitePage->id);
 		}
 	}
@@ -229,7 +229,7 @@ class SitePagesController extends AppController {
 			$this->SitePage->major_error('Failed to create new external page in (admin_add_external_page) in site_pages_controller.php', compact('new_page'));
 			$this->redirect('/admin/site_pages');
 		} else {
-			//$this->Session->setFlash('New page created');
+			//$this->Session->setFlash(__('New page created', true), 'admin/flashMessage/success');
 			$this->redirect('/admin/site_pages/edit_page/'.$this->SitePage->id);
 		}
 	}
@@ -237,7 +237,7 @@ class SitePagesController extends AppController {
 	public function admin_add_contact_us_page() {
 		// check to see if there is a contact us page already
 		if ($this->SitePage->count_pages_of_type('contact_us') > 0) {
-			$this->Session->setFlash('Failed to create new contact us page.', 'admin/flashMessage/error');
+			$this->Session->setFlash(__('Failed to create new contact us page.', true), 'admin/flashMessage/error');
 			$this->SitePage->major_error('tried to create duplicate contact us page in site_pages_controller.php', array());
 			$this->redirect('/admin/site_pages');
 		}
@@ -252,7 +252,7 @@ class SitePagesController extends AppController {
 		
 		$this->SitePage->create();
 		if (!$this->SitePage->save($new_page)) {
-			$this->Session->setFlash('Failed to create new contact us page', 'admin/flashMessage/error');
+			$this->Session->setFlash(__('Failed to create new contact us page', true), 'admin/flashMessage/error');
 			$this->SitePage->major_error('Failed to create contact us page in (admin_contact_us_page) in site_pages_controller.php', compact('new_page'));
 			$this->redirect('/admin/site_pages');
 		} else {
@@ -270,9 +270,9 @@ class SitePagesController extends AppController {
 
 			if (!$this->SitePage->save($this->data)) {
 				$this->SitePage->major_error('failed to save page in edit page', $this->data);
-				$this->Session->setFlash('Failed to save page', 'admin/flashMessage/error');
+				$this->Session->setFlash(__('Failed to save page', true), 'admin/flashMessage/error');
 			} else {
-				$this->Session->setFlash('Page saved', 'admin/flashMessage/success');
+				$this->Session->setFlash(__('Page saved', true), 'admin/flashMessage/success');
 			}
  		}
 		

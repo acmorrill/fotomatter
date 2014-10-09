@@ -71,7 +71,7 @@ class EcommercesController extends AppController {
 			$logged_in_user = $this->Auth->user();
 			if (empty($logged_in_user['User']['email_address'])) {
 				$this->major_error('2 No email address to get paid via paypal with!', compact('logged_in_user', 'payable_order_ids'), 'high');
-				$this->Session->setFlash('Cannot get paid on orders. Please contact support.');
+				$this->Session->setFlash(__('Cannot get paid on orders. Please contact support.', true), 'admin/flashMessage/error');
 				$this->PaypalReimbursementLog->release_lock($lock_name);
 				$this->redirect('/admin/ecommerces/get_paid/');
 			}
@@ -83,7 +83,7 @@ class EcommercesController extends AppController {
 			if ($send_payment_result === false) {
 				$this->AuthnetOrder->set_orders_pay_out_status($payable_order_ids, 'not_paid'); // DREW TODO - maybe mark as error?
 				$this->major_error('Failed to reimmburse for orders', compact('logged_in_user', 'payable_order_ids', 'amount'), 'high');
-				$this->Session->setFlash('Cannot get paid on orders. Please contact support.');
+				$this->Session->setFlash(__('Cannot get paid on orders. Please contact support.', true), 'admin/flashMessage/error');
 				$this->PaypalReimbursementLog->release_lock($lock_name);
 				$this->redirect('/admin/ecommerces/get_paid/');
 			}
@@ -95,7 +95,7 @@ class EcommercesController extends AppController {
 		//---------------------------------------------------------------------
 		
 		
-		$this->Session->setFlash("A payment of $$amount was sent to $user_email_address via Paypal."); // DREW TODO - translate this string and make sure its good
+		$this->Session->setFlash(sprintf(__("A payment of $%s was sent to %s via Paypal.", true), $amount, $user_email_address), 'admin/flashMessage/success');
 		$this->redirect('/admin/ecommerces/order_management/');
 	}
 	
@@ -112,7 +112,7 @@ class EcommercesController extends AppController {
 		$payable_paypal_email_address = '';
 		if (empty($logged_in_user['User']['email_address'])) {
 			$this->major_error('No email address to get paid via paypal with!', compact('logged_in_user', 'payable_orders'), 'high');
-			$this->Session->setFlash('Cannot get paid on orders. Please contact support.');
+			$this->Session->setFlash(__('Cannot get paid on orders. Please contact support.', true), 'admin/flashMessage/error');
 		} else {
 			$payable_paypal_email_address = $logged_in_user['User']['email_address'];
 		}
@@ -126,7 +126,7 @@ class EcommercesController extends AppController {
 		
 		$this->PhotoAvailSize->restore_avail_photo_size_defaults();
 		
-		$this->Session->setFlash('Available print sizes reset.');
+		$this->Session->setFlash(__('Available print sizes reset.', true), 'admin/flashMessage/success');
 		
 		$this->redirect('/admin/ecommerces/manage_print_sizes');
 	}
@@ -135,7 +135,7 @@ class EcommercesController extends AppController {
 		$this->HashUtil->set_new_hash('ecommerce');
 		
 		if (!$this->PhotoAvailSize->delete($photo_avail_size_id)) {
-			$this->Session->setFlash('Failed to delete available photo size.');
+			$this->Session->setFlash(__('Failed to delete available photo size.', true), 'admin/flashMessage/error');
 			$this->major_error('Failed to delete available photo size.', array($photo_avail_size_id));
 		}
 		
@@ -147,15 +147,15 @@ class EcommercesController extends AppController {
 		
 		if (!empty($this->data)) {
 			if ( !isset($this->data['PhotoAvailSize']['photo_format_ids']) ) {
-				$this->Session->setFlash('Please choose photo formats to apply the print size to.');
+				$this->Session->setFlash(__('Please choose photo formats to apply the print size to.', true), 'admin/flashMessage/error');
 			} else if ( !isset($this->data['PhotoAvailSize']['short_side_length']) ) {
-				$this->Session->setFlash('Please choose a short side length.');
+				$this->Session->setFlash(__('Please choose a short side length.', true), 'admin/flashMessage/error');
 			} else {
 				$this->data['PhotoAvailSize']['photo_format_ids'] = implode(',', $this->data['PhotoAvailSize']['photo_format_ids']);
 
 				$this->PhotoAvailSize->create();
 				if (!$this->PhotoAvailSize->save($this->data)) {
-					$this->Session->setFlash('Failed to add available photo size.');
+					$this->Session->setFlash(__('Failed to add available photo size.', true), 'admin/flashMessage/success');
 					$this->major_error('Failed to save available photo size.', array($this->data));
 				} else {
 					$this->redirect('/admin/ecommerces/manage_print_sizes');
@@ -233,7 +233,7 @@ class EcommercesController extends AppController {
 		if ($finalize_order_result === false) {
 			$return_arr['success'] = true;
 			
-			$this->Session->setFlash('Failed to approve order. Please contact support.');
+			$this->Session->setFlash(__('Failed to approve order. Please contact support.', true), 'admin/flashMessage/error');
 		}
 		
 		$this->redirect('/admin/ecommerces/fulfill_order/'.$authnet_order_id.'/');
@@ -272,7 +272,7 @@ class EcommercesController extends AppController {
 	
 	public function admin_void_order($authnet_order_id) {
 		if (!$this->AuthnetOrder->transaction_voidable($authnet_order_id)) {
-			$this->Session->setFlash('Failed to void order. Please contact support.');
+			$this->Session->setFlash(__('Failed to void order. Please contact support.', true), 'admin/flashMessage/error');
 			$this->AuthnetOrder->major_error('Tried to void an unvoidable order.', compact('authnet_order_id'));
 			$this->redirect('/admin/ecommerces/fulfill_order/'.$authnet_order_id);
 			return false;
@@ -283,7 +283,7 @@ class EcommercesController extends AppController {
 		
 		
 		if ($void_result === false) {
-			$this->Session->setFlash('Failed to void order. Please contact support.');
+			$this->Session->setFlash(__('Failed to void order. Please contact support.', true), 'admin/flashMessage/error');
 		}
 		
 		$this->redirect('/admin/ecommerces/fulfill_order/'.$authnet_order_id);
@@ -291,7 +291,7 @@ class EcommercesController extends AppController {
 	
 	public function admin_refund_order($authnet_order_id) {
 		if (!$this->AuthnetOrder->transaction_refundable($authnet_order_id)) {
-			$this->Session->setFlash('Failed to refund order. Please contact support.');
+			$this->Session->setFlash(__('Failed to refund order. Please contact support.', true), 'admin/flashMessage/error');
 			$this->AuthnetOrder->major_error('Tried to refund an unrefundable order.', compact('authnet_order_id'), 'high');
 			$this->redirect('/admin/ecommerces/fulfill_order/'.$authnet_order_id);
 			return false;
@@ -300,7 +300,7 @@ class EcommercesController extends AppController {
 		$refund_result = $this->AuthnetOrder->refund_transaction($authnet_order_id);
 		
 		if ($refund_result === false) {
-			$this->Session->setFlash('Failed to refund order. Please contact support.');
+			$this->Session->setFlash(__('Failed to refund order. Please contact support.', true), 'admin/flashMessage/error');
 		}
 		
 		$this->redirect('/admin/ecommerces/fulfill_order/'.$authnet_order_id);
@@ -327,7 +327,7 @@ class EcommercesController extends AppController {
 		$this->HashUtil->set_new_hash('ecommerce');
 		
 		if (!$this->PhotoPrintType->delete($photo_print_type_id)) {
-			$this->Session->setFlash('Failed to delete photo print type.');
+			$this->Session->setFlash(__('Failed to delete photo print type.', true), 'admin/flashMessage/error');
 			$this->major_error('Failed to delete photo print type.', compact('photo_print_type_id'));
 		}
 		
@@ -347,7 +347,7 @@ class EcommercesController extends AppController {
 			$turnaround_time = !empty($this->data['PhotoPrintType']['turnaround_time']) ? $this->data['PhotoPrintType']['turnaround_time'] : '' ;
 			
 			if ($passed_validation && !isset($print_name)) {
-				$this->Session->setFlash("Print name must be set.");
+				$this->Session->setFlash(__("Print name must be set.", true), 'admin/flashMessage/error');
 				$passed_validation = false;
 			}
 			
@@ -360,7 +360,7 @@ class EcommercesController extends AppController {
 				$new_photo_type['PhotoPrintType']['turnaround_time'] = $turnaround_time;
 				$this->PhotoPrintType->create();
 				if (!$this->PhotoPrintType->save($new_photo_type)) {
-					$this->Session->setFlash("Failed to save photo print type.");
+					$this->Session->setFlash(__("Failed to save photo print type.", true), 'admin/flashMessage/error');
 					$this->PhotoPrintType->major_error('Failed to save photo print type', compact('new_photo_type'));
 				} else {
 					// add into the PhotoPrintSizesPhotoPrintType join table
@@ -413,7 +413,7 @@ class EcommercesController extends AppController {
 
 								$this->PhotoAvailSizesPhotoPrintType->create();
 								if (!$this->PhotoAvailSizesPhotoPrintType->save($new_join_table_data)) {
-									$this->Session->setFlash("Failed to connect photo print type to photo print size.");
+									$this->Session->setFlash(__("Failed to connect photo print type to photo print size.", true), 'admin/flashMessage/error');
 									$this->PhotoPrintType->major_error('Failed to connect photo print type to photo print size', compact('new_join_table_data'));
 									$save_error = true;
 									break;
@@ -462,7 +462,7 @@ class EcommercesController extends AppController {
 		// make sure ids are valid
 			if (!isset($this->data['PhotoPrintType']['id']) || !isset($this->data['Photo']['id']) || !isset($this->data['Photo']['short_side_inches'])) {
 				$this->major_error("photo_print_type_id or photo_id or short_side_inches not set in add to cart", array('data' => $this->data, 'params' => $this->params));
-				$this->Session->setFlash('Error adding item to cart.');
+				$this->Session->setFlash(__('Error adding item to cart.', true), 'admin/flashMessage/error');
 				$this->redirect($this->referer());
 				exit();
 			}
@@ -477,7 +477,7 @@ class EcommercesController extends AppController {
 			$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
 			if (!empty($max_photo_id) && $photo_id > $max_photo_id) {
 				$this->major_error("tried to add limited photo to the cart", array('data' => $this->data, 'params' => $this->params));
-				$this->Session->setFlash('Error adding item to cart.');
+				$this->Session->setFlash(__('Error adding item to cart.', true), 'admin/flashMessage/error');
 				$this->redirect($this->referer());
 				exit();
 			}
@@ -491,7 +491,7 @@ class EcommercesController extends AppController {
 			));
 			if (empty($photo_exists)) {
 				$this->major_error("photo_id not connected to real photo", array('data' => $this->data, 'params' => $this->params));
-				$this->Session->setFlash('Error adding item to cart.');
+				$this->Session->setFlash(__('Error adding item to cart.', true), 'admin/flashMessage/error');
 				$this->redirect($this->referer());
 				exit();
 			}
@@ -503,7 +503,7 @@ class EcommercesController extends AppController {
 			));
 			if (empty($print_type_exists)) {
 				$this->major_error("photo_print_type_id not connected to real print type", array('data' => $this->data, 'params' => $this->params));
-				$this->Session->setFlash('Error adding item to cart.');
+				$this->Session->setFlash(__('Error adding item to cart.', true), 'admin/flashMessage/error');
 				$this->redirect($this->referer());
 				exit();
 			}
@@ -571,7 +571,7 @@ class EcommercesController extends AppController {
 				$this->Validation->validate('valid_password', $this->data['User'], 'new_password', 'Please enter a valid password.');
 				$this->Validation->validate('password_match', $this->data['User']['new_password'], $this->data['User']['new_password_repeat'], 'The passwords must match.');
 			} catch (Exception $e) {
-				$this->Session->setFlash($e->getMessage());
+				$this->Session->setFlash($e->getMessage(), 'admin/flashMessage/error');
 				$this->ThemeRenderer->render_default($this, '/elements/change_password');
 				return;
 			}
@@ -581,10 +581,10 @@ class EcommercesController extends AppController {
 			$change_password_user['User']['password'] = $new_password_hash;
 			unset($change_password_user['User']['modified']);
 			if (!$this->User->save($change_password_user)) {
-				$this->Session->setFlash("Failed to change password.");
+				$this->Session->setFlash(__("Failed to change password.", true), 'admin/flashMessage/error');
 				$this->User->major_error('Failed to change front end user password.', compact('change_password_user'));
 			} else {
-				$this->Session->setFlash("Password changed.");
+				$this->Session->setFlash(__("Password changed.", true), 'admin/flashMessage/success');
 			}
 		}
 		
@@ -613,7 +613,7 @@ class EcommercesController extends AppController {
 			));
 			
 			if (empty($change_password_user)) {
-				$this->Session->setFlash('Email does not belong to a valid user.');
+				$this->Session->setFlash(__('Email does not belong to a valid user.', true), 'admin/flashMessage/error');
 			} else {
 				$this->FotomatterEmail->send_forgot_password_email($this, $change_password_user);
 			}
@@ -625,7 +625,7 @@ class EcommercesController extends AppController {
 			if ($this->Auth->login()) {
 				$this->redirect('/ecommerces/checkout_finalize_payment');
 			} else {
-				$this->Session->setFlash('Invalid login credentials.');
+				$this->Session->setFlash(__('Invalid login credentials.', true), 'admin/flashMessage/error');
 			}
 		}
 		
@@ -680,7 +680,7 @@ class EcommercesController extends AppController {
 						$this->Validation->validate($this, 'not_empty', $this->data['ShippingAddress'], 'state_id', __('Shipping state is required.', true));
 					}
 				} catch (Exception $e) {
-					$this->Session->setFlash($e->getMessage());
+					$this->Session->setFlash($e->getMessage(), 'admin/flashMessage/error');
 					$this->ThemeRenderer->render($this);
 					return;
 				}
@@ -788,7 +788,7 @@ class EcommercesController extends AppController {
 					throw new Exception('Invalid card expiration.');
 				}
 			} catch (Exception $e) {
-				$this->Session->setFlash($e->getMessage());
+				$this->Session->setFlash($e->getMessage(), 'admin/flashMessage/error');
 				$this->ThemeRenderer->render($this);
 				return;
 			}
@@ -843,7 +843,7 @@ class EcommercesController extends AppController {
 				$authnet_result = $this->AuthnetProfile->save($authnet_data);
 
 				if ($authnet_result === false || (is_array($authnet_result) && isset($authnet_result['success']) && $authnet_result['success'] === false) )  {
-					$this->Session->setFlash('Failed to save credit card info. Please contact Fotomatter support.');
+					$this->Session->setFlash(__('Failed to save credit card info. Please contact Fotomatter support.', true), 'admin/flashMessage/error');
 					$this->major_error('Failed to save credit card info. Please contact Fotomatter support.', compact('authnet_result'));
 					$this->ThemeRenderer->render($this);
 					return;
@@ -853,7 +853,7 @@ class EcommercesController extends AppController {
 
 				// actually charge for the order
 				if (!$this->AuthnetOrder->charge_cart_to_cim($authnet_data['AuthnetProfile']['id'])) {
-					$this->Session->setFlash('Failed to charge credit card.');
+					$this->Session->setFlash(__('Failed to charge credit card.', true), 'admin/flashMessage/error');
 					$this->major_error('Failed to charge credit card.');
 					$this->ThemeRenderer->render($this);
 					return;
@@ -892,9 +892,9 @@ class EcommercesController extends AppController {
 				
 				if ($result_data['success'] !== true) {
 					if ($result_data['declined'] === true) {
-						$this->Session->setFlash('Transaction declined.');
+						$this->Session->setFlash(__('Transaction declined.', true), 'admin/flashMessage/error');
 					} else {
-						$this->Session->setFlash('An unknown error occured processing the transaction.');
+						$this->Session->setFlash(__('An unknown error occured processing the transaction.', true), 'admin/flashMessage/error');
 					}
 					
 					$this->ThemeRenderer->render($this);

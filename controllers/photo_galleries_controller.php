@@ -21,11 +21,11 @@ class PhotoGalleriesController extends AppController {
 		
 		$this->PhotoGallery->create();
 		if (!$this->PhotoGallery->save($new_gallery)) {
-			$this->Session->setFlash('Failed to create new standard gallery');
+			$this->Session->setFlash(__('Failed to create new standard gallery', true), 'admin/flashMessage/error');
 			$this->PhotoGallery->major_error('Failed to create new standard gallery in (add_standard_gallery) in photo_galleries_controller.php', compact('new_gallery'));
 			$this->redirect('/admin/photo_galleries');
 		} else {
-			//$this->Session->setFlash('New page created');
+			//$this->Session->setFlash(__('New page created', true), 'admin/flashMessage/success');
 			$this->redirect('/admin/photo_galleries/edit_gallery/'.$this->PhotoGallery->id);
 		}
 	}
@@ -37,11 +37,11 @@ class PhotoGalleriesController extends AppController {
 		
 		$this->PhotoGallery->create();
 		if (!$this->PhotoGallery->save($new_gallery)) {
-			$this->Session->setFlash('Failed to create new smart gallery');
+			$this->Session->setFlash(__('Failed to create new smart gallery', true), 'admin/flashMessage/error');
 			$this->PhotoGallery->major_error('Failed to create new smart gallery in (add_smart_gallery) in photo_galleries_controller.php', compact('new_gallery'));
 			$this->redirect('/admin/photo_galleries');
 		} else {
-			//$this->Session->setFlash('New page created');
+			//$this->Session->setFlash(__('New page created', true), 'admin/flashMessage/success');
 			$this->redirect('/admin/photo_galleries/edit_gallery/'.$this->PhotoGallery->id);
 		}
 	}
@@ -161,7 +161,7 @@ class PhotoGalleriesController extends AppController {
 			$smart_gallery['PhotoGallery']['id'] = $id;
 			$smart_gallery['PhotoGallery']['smart_settings'] = serialize($save_settings);
 			if (!$this->PhotoGallery->save($smart_gallery)) {
-				$this->Session->setFlash('Failed to save smart settings.');
+				$this->Session->setFlash(__('Failed to save smart settings.', true), 'admin/flashMessage/error');
 				$this->PhotoGallery->major_error('Failed to save smart settings.', compact('smart_gallery'));
 			}
 		}
@@ -193,9 +193,9 @@ class PhotoGalleriesController extends AppController {
 
 			if (!$this->PhotoGallery->save($this->data)) {
 				$this->PhotoGallery->major_error('failed to save photo gallery in edit gallery', $this->data);
-				$this->Session->setFlash('Failed to save photo gallery');
+				$this->Session->setFlash(__('Failed to save photo gallery', true), 'admin/flashMessage/error');
 			} else {
-				$this->Session->setFlash('Photo gallery saved');
+				$this->Session->setFlash(__('Photo gallery saved', true), 'admin/flashMessage/success');
 			}
  		} 
 		

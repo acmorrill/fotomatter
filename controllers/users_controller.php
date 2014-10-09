@@ -4,7 +4,7 @@ class UsersController extends AppController {
 
 	public $name = 'Users';
 	public $uses = array('User');
-	public $scaffold;
+	public $layout = 'admin/login';
 
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -12,7 +12,6 @@ class UsersController extends AppController {
 	}
 
 	function admin_login() {
-		$this->layout = 'admin/login';
 		// before displaying the login check to see if a user has ever been setup - if not - then go to the welcome page
 //		$this->SiteSetting = ClassRegistry::init('SiteSetting');
 //		if ($this->SiteSetting->getVal('welcome_password_set', 1) == 0) { // DREW TODO - this causes a redirect loop
@@ -36,9 +35,9 @@ class UsersController extends AppController {
 			));
 			
 			if (empty($change_password_user)) {
-				$this->Session->setFlash('Email does not belong to a valid user.');
+				$this->Session->setFlash(__('Email does not belong to a valid user.', true), 'admin/flashMessage/warning');
 			} else {
-				$this->Session->setFlash('Change password email sent.');
+				$this->Session->setFlash(__('Change password email sent.', true), 'admin/flashMessage/success');
 				$this->FotomatterEmail->send_forgot_password_email($this, $change_password_user);
 			}
 		}
@@ -69,7 +68,7 @@ class UsersController extends AppController {
 				$this->Validation->validate('account_valid_password', $this->data['User'], 'new_password', 'Please enter a valid password.');
 				$this->Validation->validate('password_match', $this->data['User']['new_password'], $this->data['User']['new_password_repeat'], 'The passwords must match.');
 			} catch (Exception $e) {
-				$this->Session->setFlash($e->getMessage());
+				$this->Session->setFlash($e->getMessage(), 'admin/flashMessage/error');
 				return;
 			}
 			
@@ -78,10 +77,10 @@ class UsersController extends AppController {
 			$change_password_user['User']['password'] = $new_password_hash;
 			unset($change_password_user['User']['modified']);
 			if (!$this->User->save($change_password_user)) {
-				$this->Session->setFlash("Failed to change password.");
+				$this->Session->setFlash(__("Failed to change password.", true), 'admin/flashMessage/error');
 				$this->User->major_error('Failed to change admin user password.', compact('change_password_user'));
 			} else {
-				$this->Session->setFlash("Password changed.");
+				$this->Session->setFlash(__("Password changed.", true), 'admin/flashMessage/success');
 				$this->redirect('/admin');
 			}
 		}
