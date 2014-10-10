@@ -3,6 +3,7 @@
 	#header {
 		.logo { left: 13px; }
 		#top-navigation { left: 228px; }
+		#login_tagline { left: 263px; }
 	}
 	#sub-nav {
 		left: 0px;
@@ -18,6 +19,7 @@
 				margin-left: 28px;
 			}
 		}
+		#login_tagline { left: 102px; border-left: 0px; }
 	}
 	#sub-nav {
 		left: 0px;
@@ -68,106 +70,113 @@ only screen and (min-resolution: 192dpi) {
 			}
 		}
 	}
-	#main { 
+	#main {
 		margin: 0px !important;
 		padding: 0px;
 		top: 0px;
-	}
-	#header {
-		position: relative;
-		height: auto;
-		.logo { 
+		#header {
+			#login_tagline { display: none; }
 			position: relative;
-			bottom: initial;
-			left: initial;
-			width: 100%;
-			text-align: center;
-			td {
-				vertical-align: middle;
+			height: auto;
+			.logo { 
 				position: relative;
-				&.first {
-					text-align: left;
-					width: 85%;
-					img {
-						margin-top: 10px;
-						margin-bottom: 10px;
-						width: 70%;
-						height: auto;
-						margin-left: 5%;
-					}
-				}
-				&.last {
-					text-align: right;
-					width: 25%;
-					#mobile_navigation_open {
-						display: inline;
-						width: 50%;
-						height: auto;
-						margin-right: 20%;
-						margin-top: 10px;
-						margin-bottom: 10px;
-					}
-				}
-			}
-		}
-		#top-navigation { 
-			position: relative;
-			left: 0px;
-			#extra_buttons {
-				display: none;
-				position: relative;
-				top: initial;
-				right: initial;
-				margin: 0px;
-				height: inherit;
+				bottom: initial;
+				left: initial;
+				width: 100%;
 				text-align: center;
-				/*top:*/ 
-				> li {
-					margin-left: 0px !important;
-					margin-right: 0px !important;
-					margin-top: 8px;
-					margin-bottom: 8px;
-					float: none;
-					> ul {
-						width: 100%;
-						> li {
-							text-align: center;
-							width: 100%;
-							.subnav_bg {
-								width: 100%;
-							}
-							table td div {
-								text-align: center;
-							}
+				td {
+					vertical-align: middle;
+					position: relative;
+					&.first {
+						text-align: left;
+						width: 84%;
+						img {
+							margin-top: 10px;
+							margin-bottom: 10px;
+							width: 70%;
+							height: auto;
+							margin-left: 5%;
+						}
+					}
+					&.last {
+						text-align: right;
+						width: 14%;
+						#mobile_navigation_open {
+							display: inline;
+							width: 50%;
+							height: 25%;
+							margin-right: 20%;
+							margin-top: 10px;
+							margin-bottom: 10px;
 						}
 					}
 				}
 			}
-			ul.menu {
-				display: none;
-				width: auto;
-				li {
-					display: block;
-					width: auto !important;
+			#top-navigation { 
+				position: relative;
+				left: 0px;
+				#extra_buttons {
+					display: none;
+					position: relative;
+					top: initial;
+					right: initial;
+					margin: 0px;
+					height: inherit;
 					text-align: center;
-					.tab_bottom {
-						width: 100% !important;
-						left: 0px !important;
-						bottom: 0px !important;
-						.active_color {
-							width: 100% !important;
-							bottom: 0px !important;
+					/*top:*/ 
+					> li {
+						margin-left: 0px !important;
+						margin-right: 0px !important;
+						margin-top: 8px;
+						margin-bottom: 8px;
+						float: none;
+						> ul {
+							width: 100%;
+							> li {
+								text-align: center;
+								width: 100%;
+								.subnav_bg {
+									width: 100%;
+								}
+								table td div {
+									text-align: center;
+								}
+							}
 						}
-						z-index: 1;
-					}
-					.last_tab {
-						display: none;
 					}
 				}
+				ul.menu {
+					display: none;
+					width: auto;
+					li {
+						display: block;
+						width: auto !important;
+						text-align: center;
+						.tab_bottom {
+							width: 100% !important;
+							left: 0px !important;
+							bottom: 0px !important;
+							.active_color {
+								width: 100% !important;
+								bottom: 0px !important;
+							}
+							z-index: 1;
+						}
+						.last_tab {
+							display: none;
+						}
+					}
+				}
+			}
+			.menu_below_bar {
+				display: none;
 			}
 		}
-		.menu_below_bar {
-			display: none;
+		&.no_subnav {
+			#header .logo td {
+				&.first { width: 100%; }
+				&.last { display: none; width: 0%; }
+			}
 		}
 	}
 	#middle {
@@ -182,6 +191,7 @@ only screen and (min-resolution: 192dpi) {
 	}
 	#admin_background {
 		top: 0px;
+		background-size: 130% auto;
 	}
 	#help_tour_button {
 		display: none;
@@ -237,4 +247,30 @@ only screen and (min-resolution: 192dpi) {
 	.hide_on_mobile {
 		display: none !important;
 	}
+	
+	#login_forms_cont {
+		position: relative;
+		width: 100%;
+		overflow: hidden;
+		> table {
+			tr td {
+				.login_padding_div {
+					display: none;
+				}
+			}
+		}
+		.generic_palette_container {
+			padding: 40px 20px;
+			form > div input {
+				width: 82%;
+			}
+		}
+	}
 }
+
+
+
+
+
+
+

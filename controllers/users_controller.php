@@ -35,9 +35,9 @@ class UsersController extends AppController {
 			));
 			
 			if (empty($change_password_user)) {
-				$this->Session->setFlash(__('Email does not belong to a valid user.', true), 'admin/flashMessage/warning');
+				$this->Session->setFlash(__('Email does not belong to a valid user', true), 'admin/flashMessage/warning');
 			} else {
-				$this->Session->setFlash(__('Change password email sent.', true), 'admin/flashMessage/success');
+				$this->Session->setFlash(__('Check your email to change your password', true), 'admin/flashMessage/success');
 				$this->FotomatterEmail->send_forgot_password_email($this, $change_password_user);
 			}
 		}
