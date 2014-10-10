@@ -265,6 +265,7 @@ $theme_config = array(
     )
 );
 
+
 /**
  * to create a theme
  * 

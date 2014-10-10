@@ -16,3 +16,21 @@ ul{
         margin-top: 45px;    
     }
 }
+//input boxes and text
+input{
+    display: inline-block;
+    .box-sizing(content-box);
+    padding: 7px 13px;
+    border: 1px solid @input_border;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    -o-text-overflow: clip;
+    text-overflow: clip;
+    background: @input_bg;
+    .box-shadow(2px 2px 2px 0 @input_boxshadow );
+    .transition(all 200ms cubic-bezier(0.42, 0, 0.58, 1));
+}
+
+    label{
+        margin-top: 10px;
+    }
