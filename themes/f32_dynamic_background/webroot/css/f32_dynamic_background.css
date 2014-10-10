@@ -148,6 +148,19 @@ ul {
 .footer #footer_tagline {
   margin-top: 45px;
 }
+input {
+  display: inline-block;
+  padding: 7px 13px;
+  border: 1px solid #b7b7b7;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  -o-text-overflow: clip;
+  text-overflow: clip;
+  background: #fcfcfc;
+}
+label {
+  margin-top: 10px;
+}
 body {
   background-image: url('/theme_merged_final_images/f32_dynamic_background.jpg');
   background-repeat: no-repeat;
