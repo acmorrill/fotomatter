@@ -212,6 +212,12 @@ select, input {
 		.Code-Pro-LC;
 		font-size: 20px;
 	}
+	.ui-buttonset {
+		margin-right: 0px;
+		.add_button .ui-button {
+			margin-right: 20px;
+		}
+	}
 	.add_button {
 		cursor: pointer;
 		display: inline-block;
@@ -222,6 +228,18 @@ select, input {
 		padding-right: 20px;
 		border: 1px solid @button_border;
 		color: @gray_text;
+		&.ui-button-text-only .ui-button-text {
+			padding: 0px;
+		}
+		&.ui-button {
+			margin-right: 0px;
+			&.ui-corner-all {
+				border-bottom-right-radius: 0px;
+				border-bottom-left-radius: 0px;
+				border-top-right-radius: 0px;
+				border-top-left-radius: 0px;
+			}
+		}
 		.content {
 			display: inline-block;
 			vertical-align: top;
@@ -232,7 +250,7 @@ select, input {
 		.Code-Pro-LC;
 		//.el_opacity(.6, 60);
 		font-size: 18px;
-		background-color: @off_black;
+		background: @off_black;
 		min-width: 65px;
 		&.bigger {
 			height: 50px;
@@ -255,7 +273,7 @@ select, input {
 			.content {
 				&, a { color: @white };
 			}
-			background-color: @button_highlight;
+			background: @button_highlight;
 			.right_arrow_lines {
 				.right_facing_triangle(10, @white);
 				div {
@@ -264,7 +282,7 @@ select, input {
 			}
 			.one, .two { background-color: @white; /*position: absolute; top: 0px; left: 0px;*/ }
 			&:hover {
-				background-color: @button_highlight + @button_bg_increase;
+				background: @button_highlight + @button_bg_increase;
 				.right_arrow_lines {
 					.right_facing_triangle(10, @white);
 					div {
@@ -274,7 +292,7 @@ select, input {
 			}
 		}
 		&.icon { min-width: 5px; }
-		&:hover, &.selected {
+		&:hover, &.selected, &.ui-state-active {
 			&, a { color: @white };
 			.content {
 				&, a { color: @white };
@@ -289,11 +307,11 @@ select, input {
 				.one, .two { background-color: @white; }
 			}
 		}
-		&.selected {	
+		&.selected, &.ui-state-active {	
 			border: 1px solid @gray_text;
 		}
 		&:hover {
-			background-color: @off_black + @button_bg_increase;
+			background: @off_black + @button_bg_increase;
 		}
 	}
 	input.add_button {

@@ -897,6 +897,12 @@ input {
   font-style: normal;
   font-size: 20px;
 }
+.custom_ui .ui-buttonset {
+  margin-right: 0px;
+}
+.custom_ui .ui-buttonset .add_button .ui-button {
+  margin-right: 20px;
+}
 .custom_ui .add_button {
   cursor: pointer;
   display: inline-block;
@@ -911,8 +917,20 @@ input {
   font-weight: normal;
   font-style: normal;
   font-size: 18px;
-  background-color: #181818;
+  background: #181818;
   min-width: 65px;
+}
+.custom_ui .add_button.ui-button-text-only .ui-button-text {
+  padding: 0px;
+}
+.custom_ui .add_button.ui-button {
+  margin-right: 0px;
+}
+.custom_ui .add_button.ui-button.ui-corner-all {
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-top-left-radius: 0px;
 }
 .custom_ui .add_button .content {
   display: inline-block;
@@ -943,7 +961,7 @@ input {
   padding-left: 30px;
   padding-right: 30px;
   border: 0px;
-  background-color: #2e8695;
+  background: #2e8695;
 }
 .custom_ui .add_button.highlight .content,
 .custom_ui .add_button.highlight .content a {
@@ -968,7 +986,7 @@ input {
   background-color: #ffffff;
 }
 .custom_ui .add_button.highlight:hover {
-  background-color: #3f97a6;
+  background: #3f97a6;
 }
 .custom_ui .add_button.highlight:hover .right_arrow_lines {
   width: 0px;
@@ -990,17 +1008,22 @@ input {
 .custom_ui .add_button:hover,
 .custom_ui .add_button:hover a,
 .custom_ui .add_button.selected,
-.custom_ui .add_button.selected a {
+.custom_ui .add_button.selected a,
+.custom_ui .add_button.ui-state-active,
+.custom_ui .add_button.ui-state-active a {
   color: #ffffff;
 }
 .custom_ui .add_button:hover .content,
 .custom_ui .add_button:hover .content a,
 .custom_ui .add_button.selected .content,
-.custom_ui .add_button.selected .content a {
+.custom_ui .add_button.selected .content a,
+.custom_ui .add_button.ui-state-active .content,
+.custom_ui .add_button.ui-state-active .content a {
   color: #ffffff;
 }
 .custom_ui .add_button:hover .right_arrow_lines,
-.custom_ui .add_button.selected .right_arrow_lines {
+.custom_ui .add_button.selected .right_arrow_lines,
+.custom_ui .add_button.ui-state-active .right_arrow_lines {
   width: 0px;
   height: 0px;
   border-style: solid;
@@ -1008,7 +1031,8 @@ input {
   border-color: transparent transparent transparent #ffffff;
 }
 .custom_ui .add_button:hover .right_arrow_lines div,
-.custom_ui .add_button.selected .right_arrow_lines div {
+.custom_ui .add_button.selected .right_arrow_lines div,
+.custom_ui .add_button.ui-state-active .right_arrow_lines div {
   width: 0px;
   height: 0px;
   border-style: solid;
@@ -1018,14 +1042,17 @@ input {
 .custom_ui .add_button:hover .plus_icon_lines .one,
 .custom_ui .add_button:hover .plus_icon_lines .two,
 .custom_ui .add_button.selected .plus_icon_lines .one,
-.custom_ui .add_button.selected .plus_icon_lines .two {
+.custom_ui .add_button.selected .plus_icon_lines .two,
+.custom_ui .add_button.ui-state-active .plus_icon_lines .one,
+.custom_ui .add_button.ui-state-active .plus_icon_lines .two {
   background-color: #ffffff;
 }
-.custom_ui .add_button.selected {
+.custom_ui .add_button.selected,
+.custom_ui .add_button.ui-state-active {
   border: 1px solid #7d888e;
 }
 .custom_ui .add_button:hover {
-  background-color: #292929;
+  background: #292929;
 }
 .custom_ui input.add_button {
   height: 42px;
@@ -3026,6 +3053,7 @@ a.editable-empty :focus {
   border: 1px solid transparent;
   height: initial;
   min-height: 63px;
+  margin-top: 20px;
 }
 #connect_gallery_photos_cont .page_content_header #not_in_gallery_icon_size {
   margin-top: 16px;
@@ -3043,10 +3071,27 @@ a.editable-empty :focus {
 }
 #connect_gallery_photos_cont .page_content_header #not_in_gallery_icon_size > div {
   display: inline-block;
+  margin-right: 5px;
 }
 #connect_gallery_photos_cont .page_content_header #add_gallery_filters_cont {
   margin-top: 10px;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
+  float: right;
+  clear: both;
+}
+#connect_gallery_photos_cont .page_content_header .generic_sort_and_filters {
+  float: right;
+  clear: both;
+  margin-bottom: 6px;
+}
+#connect_gallery_photos_cont .page_content_header .generic_sort_and_filters .add_button {
+  float: right;
+  margin-left: 5px;
+  margin-right: 0px;
+  margin-bottom: 10px;
+}
+#connect_gallery_photos_cont .table_container {
+  margin-top: 0px;
 }
 body.no_overflow {
   overflow: hidden;

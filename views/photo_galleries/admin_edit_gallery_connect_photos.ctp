@@ -405,76 +405,93 @@ $(function() {
 	<div style="clear: both;"></div> 
 	
 	<div class="page_content_header custom_ui">
-		<div id="not_in_gallery_icon_size" class="box_icon_size custom_ui">
-			<div id="small_icon" size="small" class="add_button <?php if($not_in_gallery_icon_size == 'small'): ?> selected <?php endif; ?>">
-				<div class="content">S</div>
-			</div>
-			<div id="medium_icon" size="medium" class="add_button <?php if($not_in_gallery_icon_size == 'medium'): ?> selected <?php endif; ?>">
-				<div class="content">M</div>
-			</div>
-			<div id="large_icon" size="large" class="add_button <?php if($not_in_gallery_icon_size == 'large'): ?> selected <?php endif; ?>">
-				<div class="content">L</div>
-			</div>
-		</div>
 		<div id='add_gallery_filters_cont'>
-			<div id="photos_not_in_a_gallery_cont" class="custom_ui_radio add_button">
+			<div id="photos_not_in_a_gallery_cont" class="custom_ui_radio">
 				<input type="checkbox" id="photos_not_in_a_gallery" />
-				<?php /*<div class="content"><?php echo __('Photos Not In A Gallery', true); ?></div>*/ ?>
-				<label class='content' for="photos_not_in_a_gallery"><?php echo __('Photos Not In A Gallery', true); ?></label>
+				<label class='add_button' for="photos_not_in_a_gallery"><div class='content'><?php echo __('Photos Not In A Gallery', true); ?></div></label>
 			</div>
-		</div>
+		</div><?php /*
+		*/ ?><div class="generic_sort_and_filters"><?php /*
+			*/ ?><div id="filter_photo_by_format"><?php /*
+				*/ ?><input type="checkbox" value="vertical_panoramic" id="check5" /><?php /*
+				*/ ?><label class='add_button' for="check5"><div class='content'><?php echo __('Vertical Panoramic', true); ?></div></label><?php /*
+				*/ ?><input type="checkbox" value="panoramic" id="check4" /><?php /*
+				*/ ?><label class='add_button' for="check4"><div class='content'><?php echo __('Panoramic', true); ?></div></label><?php /*
+				*/ ?><input type="checkbox" value="square" id="check3" /><?php /*
+				*/ ?><label class='add_button' for="check3"><div class='content'><?php echo __('Square', true); ?></div></label><?php /*
+				*/ ?><input type="checkbox" value="portrait" id="check2" /><?php /*
+				*/ ?><label class='add_button' for="check2"><div class='content'><?php echo __('Portrait', true); ?></div></label><?php /*
+				*/ ?><input type="checkbox" value="landscape" id="check1" /><?php /*
+				*/ ?><label class='add_button' for="check1"><div class='content'><?php echo __('Landscape', true); ?></div></label><?php /*
+				*/ ?><div style="clear: both;"></div><?php /*
+			*/ ?></div><?php /*
+		*/ ?></div><?php /*
+		*/ ?><div id="not_in_gallery_icon_size" class="box_icon_size custom_ui"><?php /*
+			*/ ?><div id="small_icon" size="small" class="add_button <?php if($not_in_gallery_icon_size == 'small'): ?> selected <?php endif; ?>"><?php /*
+				*/ ?><div class="content">S</div><?php /*
+			*/ ?></div><?php /*
+			*/ ?><div id="medium_icon" size="medium" class="add_button <?php if($not_in_gallery_icon_size == 'medium'): ?> selected <?php endif; ?>"><?php /*
+				*/ ?><div class="content">M</div><?php /*
+			*/ ?></div><?php /*
+			*/ ?><div id="large_icon" size="large" class="add_button <?php if($not_in_gallery_icon_size == 'large'): ?> selected <?php endif; ?>"><?php /*
+				*/ ?><div class="content">L</div><?php /*
+			*/ ?></div><?php /*
+		*/ ?></div>
 		<div style="clear: both;"></div>
 	</div>
 	
-	<div class="in_gallery_main_cont">
-		<div class="table_header_darker">
+	<div class='table_container'>
+		<div class="fade_background_top"></div>
+		<div class="in_gallery_main_cont">
+			<?php __('Photos in Gallery'); ?>
 			<div class="actions" style="float: right;"><img id="remove_all_gallery_photos" src="/img/admin/icons/grey_delete_all_icon.png" /></div>
-			<h2 style="background: url('/img/admin/icons/FOLDER - DOWNLOADS.png') center left no-repeat; padding-left: 35px;"><?php __('Photos in Gallery'); ?></h2>
+			
+			<div class="empty_help_content" style="<?php if (empty($this->data['PhotoGalleriesPhoto'])): ?>display: block;<?php endif; ?>"><?php __('Add images to this gallery using the box at right'); ?>&nbsp;►</div>
+			<div id="in_gallery_photos_cont" class="in_gallery_photos_cont content-background block_element_base" style="width: 458px;">
+				<?php echo $this->Element('/admin/photo/photo_connect_in_gallery_photo_cont', array( 'connected_photos' => $this->data['PhotoGalleriesPhoto'], 'not_in_gallery_icon_size' => $not_in_gallery_icon_size )); ?>
+			</div>
 		</div>
-		<div class="empty_help_content" style="<?php if (empty($this->data['PhotoGalleriesPhoto'])): ?>display: block;<?php endif; ?>"><?php __('Add images to this gallery using the box at right'); ?>&nbsp;►</div>
-		<div id="in_gallery_photos_cont" class="in_gallery_photos_cont content-background block_element_base" style="width: 458px;">
-			<?php echo $this->Element('/admin/photo/photo_connect_in_gallery_photo_cont', array( 'connected_photos' => $this->data['PhotoGalleriesPhoto'], 'not_in_gallery_icon_size' => $not_in_gallery_icon_size )); ?>
+		<div class="not_in_gallery_main_cont">
+			<div class="table_header_lighter">
+				<div class="actions" style="float: right;"><img id="refresh_not_in_gallery_photos_button" src="/img/admin/icons/grey_refresh.png" /></div>
+				<div class="custom_ui_radio" style="float: right; margin-top: 13px; margin-right: 10px;">
+					<div id="sort_photo_radio">
+						<input type="radio" id="radio1" name="sort_photo_radio" order="modified" sort_dir="desc" <?php if ($order == 'modified' && $sort_dir == 'desc'): ?>checked="checked"<?php endif; ?> /><label for="radio1"><?php __('Newest First'); ?></label>
+						<input type="radio" id="radio2" name="sort_photo_radio" order="modified" sort_dir="asc" <?php if ($order == 'modified' && $sort_dir == 'asc'): ?>checked="checked"<?php endif; ?> /><label for="radio2"><?php __('Oldest First'); ?></label>
+					</div>
+				</div>
+				<h2 style="margin-left: 10px; background: url('/img/admin/icons/grey_left_arrow.png') center left no-repeat; padding-left: 42px;"><?php __('Website Photos'); ?></h2>
+			</div>
+			<div id="endless_scroll_loading" class="rounded-corners-small"><span class="default"><?php __('Loading'); ?></span></div>
+			<div class="empty_help_content" style="<?php if (empty($not_connected_photos)): ?>display: block;<?php endif; ?>">
+				<?php __('No photos found <br/> Add photos <a href="/admin/photos">on the photo page</a>'); ?>
+			</div>
+			<div id="endless_scroll_div" class="not_in_gallery_photos_cont content-background block_element_base">
+				<?php echo $this->Element('/admin/photo/photo_connect_not_in_gallery_photo_cont', array( 'not_connected_photos' => $not_connected_photos, 'not_in_gallery_icon_size' => $not_in_gallery_icon_size )); ?>
+			</div>
+			<?php /*<div class="generic_sort_and_filters">*/?>
+				<?php /*<div id="not_in_gallery_icon_size" class="box_icon_size">
+					<div id="small_icon" size="small" <?php if($not_in_gallery_icon_size == 'small'): ?>class="selected"<?php endif; ?> >S</div>
+					<div id="medium_icon" size="medium" <?php if($not_in_gallery_icon_size == 'medium'): ?>class="selected"<?php endif; ?> >M</div>
+					<div id="large_icon" size="large" <?php if($not_in_gallery_icon_size == 'large'): ?>class="selected"<?php endif; ?> >L</div>
+				</div> */ ?>
+
+				<?php /*<div id="photos_not_in_a_gallery_cont" class="custom_ui_radio" style="margin-bottom: 7px;">
+					<input type="checkbox" id="photos_not_in_a_gallery" /><label for="photos_not_in_a_gallery"><?php echo __('Photos Not In A Gallery', true); ?></label>
+				</div> */ ?>
+
+				<?php /*<div class="custom_ui_radio">
+					<div id="filter_photo_by_format">
+						<input type="checkbox" value="landscape" id="check1" /><label for="check1"><?php echo __('Landscape', true); ?></label>
+						<input type="checkbox" value="portrait" id="check2" /><label for="check2"><?php echo __('Portrait', true); ?></label>
+						<input type="checkbox" value="square" id="check3" /><label for="check3"><?php echo __('Square', true); ?></label>
+						<input type="checkbox" value="panoramic" id="check4" /><label for="check4"><?php echo __('Panoramic', true); ?></label>
+						<input type="checkbox" value="vertical_panoramic" id="check5" /><label for="check5"><?php echo __('Vertical Panoramic', true); ?></label>
+					</div>
+				</div>
+			</div>*/ ?>
 		</div>
 	</div>
-	<div class="not_in_gallery_main_cont">
-		<div class="table_header_lighter">
-			<div class="actions" style="float: right;"><img id="refresh_not_in_gallery_photos_button" src="/img/admin/icons/grey_refresh.png" /></div>
-			<div class="custom_ui_radio" style="float: right; margin-top: 13px; margin-right: 10px;">
-				<div id="sort_photo_radio">
-					<input type="radio" id="radio1" name="sort_photo_radio" order="modified" sort_dir="desc" <?php if ($order == 'modified' && $sort_dir == 'desc'): ?>checked="checked"<?php endif; ?> /><label for="radio1"><?php __('Newest First'); ?></label>
-					<input type="radio" id="radio2" name="sort_photo_radio" order="modified" sort_dir="asc" <?php if ($order == 'modified' && $sort_dir == 'asc'): ?>checked="checked"<?php endif; ?> /><label for="radio2"><?php __('Oldest First'); ?></label>
-				</div>
-			</div>
-			<h2 style="margin-left: 10px; background: url('/img/admin/icons/grey_left_arrow.png') center left no-repeat; padding-left: 42px;"><?php __('Website Photos'); ?></h2>
-		</div>
-		<div id="endless_scroll_loading" class="rounded-corners-small"><span class="default"><?php __('Loading'); ?></span></div>
-		<div class="empty_help_content" style="<?php if (empty($not_connected_photos)): ?>display: block;<?php endif; ?>">
-			<?php __('No photos found <br/> Add photos <a href="/admin/photos">on the photo page</a>'); ?>
-		</div>
-		<div id="endless_scroll_div" class="not_in_gallery_photos_cont content-background block_element_base">
-			<?php echo $this->Element('/admin/photo/photo_connect_not_in_gallery_photo_cont', array( 'not_connected_photos' => $not_connected_photos, 'not_in_gallery_icon_size' => $not_in_gallery_icon_size )); ?>
-		</div>
-		<div class="generic_sort_and_filters">
-			<?php /*<div id="not_in_gallery_icon_size" class="box_icon_size">
-				<div id="small_icon" size="small" <?php if($not_in_gallery_icon_size == 'small'): ?>class="selected"<?php endif; ?> >S</div>
-				<div id="medium_icon" size="medium" <?php if($not_in_gallery_icon_size == 'medium'): ?>class="selected"<?php endif; ?> >M</div>
-				<div id="large_icon" size="large" <?php if($not_in_gallery_icon_size == 'large'): ?>class="selected"<?php endif; ?> >L</div>
-			</div> */ ?>
-			
-			<?php /*<div id="photos_not_in_a_gallery_cont" class="custom_ui_radio" style="margin-bottom: 7px;">
-				<input type="checkbox" id="photos_not_in_a_gallery" /><label for="photos_not_in_a_gallery"><?php echo __('Photos Not In A Gallery', true); ?></label>
-			</div> */ ?>
-				
-			<div class="custom_ui_radio">
-				<div id="filter_photo_by_format">
-					<input type="checkbox" value="landscape" id="check1" /><label for="check1"><?php echo __('Landscape', true); ?></label>
-					<input type="checkbox" value="portrait" id="check2" /><label for="check2"><?php echo __('Portrait', true); ?></label>
-					<input type="checkbox" value="square" id="check3" /><label for="check3"><?php echo __('Square', true); ?></label>
-					<input type="checkbox" value="panoramic" id="check4" /><label for="check4"><?php echo __('Panoramic', true); ?></label>
-					<input type="checkbox" value="vertical_panoramic" id="check5" /><label for="check5"><?php echo __('Vertical Panoramic', true); ?></label>
-				</div>
-			</div>
-		</div>
 	</div>
 	<div style="clear: both;"></div>
 </div>
