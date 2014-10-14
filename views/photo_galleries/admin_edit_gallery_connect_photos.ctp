@@ -2,21 +2,21 @@
 <script type="text/javascript" charset="utf-8">
 	function Timeout(fn, interval) {
 		var context = this;
+		this.cleared = false;
 		var id = setTimeout(function() {
 			context.cleared = true;
 			fn();
 		}, interval);
-		this.cleared = false;
+		this.clear = function () {
+			context.cleared = true;
+			clearTimeout(id);
+		};
 		this.run_now = function() {
-			if (this.cleared === false) {
+			if (context.cleared === false) {
 				clearTimeout(id);
-				this.cleared = true;
+				context.cleared = true;
 				fn();
 			}
-		};
-		this.clear = function () {
-			this.cleared = true;
-			clearTimeout(id);
 		};
 	}
 	
@@ -120,12 +120,14 @@
 				return;
 			}
 			
+			
 			show_universal_save();
 			gallery_add_limit++;
 			disable_gallery_add = true;
 			var when_finished_timeout = new Timeout(function() {
 				disable_gallery_add = false;
 			}, 100);
+			
 
 			var to_delete = jQuery(this).closest('.connect_photo_container');
 			var photo_id = to_delete.attr('photo_id');
