@@ -91,10 +91,20 @@ jQuery(document).ready(function() {
 	GLOBAL FUNCTIONS
 ****************************************************************************/
 function show_universal_save() {
+	jQuery('#universal_load_popup').stop().hide();
 	jQuery('#universal_save_popup').stop().fadeIn('fast');
 }
 function hide_universal_save() {
+	jQuery('#universal_load_popup').stop().hide();
 	jQuery('#universal_save_popup').stop().fadeOut('slow');
+}
+function show_universal_load() {
+	jQuery('#universal_save_popup').stop().hide();
+	jQuery('#universal_load_popup').stop().fadeIn('fast');
+}
+function hide_universal_load() {
+	jQuery('#universal_save_popup').stop().hide();
+	jQuery('#universal_load_popup').stop().fadeOut('slow');
 }
 function smart_reload(message) {
 	message = '<div style="display:inline-block;vertical-align:middle;margin:5px;margin:0 25px 15px 0">'+message+'</div>';

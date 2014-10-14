@@ -1,5 +1,25 @@
 <script src="/js/jquery.endless-scroll.js"></script>
 <script type="text/javascript" charset="utf-8">
+	function Timeout(fn, interval) {
+		var context = this;
+		var id = setTimeout(function() {
+			context.cleared = true;
+			fn();
+		}, interval);
+		this.cleared = false;
+		this.run_now = function() {
+			if (this.cleared === false) {
+				clearTimeout(id);
+				this.cleared = true;
+				fn();
+			}
+		};
+		this.clear = function () {
+			this.cleared = true;
+			clearTimeout(id);
+		};
+	}
+	
 	var sync_ajax_out = 1;
 	
 	// to add on the fly an image from the right to teh left side
@@ -56,7 +76,7 @@
 		
 		var not_in_gallery_icon_size = jQuery('#not_in_gallery_icon_size .selected').attr('size');
 		
-		
+		show_universal_save();
 		jQuery.ajax({
 			type: 'post',
 			url: '/admin/photo_galleries/ajax_get_photos_in_gallery/'+<?php echo $gallery_id; ?>+'/',
@@ -75,6 +95,7 @@
 				built_gallery_image_html = data.image_template_html;
 			},
 			complete: function() {
+				hide_universal_save();
 				refreshing_in_gallery_photos = false;
 			},
 			dataType: 'json'
@@ -99,12 +120,13 @@
 				return;
 			}
 			
+			show_universal_save();
 			gallery_add_limit++;
 			disable_gallery_add = true;
-			setTimeout(function() {
+			var when_finished_timeout = new Timeout(function() {
 				disable_gallery_add = false;
 			}, 100);
-			
+
 			var to_delete = jQuery(this).closest('.connect_photo_container');
 			var photo_id = to_delete.attr('photo_id');
 			var img_src = jQuery('.image_content_cont img', to_delete).attr('src');
@@ -153,6 +175,8 @@
 				},
 				complete: function() {
 					gallery_add_limit--;
+					hide_universal_save();
+					when_finished_timeout.run_now();
 				},
 				dataType: 'json'
 			});
@@ -168,9 +192,11 @@
 				return;
 			}
 			
+			show_universal_save();
+			
 			gallery_remove_limit++;
 			disable_gallery_remove = true;
-			setTimeout(function() {
+			var when_finished_timeout = new Timeout(function() {
 				disable_gallery_remove = false;
 			}, 100);
 			
@@ -205,6 +231,8 @@
 				},
 				complete: function() {
 					gallery_remove_limit--;
+					hide_universal_save();
+					when_finished_timeout.run_now();
 				},
 				dataType: 'json'
 			});
@@ -216,10 +244,12 @@
 		if (stop_all_functions()) {
 			return;
 		}
+		
+		show_universal_save();
+		
 		removing_all_images_from_gallery = true;
-	
 		disable_gallery_remove = true;
-		setTimeout(function() {
+		var when_finished_timeout = new Timeout(function() {
 			disable_gallery_remove = false;
 		}, 400);
 	
@@ -244,6 +274,7 @@
 			complete: function(jqXHR, textStatus) {
 				removing_all_images_from_gallery = false;
 				refresh_not_in_gallery_photos();
+				when_finished_timeout.run_now();
 			},
 			dataType: "json"
 		}); 
@@ -259,7 +290,7 @@
 		jQuery("#filter_photo_by_format, #sort_photo_radio").buttonset('disable');
 		jQuery("#photos_not_in_a_gallery").button('disable');
 		
-		jQuery('#endless_scroll_loading').show();
+		show_universal_load();
 
 		// figure named params
 		var checked_value = jQuery('input[name=sort_photo_radio]:checked');
@@ -314,7 +345,7 @@
 				}
 			},
 			complete: function(jqXHR, textStatus) {
-				jQuery('#endless_scroll_loading').hide();
+				hide_universal_load();
 				
 				// check to see if the website photos needs a help message
 				if (element_is_empty('endless_scroll_div')) {
@@ -440,35 +471,39 @@ $(function() {
 		<div style="clear: both;"></div>
 	</div>
 	
-	<div class='table_container'>
+	<div class='table_container custom_ui'>
 		<div class="fade_background_top"></div>
 		<div class="in_gallery_main_cont">
-			<?php __('Photos in Gallery'); ?>
-			<div class="actions" style="float: right;"><img id="remove_all_gallery_photos" src="/img/admin/icons/grey_delete_all_icon.png" /></div>
+			<div class="image_container_header">
+				<h2><?php echo __('Photos in Gallery', true); ?></h2>
+				<div class="actions"><img id="remove_all_gallery_photos" src="/img/admin/icons/grey_delete_all_icon.png" /></div>
+			</div>
 			
-			<div class="empty_help_content" style="<?php if (empty($this->data['PhotoGalleriesPhoto'])): ?>display: block;<?php endif; ?>"><?php __('Add images to this gallery using the box at right'); ?>&nbsp;►</div>
-			<div id="in_gallery_photos_cont" class="in_gallery_photos_cont content-background block_element_base" style="width: 458px;">
+			<div class="empty_help_content" style="<?php if (empty($this->data['PhotoGalleriesPhoto'])): ?>display: block;<?php endif; ?>"><?php echo __('Add images to this gallery using the box at right', true); ?>&nbsp;►</div>
+			<div id="in_gallery_photos_cont" class="in_gallery_photos_cont">
 				<?php echo $this->Element('/admin/photo/photo_connect_in_gallery_photo_cont', array( 'connected_photos' => $this->data['PhotoGalleriesPhoto'], 'not_in_gallery_icon_size' => $not_in_gallery_icon_size )); ?>
 			</div>
 		</div>
 		<div class="not_in_gallery_main_cont">
-			<div class="table_header_lighter">
+			<div class="image_container_header">
 				<div class="actions" style="float: right;"><img id="refresh_not_in_gallery_photos_button" src="/img/admin/icons/grey_refresh.png" /></div>
-				<div class="custom_ui_radio" style="float: right; margin-top: 13px; margin-right: 10px;">
-					<div id="sort_photo_radio">
-						<input type="radio" id="radio1" name="sort_photo_radio" order="modified" sort_dir="desc" <?php if ($order == 'modified' && $sort_dir == 'desc'): ?>checked="checked"<?php endif; ?> /><label for="radio1"><?php __('Newest First'); ?></label>
-						<input type="radio" id="radio2" name="sort_photo_radio" order="modified" sort_dir="asc" <?php if ($order == 'modified' && $sort_dir == 'asc'): ?>checked="checked"<?php endif; ?> /><label for="radio2"><?php __('Oldest First'); ?></label>
-					</div>
-				</div>
-				<h2 style="margin-left: 10px; background: url('/img/admin/icons/grey_left_arrow.png') center left no-repeat; padding-left: 42px;"><?php __('Website Photos'); ?></h2>
+				<div id="sort_photo_radio"><?php /*
+					*/ ?><input type="radio" id="radio1" name="sort_photo_radio" order="modified" sort_dir="desc" <?php if ($order == 'modified' && $sort_dir == 'desc'): ?>checked="checked"<?php endif; ?> /><?php /*
+					*/ ?><label class='add_button' for="radio1"><div class='content'><?php echo __('Newest', true); ?></div></label><?php /*
+					*/ ?><input type="radio" id="radio2" name="sort_photo_radio" order="modified" sort_dir="asc" <?php if ($order == 'modified' && $sort_dir == 'asc'): ?>checked="checked"<?php endif; ?> /><?php /*
+					*/ ?><label class='add_button' for="radio2"><div class='content'><?php echo __('Oldest', true); ?></div></label><?php /*
+				*/ ?></div>
+				<h2><?php echo __('Website Photos', true); ?></h2>
 			</div>
-			<div id="endless_scroll_loading" class="rounded-corners-small"><span class="default"><?php __('Loading'); ?></span></div>
+			
+			
 			<div class="empty_help_content" style="<?php if (empty($not_connected_photos)): ?>display: block;<?php endif; ?>">
-				<?php __('No photos found <br/> Add photos <a href="/admin/photos">on the photo page</a>'); ?>
+				<?php echo __('No photos found <br/> Add photos <a href="/admin/photos">on the photo page</a>', true); ?>
 			</div>
-			<div id="endless_scroll_div" class="not_in_gallery_photos_cont content-background block_element_base">
+			<div id="endless_scroll_div" class="not_in_gallery_photos_cont">
 				<?php echo $this->Element('/admin/photo/photo_connect_not_in_gallery_photo_cont', array( 'not_connected_photos' => $not_connected_photos, 'not_in_gallery_icon_size' => $not_in_gallery_icon_size )); ?>
 			</div>
+			<div style="clear: both;"></div>
 			<?php /*<div class="generic_sort_and_filters">*/?>
 				<?php /*<div id="not_in_gallery_icon_size" class="box_icon_size">
 					<div id="small_icon" size="small" <?php if($not_in_gallery_icon_size == 'small'): ?>class="selected"<?php endif; ?> >S</div>
