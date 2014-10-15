@@ -135,7 +135,7 @@
 								</a>
 								<a href="/admin/photo_galleries/edit_gallery_connect_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/">
 									<div class="add_button">
-										<div class="content"><?php echo __('Manage', true); ?></div>
+										<div class="content"><?php echo __('Manage Photos', true); ?></div>
 										<div class="right_arrow_lines"><div></div></div>
 									</div>
 								</a>
