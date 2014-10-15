@@ -266,6 +266,26 @@ only screen and (min-resolution: 192dpi) {
 			}
 		}
 	}
+	
+	#connect_gallery_photos_cont {
+		.not_in_gallery_main_cont { width: 48%; }
+		.in_gallery_main_cont { width: 48%; }
+		.table_container {
+			padding-left: 20px;
+			padding-right: 20px;
+		}
+		.in_gallery_main_cont, .not_in_gallery_main_cont {
+			.connect_photo_container {
+				.gallery_image_circle_button { display: block; }
+				.order_in_gallery_button { display: none; }
+				&:hover {
+					.order_in_gallery_button { display: none; }
+					.image_cover { display: none; }
+					outline: 1px solid transparent;
+				}
+			}
+		}
+	}
 }
 
 

@@ -223,7 +223,10 @@ class PhotoGalleriesController extends AppController {
 			)
 		));
 		
-		$not_in_gallery_icon_size = isset($this->params['form']['not_in_gallery_icon_size']) ? $this->params['form']['not_in_gallery_icon_size']: 'medium';
+		if (isset($this->params['form']['not_in_gallery_icon_size'])) {
+			$_SESSION['not_in_gallery_icon_size'] = $this->params['form']['not_in_gallery_icon_size'];
+		}
+		$not_in_gallery_icon_size = isset($_SESSION['not_in_gallery_icon_size']) ? $_SESSION['not_in_gallery_icon_size'] : 'medium';
 		
 		$returnArr = array();
 		$returnArr['count'] = count($photos['PhotoGalleriesPhoto']);
@@ -321,7 +324,11 @@ class PhotoGalleriesController extends AppController {
 		// get params for filters
 		$photo_formats = isset($this->params['form']['photo_formats']) ? $this->params['form']['photo_formats']: null;
 		$photos_not_in_a_gallery = isset($this->params['form']['photos_not_in_a_gallery']) ? $this->params['form']['photos_not_in_a_gallery']: false;
-		$not_in_gallery_icon_size = isset($this->params['form']['not_in_gallery_icon_size']) ? $this->params['form']['not_in_gallery_icon_size']: 'medium';
+		
+		if (isset($this->params['form']['not_in_gallery_icon_size'])) {
+			$_SESSION['not_in_gallery_icon_size'] = $this->params['form']['not_in_gallery_icon_size'];
+		}
+		$not_in_gallery_icon_size = isset($_SESSION['not_in_gallery_icon_size']) ? $_SESSION['not_in_gallery_icon_size'] : 'medium';
 		
 		if ($not_in_gallery_icon_size == 'small') {
 			$limit = 85;
@@ -464,29 +471,29 @@ class PhotoGalleriesController extends AppController {
 		$this->return_json($returnArr);
 	}
 	
-	public function admin_edit_gallery_arrange_photos($gallery_id) {
-		$total_photos = $this->Photo->count_total_photos();
-		$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
-		$photos_left_to_add = LIMIT_MAX_FREE_PHOTOS - $total_photos;
-		if (!empty($max_photo_id) && $photos_left_to_add < 0) {
-			$this->FeatureLimiter->limit_view_go($this, 'unlimited_photos');
-			return;
-		}
-		
-		
-		$this->data = $this->PhotoGallery->find('first', array(
-			'conditions' => array('PhotoGallery.id' => $gallery_id),
-			'contain' => array(
-				'PhotoGalleriesPhoto' => array(
-					'Photo'
-				)
-			)
-		));
-		
-		$not_in_gallery_icon_size = isset($this->params['form']['not_in_gallery_icon_size']) ? $this->params['form']['not_in_gallery_icon_size']: 'medium';
-		
-		$this->set(compact('gallery_id', 'not_in_gallery_icon_size'));
-	}
+//	public function admin_edit_gallery_arrange_photos($gallery_id) {
+//		$total_photos = $this->Photo->count_total_photos();
+//		$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
+//		$photos_left_to_add = LIMIT_MAX_FREE_PHOTOS - $total_photos;
+//		if (!empty($max_photo_id) && $photos_left_to_add < 0) {
+//			$this->FeatureLimiter->limit_view_go($this, 'unlimited_photos');
+//			return;
+//		}
+//		
+//		
+//		$this->data = $this->PhotoGallery->find('first', array(
+//			'conditions' => array('PhotoGallery.id' => $gallery_id),
+//			'contain' => array(
+//				'PhotoGalleriesPhoto' => array(
+//					'Photo'
+//				)
+//			)
+//		));
+//		
+//		$not_in_gallery_icon_size = isset($this->params['form']['not_in_gallery_icon_size']) ? $this->params['form']['not_in_gallery_icon_size']: 'medium';
+//		
+//		$this->set(compact('gallery_id', 'not_in_gallery_icon_size'));
+//	}
 	
 	public function admin_ajax_set_photogallery_order($photoGalleryId, $newOrder) {
 		$returnArr = array();
