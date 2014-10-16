@@ -24,7 +24,8 @@
                 color: @header;               
                 text-decoration: none;
                 &:hover{
-                    color: @white; 
+                    cursor: pointer;
+                    //color: @white; 
                 }
             }
         }
@@ -42,6 +43,10 @@
             margin-left: 5px;
             line-height: 16px;
             border-bottom: 0px dotted @gray;
+            &.blue a:hover { color: @blue; }
+            &.pink a:hover { color: @pink; }
+            &.yellow a:hover { color: @yellow; }
+            &.red a:hover { color: @red; }
         }
     }
 }
@@ -114,10 +119,6 @@ h1{
 
 .cart_ajustment{
     margin-left: 6px;
-    &.blue button:hover { background-color: @blue; }
-    &.pink button:hover { background-color: @pink; }
-    &.yellow button:hover { background-color: @yellow; }
-    &.red button:hover { background-color: @red; }
     h2{
         font-size: 20px;
         margin-top: 20px;
@@ -126,16 +127,18 @@ h1{
     }
     button{
         margin-top:20px;
-        border: 1px solid #32373b;
+        border: 1px solid @button;
         background-color: @button;
         height: 40px;
         padding-left: 15px;
         padding-right: 15px;
         font-size: 18px;
         color: @header;
+        //outline: 1px solid red;
         &:hover{
             cursor: pointer;
             color: @white;
+            background-color: @button_hover;
         }
     }
     select{
