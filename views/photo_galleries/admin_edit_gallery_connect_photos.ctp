@@ -1,25 +1,5 @@
 <script src="/js/jquery.endless-scroll.js"></script>
 <script type="text/javascript" charset="utf-8">
-	function Timeout(fn, interval) {
-		var context = this;
-		this.cleared = false;
-		var id = setTimeout(function() {
-			context.cleared = true;
-			fn();
-		}, interval);
-		this.clear = function () {
-			context.cleared = true;
-			clearTimeout(id);
-		};
-		this.run_now = function() {
-			if (context.cleared === false) {
-				clearTimeout(id);
-				context.cleared = true;
-				fn();
-			}
-		};
-	}
-	
 	var sync_ajax_out = 1;
 	
 	// to add on the fly an image from the right to teh left side
@@ -429,6 +409,48 @@ $(function() {
 		refresh_in_gallery_photos();
 	});
 	
+	jQuery('#in_gallery_photos_cont').sortable({
+		items: '.connect_photo_container',
+		handle: '.order_in_gallery_button',
+		tolerance: 'pointer',
+		containment: 'parent',
+		scrollSensitivity: 60,
+		update : function(event, ui) {
+			show_universal_save();
+			
+			var context = this;
+			jQuery(context).sortable('disable');
+
+			// figure out the now position of the dragged element
+			var photoId = jQuery(ui.item).attr('photo_id');
+			var new_index = ui.item.index();
+			var newPosition = new_index + 1;
+//			var newPosition = position_of_element_among_siblings(jQuery('#in_gallery_photos_cont .connect_photo_container'), jQuery(ui.item)); // likely don't need this as above seems to work
+			
+			jQuery.ajax({
+				type: 'post',
+				url: '/admin/photo_galleries/ajax_set_photo_order_in_gallery/<?php echo $gallery_id; ?>/'+photoId+'/'+newPosition+'/',
+				data: {},
+				success: function(data) {
+					if (data.code == 1) {
+						// its all good
+					} else {
+						major_error_recover(data.message);
+					}
+				},
+				complete: function() {
+					jQuery(context).sortable('enable');
+					hide_universal_save();
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					major_error_recover("An unknown sorting error occured");
+				},
+				dataType: 'json'
+			});
+		}
+	});
+	
+	
 	jQuery('#connect_gallery_photos_cont').disableSelection();
 });
 </script>
@@ -479,6 +501,7 @@ $(function() {
 			<div class="image_container_header">
 				<h2><?php echo __('Photos in Gallery', true); ?></h2>
 				<div class="actions"><img id="remove_all_gallery_photos" src="/img/admin/icons/grey_delete_all_icon.png" /></div>
+				<div style="clear: both;"></div>
 			</div>
 			
 			<div class="empty_help_content" style="<?php if (empty($this->data['PhotoGalleriesPhoto'])): ?>display: block;<?php endif; ?>"><?php echo __('Add images to this gallery using the box at right', true); ?>&nbsp;►</div>
@@ -488,6 +511,7 @@ $(function() {
 		</div>
 		<div class="not_in_gallery_main_cont">
 			<div class="image_container_header">
+				<h2><?php echo __('Website Photos', true); ?></h2>
 				<div class="actions" style="float: right;"><img id="refresh_not_in_gallery_photos_button" src="/img/admin/icons/grey_refresh.png" /></div>
 				<div id="sort_photo_radio"><?php /*
 					*/ ?><input type="radio" id="radio1" name="sort_photo_radio" order="modified" sort_dir="desc" <?php if ($order == 'modified' && $sort_dir == 'desc'): ?>checked="checked"<?php endif; ?> /><?php /*
@@ -495,7 +519,7 @@ $(function() {
 					*/ ?><input type="radio" id="radio2" name="sort_photo_radio" order="modified" sort_dir="asc" <?php if ($order == 'modified' && $sort_dir == 'asc'): ?>checked="checked"<?php endif; ?> /><?php /*
 					*/ ?><label class='add_button' for="radio2"><div class='content'><?php echo __('Oldest', true); ?></div></label><?php /*
 				*/ ?></div>
-				<h2><?php echo __('Website Photos', true); ?></h2>
+				<div style="clear: both;"></div>
 			</div>
 			
 			
@@ -506,34 +530,12 @@ $(function() {
 				<?php echo $this->Element('/admin/photo/photo_connect_not_in_gallery_photo_cont', array( 'not_connected_photos' => $not_connected_photos, 'not_in_gallery_icon_size' => $not_in_gallery_icon_size )); ?>
 			</div>
 			<div style="clear: both;"></div>
-			<?php /*<div class="generic_sort_and_filters">*/?>
-				<?php /*<div id="not_in_gallery_icon_size" class="box_icon_size">
-					<div id="small_icon" size="small" <?php if($not_in_gallery_icon_size == 'small'): ?>class="selected"<?php endif; ?> >S</div>
-					<div id="medium_icon" size="medium" <?php if($not_in_gallery_icon_size == 'medium'): ?>class="selected"<?php endif; ?> >M</div>
-					<div id="large_icon" size="large" <?php if($not_in_gallery_icon_size == 'large'): ?>class="selected"<?php endif; ?> >L</div>
-				</div> */ ?>
-
-				<?php /*<div id="photos_not_in_a_gallery_cont" class="custom_ui_radio" style="margin-bottom: 7px;">
-					<input type="checkbox" id="photos_not_in_a_gallery" /><label for="photos_not_in_a_gallery"><?php echo __('Photos Not In A Gallery', true); ?></label>
-				</div> */ ?>
-
-				<?php /*<div class="custom_ui_radio">
-					<div id="filter_photo_by_format">
-						<input type="checkbox" value="landscape" id="check1" /><label for="check1"><?php echo __('Landscape', true); ?></label>
-						<input type="checkbox" value="portrait" id="check2" /><label for="check2"><?php echo __('Portrait', true); ?></label>
-						<input type="checkbox" value="square" id="check3" /><label for="check3"><?php echo __('Square', true); ?></label>
-						<input type="checkbox" value="panoramic" id="check4" /><label for="check4"><?php echo __('Panoramic', true); ?></label>
-						<input type="checkbox" value="vertical_panoramic" id="check5" /><label for="check5"><?php echo __('Vertical Panoramic', true); ?></label>
-					</div>
-				</div>
-			</div>*/ ?>
 		</div>
 	</div>
 	</div>
 	<div style="clear: both;"></div>
 </div>
 
-<?php //debug($this->data); ?>
 
 <?php ob_start(); ?>
 <ol>

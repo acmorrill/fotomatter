@@ -5,6 +5,7 @@
 }
 
 #connect_gallery_photos_cont {
+	min-width: 735px;
 	.page_content_header {
 		border: 1px solid transparent;
 		height: initial;
@@ -56,7 +57,6 @@
 	}
 	.in_gallery_main_cont, .not_in_gallery_main_cont {
 		position: relative;
-		width: 49%;
 		outline: 1px solid @gray_text;
 		margin-top: 30px;
 		margin-bottom: 40px;
@@ -70,60 +70,87 @@
 			margin-left: 1px;
 			margin-right: 20px;
 			margin-bottom: 20px;
+			border: 1px solid transparent;
+			.image_cover {
+				display: none;
+				position: absolute;
+				top: 0px; left: 0px;
+				background: @body_content_top_bg;
+				width: 100%;
+				height: 100%;
+				z-index: 50;
+				.el_opacity(.40, 40);
+			}
+			@cicle_icon_distance: 6px;
+			@smaller_cicle_icon_distance: 3px;
+			.gallery_image_circle_button {
+				&.top_right { top: @cicle_icon_distance; right: @cicle_icon_distance; }
+				&.bottom_left { bottom: @cicle_icon_distance; left: @cicle_icon_distance; }
+				&.bottom_right { bottom: @cicle_icon_distance; right: @cicle_icon_distance; }
+				z-index: 51;
+				text-align: center;
+				position: absolute;
+				display: none;
+				height: @cicle_button_width;
+				width: @cicle_button_width;
+				-webkit-border-radius: @cicle_button_width;  //safari/chrome 
+				-moz-border-radius: @cicle_button_width;  //Firefox 
+				border-radius: @cicle_button_width;  //CSS3 
+				border: 1px solid @gray_text;
+				background: @off_black;
+				cursor: pointer;
+				.inner_button, .plus_icon {
+					.Code-Pro-LC;
+					font-size: 16px;
+					line-height: @cicle_button_width;
+					color: @gray_text;
+				}
+				.plus_icon {
+					font-size: 28px;
+				}
+				.reorder_icon {
+					cursor: move;
+					background: url('/img/admin/icons/reorder_icon.svg') top center no-repeat;
+					display: inline-block;
+					width: @cicle_button_width - 10px;
+					height: @cicle_button_width - 10px;
+					margin-top: 5px;
+					.el_opacity(.6, 60);
+				}
+				&:hover {
+					background: @off_black + @button_bg_increase;
+					.inner_button, .plus_icon { color: @white; }
+					.reorder_icon { .el_opacity(1, 100); }
+				}
+			}
+			&:hover {
+				.image_cover, .gallery_image_circle_button { display: block; }
+				outline: 1px solid @gray_text;
+			}
+			&.small_icon_size {
+				.gallery_image_circle_button {
+					&.top_right { top: @smaller_cicle_icon_distance; right: @smaller_cicle_icon_distance; }
+					&.bottom_left { bottom: @smaller_cicle_icon_distance; left: @smaller_cicle_icon_distance; }
+					&.bottom_right { bottom: @smaller_cicle_icon_distance; right: @smaller_cicle_icon_distance; }
+					height: @smaller_cicle_button_width;
+					width: @smaller_cicle_button_width;
+					-webkit-border-radius: @smaller_cicle_button_width;  //safari/chrome 
+					-moz-border-radius: @smaller_cicle_button_width;  //Firefox 
+					border-radius: @smaller_cicle_button_width;  //CSS3 
+					.inner_button, .plus_icon { font-size: 14px; line-height: @smaller_cicle_button_width; }
+					.plus_icon { font-size: 24px; }
+					.reorder_icon {
+						width: @smaller_cicle_button_width - 10px;
+						height: @smaller_cicle_button_width - 10px;
+						margin-top: 5px;
+					}
+				}
+			}
 			.tr {
 				position: relative;
 				.image_content_cont {
 					position: relative;
 					display: inline-block;
-					@cicle_icon_distance: 4px;
-					.gallery_image_circle_button {
-						&.top_right { top: @cicle_icon_distance; right: @cicle_icon_distance; }
-						&.bottom_left { bottom: @cicle_icon_distance; left: @cicle_icon_distance; }
-						&.bottom_right { bottom: @cicle_icon_distance; right: @cicle_icon_distance; }
-						position: absolute;
-						display: none;
-						height: @cicle_button_width;
-						width: @cicle_button_width;
-						-webkit-border-radius: @cicle_button_width; /* safari/chrome */
-						-moz-border-radius: @cicle_button_width; /* Firefox */
-						border-radius: @cicle_button_width; /* CSS3 */
-						border: 1px solid transparent;
-						background: @body_content_top_bg + #111;
-						cursor: pointer;
-						.inner_button, .plus_icon {
-							.Code-Pro-LC;
-							font-size: 16px;
-							line-height: @cicle_button_width;
-							color: @gray_text;
-						}
-						.plus_icon {
-							font-size: 28px;
-						}
-						.reorder_icon {
-							cursor: move;
-							background: url('/img/admin/icons/reorder_icon.svg') top center no-repeat;
-							display: inline-block;
-							width: @cicle_button_width - 10px;
-							height: @cicle_button_width - 10px;
-							margin-top: 5px;
-							.el_opacity(.6, 60);
-						}
-						&:hover {
-							border: 1px solid @white;
-							.inner_button, .plus_icon {
-								color: @white;
-							}
-							.reorder_icon {
-								.el_opacity(1, 100);
-							}
-						}
-					}
-					&:hover {
-						outline: 1px solid @gray_text;
-						.gallery_image_circle_button {
-							display: block;
-						}
-					}
 				}
 			}
 		}
@@ -143,23 +170,37 @@
 			.actions {
 				float: right;
 				padding-top: 15px;
+				padding-bottom: 15px;
+			}
+			#remove_all_gallery_photos, #refresh_not_in_gallery_photos_button {
+				cursor: pointer;
+				.el_opacity(.6, 60);
+				&:hover {
+					.el_opacity(1, 100);
+				}
 			}
 		}
 	}
 	.in_gallery_main_cont {
 		float: left;
+		width: 49%;
 		#in_gallery_photos_cont {
 			margin-left: 20px;
 			margin-bottom: 20px;
 			float: left;
+			height: 700px;
+			overflow-x: hidden;
+			overflow-y: auto;
 		}
 	}
 	.not_in_gallery_main_cont {
+		width: 49%;
 		#sort_photo_radio {
 			float: right;
-			margin-top: 10px;
 			margin-right: 20px;
 			.add_button {
+				margin-top: 10px;
+				margin-bottom: 10px;
 				margin-right: 8px;
 			}
 		}

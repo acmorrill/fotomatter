@@ -31,13 +31,13 @@
 					);
 				} else if ($this->data['PhotoGallery']['type'] === 'standard') {
 					$subnav['pages'][] = array(
-						'name' => __('Connect Photos', true),
+						'name' => __('Manage Photos', true),
 						'url' => "/admin/photo_galleries/edit_gallery_connect_photos/{$this->data['PhotoGallery']['id']}/"
 					);
-					$subnav['pages'][] = array(
-						'name' => __('Arrange Photos', true),
-						'url' => "/admin/photo_galleries/edit_gallery_arrange_photos/{$this->data['PhotoGallery']['id']}/"
-					);
+//					$subnav['pages'][] = array(
+//						'name' => __('Arrange Photos', true),
+//						'url' => "/admin/photo_galleries/edit_gallery_arrange_photos/{$this->data['PhotoGallery']['id']}/"
+//					);
 				}
 
 				echo $this->Element('/admin/submenu', array( 'subnav' => $subnav ));

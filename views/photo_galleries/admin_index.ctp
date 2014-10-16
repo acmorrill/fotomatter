@@ -135,16 +135,16 @@
 								</a>
 								<a href="/admin/photo_galleries/edit_gallery_connect_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/">
 									<div class="add_button">
-										<div class="content"><?php echo __('Connect', true); ?></div>
+										<div class="content"><?php echo __('Manage Photos', true); ?></div>
 										<div class="right_arrow_lines"><div></div></div>
 									</div>
 								</a>
-								<a href="/admin/photo_galleries/edit_gallery_arrange_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/">
+								<?php /*<a href="/admin/photo_galleries/edit_gallery_arrange_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/">
 									<div class="add_button">
 										<div class="content"><?php echo __('Arrange', true); ?></div>
 										<div class="right_arrow_lines"><div></div></div>
 									</div>
-								</a>
+								</a>*/ ?>
 							<?php endif; ?>
 							<a class="delete_link" href="/admin/photo_galleries/delete_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><div class="add_button icon"><div class="content">X</div></div></a>
 						</span>
