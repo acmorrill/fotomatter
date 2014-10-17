@@ -81,21 +81,22 @@
                 padding-right: 40px;
                 line-height: 25px;
 
-                button{
-                    margin-top:20px;
-                    //border: 1px solid #32373b;
-                    background-color: @button;
-                    height: 40px;
-                    padding-left: 15px;
-                    padding-right: 15px;
-                    font-size: 15px;
-                    color: @header;
-                    &:hover{
-                        cursor: pointer;
-                        //background-color: @red;
-                        color: @white;
-                    }
-                }
+				button{
+					margin-top:20px;
+					border: 1px solid @button;
+					background-color: @button;
+					height: 40px;
+					padding-left: 15px;
+					padding-right: 15px;
+					font-size: 18px;
+					color: @header;
+					//outline: 1px solid red;
+					&:hover{
+						cursor: pointer;
+						color: @white;
+						background-color: @button_hover;
+					}
+				}
             }
         }
     }

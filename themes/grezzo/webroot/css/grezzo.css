@@ -203,7 +203,9 @@ body.pink button {
   position: relative;
 }
 #page_content #gallery_outer_cont #grezzo_listing_actual_container {
-  position: absolute;
+  position: relative;
+  outline: 1px solid red;
+  background-color: red;
   width: 100%;
   margin: 0px;
   white-space: nowrap;

@@ -270,7 +270,7 @@ nav_location {
   text-decoration: none;
 }
 .sidebar ul li a:hover {
-  color: #ffffff;
+  cursor: pointer;
 }
 .sidebar ul .small_text_header {
   font-size: 23px;
@@ -285,6 +285,18 @@ nav_location {
   margin-left: 5px;
   line-height: 16px;
   border-bottom: 0px dotted #666666;
+}
+.sidebar ul .list_item.blue a:hover {
+  color: #0000cc;
+}
+.sidebar ul .list_item.pink a:hover {
+  color: #ff0099;
+}
+.sidebar ul .list_item.yellow a:hover {
+  color: #ffff00;
+}
+.sidebar ul .list_item.red a:hover {
+  color: #cc3333;
 }
 .right_sidebar {
   position: absolute;
@@ -338,18 +350,6 @@ h1.no_line {
 .cart_ajustment {
   margin-left: 6px;
 }
-.cart_ajustment.blue button:hover {
-  background-color: #0000cc;
-}
-.cart_ajustment.pink button:hover {
-  background-color: #ff0099;
-}
-.cart_ajustment.yellow button:hover {
-  background-color: #ffff00;
-}
-.cart_ajustment.red button:hover {
-  background-color: #cc3333;
-}
 .cart_ajustment h2 {
   font-size: 20px;
   margin-top: 20px;
@@ -358,7 +358,7 @@ h1.no_line {
 }
 .cart_ajustment button {
   margin-top: 20px;
-  border: 1px solid #32373b;
+  border: 1px solid #333333;
   background-color: #333333;
   height: 40px;
   padding-left: 15px;
@@ -369,6 +369,7 @@ h1.no_line {
 .cart_ajustment button:hover {
   cursor: pointer;
   color: #ffffff;
+  background-color: #222222;
 }
 .cart_ajustment select {
   padding-bottom: 5px;
@@ -513,16 +514,18 @@ h1.no_line {
 }
 #cart_table tfoot tr td button {
   margin-top: 20px;
+  border: 1px solid #333333;
   background-color: #333333;
   height: 40px;
   padding-left: 15px;
   padding-right: 15px;
-  font-size: 15px;
+  font-size: 18px;
   color: #999999;
 }
 #cart_table tfoot tr td button:hover {
   cursor: pointer;
   color: #ffffff;
+  background-color: #222222;
 }
 .background_photo.blue button:hover {
   background-color: #0000cc;
@@ -657,18 +660,6 @@ h1.no_line {
 }
 .background_photo {
   text-align: left;
-}
-.background_photo.blue #cart_table tfoot tr td button:hover {
-  background-color: #0000cc;
-}
-.background_photo.pink #cart_table tfoot tr td button:hover {
-  background-color: #ff0099;
-}
-.background_photo.yellow #cart_table tfoot tr td button:hover {
-  background-color: #ffff00;
-}
-.background_photo.red #cart_table tfoot tr td button:hover {
-  background-color: #cc3333;
 }
 .background_photo #shipping_address_container {
   outline: none;
