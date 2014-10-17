@@ -275,6 +275,10 @@ table {
 .page_content_header h2 {
   padding: 20px;
 }
+.page_content_header.generic_basic_settings > p {
+  padding-top: 20px;
+  margin-left: 20px;
+}
 form.fm_form {
   margin: 10px;
   display: inline-block;
@@ -802,15 +806,19 @@ a:hover {
   width: 50%;
 }
 select,
-input {
-  padding: 0px;
-  margin: 0px;
-  border: 0px;
+input,
+textarea {
   font-family: Code-Pro-LC;
   font-weight: normal;
   font-style: normal;
   font-size: 20px;
   line-height: 20px;
+}
+select,
+input {
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
   height: 40px;
   padding-left: 20px;
   padding-right: 20px;
@@ -870,6 +878,10 @@ input {
   margin-bottom: 20px;
   cursor: pointer;
   border: 1px solid #32373b;
+}
+.save_button.submit {
+  margin-bottom: 40px;
+  margin-top: 0px;
 }
 .save_button .content {
   margin-top: 11px;
@@ -1106,6 +1118,7 @@ input {
 }
 .add_element span,
 .add_element select {
+  margin-bottom: 8px;
   margin-right: 10px;
 }
 .table {
@@ -1132,6 +1145,16 @@ input {
   display: none;
   text-align: center;
   overflow: hidden;
+}
+.generic_inner_container {
+  padding: 45px 0px;
+}
+.generic_inner_container .generic_dark_cont {
+  outline: 1px solid #b7b6b4;
+  border: 1px solid #000;
+  background-color: #262829;
+  padding: 50px;
+  padding-top: 10px;
 }
 .custom_dialog {
   display: none;
@@ -3798,17 +3821,13 @@ table.list tbody tr.remove_pending td .cost {
   position: relative;
   margin-bottom: 210px;
 }
-.sub_submenu_cont .sub_submenu_right_cont .sub_submenu_tab_cont .sub_submenu_inner_cont {
+.sub_submenu_cont .sub_submenu_right_cont .sub_submenu_tab_cont table.list thead tr {
+  background: #262829;
+}
+.sub_submenu_cont .generic_inner_container {
   padding: 45px 25px;
 }
-.sub_submenu_cont .sub_submenu_right_cont .sub_submenu_tab_cont .sub_submenu_inner_cont .sub_submenu_dark_cont {
-  outline: 1px solid #b7b6b4;
-  border: 1px solid #000;
-  background-color: #262829;
-  padding: 50px;
-  padding-top: 10px;
-}
-.sub_submenu_cont .sub_submenu_right_cont .sub_submenu_tab_cont .save_button {
+.sub_submenu_cont .save_button {
   margin-top: 0px;
   margin-left: 25px;
   margin-bottom: 40px;
@@ -3996,10 +4015,10 @@ table.list tbody tr.remove_pending td .cost {
   #main #header .menu_below_bar {
     display: none;
   }
-  #main.no_subnav #header .logo td.first {
+  #main.login_page #header .logo td.first {
     width: 100%;
   }
-  #main.no_subnav #header .logo td.last {
+  #main.login_page #header .logo td.last {
     display: none;
     width: 0%;
   }
@@ -4012,6 +4031,9 @@ table.list tbody tr.remove_pending td .cost {
   }
   #middle #account-details .details .detail {
     margin: 20px 20px;
+  }
+  #middle > p {
+    margin-bottom: 8px;
   }
   #admin_background {
     top: 0px;
@@ -4031,36 +4053,84 @@ table.list tbody tr.remove_pending td .cost {
   .mobile_hide {
     display: none;
   }
-  table.list tbody tr td {
-    display: block;
+  table.list {
+    overflow: hidden;
+  }
+  table.list thead tr td,
+  table.list thead tr th,
+  table.list tbody tr td,
+  table.list tbody tr th {
+    display: block !important;
+    width: inherit !important;
     padding-left: 20px;
   }
+  table.list thead tr td > div,
+  table.list thead tr td > span,
+  table.list thead tr th > div,
+  table.list thead tr th > span,
   table.list tbody tr td > div,
-  table.list tbody tr td > span {
+  table.list tbody tr td > span,
+  table.list tbody tr th > div,
+  table.list tbody tr th > span {
     margin-top: 25px;
+    word-wrap: break-word;
   }
-  table.list tbody tr td .rightborder {
+  table.list thead tr td .rightborder,
+  table.list thead tr th .rightborder,
+  table.list tbody tr td .rightborder,
+  table.list tbody tr th .rightborder {
     display: none;
   }
-  table.list tbody tr td.first {
+  table.list thead tr td.first,
+  table.list thead tr th.first,
+  table.list tbody tr td.first,
+  table.list tbody tr th.first {
     padding-left: 0px;
   }
-  table.list tbody tr td.table_actions {
+  table.list thead tr td.table_actions,
+  table.list thead tr th.table_actions,
+  table.list tbody tr td.table_actions,
+  table.list tbody tr th.table_actions {
     width: inherit !important;
     text-align: left;
   }
-  .no_td_as_block table.list tbody tr td {
+  table.list thead tr td.table_actions > div,
+  table.list thead tr td.table_actions > span,
+  table.list thead tr th.table_actions > div,
+  table.list thead tr th.table_actions > span,
+  table.list tbody tr td.table_actions > div,
+  table.list tbody tr td.table_actions > span,
+  table.list tbody tr th.table_actions > div,
+  table.list tbody tr th.table_actions > span {
+    margin-top: 9px;
+  }
+  table.list thead tr .content.one_line {
+    margin-top: 0px;
+  }
+  table.list tbody tr td {
+    min-height: 75px;
+    height: initial;
+  }
+  table.list tbody td.photo_title > span {
+    max-width: 150px;
+  }
+  .no_td_as_block table.list tr td,
+  .no_td_as_block table.list tr th {
     display: table-cell;
     padding-left: initial;
   }
-  .no_td_as_block table.list tbody tr td > div,
-  .no_td_as_block table.list tbody tr td > span {
+  .no_td_as_block table.list tr td > div,
+  .no_td_as_block table.list tr td > span,
+  .no_td_as_block table.list tr th > div,
+  .no_td_as_block table.list tr th > span {
     margin-top: initial;
   }
-  .no_td_as_block table.list tbody tr td .rightborder {
+  .no_td_as_block table.list tr td .rightborder,
+  .no_td_as_block table.list tr th .rightborder {
     display: block;
   }
-  .no_td_as_block table.list tbody tr td.table_actions {
+  .no_td_as_block table.list tr td.table_actions,
+  .no_td_as_block table.list tr th.table_actions {
     text-align: right;
     width: 215px;
   }
@@ -4088,15 +4158,15 @@ table.list tbody tr.remove_pending td .cost {
   #login_forms_cont .generic_palette_container form > div input {
     width: 82%;
   }
+  .table_container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
   #connect_gallery_photos_cont .not_in_gallery_main_cont {
     width: 48%;
   }
   #connect_gallery_photos_cont .in_gallery_main_cont {
     width: 48%;
-  }
-  #connect_gallery_photos_cont .table_container {
-    padding-left: 20px;
-    padding-right: 20px;
   }
   #connect_gallery_photos_cont .in_gallery_main_cont .connect_photo_container .gallery_image_circle_button,
   #connect_gallery_photos_cont .not_in_gallery_main_cont .connect_photo_container .gallery_image_circle_button {
@@ -4117,5 +4187,20 @@ table.list tbody tr.remove_pending td .cost {
   #connect_gallery_photos_cont .in_gallery_main_cont .connect_photo_container:hover .image_cover,
   #connect_gallery_photos_cont .not_in_gallery_main_cont .connect_photo_container:hover .image_cover {
     display: none;
+  }
+  .generic_inner_container {
+    padding: 30px 20px;
+  }
+  .generic_inner_container .generic_dark_cont {
+    padding: 30px;
+    overflow: hidden;
+  }
+  .save_button.submit {
+    margin-left: 20px;
+  }
+  .fotomatter_form .input input,
+  .fotomatter_form .input textarea {
+    width: 82%;
+    max-width: 400px;
   }
 }

@@ -1,5 +1,5 @@
-<div class="sub_submenu_inner_cont">
-	<div class="sub_submenu_dark_cont fotomatter_form">
+<div class="generic_inner_container">
+	<div class="generic_dark_cont fotomatter_form">
 
 		<?php //if ($mode == 'edit'): ?>
 		<?php //else: ?>

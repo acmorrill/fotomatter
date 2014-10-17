@@ -190,7 +190,6 @@ class PhotoGalleriesController extends AppController {
 			// set or unset the id (depending on if its an edit or add)
 			$this->data['PhotoGallery']['id'] = $id;
 			
-
 			if (!$this->PhotoGallery->save($this->data)) {
 				$this->PhotoGallery->major_error('failed to save photo gallery in edit gallery', $this->data);
 				$this->Session->setFlash(__('Failed to save photo gallery', true), 'admin/flashMessage/error');
@@ -198,6 +197,7 @@ class PhotoGalleriesController extends AppController {
 				$this->Session->setFlash(__('Photo gallery saved', true), 'admin/flashMessage/success');
 			}
  		} 
+		
 		
 		$this->data = $this->PhotoGallery->find('first', array(
 			'conditions' => array(

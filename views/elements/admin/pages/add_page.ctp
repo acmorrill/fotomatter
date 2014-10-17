@@ -18,7 +18,7 @@
 	});
 </script>
 
-<div class="add_page_element add_element custom_ui" style="margin-bottom: 15px;">
+<div class="add_page_element add_element custom_ui">
 	<select class="add_page_select">
 		<option value="custom"><?php echo __('Add Custom Page', true); ?></option>
 		<option value="external"><?php echo __('Add External Page', true); ?></option>

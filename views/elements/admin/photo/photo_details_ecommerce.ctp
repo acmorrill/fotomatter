@@ -74,8 +74,12 @@
 		});
 	});
 </script>
+
+
+<h1><?php echo __('Choose Available Sizes'); ?></h1><?php // DREW TODO - add in an advertisement for ecommerce here ?>
+
+
 <div id="image_sellable_prints">
-	<h1><?php __('Choose Available Sizes'); ?></h1><?php // DREW TODO - add in an advertisement for ecommerce here ?>
 	<table class="list">
 		<thead>
 			<tr>

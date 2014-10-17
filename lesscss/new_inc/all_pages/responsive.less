@@ -172,7 +172,7 @@ only screen and (min-resolution: 192dpi) {
 				display: none;
 			}
 		}
-		&.no_subnav {
+		&.login_page {
 			#header .logo td {
 				&.first { width: 100%; }
 				&.last { display: none; width: 0%; }
@@ -187,6 +187,9 @@ only screen and (min-resolution: 192dpi) {
 			width: auto;
 			margin-bottom: 20px;
 			.details .detail { margin: 20px 20px; }
+		}
+		> p {
+			margin-bottom: 8px;
 		}
 	}
 	#admin_background {
@@ -207,30 +210,51 @@ only screen and (min-resolution: 192dpi) {
 	.mobile_hide {
 		display: none;
 	}
-	table.list tbody tr td {
-		display: block;
-		padding-left: 20px;
-		> div, > span {
-			margin-top: 25px;
+	table.list {
+		overflow: hidden;
+		thead, tbody {
+			tr {
+				td, th {
+					display: block !important;
+					width: inherit !important;
+					padding-left: 20px;
+					> div, > span { margin-top: 25px; word-wrap: break-word; }
+					.rightborder { display: none; }
+					&.first { padding-left: 0px; }
+					&.table_actions {
+						width: inherit !important;
+						text-align: left;
+						> div, > span { margin-top: 9px; }
+					}
+				}
+			}
 		}
-		.rightborder { display: none; }
-		&.first { padding-left: 0px; }
-		&.table_actions {
-			width: inherit !important;
-			text-align: left;
+		thead tr {
+			.content.one_line { margin-top: 0px; }
+		}
+		tbody {
+			tr td {
+				min-height: 75px;
+				height: initial;
+			}
+			td.photo_title > span {
+				max-width: 150px;
+			}
 		}
 	}
 	.no_td_as_block {
-		table.list tbody tr td {
-			display: table-cell;
-			padding-left: initial;
-			> div, > span {
-				margin-top: initial;
-			}
-			.rightborder { display: block; }
-			&.table_actions{
-				text-align: right;
-				width: 215px;
+		table.list tr {
+			td, th {
+				display: table-cell;
+				padding-left: initial;
+				> div, > span {
+					margin-top: initial;
+				}
+				.rightborder { display: block; }
+				&.table_actions{
+					text-align: right;
+					width: 215px;
+				}
 			}
 		}
 	}
@@ -267,13 +291,13 @@ only screen and (min-resolution: 192dpi) {
 		}
 	}
 	
+	.table_container {
+		padding-left: 20px;
+		padding-right: 20px;
+	}
 	#connect_gallery_photos_cont {
 		.not_in_gallery_main_cont { width: 48%; }
 		.in_gallery_main_cont { width: 48%; }
-		.table_container {
-			padding-left: 20px;
-			padding-right: 20px;
-		}
 		.in_gallery_main_cont, .not_in_gallery_main_cont {
 			.connect_photo_container {
 				.gallery_image_circle_button { display: block; }
@@ -283,6 +307,29 @@ only screen and (min-resolution: 192dpi) {
 					.image_cover { display: none; }
 					outline: 1px solid transparent;
 				}
+			}
+		}
+	}
+	
+	.generic_inner_container {
+		padding: 30px 20px;
+		.generic_dark_cont {
+			padding: 30px;
+			overflow: hidden;
+		}
+	}
+	
+	.save_button {
+		&.submit {
+			margin-left: 20px;
+		}
+	}
+	
+	.fotomatter_form {
+		.input {
+			input, textarea {
+				width: 82%;
+				max-width: 400px;
 			}
 		}
 	}

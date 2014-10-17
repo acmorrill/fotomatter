@@ -44,7 +44,7 @@
 				<th>
 					<div class="content one_line">
 						<div class="direction_arrow"></div>
-						<?php __('Photo'); ?>
+						<?php echo __('Photo', true); ?>
 					</div>
 				</th> 
 				<th class="<?php if ($this->Paginator->sortKey('Photo') == 'Photo.display_title'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>">
@@ -52,7 +52,7 @@
 						<div class="direction_arrow"></div>
 						<?php echo $this->Paginator->sort(__('Title', true), 'Photo.display_title'); ?>
 					</div>
-				</th> 
+				</th>
 				<th class="<?php if ($this->Paginator->sortKey('Photo') == 'Photo.enabled'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>">
 					<div class="content one_line">
 						<div class="direction_arrow"></div>
@@ -102,7 +102,7 @@
 					<td class="photo_title <?php if ($this->Paginator->sortKey('Photo') == 'Photo.display_title'): ?> curr<?php endif; ?>">
 						<div class="rightborder"></div>
 						<span class=" <?php if (!$photo_is_enabled):?>disabled<?php endif; ?>"><?php echo $curr_photo['Photo']['display_title']; ?></span>
-					</td> 
+					</td>
 					<td class="photo_enabled <?php if ($this->Paginator->sortKey('Photo') == 'Photo.enabled'): ?> curr<?php endif; ?>">
 						<div class="rightborder"></div>
 						<span class=" <?php if (!$photo_is_enabled):?>disabled<?php endif; ?>"><?php echo ($curr_photo['Photo']['enabled'] == 0) ? __('NO', true): __('YES', true); ?></span>

@@ -110,14 +110,15 @@ a {
 }
 
 
-
+select, input, textarea {
+	.Code-Pro-LC;
+	font-size: 20px;
+	line-height: 20px;
+}
 select, input {
 	padding: 0px;
 	margin: 0px;
 	border: 0px;
-	.Code-Pro-LC;
-	font-size: 20px;
-	line-height: 20px;
 	height: @button_height;
 	padding-left: 20px;
 	padding-right: 20px;
@@ -183,6 +184,10 @@ select, input {
 	margin-bottom: 20px;
 	cursor: pointer;
 	border: 1px solid @button_border;
+	&.submit {
+		margin-bottom: 40px;
+		margin-top: 0px;
+	}
 	.content {
 		margin-top: 11px;
 		color: @gray_text;
@@ -359,6 +364,7 @@ select, input {
 	margin-top: 20px;
 	span { color: #7d888e; }
 	span, select {
+		margin-bottom: 8px;
 		margin-right: 10px;
 	}
 }
@@ -388,4 +394,14 @@ select, input {
 	overflow: hidden;
 }
 
+.generic_inner_container {
+	padding: 45px 0px;
+	.generic_dark_cont {
+		outline: 1px solid @table_and_button_outline;
+		border: 1px solid @black;
+		background-color: @body_content_top_bg;
+		padding: 50px;
+		padding-top: 10px;
+	}
+}
 
