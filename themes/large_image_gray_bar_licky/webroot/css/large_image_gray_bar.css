@@ -270,7 +270,6 @@ nav_location {
   text-decoration: none;
 }
 .sidebar ul li a:hover {
-  height: 3px;
   cursor: pointer;
 }
 .sidebar ul .small_text_header {
@@ -515,16 +514,18 @@ h1.no_line {
 }
 #cart_table tfoot tr td button {
   margin-top: 20px;
+  border: 1px solid #333333;
   background-color: #333333;
   height: 40px;
   padding-left: 15px;
   padding-right: 15px;
-  font-size: 15px;
+  font-size: 18px;
   color: #999999;
 }
 #cart_table tfoot tr td button:hover {
   cursor: pointer;
   color: #ffffff;
+  background-color: #222222;
 }
 .background_photo.blue button:hover {
   background-color: #0000cc;
@@ -659,18 +660,6 @@ h1.no_line {
 }
 .background_photo {
   text-align: left;
-}
-.background_photo.blue #cart_table tfoot tr td button:hover {
-  background-color: #0000cc;
-}
-.background_photo.pink #cart_table tfoot tr td button:hover {
-  background-color: #ff0099;
-}
-.background_photo.yellow #cart_table tfoot tr td button:hover {
-  background-color: #ffff00;
-}
-.background_photo.red #cart_table tfoot tr td button:hover {
-  background-color: #cc3333;
 }
 .background_photo #shipping_address_container {
   outline: none;
