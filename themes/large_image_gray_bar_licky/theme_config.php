@@ -63,7 +63,7 @@ $theme_config = array(
 		'logo_config' => array(
 			'available_space' => array(
 				'width' => 400,
-				'height' => 200
+				'height' => 200 
 			),
 			'available_space_screenshot' => array(
 				'absolute_path' => 	PATH_TO_THEMES.DS.'large_image_gray_bar_licky/webroot/img/kent_test_theme_logo_space.jpg', // this image should be max 735 pixels width
