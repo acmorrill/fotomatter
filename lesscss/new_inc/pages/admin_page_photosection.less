@@ -168,26 +168,58 @@
 
 #image_sellable_prints {
 	table.list {
+		thead {
+			tr {
+				th {
+					&.first {
+						width: 178px;
+					}
+				}
+			}
+		}
 		tbody {
-			td {
-				padding: 7px;
-			}
-			td.input {
-				width: 179px;
-			}
-			input {
-				width: 60px;
-			}
-			.lock_img, .unlock_img {
-				cursor: pointer;
-				display: inline-block;
-				vertical-align: top;
-			}
-			.lock_img {
-				display: inline-block;
-			}
-			.unlock_img {
-				display: none;
+			tr {
+				td {
+					> * { font-size: 15px; }
+					&.input { 
+						> * { margin-left: 0px; }
+						width: 179px; 
+					}
+					input {
+						margin-left: 3px;
+						width: 60px; 
+					}
+					&.photo_use_sizes {
+						input { width: 20px; }
+					}
+				}
+
+				.lock_img, .unlock_img {
+					font-size: 30px;
+					cursor: pointer;
+					display: inline-block;
+					vertical-align: top;
+				}
+				.lock_img {
+					display: inline-block;
+				}
+				.unlock_img {
+					display: none;
+				}
+				&.spacer {
+					td { background-color: transparent; }
+				}
+				&.unlocked {
+					td {
+						background-color: @body_content_top_bg + #0d0d0d;
+						&, div { color: @white; }
+					}
+				}
+				&:hover {
+					&.unlocked {
+						td { background-color: @body_content_top_bg + #171717; }
+					}
+				}
 			}
 		}
 	}

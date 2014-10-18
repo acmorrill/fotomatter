@@ -5,5 +5,8 @@
 <style media="all" type="text/css">@import "/css/admin.css";</style>
 <style media="all" type="text/css">@import "/css/new_admin.css";</style>
 <!--<link rel="stylesheet" href="http://i.icomoon.io/public/a4f490f47e/Fotomatter/style.css">-->
-<link rel="stylesheet" href="http://i.icomoon.io/public/a4f490f47e/Fotomatter/style.css">
+<!--<link rel="stylesheet" href="http://i.icomoon.io/public/a4f490f47e/Fotomatter/style.css">-->
+<!--<link rel="stylesheet" href="http://i.icomoon.io/public/temp/68f4a0893c/Fotomatter/style.css">-->
+<!--<link rel="stylesheet" href="http://i.icomoon.io/public/temp/68f4a0893c/Fotomatter/style.css">-->
+<link rel="stylesheet" href="http://i.icomoon.io/public/temp/68f4a0893c/Fotomatter/style.css">
 <script type="text/javascript" src="/js/intro_js/intro.js"></script>

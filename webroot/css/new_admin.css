@@ -376,6 +376,8 @@ form.fm_form button.ui-button {
 }
 .table_border {
   padding: 20px;
+  padding-left: 0px;
+  padding-right: 0px;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -523,6 +525,10 @@ table.list tbody tr td.highlight a {
 }
 table.list tbody tr td.first {
   border-left: 1px solid #000;
+}
+table.list tbody tr td.first i {
+  font-size: 30px;
+  float: left;
 }
 table.list tbody tr td.last {
   padding-right: 10px;
@@ -1147,7 +1153,7 @@ input {
   overflow: hidden;
 }
 .generic_inner_container {
-  padding: 45px 0px;
+  padding-bottom: 45px;
 }
 .generic_inner_container .generic_dark_cont {
   outline: 1px solid #b7b6b4;
@@ -2590,7 +2596,7 @@ body {
   margin-bottom: 0px;
 }
 .large_container .tab_tools_container {
-  margin: 20px;
+  margin-top: 20px;
   margin-bottom: 70px;
 }
 .large_container .tab_tools_container .between_actions {
@@ -2944,26 +2950,50 @@ body {
   position: fixed;
   left: -500px;
 }
-#image_sellable_prints table.list tbody td {
-  padding: 7px;
+#image_sellable_prints table.list thead tr th.first {
+  width: 178px;
 }
-#image_sellable_prints table.list tbody td.input {
+#image_sellable_prints table.list tbody tr td > * {
+  font-size: 15px;
+}
+#image_sellable_prints table.list tbody tr td.input {
   width: 179px;
 }
-#image_sellable_prints table.list tbody input {
+#image_sellable_prints table.list tbody tr td.input > * {
+  margin-left: 0px;
+}
+#image_sellable_prints table.list tbody tr td input {
+  margin-left: 3px;
   width: 60px;
 }
-#image_sellable_prints table.list tbody .lock_img,
-#image_sellable_prints table.list tbody .unlock_img {
+#image_sellable_prints table.list tbody tr td.photo_use_sizes input {
+  width: 20px;
+}
+#image_sellable_prints table.list tbody tr .lock_img,
+#image_sellable_prints table.list tbody tr .unlock_img {
+  font-size: 30px;
   cursor: pointer;
   display: inline-block;
   vertical-align: top;
 }
-#image_sellable_prints table.list tbody .lock_img {
+#image_sellable_prints table.list tbody tr .lock_img {
   display: inline-block;
 }
-#image_sellable_prints table.list tbody .unlock_img {
+#image_sellable_prints table.list tbody tr .unlock_img {
   display: none;
+}
+#image_sellable_prints table.list tbody tr.spacer td {
+  background-color: transparent;
+}
+#image_sellable_prints table.list tbody tr.unlocked td {
+  background-color: #333536;
+}
+#image_sellable_prints table.list tbody tr.unlocked td,
+#image_sellable_prints table.list tbody tr.unlocked td div {
+  color: #ffffff;
+}
+#image_sellable_prints table.list tbody tr:hover.unlocked td {
+  background-color: #3d3f40;
 }
 .opacity_50 {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
@@ -3739,7 +3769,6 @@ table.list tbody tr.remove_pending td .cost {
 .sub_submenu_cont .sub_submenu_left_cont,
 .sub_submenu_cont .sub_submenu_right_cont,
 .sub_submenu_cont .sub_submenu_far_right_cont {
-  width: 900px;
   position: relative;
 }
 .sub_submenu_cont .sub_submenu_far_right_cont {
@@ -3816,25 +3845,57 @@ table.list tbody tr.remove_pending td .cost {
 .sub_submenu_cont .sub_submenu_left_cont .sub_submenu_tab:hover div {
   color: #ffffff;
 }
+.sub_submenu_cont .sub_submenu_right_cont {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.sub_submenu_cont .sub_submenu_right_cont .content-background {
+  width: initial;
+  padding-left: 45px;
+  padding-right: 45px;
+  padding-top: 45px;
+}
 .sub_submenu_cont .sub_submenu_right_cont .sub_submenu_tab_cont {
   display: none;
   position: relative;
   margin-bottom: 210px;
 }
+.sub_submenu_cont .sub_submenu_right_cont .sub_submenu_tab_cont table.list tr .photo_use_sizes {
+  width: 123px;
+  text-align: left;
+}
 .sub_submenu_cont .sub_submenu_right_cont .sub_submenu_tab_cont table.list thead tr {
   background: #262829;
 }
-.sub_submenu_cont .generic_inner_container {
-  padding: 45px 25px;
+.sub_submenu_cont .sub_submenu_right_cont .sub_submenu_tab_cont table.list thead tr th.first {
+  padding-left: 30px;
+}
+.sub_submenu_cont .sub_submenu_right_cont .sub_submenu_tab_cont table.list thead tr th.last {
+  padding-right: 30px;
+}
+.sub_submenu_cont .sub_submenu_right_cont .sub_submenu_tab_cont table.list tbody tr.spacer td {
+  height: 25px;
+}
+.sub_submenu_cont .sub_submenu_right_cont .sub_submenu_tab_cont table.list tbody tr td.first {
+  padding-left: 30px;
+}
+.sub_submenu_cont .sub_submenu_right_cont .sub_submenu_tab_cont table.list tbody tr td.last {
+  padding-right: 30px;
 }
 .sub_submenu_cont .save_button {
   margin-top: 0px;
-  margin-left: 25px;
   margin-bottom: 40px;
 }
 @media only screen and (max-width: 1366px) {
   #main {
     margin-left: 253px;
+  }
+  #main.photo_details {
+    margin-left: 380px;
   }
   #header .logo {
     left: 13px;
@@ -3848,10 +3909,16 @@ table.list tbody tr.remove_pending td .cost {
   #sub-nav {
     left: 0px;
   }
+  #image_edit_container .actual_image_container {
+    left: 20px;
+  }
 }
 @media only screen and (max-width: 1280px) {
   #main {
     margin-left: 38px;
+  }
+  #main.photo_details {
+    margin-left: 0px;
   }
   #header .logo {
     bottom: 50px;
@@ -3892,6 +3959,12 @@ table.list tbody tr.remove_pending td .cost {
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
+  }
+  #image_edit_container .actual_image_container {
+    position: relative;
+    top: 0px;
+    left: 0px;
+    margin-top: 0px;
   }
 }
 @media only screen and (max-width: 1100px),only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min-resolution: 192dpi) {
@@ -4189,7 +4262,7 @@ table.list tbody tr.remove_pending td .cost {
     display: none;
   }
   .generic_inner_container {
-    padding: 30px 20px;
+    padding: 30px 0px;
   }
   .generic_inner_container .generic_dark_cont {
     padding: 30px;
@@ -4202,5 +4275,10 @@ table.list tbody tr.remove_pending td .cost {
   .fotomatter_form .input textarea {
     width: 82%;
     max-width: 400px;
+  }
+  .sub_submenu_cont .sub_submenu_right_cont .content-background {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
   }
 }

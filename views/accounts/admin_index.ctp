@@ -337,6 +337,30 @@
 					<tr class="spacer"><td colspan="4"></td></tr>
 					<?php $items_length = count($overlord_account_info['items']); ?>
 					<?php $count = 1; foreach ($overlord_account_info['items'] as $line_item): ?>
+						<?php 
+							$icon_css = '';
+							switch ($line_item['AccountLineItem']['ref_name']) {
+								case 'unlimited_photos':
+									$icon_css = 'icon-unlimitedPhotos-01';
+									break;
+								case 'basic_shopping_cart':
+									$icon_css = 'icon-shoppingCart-01';
+									break;
+								case 'page_builder':
+									$icon_css = 'icon-pageBuilder_2-01';
+									break;
+								case 'mobile_theme':
+									$icon_css = 'icon-mobileThemes-01';
+									break;
+								case 'remove_fotomatter_branding':
+									$icon_css = 'icon-noBranding-01';
+									break;
+								case 'email_support':
+									$icon_css = 'icon-emailSupport-01';
+									break;
+							}
+						
+						?>
 						<?php $start_queued = ($line_item['AccountLineItem']['ref_name'] == $add_feature_ref_name); ?>
 						<?php
 							$first_last_class = '';
@@ -357,6 +381,7 @@
 							</td> */ ?>
 							<td class="first">
 								<div class="rightborder"></div>
+								<i class="<?php echo $icon_css; ?>"></i>
 								<span><?php echo $line_item['AccountLineItem']['name']; ?></span>
 							</td>
 							<td>

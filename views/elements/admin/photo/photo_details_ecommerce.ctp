@@ -57,6 +57,7 @@
 				jQuery(this).parent().find('.override_for_photo').val('1');
 				setRowValues('current',  jQuery(this).closest('tr'));
 				jQuery(this).closest('tr').find('.disablable').removeClass('opacity_50');
+				jQuery(this).closest('tr').addClass('unlocked');
 			} else {
 				jQuery.foto('alert', '<?php __('This row is unlockable because of a global setting in Manage Print Types and Pricing.'); ?>');
 			}
@@ -71,40 +72,64 @@
 			saveRowValues('current', closest_tr);
 			setRowValues('default', closest_tr);
 			jQuery(this).closest('tr').find('.disablable').addClass('opacity_50');
+			jQuery(this).closest('tr').removeClass('unlocked');
 		});
 	});
 </script>
 
-
-<h1><?php echo __('Choose Available Sizes'); ?></h1><?php // DREW TODO - add in an advertisement for ecommerce here ?>
 
 
 <div id="image_sellable_prints">
 	<table class="list">
 		<thead>
 			<tr>
-				<th><?php __('Override Global Default'); ?></th>
-				<th style="width: 50px;"><?php __('Photo Uses Size'); ?></th>
-				<th><?php __('Print Type and Size'); ?></th>
-				<th><?php __('Price'); ?></th>
-				<th><?php __('Shipping Price'); ?></th>
-				<th><?php __('Turnaround Time'); ?></th>
+				<th class="first">
+					<div class="content one_line">
+						<?php echo __('Override Global Default', true); ?>
+					</div>
+				</th>
+				<th class="photo_use_sizes">
+					<div class="content one_line">
+						<?php echo __('Photo Uses Size', true); ?>
+					</div>
+				</th>
+				<th>
+					<div class="content one_line">
+						<?php echo __('Print Type and Size', true); ?>
+					</div>
+				</th>
+				<th>
+					<div class="content one_line">
+						<?php echo __('Price', true); ?>
+					</div>
+				</th>
+				<th>
+					<div class="content one_line">
+						<?php echo __('Shipping Price', true); ?>
+					</div>
+				</th>
+				<th class="last">
+					<div class="content one_line">
+						<?php echo __('Turnaround Time', true); ?>
+					</div>
+				</th>
 			</tr>
 		</thead>
 		<tbody>
+			<tr class="spacer"><td colspan="6"></td></tr>
 			<?php $count = 0; foreach ($photo_sellable_prints as $photo_sellable_print): ?>
-				<tr>
-					<td>
-						<?php 
-							$override_for_photo =  $photo_sellable_print['CurrentPrintData']['override_for_photo'];
-							$force_defaults = $photo_sellable_print['DefaultPrintData']['force_defaults']; 
-							if ($force_defaults === '1') {
-								$override_for_photo = '0';
-							}
-						?>
+				<?php 
+					$override_for_photo = $photo_sellable_print['CurrentPrintData']['override_for_photo'];
+					$force_defaults = $photo_sellable_print['DefaultPrintData']['force_defaults']; 
+					if ($force_defaults === '1') {
+						$override_for_photo = '0';
+					}
+				?>
+				<tr class="<?php if($override_for_photo === '1'): ?> unlocked <?php endif; ?>">
+					<td class="first">
 						<input class="override_for_photo" type="hidden" name="data[PhotoSellablePrint][<?php echo $count; ?>][override_for_photo]" value="<?php echo $override_for_photo; ?>" />
-						<img class="lock_img <?php if ($force_defaults === '1'): ?>unlockable<?php endif; ?>" src="/img/admin/icons/lock_white.png" style="<?php if($override_for_photo === '1'): ?>display: none;<?php endif; ?>" />
-						<img class="unlock_img" src="/img/admin/icons/unlock_white.png" style="<?php if($override_for_photo === '1'): ?>display: inline-block;<?php endif; ?>" />
+						<i class="icon-priceLock-01-01 lock_img <?php if ($force_defaults === '1'): ?>unlockable<?php endif; ?>" style="<?php if($override_for_photo === '1'): ?>display: none;<?php endif; ?>"></i>
+						<i class="icon-priceUnLock-01 unlock_img" style="<?php if($override_for_photo === '1'): ?>display: inline-block;<?php endif; ?>"></i>
 
 						<input name="data[PhotoSellablePrint][<?php echo $count; ?>][photo_avail_sizes_photo_print_type_id]" type="hidden" value="<?php echo $photo_sellable_print['PrintTypeJoin']['id']; ?>" />
 						<input name="data[PhotoSellablePrint][<?php echo $count; ?>][photo_id]" type="hidden" value="<?php echo $this->data['Photo']['id']; ?>" />
@@ -112,13 +137,14 @@
 							<input name="data[PhotoSellablePrint][<?php echo $count; ?>][id]" type="hidden" value="<?php echo $photo_sellable_print['PhotoSellablePrint']['id']; ?>" />
 						<?php endif; ?>
 					</td>
-					<td default="<?php echo $photo_sellable_print['DefaultPrintData']['default_available']; ?>" current="<?php echo $photo_sellable_print['CurrentPrintData']['available']; ?>">
+					<td class="input photo_use_sizes" default="<?php echo $photo_sellable_print['DefaultPrintData']['default_available']; ?>" current="<?php echo $photo_sellable_print['CurrentPrintData']['available']; ?>">
+						<div class="rightborder"></div>
 						<div class="disablable <?php if ($override_for_photo === '0'): ?>opacity_50<?php endif; ?>">
 							<input type="checkbox"  name="data[PhotoSellablePrint][<?php echo $count; ?>][available]" <?php if ($photo_sellable_print['CurrentPrintData']['available'] === '1'): ?>checked="checked"<?php endif; ?> default="<?php echo $photo_sellable_print['DefaultPrintData']['default_available']; ?>" custom="<?php echo isset($photo_sellable_print['PhotoSellablePrint']['override_for_photo']) ? $photo_sellable_print['PhotoSellablePrint']['override_for_photo'] : 0 ; ?>" />
 							<?php /*<input type="hidden"  name="data[PhotoSellablePrint][<?php echo $count; ?>][defaults][available]" value="<?php echo $photo_sellable_print['DefaultPrintData']['default_available']; ?>"  /> */ // this is turned off so that changes to availability will always save ?>
 						</div>
 					</td>
-					<td style="width: 200px;">
+					<td>
 						<div class="disablable <?php if ($override_for_photo === '0'): ?>opacity_50<?php endif; ?>">
 							<?php echo $photo_sellable_print['PhotoPrintType']['print_name']; ?> &mdash; <?php echo $photo_sellable_print['DefaultPrintData']['short_side_inches']; ?>" x <?php echo $photo_sellable_print['DefaultPrintData']['long_side_feet_inches']; ?>
 						</div>
@@ -135,7 +161,7 @@
 							<input type="hidden"  name="data[PhotoSellablePrint][<?php echo $count; ?>][defaults][shipping_price]" value="<?php echo $photo_sellable_print['DefaultPrintData']['shipping_price']; ?>"  />
 						</div>
 					</td>
-					<td class="input" default="<?php echo $photo_sellable_print['DefaultPrintData']['custom_turnaround']; ?>" current="<?php echo $photo_sellable_print['CurrentPrintData']['custom_turnaround']; ?>">
+					<td class="input last" default="<?php echo $photo_sellable_print['DefaultPrintData']['custom_turnaround']; ?>" current="<?php echo $photo_sellable_print['CurrentPrintData']['custom_turnaround']; ?>">
 						<div class="disablable <?php if ($override_for_photo === '0'): ?>opacity_50<?php endif; ?>">
 							<input value="<?php echo $photo_sellable_print['CurrentPrintData']['custom_turnaround']; ?>" name="data[PhotoSellablePrint][<?php echo $count; ?>][custom_turnaround]" type="text" />
 							<input type="hidden"  name="data[PhotoSellablePrint][<?php echo $count; ?>][defaults][custom_turnaround]" value="<?php echo $photo_sellable_print['DefaultPrintData']['custom_turnaround']; ?>"  />
