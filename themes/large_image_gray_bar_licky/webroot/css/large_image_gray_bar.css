@@ -527,29 +527,17 @@ h1.no_line {
   color: #ffffff;
   background-color: #222222;
 }
-.background_photo.blue button:hover {
-  background-color: #0000cc;
+.background_photo.blue #login_container #forgot_your_password_container .step_1 a:hover {
+  color: #0000cc;
 }
-.background_photo.pink button:hover {
-  background-color: #ff0099;
+.background_photo.pink #login_container #forgot_your_password_container .step_1 a:hover {
+  color: #ff0099;
 }
-.background_photo.yellow button:hover {
-  background-color: #ffff00;
+.background_photo.yellow #login_container #forgot_your_password_container .step_1 a:hover {
+  color: #ffff00;
 }
-.background_photo.red button:hover {
-  background-color: #cc3333;
-}
-.background_photo.blue #login_container form .submit input:hover {
-  background-color: #0000cc;
-}
-.background_photo.pink #login_container form .submit input:hover {
-  background-color: #ff0099;
-}
-.background_photo.yellow #login_container form .submit input:hover {
-  background-color: #ffff00;
-}
-.background_photo.red #login_container form .submit input:hover {
-  background-color: #cc3333;
+.background_photo.red #login_container #forgot_your_password_container .step_1 a:hover {
+  color: #cc3333;
 }
 .background_photo.blue h1 {
   border-bottom: 1px solid #0000cc;
@@ -563,44 +551,31 @@ h1.no_line {
 .background_photo.pink h1 {
   border-bottom: 1px solid #ff0099;
 }
-.background_photo.blue .no_label input:hover {
-  background-color: #0000cc;
+.background_photo.blue #shipping_address_summary a:hover {
+  color: #0000cc;
 }
-.background_photo.pink .no_label input:hover {
-  background-color: #ff0099;
+.background_photo.red #shipping_address_summary a:hover {
+  color: #cc3333;
 }
-.background_photo.yellow .no_label input:hover {
-  background-color: #ffff00;
+.background_photo.yellow #shipping_address_summary a:hover {
+  color: #ffff00;
 }
-.background_photo.red .no_label input:hover {
-  background-color: #cc3333;
-}
-.background_photo.blue .pay_now input:hover {
-  background-color: #0000cc;
-}
-.background_photo.pink .pay_now input:hover {
-  background-color: #ff0099;
-}
-.background_photo.yellow .pay_now input:hover {
-  background-color: #ffff00;
-}
-.background_photo.red .pay_now input:hover {
-  background-color: #cc3333;
+.background_photo.pink #shipping_address_summary a:hover {
+  color: #ff0099;
 }
 .background_photo a button {
-  position: relative;
-  left: 83px;
-  border: 1px solid #32373b;
+  border: 1px solid #333333;
   background-color: #333333;
   height: 40px;
   padding-left: 15px;
   padding-right: 15px;
-  font-size: 15px;
+  font-size: 18px;
   color: #999999;
 }
 .background_photo a button:hover {
   cursor: pointer;
   color: #ffffff;
+  background-color: #222222;
 }
 .background_photo #login_container {
   outline: none;
@@ -627,31 +602,24 @@ h1.no_line {
   margin: 0 0 10px 0;
 }
 .background_photo #login_container form .submit input {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #32373b;
+  border: 1px solid #333333;
   background-color: #333333;
   height: 40px;
   padding-left: 15px;
   padding-right: 15px;
-  font-size: 15px;
+  font-size: 18px;
   color: #999999;
 }
 .background_photo #login_container form .submit input:hover {
   cursor: pointer;
   color: #ffffff;
-}
-.background_photo #login_container #forgot_your_password_container {
-  position: relative;
-  right: 271px;
+  background-color: #222222;
 }
 .background_photo #login_container #forgot_your_password_container .step_1 {
   position: relative;
-  left: 220px;
+  right: 48px;
 }
 .background_photo #login_container #forgot_your_password_container .step_2 {
-  position: relative;
-  left: 270px;
   margin-bottom: 20px;
 }
 .background_photo #login_container #forgot_your_password_container .step_2 hr {
@@ -686,18 +654,18 @@ h1.no_line {
   left: 30px;
   text-align: center;
   margin-bottom: 10px;
-  border: 1px solid #32373b;
+  border: 1px solid #333333;
   background-color: #333333;
   height: 40px;
   padding-left: 70px;
   padding-right: 70px;
-  font-size: 15px;
+  font-size: 18px;
   color: #999999;
 }
 .background_photo .no_label input:hover {
   cursor: pointer;
-  background-color: #cc3333;
   color: #ffffff;
+  background-color: #222222;
 }
 .bottom_margin {
   margin-bottom: 100px;
@@ -707,20 +675,21 @@ h1.no_line {
 }
 .bottom_margin .background_photo .pay_now input {
   position: relative;
-  left: 30px;
+  left: 133px;
   text-align: center;
   margin-bottom: 10px;
-  border: 1px solid #32373b;
+  border: 1px solid #333333;
   background-color: #333333;
   height: 40px;
   padding-left: 70px;
   padding-right: 70px;
-  font-size: 15px;
+  font-size: 18px;
   color: #999999;
 }
 .bottom_margin .background_photo .pay_now input:hover {
   cursor: pointer;
   color: #ffffff;
+  background-color: #222222;
 }
 .bottom_margin .background_photo #final_payment_info {
   margin-top: 0px;
@@ -763,9 +732,6 @@ h1.no_line {
   color: #999999;
   text-decoration: none;
   font-size: 15px;
-}
-.bottom_margin .background_photo #shipping_address_summary a:hover {
-  color: #ffffff;
 }
 #cart_table {
   color: #000000;
