@@ -85,7 +85,7 @@
 				<tr page_id="<?php echo $curr_page['SitePage']['id']; ?>">
 					<td class="page_id first">
 						<div class="rightborder"></div>
-						<div class="reorder_page_grabber reorder_grabber" />
+						<div class="reorder_page_grabber reorder_grabber icon-position-01" />
 					</td> 
 					<td class="page_name ">
 						<div class="rightborder"></div>
@@ -113,7 +113,7 @@
 								</a>
 							<?php endif; ?>
 							<a class="delete_link" href="/admin/site_pages/delete_page/<?php echo $curr_page['SitePage']['id']; ?>/">
-								<div class="add_button icon"><div class="content">X</div></div>
+								<div class="add_button icon icon_close"><div class="content icon-close-01"></div></div>
 							</a>
 						</span>
 					</td>

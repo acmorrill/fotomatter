@@ -147,6 +147,7 @@ only screen and (min-resolution: 192dpi) {
 						margin-top: 8px;
 						margin-bottom: 8px;
 						float: none;
+						> a i { display: none; }
 						> ul {
 							width: 100%;
 							> li {
@@ -221,8 +222,9 @@ only screen and (min-resolution: 192dpi) {
 		padding-right: 0px;
 	}
 	.generic_palette_container {
-		padding-left: 2px;
-		padding-right: 2px;
+		padding-left: 0px;
+		padding-right: 0px;
+		padding-top: 0px;
 	}
 	.mobile_hide {
 		display: none;
@@ -308,7 +310,7 @@ only screen and (min-resolution: 192dpi) {
 		}
 	}
 	
-	.table_container {
+	#connect_gallery_photos_cont .table_container, .table_container {
 		padding-left: 20px;
 		padding-right: 20px;
 	}
@@ -329,7 +331,7 @@ only screen and (min-resolution: 192dpi) {
 	}
 	
 	.generic_inner_container {
-		padding: 30px 0px;
+		padding: 30px 20px;
 		.generic_dark_cont {
 			padding: 30px;
 			overflow: hidden;
@@ -358,9 +360,18 @@ only screen and (min-resolution: 192dpi) {
 			.content-background {
 				padding-left: 20px;
 				padding-right: 20px;
-				padding-top: 20px;
+				padding-top: 30px;
+				.generic_inner_container {
+					padding-left: 2px;
+					padding-right: 2px;
+					padding-top: 2px;
+				}
 			}
 		}
+	}
+	
+	.large_container {
+		margin: 0px;
 	}
 	
 	

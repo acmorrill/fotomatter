@@ -14,7 +14,6 @@
 				'Tier One Menu' => 'admin/theme_center/main_menu/single_level_menu_listing',
 				'Tier Two Menu' => 'admin/theme_center/main_menu/two_level_menu_listing',
 			),
-			'css' => 'margin-top: -26px;',
 			'starting_tab' => $starting_tab,
 		));
 	?>

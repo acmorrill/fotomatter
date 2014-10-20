@@ -93,7 +93,6 @@
 					<div class='table_cont'>
 						<table class="list" role="presentation">
 							<tbody class="files">
-								<tr class="spacer"><td colspan="4"></td></tr>
 								<tr class="first last not_added_yet">
 									<td class="first last" colspan="3">
 										<div class="rightborder"></div>

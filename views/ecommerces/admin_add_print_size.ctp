@@ -25,7 +25,6 @@
 		<?php endif; ?>
 		<div class="generic_palette_container">
 			<div class="fade_background_top"></div>
-			<div class="bg_effects_controls" style="margin-bottom: 40px;"></div>
 			<div class="basic_setting_cont">
 				<label><?php __('Print Short Side Dimension'); ?></label>
 				<div class="theme_setting_inputs_container">

@@ -13,10 +13,10 @@ $class = $icon_sizes['class'];
 <div class="<?php echo $class; ?> connect_photo_container" photo_id="<?php if (!isset($hide_data)) echo $the_photo['Photo']['id']; ?>" style="height: <?php echo $height; ?>px;width: <?php echo $width; ?>px;">
 	<div class="image_cover"></div>
 	<div class="remove_from_gallery_button gallery_image_circle_button top_right">
-		<div class="inner_button">X</div>
+		<div class="icon-close-01"></div>
 	</div>
 	<div class="order_in_gallery_button gallery_image_circle_button bottom_left">
-		<div class="reorder_icon"></div>
+		<div class="reorder_icon icon-position-01"></div>
 	</div>
 	<div class="table">
 		<div class="tr">

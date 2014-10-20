@@ -90,8 +90,8 @@
 												</div>
 											<?php endif; ?>
 											<?php if ($domain['AccountDomain']['type'] !== 'system'): ?>
-												<div ng-click='confirm_delete_domain("<?php echo $domain['AccountDomain']['id']; ?>", "<?php echo $domain['AccountDomain']['url']; ?>")' class="add_button icon">
-													<div class="content">X</div>
+												<div ng-click='confirm_delete_domain("<?php echo $domain['AccountDomain']['id']; ?>", "<?php echo $domain['AccountDomain']['url']; ?>")' class="add_button icon icon_close">
+													<div class="content icon-close-01"></div>
 												</div>
 											<?php endif; ?>
 										</span>

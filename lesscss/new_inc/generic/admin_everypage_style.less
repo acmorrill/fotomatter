@@ -60,11 +60,12 @@ a {
 	}
 	&, a, p{ color: @gray_text; }
 	.page_content_container();
+	padding-top: 40px;
 	padding-left: 40px;
 	padding-right: 40px;
 	.basic_setting_cont {
 		position: relative;
-		margin-top: 40px;
+		margin-bottom: 40px;
 		padding-top: 40px;
 		padding-bottom: 40px;
 		border-bottom: 1px solid @gray_text;
@@ -161,12 +162,14 @@ select, input {
 
 .reorder_grabber { 
 	cursor: move; 
-	background: url('/img/admin/icons/reorder_icon.svg') top center no-repeat; 
 	display: inline-block; 
 	width: 30px; 
 	height: 30px; 
 	margin-top: 5px; 
 	margin-left: 5px;
+	font-size: 30px;
+	color: @gray_text !important;
+	&:hover { color: @white !important; }
 }
 
 
@@ -251,6 +254,15 @@ select, input {
 			margin-top: 12px;
 			margin-bottom: 12px;
 			color: @gray_text;
+		}
+		&.icon_close {
+			padding-left: 10px;
+			padding-right: 10px;
+			.content {
+				font-size: 26px;
+				margin-top: 8px;
+				margin-bottom: 8px;
+			}
 		}
 		.Code-Pro-LC;
 		//.el_opacity(.6, 60);

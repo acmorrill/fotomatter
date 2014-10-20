@@ -334,7 +334,6 @@
 		<div class='table_cont'>
 			<table class="list">
 				<tbody>
-					<tr class="spacer"><td colspan="4"></td></tr>
 					<?php $items_length = count($overlord_account_info['items']); ?>
 					<?php $count = 1; foreach ($overlord_account_info['items'] as $line_item): ?>
 						<?php 
@@ -394,7 +393,7 @@
 								<div class="rightborder"></div>
 								<div class="feature_pending"><?php echo __('Add Pending', true); ?></div>
 								<?php if ($line_item['AccountLineItem']['active']): ?>
-									<div data_id='<?php echo $line_item['AccountLineItem']['id']; ?>' class="add_button icon remove_item"><div class="content">X</div></div>
+									<div data_id='<?php echo $line_item['AccountLineItem']['id']; ?>' class="add_button icon remove_item icon_close"><div class="content icon-close-01"></div></div>
 								<?php elseif ($line_item['AccountLineItem']['removed_scheduled']): ?>
 									<div data_id='<?php echo $line_item['AccountLineItem']['id']; ?>' class="add_button cancel_remove" type="submit">
 										<div class="content"><?php echo __('Undo Cancellation', true); ?></div>

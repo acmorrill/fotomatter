@@ -103,7 +103,7 @@
 				<tr gallery_id="<?php echo $curr_gallery['PhotoGallery']['id']; ?>">
 					<td class="gallery_id first">
 						<div class="rightborder"></div>
-						<div class="reorder_gallery_grabber reorder_grabber" />
+						<div class="reorder_gallery_grabber reorder_grabber icon-position-01" />
 					</td> 
 					<td class="gallery_name ">
 						<div class="rightborder"></div>
@@ -146,7 +146,7 @@
 									</div>
 								</a>*/ ?>
 							<?php endif; ?>
-							<a class="delete_link" href="/admin/photo_galleries/delete_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><div class="add_button icon"><div class="content">X</div></div></a>
+							<a class="delete_link" href="/admin/photo_galleries/delete_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><div class="add_button icon icon_close"><div class="content icon-close-01"></div></div></a>
 						</span>
 					</td>
 				</tr>

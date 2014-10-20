@@ -96,7 +96,7 @@
 					</td> 
 					<td class='last table_actions'>
 						<span class="custom_ui" ng-click="delete_tag(tag.Tag.id)" confirm-delete >
-							<div class="add_button icon"><div class="content">X</div></div>
+							<div class="add_button icon icon_close"><div class="content icon-close-01"></div></div>
 						</span>
 					</td>
 				</tr>
