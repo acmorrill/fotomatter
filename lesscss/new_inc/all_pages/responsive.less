@@ -1,36 +1,12 @@
-@media only screen and (max-width : 1366px) {
-	#main { 
-		margin-left: 253px; 
-		&.photo_details {
-			margin-left: 380px;
-		}
-	}
-	#header {
-		.logo { left: 13px; }
-		#top-navigation { left: 228px; }
-		#login_tagline { left: 263px; }
-	}
-	#sub-nav {
-		left: 0px;
-	}
-	#image_edit_container .actual_image_container {
-		left: 20px;
-	}
-}
-@media only screen and (max-width : 1280px) {
+@media only screen and (max-width : 1500px) {
 	#main { 
 		margin-left: 38px;
 		&.photo_details { margin-left: 0px; }
 	}
 	#header {
-		.logo { bottom: 50px; left: 37px; }
-		#top-navigation { 
-			left: 2px; 
-			#extra_buttons > li {
-				margin-left: 28px;
-			}
-		}
-		#login_tagline { left: 102px; border-left: 0px; }
+		.logo { left: 13px; }
+		#top-navigation { left: 228px; }
+		#login_tagline { left: 263px; }
 	}
 	#sub-nav {
 		left: 0px;
@@ -66,9 +42,27 @@
 		left: 0px;
 		margin-top: 0px;
 	}
+	#image_edit_container .actual_image_container {
+		position: relative;
+		top: 0px;
+		left: 0px;
+		margin-top: 0px;
+	}
+}
+@media only screen and (max-width : 1280px) {
+	#header {
+		.logo { bottom: 50px; left: 37px; }
+		#top-navigation { 
+			left: 2px; 
+			#extra_buttons > li {
+				margin-left: 28px;
+			}
+		}
+		#login_tagline { left: 102px; border-left: 0px; }
+	}
 }
 @media 
-only screen and (max-width : 1100px),
+only screen and (max-width : 1000px),
 only screen and (-webkit-min-device-pixel-ratio: 2), 
 only screen and (min-resolution: 192dpi) {
 	#sub-nav {
@@ -233,7 +227,7 @@ only screen and (min-resolution: 192dpi) {
 		overflow: hidden;
 		thead, tbody {
 			tr {
-				td, th {
+				td {
 					display: block !important;
 					width: inherit !important;
 					padding-left: 20px;
@@ -246,10 +240,16 @@ only screen and (min-resolution: 192dpi) {
 						> div, > span { margin-top: 9px; }
 					}
 				}
+				th {
+					display: block !important;
+					width: inherit !important;
+					padding-left: 20px;
+					> div, > span { margin-top: 25px; word-wrap: break-word; }
+				}
 			}
 		}
 		thead tr {
-			.content.one_line { margin-top: 0px; }
+			.content.one_line { margin-top: 10px; }
 		}
 		tbody {
 			tr td {

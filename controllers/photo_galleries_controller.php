@@ -163,6 +163,8 @@ class PhotoGalleriesController extends AppController {
 			if (!$this->PhotoGallery->save($smart_gallery)) {
 				$this->Session->setFlash(__('Failed to save smart settings.', true), 'admin/flashMessage/error');
 				$this->PhotoGallery->major_error('Failed to save smart settings.', compact('smart_gallery'));
+			} else {
+				$this->Session->setFlash(__('Smart Gallery settings saved', true), 'admin/flashMessage/success');
 			}
 		}
 		

@@ -99,7 +99,7 @@
 					</div>
 				</th>
 				<th>
-					<div class="content one_line">
+					<div class="content">
 						<?php echo __('Price', true); ?>
 					</div>
 				</th>
@@ -151,13 +151,13 @@
 					</td>
 					<td class="input" default="<?php echo $photo_sellable_print['DefaultPrintData']['price']; ?>" current="<?php echo $photo_sellable_print['CurrentPrintData']['price']; ?>">
 						<div class="disablable <?php if ($override_for_photo === '0'): ?>opacity_50<?php endif; ?>">
-							$<input class="money_format" value="<?php echo $photo_sellable_print['CurrentPrintData']['price']; ?>" name="data[PhotoSellablePrint][<?php echo $count; ?>][price]" type="text" />
+							<span class="money_symbol">$</span><input class="money_format" value="<?php echo $photo_sellable_print['CurrentPrintData']['price']; ?>" name="data[PhotoSellablePrint][<?php echo $count; ?>][price]" type="text" />
 							<input type="hidden"  name="data[PhotoSellablePrint][<?php echo $count; ?>][defaults][price]" value="<?php echo $photo_sellable_print['DefaultPrintData']['price']; ?>"  />
 						</div>
 					</td>
 					<td class="input" default="<?php echo $photo_sellable_print['DefaultPrintData']['shipping_price']; ?>" current="<?php echo $photo_sellable_print['CurrentPrintData']['shipping_price']; ?>">
 						<div class="disablable <?php if ($override_for_photo === '0'): ?>opacity_50<?php endif; ?>">
-							$<input class="money_format" value="<?php echo $photo_sellable_print['CurrentPrintData']['shipping_price']; ?>" name="data[PhotoSellablePrint][<?php echo $count; ?>][shipping_price]" type="text" />
+							<span class="money_symbol">$</span><input class="money_format" value="<?php echo $photo_sellable_print['CurrentPrintData']['shipping_price']; ?>" name="data[PhotoSellablePrint][<?php echo $count; ?>][shipping_price]" type="text" />
 							<input type="hidden"  name="data[PhotoSellablePrint][<?php echo $count; ?>][defaults][shipping_price]" value="<?php echo $photo_sellable_print['DefaultPrintData']['shipping_price']; ?>"  />
 						</div>
 					</td>

@@ -11,7 +11,7 @@
 		<img class="abs_image_tr remove_from_two_level_menu_button" src="/img/admin/icons/bw_simple_close_icon.png" />-->
 		<?php if ($class == 'container_item'): ?>
 			<!--<h2 class="rounded-corners no-bottom-rounded container_name" style="position: absolute; right: 20px; top: -38px; color: white; background-color: #636363; padding: 10px; padding-top: 7px;"><?php echo $menu_item_data['name']; ?> (container)</h2>-->
-			<td class="last" colspan="5">
+			<td class="first last" colspan="5">
 				<div class="background">
 					<div class="order_in_two_level_menu_button reorder_grabber icon-position-01"></div>
 				</div>

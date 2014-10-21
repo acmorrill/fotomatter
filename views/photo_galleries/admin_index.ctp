@@ -65,6 +65,11 @@
 						<?php echo __('Description', true); ?>
 					</div>
 				</th> 
+				<th class="mobile_hide">
+					<div class="content one_line">
+						<?php echo __('Gallery Type', true); ?>
+					</div>
+				</th> 
 				<th class="last">
 					<div class="content one_line">
 						<?php echo __('Actions', true); ?>
@@ -117,6 +122,10 @@
 							<span><?php echo $curr_gallery['PhotoGallery']['description']; ?></span>
 						<?php endif; ?>
 					</td> 
+					<td class="gallery_description mobile_hide">
+						<div class="rightborder"></div>
+						<span><?php echo ucwords($curr_gallery['PhotoGallery']['type']); ?></span>
+					</td>
 					<td class="gallery_action last table_actions">
 						<span class="custom_ui">
 							<?php if ($curr_gallery['PhotoGallery']['type'] == 'smart'): ?>

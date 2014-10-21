@@ -236,6 +236,13 @@ class PhotosController extends AppController {
 			// set or unset the id (depending on if its an edit or add)
 			$this->data['Photo']['id'] = $id;
 
+			
+			if ($this->data['Photo']['display_title'] == 'Photo Title') {
+				$this->data['Photo']['display_title'] = '';
+			}
+			if ($this->data['Photo']['display_subtitle'] == 'Photo Subtitle') {
+				$this->data['Photo']['display_subtitle'] = '';
+			}
 
 			if (isset($this->data['Photo']['tag_ids'])) {
 				//$this->data['Photo']['tag_ids']
