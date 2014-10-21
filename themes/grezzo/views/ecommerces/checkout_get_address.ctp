@@ -7,12 +7,12 @@
 			if (country_id !== 'empty_option') {
 				var state_cont = jQuery(context).closest('.address_cont').find('.state');
 				var state_select = jQuery('.state_select', state_cont);
-				var url = '/ecommerces/get_available_states_for_country_options/'+country_id+'/';
+				var url = '/ecommerces/get_available_states_for_country_options/' + country_id + '/';
 				if (first_load) {
 					var start_state_id = state_select.attr('first_load_id');
 					url += start_state_id;
-				} 
-				
+				}
+
 				jQuery.ajax({
 					type: 'post',
 					url: url,
@@ -38,20 +38,20 @@
 				});
 			}
 		}
-		
+
 		jQuery('.country_select').each(function() {
 			var context = this;
 			var country_id = jQuery(context).val();
-			
+
 			country_select_reset(context, country_id, true);
 		});
 		jQuery('.country_select').change(function() {
 			var context = this;
 			var country_id = jQuery(context).val();
-			
+
 			country_select_reset(context, country_id, false);
 		});
-		
+
 //		var shipping_data_cont = jQuery('.shipping_data_cont');
 //		var same_as_billing_callback = function() {
 //			if (jQuery(this).prop('checked')) {
@@ -72,10 +72,10 @@
 </div>
 <form action="/ecommerces/checkout_get_address" method="post">
 	<div id="shipping_address_container" class="address_cont">
-<!--		<h1>php __('Shipping Address'); ?></h1>-->
-				<?php /*<div class="input same_as_billing">
-			<label><?php __('Same as Billing'); ?>:</label> <input type="checkbox" name="data[ShippingAddress][same_as_billing]" <?php if (isset($shipping_address['same_as_billing']) && $shipping_address['same_as_billing'] == '1'): ?>checked="checked"<?php endif; ?> /><br/>
-		</div> */ ?>
+		<!--		<h1>php __('Shipping Address'); ?></h1>-->
+		<?php /* <div class="input same_as_billing">
+		  <label><?php __('Same as Billing'); ?>:</label> <input type="checkbox" name="data[ShippingAddress][same_as_billing]" <?php if (isset($shipping_address['same_as_billing']) && $shipping_address['same_as_billing'] == '1'): ?>checked="checked"<?php endif; ?> /><br/>
+		  </div> */ ?>
 		<div class="shipping_data_cont">
 			<div class="input first_name">
 				<label><?php __('First Name'); ?>:</label> <input type="text" name="data[ShippingAddress][firstname]" value="<?php if (isset($shipping_address['firstname'])): ?><?php echo $shipping_address['firstname']; ?><?php endif; ?>" /><br/>
@@ -113,7 +113,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="no_label">
 		<input type="submit" value="<?php __('Next'); ?>" />
 	</div>
