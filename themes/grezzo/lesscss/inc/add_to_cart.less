@@ -28,7 +28,7 @@
 	.page-content {
 		margin:auto;
 		width:80%;
-		
+
 
 		table {
 			width:100%;
@@ -51,7 +51,7 @@
 					}
 				}
 			}
-			
+
 			td {
 				text-align:center;
 				padding:2px 0;
@@ -60,84 +60,84 @@
 
 		button#standard_checkout_button {
 			margin:10px 0;
-			
+
 		}
 	}
 }
 
-	.black_box {
-		//display:none;
-		background-color: @black;
-		color: @top_header_text_color;
-		text-align: center;
-		padding: 5px;
-		margin-top: -20px;
-		h1 {
-			max-width: 1080px;
-			margin:0 auto;
-		}
-
+.black_box {
+	//display:none;
+	background-color: @black;
+	color: @top_header_text_color;
+	text-align: center;
+	padding: 5px;
+	margin-top: -20px;
+	h1 {
+		max-width: 1080px;
+		margin:0 auto;
 	}
-	#gray_spacing_bar{
+
+}
+#gray_spacing_bar{
 	border-bottom: 2px solid @gray_line_horizontal;
 	position: relative;
 	top: -32px;
 	//outline: 1px solid red;
 }
-	#shipping_address_container{
-		width: 400px;
-		margin-left: auto;
-		margin-right: auto;
-		outline: none;
-		label{
-			margin-top: 5px;
-		}
+#shipping_address_container{
+	width: 400px;
+	margin-left: auto;
+	margin-right: auto;
+	outline: none;
+	label{
+		margin-top: 5px;
 	}
-	.no_label{
-		width: 400px;
-		//padding: 7px;
-		margin-left: auto;
-		margin-right: auto;
-		margin-top: 0px;
-	}
-	
-	#footer{
-		margin-top: 60px;
-		width: 700px;
-		margin-left: auto;
-		margin-right: auto;
-		//outline: solid 1px red;
-	}
-	
-	input[type="submit"] {
-		padding: 7px;
-		width: 103px;
-	}
+}
+.no_label{
+	width: 400px;
+	//padding: 7px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 0px;
+}
 
-	input[type=text], textarea {
-		  -webkit-transition: all 0.30s ease-in-out;
-		  -moz-transition: all 0.30s ease-in-out;
-		  -ms-transition: all 0.30s ease-in-out;
-		  -o-transition: all 0.30s ease-in-out;
-		  outline: 1px solid @outline_textarea;
-		  padding: 3px 0px 3px 3px;
-		  margin: 5px 1px 3px 0px;
-		  border: 1px solid @boarder_textarea;
-		  
-		  
-	}
+#footer{
+	margin-top: 60px;
+	width: 700px;
+	margin-left: auto;
+	margin-right: auto;
+	//outline: solid 1px red;
+}
 
-	input[type=text]:focus, textarea:focus {
-		  box-shadow: 0 0 5px black;
-		  padding: 3px 0px 3px 3px;
-		  margin: 5px 1px 3px 0px;
-		  border: 1px solid black;
-		  
-		  select:not([size]):not([multiple]){
-			  
-		  }
-		}
-		
+input[type="submit"] {
+	padding: 7px;
+	width: 103px;
+}
+
+input[type=text], textarea {
+	-webkit-transition: all 0.30s ease-in-out;
+	-moz-transition: all 0.30s ease-in-out;
+	-ms-transition: all 0.30s ease-in-out;
+	-o-transition: all 0.30s ease-in-out;
+	outline: 1px solid @outline_textarea;
+	padding: 3px 0px 3px 3px;
+	margin: 5px 1px 3px 0px;
+	border: 1px solid @boarder_textarea;
+
+
+}
+
+input[type=text]:focus, textarea:focus {
+	box-shadow: 0 0 5px black;
+	padding: 3px 0px 3px 3px;
+	margin: 5px 1px 3px 0px;
+	border: 1px solid black;
+
+	select:not([size]):not([multiple]){
+
+	}
+}
+
 input[type="password"] {
 	border: 1px solid @boarder_textarea;
     margin: 5px 1px 3px 0;
@@ -147,96 +147,96 @@ input[type="password"] {
 }
 
 input[type="password"]:focus, textarea:focus {
-		  box-shadow: 0 0 5px black;
-		  padding: 3px 0px 3px 3px;
-		  margin: 5px 1px 3px 0px;
-		  border: 1px solid black;
-		  
-		  select:not([size]):not([multiple]){
-			  
-		  }
+	box-shadow: 0 0 5px black;
+	padding: 3px 0px 3px 3px;
+	margin: 5px 1px 3px 0px;
+	border: 1px solid black;
+
+	select:not([size]):not([multiple]){
+
+	}
+}
+select{
+	width: 180px;
+	margin-top: 5px;
+	&:focus{
+		outline: 1px solid @black;
+	}
+}
+
+#gray_border_bottom{
+	background-image: url("/img/border_bottom.png");
+	height: 21px;
+	margin-bottom: 19px;
+	//outline: 1px solid red;
+}
+/* checkout_login_or_guest.ctp styles */
+#login_container {
+	margin-top: 30px;
+	//outline: 1px solid black;
+	padding: 20px;
+	width: 400px;
+	margin-left: auto;
+	margin-right: auto;
+}
+#login_container label {
+	display: inline-block;
+	vertical-align: top;
+	width: 100px;
+	text-align: right;
+	margin-right: 10px;
+}
+#login_container .input {
+	margin-bottom: 10px;
+
+}
+#login_container .submit {
+	padding-left: 114px;
+}
+
+#title_name {
+	//display: none;
+	h1{
+		background-color: #000;
+		color: #fff;
+		text-align: center;
+		padding: 2px;
+		span{
+			font-size: 12px;
 		}
-		select{
-			width: 180px;
-			margin-top: 5px;
-			&:focus{
-				outline: 1px solid @black;
+	}
+}
+
+#shipping_address_summary{
+	outline: none;
+	h1 {
+		background-color: #000;
+		color: #fff;
+		text-align: center;
+		padding: 2px;
+		a{
+			color: @a_text;
+			font-size: 12px;
+			text-decoration: none;
+
+			&:hover{
+				cursor: pointer;
+				color: @text_color_edit;
 			}
 		}
-		
-		#gray_border_bottom{
-			background-image: url("/img/border_bottom.png");
-			height: 21px;
-			margin-bottom: 19px;
-			//outline: 1px solid red;
-		}
-		/* checkout_login_or_guest.ctp styles */
-	#login_container {
-		margin-top: 30px;
-		//outline: 1px solid black;
-		padding: 20px;
-		width: 400px;
+	}
+	#shipping_address_output{
+		width: 170px;
+		margin-right: auto;
+		margin-left: auto;
+	}
+}
+
+#final_payment_info{
+	outline: none;
+	.address_cont{
 		margin-left: auto;
 		margin-right: auto;
+		width: 400px;
 	}
-	#login_container label {
-		display: inline-block;
-		vertical-align: top;
-		width: 100px;
-		text-align: right;
-		margin-right: 10px;
-	}
-	#login_container .input {
-		margin-bottom: 10px;
-		
-	}
-	#login_container .submit {
-		padding-left: 114px;
-	}
-	
-	#title_name {
-		//display: none;
-		h1{
-			background-color: #000;
-			color: #fff;
-			text-align: center;
-			padding: 2px;
-			span{
-				font-size: 12px;
-			}
-		}
-	}
-	
-	#shipping_address_summary{
-		outline: none;
-		h1 {
-			background-color: #000;
-			color: #fff;
-			text-align: center;
-			padding: 2px;
-				a{
-					color: @a_text;
-					font-size: 12px;
-					text-decoration: none;
-
-					&:hover{
-						cursor: pointer;
-						color: @text_color_edit;
-					}
-				}
-			}
-		#shipping_address_output{
-				width: 170px;
-				margin-right: auto;
-				margin-left: auto;
-		}
-	}
-	
-	#final_payment_info{
-		outline: none;
-		.address_cont{
-			margin-left: auto;
-			margin-right: auto;
-			width: 400px;
-		}
-	}
+}
