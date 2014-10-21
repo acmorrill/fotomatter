@@ -40,7 +40,7 @@
 					<button class="cancel">Cancel</button>
 			
 					<span class="custom_ui cancel_photo_upload">
-						<div class="add_button icon"><div class="content">X</div></div>
+						<div class="add_button icon icon_close"><div class="content icon-close-01"></div></div>
 					</span>
 				{% } %}
 			</td>

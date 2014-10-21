@@ -13,10 +13,10 @@
 			<!--<h2 class="rounded-corners no-bottom-rounded container_name" style="position: absolute; right: 20px; top: -38px; color: white; background-color: #636363; padding: 10px; padding-top: 7px;"><?php echo $menu_item_data['name']; ?> (container)</h2>-->
 			<td class="last" colspan="5">
 				<div class="background">
-					<div class="order_in_two_level_menu_button reorder_grabber"></div>
+					<div class="order_in_two_level_menu_button reorder_grabber icon-position-01"></div>
 				</div>
 				<span><?php echo $menu_item_data['name']; ?> Container</span>
-				<div class="remove_from_two_level_menu_button add_button icon"><div class="content">X</div></div>
+				<div class="remove_from_two_level_menu_button add_button icon icon_close"><div class="content icon-close-01"></div></div>
 				<ul>
 					<?php 
 						echo $this->Element('admin/theme_center/main_menu/two_level_menu_container_item', array(
@@ -28,7 +28,7 @@
 		<?php else: ?>
 			<td class="first table_width_reorder_icon">
 				<div class="background">
-					<div class="order_in_two_level_menu_button reorder_grabber"></div>
+					<div class="order_in_two_level_menu_button reorder_grabber icon-position-01"></div>
 				</div>
 			</td>
 			<td class="menu_type">
@@ -43,7 +43,7 @@
 				<span><?php echo $menu_item_data['name']; ?> <?php echo $type_text; ?></span>
 			</td>
 			<td class="last table_actions">
-				<div class="remove_from_two_level_menu_button add_button icon"><div class="content">X</div></div>
+				<div class="remove_from_two_level_menu_button add_button icon icon_close"><div class="content icon-close-01"></div></div>
 			</td>
 		<?php endif; ?>
 	</tr>

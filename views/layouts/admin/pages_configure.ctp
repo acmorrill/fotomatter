@@ -25,13 +25,15 @@
 				$subnav['pages'][] = array(
 					'name' => __('Page Settings', true),
 					'url' => "/admin/site_pages/edit_page/{$this->data['SitePage']['id']}/",
-					'selected' => true
+					'selected' => true,
+					'icon_css' => 'PageSettings-01'
 				);
 
 				if (isset($this->data['SitePage']['type']) && $this->data['SitePage']['type'] == 'custom') {
 					$subnav['pages'][] = array(
 						'name' => __('Configure Page', true),
-						'url' => "/admin/site_pages/configure_page/{$this->data['SitePage']['id']}/"
+						'url' => "/admin/site_pages/configure_page/{$this->data['SitePage']['id']}/",
+						'icon_css' => 'configurePage-01'
 					);
 				}
 

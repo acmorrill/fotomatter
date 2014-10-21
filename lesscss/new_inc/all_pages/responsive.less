@@ -1,5 +1,10 @@
 @media only screen and (max-width : 1366px) {
-	#main { margin-left: 253px; }
+	#main { 
+		margin-left: 253px; 
+		&.photo_details {
+			margin-left: 380px;
+		}
+	}
 	#header {
 		.logo { left: 13px; }
 		#top-navigation { left: 228px; }
@@ -8,9 +13,15 @@
 	#sub-nav {
 		left: 0px;
 	}
+	#image_edit_container .actual_image_container {
+		left: 20px;
+	}
 }
 @media only screen and (max-width : 1280px) {
-	#main { margin-left: 38px; }
+	#main { 
+		margin-left: 38px;
+		&.photo_details { margin-left: 0px; }
+	}
 	#header {
 		.logo { bottom: 50px; left: 37px; }
 		#top-navigation { 
@@ -48,6 +59,12 @@
 		//ul li {
 		//	height: 40px;
 		//}
+	}
+	#image_edit_container .actual_image_container {
+		position: relative;
+		top: 0px;
+		left: 0px;
+		margin-top: 0px;
 	}
 }
 @media 
@@ -130,6 +147,7 @@ only screen and (min-resolution: 192dpi) {
 						margin-top: 8px;
 						margin-bottom: 8px;
 						float: none;
+						> a i { display: none; }
 						> ul {
 							width: 100%;
 							> li {
@@ -204,8 +222,9 @@ only screen and (min-resolution: 192dpi) {
 		padding-right: 0px;
 	}
 	.generic_palette_container {
-		padding-left: 2px;
-		padding-right: 2px;
+		padding-left: 0px;
+		padding-right: 0px;
+		padding-top: 0px;
 	}
 	.mobile_hide {
 		display: none;
@@ -291,7 +310,7 @@ only screen and (min-resolution: 192dpi) {
 		}
 	}
 	
-	.table_container {
+	#connect_gallery_photos_cont .table_container, .table_container {
 		padding-left: 20px;
 		padding-right: 20px;
 	}
@@ -333,6 +352,30 @@ only screen and (min-resolution: 192dpi) {
 			}
 		}
 	}
+	
+	
+	// sub_submenu responsiveness
+	.sub_submenu_cont {
+		.sub_submenu_right_cont {
+			.content-background {
+				padding-left: 20px;
+				padding-right: 20px;
+				padding-top: 30px;
+				.generic_inner_container {
+					padding-left: 2px;
+					padding-right: 2px;
+					padding-top: 2px;
+				}
+			}
+		}
+	}
+	
+	.large_container {
+		margin: 0px;
+	}
+	
+	
+	
 }
 
 

@@ -6,7 +6,7 @@
 <script type="text/javascript" src="/js/jquery_price_format/jquery.price_format.min.js"></script>
 
 
-<div id="image_edit_container">
+<div id="image_edit_container" class="no_td_as_block">
 	<h1><?php echo __('Photo Details', true); ?>
 		<?php echo $this->Element('/admin/get_help_button'); ?>
 	</h1>

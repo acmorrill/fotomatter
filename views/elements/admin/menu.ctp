@@ -37,7 +37,7 @@
 						<tbody>
 							<tr>
 								<td class="first" onclick="">
-									<i class="icon-receiveMoney-01"></i>
+									<i class="icon-accountDetails-01"></i>
 								</td>
 								<td class="second">
 									<a href="/admin/accounts/account_details">
@@ -59,7 +59,7 @@
 						<tbody>
 							<tr>
 								<td class="first" onclick="">
-									<i class="icon-receiveMoney-01"></i>
+									<i class="icon-siteDomains_2-01"></i>
 								</td>
 								<td class="second">
 									<a href="/admin/domains">
@@ -81,7 +81,7 @@
 						<tbody>
 							<tr>
 								<td class="first" onclick="">
-									<i class="icon-receiveMoney-01"></i>
+									<i class="icon-manageTags-01"></i>
 								</td>
 								<td class="second">
 									<a href="/admin/tags/manage_tags">
@@ -100,10 +100,10 @@
 			</ul>
 		</li>
 		<li class="<?php if ($curr_page == 'mass_upload'): ?> active<?php endif; ?>">
-			<a href="/admin/photos/mass_upload"><i class="icon-cogWheel"></i><?php echo __('Upload Photos', true); ?></a>
+			<a href="/admin/photos/mass_upload"><i class="icon-pictureUpload-01"></i><?php echo __('Upload Photos', true); ?></a>
 		</li>
 		<li class="<?php if ($curr_page == 'add_features'): ?> active<?php endif; ?>">
-			<a href="/admin/accounts/index"><i class="icon-cogWheel"></i><?php echo __ ('Manage Features', true); ?></a>
+			<a href="/admin/accounts/index"><i class="icon-manageFeatures-01"></i><?php echo __ ('Manage Features', true); ?></a>
 		</li>
 	</ul>
 	<ul class="menu">

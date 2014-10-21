@@ -22,7 +22,7 @@
 			$subnav['pages'][] = array(
 				'name' => __('Choose Theme', true),
 				'url' => "/admin/theme_centers/choose_theme/",
-				'icon_css' => 'monitor',
+				'icon_css' => 'ChooseTheme_icon',
 			);
 			$subnav['pages'][] = array(
 				'name' => __('Current Theme Settings', true),
@@ -37,7 +37,7 @@
 			$subnav['pages'][] = array(
 				'name' => __('Configure Logo', true),
 				'url' => "/admin/theme_centers/configure_logo/",
-				'icon_css' => 'blah',
+				'icon_css' => 'ConfigureLogo-01',
 				'hide_on_mobile' => true,
 			);
 			$subnav['pages'][] = array(

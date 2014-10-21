@@ -22,17 +22,20 @@
 				);
 				$subnav['pages'][] = array(
 					'name' => __('Gallery Settings', true),
-					'url' => "/admin/photo_galleries/edit_gallery/{$this->data['PhotoGallery']['id']}/"
+					'url' => "/admin/photo_galleries/edit_gallery/{$this->data['PhotoGallery']['id']}/",
+					'icon_css' => 'gallerySettings-01'
 				);
 				if ($this->data['PhotoGallery']['type'] === 'smart') {
 					$subnav['pages'][] = array(
 						'name' => __('Smart Gallery Settings', true),
-						'url' => "/admin/photo_galleries/edit_smart_gallery/{$this->data['PhotoGallery']['id']}/"
+						'url' => "/admin/photo_galleries/edit_smart_gallery/{$this->data['PhotoGallery']['id']}/",
+						'icon_css' => 'managePhotos-01'
 					);
 				} else if ($this->data['PhotoGallery']['type'] === 'standard') {
 					$subnav['pages'][] = array(
 						'name' => __('Manage Photos', true),
-						'url' => "/admin/photo_galleries/edit_gallery_connect_photos/{$this->data['PhotoGallery']['id']}/"
+						'url' => "/admin/photo_galleries/edit_gallery_connect_photos/{$this->data['PhotoGallery']['id']}/",
+						'icon_css' => 'managePhotos-01'
 					);
 //					$subnav['pages'][] = array(
 //						'name' => __('Arrange Photos', true),

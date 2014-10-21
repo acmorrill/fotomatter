@@ -101,7 +101,7 @@
 						<div class="rightborder"></div>
 						<span class="custom_ui">
 							<a href="/admin/ecommerces/add_print_size/<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>/"><div class="add_button" <?php echo $edit_help_code; ?> ><div class="content"><?php echo __('Edit',true);?></div><div class="right_arrow_lines"><div></div></div></div></a>
-							<a class="delete_link" href="/admin/ecommerces/delete_print_size/<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>/"><div class="add_button icon"><div class="content">X</div></div></a>
+							<a class="delete_link" href="/admin/ecommerces/delete_print_size/<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>/"><div class="add_button icon icon_close"><div class="content icon-close-01"></div></div></a>
 						</span>
 					</td>
 				</tr>

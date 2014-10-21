@@ -1,7 +1,7 @@
 .sub_submenu_cont {
 	margin-top: 40px;
 	.sub_submenu_left_cont, .sub_submenu_right_cont, .sub_submenu_far_right_cont {
-		width: @table_width + 40px;
+		/*width: @table_width + 40px;*/
 		position: relative;
 	}
 	.sub_submenu_far_right_cont {
@@ -65,25 +65,56 @@
 		}
 	}
 	.sub_submenu_right_cont {
+		.no_select;
+		.content-background {
+			width: initial;
+			padding-left: 45px;
+			padding-right: 45px;
+			padding-top: 45px;
+		}
 		.sub_submenu_tab_cont {
 			display: none;
 			position: relative;
 			margin-bottom: 210px;
 			table.list {
+/*				margin-left: 25px;
+				margin-right: 25px;
+				margin-top: 30px;
+				margin-bottom: 30px;*/
+				tr {
+					.photo_use_sizes {
+						width: 123px;
+						text-align: left;
+					}
+				}
 				thead {
 					tr {
 						background: @body_content_top_bg;
+						th {
+							&.first { padding-left: 30px; }
+							&.last { padding-right: 30px; }
+						}
+					}
+				}
+				tbody {
+					tr {
+						&.spacer {
+							td { height: 25px; }
+						}
+						td {
+							&.first { padding-left: 30px; }
+							&.last { padding-right: 30px; }
+						}
 					}
 				}
 			}
 		}
 	}
-	.generic_inner_container {
+/*	.generic_inner_container {
 		padding: 45px 25px;
-	}
+	}*/
 	.save_button {
 		margin-top: 0px;
-		margin-left: 25px;
 		margin-bottom: 40px;
 	}
 }

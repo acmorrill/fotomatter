@@ -58,7 +58,7 @@
 	.in_gallery_main_cont, .not_in_gallery_main_cont {
 		position: relative;
 		outline: 1px solid @gray_text;
-		margin-top: 30px;
+		margin-top: 40px;
 		margin-bottom: 40px;
 		min-height: 400px;
 		.empty_help_content { top: 25%; }
@@ -105,22 +105,28 @@
 					line-height: @cicle_button_width;
 					color: @gray_text;
 				}
+				.icon-close-01 {
+					line-height: @cicle_button_width;
+					color: @gray_text;
+					font-size: 24px;
+				}
 				.plus_icon {
 					font-size: 28px;
 				}
 				.reorder_icon {
 					cursor: move;
-					background: url('/img/admin/icons/reorder_icon.svg') top center no-repeat;
+					/*background: url('/img/admin/icons/reorder_icon.svg') top center no-repeat;*/
 					display: inline-block;
-					width: @cicle_button_width - 10px;
-					height: @cicle_button_width - 10px;
-					margin-top: 5px;
-					.el_opacity(.6, 60);
+/*					width: @cicle_button_width - 10px;
+					height: @cicle_button_width - 10px;*/
+					margin-top: 4px;
+					color: @gray_text !important;
+					font-size: 21px;
 				}
 				&:hover {
 					background: @off_black + @button_bg_increase;
-					.inner_button, .plus_icon { color: @white; }
-					.reorder_icon { .el_opacity(1, 100); }
+					.inner_button, .plus_icon, .icon-close-01 { color: @white; }
+					.reorder_icon { .el_opacity(1, 100); color: @white !important; }
 				}
 			}
 			&:hover {
