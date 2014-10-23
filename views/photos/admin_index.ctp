@@ -17,7 +17,7 @@
 	<div class="add_gallery_element custom_ui" style="margin: 5px; margin-bottom: 15px;">
 		<form action="/admin/photos/mass_upload/" method="get" style="float: right;">
 			<div id="upload_photos" class="add_button" type="submit" data-step="2" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="left"><div class="content"><?php echo __('Upload Photos', true); ?></div>
-				<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
+				<div class="plus_icon_lines icon-_button-01"><div class="one"></div><div class="two"></div></div>
 			</div>
 		</form>
 		<div style="clear: both;"></div>
@@ -115,7 +115,7 @@
 						<div class="rightborder"></div>
 						<span class="custom_ui">
 							<?php if ($photo_is_enabled): ?>
-								<a href="/admin/photos/edit/<?php echo $curr_photo['Photo']['id']; ?>/"><div class="add_button"><div class="content"><?php __('Edit'); ?></div><div class="right_arrow_lines"><div></div></div></div></a>
+								<a href="/admin/photos/edit/<?php echo $curr_photo['Photo']['id']; ?>/"><div class="add_button"><div class="content"><?php __('Edit'); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div></div></a>
 							<?php endif;?>
 							<a class="delete_link" href="/admin/photos/delete_photo/<?php echo $curr_photo['Photo']['id']; ?>/"><div class="add_button icon icon_close"><div class="content icon-close-01"></div></div></a>
 						</span>

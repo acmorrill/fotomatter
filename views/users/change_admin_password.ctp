@@ -18,11 +18,11 @@
 				<div class="submit custom_ui">
 					<div class="add_button javascript_submit">
 						<div class="content"><?php echo __('Change Password', true); ?></div>
-						<div class="right_arrow_lines"><div class=""></div></div>
+						<div class="right_arrow_lines icon-arrow-01"><div class=""></div></div>
 					</div>
 				</div>
 				<div class="hide_submit">
-					<input type="submit" value="<?php __('Save'); ?>" />
+					<input type="submit" value="<?php echo __('Save', true); ?>" />
 				</div>
 			</form>
 		</div>

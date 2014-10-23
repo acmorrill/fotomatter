@@ -99,7 +99,7 @@
 				border: 1px solid @gray_text;
 				background: @off_black;
 				cursor: pointer;
-				.inner_button, .plus_icon {
+				.inner_button {
 					.Code-Pro-LC;
 					font-size: 16px;
 					line-height: @cicle_button_width;
@@ -110,8 +110,11 @@
 					color: @gray_text;
 					font-size: 24px;
 				}
-				.plus_icon {
-					font-size: 28px;
+				.icon-_button-01 {
+					font-size: 38px;
+					color: @gray_text;
+					margin-top: -5px;
+					margin-left: -4px;
 				}
 				.reorder_icon {
 					cursor: move;
@@ -125,7 +128,7 @@
 				}
 				&:hover {
 					background: @off_black + @button_bg_increase;
-					.inner_button, .plus_icon, .icon-close-01 { color: @white; }
+					.inner_button, .icon-_button-01, .icon-close-01 { color: @white; }
 					.reorder_icon { .el_opacity(1, 100); color: @white !important; }
 				}
 			}
@@ -143,8 +146,8 @@
 					-webkit-border-radius: @smaller_cicle_button_width;  //safari/chrome 
 					-moz-border-radius: @smaller_cicle_button_width;  //Firefox 
 					border-radius: @smaller_cicle_button_width;  //CSS3 
-					.inner_button, .plus_icon { font-size: 14px; line-height: @smaller_cicle_button_width; }
-					.plus_icon { font-size: 24px; }
+					.inner_button { font-size: 14px; line-height: @smaller_cicle_button_width; }
+					.icon-_button-01 { font-size: 24px; }
 					.reorder_icon {
 						width: @smaller_cicle_button_width - 10px;
 						height: @smaller_cicle_button_width - 10px;

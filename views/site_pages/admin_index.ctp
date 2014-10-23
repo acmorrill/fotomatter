@@ -101,14 +101,14 @@
 							<a href="/admin/site_pages/edit_page/<?php echo $curr_page['SitePage']['id']; ?>/">
 								<div class="add_button">
 									<div class="content"><?php echo __('Edit', true); ?></div>
-									<div class="right_arrow_lines"><div></div></div>
+									<div class="right_arrow_lines icon-arrow-01"><div></div></div>
 								</div>
 							</a>
 							<?php if (isset($curr_page['SitePage']['type']) && $curr_page['SitePage']['type'] == 'custom'): ?>
 								<a href="/admin/site_pages/configure_page/<?php echo $curr_page['SitePage']['id']; ?>/">
 									<div class="add_button">
 										<div class="content"><?php echo __('Configure', true); ?></div>
-										<div class="right_arrow_lines"><div></div></div>
+										<div class="right_arrow_lines icon-arrow-01"><div></div></div>
 									</div>
 								</a>
 							<?php endif; ?>

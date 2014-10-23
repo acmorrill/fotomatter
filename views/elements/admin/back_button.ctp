@@ -1,1 +1,1 @@
-<div id="back_button" class="custom_ui"><div class="add_button"><div class="content"><?php echo __('Back'); ?></div><div class="right_arrow_lines"><div></div></div></div></dIv>
+<div id="back_button" class="custom_ui"><div class="add_button"><div class="content"><?php echo __('Back'); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div></div></dIv>

@@ -135,7 +135,7 @@
 									<span class="custom_ui">
 										<a href="/admin/ecommerces/approve_order/<?php echo $authnet_order['AuthnetOrder']['id']; ?>/">
 											<div class="add_button">
-												<div class="content"><?php echo __('Approve Order', true); ?></div><div class="right_arrow_lines"><div></div></div>
+												<div class="content"><?php echo __('Approve Order', true); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div>
 											</div>
 										</a>
 									</span>
@@ -143,7 +143,7 @@
 										<span class="custom_ui">
 											<a href="/admin/ecommerces/void_order/<?php echo $authnet_order['AuthnetOrder']['id']; ?>/">
 												<div class="add_button">
-													<div class="content"><?php echo __('Void Order', true); ?></div><div class="right_arrow_lines"><div></div></div>
+													<div class="content"><?php echo __('Void Order', true); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div>
 												</div>
 											</a>
 										</span>
@@ -152,7 +152,7 @@
 										<span class="custom_ui">
 											<a href="/admin/ecommerces/refund_order/<?php echo $authnet_order['AuthnetOrder']['id']; ?>/">
 												<div class="add_button">
-													<div class="content"><?php echo __('Refund Order', true); ?></div><div class="right_arrow_lines"><div></div></div>
+													<div class="content"><?php echo __('Refund Order', true); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div>
 												</div>
 											</a>
 										</span>

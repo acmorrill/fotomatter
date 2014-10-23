@@ -28,7 +28,7 @@
 	<div class="add_gallery_element custom_ui" style="margin: 5px; margin-bottom: 15px;">
 		<form action="/admin/ecommerces/add_print_size/" method="get" style="float: right;">
 			<div id="add_new_printsize_button" class="add_button" type="submit" data-step="4" data-intro="<?php echo __("You don’t have to do anything here unless you don’t want to use the default print sizes. If you have custom print sizes that you would like to sell you will need to add them by using this button.", true); ?>" data-position="bottom"><div class="content"><?php echo __('Add New Print Size', true); ?></div>
-				<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
+				<div class="plus_icon_lines icon-_button-01"><div class="one"></div><div class="two"></div></div>
 			</div>
 		</form>
 		<form id="reset_printsize_form" action="/admin/ecommerces/reset_print_sizes/" method="get" style="float: right; margin-right: 20px;">
@@ -100,7 +100,7 @@
 					<td class="last table_actions">
 						<div class="rightborder"></div>
 						<span class="custom_ui">
-							<a href="/admin/ecommerces/add_print_size/<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>/"><div class="add_button" <?php echo $edit_help_code; ?> ><div class="content"><?php echo __('Edit',true);?></div><div class="right_arrow_lines"><div></div></div></div></a>
+							<a href="/admin/ecommerces/add_print_size/<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>/"><div class="add_button" <?php echo $edit_help_code; ?> ><div class="content"><?php echo __('Edit',true);?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div></div></a>
 							<a class="delete_link" href="/admin/ecommerces/delete_print_size/<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>/"><div class="add_button icon icon_close"><div class="content icon-close-01"></div></div></a>
 						</span>
 					</td>

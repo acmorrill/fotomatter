@@ -27,45 +27,29 @@
 }
 
 
-.right_arrow_lines {
+.right_arrow_lines, .plus_icon_lines {
 	display: inline-block;
 	vertical-align: top;
 	position: relative;
-	.right_facing_triangle(10, @gray_text);
-	margin-top: 11px;
-	margin-bottom: 11px;
-	margin-left: 20px;
-	div {
-		position: absolute;
-		top: -10px;
-		left: -12px;
-		.right_facing_triangle(10, @off_black);
-		//.el_opacity(.6, 60);
+	font-size: 42px;
+	margin-right: -11px;
+}
+.plus_icon_lines {
+	margin-right: -19px;
+}
+.bigger {
+	.right_arrow_lines, .plus_icon_lines {
+		font-size: 50px;
+		margin-right: -22px;
+	}
+}
+.highlight {
+	.right_arrow_lines, .plus_icon_lines {
+		color: @white;
+		margin-right: -16px;
 	}
 }
 
-@lines_size: 16px;
-.plus_icon_lines {
-	display: inline-block;
-	vertical-align: top;
-	position: relative;
-	margin-top:12px;
-	margin-bottom:12px;
-	margin-left: 12px;
-	width: @lines_size;
-	height: @lines_size;
-	.one, .two { background-color: @gray_text; position: absolute; top: 0px; left: 0px;}
-	.one { 
-		left: 50%;
-		width: 1px;
-		height: @lines_size;
-	}
-	.two {
-		top: 50%;
-		width: @lines_size;
-		height: 1px;
-	}
-}
 
 .show_on_mobile {
 	display: none;

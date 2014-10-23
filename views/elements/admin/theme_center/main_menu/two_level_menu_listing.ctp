@@ -504,7 +504,7 @@
 					<div id="two_level_menu_container_add_button" class="custom_ui tools_button">
 						<div class="add_button">
 							<div class="content"><?php echo __('Add', true); ?></div>
-							<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
+							<div class="plus_icon_lines icon-_button-01"><div class="one"></div><div class="two"></div></div>
 						</div>
 					</div>
 				</div>
@@ -547,7 +547,7 @@
 						<div id="two_level_menu_page_add_button" class="custom_ui tools_button">
 							<div class="add_button">
 								<div class="content"><?php echo __('Add', true); ?></div>
-								<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
+								<div class="plus_icon_lines icon-_button-01"><div class="one"></div><div class="two"></div></div>
 							</div>
 						</div>
 					</div>
@@ -556,14 +556,14 @@
 						<a href="/admin/site_pages">
 							<div class="add_button">
 								<div class="content"><?php echo __('Go To Page Builder', true); ?></div>
-								<div class="right_arrow_lines"><div></div></div>
+								<div class="right_arrow_lines icon-arrow-01"><div></div></div>
 							</div>
 						</a>
 					</div>
 				<?php endif; ?>
 				<?php if (empty($current_on_off_features['page_builder'])): ?>
 					<div style="margin-left: 10px; margin-top: 40px;" id="add_feature_button" class="add_button highlight add_feature_button" type="submit" ref_feature_name="page_builder">
-						<div class="content"><?php echo __("Add Page Builder", true); ?></div><div class="right_arrow_lines"><div></div></div>
+						<div class="content"><?php echo __("Add Page Builder", true); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div>
 					</div>
 				<?php endif; ?>
 			</div>
@@ -578,7 +578,7 @@
 					<div id="two_level_menu_container_add_button" class="custom_ui tools_button">
 						<div class="add_button">
 							<div class="content"><?php echo __('Add', true); ?></div>
-							<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
+							<div class="plus_icon_lines icon-_button-01"><div class="one"></div><div class="two"></div></div>
 						</div>
 					</div>
 				</div>
@@ -605,7 +605,7 @@
 						<a href="/admin/photo_galleries">
 							<div class="add_button">
 								<div class="content"><?php echo __('Add Galleries on Gallery Page', true); ?></div>
-								<div class="right_arrow_lines"><div></div></div>
+								<div class="right_arrow_lines icon-arrow-01"><div></div></div>
 							</div>
 						</a>
 					</div>

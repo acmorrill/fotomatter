@@ -171,8 +171,8 @@
 						</select>
 						<div id="single_menu_page_add_button" class="custom_ui tools_button <?php echo $pages_disabled_class; ?>">
 							<div class="add_button">
-								<div class="content"><?php __('Add'); ?></div>
-								<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
+								<div class="content"><?php echo __('Add', true); ?></div>
+								<div class="plus_icon_lines icon-_button-01"><div class="one"></div><div class="two"></div></div>
 							</div>
 						</div>
 					<?php else: ?>
@@ -180,14 +180,14 @@
 							<a href="/admin/site_pages">
 								<div class="add_button">
 									<div class="content"><?php echo __('Go To Page Builder', true); ?></div>
-									<div class="right_arrow_lines"><div></div></div>
+									<div class="right_arrow_lines icon-arrow-01"><div></div></div>
 								</div>
 							</a>
 						</div>
 					<?php endif; ?>
 					<?php if (empty($current_on_off_features['page_builder'])): ?>
 						<div style="margin-left: 10px;" id="add_feature_button" class="add_button highlight add_feature_button" type="submit" ref_feature_name="page_builder">
-							<div class="content"><?php echo __("Add Page Builder"); ?></div><div class="right_arrow_lines"><div></div></div>
+							<div class="content"><?php echo __("Add Page Builder"); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div>
 						</div>
 					<?php endif; ?>
 				</div>
@@ -205,8 +205,8 @@
 						</select>
 						<div id="single_menu_gallery_add_button" class="custom_ui tools_button">
 							<div class="add_button">
-								<div class="content"><?php __('Add'); ?></div>
-								<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
+								<div class="content"><?php echo __('Add', true); ?></div>
+								<div class="plus_icon_lines icon-_button-01"><div class="one"></div><div class="two"></div></div>
 							</div>
 						</div>
 					<?php else: ?>
@@ -214,7 +214,7 @@
 							<a href="/admin/photo_galleries">
 								<div class="add_button">
 									<div class="content"><?php echo __('Add Galleries on Gallery Page', true); ?></div>
-									<div class="right_arrow_lines"><div></div></div>
+									<div class="right_arrow_lines icon-arrow-01"><div></div></div>
 								</div>
 							</a>
 						</div>

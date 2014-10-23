@@ -93,7 +93,7 @@
 								</script>
 								<span id="get_paid_button" class="custom_ui">
 									<div class="add_button">
-										<div class="content"><?php echo __('Get Paid Via Paypal', true); ?></div><div class="right_arrow_lines"><div></div></div>
+										<div class="content"><?php echo __('Get Paid Via Paypal', true); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div>
 									</div>
 								</span>
 							</form>

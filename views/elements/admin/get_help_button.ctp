@@ -1,1 +1,1 @@
-<div id="help_tour_button" class="custom_ui"><div class="add_button" type="submit"><div class="content"><?php echo __(HELP_TOUR_ENGLISH_TEXT); ?></div><div class="right_arrow_lines"><div></div></div></div></dIv>
+<div id="help_tour_button" class="custom_ui"><div class="add_button" type="submit"><div class="content"><?php echo __(HELP_TOUR_ENGLISH_TEXT); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div></div></dIv>

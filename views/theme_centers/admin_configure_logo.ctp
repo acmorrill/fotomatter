@@ -85,7 +85,7 @@
 	
 	<div class="custom_ui" style="margin: 5px; margin-bottom: 15px;">
 		<?php echo $this->Element('/admin/get_help_button'); ?>
-		<div data-step="2" data-intro="<?php echo __('Simply upload your breathtaking logo.', true); ?>" data-position="bottom" id="change_logo_button" class="add_button" type="submit"><div class="content"><?php __('Choose Different Logo'); ?></div><div class="right_arrow_lines"><div></div></div></div>
+		<div data-step="2" data-intro="<?php echo __('Simply upload your breathtaking logo.', true); ?>" data-position="bottom" id="change_logo_button" class="add_button" type="submit"><div class="content"><?php __('Choose Different Logo'); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div></div>
 	</div>
 	<?php echo $this->Element('admin/theme_center/configure_logo/theme_logo_size'); ?>
 	

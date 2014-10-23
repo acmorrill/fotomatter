@@ -89,7 +89,7 @@
 		<?php if (empty($accountDetails['AuthnetProfile']) == false && $accountDetails['Account']['next_bill_date'] != null): ?>
 			<div id='edit-billing' class="submit save_button add_button">
 				<div class="content"><?php echo __('Edit Billing Details', true); ?></div>
-				<div class="right_arrow_lines"><div></div></div>
+				<div class="right_arrow_lines icon-arrow-01"><div></div></div>
 			</div>
 		<?php endif; ?>
 	</div>

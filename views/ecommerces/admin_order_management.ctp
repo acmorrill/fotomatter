@@ -96,7 +96,7 @@
 					</td> 
 					<td class="photo_action last">
 						<span class="custom_ui">
-							<a href="/admin/ecommerces/fulfill_order/<?php echo $authnet_order['AuthnetOrder']['id']; ?>/"><div class="add_button" <?php echo $fulfill_help_code; ?>><div class="content"><?php __('Fulfill'); ?></div><div class="right_arrow_lines"><div></div></div></div></a>
+							<a href="/admin/ecommerces/fulfill_order/<?php echo $authnet_order['AuthnetOrder']['id']; ?>/"><div class="add_button" <?php echo $fulfill_help_code; ?>><div class="content"><?php __('Fulfill'); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div></div></a>
 						</span>
 					</td>
 				</tr>

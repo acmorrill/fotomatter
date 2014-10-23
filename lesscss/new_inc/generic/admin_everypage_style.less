@@ -277,11 +277,6 @@ select, input {
 				margin-top: 18px;
 				margin-bottom: 18px;
 			}
-			.right_arrow_lines {
-				margin-top: 15px;
-				margin-bottom: 15px;
-			}
-			&:hover .right_arrow_lines { margin-top: 15px; }
 		}
 		&.highlight {
 			padding-left: 30px;
@@ -291,21 +286,9 @@ select, input {
 				&, a { color: @white };
 			}
 			background: @button_highlight;
-			.right_arrow_lines {
-				.right_facing_triangle(10, @white);
-				div {
-					.right_facing_triangle(10, @button_highlight);
-				}
-			}
 			.one, .two { background-color: @white; /*position: absolute; top: 0px; left: 0px;*/ }
 			&:hover {
 				background: @button_highlight + @button_bg_increase;
-				.right_arrow_lines {
-					.right_facing_triangle(10, @white);
-					div {
-						.right_facing_triangle(10, @button_highlight + @button_bg_increase);
-					}
-				}
 			}
 		}
 		&.icon { min-width: 5px; }
@@ -313,15 +296,6 @@ select, input {
 			&, a { color: @white };
 			.content {
 				&, a { color: @white };
-			}
-			.right_arrow_lines {
-				.right_facing_triangle(10, @white);
-				div {
-					.right_facing_triangle(10, @off_black + @button_bg_increase);
-				}
-			}
-			.plus_icon_lines {
-				.one, .two { background-color: @white; }
 			}
 		}
 		&.selected, &.ui-state-active {	

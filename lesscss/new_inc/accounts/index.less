@@ -277,7 +277,7 @@ table.list {
 			&.active {
 				td {
 					background-color: @table_hover;
-					color: @top_white;
+					&, div { color: @top_white; }
 					.feature_on { display: block; }
 					.feature_pending { display: none; }
 					.cancel_pending { display: none; }

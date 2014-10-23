@@ -132,26 +132,26 @@
 								<a href="/admin/photo_galleries/edit_smart_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/">
 									<div class="add_button">
 										<div class="content"><?php echo __('Edit', true); ?></div>
-										<div class="right_arrow_lines"><div></div></div>
+										<div class="right_arrow_lines icon-arrow-01"><div></div></div>
 									</div>
 								</a>
 							<?php else: ?>
 								<a href="/admin/photo_galleries/edit_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/">
 									<div class="add_button">
 										<div class="content"><?php echo __('Edit', true); ?></div>
-										<div class="right_arrow_lines"><div></div></div>
+										<div class="right_arrow_lines icon-arrow-01"><div></div></div>
 									</div>
 								</a>
 								<a href="/admin/photo_galleries/edit_gallery_connect_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/">
 									<div class="add_button">
 										<div class="content"><?php echo __('Manage Photos', true); ?></div>
-										<div class="right_arrow_lines"><div></div></div>
+										<div class="right_arrow_lines icon-arrow-01"><div></div></div>
 									</div>
 								</a>
 								<?php /*<a href="/admin/photo_galleries/edit_gallery_arrange_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/">
 									<div class="add_button">
 										<div class="content"><?php echo __('Arrange', true); ?></div>
-										<div class="right_arrow_lines"><div></div></div>
+										<div class="right_arrow_lines  icon-arrow-01"><div></div></div>
 									</div>
 								</a>*/ ?>
 							<?php endif; ?>

@@ -65,14 +65,14 @@
 							<!-- The fileinput-button span is used to style the file input field as button -->
 							<div id="upload_photos_button" class="add_button">
 								<div class="content"><?php echo __('Choose Photos', true); ?></div>
-								<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
+								<div class="plus_icon_lines icon-_button-01"><div class="one"></div><div class="two"></div></div>
 							</div>
 							<input id="upload_photos_file_button" type="file" name="files[]" multiple>
 							
 							
 							<div id="start_upload_button" class="add_button">
 								<div class="content"><?php echo __('Start Upload', true); ?></div>
-								<div class="right_arrow_lines"><div></div></div>
+								<div class="right_arrow_lines icon-arrow-01"><div></div></div>
 							</div>
 							<button id="start_upload_button_old" type="submit" class="start"><?php echo __('Start upload', true); ?></button>
 							

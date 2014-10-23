@@ -50,7 +50,7 @@
 		</script>
 		<form action="/admin/ecommerces/add_print_type_and_pricing/" method="get" style="float: right;">
 			<div id="add_new_print_type_button" class="add_button" data-step="3" data-intro="<?php echo __('This button will enable you to create a print type.', true); ?>" data-position="bottom"><div class="content"><?php echo __('Add New Print Type', true); ?></div>
-				<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
+				<div class="plus_icon_lines icon-_button-01"><div class="one"></div><div class="two"></div></div>
 			</div>
 		</form>
 <!--		<form id="reset_printsize_form" action="/admin/ecommerces/reset_print_sizes/" method="get" style="float: right;">
@@ -96,7 +96,7 @@
 					</td>
 					<td class="table_actions">
 						<span class="custom_ui">
-							<a href="/admin/ecommerces/add_print_type_and_pricing/<?php echo $photo_print_type['PhotoPrintType']['id']; ?>/"><div class="add_button"><div class="content"><?php echo __('Edit', true); ?></div><div class="right_arrow_lines"><div></div></div></div></a>
+							<a href="/admin/ecommerces/add_print_type_and_pricing/<?php echo $photo_print_type['PhotoPrintType']['id']; ?>/"><div class="add_button"><div class="content"><?php echo __('Edit', true); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div></div></a>
 							<a class="delete_link" href="/admin/ecommerces/delete_print_type/<?php echo $photo_print_type['PhotoPrintType']['id']; ?>/"><div class="add_button icon icon_close"><div class="content icon-close-01"></div></div></a>
 						</span>
 					</td>

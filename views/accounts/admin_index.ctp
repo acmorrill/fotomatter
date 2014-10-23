@@ -130,16 +130,10 @@
 				argsToSend.checked = 0;
 				$(this).show();
 				$(this).removeClass('pending');
-//				$(this).addClass('highlight');
-//				$(this).find('.plus_icon_lines').show();
-//				$(this).find('.content').html('<?php echo __('Add Feature'); ?>');
 			} else {
 				argsToSend.checked = 1;
 				$(this).hide();
 				$(this).addClass('pending');
-//				$(this).removeClass('highlight');
-//				$(this).find('.plus_icon_lines').hide();
-//				$(this).find('.content').html('<?php echo __('Cancel'); ?>');
 			}
 			
 			var line_item = $(this).closest('.line_item');
@@ -273,14 +267,6 @@
 		<h2><?php echo __('Billing Status', true); ?></h2>
 	</div>
 	<div class="generic_palette_container">
-		<?php /*
-		<div style="<?php if (empty($add_feature_ref_name)): ?>display:none;<?php endif; ?>" class='finish-outer-cont custom_ui'>
-			<div class="add_button highlight bigger finish_account_add" type="submit">
-				<div class="content"><?php echo __('Finalize Changes', true); ?></div>
-				<div class="right_arrow_lines"><div></div></div>
-			</div>
-		</div>
-		*/ ?>
 		<div class='details'>
 			<?php if (!empty($overlord_account_info['Account']['next_bill_date'])): ?>
 				<div class='detail next_bill_date'>
@@ -323,7 +309,7 @@
 		<div style="<?php if (empty($add_feature_ref_name)): ?>display:none;<?php endif; ?>" class='finish-outer-cont custom_ui right'>
 			<div class="add_button highlight bigger finish_account_add" type="submit">
 				<div class="content"><?php echo __('Finalize Changes', true); ?></div>
-				<div class="right_arrow_lines"><div></div></div>
+				<div class="right_arrow_lines icon-arrow-01"><div></div></div>
 			</div>
 		</div>
 		<p><?php echo __('add/remove features below', true); ?></p>
@@ -397,7 +383,6 @@
 								<?php elseif ($line_item['AccountLineItem']['removed_scheduled']): ?>
 									<div data_id='<?php echo $line_item['AccountLineItem']['id']; ?>' class="add_button cancel_remove" type="submit">
 										<div class="content"><?php echo __('Undo Cancellation', true); ?></div>
-										<!--<div class="right_arrow_lines"><div class=""></div></div>-->
 									</div>
 								<?php else: ?>
 									<?php if ($start_queued): ?>
@@ -408,7 +393,7 @@
 									<?php else: ?>
 										<div data_id='<?php echo $line_item['AccountLineItem']['id']; ?>' class="add_button highlight add_item" type="submit">
 											<div class="content"><?php echo __('Add Feature', true); ?></div>
-											<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
+											<div class="plus_icon_lines icon-_button-01"><div class="one"></div><div class="two"></div></div>
 										</div>
 									<?php endif; ?>
 								<?php endif; ?>

@@ -9,7 +9,7 @@
 	<div class="<?php echo $class; ?> connect_photo_container" photo_id="<?php echo $not_connected_photo['Photo']['id']; ?>" style="height: <?php echo $height; ?>px;width: <?php echo $width; ?>px;">
 		<div class="image_cover"></div>
 		<div class="add_to_gallery_button gallery_image_circle_button bottom_right">
-			<div class="plus_icon">+</div>
+			<div class="icon-_button-01"></div>
 		</div>
 		<div class="table">
 			<div class="tr">

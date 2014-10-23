@@ -89,7 +89,7 @@
 			<div id="upload_replacement_photo_button" class="custom_ui">
 				<div class="add_button">
 					<div class="content">Upload Photo</div>
-					<div class="plus_icon_lines"><div class="one"></div><div class="two"></div></div>
+					<div class="plus_icon_lines icon-_button-01"><div class="one"></div><div class="two"></div></div>
 				</div>
 			</div>
 		</form>
