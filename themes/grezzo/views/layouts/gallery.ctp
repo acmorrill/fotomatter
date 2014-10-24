@@ -44,8 +44,7 @@
                     <?php echo $this->Element('menu/two_level_navbar'); ?>
                 </div>	
             </div>
-        </div>	
-
+        </div>
         <div id='page_content'>
             <div id="gray_spacing"></div>
             <div id="image_slider_progressbar"></div>
