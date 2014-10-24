@@ -1,198 +1,199 @@
 
 //This changes the color of the background
 body {
-	//Black
-	&.black #outer_nav { 
-		background-color: @black; 
-		#nav_location #main_nav ul.top_level > li {
-			color: @top_header_text_color;
-			ul.second_level {
-				color: @top_header_text_color;
-			}
-		}
-	}
-	//Yellow
-	&.yellow #outer_nav { 
-		background-color: @yellow; 
-		#nav_location #main_nav ul.top_level > li {
-			&, a{
-				color: @black;				
-			}
-			ul.second_level {
-				color: @black;
-			}
-		}
-	}
-	&.yellow #page_content #image_info_container #gallery_name{
-		background-color: @yellow;
-		color: @black;
-	}
-	&.yellow .navigation_arrow {
-		background-color: @yellow;
-	}
-	&.yellow #left_arrow {
-		background-image: url(/img/arrow_left_black.png);
-	}	
-	&.yellow #right_arrow {
-		background-image: url(/img/arrow_right_black.png);
-	}
-	&.yellow button{
-		background-color: @yellow;
-		color: @black;
-	}		
-	//Blue
-	&.blue #outer_nav { 
-		background-color: @blue; 
-		#nav_location #main_nav ul.top_level > li {
-			color: @white;
-			ul.second_level {
-				color: @white;
-			}
-		}
-	}
-	&.blue #page_content #image_info_container #gallery_name{
-		background-color: @blue; color: @white;	}
-	&.blue .navigation_arrow {background-color: @blue;}
-	&.blue button{background-color: @blue;}	
-	//Pink
-	&.pink #outer_nav { 
-		background-color: @pink; 
-		#nav_location #main_nav ul.top_level > li {
-			color: @black;
-			&, a{
-				color: @black;				
-			}
-			ul.second_level {
-				color: @black;
-			}
-		}
-	}
-	&.pink #page_content #image_info_container #gallery_name{
-		background-color: @pink;
-		color: @black;
-	}
-	&.pink .navigation_arrow {
-		background-color: @pink;
-	}
-	&.pink #left_arrow {
-		background-image: url(/img/arrow_left_black.png);
-	}
-	&.pink #right_arrow {
-		background-image: url(/img/arrow_right_black.png);
-	}
-	&.pink button{
-		background-color: @pink;
-		color: @black;
-	}		
+    //Black
+    &.black #outer_nav { 
+        background-color: @black; 
+        #nav_location #main_nav ul.top_level > li {
+            color: @top_header_text_color;
+            ul.second_level {
+                color: @top_header_text_color;
+            }
+        }
+    }
+    //Yellow
+    &.yellow #outer_nav { 
+        background-color: @yellow; 
+        #nav_location #main_nav ul.top_level > li {
+            &, a{
+                color: @black;				
+            }
+            ul.second_level {
+                color: @black;
+            }
+        }
+    }
+    &.yellow #page_content #image_info_container #gallery_name{
+        background-color: @yellow;
+        color: @black;
+    }
+    &.yellow .navigation_arrow {
+        background-color: @yellow;
+    }
+    &.yellow #left_arrow {
+        background-image: url(/img/arrow_left_black.png);
+    }	
+    &.yellow #right_arrow {
+        background-image: url(/img/arrow_right_black.png);
+    }
+    &.yellow button{
+        background-color: @yellow;
+        color: @black;
+    }		
+    //Blue
+    &.blue #outer_nav { 
+        background-color: @blue; 
+        #nav_location #main_nav ul.top_level > li {
+            color: @white;
+            ul.second_level {
+                color: @white;
+            }
+        }
+    }
+    &.blue #page_content #image_info_container #gallery_name{
+        background-color: @blue; color: @white;	}
+    &.blue .navigation_arrow {background-color: @blue;}
+    &.blue button{background-color: @blue;}	
+    //Pink
+    &.pink #outer_nav { 
+        background-color: @pink; 
+        #nav_location #main_nav ul.top_level > li {
+            color: @black;
+            &, a{
+                color: @black;				
+            }
+            ul.second_level {
+                color: @black;
+            }
+        }
+    }
+    &.pink #page_content #image_info_container #gallery_name{
+        background-color: @pink;
+        color: @black;
+    }
+    &.pink .navigation_arrow {
+        background-color: @pink;
+    }
+    &.pink #left_arrow {
+        background-image: url(/img/arrow_left_black.png);
+    }
+    &.pink #right_arrow {
+        background-image: url(/img/arrow_right_black.png);
+    }
+    &.pink button{
+        background-color: @pink;
+        color: @black;
+    }		
 }
 
 // End background
 
 // Header width
 .header_is_full_width #outer_nav #logo_nav_cont{
-	width: auto;
+    width: auto;
 }	
 // End header width
 
 #outer_nav {
-	#logo_nav_cont{
-		width: 1000px;
-		margin-left: auto;
-		margin-right: auto;
-		height: 140px;
-		position: relative;
-	}
-	width:100%;
-	position: absolute;
-	//height: 140px;
+    #logo_nav_cont{
+        width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 140px;
+        position: relative;
+    }
+    width:100%;
+    position: absolute;
+    //height: 140px;
 
-	#logo_cont {
-		position: absolute;
-		left: 0;
-		display: inline-block;
+    #logo_cont {
+        position: absolute;
+        left: 0;
+        display: inline-block;
 
-		#mainName {
-			position:absolute;
-		}
-	}
+        #mainName {
+            position:absolute;
+        }
+    }
 
-	#nav_location{
-		margin-right: 38px;
-		//position: absolute;
-		right: 0;
-		//margin-bottom: 39px
-
-		#main_nav {
-			margin-top: 80px;
-			float: right;
-			display: inline-block;
-			z-index: 999;
-
-			ul.top_level {
-				position: relative;
-				bottom: 19px;
-				> li {
-					list-style-type: none;
-					float: left;
-					margin-left: 38px;
-					color: @top_header_text_color;
-					position: relative;
-
-					a {
-						color: @top_header_text_color;
-						text-decoration: none;
-					}
-
-					ul.second_level {
-						display:none;
-						padding: 0px;
-						position: absolute;
-						background-color: @nav_drop_down_color;
-						margin-top: 18px;
-						z-index: 1;
-						padding-top: 16px;
-						padding-bottom: 26px;
-						li {
-							float:none;
-							list-style-type: none;
-							margin-left: 4px;
-							margin-right: 4px;
-							padding-left: 16px;
-							padding-right: 16px;
-							padding-top: 8px;
-							//padding-bottom: 8px;
-							&, a { 
-								color: @nav_drop_down_text_color; 
-								text-decoration: none;
-							}
-							&:hover{
-								background-color: @sub_menu_gray;
-								&, a { 
-									color: @black;
-									//font-weight: 700;
-								}
-							}
-						}
-					}
-					&.hover {
-						ul { display: block; }
-					}
-				}
-			}
-		}
-	}
-}
-#gray_spacing{
-	border-bottom: 2px solid @gray_line_horizontal;
-	position: relative;
-	top: -12px;
-}
-#gray_spacing_custom{
-	border-bottom: 2px solid @gray_line_horizontal;
-	position: relative;
-	top: -32px;
-}
-///COOL THEME SETTINGS
-///screen width: ?
-//Logo OR menu: ends or centered
-
+        #nav_location{
+            margin-right: 38px;
+            //position: absolute;
+            right: 0;
+            //margin-bottom: 39px
+    
+            #main_nav {
+                margin-top: 80px;
+                float: right;
+                display: inline-block;
+                z-index: 999;
+    
+                ul.top_level {
+                    position: relative;
+                    bottom: 19px;
+                    > li {
+                        list-style-type: none;
+                        float: left;
+                        margin-left: 38px;
+                        color: @top_header_text_color;
+                        position: relative;
+    
+                        a {
+                            color: @top_header_text_color;
+                            text-decoration: none;
+                        }
+    
+                        ul.second_level {
+                            display:none;
+                            padding: 0px;
+                            position: absolute;
+                            background-color: @nav_drop_down_color;
+                            margin-top: 0px;
+                            z-index: 1;
+                            padding-top: 16px;
+                            padding-bottom: 26px;
+                            li {
+                                float:none;
+                                list-style-type: none;
+                                margin-left: 4px;
+                                margin-right: 4px;
+                                padding-left: 16px;
+                                padding-right: 16px;
+                                padding-top: 8px;
+                                //padding-bottom: 8px;
+                                &, a { 
+                                    color: @nav_drop_down_text_color; 
+                                    text-decoration: none;
+                                }
+                                &:hover{
+                                    background-color: @sub_menu_gray;
+                                    &, a { 
+                                        color: @black;
+                                        //font-weight: 700;
+                                    }
+                                }
+                            }
+                        }
+                        &.hover {
+                            ul { display: block; }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    #gray_spacing{
+        border-bottom: 2px solid @gray_line_horizontal;
+        position: relative;
+        top: -12px;
+    }
+    #gray_spacing_custom{
+        border-bottom: 2px solid @gray_line_horizontal;
+        position: relative;
+        top: -32px;
+    }
+    ///COOL THEME SETTINGS
+    ///screen width: ?
+    //Logo OR menu: ends or centered
+    
