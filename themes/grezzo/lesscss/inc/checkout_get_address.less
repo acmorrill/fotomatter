@@ -1,0 +1,31 @@
+#shipping_address_container{
+    outline: none !important;
+    h1{
+        margin-bottom: 20px;
+    }
+    .country_select{
+        padding: 3px;
+        margin-bottom: 4px;
+    }
+    .state_select{
+        padding: 3px;
+        margin-bottom: 4px;
+
+    }
+}
+
+.no_label {   
+    input{
+        display: inline-block;
+        .box-sizing(content-box);
+        cursor: pointer;
+        padding: 10px 40px;
+        border: 1px solid @view_photo_button_border;
+        color: @view_photo_button_color;
+        -o-text-overflow: clip;
+        text-overflow: clip;
+        background: @view_photo_button_bg;
+        box-shadow: 2px 2px 2px 0 @boxshadow_view_photo_button;
+        &:hover { border: 1px solid @view_photo_button_bg;}
+    }
+}

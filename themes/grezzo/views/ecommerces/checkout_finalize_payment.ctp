@@ -87,18 +87,20 @@ if (isset($this->data['Payment'])) {
 		<div id="create_account">
 			<div id="title_name">
 				<h1><?php __('Create Account'); ?> <span>(Optional)</span></h1>
-			</div>	
-			<div class="input email">
-				<label><?php __('Email Address'); ?>:</label> 
-				<input autocomplete="off" type="text" name="data[CreateAccount][email_address]" value="<?php if (isset($CreateAccount['email_address'])): ?><?php echo $CreateAccount['email_address']; ?><?php endif; ?>" />
 			</div>
-			<div class="input password">
-				<label><?php __('Password'); ?>:</label> 
-				<input autocomplete="off" type="password" name="data[CreateAccount][password]" value="<?php if (isset($CreateAccount['password'])): ?><?php echo $CreateAccount['password']; ?><?php endif; ?>" />
-			</div>
-			<div class="input password_repeat">
-				<label><?php __('Repeat'); ?></label> 
-				<input autocomplete="off" type="password" name="data[CreateAccount][repeat_password]" value="<?php if (isset($CreateAccount['repeat_password'])): ?><?php echo $CreateAccount['repeat_password']; ?><?php endif; ?>" />
+			<div class="create_account_cont">				
+				<div class="input email">
+					<label><?php __('Email Address'); ?>:</label> 
+					<input autocomplete="off" type="text" name="data[CreateAccount][email_address]" value="<?php if (isset($CreateAccount['email_address'])): ?><?php echo $CreateAccount['email_address']; ?><?php endif; ?>" />
+				</div>
+				<div class="input password">
+					<label><?php __('Password'); ?>:</label> 
+					<input autocomplete="off" type="password" name="data[CreateAccount][password]" value="<?php if (isset($CreateAccount['password'])): ?><?php echo $CreateAccount['password']; ?><?php endif; ?>" />
+				</div>
+				<div class="input password_repeat">
+					<label><?php __('Repeat'); ?></label> 
+					<input autocomplete="off" type="password" name="data[CreateAccount][repeat_password]" value="<?php if (isset($CreateAccount['repeat_password'])): ?><?php echo $CreateAccount['repeat_password']; ?><?php endif; ?>" />
+				</div>
 			</div>
 		</div>
 	<?php endif; ?>

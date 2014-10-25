@@ -23,8 +23,10 @@
 				<div id="gray_spacing_bar"></div>
 					<div id="cart">
 						<div class="page-content">
+							<div class="outer_page_cart">								
 							<?php echo $content_for_layout; ?>
 							<?php echo $this->Element('global_theme_footer_copyright'); ?>
+							</div>
 						</div>
 					</div>
 				</div>
