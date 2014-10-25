@@ -174,7 +174,10 @@ class PhotosController extends AppController {
 			$cache_file_height = isset($this->params['form']['height']) ? $this->params['form']['height'] : null;
 			$cache_file_width = isset($this->params['form']['width']) ? $this->params['form']['width'] : null;
 			if (isset($cache_file_width) && isset($cache_file_height)) {
-				$upload_data['new_photo_path'] = $this->Photo->get_photo_path($this->Photo->id, $cache_file_height, $cache_file_width);
+				$new_photo_path_data = $this->Photo->get_photo_path($this->Photo->id, $cache_file_height, $cache_file_width, null, true);
+				$upload_data['new_photo_path'] = $new_photo_path_data['url'];
+				$upload_data['new_width'] = $new_photo_path_data['width'];
+				$upload_data['new_height'] = $new_photo_path_data['height'];
 				$upload_data['thumbnailUrl'] = $upload_data['new_photo_path'];
 			}
 		} else {

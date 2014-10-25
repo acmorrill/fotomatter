@@ -102,6 +102,7 @@
 	}
 	
 	function save_page_elements(callback) {
+		show_universal_save();
 		var page_element_data_to_save = {};
 		page_element_data_to_save['element_data'] = {};
 		
@@ -132,6 +133,7 @@
 				if (typeof callback == 'function') {
 					callback();
 				}
+				hide_universal_save();
 //				console.log ("came into save page complete");
 			},
 			error: function() {
@@ -148,8 +150,10 @@
 			var context = this;
 
 			jQuery.foto('confirm', {
-				'button_title' : '<?php __('Delete'); ?>',
+				'button_title' : '<?php echo __('Delete', true); ?>',
 				'onConfirm' : function() {
+					show_universal_save();
+					
 					// remove element from save array
 					var element_form = jQuery(context).closest('.page_element_cont').find('form');
 					var uuid = element_form.attr('id');
@@ -169,6 +173,7 @@
 							}
 						},
 						complete: function() {
+							hide_universal_save();
 							// DREW TODO - take care of this case
 						},
 						error: function() {
@@ -194,6 +199,7 @@
 			items : '.page_element_cont',
 			handle : '.reorder_page_grabber',
 			update : function(event, ui) {
+				show_universal_save();
 				var context = this;
 				jQuery(context).sortable('disable');
 				
@@ -212,6 +218,7 @@
 					},
 					complete: function() {
 						jQuery(context).sortable('enable');
+						hide_universal_save();
 					},
 					dataType: 'json'
 				});
@@ -230,6 +237,8 @@
 		//admin_ajax_add_page_element
 		
 		jQuery('#configure_page_cont .avail_element_cont').click(function() {
+			show_universal_save();
+			
 			var element_id = jQuery(this).attr('avail_page_element_id');
 			
 			jQuery.ajax({
@@ -243,10 +252,8 @@
 						var new_element = jQuery(data.element_html);
 						setup_page_element_sortable(new_element);
 						setup_page_element_delete(new_element);
-						var page_content_cont = jQuery('#configure_page_cont .page_content_cont');
+						var page_content_cont = jQuery('#configure_page_cont .page_content_cont .large_container .table_border > table > tbody');
 						page_content_cont.append(new_element).scrollTop(page_content_cont.prop("scrollHeight"));
-						
-						
 						
 						// call init on new page element
 						var new_uuid = jQuery(new_element).find('form').attr('id');
@@ -256,7 +263,7 @@
 					}
 				},
 				complete: function() {
-
+					hide_universal_save();
 				},
 				dataType: 'json'
 			});
@@ -300,9 +307,17 @@
 	</div>
 	<div class="page_content_cont generic_palette_container">
 		<div class="fade_background_top"></div>
-		<?php echo $this->Element('page_elements/list_admin_page_elements', array(compact(
-			'sitePagesSitePageElements'
-		))); ?>
+		<div class="large_container <?php /*no_td_as_block*/ ?>">
+			<div class="table_border configure_table_list">
+				<table class="list custom_ui">
+					<tbody>
+						<?php echo $this->Element('page_elements/list_admin_page_elements', array(compact(
+							'sitePagesSitePageElements'
+						))); ?>
+					</tbody>
+				</table>
+			</div>
+		</div>
 	</div>
 	<div class="clear"></div>
 </div>

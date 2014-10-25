@@ -1,5 +1,16 @@
 // start configure page */
 #configure_page_cont {
+	.large_container {
+		margin-bottom: 20px;
+	}
+	.photo_details_upload_progress {
+		width: 300px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	
+	
+	
 	.para_image_cont {
 		.image_cont { margin: 22px; margin-top: 0px; margin-bottom: 0px; text-align: center; }
 		.left { margin-right: 32px; }
@@ -7,12 +18,15 @@
 	}
 	.para_header_image_cont {
 		.image_size_text { padding: 5px; font-size: 12px; text-align: center; }
-		.image_upload { text-align: center; margin-bottom: 4px; }
+		.image_upload { text-align: center; margin-left: auto; margin-right: auto; }
 	}
 	.image_element_image_cont {
 		.page_element_top_section {
 			text-align: center;
-			.image_element_image_upload { display: inline-block; }
+			.image_element_image_upload { 
+				padding-left: 20px;
+				padding-right: 20px;
+			}
 		}
 	}
 	.avail_page_elements_cont {
@@ -78,29 +92,46 @@
 			font-weight: normal;
 			font-style: normal;
 			font-size: 20px;
-			background-color: #5e656a;
-			color: #292726;
 			margin-left: 20px;
-			margin-bottom: 20px;
-			border: 1px solid #181818;
-			.page_element_cont {
-				margin: 25px;
-				position: relative;
-				min-height: 50px;
-			}
-			.reorder_page_grabber {
-				cursor: move;
-			}
 			.page_element_top_section {
-				padding: 18px;
-				background-color: @dark-background;
+				padding-bottom: 20px;
 				min-height: 60px;
+				.para_configure_cont {
+/*					color: @main_menu_sub_menu_text_color;
+					border: 1px solid @off_black;
+					background-color: @main_menu_sub_menu_bg_color - #111;*/
+					margin-left: auto;
+					margin-right: auto;
+					width: 730px;
+				}
 			}
-			.page_element_bottom_section .custom_ui_radio {
-				margin-bottom: 7px;
+			.page_element_bottom_section {
+				margin-bottom: 30px;
+				> table {
+					width: 100%;
+					> thead, > tbody {
+						> tr > td { text-align: center; }
+					}
+				}
+				text-align: middle;
+				.para_button_cont {
+					/*display: inline-block;*/
+				}
+			}
+			.para_image_cont {
+				.actual_image_container .actual_image_inner_container { margin-bottom: 5px; }
+				.photo_details_upload_progress, .photo_details_image_upload_form { margin-bottom: 10px; }
 			}
 		}
 	}
+/*	.page_element_cont {
+		&:hover {
+			.page_content_inner_cont .page_element_top_section .para_configure_cont {	
+				background-color: @main_menu_sub_menu_bg_color;
+			}
+		}
+	}*/
+	
 }
 // end configure page 
 
