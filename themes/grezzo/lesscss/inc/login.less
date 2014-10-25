@@ -1,0 +1,55 @@
+.guest_button{
+    button{
+		/*        padding: 10px;
+				cursor: pointer;*/
+        //margin-left: 90px;
+        display: inline-block;
+        .box-sizing(content-box);
+        cursor: pointer;
+        padding: 10px 20px;
+        border: 1px solid @view_photo_button_border;
+        color: @view_photo_button_color;
+        -o-text-overflow: clip;
+        text-overflow: clip;
+        background: @view_photo_button_bg;
+        box-shadow: 2px 2px 2px 0 @boxshadow_view_photo_button;
+        &:hover { border: 1px solid @view_photo_button_bg;}
+
+    }
+}
+
+#login_container {
+	padding-top: 20px;
+	margin-left: 227px;
+	label {
+		display: inline-block;
+		vertical-align: top;
+		width: 100px;
+		text-align: right;
+		margin-right: 10px;
+	}
+	.input {
+		margin-bottom: 10px;
+	}
+	.submit {
+		margin-left: 114px;
+		input{
+			display: inline-block;
+			.box-sizing(content-box);
+			cursor: pointer;
+			padding: 10px 36px;
+			border: 1px solid @view_photo_button_border;
+			color: @view_photo_button_color;
+			-o-text-overflow: clip;
+			text-overflow: clip;
+			background: @view_photo_button_bg;
+			box-shadow: 2px 2px 2px 0 @boxshadow_view_photo_button;
+			&:hover { border: 1px solid @view_photo_button_bg;}
+
+
+		}
+	}
+	.success{
+		margin-bottom: 15px;
+	}
+}
