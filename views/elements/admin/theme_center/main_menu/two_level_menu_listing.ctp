@@ -241,7 +241,7 @@
 	</script>
 
 	<div class="large_container no_td_as_block">
-		<div class="table_border two_level_menu_items_cont menu_items_cont">
+		<div class="table_border two_level_menu_items_cont configure_table_list menu_items_cont">
 			<?php $two_level_menu_items = $this->ThemeMenu->get_two_level_menu_items(); ?>
 			<?php //debug($two_level_menu_items); ?>
 

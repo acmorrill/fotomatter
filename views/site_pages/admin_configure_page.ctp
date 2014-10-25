@@ -266,8 +266,8 @@
 		setup_page_element_delete('#configure_page_cont .page_content_cont');
 	});
 </script>
-<div id="confirm_delete_page_element" class="dialog_confirm custom_dialog" title="<?php __('Remove Page Element'); ?>">
-	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span><?php __('Permenently delete page element?'); ?></p>
+<div id="confirm_delete_page_element" class="dialog_confirm custom_dialog" title="<?php echo __('Remove Page Element', true); ?>">
+	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span><?php echo __('Permenently delete page element?', true); ?></p>
 </div>
 
 
@@ -283,7 +283,7 @@
 <div id="configure_page_cont" class="clear">
 	<div class="avail_page_elements_cont">
 		<div class="table_header_darker">
-			<h2 style="background: url('/img/admin/icons/page_element.png') center left no-repeat; padding-left: 35px;"><?php __('Page Elements'); ?></h2>
+			<h2 style="background: url('/img/admin/icons/page_element.png') center left no-repeat; padding-left: 35px;"><?php echo __('Page Elements', true); ?></h2>
 		</div>
 		<div class="content-background" style="height: 600px;">
 			<?php $avail_elements = $this->Page->get_avail_page_elements(); ?>
@@ -296,7 +296,7 @@
 		</div>
 	</div>
 	<div class="page_content_header">
-		<h2>Select a Dimension and Format</h2>
+		<h2>modify page content below</h2>
 	</div>
 	<div class="page_content_cont generic_palette_container">
 		<div class="fade_background_top"></div>
