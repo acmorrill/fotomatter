@@ -46,17 +46,32 @@ class Photo extends AppModel {
 		$this->photos_count_apc_key = 'photos_count_' . $_SERVER['local']['database'];
 	}
 
-        public function get_first_photo_id() {
-            $first_photo = $this->find('first', array(
-               'contain' => false
-            ));
-            
-            if (!empty($first_photo['Photo']['id'])) {
-                return $first_photo['Photo']['id'];
-            } else {
-                return 0;
-            }
-        }
+	public function delete_all_photos() {
+		$all_photos = $this->find('all', array(
+			'contain' => false,
+		));
+		
+		foreach ($all_photos as $curr_photo) {
+			if ($this->delete($curr_photo['Photo']['id']) === false) {
+				$this->major_error("failed to delete all photos at once", compact('curr_photo'));
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	public function get_first_photo_id() {
+		$first_photo = $this->find('first', array(
+			'contain' => false
+		));
+
+		if (!empty($first_photo['Photo']['id'])) {
+			return $first_photo['Photo']['id'];
+		} else {
+			return 0;
+		}
+	}
         
 	public function clear_apc_cache() {
 		apc_delete($this->limit_last_photo_apc_key);

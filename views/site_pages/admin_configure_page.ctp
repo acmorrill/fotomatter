@@ -186,7 +186,6 @@
 				'message': '<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span><?php __('Permanently delete page element?'); ?></p>',
 				'minWidth': 400,
 				'minHeight': 160
-				
 			});
 			
 			
@@ -196,8 +195,26 @@
 	
 	function setup_page_element_sortable(selector) {
 		jQuery(selector).sortable(jQuery.extend(verticle_sortable_defaults, {
+			helper: function(e, tr) {
+				var $originals = tr.children();
+				var $helper = tr.clone();
+				$helper.find('.page_content_inner_cont').remove();
+				$helper.height(77);
+				$helper.css('outline', '0px');
+				$helper.find('td').css('border', '0px');
+				$helper.children().each(function(index) {
+					// Set helper cell sizes to match the original sizes
+					$(this).width($originals.eq(index).width());
+				});
+				return $helper;
+			},
+			containment: 'parent',
+			axis: 'y',
+			tolerance: 'pointer',
+			scrollSensitivity: 500,
 			items : '.page_element_cont',
 			handle : '.reorder_page_grabber',
+			opacity: 1,
 			update : function(event, ui) {
 				show_universal_save();
 				var context = this;
@@ -278,21 +295,22 @@
 </div>
 
 
-<h1>Configure Page
+<h1><?php echo __('Configure Page', true); ?>
 	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 </h1>
 <p>
-	What is this page anyhow?
+	What is this page anyhow? What is this page anyhow? What is this page anyhow? What is this page anyhow? What is this page anyhow? What is this page anyhow? 
 </p>
 <div style="clear: both;"></div> 
 
 
 <div id="configure_page_cont" class="clear">
 	<div class="avail_page_elements_cont">
-		<div class="table_header_darker">
-			<h2 style="background: url('/img/admin/icons/page_element.png') center left no-repeat; padding-left: 35px;"><?php echo __('Page Elements', true); ?></h2>
+		<div class="page_content_header">
+			<h2><?php echo __('Page Elements', true); ?></h2>
 		</div>
-		<div class="content-background" style="height: 600px;">
+		<div class="generic_palette_container">
+			<div class="fade_background_top"></div>
 			<?php $avail_elements = $this->Page->get_avail_page_elements(); ?>
 			<?php foreach ($avail_elements as $avail_element): ?>
 				<div class="avail_element_cont" avail_page_element_id="<?php echo $avail_element['SitePageElement']['id']; ?>">

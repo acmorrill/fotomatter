@@ -72,7 +72,7 @@
 				show_universal_save();
 				jQuery.ajax({
 					type: 'post',
-					url: '/admin/site_menus/ajax_delete_two_level_menu_item/'+site_two_level_menu_id_to_delete,
+					url: '/admin/site_menus/ajax_delete_two_level_menu_item/' + site_two_level_menu_id_to_delete,
 					data: {},
 					success: function(the_data) {
 						if (the_data.code == 1) {
@@ -105,7 +105,7 @@
 				show_universal_save();
 				jQuery.ajax({
 					type: 'post',
-					url: '/admin/site_menus/ajax_delete_sub_menu_item/'+two_level_menu_container_item_id_to_delete+'/',
+					url: '/admin/site_menus/ajax_delete_sub_menu_item/' + two_level_menu_container_item_id_to_delete + '/',
 					data: {},
 					success: function(data) {
 						if (data.code == 1) {
@@ -167,7 +167,7 @@
 					show_universal_save();
 					jQuery.ajax({
 						type: 'post',
-						url: '/admin/site_menus/ajax_set_site_two_level_order/'+site_two_level_menu_id+'/'+newPosition+'/',
+						url: '/admin/site_menus/ajax_set_site_two_level_order/' + site_two_level_menu_id + '/' + newPosition + '/',
 						data: {},
 						success: function(data) {
 							if (data.code == 1) {
@@ -211,7 +211,7 @@
 					show_universal_save();
 					jQuery.ajax({
 						type: 'post',
-						url: '/admin/site_menus/ajax_set_menu_item_order_in_container/'+site_two_level_menu_container_item_id+'/'+newPosition+'/',
+						url: '/admin/site_menus/ajax_set_menu_item_order_in_container/' + site_two_level_menu_container_item_id + '/' + newPosition + '/',
 						data: {},
 						success: function(data) {
 							if (data.code == 1) {
