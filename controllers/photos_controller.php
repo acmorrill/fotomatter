@@ -21,6 +21,17 @@ class PhotosController extends AppController {
 		$this->Auth->allow('view_photo');
 	}
 
+	public function admin_delete_all_photos() {
+		if ($this->Photo->delete_all_photos()) {
+			$this->Session->setFlash(__('All photos deleted successfully', true), 'admin/flashMessage/success');
+		} else {
+			$this->Session->setFlash(__('Failed to delete all photos', true), 'admin/flashMessage/error');
+			$this->Photo->major_error('Failed to delete all photos');
+		}
+		
+		$this->redirect('/admin/photos/');
+	}
+	
 	public function admin_delete_photo($photo_id = null) {
 		if ($photo_id == null) {
 			$this->redirect('/admin/photos/');
@@ -28,9 +39,9 @@ class PhotosController extends AppController {
 
 
 		if ($this->Photo->delete($photo_id)) {
-			$this->Session->setFlash(__('Photo deleted successfully.', true), 'admin/flashMessage/success');
+			$this->Session->setFlash(__('Photo deleted successfully', true), 'admin/flashMessage/success');
 		} else {
-			$this->Session->setFlash(__('Failed to delete photo.', true), 'admin/flashMessage/error');
+			$this->Session->setFlash(__('Failed to delete photo', true), 'admin/flashMessage/error');
 			$this->Photo->major_error('Failed to delete photo', compact($photo_id));
 		}
 

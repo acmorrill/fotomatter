@@ -6,15 +6,17 @@
 	$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
 	$photos_left_to_add = LIMIT_MAX_FREE_PHOTOS - $total_photos;
 	$curr_limit = LIMIT_MAX_FREE_PHOTOS; 
+//	print_r($current_on_off_features);
+//	print_r($photos_left_to_add);
+//	die();
 ?>
 
 <script type="text/javascript">
 	register_page_element_callbacks(new element_callbacks({
 		uuid: '<?php echo $uuid; ?>',
 		init: function(page_element_cont) {
-			// DREW TODO - test the below limit code
 			<?php if (empty($current_on_off_features['unlimited_photos']) && $photos_left_to_add <= 0): ?>
-				$('.image_element_image_upload', page_element_cont).click(function() {
+				$('#<?php echo $uuid; ?> .upload_replacement_photo_button').click(function() {
 					$.foto('alert', '<?php echo __("You are currently using $total_photos of the $curr_limit photos available for free &mdash; to upload more photos or modify photos in galleries you can also delete existing photos over the limit of $curr_limit.", true); ?>');
 				});
 			<?php else: ?>
@@ -74,10 +76,12 @@
 						}
 					},
 					fail: function(e, data) {
+						$.foto('alert', '<?php echo __("Photo upload failed &mdash; you may be over the limit.", true); ?>');
 						major_error_recover('The image failed to upload in fail of page configure image upload');
-						hide_universal_save();
 					},
 					always: function(e, data) {
+						hide_universal_save();
+						jQuery('#<?php echo $uuid; ?> .photo_details_upload_progress').hide();
 					}
 				});
 			<?php endif; ?>

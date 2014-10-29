@@ -16,13 +16,18 @@
 			
 			jQuery('.para_header_image_cont .para_image_header_image_pos', page_element_cont).change(function() {
 				var container = jQuery(this).closest('.para_header_image_cont');
+				var image_container = container.find('.image_cont');
+				var paragraph_container = container.find('.paragraph');
 
-				if (container.find('.image_cont').hasClass('left')) {
-					container.find('.image_cont').removeClass('left');
-					container.find('.image_cont').addClass('right');
+				image_container.detach();
+				if (image_container.hasClass('left')) {
+					image_container.removeClass('left');
+					image_container.addClass('right');
+					image_container.insertAfter(paragraph_container);
 				} else {
-					container.find('.image_cont').removeClass('right');
-					container.find('.image_cont').addClass('left');
+					image_container.removeClass('right');
+					image_container.addClass('left');
+					image_container.insertBefore(paragraph_container);
 				}
 			});
 			
@@ -34,9 +39,8 @@
 				container.find('.image_size_text').text('('+ucwords(curr_size)+')');
 			});
 	
-			// DREW TODO - test the below limiting code
 			<?php if (empty($current_on_off_features['unlimited_photos']) && $photos_left_to_add <= 0): ?>
-				$('.image_upload', page_element_cont).click(function() {
+				$('#<?php echo $uuid; ?> .upload_replacement_photo_button').click(function() {
 					$.foto('alert', '<?php echo __("You are currently using $total_photos of the $curr_limit photos available for free &mdash; to upload more photos or modify photos in galleries you can also delete existing photos over the limit of $curr_limit.", true); ?>');
 				});
 			<?php else: ?>
@@ -95,10 +99,12 @@
 						}
 					},
 					fail: function(e, data) {
+						$.foto('alert', '<?php echo __("Photo upload failed &mdash; you may be over the limit.", true); ?>');
 						major_error_recover('The image failed to upload in fail');
-						hide_universal_save();
 					},
 					always: function(e, data) {
+						jQuery('#<?php echo $uuid; ?> .photo_details_upload_progress').hide();
+						hide_universal_save();
 					}
 				});
 			<?php endif; ?>
@@ -117,9 +123,23 @@
 		<div class="page_element_top_section rounded-corners-small no-bottom-rounded">
 			<div class="para_configure_cont">
 				<?php $para_image_header_text =  isset($config['para_image_header_text']) ? $config['para_image_header_text'] : '' ; ?>
-				<input value="<?php echo $para_image_header_text; ?>" name="para_image_header_text" placeholder="Page Element Heading" class="header" type="text" style="margin-bottom: 15px; width: 260px;" />
+				<div class="para_image_header_text_cont">
+					<input value="<?php echo $para_image_header_text; ?>" name="para_image_header_text" placeholder="Page Element Heading" class="header" type="text" style="margin-bottom: 15px; width: 260px;" />
+				</div>
 				<div class="para_image_cont">
 					<?php $para_image_header_image_pos =  isset($config['para_image_header_image_pos']) ? $config['para_image_header_image_pos'] : 'left' ; ?>
+					
+					<?php ob_start(); ?>
+						<div class="paragraph tinymce">
+							<?php $para_header_image_paragraph_text =  isset($config['para_image_paragraph_text']) ? $config['para_image_paragraph_text'] : '' ; ?>
+							<textarea name="para_image_paragraph_text" class="" style="width: 506px; height: 124px;"><?php echo $para_header_image_paragraph_text; ?></textarea>
+						</div>
+					<?php $tiny_mce_output = ob_get_clean(); ?>
+					
+					<?php if ($para_image_header_image_pos == 'right'): ?>
+						<?php echo $tiny_mce_output; ?>
+					<?php endif; ?>
+					
 					<div class="image_cont <?php echo $para_image_header_image_pos; ?>">
 						<?php $para_header_image_photo_id =  isset($config['para_header_image_photo_id']) ? $config['para_header_image_photo_id'] : -1 ; ?>
 						<input class="para_header_image_photo_id" name="para_header_image_photo_id" type="hidden" value="<?php echo $para_header_image_photo_id; ?>" />
@@ -156,10 +176,12 @@
 							(<?php echo ucwords($para_image_header_image_size); ?>)
 						</div>
 					</div>
-					<div class="paragraph tinymce">
-						<?php $para_header_image_paragraph_text =  isset($config['para_image_paragraph_text']) ? $config['para_image_paragraph_text'] : '' ; ?>
-						<textarea name="para_image_paragraph_text" class="" style="width: 506px; height: 124px;"><?php echo $para_header_image_paragraph_text; ?></textarea>
-					</div>
+					
+					<?php if ($para_image_header_image_pos == 'left'): ?>
+						<?php echo $tiny_mce_output; ?>
+					<?php endif; ?>
+					
+					<div style="clear: both;"></div>
 				</div>
 				<div style="clear: both;"></div>
 			</div>

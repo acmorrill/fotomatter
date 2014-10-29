@@ -1,7 +1,16 @@
 // start configure page */
 #configure_page_cont {
+	.ui-sortable-helper, .ui-sortable-placeholder {
+		.page_content_inner_cont { display: none; }
+	}
+	.page_content_header {
+		min-height: 63px;
+		height: initial;
+	}
+	
 	.large_container {
-		margin-bottom: 20px;
+		margin-top: 30px;
+		margin-bottom: 30px;
 	}
 	.photo_details_upload_progress {
 		width: 300px;
@@ -30,6 +39,14 @@
 		}
 	}
 	.avail_page_elements_cont {
+		.page_content_header {
+			height: initial;
+			min-height: 63px;
+			padding: 0px;
+			h2 { padding-bottom: 0px; }
+		}
+		.generic_palette_container { padding: 0px; }
+		.page_content_header { margin-top: 0px; }
 		float: left;
 		width: 200px;
 		margin-right: 30px;
@@ -97,12 +114,19 @@
 				padding-bottom: 20px;
 				min-height: 60px;
 				.para_configure_cont {
-/*					color: @main_menu_sub_menu_text_color;
-					border: 1px solid @off_black;
-					background-color: @main_menu_sub_menu_bg_color - #111;*/
-					margin-left: auto;
-					margin-right: auto;
-					width: 730px;
+					text-align: center;
+					.image_cont, .paragraph {
+						&.left, &.right { float: none; }
+						display: inline-block;
+						margin-bottom: 10px;
+					}
+					
+					.para_image_header_text_cont {
+						max-width: 730px;
+						margin-left: auto;
+						margin-right: auto;
+						text-align: left;
+					}
 				}
 			}
 			.page_element_bottom_section {

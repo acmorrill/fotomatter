@@ -1,0 +1,151 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Oct 27, 2014, 3:11:55 PM
+    Author     : acmorrill
+*/
+
+
+body {
+	
+	.ui-widget-overlay {
+		/*background: @off_black url("/js/jquery-ui-1.11.0/images/ui-bg_diagonals-thick_20_666666_40x40.png") 50% 50% repeat;*/
+		background: @off_black;
+		background-color: @off_black;
+		.el_opacity(.9, 90);
+		
+		background: -moz-radial-gradient(center,ellipse cover,rgba(0,0,0,@overlay_radial_start_opacity) 0,rgba(0,0,0,@overlay_radial_end_opacity) 100%);
+		background: -webkit-gradient(radial,center center,0px,center center,100%,color-stop(0%,rgba(0,0,0,@overlay_radial_start_opacity)),color-stop(100%,rgba(0,0,0,@overlay_radial_end_opacity)));
+		background: -webkit-radial-gradient(center,ellipse cover,rgba(0,0,0,@overlay_radial_start_opacity) 0,rgba(0,0,0,@overlay_radial_end_opacity) 100%);
+		background: -o-radial-gradient(center,ellipse cover,rgba(0,0,0,@overlay_radial_start_opacity) 0,rgba(0,0,0,@overlay_radial_end_opacity) 100%);
+		background: -ms-radial-gradient(center,ellipse cover,rgba(0,0,0,@overlay_radial_start_opacity) 0,rgba(0,0,0,@overlay_radial_end_opacity) 100%);
+		background: radial-gradient(center,ellipse cover,rgba(0,0,0,@overlay_radial_start_opacity) 0,rgba(0,0,0,@overlay_radial_end_opacity) 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#66000000',endColorstr='#e6000000',GradientType=1);
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+		filter: alpha(opacity=50);
+		-webkit-transition: all 0.3s ease-out;
+		-moz-transition: all 0.3s ease-out;
+		-ms-transition: all 0.3s ease-out;
+		-o-transition: all 0.3s ease-out;
+		transition: all 0.3s ease-out;
+		
+	}
+	.ui-widget-header {
+		/*border: 1px solid #e78f08;*/
+		border: 0px;
+		background: @table_hover;
+		/*background: @body_content_top_bg;*/
+		/*color: @gray_text;*/
+		color: @white;
+		/*background: @body_content_top_bg;*/
+		/*font-weight: bold;*/
+	}
+	.ui-dialog {
+		padding: 0px;
+		/*outline: 1px solid @table_and_button_outline;*/
+		border: 1px solid @black;
+		.ui-widget-header {
+			.ui-dialog-titlebar-close {
+				width: 34px;
+				height: 34px;
+
+				position: absolute;
+				right: 30px;
+				top: 18px;
+				margin: 0px;
+
+				border: 1px solid @button_border;
+				/*color: @gray_text;*/
+				color: @white;
+				background: @off_black;
+				.ui-icon {
+					font-family: initial;
+					.icon-close-01;
+					.icomoon_include;
+
+					font-size: 20px;
+					width: 20px;
+					height: 20px;
+					margin-top: -10px;
+					margin-left: -10px;
+					background: none;
+					text-indent: initial;
+				}
+				&:hover {
+					background: @off_black + @button_bg_increase;
+					color: @white;
+				}
+			}
+		}
+		
+		.ui-dialog-title {
+			.Code-Pro-Bold-LC;
+			font-size: 18px;
+		}
+		.ui-dialog-titlebar {
+			padding: 25px 42px;
+			padding-right: 80px;
+		}
+		.ui-dialog-content {
+			/*border: 0;*/
+			margin-top: 30px;
+			margin-left: 30px;
+			margin-right: 30px;
+			background: @body_content_top_bg;
+			outline: 1px solid @table_and_button_outline;
+			border: 1px solid @black;
+			padding: 30px;
+		}
+		.ui-dialog-buttonpane {
+			border: 0px;
+			margin: 30px;
+			padding: 0px;
+			/*border-top: 2px solid @gray_text;*/
+			/*margin-top: 30px;*/
+			/*background: @body_content_top_bg;*/
+/*			background: @off_black;
+			background: rgba(24, 24, 24, .3);*/
+			/*.el_opacity(.5, 50);*/
+			button {
+				margin: 0px;
+				margin-left: 10px;
+				
+				min-height: 40px;
+				padding-left: 10px;
+				padding-right: 10px;
+				border: 1px solid @button_border;
+				/*color: @gray_text;*/
+				color: @white;
+				font-family: Code-Pro-LC;
+				font-weight: normal;
+				font-style: normal;
+				font-size: 18px;
+				background: @off_black;
+				min-width: 65px;
+				&:hover {
+					background: @off_black + @button_bg_increase;
+					color: @white;
+				}
+			}
+		}
+		&:hover {
+			.ui-widget-header { color: @white; }
+		}
+	}
+	.ui-widget-content {
+		border: 0px;
+		background: url(/img/admin/general/box_transparent_bg_bottom.png) bottom left repeat-x;
+		/*background: @top_white;*/
+		/*color: @on_white_color;*/
+	}
+	.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br {
+		border-bottom-right-radius: 0px;
+		border-bottom-left-radius: 0px;
+		border-top-right-radius: 0px;
+		border-top-left-radius: 0px;
+	}
+}
+
