@@ -64,10 +64,10 @@ table.list {
 	border-collapse: separate;
 	border-spacing: 0px;
 	margin-bottom: 50px;
-	thead {
-		tr {
+	> thead {
+		> tr {
 			height: 106px;
-			th {
+			> th {
 				height: 70px;
 				vertical-align: bottom;
 				//background: @body_content_top_bg;
@@ -120,10 +120,10 @@ table.list {
 			.actions_call { width: 200px; }
 		}
 	}
-	tbody {
+	> tbody {
 		position: relative;
-		tr {
-			td {
+		> tr {
+			> td {
 				&, a {
 					.Code-Pro-LC;
 					font-size: 18px;
@@ -203,7 +203,7 @@ table.list {
 				}
 			}
 			&:hover  { 
-				td{
+				> td {
 					&, div { color: @top_white; }
 					&.item_name{ color: @top_white;}
 					border-top: 1px solid @white;
@@ -218,7 +218,7 @@ table.list {
 				border: none;
 				background: none;
 				outline: 0px;
-				td {
+				> td {
 					background: none;
 					border: none;
 					height: 40px;
@@ -229,7 +229,7 @@ table.list {
 				border-bottom: 1px solid @table_border;
 			}
 			&.new {
-				td {
+				> td {
 					background: none;
 					color: @white;
 				}
@@ -237,7 +237,7 @@ table.list {
 		}
 		
 	}
-	tfoot {
+	> tfoot {
 		td {
 			padding-top: 40px;
 			.Code-Pro-Bold-LC;
@@ -270,7 +270,7 @@ table.list {
 
 ////////////////////////////////////////////////////
 .configure_table_list {
-	table.list tbody tr td > * { margin-left: 0px; }
+	table.list > tbody > tr > td > * { margin-left: 0px; }
 	.no_select;
 	position: relative;
 	.container_item {

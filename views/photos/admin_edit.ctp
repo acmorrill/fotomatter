@@ -88,7 +88,7 @@
 			<input type="file" accept="image/jpeg" />
 			<div id="upload_replacement_photo_button" class="custom_ui">
 				<div class="add_button">
-					<div class="content">Upload Photo</div>
+					<div class="content"><?php echo __('Upload Photo', true); ?></div>
 					<div class="plus_icon_lines icon-_button-01"><div class="one"></div><div class="two"></div></div>
 				</div>
 			</div>

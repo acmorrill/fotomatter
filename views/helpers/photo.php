@@ -24,12 +24,6 @@ class PhotoHelper extends AppHelper {
 		return $this->Photo->add_photo_format($photos);
 	}
 	
-	public function get_dummy_error_image_path($height, $width) {
-		$this->PhotoCache = ClassRegistry::init('PhotoCache');
-		
-		return $this->PhotoCache->get_dummy_error_image_path($height, $width);
-	}
-	
 		
 	public function get_prev_image_web_path($photo_id, $gallery_id) {
 		return $this->_get_image_neighbor_web_path($photo_id, $gallery_id, -1);

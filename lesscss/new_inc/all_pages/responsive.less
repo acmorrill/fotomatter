@@ -225,9 +225,9 @@ only screen and (min-resolution: 192dpi) {
 	}
 	table.list {
 		overflow: hidden;
-		thead, tbody {
-			tr {
-				td {
+		> thead, > tbody {
+			> tr {
+				> td {
 					display: block !important;
 					width: inherit !important;
 					padding-left: 20px;
@@ -248,31 +248,33 @@ only screen and (min-resolution: 192dpi) {
 				}
 			}
 		}
-		thead tr {
+		> thead > tr {
 			.content.one_line { margin-top: 10px; }
 		}
-		tbody {
-			tr td {
+		> tbody {
+			> tr > td {
 				min-height: 75px;
 				height: initial;
 			}
-			td.photo_title > span {
+			> td.photo_title > span {
 				max-width: 150px;
 			}
 		}
 	}
 	.no_td_as_block {
-		table.list tr {
-			td, th {
-				display: table-cell;
-				padding-left: initial;
-				> div, > span {
-					margin-top: initial;
-				}
-				.rightborder { display: block; }
-				&.table_actions{
-					text-align: right;
-					width: 215px;
+		table.list {
+			> tbody, > thead {
+				> td, > th {
+					display: table-cell;
+					padding-left: initial;
+					> div, > span {
+						margin-top: initial;
+					}
+					.rightborder { display: block; }
+					&.table_actions{
+						text-align: right;
+						width: 215px;
+					}
 				}
 			}
 		}

@@ -423,10 +423,10 @@ class Photo extends AppModel {
 		}
 	}
 
-	public function get_dummy_error_image_path($height, $width, $crop = false) {
+	public function get_dummy_error_image_path($height, $width, $direct_output = false, $return_tag_attributes = false, $crop = false) {
 		$this->PhotoCache = ClassRegistry::init('PhotoCache');
 
-		return $this->PhotoCache->get_dummy_error_image_path($height, $width, false, false, $crop);
+		return $this->PhotoCache->get_dummy_error_image_path($height, $width, $direct_output, $return_tag_attributes, $crop);
 	}
 
 	public function get_photo_path($photo_id, $height, $width, $unsharp_amount = null, $return_tag_attributes = false, $crop = false) {

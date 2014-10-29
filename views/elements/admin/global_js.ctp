@@ -77,7 +77,7 @@
         
 var window_loaded = false;
 $(window).load(function() {
-   window_loaded = true; 
+	window_loaded = true; 
 });
 	
 (function($) {
@@ -93,9 +93,9 @@ $(window).load(function() {
 			var alert_div = $("<div class='gen_alert "+settings.type+"'>"+message+"</div>")
 			
 			$(alert_div).dialog({
-				title: "<?php __('Alert'); ?>",
+				title: "<?php echo __('Alert', true); ?>",
 				buttons: {
-					'<?php __('Ok'); ?>': function() {
+					'<?php echo __('Ok', true); ?>': function() {
 						if (typeof settings.onOk == 'function') {
 							settings.onOk();
 						}
@@ -113,13 +113,13 @@ $(window).load(function() {
 		},
 		confirm: function(args) {
 			var settings = $.extend( {
-				'title' : '<?php __('Confirm'); ?>',
-				'button_title' : '<?php __('Confirm'); ?>',
+				'title' : '<?php echo __('Confirm', true); ?>',
+				'button_title' : '<?php echo __('Confirm', true); ?>',
 				'onConfirm' : function() {
 					
 				},
 				'type' : 'alert',
-				'message': '<?php __('Are you sure?'); ?>',
+				'message': '<?php echo __('Are you sure?', true); ?>',
 				'minWidth': 300,
 				'minHeight': 200
 			}, args);
@@ -139,7 +139,7 @@ $(window).load(function() {
 						}
 					},
 					{
-						text: "<?php __('Cancel'); ?>",
+						text: "<?php echo __('Cancel', true); ?>",
 						click: function() {
 							$( this ).dialog( "close" );
 						}

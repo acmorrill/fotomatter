@@ -81,28 +81,30 @@
 				margin-right: 25px;
 				margin-top: 30px;
 				margin-bottom: 30px;*/
-				tr {
-					.photo_use_sizes {
-						width: 110px;
-						text-align: left;
-						> * { margin-left: 0px; }
+				> thead, > tbody {
+					> tr {
+						.photo_use_sizes {
+							width: 110px;
+							text-align: left;
+							> * { margin-left: 0px; }
+						}
 					}
 				}
-				thead {
-					tr {
+				> thead {
+					> tr {
 						background: @body_content_top_bg;
-						th {
+						> th {
 							&.first { padding-left: 30px; }
 							&.last { padding-right: 30px; }
 						}
 					}
 				}
-				tbody {
-					tr {
+				> tbody {
+					> tr {
 						&.spacer {
-							td { height: 25px; }
+							> td { height: 25px; }
 						}
-						td {
+						> td {
 							&.first { padding-left: 30px; }
 							&.last { padding-right: 30px; }
 						}
