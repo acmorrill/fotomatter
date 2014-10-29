@@ -12,22 +12,19 @@
 	hr{
 		display: none; 
 	}
-	.pay_now{
+	.pay_now_button{
 		float: right;        
-		input{
-
-			display: inline-block;
-			.box-sizing(content-box);
-			cursor: pointer;
-			padding: 10px 60px;
-			border: 1px solid @view_photo_button_border;
-			color: @view_photo_button_color;
-			-o-text-overflow: clip;
-			text-overflow: clip;
-			background: @view_photo_button_bg;
-			box-shadow: 2px 2px 2px 0 @boxshadow_view_photo_button;
-			&:hover { border: 1px solid @view_photo_button_bg;}
-		}
+		display: inline-block;
+		.box-sizing(content-box);
+		cursor: pointer;
+		padding: 10px 60px;
+		border: 1px solid @view_photo_button_border;
+		color: @view_photo_button_color;
+		-o-text-overflow: clip;
+		text-overflow: clip;
+		background: @view_photo_button_bg;
+		box-shadow: 2px 2px 2px 0 @boxshadow_view_photo_button;
+		&:hover { border: 1px solid @view_photo_button_bg;}
 	}
 	#create_account{
 		outline: none !important; 
@@ -60,15 +57,7 @@
 				font-size: 12px;
 				color: @black;
 				text-decoration: none;
-				/*                    &:hover{
-										color: white;
-									}*/
 			}
-		}
-	}
-	#cart_table{
-		.last{
-			border-right: 1px solid @black;
 		}
 	}
 }
@@ -108,8 +97,8 @@
 }
 
 #final_payment_info{
-	outline: none;
-	.address_cont{
+	.form_outer{
+		outline: none;
 		margin-left: auto;
 		margin-right: auto;
 		width: 400px;

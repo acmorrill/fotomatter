@@ -378,7 +378,7 @@ body {
   position: absolute;
   height: 15px;
   width: 100%;
-  background-color: white;
+  background-color: #ffffff;
   top: 500px;
 }
 .chosen-container {
@@ -817,56 +817,6 @@ body {
   width: 900px;
   margin-left: 350px;
 }
-.outer_page_cart table {
-  width: 100%;
-  border: 1px solid #B9B9B9;
-}
-.outer_page_cart table thead {
-  background-color: #878585;
-  color: #ffffff;
-  border: 1px solid #000000;
-  font-weight: 600;
-}
-.outer_page_cart table thead .total {
-  border-right: 1px solid #000000;
-}
-.outer_page_cart table tbody {
-  background-color: ;
-  border: 1px solid #000000;
-}
-.outer_page_cart table tbody tr {
-  border: 12px solid #000000;
-}
-.outer_page_cart table tbody tr td {
-  text-align: center;
-  vertical-align: middle;
-  color: #000000;
-}
-.outer_page_cart table tbody tr td img {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #000000;
-}
-.outer_page_cart table tfoot {
-  line-height: 25px;
-}
-.outer_page_cart table tfoot td {
-  padding-top: 10px;
-}
-.outer_page_cart table tfoot button {
-  display: inline-block;
-  cursor: pointer;
-  padding: 10px 20px;
-  border: 1px solid #b4b4b4;
-  color: #ffffff;
-  -o-text-overflow: clip;
-  text-overflow: clip;
-  background: #000000;
-  box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.32);
-}
-.outer_page_cart table tfoot button:hover {
-  border: 1px solid #000000;
-}
 .black_box {
   background-color: #000000;
   color: #fff;
@@ -928,7 +878,6 @@ textarea:focus {
   border: 1px solid black;
 }
 select {
-  width: 180px;
   margin-top: 5px;
 }
 select:focus {
@@ -1051,10 +1000,8 @@ select:focus {
 .outer_page_cart hr {
   display: none;
 }
-.outer_page_cart .pay_now {
+.outer_page_cart .pay_now_button {
   float: right;
-}
-.outer_page_cart .pay_now input {
   display: inline-block;
   cursor: pointer;
   padding: 10px 60px;
@@ -1065,7 +1012,7 @@ select:focus {
   background: #000000;
   box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.32);
 }
-.outer_page_cart .pay_now input:hover {
+.outer_page_cart .pay_now_button:hover {
   border: 1px solid #000000;
 }
 .outer_page_cart #create_account {
@@ -1097,9 +1044,6 @@ select:focus {
   font-size: 12px;
   color: #000000;
   text-decoration: none;
-}
-.outer_page_cart #cart_table .last {
-  border-right: 1px solid #000000;
 }
 #shipping_address_container {
   width: 400px;
@@ -1133,10 +1077,8 @@ select:focus {
   margin-right: auto;
   margin-left: auto;
 }
-#final_payment_info {
+#final_payment_info .form_outer {
   outline: none;
-}
-#final_payment_info .address_cont {
   margin-left: auto;
   margin-right: auto;
   width: 400px;

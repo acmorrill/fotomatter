@@ -110,6 +110,6 @@ $theme_config = array(
 	)
 );
 ?>
-<?php /*<div class="blah <?php if ($settings['header_is_full_width'] == 'on'): ?>full_width<?php endif; ?>">
+<!-- <div class="blah /*<ph if ($settings['header_is_full_width'] == 'on'): ?>full_width<?ph endif; ?>">
 	
-</div> < ?>
+</div>-->
