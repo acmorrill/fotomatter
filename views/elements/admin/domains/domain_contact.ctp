@@ -12,7 +12,8 @@
 		<div class="ui-dialog-content ui-widget-content fotomatter_form short" style="width: auto; min-height: 0px;">
 			<form>
 				<div class="input">
-					<p><?php echo __('The contact information that will be associated with your new domain. All fields are required.', true); ?></p>
+					<p><?php echo __('The contact information that will be associated with your new domain.', true); ?></p>
+					<p><?php echo __('* required.', true); ?></p>
 				</div>
 				<div class="input">
 					<label for="contact_first_name"><?php echo __('First Name'); ?></label>

@@ -1502,11 +1502,11 @@ input {
 }
 .modal.ui-dialog {
   position: fixed;
-  top: 10%;
+  top: 4%;
   margin-left: -475px;
   left: 50%;
   width: 950px;
-  height: 85%;
+  height: 90%;
 }
 .modal.ui-dialog .modal-header {
   padding: 9px 15px;
