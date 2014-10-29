@@ -1,3 +1,14 @@
+//colors for all
+@white: #ffffff;
+@black: #000000;
+@bg_color_cart: #3b3b3b;
+@bg_color_cart_header: #878585;
+@button_border: rgba(180,180,180,1);
+@button_color: rgba(0,0,0,1);
+@button_bg:rgb(255,255,255);
+@boxshadow_button: rgba(0,0,0,0.32);
+
+
 #billing_address_container, #shipping_address_container, #create_account, #final_payment_info, #billing_address_summary, #shipping_address_summary {
 	margin-top: 30px;
     outline: 1px solid black;
@@ -81,6 +92,61 @@
 					}
 				}
 			}
+		}
+	}
+}
+
+
+// Shopping cart 
+
+#cart_table {
+	width: 100%;
+	margin-top: 20px;
+	border-collapse: collapse;
+	thead {
+		background-color: @bg_color_cart_header;
+		color: @white;
+		border: 1px solid @black;
+		font-weight: 600;
+		.total {
+			border-right: 1px solid @black;
+		}
+	}
+	tbody {
+		background-color: @bg_color_cart;
+		border: 1px solid @black;
+		tr {
+			border-bottom: 1px solid @black;
+			td {
+				border-right: 1px solid @black;
+				text-align: center;
+				vertical-align: middle;
+				color: @white;
+				img {
+					margin-top: 10px;
+					margin-bottom: 10px;
+					border: 1px solid @black;
+				}
+			}
+		}
+	}
+	tfoot {
+		line-height: 25px;
+		td {
+			padding-top: 10px;
+		}
+		button {
+			display: inline-block;
+			.box-sizing(content-box);
+			cursor: pointer;
+			padding: 10px 20px;
+			border: 1px solid @button_border;
+			color: @button_color;
+			-o-text-overflow: clip;
+			text-overflow: clip;
+			background: @button_bg;
+			box-shadow: 2px 2px 2px 0 @boxshadow_button;
+			&:hover { border: 1px solid @button_bg;}
 		}
 	}
 }

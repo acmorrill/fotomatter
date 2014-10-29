@@ -135,3 +135,55 @@
 #footer_tagline .footer_tagline_container_outer .footer_tagline_container_inner .powered_by a .fotomatter_logo {
   height: 30px;
 }
+#cart_table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+#cart_table thead {
+  background-color: #878585;
+  color: #ffffff;
+  border: 1px solid #000000;
+  font-weight: 600;
+}
+#cart_table thead .total {
+  border-right: 1px solid #000000;
+}
+#cart_table tbody {
+  background-color: #3b3b3b;
+  border: 1px solid #000000;
+}
+#cart_table tbody tr {
+  border-bottom: 1px solid #000000;
+}
+#cart_table tbody tr td {
+  border-right: 1px solid #000000;
+  text-align: center;
+  vertical-align: middle;
+  color: #ffffff;
+}
+#cart_table tbody tr td img {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #000000;
+}
+#cart_table tfoot {
+  line-height: 25px;
+}
+#cart_table tfoot td {
+  padding-top: 10px;
+}
+#cart_table tfoot button {
+  display: inline-block;
+  cursor: pointer;
+  padding: 10px 20px;
+  border: 1px solid #b4b4b4;
+  color: #000000;
+  -o-text-overflow: clip;
+  text-overflow: clip;
+  background: #ffffff;
+  box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.32);
+}
+#cart_table tfoot button:hover {
+  border: 1px solid #ffffff;
+}
