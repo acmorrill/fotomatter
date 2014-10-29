@@ -12,26 +12,7 @@ and open the template in the editor.
 body {
 	
 	.ui-widget-overlay {
-		/*background: @off_black url("/js/jquery-ui-1.11.0/images/ui-bg_diagonals-thick_20_666666_40x40.png") 50% 50% repeat;*/
-		background: @off_black;
-		background-color: @off_black;
-		.el_opacity(.9, 90);
-		
-		background: -moz-radial-gradient(center,ellipse cover,rgba(0,0,0,@overlay_radial_start_opacity) 0,rgba(0,0,0,@overlay_radial_end_opacity) 100%);
-		background: -webkit-gradient(radial,center center,0px,center center,100%,color-stop(0%,rgba(0,0,0,@overlay_radial_start_opacity)),color-stop(100%,rgba(0,0,0,@overlay_radial_end_opacity)));
-		background: -webkit-radial-gradient(center,ellipse cover,rgba(0,0,0,@overlay_radial_start_opacity) 0,rgba(0,0,0,@overlay_radial_end_opacity) 100%);
-		background: -o-radial-gradient(center,ellipse cover,rgba(0,0,0,@overlay_radial_start_opacity) 0,rgba(0,0,0,@overlay_radial_end_opacity) 100%);
-		background: -ms-radial-gradient(center,ellipse cover,rgba(0,0,0,@overlay_radial_start_opacity) 0,rgba(0,0,0,@overlay_radial_end_opacity) 100%);
-		background: radial-gradient(center,ellipse cover,rgba(0,0,0,@overlay_radial_start_opacity) 0,rgba(0,0,0,@overlay_radial_end_opacity) 100%);
-		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#66000000',endColorstr='#e6000000',GradientType=1);
-		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-		filter: alpha(opacity=50);
-		-webkit-transition: all 0.3s ease-out;
-		-moz-transition: all 0.3s ease-out;
-		-ms-transition: all 0.3s ease-out;
-		-o-transition: all 0.3s ease-out;
-		transition: all 0.3s ease-out;
-		
+		.default_modal_background();
 	}
 	.ui-widget-header {
 		/*border: 1px solid #e78f08;*/
@@ -39,11 +20,17 @@ body {
 		background: @table_hover;
 		/*background: @body_content_top_bg;*/
 		/*color: @gray_text;*/
-		color: @white;
+		color: @top_white;
 		/*background: @body_content_top_bg;*/
 		/*font-weight: bold;*/
 	}
 	.ui-dialog {
+		.flashMessage {
+			margin-bottom: 0px;
+			margin-left: 30px;
+		}
+		
+		
 		padding: 0px;
 		/*outline: 1px solid @table_and_button_outline;*/
 		border: 1px solid @black;
@@ -54,12 +41,12 @@ body {
 
 				position: absolute;
 				right: 30px;
-				top: 18px;
+				top: 15px;
 				margin: 0px;
 
 				border: 1px solid @button_border;
 				/*color: @gray_text;*/
-				color: @white;
+				color: @top_white;
 				background: @off_black;
 				.ui-icon {
 					font-family: initial;
@@ -76,7 +63,7 @@ body {
 				}
 				&:hover {
 					background: @off_black + @button_bg_increase;
-					color: @white;
+					color: @top_white;
 				}
 			}
 		}
@@ -86,11 +73,12 @@ body {
 			font-size: 18px;
 		}
 		.ui-dialog-titlebar {
-			padding: 25px 42px;
+			padding: 20px 30px;
 			padding-right: 80px;
 		}
 		.ui-dialog-content {
 			/*border: 0;*/
+			color: @top_white;
 			margin-top: 30px;
 			margin-left: 30px;
 			margin-right: 30px;
@@ -98,6 +86,26 @@ body {
 			outline: 1px solid @table_and_button_outline;
 			border: 1px solid @black;
 			padding: 30px;
+			&, p {
+				line-height: 30px;
+			}
+			p {
+				&.alert_or_confirm {
+					position: relative;
+					padding-left: 40px;
+					i {
+						font-size: 26px;
+						position: absolute;
+						top: 5px;
+						left: 0px;
+						margin-right: 10px;
+						&.icon-warning-01 {
+							color: @warning_tan;
+						}
+					}
+				}
+			}
+			
 		}
 		.ui-dialog-buttonpane {
 			border: 0px;
@@ -118,7 +126,7 @@ body {
 				padding-right: 10px;
 				border: 1px solid @button_border;
 				/*color: @gray_text;*/
-				color: @white;
+				color: @top_white;
 				font-family: Code-Pro-LC;
 				font-weight: normal;
 				font-style: normal;
@@ -127,12 +135,12 @@ body {
 				min-width: 65px;
 				&:hover {
 					background: @off_black + @button_bg_increase;
-					color: @white;
+					color: @top_white;
 				}
 			}
 		}
 		&:hover {
-			.ui-widget-header { color: @white; }
+			.ui-widget-header { color: @top_white; }
 		}
 	}
 	.ui-widget-content {

@@ -90,7 +90,7 @@ $(window).load(function() {
 				}
 			}, args);
 			
-			var alert_div = $("<div class='gen_alert "+settings.type+"'>"+message+"</div>")
+			var alert_div = $("<div class='gen_alert "+settings.type+"'><p class='alert_or_confirm'><i class='icon-warning-01'></i>" + message + "</p></div>")
 			
 			$(alert_div).dialog({
 				title: "<?php echo __('Alert', true); ?>",
@@ -105,7 +105,7 @@ $(window).load(function() {
 				close: function() {
 					alert_div.remove();
 				},
-				minWidth: 300,
+				minWidth: 400,
 				minHeight: 200,
 				modal: true,
 				resizable: false
@@ -120,11 +120,11 @@ $(window).load(function() {
 				},
 				'type' : 'alert',
 				'message': '<?php echo __('Are you sure?', true); ?>',
-				'minWidth': 300,
+				'minWidth': 400,
 				'minHeight': 200
 			}, args);
 			
-			var confirm_div = $("<div class='gen_confirm "+settings.type+"'>"+settings.message+"</div>")
+			var confirm_div = $("<div class='gen_confirm "+settings.type+"'><p class='alert_or_confirm'><i class='icon-warning-01'></i>" + settings.message + "</p></div>")
 			
 			$(confirm_div).dialog({
 				title: settings.title,

@@ -1,6 +1,5 @@
 <div class="logo_size_cont">
 	
-	<?php //debug($theme_config); ?>
 	<?php 
 		$logo_max_width = $logo_context_width = isset($theme_config['admin_config']['logo_config']['available_space']['width']) ? $theme_config['admin_config']['logo_config']['available_space']['width'] : 400;
 		$logo_max_height = $logo_context_height = isset($theme_config['admin_config']['logo_config']['available_space']['height']) ? $theme_config['admin_config']['logo_config']['available_space']['height'] : 200;
@@ -46,52 +45,6 @@
 	?>
 	
 	<?php // DREW TODO - put the below into admin.css ?>
-	<style type="text/css">
-		.logo_size_change_palette {
-			outline: 3px solid #00AEFF;
-			position: relative;
-			margin-bottom: 15px;
-			position: absolute;
-		}
-		.logo_context_bg_darken {
-			background-color: black; opacity:0.35; filter:alpha(opacity=35); position: absolute; top: 0px; left: 0px;
-		}
-		.logo_context_image_cont {
-			background-color: #222;
-			border: 1px solid transparent;
-			position: relative;
-		}
-		.logo_size_change_palette img {}
-		.palette_top_legend, .palette_right_legend {
-			position: absolute;
-			
-			color:white;
-			border:0px solid red;
-			font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
-			font-size:24px;
-			font-weight:normal;
-			text-shadow: 0px 0px 1px #333;
-			text-align: left;
-		}
-		.palette_top_legend {
-			width: 100%;
-			top: -34px;
-		}
-		.palette_right_legend {
-			writing-mode:tb-rl;
-			-webkit-transform:rotate(90deg);
-			-moz-transform:rotate(90deg);
-			-o-transform: rotate(90deg);
-			white-space:nowrap;
-			
-			right: -36px;
-			top: 0;
-			height: 26px;
-			width: 26px;
-			z-index: 0;
-		}
-	</style>
-	
 	<script type="text/javascript">
 		function reload_size_change_logo() {
 			var current_logo_height = jQuery('#logo_size_change_palette').height();
@@ -144,12 +97,12 @@
 		});
 	</script>
 	
-	<div style="min-height: 79px; margin-top: 48px; position: relative; display: inline-block;">
+	<div id="logo_palette_cont">
 		<div class="palette_top_legend">
-			<?php __('Theme Max Width'); ?>
+			<?php echo __('Theme Max Width', true); ?>
 		</div>
 		<div class="palette_right_legend">
-			<?php __('Theme Max Height'); ?>
+			<?php echo __('Theme Max Height', true); ?>
 		</div>
 		<div class="logo_context_image_cont" style="<?php if (!empty($avail_space_screenshot_web_path)): ?> background: url('<?php echo $avail_space_screenshot_web_path; ?>') top left no-repeat; <?php endif; ?> width: <?php echo $logo_context_width; ?>px; height: <?php echo $logo_context_height; ?>px;">
 			<div class="logo_context_bg_darken" style="width: <?php echo $logo_context_width; ?>px; height: <?php echo $logo_context_height; ?>px;"></div>

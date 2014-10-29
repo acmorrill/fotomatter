@@ -1,0 +1,75 @@
+#change_logo_dialog {
+	.logo_choice_cont {
+		display: inline-block;
+		&.first { margin-right: 30px; }
+	}
+	
+	input {
+		width: 20px;
+		height: 20px;
+	}
+	
+	.cache_sample_image_cont {
+		width: 150px;
+		height: 80px;
+		display: inline-block;
+		vertical-align: middle;
+		text-align: center;
+		border: 1px solid black;
+		background: #333;
+		margin-left: 10px;
+		margin-bottom: 10px;
+		padding: 5px;
+	}
+}
+
+.logo_size_cont {
+	#logo_palette_cont {
+		min-height: 79px; margin-top: 48px; position: relative; display: inline-block;
+	}
+	
+	
+	.logo_size_change_palette {
+		outline: 3px solid #00AEFF;
+		position: relative;
+		margin-bottom: 15px;
+		position: absolute;
+	}
+	.logo_context_bg_darken {
+		background-color: black; opacity:0.35; filter:alpha(opacity=35); position: absolute; top: 0px; left: 0px;
+	}
+	.logo_context_image_cont {
+		background-color: #222;
+		border: 1px solid transparent;
+		position: relative;
+	}
+	.logo_size_change_palette img {}
+	.palette_top_legend, .palette_right_legend {
+		position: absolute;
+
+		color:white;
+		border:0px solid red;
+		font-family: 'Trebuchet MS', Helvetica, sans-serif;
+		font-size:24px;
+		font-weight:normal;
+		text-shadow: 0px 0px 1px #333;
+		text-align: left;
+	}
+	.palette_top_legend {
+		width: 100%;
+		top: -34px;
+	}
+	.palette_right_legend {
+		writing-mode:tb-rl;
+		-webkit-transform:rotate(90deg);
+		-moz-transform:rotate(90deg);
+		-o-transform: rotate(90deg);
+		white-space:nowrap;
+
+		right: -36px;
+		top: 0;
+		height: 26px;
+		width: 26px;
+		z-index: 0;
+	}
+}

@@ -1,3 +1,25 @@
+.default_modal_background {
+	background: @off_black;
+	background-color: @off_black;
+	.el_opacity(.95, 95);
+	
+	background: -moz-radial-gradient(center,ellipse cover,rgba(0,0,0,@overlay_radial_start_opacity) 0,rgba(0,0,0,@overlay_radial_end_opacity) 100%);
+	background: -webkit-gradient(radial,center center,0px,center center,100%,color-stop(0%,rgba(0,0,0,@overlay_radial_start_opacity)),color-stop(100%,rgba(0,0,0,@overlay_radial_end_opacity)));
+	background: -webkit-radial-gradient(center,ellipse cover,rgba(0,0,0,@overlay_radial_start_opacity) 0,rgba(0,0,0,@overlay_radial_end_opacity) 100%);
+	background: -o-radial-gradient(center,ellipse cover,rgba(0,0,0,@overlay_radial_start_opacity) 0,rgba(0,0,0,@overlay_radial_end_opacity) 100%);
+	background: -ms-radial-gradient(center,ellipse cover,rgba(0,0,0,@overlay_radial_start_opacity) 0,rgba(0,0,0,@overlay_radial_end_opacity) 100%);
+	background: radial-gradient(center,ellipse cover,rgba(0,0,0,@overlay_radial_start_opacity) 0,rgba(0,0,0,@overlay_radial_end_opacity) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#66000000',endColorstr='#e6000000',GradientType=1);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=50);
+	-webkit-transition: all 0.3s ease-out;
+	-moz-transition: all 0.3s ease-out;
+	-ms-transition: all 0.3s ease-out;
+	-o-transition: all 0.3s ease-out;
+	transition: all 0.3s ease-out;
+}
+
+
 .icomoon_include {
 	font-family: 'icomoon';
 	speak: none;

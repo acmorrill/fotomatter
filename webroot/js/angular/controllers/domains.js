@@ -116,6 +116,15 @@ var domains_index = function($scope, $modal, $http, domainUtil, errorUtil) {
 domains_index.$inject = ['$scope', '$modal', '$http', 'domainUtil', 'errorUtil'];
 
 var delete_domain = function($scope, AuthnetProfile, $http, generalUtil, domainUtil, errorUtil, $modalInstance, domain_id, domain_url) {
+	$scope.$watch('errorMessage', function() {
+		if (typeof $scope.errorMessage == 'string') {
+			var element = document.getElementById("error_and_content_cont");
+			element.scrollTop = 0;
+		}
+	});
+	
+	
+	document.body.style.overflow = "hidden";
 	$scope.external_domain = domain_id;
 	$scope.domain_url = domain_url;
 
@@ -126,12 +135,14 @@ var delete_domain = function($scope, AuthnetProfile, $http, generalUtil, domainU
 
 	$scope.cancel = function() {
 		$modalInstance.dismiss('cancel');
+		document.body.style.overflow = "visible";
 	};
 	
 	$scope.delete_domain = function() {
 		$scope.setStep('loading');
 		domainUtil.delete_domain($scope.external_domain).success(function(data, status) {
 			if (data.code) {
+				document.body.style.overflow = "visible";
 				window.location.reload();
 			} else {
 				$scope.errorMessage = data.message;
@@ -142,6 +153,17 @@ var delete_domain = function($scope, AuthnetProfile, $http, generalUtil, domainU
 delete_domain.$inject = ['$scope','AuthnetProfile', '$http', 'generalUtil', 'domainUtil', 'errorUtil', '$modalInstance', 'domain_id', 'domain_url'];
 
 var add_external = function($scope, AuthnetProfile, $http, generalUtil, domainUtil, errorUtil, $modalInstance, domain) {
+	
+	$scope.$watch('errorMessage', function() {
+		if (typeof $scope.errorMessage == 'string') {
+			var element = document.getElementById("error_and_content_cont");
+			element.scrollTop = 0;
+		}
+	});
+	
+	
+	document.body.style.overflow = "hidden";
+	
 	$scope.external_domain = domain;
 
 	$scope.setStep = function(step_name) {
@@ -150,6 +172,7 @@ var add_external = function($scope, AuthnetProfile, $http, generalUtil, domainUt
 	$scope.setStep('add_external');
 	
 	$scope.cancel = function() {
+		document.body.style.overflow = "visible";
 		$modalInstance.dismiss('cancel');
 	};
 	
@@ -157,6 +180,7 @@ var add_external = function($scope, AuthnetProfile, $http, generalUtil, domainUt
 		$scope.setStep('loading');
 		domainUtil.add_external_domain($scope.external_domain).success(function(data, status) {
 			if (data.result) {
+				document.body.style.overflow = "visible";
 				window.location.reload();
 			} else {
 				$scope.setStep('add_external');
@@ -168,6 +192,7 @@ var add_external = function($scope, AuthnetProfile, $http, generalUtil, domainUt
 add_external.$inject = ['$scope','AuthnetProfile', '$http', 'generalUtil', 'domainUtil', 'errorUtil', '$modalInstance', 'domain'];
 
 var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domainUtil, errorUtil, $modalInstance, domain, is_renew) {
+	document.body.style.overflow = "hidden";
 	$scope.is_renew = is_renew;
 	$scope.domain_to_purchase = domain;
 
@@ -175,6 +200,13 @@ var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domai
 		$scope.currentStep = step_name;
 	};
 	$scope.setStep('loading');
+	
+	$scope.$watch('errorMessage', function() {
+		if (typeof $scope.errorMessage == 'string') {
+			var element = document.getElementById("error_and_content_cont");
+			element.scrollTop = 0;
+		}
+	});
 	
 	$http.get('/admin/domains/get_account_details').success(function(page_meta_data) {
 		$scope.profile = jQuery.extend(true, AuthnetProfile.initObject({}), page_meta_data.account_details.data.AuthnetProfile)
@@ -213,6 +245,7 @@ var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domai
 	
 	$scope.cancel = function() {
 		$modalInstance.dismiss('cancel');
+		document.body.style.overflow = "visible";
 	};
 
 	
@@ -307,6 +340,7 @@ var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domai
 		
 		domainUtil.purchase(domain_name, tld, $scope.contact).success(function(data, status) {
 			if (data.result) {
+				document.body.style.overflow = "visible";
 				window.location.reload();
 			} else {
 				$scope.setStep('confirm');
@@ -324,6 +358,7 @@ var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domai
 		
 		domainUtil.renew(domain_name, tld).success(function(data, status) {
 			if (data.result) {
+				document.body.style.overflow = "visible";
 				window.location.reload();
 			} else {
 				$scope.setStep('renew_confirm');
