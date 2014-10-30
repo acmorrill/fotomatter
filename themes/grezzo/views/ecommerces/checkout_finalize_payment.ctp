@@ -86,7 +86,7 @@ if (isset($this->data['Payment'])) {
 	<?php if ($logged_in !== true): ?>
 		<div id="create_account">
 			<div id="title_name">
-				<h1><?php __('Create Account'); ?> <span>(Optional)</span></h1>
+				<h1><?php echo __('Create Account',true); ?> <span>(Optional)</span></h1>
 			</div>
 			<div class="create_account_cont">				
 				<div class="input email">
@@ -158,7 +158,7 @@ if (isset($this->data['Payment'])) {
 						<?php $countries = $this->Ecommerce->get_available_countries(); ?>
 						<label><?php echo __('Country',true); ?>:</label> 
 						<select class="country_select" name="data[BillingAddress][country_id]">
-							<option class="empty_option" value=""><?php __('Choose a Country'); ?></option>
+							<option class="empty_option" value=""><?php echo __('Choose a Country',true); ?></option>
 							<?php foreach ($countries as $country): ?>
 								<option value="<?php echo $country['GlobalCountry']['id']; ?>" <?php if (isset($billing_address['country_id']) && $billing_address['country_id'] == $country['GlobalCountry']['id']): ?>selected="selected"<?php endif; ?>><?php echo $country['GlobalCountry']['country_name']; ?></option>
 							<?php endforeach; ?>
@@ -174,11 +174,11 @@ if (isset($this->data['Payment'])) {
 				<div class="form_center">
 
 					<div class="input phone">
-						<label><?php __('Phone Number'); ?>:</label> <input type="text" name="data[BillingAddress][phone]" value="<?php if (isset($billing_address['phone'])): ?><?php echo $billing_address['phone']; ?><?php endif; ?>" /> (optional)
+						<label><?php echo __('Phone Number',true); ?>:</label> <input type="text" name="data[BillingAddress][phone]" value="<?php if (isset($billing_address['phone'])): ?><?php echo $billing_address['phone']; ?><?php endif; ?>" /> (optional)
 					</div>
 
 					<div class="select credit_card_type">
-						<label><?php __('Payment Method'); ?>:</label> 
+						<label><?php echo __('Payment Method',true); ?>:</label> 
 						<select name="data[Payment][credit_card_method]">
 							<option value="visa" <?php if (isset($Payment['credit_card_method']) && $Payment['credit_card_method'] === 'visa'): ?>selected="selected"<?php endif; ?> >Visa</option>
 							<option value="mastercard" <?php if (isset($Payment['credit_card_method']) && $Payment['credit_card_method'] === 'mastercard'): ?>selected="selected"<?php endif; ?> >Mastercard</option>
@@ -187,11 +187,11 @@ if (isset($this->data['Payment'])) {
 						</select>
 					</div>
 					<div class="input card_number">
-						<label><?php __('Card Number'); ?>:</label>
+						<label><?php echo __('Card Number',true); ?>:</label>
 						<input type="text" name="data[Payment][card_number]" value="" />
 					</div>
 					<div class="input card_expiration">
-						<label><?php __('Expiration'); ?>:</label>
+						<label><?php echo __('Expiration',true); ?>:</label>
 						<select name="data[Payment][expiration_month]">
 							<?php for ($m = 1; $m <= 12; $m++): ?>
 								<?php $month_name = date("M", mktime(0, 0, 0, $m, 10)); ?>
@@ -206,7 +206,7 @@ if (isset($this->data['Payment'])) {
 						</select>
 					</div>
 					<div class="input card_security_code">
-						<label><?php __('Security Code'); ?>:</label>
+						<label><?php echo __('Security Code',true); ?>:</label>
 						<input type="text" name="data[Payment][security_code]" value="<?php if (isset($Payment['security_code'])): ?><?php echo $Payment['security_code']; ?><?php endif; ?>" />
 					</div>
 				</div> <!--	End from_center-->
@@ -223,7 +223,7 @@ if (isset($this->data['Payment'])) {
 <br />
 <!--<hr />-->
 <div id="title_name">
-	<h1><?php __('Order Summary'); ?></h1>
+	<h1><?php echo __('Order Summary',true); ?></h1>
 </div>
 <?php
 echo $this->Element('cart_checkout/cart_table_summary', array(

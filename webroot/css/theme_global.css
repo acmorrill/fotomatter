@@ -145,8 +145,9 @@
   color: #ffffff;
   border: 1px solid #000000;
   font-weight: 600;
+  text-align: center;
 }
-#cart_table thead .total {
+#cart_table thead .last {
   border-right: 1px solid #000000;
 }
 #cart_table tbody {
@@ -177,13 +178,13 @@
   display: inline-block;
   cursor: pointer;
   padding: 10px 20px;
-  border: 1px solid #b4b4b4;
+  border: 1px solid #8c8c8c;
   color: #000000;
   -o-text-overflow: clip;
   text-overflow: clip;
-  background: #ffffff;
-  box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.32);
+  background: #8c8c8c;
+  box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2);
 }
 #cart_table tfoot button:hover {
-  border: 1px solid #ffffff;
+  border: 1px solid rgba(40,40,40,0.7);
 }

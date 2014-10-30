@@ -15,11 +15,11 @@
 	<table id="cart_table">
 		<thead>
 			<tr>
-				<th class="first image"><?php __('Item'); ?></th>
-				<th class='price'><?php __('Price'); ?></th>
+				<th class="first image"><?php echo __('Item',true); ?></th>
+				<th class='price'><?php echo __('Price',true); ?></th>
 				<?php /*<th><?php __('Shipping Price'); ?></th> */ ?>
-				<th class='qty'><?php __('Qty'); ?></th>
-				<th class="last total"><?php __('Total'); ?></th>
+				<th class='qty'><?php echo __('Qty',true); ?></th>
+				<th class="last total"><?php echo __('Total',true); ?></th>
 			</tr>
 		</thead>
 		<tbody>
