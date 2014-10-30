@@ -160,17 +160,17 @@ class AccountsController extends AppController {
 	* @return This function will either return a error or call ajax_finishLineChange
 	*/
 	public function admin_ajax_save_client_billing() {
-		if (empty($this->data) == false) {
+		if (!empty($this->data)) {
 			try {
 				$this->validatePaymentProfile();
 			} catch (Exception $e) {
 				if (empty($this->params['named']['closeWhenDone']) === false && $this->params['named']['closeWhenDone'] == 'true') {
-				$this->params['named']['closeWhenDone'] = true;
+					$this->params['named']['closeWhenDone'] = true;
 				} else {
-				$this->params['named']['closeWhenDone'] = false;
+					$this->params['named']['closeWhenDone'] = false;
 				}
-				$return['html'] = $this->Account->get_add_profile_form($this, $this->data,$this->params['named']['closeWhenDone'], $e->getMessage());
-				$return['message'] = $e->getMessage();
+				
+				$_SESSION['finalize_features_error'] = __($e->getMessage(), true);
 				$return['result'] = false;
 				print(json_encode($return));
 				exit();
@@ -179,16 +179,14 @@ class AccountsController extends AppController {
 			$this->data['AuthnetProfile']['payment_cc_last_four'] = substr($this->data['AuthnetProfile']['payment_cardNumber'], -4, 4);
 			$profile_id = $this->FotomatterBilling->save_payment_profile($this->data);
 
-			if (empty($this->params['named']['closeWhenDone']) === false && $this->params['named']['closeWhenDone'] == 'true') {
+			if (!empty($this->params['named']['closeWhenDone']) && $this->params['named']['closeWhenDone'] == 'true') {
 				$this->Session->setFlash(__('Your billing details have been successfully updated.', true), 'admin/flashMessage/success');
 				$this->return_json(array('result'=>true));
 				exit();
 			}
 
-			$account_info = $this->Session->read('account_info');
-			$account_info['Account']['authnet_profile_id'] = $profile_id;
-			$this->Session->write('account_info', $account_info);
-			$this->admin_ajax_finishLineChange();
+			$return['result'] = true;
+			print(json_encode($return));
 			exit();
 		}
 		$this->major_error('admin_ajax_save_client_billing was called without data');
@@ -203,7 +201,6 @@ class AccountsController extends AppController {
 	* @return Function will get the html for the account_change_finish_element. 
 	*/
 	public function admin_ajax_finishLineChange() {
-		$return = array();
 		$return['html'] = $this->Account->finish_line_change($this, $this->FotomatterBilling->getPaymentProfile());
 		$this->return_json($return);
 	}

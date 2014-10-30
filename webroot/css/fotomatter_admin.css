@@ -1025,6 +1025,11 @@ p {
   line-height: 24px;
   color: #7d888e;
 }
+span {
+  font-family: Code-Pro-LC;
+  font-weight: normal;
+  font-style: normal;
+}
 ol {
   font-family: Code-Pro-LC;
   font-weight: normal;
@@ -1609,6 +1614,8 @@ body .ui-widget-header {
   color: #f4f9f5;
 }
 body .ui-dialog {
+  margin-bottom: 50px;
+  margin-top: 50px;
   padding: 0px;
   border: 1px solid #000;
 }
@@ -1674,8 +1681,10 @@ body .ui-dialog .ui-dialog-content {
   padding: 30px;
 }
 body .ui-dialog .ui-dialog-content,
-body .ui-dialog .ui-dialog-content p {
+body .ui-dialog .ui-dialog-content p,
+body .ui-dialog .ui-dialog-content span {
   line-height: 30px;
+  font-size: 20px;
 }
 body .ui-dialog .ui-dialog-content p {
   font-size: 22px;
@@ -1710,7 +1719,7 @@ body .ui-dialog .ui-dialog-buttonpane {
 }
 body .ui-dialog .ui-dialog-buttonpane button {
   margin: 0px;
-  margin-left: 10px;
+  margin-left: 20px;
   min-height: 40px;
   padding-left: 10px;
   padding-right: 10px;
@@ -1729,6 +1738,14 @@ body .ui-dialog .ui-dialog-buttonpane button:hover {
 }
 body .ui-dialog:hover .ui-widget-header {
   color: #f4f9f5;
+}
+body .ui-dialog.highlight_buttons .ui-dialog-buttonpane button:last-child {
+  color: #ffffff;
+  border: 0px;
+  background: #2e8695;
+}
+body .ui-dialog.highlight_buttons .ui-dialog-buttonpane button:last-child:hover {
+  background: #3f97a6;
 }
 body .ui-widget-content {
   background: none;

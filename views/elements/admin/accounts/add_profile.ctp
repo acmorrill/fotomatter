@@ -1,37 +1,58 @@
-<script type="text/javascript">
-	function send_form() {
-		$.ajax({
-			type: "POST",
-			url: "/admin/accounts/ajax_save_client_billing/closeWhenDone:<?php echo $closeWhenDone ? 'true' : 'false'; ?>",
-			data: $("#payment_details_client").serialize(),
-			success: function(data) {
-				<?php if($closeWhenDone): ?>
-					if(data.result !== undefined && data.result == false) {
-						$(".ui-dialog-content").html(data.html);
-					} else {
-						window.location.reload();
-					}
-				<?php else: ?>
-					// START HERE TOMORROW
-					$(".ui-dialog-content").html(data.html);
-				<?php endif; ?>
-			},
-			dataType: 'json'
+<div id="account_change_finish">
+	<script type="text/javascript">
+		jQuery(document).ready(function() {
+			jQuery('#account_change_finish').dialog({
+				width: '950',
+				title: '<?php echo __('Payment Information', true); ?>',
+				dialogClass: "highlight_buttons",
+				buttons: [ 
+					{
+						text: "<?php echo __('Next', true); ?>", 
+						click: function() { 
+							$.ajax({
+								type: "POST",
+								url: "/admin/accounts/ajax_save_client_billing/closeWhenDone:<?php echo $closeWhenDone ? 'true' : 'false'; ?>",
+								data: $("#payment_details_client").serialize(),
+								success: function(data) {
+									if(data.result !== undefined && data.result == false) {
+										open_add_profile_popup();
+									} else {
+										<?php if($closeWhenDone): ?>
+											window.location.reload();
+										<?php else: ?>
+											open_finish_account_change();
+										<?php endif; ?>
+									}
+								},
+								dataType: 'json'
+							});
+						} 
+					} 
+				],
+				open: function(event, ui) {
+				},
+				close: function(event, ui) {
+					$(this).dialog('destroy').remove();
+				},
+				modal: true
+			});
 		});
-	}
-    
-	function getCountries(country_id) {
-		$.post('/admin/accounts/ajax_get_states_for_country/'+country_id,function(data){
-			$("#billing_state").html(data.html);
-		}, 'json');
-	}
-</script>
+
+		function getCountries(country_id) {
+			$.post('/admin/accounts/ajax_get_states_for_country/'+country_id,function(data){
+				$("#billing_state").html(data.html);
+			}, 'json');
+		}
+	</script>
 
 
 
-	<?php if (empty($error_message) === false): ?>
-		<?php echo $this->element('admin/flashMessage/warning', array('message' => $error_message)); ?>
-	<?php endif; ?>
+	<?php 
+		if (!empty($_SESSION['finalize_features_error'])) {
+			echo $this->element('admin/flashMessage/warning', array('message' => $_SESSION['finalize_features_error']));
+			unset($_SESSION['finalize_features_error']);
+		}
+	?>
 	<form id="payment_details_client" class="fotomatter_form short" action="#" onSubmit="send_form(); return false;">
 		<input type='hidden' id='billing_id' name='data[AuthnetProfile][id]' value="<?php echo empty($current_data['AuthnetProfile']['id'])==false?$current_data['AuthnetProfile']['id']:''; ?>" />
 		<input type='hidden' id='billing_id' name='data[AuthnetProfile][created]' value="<?php echo empty($current_data['AuthnetProfile']['created'])==false?$current_data['AuthnetProfile']['created']:''; ?>" />
@@ -110,11 +131,4 @@
 			<input type="text" id="billing_csv" name="data[AuthnetProfile][payment_cardCode]" />
 		</div>
 	</form>
-
-	<div class="button_pane_to_move ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-		<div class="ui-dialog-buttonset">
-			<button onClick='send_form()' type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button">
-				<span class="ui-button-text"><?php echo __('Continue', true); ?></span>
-			</button>
-		</div>
-	</div>
+</div>

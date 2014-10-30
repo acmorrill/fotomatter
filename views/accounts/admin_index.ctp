@@ -1,5 +1,6 @@
 <script type="text/javascript">
 	var account_info = JSON.parse('<?php echo json_encode($overlord_account_info); ?>')
+	var inAjaxCall = false;
 		
 	function reload_buttons() {
 		$("button").button();
@@ -38,24 +39,47 @@
 		}
 	}
 	
-	function open_add_feature_popup(selector) {
-		jQuery(selector).dialog({
-			width: '950',
-			title: '<?php echo __('Finish Account Changes', true); ?>',
-			open: function(event, ui) {
+	function do_features_popup_call(url) {
+		if (inAjaxCall) {
+			return false;
+		}
+		inAjaxCall = true;
+
+		$.ajax({
+			type: 'GET',
+			url: url,
+			success: function(data) {
+				jQuery('#account_change_finish').dialog('destroy').remove();
+
+				jQuery('body').append(data.html);
 				jQuery('.ui-dialog').prepend('<div class="fade_background_top"></div>');
-				var button_pane_to_move = jQuery('.button_pane_to_move');
-				var button_pane_parent = button_pane_to_move.parent().parent();
-				button_pane_to_move.detach();
-				button_pane_parent.find('.ui-dialog-buttonpane').remove();
-				button_pane_parent.append(button_pane_to_move);
+				var flash_message = jQuery('#account_change_finish .flashMessage');
+				flash_message.detach();
+				flash_message.insertBefore(jQuery('#account_change_finish'));
 			},
-			close: function(event, ui) {
-				$(this).dialog('destroy').remove();
+			complete: function() {
+				inAjaxCall = false;
 			},
-			modal: true
+			error: function() {
+
+			},
+			dataType: 'json'
 		});
 	}
+	
+	function open_add_profile_popup() {
+		do_features_popup_call('/admin/accounts/ajax_update_payment/closeWhenDone:false');
+	}
+	
+	function open_finish_account_change() {
+		do_features_popup_call("/admin/accounts/ajax_finishLineChange");
+	}
+	
+	function open_finish_account_change_nocc_confirm() {
+		do_features_popup_call("/admin/accounts/ajax_finishLineChange/noCCPromoConfirm:true");
+	}
+	
+	
 	
 	$(document).ready(function() {
 		
@@ -74,7 +98,6 @@
 //			}
 //		});
 
-		var inAjaxCall = false;
 		$("#line_item_cont .line_item .cancel_remove").click(function(e) {
 			e.preventDefault();
 			if (inAjaxCall) {
@@ -203,28 +226,10 @@
 		 return false;
 		 }); */
 
-		$(".finish_account_add").click(function() {
-			if (inAjaxCall) {
-				return false;
-			}
-			inAjaxCall = true;
-		
-			jQuery.ajax({
-				type: 'get',
-				url: "/admin/accounts/ajax_finishLineChange",
-				success: function(data) {
-					var div = $("<div class='popup_content_with_table'></div>");
-					div.html(data.html);
-					open_add_feature_popup(div);
-				},
-				complete: function() {
-					inAjaxCall = false;
-				},
-				error: function() {
 
-				},
-				dataType: 'json'
-			});
+
+		$(".finish_account_add").click(function() {
+			open_finish_account_change();
 		});
 		
 		$(".pay_fail_message a").click(function(e) {
@@ -254,11 +259,6 @@
 </script>
 
 <?php if (!empty($add_feature_ref_name)): ?>
-	<script type="text/javascript">
-		jQuery(document).ready(function() {
-			open_add_feature_popup('#add_feature_ref_name_popup_html');
-		});
-	</script>
 	<div id="add_feature_ref_name_popup_html">
 		<?php echo $add_feature_ref_name_popup_html; ?>
 	</div>
