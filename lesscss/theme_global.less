@@ -3,10 +3,11 @@
 @black: #000000;
 @bg_color_cart: #3b3b3b;
 @bg_color_cart_header: #878585;
-@button_border: rgba(180,180,180,1);
+@button_border: #8c8c8c;
 @button_color: rgba(0,0,0,1);
-@button_bg:rgb(255,255,255);
-@boxshadow_button: rgba(0,0,0,0.32);
+@button_bg: rgba(140,140,140,1);
+@boxshadow_button: rgba(0,0,0,0.2);
+@button_hover: rgba(40,40,40,0.7);
 
 
 #billing_address_container, #shipping_address_container, #create_account, #final_payment_info, #billing_address_summary, #shipping_address_summary {
@@ -108,7 +109,8 @@
 		color: @white;
 		border: 1px solid @black;
 		font-weight: 600;
-		.total {
+		text-align: center;
+		.last {
 			border-right: 1px solid @black;
 		}
 	}
@@ -146,7 +148,7 @@
 			text-overflow: clip;
 			background: @button_bg;
 			box-shadow: 2px 2px 2px 0 @boxshadow_button;
-			&:hover { border: 1px solid @button_bg;}
+			&:hover { border: 1px solid @button_hover;}
 		}
 	}
 }
