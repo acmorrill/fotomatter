@@ -1,62 +1,100 @@
-<script type="text/javascript">
-	function finishChange() {
-		$.ajax({
-			type: 'POST',
-			url: "/admin/accounts/ajax_finish_account_change",
-			success: function(data) {
-				window.location.href = "/admin/accounts/index";
-			},
-			dataType: 'json'
-		});
-	}
-       
-	function changePaymentData() {
-		$.ajax({
-			type: 'GET',
-			url: '/admin/accounts/ajax_update_payment/closeWhenDone:false',
-			success: function(data) {
-				$(".ui-dialog-content").html(data.html);
-			},
-			dataType: 'json'
-		});
-	}
-	   
-	jQuery(document).ready(function() {
-		$('button.finalize_change').button();
-	});
-   </script>
-<div id="finish_account_change">
-	<div class='pending_change'>
-		<p><?php echo __('Pending Additions:'); ?></p>	
-	</div>
-	<div class='change-cont'>
-		<div class='change_summary'>
+
+
+	<script type="text/javascript">
+		function finishChange() {
+			$.ajax({
+				type: 'POST',
+				url: "/admin/accounts/ajax_finish_account_change",
+				success: function(data) {
+					window.location.href = "/admin/accounts/index";
+				},
+				dataType: 'json'
+			});
+		}
+
+		function changePaymentData() {
+			$.ajax({
+				type: 'GET',
+				url: '/admin/accounts/ajax_update_payment/closeWhenDone:false',
+				success: function(data) {
+					jQuery(".ui-dialog-content").removeClass('popup_content_with_table');
+					jQuery('.ui-dialog-buttonpane').remove();
+					jQuery(".ui-dialog-content").html(data.html);
+					var button_pane_to_move = jQuery('.button_pane_to_move');
+					var flash_to_move = jQuery('.ui-dialog-content .flashMessage');
+					var button_pane_parent = button_pane_to_move.parent().parent();
+					button_pane_to_move.detach();
+					flash_to_move.detach();
+					button_pane_parent.prepend(flash_to_move);
+					button_pane_parent.append(button_pane_to_move);
+				},
+				dataType: 'json'
+			});
+		}
+	</script>
+	<table class="list">
+		<tbody>
 			<?php $amount_to_add = 0; ?>
 			<?php foreach ($account_changes['checked'] as $id => $change): ?>
 				<?php $amount_to_add += $account_info['items'][$id]['AccountLineItem']['current_cost']; ?>
-				<div class='item_to_add'>
-					<div class='item_name'><?php echo $account_info['items'][$id]['AccountLineItem']['name']; ?></div>
-					<div class='item_cost'><?php echo $this->Number->currency($account_info['items'][$id]['AccountLineItem']['current_cost']); ?></div>
-				</div>
+				<tr>
+					<td class="first">
+						<div class="rightborder"></div>
+						<span><?php echo $account_info['items'][$id]['AccountLineItem']['name']; ?></span>
+					</td>
+					<td class="last table_actions">
+						<div class="rightborder"></div>
+						<span><?php echo $this->Number->currency($account_info['items'][$id]['AccountLineItem']['current_cost']); ?></span>
+					</td>
+				</tr>
 			<?php endforeach; ?>
-		</div>
-		<div class='cc_info'>
-			<span class='cc_source'> (<?php echo $bill_today < $account_info['Account']['promo_credit_balance'] || empty($payment_profile['data']) ? __('Will be subtracted for fotomatter credit.', true) : sprintf(__('Will bill credit card ending in %s.', true), $payment_profile['data']['AuthnetProfile']['payment_cc_last_four']); ?><br><a href='#' onClick='changePaymentData()'>Change/Add Credit Card</a>)</span>
-		</div>
-		<div class='summary'>
-			<div class='payment_item current_bill'>
-				<span class='label'><?php echo __('Current Bill'); ?>:</span><span class='value'><?php echo $this->Number->currency($current_bill); ?></span>
-			</div>
-			<div class='payment_item new_bill'>
-				<span class='label'><?php echo __('New bill'); ?>:</span><span class='value'><?php echo $this->Number->currency($current_bill + $amount_to_add); ?></span>
-			</div>
-			<div class='payment_item due_today'>
-				<span class='label'><?php echo __('Due Today'); ?>:</span><span class='value'><?php echo $this->Number->currency($bill_today); ?></span>
-			</div>
+		</tbody>
+		<tfoot>
+			<tr>
+				<td class="first">
+					<div class='cc_info'>
+						<?php
+							$billing_message = '';
+							if ($bill_today < $account_info['Account']['promo_credit_balance'] || empty($payment_profile['data'])) {
+								$billing_message = __('Total amount is from fotomatter credit', true);
+							} else {
+								$billing_message = sprintf(__('Using card ending in %s', true), $payment_profile['data']['AuthnetProfile']['payment_cc_last_four']);
+							}
+						?>
+						<p><?php echo $billing_message; ?></p>
+						<p>(<a href='#' onClick='changePaymentData()'>Change/Add Credit Card</a>)</p>
+					</div>
+				</td>
+				<td class="last">
+					<div class='table_summary'>
+						<div class='payment_item current_bill'>
+							<label><?php echo __('Current Bill', true); ?></label>
+							<span class='value'><?php echo $this->Number->currency($current_bill); ?></span>
+						</div>
+						<div class='payment_item new_bill'>
+							<label><?php echo __('New Bill', true); ?></label>
+							<span class='value'><?php echo $this->Number->currency($current_bill + $amount_to_add); ?></span>
+						</div>
+						<div class='payment_item due_today'>
+							<label><?php echo __('Due Today', true); ?></label>
+							<span class='value'><?php echo $this->Number->currency($bill_today); ?></span>
+						</div>
+					</div>
+				</td>
+			</tr>
+		</tfoot>
+	</table>
+	<div style='clear:both'></div>
+	
+	
+	<div class="button_pane_to_move ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+		<div class="ui-dialog-buttonset">
+			<button onClick='finishChange()' type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button">
+				<span class="ui-button-text"><?php echo __('Finalize Change', true); ?></span>
+			</button>
 		</div>
 	</div>
-	<div style='clear:both'></div>
-	<button class="finalize_change" onClick='finishChange()'><?php __('Finalize Change'); ?></button>
+	
 	
 	<?php /*
     <a href='#' onClick='changePaymentData()'>Change Payment Details</a>
@@ -91,4 +129,3 @@
    <button class="finalize_change" onClick='finishChange()'><?php __('Finalize Change'); ?></button> */ ?>
    
    
-</div>

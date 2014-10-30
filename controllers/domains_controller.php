@@ -84,18 +84,6 @@ class DomainsController extends Appcontroller {
 				$this->return_json($return);
 				exit();
 			}
-		}
-
-		//Adam Todo consoldate logic with that in the accounts controller
-		if (empty($this->data) == false) {
-			try {
-				$this->validatePaymentProfile();
-			} catch (Exception $e) {
-				$return['message'] = $e->getMessage();
-				$return['result'] = false;
-				$this->return_json($return);
-				exit();
-			}
 
 			$this->data['AuthnetProfile']['payment_cc_last_four'] = substr($this->data['AuthnetProfile']['payment_cardNumber'], -4, 4);
 			$this->data['AuthnetProfile']['id'] = $this->FotomatterBilling->save_payment_profile($this->data);

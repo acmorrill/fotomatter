@@ -156,10 +156,10 @@
 		
 		jQuery('#change_background_dialog').dialog({
 			autoOpen: false,
-			title: "<?php __('Choose Background'); ?>",
+			title: "<?php echo __('Choose Background', true); ?>",
 			buttons: [
 				{
-					text: "<?php __('Use Selected'); ?>",
+					text: "<?php echo __('Use Selected', true); ?>",
 					click: function() {
 						show_modal('Processing Background Image', 0, function() {}, false);
 						jQuery('#choose_background_form').submit();
@@ -167,7 +167,7 @@
 					}
 				},
 				{
-					text: "<?php __('Upload New'); ?>",
+					text: "<?php echo __('Upload New', true); ?>",
 					click: function() {
 						show_modal('Processing Background Image', 0, function() {}, false);
 						jQuery('#hidden_background_file_chooser').click();
@@ -175,7 +175,7 @@
 					}
 				}
 			],
-			minWidth: 500,
+			minWidth: 600,
 			minHeight: 200,
 			modal: true,
 			resizable: false
@@ -287,9 +287,13 @@
 <?php if ($background_settings['theme_has_dynamic_background'] === true): ?>
 	<div id="change_background_dialog">
 		<form id="choose_background_form" method="POST" action="/admin/theme_centers/set_use_theme_background/">
-			<input type="radio" name="change_background_choice" value="theme_background" <?php if ($background_settings['use_theme_background'] == false): ?>checked="checked"<?php endif; ?> /><span class="cache_sample_image_cont"><img src="<?php echo $background_settings['default_bg_web_path']; ?><?php echo $background_settings['image_cache_ending']; ?>" /></span>
+			<div class="logo_choice_cont first">
+				<input type="radio" name="change_background_choice" value="theme_background" <?php if ($background_settings['use_theme_background'] == false): ?>checked="checked"<?php endif; ?> /><span class="cache_sample_image_cont"><img src="<?php echo $background_settings['default_bg_web_path']; ?><?php echo $background_settings['image_cache_ending']; ?>" /></span>
+			</div>
 			<?php if ($this->Theme->has_uploaded_custom_background()): ?>
-				<input type="radio" name="change_background_choice" value="custom_background" <?php if ($background_settings['use_theme_background'] == true): ?>checked="checked"<?php endif; ?> /><span class="cache_sample_image_cont"><img src="<?php echo UPLOADED_BACKGROUND_WEB_PATH; ?><?php echo $background_settings['image_cache_ending']; ?>" /></span>
+				<div class="logo_choice_cont last">
+					<input type="radio" name="change_background_choice" value="custom_background" <?php if ($background_settings['use_theme_background'] == true): ?>checked="checked"<?php endif; ?> /><span class="cache_sample_image_cont"><img src="<?php echo UPLOADED_BACKGROUND_WEB_PATH; ?><?php echo $background_settings['image_cache_ending']; ?>" /></span>
+				</div>
 			<?php endif; ?>
 		</form>
 		<form id="upload_background_file_form" method="POST" action="/admin/theme_centers/upload_background_file/" enctype="multipart/form-data">
@@ -345,12 +349,13 @@
 					<?php 
 						$start_desaturation = ($background_settings['current_desaturation'] == 100) ? __('Default', true) : $background_settings['current_desaturation'] . "%"; 
 					?>
-					<div class="slider_label"><label>Saturation</label> (<span><?php echo $start_desaturation; ?></span>)</div>
+					<div class="slider_label"><label><?php echo __('Saturation', true); ?></label> (<span><?php echo $start_desaturation; ?></span>)</div>
 				</div>
 
-				<div data-step="8" data-intro="<?php echo __('This setting allows for the image to be inverted horizontally.', true); ?>" data-position="bottom" id="bg_inverted_container" class="slider_container custom_ui_radio">
-					<div class="slider_label"><label>Flip Image Horizontally:</label></div>
-					<input type="checkbox" id="bg_inverted" <?php if ($background_settings['current_inverted'] == 1): ?>checked="checked"<?php endif; ?> /><label for="bg_inverted"><?php __('Inverted'); ?></label>
+				<div data-step="8" data-intro="<?php echo __('This setting allows for the image to be inverted horizontally.', true); ?>" data-position="bottom" id="bg_inverted_container" class="slider_container custom_ui">
+					<div class="slider_label"><label><?php echo __('Flip Image Horizontally', true); ?></label></div>
+					<input type="checkbox" id="bg_inverted" <?php if ($background_settings['current_inverted'] == 1): ?>checked="checked"<?php endif; ?> />
+					<label class="add_button" for="bg_inverted"><div class="content"><?php echo __('Inverted', true); ?></div></label>
 				</div>
 
 				<?php $custom_transparency_settings = $theme_config['admin_config']['theme_background_config']['overlay_image']['custom_overlay_transparency_fade']; ?>

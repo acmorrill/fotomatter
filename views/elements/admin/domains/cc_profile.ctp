@@ -1,7 +1,7 @@
 <section ng-switch-when='cc_profile' class="profile-outer-cont domains fm_form">
 	<div class="fade_background_top"></div>
 	<div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-draggable-handle">
-		<span id="ui-id-1" class="ui-dialog-title"><?php echo __('Purchase Domain', true); ?></span>
+		<span id="ui-id-1" class="ui-dialog-title"><?php echo __('Purchase Domain &nbsp;&nbsp;|&nbsp;&nbsp; Payment Information', true); ?></span>
 		<button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close" role="button" title="Close" ng-click='cancel()'>
 			<span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>
 			<span class="ui-button-text">Close</span>
@@ -10,23 +10,27 @@
 
 	<div id="error_and_content_cont" class="error_and_content_cont">
 		<p ng-show="errorMessage != undefined && errorMessage != ''" class='warning flashMessage'><i class='icon-warning-01'></i><span>{{errorMessage}}</span></p>
-		<div class="ui-dialog-content ui-widget-content fotomatter_form" style="width: auto; min-height: 0px; height: auto;">
-			<h3><?php echo __('Add credit Card'); ?></h3>
-			<form id="payment_details_client" class='fm_form' action="#" onSubmit="send_form(); return false;">
+		<div class="ui-dialog-content ui-widget-content fotomatter_form short" style="width: auto; min-height: 0px;">
+			<form id="payment_details_client" action="#" onSubmit="send_form(); return false;">
+				<div class="input">
+					<p><?php echo __('Enter your payment information below', true); ?></p>
+					<br />
+					<p><?php echo __('* required', true); ?></p>
+				</div>
 				<div class="address">
 					<input type='hidden' id='billing_id' ng-model="profile.id"  />
 					<input type='hidden' id='billing_id' ng-model="profile.created" />
 					<input type='hidden' id='billing_id' ng-model="profile.modified" />
 					<div class="input">
-						<label for="billing_firstname"><?php echo __('First Name', true); ?></label>
+						<label for="billing_firstname"><?php echo __('First Name', true); ?> *</label>
 						<input type="text" id="billing_firstname" ng-model="profile.billing_firstname" required />
 					</div>
 					<div class="input">
-						<label for="billing_lastname"><?php echo __('Last Name', true); ?></label>
+						<label for="billing_lastname"><?php echo __('Last Name', true); ?> *</label>
 						<input type="text" id="billing_lastname" ng-model="profile.billing_lastname" required />
 					</div>
 					<div class="input">
-						<label for="billing_address"><?php echo __('Address', true); ?></label>
+						<label for="billing_address"><?php echo __('Address', true); ?> *</label>
 						<input type="text" id="billing_address" ng-model='profile.billing_address' required />
 					</div>
 					<div class="input">
@@ -38,7 +42,7 @@
 						</select>
 					</div>
 					<div class="input">
-						<label for="billing_city"><?php echo __('City', true); ?></label>
+						<label for="billing_city"><?php echo __('City', true); ?> *</label>
 						<input type="text" id="billing_city" ng-model='profile.billing_city' />
 					</div>
 					<div class="input">
@@ -48,17 +52,17 @@
 						</select>
 					</div>
 					<div class="input">
-						<label for="billing_zip"><?php echo __('Zip', true); ?></label>
+						<label for="billing_zip"><?php echo __('Zip', true); ?> *</label>
 						<input type="text" id="billing_zip" ng-model='profile.billing_zip' />
 					</div>
 				</div>
 				<div class="payment">
 					<div class="input">
-						<label for="billing_zip"><?php echo __('Card Number', true); ?></label>
+						<label for="billing_zip"><?php echo __('Card Number', true); ?> *</label>
 						<input type="text" id="billing_cardNumber" ng-model='profile.payment_cardNumber' />
 					</div>
 					<div class="input exp_date">
-						<label for ="card_exp"><?php echo __('Expiration Date', true); ?></label>
+						<label for ="card_exp"><?php echo __('Expiration Date', true); ?> *</label>
 						<select ng-model='profile.expiration.month'>
 							<option value="01"><?php echo __('January', true); ?></option>
 							<option value="02"><?php echo __('February', true); ?></option>
@@ -80,15 +84,11 @@
 						</select>
 					</div>
 					<div class="input">
-						<label for="billing_csv"><?php echo __('Csv Code', true); ?></label>
+						<label for="billing_csv"><?php echo __('Csv Code', true); ?> *</label>
 						<input type="text" id="billing_csv" ng-model='profile.payment_cardCode' />
 					</div>
 				</div>
 			</form>
-			<div class='profile_info rounded-corners'>
-				<p>This is the card that we will use every month to pay your fotomatter subscription. </p>
-				<p>Please remember to keep it up to date so that your service or website will not be interrupted.</p>
-			</div>
 		</div> 
 	</div>
 	

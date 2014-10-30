@@ -90,6 +90,7 @@ body {
 				line-height: 30px;
 			}
 			p {
+				font-size: 22px;
 				&.alert_or_confirm {
 					position: relative;
 					padding-left: 40px;
@@ -105,7 +106,15 @@ body {
 					}
 				}
 			}
-			
+			&.popup_content_with_table {
+				background: none;
+				outline: 0px;
+				border: 0px;
+				padding: 2px;
+				table.list {
+					margin-bottom: 0px;
+				}
+			}
 		}
 		.ui-dialog-buttonpane {
 			border: 0px;
@@ -125,8 +134,7 @@ body {
 				padding-left: 10px;
 				padding-right: 10px;
 				border: 1px solid @button_border;
-				/*color: @gray_text;*/
-				color: @top_white;
+				color: @gray_text;
 				font-family: Code-Pro-LC;
 				font-weight: normal;
 				font-style: normal;
@@ -144,10 +152,13 @@ body {
 		}
 	}
 	.ui-widget-content {
+		background: none;
+	}
+	> .ui-widget-content {
 		border: 0px;
 		background: url(/img/admin/general/box_transparent_bg_bottom.png) bottom left repeat-x;
-		/*background: @top_white;*/
-		/*color: @on_white_color;*/
+		background-color: #0f0f0f;
+		background-color: rgba(18, 18, 18, .85);
 	}
 	.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br {
 		border-bottom-right-radius: 0px;

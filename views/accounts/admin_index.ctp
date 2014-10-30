@@ -40,12 +40,20 @@
 	
 	function open_add_feature_popup(selector) {
 		jQuery(selector).dialog({
-			width: '600',
-			height: '570',
+			width: '950',
 			title: '<?php echo __('Finish Account Changes', true); ?>',
 			open: function(event, ui) {
-				$(this).find("button").button();
-			}
+				jQuery('.ui-dialog').prepend('<div class="fade_background_top"></div>');
+				var button_pane_to_move = jQuery('.button_pane_to_move');
+				var button_pane_parent = button_pane_to_move.parent().parent();
+				button_pane_to_move.detach();
+				button_pane_parent.find('.ui-dialog-buttonpane').remove();
+				button_pane_parent.append(button_pane_to_move);
+			},
+			close: function(event, ui) {
+				$(this).dialog('destroy').remove();
+			},
+			modal: true
 		});
 	}
 	
@@ -98,7 +106,7 @@
 
 			var line_item_id = $(this).attr('data_id');
 			jQuery.foto('confirm', {
-				message: '<?php echo __('This feature will remain on your account until your next monthly subscription is charged.', true); ?><br /><br /><?php echo __('Are you sure you want to remove this item?'); ?>',
+				message: '<?php echo __('This feature will remain on your account until the next billing cycle.', true); ?><br /><br /><?php echo __('Are you sure you want to remove this item?'); ?>',
 				onConfirm: function() {
 					inAjaxCall = true;
 					jQuery.ajax({
@@ -205,7 +213,7 @@
 				type: 'get',
 				url: "/admin/accounts/ajax_finishLineChange",
 				success: function(data) {
-					var div = $("<div></div>");
+					var div = $("<div class='popup_content_with_table'></div>");
 					div.html(data.html);
 					open_add_feature_popup(div);
 				},

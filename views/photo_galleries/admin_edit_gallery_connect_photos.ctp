@@ -367,7 +367,7 @@ $(function() {
 				remove_all_images_from_gallery();
 			},
 			'type' : 'alert',
-			'message': '<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span><?php __('Remove all photos from gallery?'); ?></p>'
+			'message': '<?php echo __('Remove all photos from gallery?', true); ?>'
 		});
 	});
 

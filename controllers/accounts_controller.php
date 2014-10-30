@@ -130,10 +130,11 @@ class AccountsController extends AppController {
 	*/
 	public function admin_ajax_update_payment() {
 		if ($this->params['named']['closeWhenDone'] == 'false') {
-		   $this->params['named']['closeWhenDone'] = false;
+			$this->params['named']['closeWhenDone'] = false;
 		} else {
-		   $this->params['named']['closeWhenDone'] = true;
+			$this->params['named']['closeWhenDone'] = true;
 		}
+		
 		$currentData = $this->FotomatterBilling->getPaymentProfile();
 		$return['html'] = $this->Account->get_add_profile_form($this, $currentData['data'], $this->params['named']['closeWhenDone']);
 		$this->return_json($return);

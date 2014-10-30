@@ -1,12 +1,16 @@
-<div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
-	<span class="ui-dialog-title" id="ui-dialog-title-3"><?php echo __('Delete Domain?', true); ?></span>
-	<a href="#" class="ui-dialog-titlebar-close ui-corner-all" ng-click='cancel()' role="button">
-		<span class="ui-icon ui-icon-closethick">close</span>
-	</a>
-</div>
 <section ng-switch on='currentStep'>
+	
+	
 	<?php echo $this->element('admin/domains/loading'); ?>
 	<section ng-switch-when='confirm_delete'>
+		<div class="fade_background_top"></div>
+		<div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-draggable-handle">
+			<span id="ui-id-1" class="ui-dialog-title"><?php echo __('Delete Domain', true); ?></span>
+			<button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close" role="button" title="Close" ng-click='cancel()'>
+				<span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>
+				<span class="ui-button-text">Close</span>
+			</button>
+		</div>
 		<div class="gen_confirm alert ui-dialog-content ui-widget-content" scrolltop="0" scrollleft="0" style="width: auto; min-height: 63.03999996185303px; height: auto;" >
 			<p ng-show="errorMessage != undefined && errorMessage != ''" class='error flashMessage rounded-corners-tiny'><i class='icon-warning-sign'></i><span>{{errorMessage}}</span></p>
 			<p>
