@@ -4,6 +4,9 @@
   cursor: pointer;
   color: white;
 }
+#cart_table tfoot button {
+  padding: 1px 1px !important;
+}
 body {
   font-family: 'Roboto', sans-serif;
   background-image: url('../images/background-content.jpg');
@@ -177,10 +180,6 @@ div.standardContent {
   width: 561px;
   background-color: #F4F4F4;
   border: 1px solid #C0C0C0;
-}
-div.standardContent img {
-  float: right;
-  margin: 0px 0px 16px 16px;
 }
 div.standardContent img.left {
   margin: 0px 16px 16px 0;
@@ -611,11 +610,6 @@ td.priceAndDiscountCode {
 td.priceAndDiscountCode.price {
   font-size: 14px;
   padding: 18px 18px 8px 0px;
-}
-.total {
-  font-size: 16px;
-  color: black;
-  line-height: 18px;
 }
 .cartPicture {
   width: 150px;

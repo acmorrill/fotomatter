@@ -1,19 +1,33 @@
-
 .outer_page_cart{
-	form{
-		margin-bottom: 55px;
+	#create_account{
+		outline: none !important;
 	}
+	#final_payment_info{
+		outline: none !important;
+	}
+}
+#shipping_address_summary{
+	outline: none !important;
 	h1{
-		margin-bottom: 20px;
-		padding-bottom: 7px;
-		border-bottom: 1px solid @black;
-		margin-top: 20px;
+		background-color: @black;
+		color: @white;
+		text-align: center;
+		a{
+			font-size: 12px;
+			color: @white;
+			text-decoration: none;
+			&:hover{
+				cursor: pointer;
+				color: @text_color_edit;
+			}
+		}
 	}
-	hr{
-		display: none; 
+	#shipping_address_output{
+		margin-left: 20px;		
 	}
-	.pay_now_button{
-		float: right;        
+}
+.pay_now_button{
+		margin-left: 132px;        
 		display: inline-block;
 		.box-sizing(content-box);
 		cursor: pointer;
@@ -25,82 +39,4 @@
 		background: @view_photo_button_bg;
 		box-shadow: 2px 2px 2px 0 @boxshadow_view_photo_button;
 		&:hover { border: 1px solid @view_photo_button_bg;}
-	}
-	#create_account{
-		outline: none !important; 
-		.create_account_cont{
-			margin-left: auto;
-			margin-right: auto;
-			width: 400px;
-		}
-		label{
-			width: 109px;
-		}
-	}
-	#final_payment_info{
-		outline: none !important;
-		margin-top: 0px;
-		.payment_edit{
-			select{
-				padding: 3px;
-				margin-bottom: 4px;
-			}
-			label{
-				width: 124px;
-			}
-		}
-	}
-	#shipping_address_summary{
-		outline: none !important;
-		h1{
-			a{
-				font-size: 12px;
-				color: @black;
-				text-decoration: none;
-			}
-		}
-	}
-}
-#shipping_address_container{
-	width: 400px;
-	margin-left: auto;
-	margin-right: auto;
-	outline: none;
-	label{
-		margin-top: 5px;
-	}
-}
-
-#shipping_address_summary{
-	outline: none;
-	h1 {
-		background-color: #000;
-		color: #fff;
-		text-align: center;
-		padding: 2px;
-		a{
-			color: @a_text;
-			font-size: 12px;
-			text-decoration: none;
-
-			&:hover{
-				cursor: pointer;
-				color: @text_color_edit;
-			}
-		}
-	}
-	#shipping_address_output{
-		width: 170px;
-		margin-right: auto;
-		margin-left: auto;
-	}
-}
-
-#final_payment_info{
-	.form_outer{
-		outline: none;
-		margin-left: auto;
-		margin-right: auto;
-		width: 400px;
-	}
 }

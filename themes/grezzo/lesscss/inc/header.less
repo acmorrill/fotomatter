@@ -116,84 +116,85 @@ body {
         }
     }
 
-        #nav_location{
-            margin-right: 38px;
-            //position: absolute;
-            right: 0;
-            //margin-bottom: 39px
-    
-            #main_nav {
-                margin-top: 80px;
-                float: right;
-                display: inline-block;
-                z-index: 999;
-    
-                ul.top_level {
-                    position: relative;
-                    bottom: 19px;
-                    > li {
-                        list-style-type: none;
-                        float: left;
-                        margin-left: 38px;
-                        color: @top_header_text_color;
-                        position: relative;
-    
-                        a {
-                            color: @top_header_text_color;
-                            text-decoration: none;
-                        }
-    
-                        ul.second_level {
-                            display:none;
-                            padding: 0px;
-                            position: absolute;
-                            background-color: @nav_drop_down_color;
-                            margin-top: 0px;
-                            z-index: 1;
-                            padding-top: 16px;
-                            padding-bottom: 26px;
-                            li {
-                                float:none;
-                                list-style-type: none;
-                                margin-left: 4px;
-                                margin-right: 4px;
-                                padding-left: 16px;
-                                padding-right: 16px;
-                                padding-top: 8px;
-                                //padding-bottom: 8px;
-                                &, a { 
-                                    color: @nav_drop_down_text_color; 
-                                    text-decoration: none;
-                                }
-                                &:hover{
-                                    background-color: @sub_menu_gray;
-                                    &, a { 
-                                        color: @black;
-                                        //font-weight: 700;
-                                    }
-                                }
-                            }
-                        }
-                        &.hover {
-                            ul { display: block; }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
-    #gray_spacing{
-        border-bottom: 2px solid @gray_line_horizontal;
-        position: relative;
-        top: -12px;
-    }
-    #gray_spacing_custom{
-        border-bottom: 2px solid @gray_line_horizontal;
-        position: relative;
-        top: -32px;
-    }
-    ///COOL THEME SETTINGS
-    ///screen width: ?
-    //Logo OR menu: ends or centered
-    
+	#nav_location{
+		margin-right: 38px;
+		//position: absolute;
+		right: 0;
+		//margin-bottom: 39px
+
+		#main_nav {
+			margin-top: 80px;
+			float: right;
+			display: inline-block;
+			z-index: 999;
+
+			ul.top_level {
+				position: relative;
+				bottom: 19px;
+				> li {
+					list-style-type: none;
+					float: left;
+					margin-left: 38px;
+					color: @top_header_text_color;
+					position: relative;
+
+					a {
+						color: @top_header_text_color;
+						text-decoration: none;
+					}
+
+					ul.second_level {
+						display:none;
+						padding: 0px;
+						position: absolute;
+						background-color: @nav_drop_down_color;
+						margin-top: 0px;
+						z-index: 1;
+						padding-top: 16px;
+						padding-bottom: 26px;
+						box-shadow: 0 5px 10px 0 @black;
+						li {
+							float:none;
+							list-style-type: none;
+							margin-left: 4px;
+							margin-right: 4px;
+							padding-left: 16px;
+							padding-right: 16px;
+							padding-top: 8px;
+							//padding-bottom: 8px;
+							&, a { 
+								color: @nav_drop_down_text_color; 
+								text-decoration: none;
+							}
+							&:hover{
+								background-color: @sub_menu_gray;
+								&, a { 
+									color: @black;
+									//font-weight: 700;
+								}
+							}
+						}
+					}
+					&.hover {
+						ul { display: block; }
+					}
+				}
+			}
+		}
+	}
+}
+
+#gray_spacing{
+	border-bottom: 2px solid @gray_line_horizontal;
+	position: relative;
+	top: -12px;
+}
+#gray_spacing_custom{
+	border-bottom: 2px solid @gray_line_horizontal;
+	position: relative;
+	top: -32px;
+}
+///COOL THEME SETTINGS
+///screen width: ?
+//Logo OR menu: ends or centered
+
