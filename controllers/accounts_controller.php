@@ -171,13 +171,18 @@ class AccountsController extends AppController {
 				}
 				
 				$_SESSION['finalize_features_error'] = __($e->getMessage(), true);
+				$_SESSION['finalize_features_payment_data'] = $this->data;
 				$return['result'] = false;
 				print(json_encode($return));
 				exit();
 			}
 
 			$this->data['AuthnetProfile']['payment_cc_last_four'] = substr($this->data['AuthnetProfile']['payment_cardNumber'], -4, 4);
-			$profile_id = $this->FotomatterBilling->save_payment_profile($this->data);
+			if ($this->FotomatterBilling->save_payment_profile($this->data) === false) {
+				$the_data = $this->data;
+				$this->major_error('failed to save payment data in ajax_save_client_billing', compact('the_data'));
+			}
+			unset($_SESSION['finalize_features_payment_data']);
 
 			if (!empty($this->params['named']['closeWhenDone']) && $this->params['named']['closeWhenDone'] == 'true') {
 				$this->Session->setFlash(__('Your billing details have been successfully updated.', true), 'admin/flashMessage/success');
@@ -247,11 +252,11 @@ class AccountsController extends AppController {
 
 		$return = $this->FotomatterBilling->makeAccountChanges($change_to_send);
 		if ($return == false) { // DREW TODO - test this line
-			$this->Session->setFlash(__('Your credit card has been declined.', true), 'admin/flashMessage/error');
+			$this->Session->setFlash(__('Your credit card has been declined', true), 'admin/flashMessage/error');
 			$result['code'] = false;
 			$this->return_json($return);
 		} else {
-			$this->Session->setFlash(__('We have successfully added new ala-cart items to your account.', true), 'admin/flashMessage/success');
+			$this->Session->setFlash(__('New item(s) added successfully', true), 'admin/flashMessage/success');
 			$result['code'] = true;
 			$this->return_json($return);
 		}

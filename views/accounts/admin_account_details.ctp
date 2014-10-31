@@ -1,20 +1,8 @@
 <script type='text/javascript'>
     $(document).ready(function() {
+		inAjaxCall = false;
 		$("#edit-billing").click(function() {
-			$.ajax({
-				url: '/admin/accounts/ajax_update_payment/closeWhenDone:true',
-				dataType: 'json',
-				type: 'GET',
-				success: function(data) {
-					var div = $("<div></div>");
-					div.html(data.html);
-					div.dialog({
-						width:'600',
-						height:'500',
-						title: '<?php echo __('Edit Payment Details', true); ?>'
-					});
-				}
-			});
+			open_add_profile_popup_clone_when_done();
 		});
     });
 </script>

@@ -163,6 +163,48 @@ function show_modal(message, time_to_show, after_hide_callback, remove_after,css
 //	}, time_to_show);
 }
 
+function do_features_popup_call(url) {
+	if (typeof inAjaxCall == 'boolean' && inAjaxCall) {
+		return false;
+	}
+	inAjaxCall = true;
+
+	$.ajax({
+		type: 'GET',
+		url: url,
+		success: function(data) {
+			jQuery('#account_change_finish').dialog('destroy').remove();
+
+			jQuery('body').append(data.html);
+			jQuery('.ui-dialog').prepend('<div class="fade_background_top"></div>');
+			var flash_message = jQuery('#account_change_finish .flashMessage');
+			flash_message.detach();
+			flash_message.insertBefore(jQuery('#account_change_finish'));
+		},
+		complete: function() {
+			inAjaxCall = false;
+		},
+		error: function() {
+
+		},
+		dataType: 'json'
+	});
+}
+function open_add_profile_popup() {
+	do_features_popup_call('/admin/accounts/ajax_update_payment/closeWhenDone:false');
+}
+function open_add_profile_popup_clone_when_done() {
+	do_features_popup_call('/admin/accounts/ajax_update_payment/closeWhenDone:true');
+}
+function open_finish_account_change() {
+	do_features_popup_call("/admin/accounts/ajax_finishLineChange");
+}
+function open_finish_account_change_nocc_confirm() {
+	do_features_popup_call("/admin/accounts/ajax_finishLineChange/noCCPromoConfirm:true");
+}
+
+
+
 function major_error_recover(message) {
 	alert('error:'+message);
 }

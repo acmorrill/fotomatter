@@ -1586,6 +1586,9 @@ input {
   -o-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out;
 }
+body .ui-datepicker-calendar thead tr {
+  color: #f4f9f5;
+}
 body .ui-widget-overlay {
   background: #181818;
   background-color: #181818;
@@ -1612,6 +1615,15 @@ body .ui-widget-header {
   border: 0px;
   background: #3d3e3f;
   color: #f4f9f5;
+}
+body .ui-widget-header .ui-state-hover.ui-datepicker-prev-hover,
+body .ui-widget-header .ui-state-hover.ui-datepicker-next-hover {
+  border: 1px solid #32373b;
+  background: #292929;
+}
+body .ui-widget-header .ui-state-hover.ui-datepicker-prev-hover .ui-icon,
+body .ui-widget-header .ui-state-hover.ui-datepicker-next-hover .ui-icon {
+  background-image: url("/js/jquery-ui-1.11.0/images/ui-icons_ffffff_256x240.png");
 }
 body .ui-dialog {
   margin-bottom: 50px;
@@ -1755,6 +1767,9 @@ body > .ui-widget-content {
   background: url(/img/admin/general/box_transparent_bg_bottom.png) bottom left repeat-x;
   background-color: #0f0f0f;
   background-color: rgba(18,18,18,0.85);
+}
+body > .ui-widget-content.ui-datepicker {
+  background-color: #000;
 }
 body .ui-corner-all,
 body .ui-corner-bottom,

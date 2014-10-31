@@ -10,19 +10,29 @@ and open the template in the editor.
 
 
 body {
-	
+	.ui-datepicker-calendar {
+		thead {
+			tr {
+				color: @top_white;
+			}
+		}
+	}
 	.ui-widget-overlay {
 		.default_modal_background();
 	}
 	.ui-widget-header {
-		/*border: 1px solid #e78f08;*/
 		border: 0px;
 		background: @table_hover;
-		/*background: @body_content_top_bg;*/
-		/*color: @gray_text;*/
 		color: @top_white;
-		/*background: @body_content_top_bg;*/
-		/*font-weight: bold;*/
+		.ui-state-hover {
+			&.ui-datepicker-prev-hover, &.ui-datepicker-next-hover {
+				border: 1px solid @button_border;
+				background: @off_black + @button_bg_increase;
+				.ui-icon {
+					background-image: url("/js/jquery-ui-1.11.0/images/ui-icons_ffffff_256x240.png");
+				}
+			}
+		}
 	}
 	.ui-dialog {
 		margin-bottom: 50px;
@@ -34,7 +44,6 @@ body {
 		
 		
 		padding: 0px;
-		/*outline: 1px solid @table_and_button_outline;*/
 		border: 1px solid @black;
 		.ui-widget-header {
 			.ui-dialog-titlebar-close {
@@ -47,7 +56,6 @@ body {
 				margin: 0px;
 
 				border: 1px solid @button_border;
-				/*color: @gray_text;*/
 				color: @top_white;
 				background: @off_black;
 				.ui-icon {
@@ -79,7 +87,6 @@ body {
 			padding-right: 80px;
 		}
 		.ui-dialog-content {
-			/*border: 0;*/
 			color: @top_white;
 			margin-top: 30px;
 			margin-left: 30px;
@@ -168,6 +175,7 @@ body {
 		background: url(/img/admin/general/box_transparent_bg_bottom.png) bottom left repeat-x;
 		background-color: #0f0f0f;
 		background-color: rgba(18, 18, 18, .85);
+		&.ui-datepicker { background-color: @black; }
 	}
 	.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br {
 		border-bottom-right-radius: 0px;
@@ -175,5 +183,5 @@ body {
 		border-top-right-radius: 0px;
 		border-top-left-radius: 0px;
 	}
-}
+} 
 

@@ -63,15 +63,15 @@
 			<p><?php echo __('* required', true); ?></p>
 		</div>
 		<div class="input">
-			<label for="billing_firstname"><?php echo __('First Name'); ?></label>
+			<label for="billing_firstname"><?php echo __('First Name'); ?> *</label>
 			<input type="text" id="billing_firstname" name="data[AuthnetProfile][billing_firstname]" value="<?php echo empty($current_data['AuthnetProfile']['billing_firstname'])==false?$current_data['AuthnetProfile']['billing_firstname']:''; ?>" />
 		</div>
 		<div class="input">
-			<label for="billing_lastname"><?php echo __('Last Name'); ?></label>
+			<label for="billing_lastname"><?php echo __('Last Name'); ?> *</label>
 			<input type="text" id="billing_lastname" name="data[AuthnetProfile][billing_lastname]" value="<?php echo empty($current_data['AuthnetProfile']['billing_lastname'])==false?$current_data['AuthnetProfile']['billing_lastname']:''; ?>" />
 		</div>
 		<div class="input">
-			<label for="billing_address"><?php echo __('Address'); ?></label>
+			<label for="billing_address"><?php echo __('Address'); ?> *</label>
 			<input type="text" id="billing_address" name="data[AuthnetProfile][billing_address]" value="<?php echo empty($current_data['AuthnetProfile']['billing_address'])==false?$current_data['AuthnetProfile']['billing_address']:''; ?>" />
 		</div>
 		<div class="input">
@@ -83,7 +83,7 @@
 			</select>
 		</div>
 		<div class="input">
-			<label for="billing_city"><?php echo __('City'); ?></label>
+			<label for="billing_city"><?php echo __('City'); ?> *</label>
 			<input type="text" id="billing_city" name="data[AuthnetProfile][billing_city]" value="<?php echo empty($current_data['AuthnetProfile']['billing_city'])==false?$current_data['AuthnetProfile']['billing_city']:''; ?>" />
 		</div>
 		<div class="input">
@@ -97,15 +97,15 @@
 			</select>
 		</div>
 		<div class="input">
-			<label for="billing_zip"><?php echo __('Zip'); ?></label>
+			<label for="billing_zip"><?php echo __('Zip'); ?> *</label>
 			<input type="text" id="billing_zip" name="data[AuthnetProfile][billing_zip]" value="<?php echo empty($current_data['AuthnetProfile']['billing_zip'])===false?$current_data['AuthnetProfile']['billing_zip']:''; ?>" />
 		</div>
 		<div class="input">
-			<label for="billing_zip"><?php echo __('Card Number'); ?></label>
+			<label for="billing_zip"><?php echo __('Card Number'); ?> *</label>
 			<input type="text" id="billing_cardNumber" name="data[AuthnetProfile][payment_cardNumber]" />
 		</div>
 		<div class="input exp_date">
-			<label for ="card_exp"><?php echo __('Expiration Date'); ?></label>
+			<label for ="card_exp"><?php echo __('Expiration Date'); ?> *</label>
 			<select name="data[AuthnetProfile][expiration][month]">
 				<option value="01">January</option>
 				<option value="02">February</option>
@@ -127,7 +127,7 @@
 			</select>
 		</div>
 		<div class="input">
-			<label for="billing_zip"><?php echo __('Csv Code'); ?></label>
+			<label for="billing_zip"><?php echo __('Csv Code'); ?> *</label>
 			<input type="text" id="billing_csv" name="data[AuthnetProfile][payment_cardCode]" />
 		</div>
 	</form>

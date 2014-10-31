@@ -88,6 +88,17 @@ class Account extends AppModel {
 	public function get_add_profile_form(&$controller, $current_data = array(), $closeWhenDone = false) {
 		$return = array();
 		$countries = $controller->GlobalCountry->get_available_countries();
+		
+		
+		if (isset($_SESSION['finalize_features_payment_data'])) {
+			foreach ($_SESSION['finalize_features_payment_data']['AuthnetProfile'] as $payment_data_name => $payment_data_value) {
+				if (isset($current_data['AuthnetProfile'][$payment_data_name])) {
+					$current_data['AuthnetProfile'][$payment_data_name] = $payment_data_value;
+				}
+			}
+			unset($_SESSION['finalize_features_payment_data']);
+		}
+		
 		return $controller->element('admin/accounts/add_profile', compact(array('countries', 'current_data', 'closeWhenDone')));
 	}
 
