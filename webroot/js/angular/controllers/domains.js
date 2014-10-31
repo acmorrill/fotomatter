@@ -225,9 +225,8 @@ var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domai
 			} else {
 				$scope.setStep('domain_contact');
 			}
-//			$scope.contact.phone = '2083532813'; //Adam Todo remove this
 		} else {
-			$scope.setStep('cc_profile');
+			$scope.setStep('cc_profile'); // DREW TODO - maybe make this step happen later (for conversions?)
 		}
 	});
 	
@@ -336,7 +335,6 @@ var domain_checkout = function($scope, AuthnetProfile, $http, generalUtil, domai
 		var query_data = domainUtil.validate_domain_name($scope.domain_to_purchase.name);
 		var tld = query_data.tld;
 		var domain_name = query_data.query;
-		$scope.domain_to_purchase = query_data.final_query;
 		
 		domainUtil.purchase(domain_name, tld, $scope.contact).success(function(data, status) {
 			if (data.result) {

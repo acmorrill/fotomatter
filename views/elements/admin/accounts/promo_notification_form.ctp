@@ -1,41 +1,55 @@
-<script type='text/javascript'>
-	function changePaymentData() {
-		$.ajax({
-		   type: 'GET',
-		   url: '/admin/accounts/ajax_update_payment/closeWhenDone:false',
-		   success: function(data) {
-			   $(".ui-dialog-content").html(data.html);
-		   },
-		   dataType: 'json'
+<div id="account_change_finish" class='fotomatter_form short' >
+	
+	<?php 
+		if (!empty($_SESSION['finalize_features_error'])) {
+			echo $this->element('admin/flashMessage/warning', array('message' => $_SESSION['finalize_features_error']));
+			unset($_SESSION['finalize_features_error']);
+		}
+	?>
+
+	<script type="text/javascript">
+		jQuery(document).ready(function() {
+			jQuery('#account_change_finish').dialog({
+				width: '950',
+				title: '<?php echo __('Promotional Balance', true); ?>',
+				dialogClass: "highlight_buttons",
+				buttons: [ 
+					{
+						text: "<?php echo __('Continue Without Credit Card'); ?>", 
+						click: function() {
+							open_finish_account_change_nocc_confirm();
+						} 
+					},
+					{
+						text: "<?php echo __('Add Credit Card'); ?>", 
+						click: function() {
+							open_add_profile_popup();
+						}
+					}
+				],
+				open: function(event, ui) {
+				},
+				close: function(event, ui) {
+					$(this).dialog('destroy').remove();
+				},
+				modal: true
+			});
 		});
-   }
-   
-   function finishAccountChange() {
-		$.ajax({
-			type: 'GET',
-			url: '/admin/accounts/ajax_finishLineChange/noCCPromoConfirm:true',
-			success: function(data) {
-			   var content = $(data.html);
-			   $(".ui-dialog-content").html(content);
-		   },
-		   dataType: 'json'
-		});
-   }
-   
-</script>
-<div class='promo_notify'>
-	<h3><?php echo __('Using Available Promotional Balance.'); ?></h3>
-	<p><?php echo __('Good News! You have enough fotomatter credit to add these premium features without adding a credit card. You may however choose
-		to add your card today so that your new premium features will continue without interuption. '); ?></p>
-	<p>
-		<span class='title'><?php echo __('Current Promotional Balance:'); ?></span><span class='promo_credit_balance'><?php echo $this->Number->currency($account_info['Account']['promo_credit_balance']); ?></span>
-	</p>
-	<p>
-		<span class='title'><?php echo __('Total Due Today:'); ?></span><span class='due_today'><?php echo $this->Number->currency($bill_today); ?></span>
-	</p>
-	<div class='actions'>
-		<button onClick='changePaymentData()'><?php echo __('Add Credit Card'); ?></button>
-		<button onClick='finishAccountChange()'><?php echo __('Continue Without Adding'); ?></button>
+	</script>
+
+
+	<div class="input">
+		<p>
+			<?php echo __('Good News! You have enough fotomatter credit to add these premium features without adding a credit card. You may however choose to add your card today so that your new premium features will continue without interruption.', true); ?>
+		</p>
+	</div>
+	<div class="input">
+		<label><?php echo __('Fotomatter Credit', true); ?></label>
+		<span><?php echo $this->Number->currency($account_info['Account']['promo_credit_balance']); ?></span>
+	</div>
+	<div class="input">
+		<label><?php echo __('Due Today', true); ?></label>
+		<span><?php echo $this->Number->currency($bill_today); ?></span>
 	</div>
 </div>
-<script type="text/javascript">
+

@@ -1,7 +1,9 @@
 <?php
+
 class Account extends AppModel {
+
 	public $useTable = false;
-	
+
 	public function set_item_checked($line_item_id, $checked) {
 		$this->Session = $this->get_session();
 		$line_items = $this->Session->read('account_line_items');
@@ -18,22 +20,22 @@ class Account extends AppModel {
 			$line_items['unchecked'][$line_item_id] = 'unchecked';
 		}
 		$this->Session->write('account_line_items', $line_items);
-		
+
 		return true;
 	}
-	
+
 	public function finish_line_change(&$controller, $payment_profile) {
-		
+
 		//If payment needed collect authnet 
 		$this->Session = $this->get_session();
-		
+
 		$account_info = $this->Session->read('account_info');
 		$account_changes = $this->Session->read('account_line_items');
 
 
 		$account_info = $this->rekey_account_info($account_info);
 		$current_bill = 0;
-		foreach($account_info['items'] as $line_item) {
+		foreach ($account_info['items'] as $line_item) {
 			if ($line_item['AccountLineItem']['active']) {
 				$current_bill += $line_item['AccountLineItem']['customer_cost'];
 			}
@@ -63,34 +65,37 @@ class Account extends AppModel {
 			if ($account_info['Account']['promo_credit_balance'] >= $bill_today) {
 				return $controller->element('admin/accounts/promo_notification_form', compact(array('account_info', 'bill_today', 'current_bill', 'account_changes')));
 			} else {
-				return $this->get_add_profile_form($controller);
+				return $this->get_add_profile_form($controller, $payment_profile['data']);
 			}
 		}
-		
+
 
 		$this->Session->delete('final_account_changes');
 		$this->Session->write('final_account_changes', $account_changes);
 
-		return $controller->element('admin/accounts/account_change_finish', array(
-			'current_bill'=>$current_bill,
-			'account_changes'=>$account_changes,
-			'account_info'=>$account_info,
-			'bill_today'=>$bill_today,
-			'payment_profile'=>$payment_profile)
+		
+		$return_data = array();
+		$return_data = $controller->element('admin/accounts/account_change_finish', array(
+			'current_bill' => $current_bill,
+			'account_changes' => $account_changes,
+			'account_info' => $account_info,
+			'bill_today' => $bill_today,
+			'payment_profile' => $payment_profile)
 		);
+		return $return_data;
 	}
-	
-	public function get_add_profile_form(&$controller, $current_data = array(), $closeWhenDone = false, $error_message = '') {
+
+	public function get_add_profile_form(&$controller, $current_data = array(), $closeWhenDone = false) {
 		$return = array();
-		$countries = $controller->GlobalCountry->get_available_countries();   
-		return $controller->element('admin/accounts/add_profile', compact(array('countries', 'current_data', 'closeWhenDone', 'error_message')));
+		$countries = $controller->GlobalCountry->get_available_countries();
+		return $controller->element('admin/accounts/add_profile', compact(array('countries', 'current_data', 'closeWhenDone')));
 	}
-	
+
 	public function rekey_account_info($account_info) {
 		//rekey the original array
 		$tmp_array = array();
 		$current_bill = 0;
-		foreach($account_info['items'] as $line_item) {
+		foreach ($account_info['items'] as $line_item) {
 			if ($line_item['AccountLineItem']['active']) {
 				$current_bill += $line_item['AccountLineItem']['current_cost'];
 			}
@@ -99,8 +104,7 @@ class Account extends AppModel {
 		$tmp_array['Account'] = $account_info['Account'];
 		return $tmp_array;
 	}
-	
-	
+
 	public function find_amount_due_today($account_changes, $account_info) {
 		//add everything being added
 		$whole_month_cost = 0;
@@ -131,7 +135,7 @@ class Account extends AppModel {
 		$year_cost_for_features_added = $whole_month_cost * 12;
 		$cost_per_day = $year_cost_for_features_added / 365;
 		$pro_rated_amount = round($days_difference * $cost_per_day, 2);
-		
+
 		if ($pro_rated_amount > $whole_month_cost) {
 			$this->major_error('Prorated monthly cost higher than monthly cost!', compact('account_changes', 'account_info'), 'high');
 			return $whole_month_cost;
@@ -139,4 +143,5 @@ class Account extends AppModel {
 			return $pro_rated_amount;
 		}
 	}
+
 }

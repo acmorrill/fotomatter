@@ -330,6 +330,7 @@ class AppController extends Controller {
 		foreach ($extra_vals as $key => $extra_val) {
 			$view->set($key, $extra_val);
 		}
+		$view->Session = $this->Session;
 
 		$view->viewPath = 'elements';
 

@@ -879,7 +879,6 @@ table.list > tfoot td span.disabled {
   display: none;
 }
 table.list > tfoot td a {
-  text-decoration: none;
   cursor: pointer;
 }
 table.list > tfoot td a:hover {
@@ -893,6 +892,19 @@ table.list > tfoot td .paginator_divider {
   margin: 0px;
   margin-left: 10px;
   margin-right: 10px;
+}
+table.list > tfoot td.first {
+  text-align: center;
+}
+table.list > tfoot td.first,
+table.list > tfoot td.first p,
+table.list > tfoot td.first a {
+  font-size: 18px;
+}
+table.list > tfoot td .table_summary .payment_item .value {
+  display: inline-block;
+  min-width: 100px;
+  text-align: right;
 }
 .configure_table_list {
   -webkit-touch-callout: none;
@@ -1012,6 +1024,11 @@ p {
   font-style: normal;
   line-height: 24px;
   color: #7d888e;
+}
+span {
+  font-family: Code-Pro-LC;
+  font-weight: normal;
+  font-style: normal;
 }
 ol {
   font-family: Code-Pro-LC;
@@ -1171,11 +1188,14 @@ input {
   margin-bottom: 60px;
 }
 .message_div {
+  font-family: Code-Pro-LC;
+  font-weight: normal;
+  font-style: normal;
   position: fixed;
   top: 40%;
   left: 40%;
   color: #fff;
-  font-size: 35px;
+  font-size: 30px;
 }
 .foto_background_alert .x_button {
   background: url('/img/admin/icons/bw_simple_close_icon.png') no-repeat 0px;
@@ -1402,7 +1422,7 @@ input {
 }
 .fotomatter_form.short .input label {
   display: inline-block;
-  min-width: 210px;
+  min-width: 250px;
 }
 .add_element {
   margin-top: 20px;
@@ -1501,6 +1521,12 @@ input {
   font-size: 12px;
 }
 .modal.ui-dialog {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   position: fixed;
   top: 4%;
   margin-left: -475px;
@@ -1519,6 +1545,7 @@ input {
   height: 100%;
 }
 .modal.ui-dialog > section > section .error_and_content_cont {
+  width: 100%;
   position: absolute;
   top: 65px;
   bottom: 100px;
@@ -1587,6 +1614,8 @@ body .ui-widget-header {
   color: #f4f9f5;
 }
 body .ui-dialog {
+  margin-bottom: 50px;
+  margin-top: 50px;
   padding: 0px;
   border: 1px solid #000;
 }
@@ -1652,8 +1681,13 @@ body .ui-dialog .ui-dialog-content {
   padding: 30px;
 }
 body .ui-dialog .ui-dialog-content,
-body .ui-dialog .ui-dialog-content p {
+body .ui-dialog .ui-dialog-content p,
+body .ui-dialog .ui-dialog-content span {
   line-height: 30px;
+  font-size: 20px;
+}
+body .ui-dialog .ui-dialog-content p {
+  font-size: 22px;
 }
 body .ui-dialog .ui-dialog-content p.alert_or_confirm {
   position: relative;
@@ -1669,6 +1703,15 @@ body .ui-dialog .ui-dialog-content p.alert_or_confirm i {
 body .ui-dialog .ui-dialog-content p.alert_or_confirm i.icon-warning-01 {
   color: #E88A35;
 }
+body .ui-dialog .ui-dialog-content.popup_content_with_table {
+  background: none;
+  outline: 0px;
+  border: 0px;
+  padding: 2px;
+}
+body .ui-dialog .ui-dialog-content.popup_content_with_table table.list {
+  margin-bottom: 0px;
+}
 body .ui-dialog .ui-dialog-buttonpane {
   border: 0px;
   margin: 30px;
@@ -1676,12 +1719,12 @@ body .ui-dialog .ui-dialog-buttonpane {
 }
 body .ui-dialog .ui-dialog-buttonpane button {
   margin: 0px;
-  margin-left: 10px;
+  margin-left: 20px;
   min-height: 40px;
   padding-left: 10px;
   padding-right: 10px;
   border: 1px solid #32373b;
-  color: #f4f9f5;
+  color: #7d888e;
   font-family: Code-Pro-LC;
   font-weight: normal;
   font-style: normal;
@@ -1696,9 +1739,22 @@ body .ui-dialog .ui-dialog-buttonpane button:hover {
 body .ui-dialog:hover .ui-widget-header {
   color: #f4f9f5;
 }
+body .ui-dialog.highlight_buttons .ui-dialog-buttonpane button:last-child {
+  color: #ffffff;
+  border: 0px;
+  background: #2e8695;
+}
+body .ui-dialog.highlight_buttons .ui-dialog-buttonpane button:last-child:hover {
+  background: #3f97a6;
+}
 body .ui-widget-content {
+  background: none;
+}
+body > .ui-widget-content {
   border: 0px;
   background: url(/img/admin/general/box_transparent_bg_bottom.png) bottom left repeat-x;
+  background-color: #0f0f0f;
+  background-color: rgba(18,18,18,0.85);
 }
 body .ui-corner-all,
 body .ui-corner-bottom,
@@ -3973,17 +4029,21 @@ body.no_overflow {
   display: block;
   width: 100%;
 }
-#change_logo_dialog .logo_choice_cont {
+#change_logo_dialog .logo_choice_cont,
+#change_background_dialog .logo_choice_cont {
   display: inline-block;
 }
-#change_logo_dialog .logo_choice_cont.first {
+#change_logo_dialog .logo_choice_cont.first,
+#change_background_dialog .logo_choice_cont.first {
   margin-right: 30px;
 }
-#change_logo_dialog input {
+#change_logo_dialog input,
+#change_background_dialog input {
   width: 20px;
   height: 20px;
 }
-#change_logo_dialog .cache_sample_image_cont {
+#change_logo_dialog .cache_sample_image_cont,
+#change_background_dialog .cache_sample_image_cont {
   width: 150px;
   height: 80px;
   display: inline-block;
@@ -4166,93 +4226,6 @@ body.no_overflow {
   background-color: #787878;
   margin: 0px auto;
   display: none;
-}
-.promo_notify {
-  margin: 15px 10px;
-}
-.promo_notify h3 {
-  font-weight: bold;
-  font-size: 20px;
-  color: #fff;
-}
-.promo_notify p {
-  margin: 18px 2px;
-}
-.promo_notify span.title {
-  color: ;
-}
-.promo_notify .promo_credit_balance,
-.promo_notify .due_today {
-  margin: 0 10px;
-}
-.promo_notify .actions button {
-  font-size: 15px;
-  font-weight: bold;
-  color: #464646;
-}
-#finish_account_change {
-  margin: 20px 0;
-}
-#finish_account_change .summary {
-  float: right;
-}
-#finish_account_change .cc_info {
-  float: left;
-  margin: 5px;
-  width: 280px;
-}
-#finish_account_change .payment_item {
-  margin: 5px 10px;
-}
-#finish_account_change .payment_item .label {
-  font-size: 18px;
-  font-weight: bold;
-  color: ;
-  margin: 15px 10px 0 0;
-}
-#finish_account_change .payment_item .value {
-  display: inline-block;
-  float: right;
-}
-#finish_account_change .due_today a {
-  color: ;
-}
-#finish_account_change .pending_change {
-  font-size: 18px;
-  font-weight: bold;
-  color: ;
-  margin: 15px 0;
-}
-#finish_account_change button.finalize_change {
-  margin: 20px;
-  font-size: 15px;
-  float: right;
-}
-#finish_account_change .change-cont {
-  margin: 0 auto;
-  width: 542px;
-}
-#finish_account_change .change_summary {
-  border: 1px solid grey;
-  min-height: 150px;
-  padding: 10px;
-  margin: 0 auto;
-}
-#finish_account_change .change_summary .item_to_add {
-  height: 32px;
-  border-bottom: 1px solid grey;
-}
-#finish_account_change .change_summary .item_to_add div {
-  display: inline-block;
-  float: left;
-}
-#finish_account_change .change_summary .item_to_add div.item_name {
-  border-right: 1px solid grey;
-  padding: 5px 95px;
-  width: 170px;
-}
-#finish_account_change .change_summary .item_to_add div.item_cost {
-  padding: 5px 50px 5px 64px;
 }
 table.list > tbody > tr > td .feature_on {
   display: none;

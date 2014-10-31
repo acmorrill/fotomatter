@@ -25,6 +25,8 @@ body {
 		/*font-weight: bold;*/
 	}
 	.ui-dialog {
+		margin-bottom: 50px;
+		margin-top: 50px;
 		.flashMessage {
 			margin-bottom: 0px;
 			margin-left: 30px;
@@ -86,10 +88,12 @@ body {
 			outline: 1px solid @table_and_button_outline;
 			border: 1px solid @black;
 			padding: 30px;
-			&, p {
+			&, p, span {
 				line-height: 30px;
+				font-size: 20px;
 			}
 			p {
+				font-size: 22px;
 				&.alert_or_confirm {
 					position: relative;
 					padding-left: 40px;
@@ -105,28 +109,29 @@ body {
 					}
 				}
 			}
-			
+			&.popup_content_with_table {
+				background: none;
+				outline: 0px;
+				border: 0px;
+				padding: 2px;
+				table.list {
+					margin-bottom: 0px;
+				}
+			}
 		}
 		.ui-dialog-buttonpane {
 			border: 0px;
 			margin: 30px;
 			padding: 0px;
-			/*border-top: 2px solid @gray_text;*/
-			/*margin-top: 30px;*/
-			/*background: @body_content_top_bg;*/
-/*			background: @off_black;
-			background: rgba(24, 24, 24, .3);*/
-			/*.el_opacity(.5, 50);*/
 			button {
 				margin: 0px;
-				margin-left: 10px;
+				margin-left: 20px;
 				
 				min-height: 40px;
 				padding-left: 10px;
 				padding-right: 10px;
 				border: 1px solid @button_border;
-				/*color: @gray_text;*/
-				color: @top_white;
+				color: @gray_text;
 				font-family: Code-Pro-LC;
 				font-weight: normal;
 				font-style: normal;
@@ -142,12 +147,27 @@ body {
 		&:hover {
 			.ui-widget-header { color: @top_white; }
 		}
+		&.highlight_buttons {
+			.ui-dialog-buttonpane { 
+				button:last-child {
+					color: @white;
+					border: 0px;
+					background: @button_highlight;
+					&:hover {
+						background: @button_highlight + @button_bg_increase;
+					}
+				}
+			}
+		}
 	}
 	.ui-widget-content {
+		background: none;
+	}
+	> .ui-widget-content {
 		border: 0px;
 		background: url(/img/admin/general/box_transparent_bg_bottom.png) bottom left repeat-x;
-		/*background: @top_white;*/
-		/*color: @on_white_color;*/
+		background-color: #0f0f0f;
+		background-color: rgba(18, 18, 18, .85);
 	}
 	.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br {
 		border-bottom-right-radius: 0px;
