@@ -445,6 +445,27 @@ h1.no_line {
   padding-top: 20px;
   padding-bottom: 20px;
 }
+#cart_table thead {
+  background-color: #555555 !important;
+  color: #ffffff !important;
+}
+#cart_table tbody {
+  background-color: #666666 !important;
+}
+#cart_table tbody tr td {
+  color: #ffffff !important;
+}
+#cart_table tfoot button {
+  background-color: #333333;
+  border: 1px solid #333333;
+  color: #999999 !important;
+  font-size: 18px;
+  padding: 7px 15px !important;
+}
+#cart_table tfoot button:hover {
+  color: #ffffff;
+  background-color: #222222;
+}
 .background_photo.blue #login_container #forgot_your_password_container .step_1 a:hover {
   color: #0000cc;
 }

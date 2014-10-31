@@ -3,9 +3,8 @@
 @black: #000000;
 @bg_color_cart: #3b3b3b;
 @bg_color_cart_header: #878585;
-@button_border: #8c8c8c;
 @button_color: rgba(0,0,0,1);
-@button_bg: rgba(140,140,140,1);
+@button_bg: #ffffff;
 @boxshadow_button: rgba(0,0,0,0.2);
 @button_hover: rgba(40,40,40,0.7);
 
@@ -98,15 +97,15 @@
 }
 
 
-// Shopping cart 
+/*======================== Shopping cart ========================*/
 
 #cart_table {
 	width: 100%;
 	margin-top: 20px;
 	border-collapse: collapse;
 	thead {
-		background-color: @bg_color_cart_header;
-		color: @white;
+		background-color:  @white;//@bg_color_cart_header;
+		color: @black;//@white;
 		border: 1px solid @black;
 		font-weight: 600;
 		text-align: center;
@@ -115,7 +114,7 @@
 		}
 	}
 	tbody {
-		background-color: @bg_color_cart;
+		background-color: @white;//@bg_color_cart;
 		border: 1px solid @black;
 		tr {
 			border-bottom: 1px solid @black;
@@ -123,7 +122,7 @@
 				border-right: 1px solid @black;
 				text-align: center;
 				vertical-align: middle;
-				color: @white;
+				color: @black;//@white;
 				img {
 					margin-top: 10px;
 					margin-bottom: 10px;
@@ -142,13 +141,14 @@
 			.box-sizing(content-box);
 			cursor: pointer;
 			padding: 10px 20px;
-			border: 1px solid @button_border;
 			color: @button_color;
 			-o-text-overflow: clip;
 			text-overflow: clip;
-			background: @button_bg;
+			//background: @button_bg;
 			box-shadow: 2px 2px 2px 0 @boxshadow_button;
-			&:hover { border: 1px solid @button_hover;}
 		}
 	}
 }
+
+/*============  Payment tables =============*/
+
