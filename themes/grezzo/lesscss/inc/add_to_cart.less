@@ -1,4 +1,16 @@
-#cart_table{
+#cart_table {
+	thead {
+		background-color: @black !important;
+		color: @white !important;
+	}
+	tbody {
+		background-color: @dark_grey;
+		tr {
+			td {
+				color: @white !important;
+			}
+		}
+	}
 	tfoot{
 		button{
 			color: @white;
@@ -11,8 +23,6 @@
 		}
 	}
 }
-
-
 #add_to_cart_buttons_cont:after {
 	clear:both;
 	display:block;

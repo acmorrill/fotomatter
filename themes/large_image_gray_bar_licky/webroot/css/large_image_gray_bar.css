@@ -445,6 +445,9 @@ h1.no_line {
   padding-top: 20px;
   padding-bottom: 20px;
 }
+#cart_table {
+  margin-bottom: 10px;
+}
 #cart_table thead {
   background-color: #555555 !important;
   color: #ffffff !important;

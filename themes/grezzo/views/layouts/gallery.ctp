@@ -428,7 +428,7 @@
 
             jQuery(document).ready(function() {
                 $("#add_to_cart_buttons_cont select.sizes_avail_for_print_type").chosen({
-                    width: '170px',
+                    width: '200px',
                     disable_search: true
                 });
                 jQuery('#grezzo_listing_actual_container').endlessScroll_horizontal({
