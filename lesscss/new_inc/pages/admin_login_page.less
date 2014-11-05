@@ -13,13 +13,18 @@ body.no_overflow {
 	padding-left: 37px;
 }
 
+
+
 #login_forms_cont {
-	position: fixed;
+	position: relative;
+	width: 100%;
+	overflow: hidden;
+/*	position: fixed;
 	top: 0px;
 	left: 0px;
 	right: 0px;
 	bottom: 0px;
-	margin: 0px;
+	margin: 0px;*/
 	/*margin-top: @header_height;*/
 	> table {
 		width: 100%;
@@ -27,6 +32,7 @@ body.no_overflow {
 		tr td {
 			text-align: center;
 			.login_padding_div {
+				display: none;
 				width: 100%;
 				height: 25%;
 				min-height: @header_height + 20px;

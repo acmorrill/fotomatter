@@ -35,9 +35,9 @@ class UsersController extends AppController {
 			));
 			
 			if (empty($change_password_user)) {
-				$this->Session->setFlash(__('Email does not belong to a valid user', true), 'admin/flashMessage/warning');
+				$this->Session->setFlash(__('Email does not belong to a valid user', true), 'admin/flashMessage/warning', array(), 'auth');
 			} else {
-				$this->Session->setFlash(__('Check your email to change your password', true), 'admin/flashMessage/success');
+				$this->Session->setFlash(__('Check your email to change your password', true), 'admin/flashMessage/success', array(), 'auth');
 				$this->FotomatterEmail->send_forgot_password_email($this, $change_password_user);
 			}
 		}
@@ -68,7 +68,7 @@ class UsersController extends AppController {
 				$this->Validation->validate('account_valid_password', $this->data['User'], 'new_password', 'Please enter a valid password.');
 				$this->Validation->validate('password_match', $this->data['User']['new_password'], $this->data['User']['new_password_repeat'], 'The passwords must match.');
 			} catch (Exception $e) {
-				$this->Session->setFlash($e->getMessage(), 'admin/flashMessage/error');
+				$this->Session->setFlash($e->getMessage(), 'admin/flashMessage/error', array(), 'auth');
 				return;
 			}
 			
@@ -77,10 +77,10 @@ class UsersController extends AppController {
 			$change_password_user['User']['password'] = $new_password_hash;
 			unset($change_password_user['User']['modified']);
 			if (!$this->User->save($change_password_user)) {
-				$this->Session->setFlash(__("Failed to change password.", true), 'admin/flashMessage/error');
+				$this->Session->setFlash(__("Failed to change password.", true), 'admin/flashMessage/error', array(), 'auth');
 				$this->User->major_error('Failed to change admin user password.', compact('change_password_user'));
 			} else {
-				$this->Session->setFlash(__("Password changed.", true), 'admin/flashMessage/success');
+				$this->Session->setFlash(__("Password changed.", true), 'admin/flashMessage/success', array(), 'auth');
 				$this->redirect('/admin');
 			}
 		}

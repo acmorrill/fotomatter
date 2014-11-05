@@ -10,7 +10,6 @@
 <div class='generic_palette_container'>
 	<div class='fade_background_top'></div>
 	<?php echo $this->Session->flash('auth'); ?>
-	<?php echo $this->Session->flash(); ?>
 	<form action="/admin/users/login" id="UserLoginForm" method="post" accept-charset="utf-8">
 		<div style="display:none;">
 			<input type="hidden" name="_method" value="POST">

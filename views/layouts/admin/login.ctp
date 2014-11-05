@@ -5,7 +5,7 @@
 	<?php echo $this->Element('admin/global_includes'); ?>
 	<?php echo $this->Element('admin/global_js'); ?>
 </head>
-<body class='no_overflow'>
+<body>
 <div id="main" class='no_subnav login_page'>
 	<div id="header">
 		<?php echo $this->Element('admin/logo'); ?>
