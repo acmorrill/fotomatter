@@ -455,9 +455,16 @@ $(function() {
 });
 </script>
 
+
+
 <div id="connect_gallery_photos_cont">
-	<?php echo $this->Element('/admin/get_help_button'); ?>
-	<div style="clear: both;"></div> 
+	<h1><?php echo __('Manage Gallery', true); ?> <span style="font-size: 24px;">(<?php echo $this->data['PhotoGallery']['display_name']; ?>)</span>
+		<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
+	</h1>
+	<?php /*<p>
+		What is this page anyhow?
+	</p>*/ ?>
+	<div style="clear: both;"></div>	
 	
 	<div class="page_content_header custom_ui">
 		<div id='add_gallery_filters_cont'>

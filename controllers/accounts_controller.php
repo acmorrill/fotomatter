@@ -21,9 +21,21 @@ class AccountsController extends AppController {
 		}
 	}
 	
+	
 	public function clear_billing_cache() {
 		$this->FotomatterBilling->clear_billing_apc();
 		exit();
+	}
+	
+	public function admin_record_frontend_major_error() {
+		$data = array();
+		if (!empty($this->data)) {
+			$data = json_decode($this->data, true);
+		}
+		if (!empty($data['message'])) {
+			$this->major_error("javascript error: " . $data['message'], compact('data'));
+		}
+		$this->return_json(array( 'code' => true ));
 	}
    
 	public function admin_account_details() {

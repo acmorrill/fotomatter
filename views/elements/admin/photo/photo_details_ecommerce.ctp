@@ -59,7 +59,7 @@
 				jQuery(this).closest('tr').find('.disablable').removeClass('opacity_50');
 				jQuery(this).closest('tr').addClass('unlocked');
 			} else {
-				jQuery.foto('alert', '<?php __('This row is unlockable because of a global setting in Manage Print Types and Pricing.'); ?>');
+				jQuery.foto('alert', '<?php echo __('This row is unlockable because of a global setting in Manage Print Types and Pricing.', true); ?>');
 			}
 		});
 

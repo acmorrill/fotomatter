@@ -164,9 +164,20 @@
 							<?php endif; ?>
 						</td>
 						<td colspan="5" style="text-align: right;">
-							Shipping: $<?php echo $authnet_order['AuthnetOrder']['shipping']; ?><br />
-							Sub Total: $<?php echo $authnet_order['AuthnetOrder']['total'] - $authnet_order['AuthnetOrder']['shipping']; ?><br />
-							Total: $<?php echo $authnet_order['AuthnetOrder']['total']; ?><br />
+							<div class="table_summary">
+								<div class="payment_item current_bill">
+									<label><?php echo __('Shipping', true); ?></label>
+									<span class="value">$<?php echo $authnet_order['AuthnetOrder']['shipping']; ?></span>
+								</div>
+								<div class="payment_item new_bill">
+									<label><?php echo __('Sub Total', true); ?></label>
+									<span class="value">$<?php echo $authnet_order['AuthnetOrder']['total'] - $authnet_order['AuthnetOrder']['shipping']; ?></span>
+								</div>
+								<div class="payment_item due_today">
+									<label><?php echo __('Total', true); ?></label>
+									<span class="value">$<?php echo $authnet_order['AuthnetOrder']['total']; ?></span>
+								</div>
+							</div>
 						</td>
 					</tr>
 				</tfoot>

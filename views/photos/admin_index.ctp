@@ -1,4 +1,4 @@
-<h1><?php __('Photos'); ?>
+<h1><?php echo __('Photos', true); ?>
 	<?php echo $this->Element('/admin/get_help_button'); ?>
 </h1>
 <p>

@@ -57,10 +57,14 @@
 							jQuery('#image_edit_container .actual_image_inner_container img').attr('width', '');
 							jQuery('#image_edit_container .actual_image_inner_container img').attr('height', '');
 						} else {
+							if (typeof result.error == 'string') {
+								jQuery.foto('alert', result.error);
+							}
 							major_error_recover('The image failed to upload in done of image element');
 						}
 					},
 					fail: function(e, data) {
+						$.foto('alert', '<?php echo __("Photo upload failed &mdash; you may be over the limit.", true); ?>');
 						major_error_recover('The image failed to upload in fail');
 					},
 					always: function(e, data) {

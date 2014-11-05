@@ -338,10 +338,37 @@ body {
 					height: @minor_menu_height;
 					border: 1px solid @button_border;
 				}
+				
+				//////////////////////////////
+				// make it all white
+				background: @top_white;
+				.subnav_bg { 
+					border: 0px;
+				}
+				border: 1px solid @black;
+				td {
+					&, p { color: @on_white_color; }
+				}
+				&.selected, &:hover {
+					td {
+						&, p { color: @on_white_color; }
+						i { color: @tab2_on_color; }
+					}
+				}
+				table {
+					tr {
+						td {
+							&, p { color: @on_white_color; }
+						}
+					}
+				}
+				margin-bottom: -1px;
+				
+				
+				
 				height: @minor_menu_height;
 				> a div { height: @minor_menu_height; }
 				> a div > p { height: @minor_menu_height; }
-				margin-bottom: 4px;
 			}
 		}
 		&.active, &.open, &:hover {

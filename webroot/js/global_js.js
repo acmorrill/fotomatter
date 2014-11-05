@@ -203,10 +203,33 @@ function open_finish_account_change_nocc_confirm() {
 	do_features_popup_call("/admin/accounts/ajax_finishLineChange/noCCPromoConfirm:true");
 }
 
-
-
 function major_error_recover(message) {
-	alert('error:'+message);
+	var e = new Error('dummy');
+	var data_to_post = {};
+	data_to_post.stack = e.stack.replace(/^[^\(]+?[\n$]/gm, '')
+	.replace(/^\s+at\s+/gm, '')
+	.replace(/^Object.<anonymous>\s*\(/gm, '{anonymous}()@')
+	.split('\n');
+	data_to_post.location = window.location;
+	data_to_post.message = message;
+	
+	jQuery.ajax({
+		type: 'post',
+		url: '/admin/accounts/record_frontend_major_error',
+		data: {
+			data: JSON.stringify(data_to_post)
+		},
+		success: function(data) {
+			// posted error successufully
+		},
+		complete: function() {
+			// complete
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			// error
+		},
+		dataType: 'json'
+	});
 }
 	
 

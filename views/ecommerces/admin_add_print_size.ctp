@@ -18,6 +18,7 @@
 <div class="page_content_header">
 	<?php echo $this->Element('admin/back_button'); ?>
 	<h2>Select a Dimension and Format</h2>
+	<div style="clear: both;"></div>
 </div>
 	<form action="/admin/ecommerces/add_print_size" method="post">
 		<?php if (isset($this->data['PhotoAvailSize']['id'])): ?>

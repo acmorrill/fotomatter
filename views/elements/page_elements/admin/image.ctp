@@ -72,6 +72,9 @@
 								jQuery('#<?php echo $uuid; ?> .photo_details_upload_progress').hide();
 							});
 						} else {
+							if (typeof result.error == 'string') {
+								jQuery.foto('alert', result.error);
+							}
 							major_error_recover('The image failed to upload in done of image element');
 						}
 					},
