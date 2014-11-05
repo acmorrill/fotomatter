@@ -85,7 +85,7 @@
             @div_margin_side : 22px;
             .photo_details {
                 float:left;
-                width:500px;
+                width:480px;
                 margin-top: @div_margin_top;
                 margin-left: @div_margin_side;
                 h4 {
@@ -100,10 +100,10 @@
 
             .side_control_options {
                 float:right;
-                margin-top: @div_margin_top;
+                margin-top: 4px;
 
                 #add_to_cart_buttons_cont {
-                    height:200px;
+                    height:300px;
                     overflow:auto;
                     overflow-x:hidden;
                     padding-right:30px;
@@ -114,15 +114,23 @@
                     display:block;
                     position: relative;
                     margin:5px 2px;
-                    padding:5px 30px;
-                    width:150px;
+                    //padding:5px 30px;
+                    width:160px;
                     cursor: pointer;
+					.box-sizing(content-box);
+					padding: 10px 20px;
+					border: 1px solid @view_photo_button_border;
+					color: @view_photo_button_color;
+					-o-text-overflow: clip;
+					text-overflow: clip;
+					background: @view_photo_button_bg;
+					box-shadow: 2px 2px 2px 0 @boxshadow_view_photo_button;
+					&:hover { border: 1px solid @view_photo_button_bg;}
                 }
             }
         }
     }
 }
-
 
 
 #grezzo_listing_actual_container img.blank, #grezzo_scroll_control_inner img.blank {
@@ -173,19 +181,11 @@ body{
     background-position: 17px 6px, center;
 }
 #left_arrow {
-
-    left: 0px;
-    background-image: url(/img/arrow_left.png) ;
+    background-image: url(/img/arrow_left.png);
     background-repeat:no-repeat;
-    background-position: 12px 5px, center;
-    
-    height: 50px;
-    width: 30px;
-    border-top: 25px solid transparent;
-    border-bottom: 25px solid transparent; 
-    border-right: 25px solid #333; 
+    left: 0px;
+    background-position: 12px 6px, center;
 }
-
 .navigation_arrow {
     background-color: @black;
     //border: 25px solid transparent;

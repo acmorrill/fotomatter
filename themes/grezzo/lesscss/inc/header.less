@@ -1,7 +1,7 @@
 
 //This changes the color of the background
 body {
-    //Black
+    /*    ===================== Black ===========================*/
     &.black #outer_nav { 
         background-color: @black; 
         #nav_location #main_nav ul.top_level > li {
@@ -11,8 +11,10 @@ body {
             }
         }
     }
-    //Yellow
-    &.yellow #outer_nav { 
+	&#title_name h1{ background-color: @black;}
+	
+    /*    ===================== Yellow ===========================*/
+	    &.yellow #outer_nav { 
         background-color: @yellow; 
         #nav_location #main_nav ul.top_level > li {
             &, a{
@@ -36,11 +38,9 @@ body {
     &.yellow #right_arrow {
         background-image: url(/img/arrow_right_black.png);
     }
-    &.yellow button{
-        background-color: @yellow;
-        color: @black;
-    }		
-    //Blue
+	&#title_name h1{ background-color: @yellow;}
+	
+/*    ===================== Blue ===========================*/
     &.blue #outer_nav { 
         background-color: @blue; 
         #nav_location #main_nav ul.top_level > li {
@@ -53,8 +53,9 @@ body {
     &.blue #page_content #image_info_container #gallery_name{
         background-color: @blue; color: @white;	}
     &.blue .navigation_arrow {background-color: @blue;}
-    &.blue button{background-color: @blue;}	
-    //Pink
+		&#title_name h1{ background-color: @blue;}
+	
+/*    ===================== Pink ===========================*/
     &.pink #outer_nav { 
         background-color: @pink; 
         #nav_location #main_nav ul.top_level > li {
@@ -79,11 +80,8 @@ body {
     }
     &.pink #right_arrow {
         background-image: url(/img/arrow_right_black.png);
-    }
-    &.pink button{
-        background-color: @pink;
-        color: @black;
-    }		
+    }	
+	&#title_name h1{ background-color: @pink;}
 }
 
 // End background
@@ -152,7 +150,7 @@ body {
 						z-index: 1;
 						padding-top: 16px;
 						padding-bottom: 26px;
-						box-shadow: 0 5px 10px 0 @black;
+						box-shadow: 0 1px 2px 0 @black;
 						li {
 							float:none;
 							list-style-type: none;
