@@ -18,6 +18,7 @@
 		jQuery(document).ready(function() {
 			jQuery('#change_logo_dialog').dialog({
 				autoOpen: false,
+				dialogClass: "wide_dialog",
 				title: "<?php echo __('Choose Logo', true); ?>",
 				buttons: [
 					{
@@ -35,7 +36,6 @@
 						}
 					}
 				],
-				minWidth: 600,
 				minHeight: 200,
 				modal: true,
 				resizable: false

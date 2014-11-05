@@ -10,9 +10,8 @@
 	<script type="text/javascript">
 		jQuery(document).ready(function() {
 			jQuery('#account_change_finish').dialog({
-				width: '950',
 				title: '<?php echo __('Promotional Balance', true); ?>',
-				dialogClass: "highlight_buttons",
+				dialogClass: "highlight_buttons wide_dialog",
 				buttons: [ 
 					{
 						text: "<?php echo __('Continue Without Credit Card'); ?>", 

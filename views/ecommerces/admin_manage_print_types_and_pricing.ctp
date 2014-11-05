@@ -92,7 +92,7 @@
 					<td class="print_type_id first table_width_reorder_icon"><div class="reorder_print_type_grabber reorder_grabber icon-position-01" data-step="4" data-intro="<?php echo __('Rearrange the order of the print types. ', true); ?>" data-position="top" /> </td> 
 					<td class="print_type" data-step="2" data-intro="<?php echo __('Here is the name of the complete package you are selling. Example: canvas wrap, framed, poster, wood mount, and so on.', true); ?>" data-position="top">
 						<div class="rightborder"></div>
-						<?php echo $photo_print_type['PhotoPrintType']['print_name']; ?>
+						<span><?php echo $photo_print_type['PhotoPrintType']['print_name']; ?></span>
 					</td>
 					<td class="table_actions">
 						<span class="custom_ui">

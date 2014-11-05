@@ -94,6 +94,7 @@ $(window).load(function() {
 			
 			$(alert_div).dialog({
 				title: "<?php echo __('Alert', true); ?>",
+				dialogClass: "thin_dialog",
 				buttons: {
 					'<?php echo __('Ok', true); ?>': function() {
 						if (typeof settings.onOk == 'function') {
@@ -105,7 +106,7 @@ $(window).load(function() {
 				close: function() {
 					alert_div.remove();
 				},
-				minWidth: 400,
+//				minWidth: 400,
 				minHeight: 200,
 				modal: true,
 				resizable: false
@@ -128,6 +129,7 @@ $(window).load(function() {
 			
 			$(confirm_div).dialog({
 				title: settings.title,
+				dialogClass: "thin_dialog",
 				buttons: [
 					{
 						text: settings.button_title,
@@ -148,7 +150,7 @@ $(window).load(function() {
 				close: function() {
 					confirm_div.remove();
 				},
-				minWidth: settings.minWidth,
+//				minWidth: settings.minWidth,
 				minHeight: settings.minHeight,
 				modal: true,
 				resizable: false

@@ -97,7 +97,7 @@
 					<?php $img_path = $this->Photo->get_photo_path($curr_photo['Photo']['id'], 60, 60); ?>
 					<td class="photo_image" data-step="5" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom">
 						<div class="rightborder"></div>
-						<span class=" <?php if (!$photo_is_enabled):?>disabled<?php endif; ?>"><img src="<?php echo $img_path; ?>" /><?php //echo $curr_photo['Photo']['id']; ?></span>
+						<span class="photo_span <?php if (!$photo_is_enabled):?>disabled<?php endif; ?>"><img src="<?php echo $img_path; ?>" /><?php //echo $curr_photo['Photo']['id']; ?></span>
 					</td> 
 					<td class="photo_title <?php if ($this->Paginator->sortKey('Photo') == 'Photo.display_title'): ?> curr<?php endif; ?>">
 						<div class="rightborder"></div>

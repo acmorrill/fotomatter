@@ -150,9 +150,13 @@ table.list {
 				border-bottom: 1px solid transparent;
 				&.first { 
 					border-left: 1px solid @table_border;
-					i {
-						font-size: 30px;
-						float: left;
+					span {
+						line-height: 30px;
+						i {
+							font-size: 30px;
+							float: left;
+							margin-right: 20px;
+						}
 					}
 				}
 				&.last { 
@@ -186,6 +190,14 @@ table.list {
 					.add_button {
 						margin-bottom: 8px;
 						margin-top: 8px;
+					}
+					.feature_pending {
+						a {
+							color: @tab2_on_color;
+							&:hover {
+								text-decoration: underline;
+							}
+						}
 					}
 				}
 				&.menu_type{ text-align: left; }

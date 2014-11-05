@@ -766,9 +766,13 @@ table.list > tbody > tr > td.highlight a {
 table.list > tbody > tr > td.first {
   border-left: 1px solid #000;
 }
-table.list > tbody > tr > td.first i {
+table.list > tbody > tr > td.first span {
+  line-height: 30px;
+}
+table.list > tbody > tr > td.first span i {
   font-size: 30px;
   float: left;
+  margin-right: 20px;
 }
 table.list > tbody > tr > td.last {
   padding-right: 10px;
@@ -809,6 +813,12 @@ table.list > tbody > tr > td.table_actions {
 table.list > tbody > tr > td.table_actions .add_button {
   margin-bottom: 8px;
   margin-top: 8px;
+}
+table.list > tbody > tr > td.table_actions .feature_pending a {
+  color: #2ac0de;
+}
+table.list > tbody > tr > td.table_actions .feature_pending a:hover {
+  text-decoration: underline;
 }
 table.list > tbody > tr > td.menu_type {
   text-align: left;
@@ -1105,7 +1115,6 @@ a:hover {
 .generic_palette_container .basic_setting_cont {
   position: relative;
   margin-bottom: 40px;
-  padding-top: 40px;
   padding-bottom: 40px;
   border-bottom: 1px solid #7d888e;
 }
@@ -1125,9 +1134,7 @@ a:hover {
   line-height: 24px;
   margin-bottom: 20px;
   color: #7d888e;
-  position: absolute;
-  top: 0px;
-  left: 0px;
+  display: block;
 }
 .generic_palette_container .basic_setting_cont .theme_setting_inputs_container,
 .generic_palette_container .basic_setting_cont .theme_setting_description {
@@ -1632,6 +1639,12 @@ body .ui-dialog {
   margin-top: 50px;
   padding: 0px;
   border: 1px solid #000;
+}
+body .ui-dialog.wide_dialog {
+  min-width: 950px;
+}
+body .ui-dialog.thin_dialog {
+  min-width: 500px;
 }
 body .ui-dialog .flashMessage {
   margin-bottom: 0px;
@@ -3366,6 +3379,7 @@ body {
   margin-left: 437px;
 }
 #photo_mass_upload_outer_wrapper {
+  margin-bottom: 80px;
   margin-top: 40px;
 }
 #photo_mass_upload_outer_wrapper .ui-corner-all {
@@ -3389,7 +3403,8 @@ body {
   background: #2ac0de url("images/ui-bg_gloss-wave_35_f6a828_500x100.png") 50% 50% repeat-x;
 }
 #photo_mass_upload_outer_wrapper .files_ready_to_upload_cont .page_content_header {
-  height: 74px;
+  border-top: 1px solid transparent;
+  min-height: 74px;
 }
 #photo_mass_upload_outer_wrapper .files_ready_to_upload_cont .generic_palette_container .table_cont td.first {
   text-align: left;
@@ -3401,7 +3416,7 @@ body {
   text-align: center;
 }
 #photo_mass_upload_outer_wrapper .files_ready_to_upload_cont .generic_palette_container .table_cont td.progress_td {
-  max-width: 140px;
+  max-width: 200px;
   padding-right: 20px;
   padding-left: 20px;
 }
@@ -3435,11 +3450,13 @@ body {
 }
 #photo_mass_upload_outer_wrapper .files_ready_to_upload_cont .fileupload-buttonbar .fileupload-buttons {
   margin-top: 17px;
-  width: 500px;
+  margin-right: 30px;
+  max-width: 500px;
   float: left;
 }
 #photo_mass_upload_outer_wrapper .files_ready_to_upload_cont .fileupload-buttonbar .fileupload-buttons .add_button {
   margin-left: 20px;
+  display: inline-block;
 }
 #photo_mass_upload_outer_wrapper .files_ready_to_upload_cont .fileupload-buttonbar .fileupload-progress {
   margin-right: 20px;
@@ -3458,6 +3475,9 @@ body {
 }
 #photo_mass_upload_outer_wrapper .generic_photo_gallery_cont .upload_setting_container {
   margin-bottom: 30px;
+}
+#photo_mass_upload_outer_wrapper .generic_photo_gallery_cont .upload_setting_container.last {
+  margin-bottom: 50px;
 }
 #photo_mass_upload_outer_wrapper .generic_photo_gallery_cont .upload_setting_container h3,
 #photo_mass_upload_outer_wrapper .generic_photo_gallery_cont .upload_setting_container select,
@@ -4461,7 +4481,8 @@ table.list > tbody > tr.remove_pending td .cost {
   #main {
     margin-left: 38px;
   }
-  #main.photo_details {
+  #main.photo_details,
+  #main.mass_upload {
     margin-left: 0px;
   }
   #header .logo {
@@ -4499,20 +4520,24 @@ table.list > tbody > tr.remove_pending td .cost {
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
   }
-  #image_edit_container .actual_image_container {
+  #image_edit_container .actual_image_container,
+  #account-details,
+  #photo_mass_upload_outer_wrapper .generic_photo_gallery_cont {
     position: relative;
     top: 0px;
     left: 0px;
     margin-top: 0px;
   }
-  #image_edit_container .actual_image_container {
-    position: relative;
-    top: 0px;
-    left: 0px;
-    margin-top: 0px;
+  #account-details {
+    width: auto;
+    margin-bottom: 20px;
   }
 }
 @media only screen and (max-width: 1280px) {
+  #main {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
   #header .logo {
     bottom: 50px;
     left: 37px;
@@ -4698,39 +4723,76 @@ table.list > tbody > tr.remove_pending td .cost {
     overflow: hidden;
   }
   table.list > thead > tr > td,
-  table.list > tbody > tr > td {
+  table.list > tbody > tr > td,
+  table.list > tfoot > tr > td {
     display: block !important;
     width: inherit !important;
     padding-left: 20px;
   }
+  table.list > thead > tr > td.photo_image,
+  table.list > tbody > tr > td.photo_image,
+  table.list > tfoot > tr > td.photo_image {
+    text-align: left;
+  }
   table.list > thead > tr > td > div,
   table.list > thead > tr > td > span,
+  table.list > thead > tr > td > p,
   table.list > tbody > tr > td > div,
-  table.list > tbody > tr > td > span {
+  table.list > tbody > tr > td > span,
+  table.list > tbody > tr > td > p,
+  table.list > tfoot > tr > td > div,
+  table.list > tfoot > tr > td > span,
+  table.list > tfoot > tr > td > p {
     margin-top: 25px;
     word-wrap: break-word;
   }
+  table.list > thead > tr > td > div.photo_span,
+  table.list > thead > tr > td > span.photo_span,
+  table.list > thead > tr > td > p.photo_span,
+  table.list > tbody > tr > td > div.photo_span,
+  table.list > tbody > tr > td > span.photo_span,
+  table.list > tbody > tr > td > p.photo_span,
+  table.list > tfoot > tr > td > div.photo_span,
+  table.list > tfoot > tr > td > span.photo_span,
+  table.list > tfoot > tr > td > p.photo_span {
+    margin-top: 14px;
+    margin-bottom: 14px;
+  }
   table.list > thead > tr > td .rightborder,
-  table.list > tbody > tr > td .rightborder {
+  table.list > tbody > tr > td .rightborder,
+  table.list > tfoot > tr > td .rightborder {
     display: none;
   }
   table.list > thead > tr > td.first,
-  table.list > tbody > tr > td.first {
+  table.list > tbody > tr > td.first,
+  table.list > tfoot > tr > td.first {
     padding-left: 0px;
   }
   table.list > thead > tr > td.table_actions,
-  table.list > tbody > tr > td.table_actions {
+  table.list > tbody > tr > td.table_actions,
+  table.list > tfoot > tr > td.table_actions {
     width: inherit !important;
     text-align: left;
   }
   table.list > thead > tr > td.table_actions > div,
   table.list > thead > tr > td.table_actions > span,
   table.list > tbody > tr > td.table_actions > div,
-  table.list > tbody > tr > td.table_actions > span {
+  table.list > tbody > tr > td.table_actions > span,
+  table.list > tfoot > tr > td.table_actions > div,
+  table.list > tfoot > tr > td.table_actions > span {
     margin-top: 9px;
   }
+  table.list > thead > tr > td.table_actions > div.feature_pending,
+  table.list > thead > tr > td.table_actions > span.feature_pending,
+  table.list > tbody > tr > td.table_actions > div.feature_pending,
+  table.list > tbody > tr > td.table_actions > span.feature_pending,
+  table.list > tfoot > tr > td.table_actions > div.feature_pending,
+  table.list > tfoot > tr > td.table_actions > span.feature_pending {
+    margin-top: 25px;
+  }
   table.list > thead > tr th,
-  table.list > tbody > tr th {
+  table.list > tbody > tr th,
+  table.list > tfoot > tr th {
     display: block !important;
     width: inherit !important;
     padding-left: 20px;
@@ -4738,12 +4800,17 @@ table.list > tbody > tr.remove_pending td .cost {
   table.list > thead > tr th > div,
   table.list > thead > tr th > span,
   table.list > tbody > tr th > div,
-  table.list > tbody > tr th > span {
+  table.list > tbody > tr th > span,
+  table.list > tfoot > tr th > div,
+  table.list > tfoot > tr th > span {
     margin-top: 25px;
     word-wrap: break-word;
   }
   table.list > thead > tr .content.one_line {
     margin-top: 10px;
+  }
+  table.list > tbody > tr.spacer {
+    display: none;
   }
   table.list > tbody > tr > td {
     min-height: 75px;
@@ -4864,5 +4931,49 @@ table.list > tbody > tr.remove_pending td .cost {
   }
   .large_container {
     margin: 0px;
+  }
+  body .ui-dialog.wide_dialog {
+    min-width: initial;
+  }
+  body .ui-dialog.thin_dialog {
+    min-width: initial;
+  }
+  #photo_mass_upload_outer_wrapper .generic_photo_gallery_cont {
+    z-index: 100;
+  }
+  #photo_mass_upload_outer_wrapper .generic_photo_gallery_cont .generic_palette_container {
+    padding: 20px;
+  }
+  #photo_mass_upload_outer_wrapper .generic_photo_gallery_cont .generic_palette_container .upload_setting_container.last {
+    margin-bottom: 10px;
+  }
+  #photo_mass_upload_outer_wrapper .files_ready_to_upload_cont .page_content_header .fileupload-buttonbar {
+    border-bottom: 1px solid transparent;
+  }
+  #photo_mass_upload_outer_wrapper .files_ready_to_upload_cont .page_content_header .fileupload-buttonbar .fileupload-buttons {
+    float: none;
+  }
+  #photo_mass_upload_outer_wrapper .files_ready_to_upload_cont .page_content_header .fileupload-buttonbar .fileupload-progress {
+    top: 0px;
+    margin: 20px;
+    margin-top: 10px;
+  }
+  #photo_mass_upload_outer_wrapper .files_ready_to_upload_cont .generic_palette_container .table_cont {
+    margin-top: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  #photo_mass_upload_outer_wrapper .files_ready_to_upload_cont .generic_palette_container .table_cont td > span.preview {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  #photo_mass_upload_outer_wrapper .files_ready_to_upload_cont .generic_palette_container .table_cont td.thumbnail {
+    text-align: left;
+  }
+  #photo_mass_upload_outer_wrapper .files_ready_to_upload_cont .generic_palette_container .table_cont td.progress_td {
+    max-width: initial;
+  }
+  #photo_mass_upload_outer_wrapper .files_ready_to_upload_cont .generic_palette_container .table_cont td.progress_td .size {
+    margin-top: 25px;
   }
 }

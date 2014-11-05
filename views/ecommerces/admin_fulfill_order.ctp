@@ -2,7 +2,7 @@
 //debug($is_voidable);
 //debug($is_refundable);
 ?>
-<h1><?php __('Manage Order'); ?>
+<h1><?php echo __('Manage Order', true); ?>
 	<?php echo $this->Element('/admin/get_help_button'); ?>
 </h1>
 <p>

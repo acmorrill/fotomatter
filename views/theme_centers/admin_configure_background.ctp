@@ -156,6 +156,7 @@
 		
 		jQuery('#change_background_dialog').dialog({
 			autoOpen: false,
+			dialogClass: "wide_dialog",
 			title: "<?php echo __('Choose Background', true); ?>",
 			buttons: [
 				{
@@ -175,7 +176,6 @@
 					}
 				}
 			],
-			minWidth: 600,
 			minHeight: 200,
 			modal: true,
 			resizable: false

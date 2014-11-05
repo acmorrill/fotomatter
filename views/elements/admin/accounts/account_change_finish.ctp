@@ -10,9 +10,8 @@
 	<script type="text/javascript">
 		jQuery(document).ready(function() {
 			jQuery('#account_change_finish').dialog({
-				width: '850',
 				title: '<?php echo __('Confirm Features', true); ?>',
-				dialogClass: "highlight_buttons",
+				dialogClass: "highlight_buttons wide_dialog",
 				buttons: [ 
 					{
 						text: "<?php echo __('Finish', true); ?>", 

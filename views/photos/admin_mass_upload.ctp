@@ -54,6 +54,34 @@
 	<form id="fileupload" action="/admin/photos/process_mass_photos" method="POST" enctype="multipart/form-data">
 		<input type="hidden" name="height" value="110" />
 		<input type="hidden" name="width" value="110" />
+		
+		<div class="generic_photo_gallery_cont">
+			<div class="page_content_header">
+				<h2><?php echo __('Photo Upload Settings', true); ?></h2>
+			</div>
+			<div class="generic_palette_container">
+				<div class="upload_setting_container first">
+					<h3><?php echo __('Galleries', true); ?></h3>
+					<?php $galleries = $this->Gallery->get_all_galleries(); ?>
+					<select name="data[gallery_ids][]" multiple="multiple" class="chzn-select" data-placeholder="<?php if (empty($galleries)): ?>No Galleries<?php else: ?>Find Galleries ...<?php endif; ?>" style="width: 300px;">
+						<?php foreach ($galleries as $gallery): ?>
+							<?php if ($gallery['PhotoGallery']['type'] == 'smart') { continue; } ?>
+							<option value="<?php echo $gallery['PhotoGallery']['id']; ?>"><?php echo $gallery['PhotoGallery']['display_name']; ?></option>
+						<?php endforeach; ?>
+					</select>
+				</div>
+				<div class="upload_setting_container last">
+					<h3><?php echo __('Tags', true); ?>&nbsp;&nbsp;(<a href="/admin/tags/manage_tags"><?php echo __('manage tags', true); ?></a>)</h3>
+					<?php $tags = $this->Util->get_all_tags(); ?>
+					<select name="data[tag_ids][]" multiple="multiple" class="chzn-select" data-placeholder="<?php if (empty($tags)): ?>No Tags<?php else: ?>Find Tags ...<?php endif; ?>" style="width: 300px;">
+						<?php foreach ($tags as $tag): ?>
+							<option value="<?php echo $tag['Tag']['id']; ?>"><?php echo $tag['Tag']['name']; ?></option>
+						<?php endforeach; ?>
+					</select>
+				</div>
+			</div>
+		</div>
+		
 		<div class="files_ready_to_upload_cont">
 			<div class='files_ready_to_upload_inner_cont custom_ui_radio'>
 				<div class="page_content_header">
@@ -75,17 +103,13 @@
 								<div class="right_arrow_lines icon-arrow-01"><div></div></div>
 							</div>
 							<button id="start_upload_button_old" type="submit" class="start"><?php echo __('Start upload', true); ?></button>
-							
-							<!-- The global file processing state -->
 							<?php /*<span class="fileupload-process"></span>*/ ?>
 						</div>
-						<!-- The global progress state -->
-						<div class="fileupload-progress fade" style="display:none">
-							<!-- The global progress bar -->
+						<div class="fileupload-progress fade" style="display: none;">
 							<div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
-							<!-- The extended global progress state -->
-							<!--<div class="progress-extended">&nbsp;</div>-->
 						</div>
+						
+						<div style="clear: both;"></div>
 					</div>
 				</div>
 				<div class="generic_palette_container">
@@ -102,32 +126,6 @@
 							</tbody>
 						</table>
 					</div>
-				</div>
-			</div>
-		</div>
-		<div class="generic_photo_gallery_cont">
-			<div class="page_content_header">
-				<h2>Photo Upload Settings</h2>
-			</div>
-			<div class="generic_palette_container">
-				<div class="upload_setting_container">
-					<h3><?php __('Galleries'); ?></h3>
-					<?php $galleries = $this->Gallery->get_all_galleries(); ?>
-					<select name="data[gallery_ids][]" multiple="multiple" class="chzn-select" data-placeholder="<?php if (empty($galleries)): ?>No Galleries<?php else: ?>Find Galleries ...<?php endif; ?>" style="width: 300px;">
-						<?php foreach ($galleries as $gallery): ?>
-							<?php if ($gallery['PhotoGallery']['type'] == 'smart') { continue; } ?>
-							<option value="<?php echo $gallery['PhotoGallery']['id']; ?>"><?php echo $gallery['PhotoGallery']['display_name']; ?></option>
-						<?php endforeach; ?>
-					</select>
-				</div>
-				<div class="upload_setting_container">
-					<h3><?php __('Tags'); ?>&nbsp;&nbsp;(<a href="/admin/tags/manage_tags"><?php echo __('manage tags', true); ?></a>)</h3>
-					<?php $tags = $this->Util->get_all_tags(); ?>
-					<select name="data[tag_ids][]" multiple="multiple" class="chzn-select" data-placeholder="<?php if (empty($tags)): ?>No Tags<?php else: ?>Find Tags ...<?php endif; ?>" style="width: 300px;">
-						<?php foreach ($tags as $tag): ?>
-							<option value="<?php echo $tag['Tag']['id']; ?>"><?php echo $tag['Tag']['name']; ?></option>
-						<?php endforeach; ?>
-					</select>
 				</div>
 			</div>
 		</div>

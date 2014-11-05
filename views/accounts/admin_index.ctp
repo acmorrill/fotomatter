@@ -223,13 +223,13 @@
 		<?php echo $add_feature_ref_name_popup_html; ?>
 	</div>
 <?php endif; ?>
-	
 <h1><?php echo __('Manage Features', true); ?>
 	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 </h1>
 
 
 <?php //debug($overlord_account_info['Account']['next_bill_date']); ?>
+<a name="finalize_changes"></a>
 <div id="account-details" class="<?php if (!empty($add_feature_ref_name)): ?> finish-shown <?php endif; ?> generic_photo_gallery_cont">
 	<div class="page_content_header">
 		<h2><?php echo __('Billing Status', true); ?></h2>
@@ -260,8 +260,6 @@
 
 
 
-<?php //debug($overlord_account_info); ?>
-
 
 <div class='clear' id="line_item_cont">
 	<?php /*<?php if($overlord_account_info['is_pay_fail']): ?>
@@ -272,7 +270,7 @@
 		</div>
 	<?php endif; ?> */ ?>
 	
-	
+
 	<div class="page_content_header">
 		<div style="<?php if (empty($add_feature_ref_name)): ?>display:none;<?php endif; ?>" class='finish-outer-cont custom_ui right'>
 			<div class="add_button highlight bigger finish_account_add" type="submit">
@@ -334,8 +332,7 @@
 							</td> */ ?>
 							<td class="first">
 								<div class="rightborder"></div>
-								<i class="<?php echo $icon_css; ?>"></i>
-								<span><?php echo $line_item['AccountLineItem']['name']; ?></span>
+								<span><i class="<?php echo $icon_css; ?>"></i><?php echo $line_item['AccountLineItem']['name']; ?></span>
 							</td>
 							<td>
 								<div class="rightborder"></div>
@@ -345,7 +342,7 @@
 							</td>
 							<td class="last table_actions custom_ui">
 								<div class="rightborder"></div>
-								<div class="feature_pending"><?php echo __('Add Pending', true); ?></div>
+								<div class="feature_pending"><a href="#finalize_changes"><?php echo __('Add Pending', true); ?></a></div>
 								<?php if ($line_item['AccountLineItem']['active']): ?>
 									<div data_id='<?php echo $line_item['AccountLineItem']['id']; ?>' class="add_button icon remove_item icon_close"><div class="content icon-close-01"></div></div>
 								<?php elseif ($line_item['AccountLineItem']['removed_scheduled']): ?>
