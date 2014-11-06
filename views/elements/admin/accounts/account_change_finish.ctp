@@ -16,11 +16,19 @@
 					{
 						text: "<?php echo __('Finish', true); ?>", 
 						click: function() { 
+							show_universal_save();
+							
 							$.ajax({
 								type: 'POST',
 								url: "/admin/accounts/ajax_finish_account_change",
 								success: function(data) {
 									window.location.href = "/admin/accounts/index";
+								},
+								complete: function() {
+									hide_universal_save();
+								},
+								error: function(jqXHR, textStatus, errorThrown) {
+
 								},
 								dataType: 'json'
 							});
@@ -66,7 +74,7 @@
 							}
 						?>
 						<p><?php echo $billing_message; ?></p>
-						<p>(<a href='#' onClick='open_add_profile_popup()'>Change/Add Credit Card</a>)</p>
+						<p>(<a href='#' onClick='show_universal_load(); open_add_profile_popup()'>Change/Add Credit Card</a>)</p>
 					</div>
 				</td>
 				<td class="last">

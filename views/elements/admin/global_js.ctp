@@ -48,7 +48,7 @@
 			} else if(request.status == 0) {
 //				alert('A ajax call was canceled');
 			} else {
-				
+				major_error_recover('an ajax error occured');
 //				alert('An ajax error occured! -- this from global_js'); // DREW TODO - make this more sophisticated
 //				console.log (event);
 //				console.log (request);

@@ -16,12 +16,14 @@
 					{
 						text: "<?php echo __('Continue Without Credit Card'); ?>", 
 						click: function() {
+							show_universal_load();
 							open_finish_account_change_nocc_confirm();
 						} 
 					},
 					{
 						text: "<?php echo __('Add Credit Card'); ?>", 
 						click: function() {
+							show_universal_load();
 							open_add_profile_popup();
 						}
 					}

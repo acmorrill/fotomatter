@@ -95,7 +95,7 @@ function show_universal_save() {
 	jQuery('#universal_save_popup').stop().fadeIn('fast');
 }
 function hide_universal_save() {
-	jQuery('#universal_load_popup').stop().hide();
+	jQuery('#universal_load_popup').stop().fadeOut('slow');
 	jQuery('#universal_save_popup').stop().fadeOut('slow');
 }
 function show_universal_load() {
@@ -103,7 +103,7 @@ function show_universal_load() {
 	jQuery('#universal_load_popup').stop().fadeIn('fast');
 }
 function hide_universal_load() {
-	jQuery('#universal_save_popup').stop().hide();
+	jQuery('#universal_save_popup').stop().fadeOut('slow');
 	jQuery('#universal_load_popup').stop().fadeOut('slow');
 }
 function smart_reload(message) {
@@ -183,6 +183,7 @@ function do_features_popup_call(url) {
 		},
 		complete: function() {
 			inAjaxCall = false;
+			hide_universal_save();
 		},
 		error: function() {
 

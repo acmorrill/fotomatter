@@ -85,7 +85,7 @@
 <div class='show_on_mobile'>
 	<h1><?php echo __('Configure Logo', true); ?></h1>
 	<p>
-		<?php echo __('This page is only usable on a desktop.', true); ?>
+		<?php echo __('This page is only usable on a larger screen.', true); ?>
 	</p>
 </div>
 

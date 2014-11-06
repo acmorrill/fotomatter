@@ -8,7 +8,13 @@
 <script src="/js/angular_1.2.22/app/js/controllers.js"></script>
 <script src="/js/angular_1.2.22/app/js/services.js"></script>
 
-<div id="tag_manager_container" ng-app="fotomatterApp" ng-controller="TagListCtrl">
+<div class='show_on_mobile'>
+	<h1><?php echo __('Tags', true); ?></h1>
+	<p>
+		<?php echo __('This page is only usable on a larger screen.', true); ?>
+	</p>
+</div>
+<div class="hide_on_mobile" id="tag_manager_container" ng-app="fotomatterApp" ng-controller="TagListCtrl">
 	<?php echo $this->Element('admin/flashMessage/error', array(
 		'angular_code' => 'ng-show="tag_manager_error.length > 0"',
 		'message' => '{{tag_manager_error}}'

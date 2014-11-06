@@ -5,7 +5,7 @@
 		margin-right: auto;
 		width: @body_content_width;
 	}
-	h1 {
+	> h1 {
 		margin-bottom: 10px;
 	}
 	ol {
@@ -13,13 +13,17 @@
 		max-width: 550px;
 		display: inline-block;
 		margin-bottom: 40px;
+		> li {
+/*			color: @tab2_on_color;
+			> span { color: @gray_text; }*/
+		}
 	}
 	.page_content_header {
 		border: 1px solid @off_black;
 		max-width: @body_content_width;
 		margin-top: 0px;
 		text-align: center;
-		h2 {
+		> h2 {
 			.Code-Pro-Bold-LC;
 			font-size: 22px;
 			margin-bottom: 0px;

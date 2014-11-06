@@ -1,5 +1,11 @@
 <?php echo $this->Element('admin/angular'); ?>
-<div id="domains-outer-cont" class='domains-outer-cont' ng-app='fmAdmin' ng-controller='domains_index'>
+<div class='show_on_mobile'>
+	<h1><?php echo __('Manage Domains', true); ?></h1>
+	<p>
+		<?php echo __('This page is only usable on a larger screen.', true); ?>
+	</p>
+</div>
+<div id="domains-outer-cont" class='hide_on_mobile domains-outer-cont' ng-app='fmAdmin' ng-controller='domains_index'>
 	<?php if (!empty($debugging)): ?>
 		<h1 style="margin-top: 30px;">Debugging</h1>
 		<pre style="color: white; max-height: 350px; overflow-y: auto; margin-bottom: 30px;"><?php print_r($debugging); ?></pre>

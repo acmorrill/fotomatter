@@ -189,6 +189,7 @@
 
 
 		$(".finish_account_add").click(function() {
+			show_universal_load();
 			open_finish_account_change();
 		});
 		

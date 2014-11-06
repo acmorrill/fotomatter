@@ -401,7 +401,7 @@ table {
   background-color: #292929;
   width: 100%;
   text-align: center;
-  z-index: 100;
+  z-index: 120;
 }
 #universal_save_popup,
 #universal_save_popup a,
@@ -912,6 +912,9 @@ table.list > tfoot td.first p,
 table.list > tfoot td.first a {
   font-size: 18px;
 }
+table.list > tfoot td .table_summary .payment_item span {
+  line-height: 30px;
+}
 table.list > tfoot td .table_summary .payment_item .value {
   display: inline-block;
   min-width: 100px;
@@ -1071,6 +1074,9 @@ a {
 a:hover {
   text-decoration: underline;
 }
+* {
+  outline: 0px;
+}
 .generic_palette_container {
   background: url(/img/admin/general/box_transparent_bg_bottom.png) bottom left repeat-x;
   padding-left: 20px;
@@ -1178,6 +1184,19 @@ input {
   height: 40px;
   padding-left: 20px;
   padding-right: 20px;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  -khtml-border-radius: 0px;
+  border-radius: 0px;
+}
+input[type="submit"],
+input[type="image"] {
+  -webkit-appearance: none;
+}
+input[type="radio"],
+input[type="checkbox"] {
+  height: 20px;
+  width: 20px;
 }
 #main .top_links {
   background: #141414;
@@ -1335,8 +1354,8 @@ input {
   font-size: 20px;
 }
 .custom_ui .add_button.bigger .content {
-  margin-top: 18px;
-  margin-bottom: 18px;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 .custom_ui .add_button.highlight {
   padding-left: 30px;
@@ -1530,6 +1549,8 @@ input {
   font-size: 12px;
 }
 .modal.ui-dialog {
+  margin-top: 0px;
+  margin-bottom: 0px;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -1799,7 +1820,7 @@ body .ui-corner-br {
   font-family: Code-Pro-LC;
   font-weight: normal;
   font-style: normal;
-  font-size: 14px;
+  font-size: .8em;
   padding: 15px 20px 15px 20px;
   margin-top: 20px;
   margin-bottom: 30px;
@@ -1873,6 +1894,7 @@ body {
   height: 37px;
 }
 #header .logo #mobile_navigation_open {
+  cursor: pointer;
   display: none;
   width: 100px;
   height: 100px;
@@ -1901,11 +1923,15 @@ body {
   position: relative;
   color: #cececf;
   text-decoration: none;
-  font-size: 14px;
+  font-size: .8em;
 }
 #header #top-navigation ul.menu li > a span {
+  font-family: Code-Pro-LC;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 1.04em;
   display: inline-block;
-  margin-top: 15px;
+  margin-top: 14px;
   margin-left: 10px;
 }
 #header #top-navigation ul.menu li:hover > a {
@@ -2871,7 +2897,7 @@ body {
   margin-right: auto;
   width: 806px;
 }
-#feature_limit h1 {
+#feature_limit > h1 {
   margin-bottom: 10px;
 }
 #feature_limit ol {
@@ -2886,7 +2912,7 @@ body {
   margin-top: 0px;
   text-align: center;
 }
-#feature_limit .page_content_header h2 {
+#feature_limit .page_content_header > h2 {
   font-family: Code-Pro-Bold-LC;
   font-weight: normal;
   font-style: normal;
@@ -2922,7 +2948,7 @@ body {
 #theme_chooser_container .theme_item_container {
   display: inline-block;
   vertical-align: top;
-  width: 49%;
+  width: 47%;
   max-width: 445px;
   min-width: 406px;
   overflow: hidden;
@@ -3904,7 +3930,7 @@ a.editable-empty :focus {
 }
 #connect_gallery_photos_cont .in_gallery_main_cont .connect_photo_container.small_icon_size .gallery_image_circle_button .inner_button,
 #connect_gallery_photos_cont .not_in_gallery_main_cont .connect_photo_container.small_icon_size .gallery_image_circle_button .inner_button {
-  font-size: 14px;
+  font-size: .8em;
   line-height: 24px;
 }
 #connect_gallery_photos_cont .in_gallery_main_cont .connect_photo_container.small_icon_size .gallery_image_circle_button .icon-_button-01,
@@ -4067,7 +4093,7 @@ body.no_overflow {
   font-family: Code-Pro-LC;
   font-weight: normal;
   font-style: normal;
-  font-size: 14px;
+  font-size: .8em;
   line-height: 14px;
   display: inline-block;
   cursor: pointer;
@@ -4342,6 +4368,7 @@ table.list > tbody > tr.remove_pending td .cost {
 }
 #domains-outer-cont .domain_header .search_box input {
   margin-right: 30px;
+  margin-bottom: 10px;
 }
 .sub_submenu_cont {
   margin-top: 40px;
@@ -4643,6 +4670,8 @@ table.list > tbody > tr.remove_pending td .cost {
   #main #header #top-navigation #extra_buttons > li > ul > li {
     text-align: center;
     width: 100%;
+    border-left: 0px;
+    border-right: 0px;
   }
   #main #header #top-navigation #extra_buttons > li > ul > li .subnav_bg {
     width: 100%;
@@ -4652,6 +4681,7 @@ table.list > tbody > tr.remove_pending td .cost {
   }
   #main #header #top-navigation ul.menu {
     display: none;
+    overflow: hidden;
     width: auto;
   }
   #main #header #top-navigation ul.menu li {
@@ -4735,24 +4765,30 @@ table.list > tbody > tr.remove_pending td .cost {
   table.list > thead > tr > td > div,
   table.list > thead > tr > td > span,
   table.list > thead > tr > td > p,
+  table.list > thead > tr > td > input,
   table.list > tbody > tr > td > div,
   table.list > tbody > tr > td > span,
   table.list > tbody > tr > td > p,
+  table.list > tbody > tr > td > input,
   table.list > tfoot > tr > td > div,
   table.list > tfoot > tr > td > span,
-  table.list > tfoot > tr > td > p {
+  table.list > tfoot > tr > td > p,
+  table.list > tfoot > tr > td > input {
     margin-top: 25px;
     word-wrap: break-word;
   }
   table.list > thead > tr > td > div.photo_span,
   table.list > thead > tr > td > span.photo_span,
   table.list > thead > tr > td > p.photo_span,
+  table.list > thead > tr > td > input.photo_span,
   table.list > tbody > tr > td > div.photo_span,
   table.list > tbody > tr > td > span.photo_span,
   table.list > tbody > tr > td > p.photo_span,
+  table.list > tbody > tr > td > input.photo_span,
   table.list > tfoot > tr > td > div.photo_span,
   table.list > tfoot > tr > td > span.photo_span,
-  table.list > tfoot > tr > td > p.photo_span {
+  table.list > tfoot > tr > td > p.photo_span,
+  table.list > tfoot > tr > td > input.photo_span {
     margin-top: 14px;
     margin-bottom: 14px;
   }
@@ -4917,10 +4953,24 @@ table.list > tbody > tr.remove_pending td .cost {
     margin: 0px;
   }
   body .ui-dialog.wide_dialog {
-    min-width: initial;
+    min-width: 90%;
   }
   body .ui-dialog.thin_dialog {
-    min-width: initial;
+    min-width: 90%;
+  }
+  body .ui-dialog .ui-dialog-content {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
+  }
+  body .modal.ui-dialog {
+    width: 95%;
+    left: 2.5%;
+    margin-left: 0px;
+  }
+  body .modal.ui-dialog > section > section .ui-dialog-buttonpane {
+    height: 40px;
+    overflow: auto;
   }
   #login_forms_cont .generic_palette_container {
     padding: 40px 20px;
@@ -4965,5 +5015,8 @@ table.list > tbody > tr.remove_pending td .cost {
   }
   #photo_mass_upload_outer_wrapper .files_ready_to_upload_cont .generic_palette_container .table_cont td.progress_td .size {
     margin-top: 25px;
+  }
+  #feature_limit.center {
+    width: inherit;
   }
 }
