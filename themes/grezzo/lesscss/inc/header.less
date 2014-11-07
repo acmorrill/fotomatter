@@ -11,10 +11,11 @@ body {
             }
         }
     }
-	&#title_name h1{ background-color: @black;}
-	
+	&.black #title_name h1 { background-color: @black;}
+	&.black #shipping_address_summary h1{ background-color: @black;}
+
     /*    ===================== Yellow ===========================*/
-	    &.yellow #outer_nav { 
+	&.yellow #outer_nav { 
         background-color: @yellow; 
         #nav_location #main_nav ul.top_level > li {
             &, a{
@@ -38,9 +39,11 @@ body {
     &.yellow #right_arrow {
         background-image: url(/img/arrow_right_black.png);
     }
-	&#title_name h1{ background-color: @yellow;}
-	
-/*    ===================== Blue ===========================*/
+	&.yellow #title_name h1 { background-color: @yellow;}
+
+	&.yellow #shipping_address_summary h1{ background-color: @yellow;}
+
+	/*    ===================== Blue ===========================*/
     &.blue #outer_nav { 
         background-color: @blue; 
         #nav_location #main_nav ul.top_level > li {
@@ -53,9 +56,12 @@ body {
     &.blue #page_content #image_info_container #gallery_name{
         background-color: @blue; color: @white;	}
     &.blue .navigation_arrow {background-color: @blue;}
-		&#title_name h1{ background-color: @blue;}
-	
-/*    ===================== Pink ===========================*/
+
+	&.blue #title_name h1{ background-color: @blue;}
+
+	&.blue #shipping_address_summary h1{ background-color: @blue;}
+
+	/*    ===================== Pink ===========================*/
     &.pink #outer_nav { 
         background-color: @pink; 
         #nav_location #main_nav ul.top_level > li {
@@ -81,7 +87,8 @@ body {
     &.pink #right_arrow {
         background-image: url(/img/arrow_right_black.png);
     }	
-	&#title_name h1{ background-color: @pink;}
+	&.pink #title_name h1{ background-color: @pink;}
+	&.pink #shipping_address_summary h1{ background-color: @pink; color: @black}
 }
 
 // End background

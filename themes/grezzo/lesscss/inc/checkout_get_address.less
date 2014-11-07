@@ -1,9 +1,16 @@
+body{
+	&.black .black_box{ background-color: @black;}
+	&.blue .black_box{ background-color: @blue;}
+	&.yellow .black_box{ background-color: @yellow;}
+	&.pink .black_box{ background-color: @pink;}
+}
+
 #shipping_address_container{
     outline: none !important;
     h1{
         margin-bottom: 20px;
     }
-    .country_select{
+    .country_select{ 
         padding: 3px;
         margin-bottom: 4px;
     }
@@ -15,6 +22,7 @@
 }
 
 .no_label {   
+	margin-top: 0px;
     input{
         display: inline-block;
         .box-sizing(content-box);

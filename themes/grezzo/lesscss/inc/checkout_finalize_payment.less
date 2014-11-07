@@ -1,3 +1,17 @@
+body{
+	&.black #shipping_address_summary h1 a{ color: @white;}
+	&.blue #shipping_address_summary h1 a{ color: @white;}
+	&.yellow #shipping_address_summary h1 a{ color: @black;}
+	&.pink #shipping_address_summary h1 a{ color: @black;}
+	
+	&.black #shipping_address_summary h1 a:hover{ color: @text_color_edit;}
+	&.blue #shipping_address_summary h1 a:hover{ color: @text_color_edit;}
+	&.yellow #shipping_address_summary h1 a:hover{ color: @text_color_edit;}
+	&.pink #shipping_address_summary h1 a:hover{ color: @text_color_edit;}
+	
+}
+
+
 .outer_page_cart{
 	#create_account{
 		outline: none !important;
@@ -9,16 +23,16 @@
 #shipping_address_summary{
 	outline: none !important;
 	h1{
-		background-color: @black;
-		color: @white;
+		//background-color: @black;
+		//color: @white;
 		text-align: center;
 		a{
 			font-size: 12px;
-			color: @white;
+			//color: @white;
 			text-decoration: none;
 			&:hover{
 				cursor: pointer;
-				color: @text_color_edit;
+				//color: @text_color_edit;
 			}
 		}
 	}

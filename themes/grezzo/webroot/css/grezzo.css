@@ -22,7 +22,10 @@ body.black #outer_nav #nav_location #main_nav ul.top_level > li {
 body.black #outer_nav #nav_location #main_nav ul.top_level > li ul.second_level {
   color: #fff;
 }
-body#title_name h1 {
+body.black #title_name h1 {
+  background-color: #000000;
+}
+body.black #shipping_address_summary h1 {
   background-color: #000000;
 }
 body.yellow #outer_nav {
@@ -48,7 +51,10 @@ body.yellow #left_arrow {
 body.yellow #right_arrow {
   background-image: url(/img/arrow_right_black.png);
 }
-body#title_name h1 {
+body.yellow #title_name h1 {
+  background-color: #ffff66;
+}
+body.yellow #shipping_address_summary h1 {
   background-color: #ffff66;
 }
 body.blue #outer_nav {
@@ -67,7 +73,10 @@ body.blue #page_content #image_info_container #gallery_name {
 body.blue .navigation_arrow {
   background-color: #000099;
 }
-body#title_name h1 {
+body.blue #title_name h1 {
+  background-color: #000099;
+}
+body.blue #shipping_address_summary h1 {
   background-color: #000099;
 }
 body.pink #outer_nav {
@@ -96,8 +105,12 @@ body.pink #left_arrow {
 body.pink #right_arrow {
   background-image: url(/img/arrow_right_black.png);
 }
-body#title_name h1 {
+body.pink #title_name h1 {
   background-color: #ffcccc;
+}
+body.pink #shipping_address_summary h1 {
+  background-color: #ffcccc;
+  color: #000000;
 }
 .header_is_full_width #outer_nav #logo_nav_cont {
   width: auto;
@@ -842,8 +855,6 @@ body {
   margin-left: 350px;
 }
 .black_box {
-  background-color: #000000;
-  color: #fff;
   text-align: center;
   padding: 5px;
   margin-top: -20px;
@@ -856,12 +867,6 @@ body {
   border-bottom: 2px solid #939598;
   position: relative;
   top: -32px;
-}
-.no_label {
-  width: 400px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 0px;
 }
 #footer {
   margin-top: 60px;
@@ -913,8 +918,6 @@ select:focus {
   margin-bottom: 19px;
 }
 #title_name h1 {
-  background-color: #000;
-  color: #fff;
   text-align: center;
   padding: 2px;
 }
@@ -984,6 +987,18 @@ select:focus {
 #login_container .success {
   margin-bottom: 15px;
 }
+body.black .black_box {
+  background-color: #000000;
+}
+body.blue .black_box {
+  background-color: #000099;
+}
+body.yellow .black_box {
+  background-color: #ffff66;
+}
+body.pink .black_box {
+  background-color: #ffcccc;
+}
 #shipping_address_container {
   outline: none !important;
 }
@@ -997,6 +1012,9 @@ select:focus {
 #shipping_address_container .state_select {
   padding: 3px;
   margin-bottom: 4px;
+}
+.no_label {
+  margin-top: 0px;
 }
 .no_label input {
   display: inline-block;
@@ -1012,6 +1030,30 @@ select:focus {
 .no_label input:hover {
   border: 1px solid #000000;
 }
+body.black #shipping_address_summary h1 a {
+  color: #ffffff;
+}
+body.blue #shipping_address_summary h1 a {
+  color: #ffffff;
+}
+body.yellow #shipping_address_summary h1 a {
+  color: #000000;
+}
+body.pink #shipping_address_summary h1 a {
+  color: #000000;
+}
+body.black #shipping_address_summary h1 a:hover {
+  color: #999999;
+}
+body.blue #shipping_address_summary h1 a:hover {
+  color: #999999;
+}
+body.yellow #shipping_address_summary h1 a:hover {
+  color: #999999;
+}
+body.pink #shipping_address_summary h1 a:hover {
+  color: #999999;
+}
 .outer_page_cart #create_account {
   outline: none !important;
 }
@@ -1022,18 +1064,14 @@ select:focus {
   outline: none !important;
 }
 #shipping_address_summary h1 {
-  background-color: #000000;
-  color: #ffffff;
   text-align: center;
 }
 #shipping_address_summary h1 a {
   font-size: 12px;
-  color: #ffffff;
   text-decoration: none;
 }
 #shipping_address_summary h1 a:hover {
   cursor: pointer;
-  color: #999999;
 }
 #shipping_address_summary #shipping_address_output {
   margin-left: 20px;
