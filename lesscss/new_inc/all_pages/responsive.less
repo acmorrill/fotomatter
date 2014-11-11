@@ -149,6 +149,8 @@ only screen and (min-resolution: 192dpi) {
 							> li {
 								text-align: center;
 								width: 100%;
+								border-left: 0px;
+								border-right: 0px;
 								.subnav_bg {
 									width: 100%;
 								}
@@ -161,6 +163,7 @@ only screen and (min-resolution: 192dpi) {
 				}
 				ul.menu {
 					display: none;
+					overflow: hidden;
 					width: auto;
 					li {
 						display: block;
@@ -239,7 +242,7 @@ only screen and (min-resolution: 192dpi) {
 					&.photo_image {
 						text-align: left;
 					}
-					> div, > span, > p { 
+					> div, > span, > p, > input { 
 						margin-top: 25px; word-wrap: break-word; 
 						&.photo_span {
 							margin-top: 14px;
@@ -384,8 +387,24 @@ only screen and (min-resolution: 192dpi) {
 	// jquery dialog popup styles
 	body {
 		.ui-dialog {
-			&.wide_dialog { min-width: initial; }
-			&.thin_dialog { min-width: initial; }
+			&.wide_dialog { min-width: 90%; }
+			&.thin_dialog { min-width: 90%; }
+			.ui-dialog-content {
+				margin-left: 20px;
+				margin-right: 20px;
+				margin-top: 20px;
+			}
+		}
+		.modal.ui-dialog {
+			width: 95%;
+			left: 2.5%;
+			margin-left: 0px;
+			> section > section {
+				.ui-dialog-buttonpane {
+					height: 40px;
+					overflow: auto;
+				}
+			}
 		}
 	}
 	
@@ -454,6 +473,14 @@ only screen and (min-resolution: 192dpi) {
 		}
 	}
 	
+	
+	////////////////////////////////////////////
+	// feature limit section
+	#feature_limit {
+		&.center {
+			width: inherit;
+		}
+	}
 }
 
 

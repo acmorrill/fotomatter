@@ -38,13 +38,11 @@
 				'name' => __('Configure Logo', true),
 				'url' => "/admin/theme_centers/configure_logo/",
 				'icon_css' => 'ConfigureLogo-01',
-				'hide_on_mobile' => true,
 			);
 			$subnav['pages'][] = array(
 				'name' => __('Configure Theme Background', true),
 				'url' => "/admin/theme_centers/configure_background/",
 				'icon_css' => 'picture',
-				'hide_on_mobile' => true,
 			);
 
 			echo $this->Element('/admin/submenu', array( 'subnav' => $subnav ));

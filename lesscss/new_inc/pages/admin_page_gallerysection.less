@@ -63,6 +63,10 @@
 		min-height: 400px;
 		.empty_help_content { top: 25%; }
 		.connect_photo_container {
+			&.small_icon_size { height: 60px; width: 60px; }
+			&.medium_icon_size { height: 110px; width: 110px; }
+			&.large_icon_size { height: 155px; width: 155px; }
+			
 			position: relative;
 			float: left;
 			vertical-align: top;
@@ -117,7 +121,7 @@
 					margin-left: -4px;
 				}
 				.reorder_icon {
-					cursor: move;
+					cursor: pointer;
 					/*background: url('/img/admin/icons/reorder_icon.svg') top center no-repeat;*/
 					display: inline-block;
 /*					width: @cicle_button_width - 10px;
@@ -146,12 +150,17 @@
 					-webkit-border-radius: @smaller_cicle_button_width;  //safari/chrome 
 					-moz-border-radius: @smaller_cicle_button_width;  //Firefox 
 					border-radius: @smaller_cicle_button_width;  //CSS3 
-					.inner_button { font-size: 14px; line-height: @smaller_cicle_button_width; }
-					.icon-_button-01 { font-size: 24px; }
+					.inner_button { font-size: .8em; line-height: @smaller_cicle_button_width; }
+					.icon-_button-01 { font-size: 30px; margin-top: -3px; margin-left: -3px;}
+					.icon-close-01 {
+						font-size: 18px;
+						line-height: 24px;
+					}
 					.reorder_icon {
-						width: @smaller_cicle_button_width - 10px;
+						font-size: 16px;
+/*						width: @smaller_cicle_button_width - 10px;
 						height: @smaller_cicle_button_width - 10px;
-						margin-top: 5px;
+						margin-top: 5px;*/
 					}
 				}
 			}

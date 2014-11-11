@@ -85,8 +85,11 @@
 	function add_new_in_gallery_image(photo_id, img_src) {
 		var new_image = jQuery(built_gallery_image_html);
 		
+		var not_in_gallery_icon_size = jQuery('#not_in_gallery_icon_size .selected').attr('size');
 		new_image.attr('photo_id', photo_id);
 		new_image.find('.image_content_cont img').attr('src', img_src);
+		new_image.removeClass('small_icon_size medium_icon_size large_icon_size');
+		new_image.addClass(not_in_gallery_icon_size + '_icon_size');
 		
 		return new_image;
 	}

@@ -27,6 +27,9 @@ class SitePagesController extends AppController {
 		if (in_array($this->action, array(
 			'admin_index',
 		))) {
+			$curr_page = 'pages';
+			$this->set(compact('curr_page'));
+			$this->layout = 'admin/sidebar_less';
 			$this->FeatureLimiter->limit_view($this, 'page_builder', 'page_builder'); // $controller, $feature_ref_name, $element_path in /elements/admin/limit_views
 		} else if(!in_array($this->action, array( // this allowed no matter what
 			'ping',

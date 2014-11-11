@@ -9,7 +9,7 @@ var verticle_sortable_defaults = {
 };
 
 /****
- *Global start up behavio
+ *Global start up behavior
  ****/
 jQuery(document).ready(function() {
 	jQuery('.javascript_submit').click(function(){ 
@@ -90,77 +90,39 @@ jQuery(document).ready(function() {
 /****************************************************************************
 	GLOBAL FUNCTIONS
 ****************************************************************************/
-function show_universal_save() {
-	jQuery('#universal_load_popup').stop().hide();
-	jQuery('#universal_save_popup').stop().fadeIn('fast');
-}
-function hide_universal_save() {
-	jQuery('#universal_load_popup').stop().hide();
-	jQuery('#universal_save_popup').stop().fadeOut('slow');
-}
-function show_universal_load() {
-	jQuery('#universal_save_popup').stop().hide();
-	jQuery('#universal_load_popup').stop().fadeIn('fast');
-}
-function hide_universal_load() {
-	jQuery('#universal_save_popup').stop().hide();
-	jQuery('#universal_load_popup').stop().fadeOut('slow');
-}
-function smart_reload(message) {
-	message = '<div style="display:inline-block;vertical-align:middle;margin:5px;margin:0 25px 15px 0">'+message+'</div>';
-	message += '<img src="/img/admin/icons/ajax-loader.gif" />';
-	show_modal(message, 750, function() {
-		window.location.reload();
-	}, false);
-}
-var modo_div;
-var message_div;
-
-function remove_modal() { // just used in the configure background page
-	modo_div.remove();
-	message_div.remove();
-}
-
-function show_modal(message, time_to_show, after_hide_callback, remove_after,css) { // just used in the configure background page
-	modo_div = jQuery("<div></div>");
-	modo_div.addClass('ui-widget-overlay');
-	modo_div.css('z-index', '2001'); 
-	modo_div.css('height', '200%');
-	
-	message_div = jQuery("<div class='message_div medium_message_box drop-shadow'>"+message+"</div>");
-	message_div.css('z-index', '2002'); 
-
-	
-	jQuery('body').append(modo_div);
-	jQuery('body').append(message_div);
-	
-	
-	var window_width = jQuery(window).width();
-	var message_width = message_div.width();
-	var center_left = (window_width / 2) - (message_div.width() / 2); 
-	message_div.css('left', center_left);
-	
-	
-	if (css != undefined) {
-		for(var x in css) {
-//			console.log(x);
-//			console.log(css[x]);
-			message_div.css(x, css[x]);
-		}
+function show_universal_save(show_modal) {
+//	console.log('show save');
+	if (show_modal === undefined) {
+		show_modal = false;
 	}
 	
+	jQuery('#universal_load_popup').stop().hide();
+	jQuery('#universal_save_popup').stop().fadeIn('fast');
 	
-	if(time_to_show == undefined) time_to_show = MODO_SHOW_TIME_DEFAULT;
-	if (remove_after == undefined) remove_after = true;
+	if (show_modal === true) {
+		jQuery('#global_modal_background').stop().show();
+	}
+}
+function hide_universal_save() {
+//	console.log('hide save');
+	jQuery('#universal_load_popup, #universal_save_popup, #global_modal_background').stop().fadeOut('slow');
+}
+function show_universal_load(show_modal) {
+//	console.log('show load');
+	if (show_modal === undefined) {
+		show_modal = false;
+	}
 	
-//	setTimeout(function() {
-//		if (after_hide_callback != undefined) {
-//			after_hide_callback();
-//		}
-//		if (remove_after) {
-//			remove_modal();
-//		}
-//	}, time_to_show);
+	jQuery('#universal_save_popup').stop().hide();
+	jQuery('#universal_load_popup').stop().fadeIn('fast');
+	
+	if (show_modal === true) {
+		jQuery('#global_modal_background').stop().show();
+	}
+}
+function hide_universal_load() {
+//	console.log('hide load');
+	jQuery('#universal_load_popup, #universal_save_popup, #global_modal_background').stop().fadeOut('slow');
 }
 
 function do_features_popup_call(url) {
@@ -183,6 +145,7 @@ function do_features_popup_call(url) {
 		},
 		complete: function() {
 			inAjaxCall = false;
+			hide_universal_save();
 		},
 		error: function() {
 

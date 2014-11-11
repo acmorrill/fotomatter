@@ -7,7 +7,8 @@
 				buttons: [ 
 					{
 						text: "<?php echo __('Next', true); ?>", 
-						click: function() { 
+						click: function() {
+							show_universal_save();
 							$.ajax({
 								type: "POST",
 								url: "/admin/accounts/ajax_save_client_billing/closeWhenDone:<?php echo $closeWhenDone ? 'true' : 'false'; ?>",

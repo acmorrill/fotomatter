@@ -25,10 +25,12 @@
 				<strong class="error"></strong>
 			</td>
 			<td class="progress_td">
-				<div class="rightborder"></div>
-				<p class="size">Processing...</p>
 				<div class="custom_progress"></div>
 				<div class="progress"></div>
+			</td>
+			<td class="size_td">
+				<div class="rightborder"></div>
+				<p class="size">Processing...</p>
 			</td>
 			<td class="last table_actions">
 				<div class="rightborder"></div>
@@ -65,6 +67,8 @@
 				{% if (file.error) { %}
 					<div><span class="error">Error</span> {%=file.error%}</div>
 				{% } %}
+			</td>
+			<td class="size_td">
 			</td>
 			<td>
 				<span class="size">{%=o.formatFileSize(file.size)%}</span>
