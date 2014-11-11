@@ -42,21 +42,8 @@
 	
 	
 	$(document).ready(function() {
-		
 		reload_buttons();
 		format_numbers();
-//		$("#middle").css('min-height', '450px'); //TODO Adam remove this once we have all the alacart items added
-//		$("#line_item_cont .line_item .bar-right span.toggle").click(function() {
-//			if ($(this).closest('.bar').next(".item_ad_area").is(':hidden')) {
-//				$(this).closest('.bar').next(".item_ad_area").slideDown();
-//				var icon = $(this).closest('.bar').find(".bar-right i.icon-angle-down");
-//				icon.removeClass('icon-angle-down').addClass('icon-angle-right');
-//			} else {
-//				$(this).closest('.bar').next(".item_ad_area").slideUp();
-//				var icon = $(this).closest('.bar').find(".bar-right i.icon-angle-right");
-//				icon.removeClass('icon-angle-right').addClass('icon-angle-down');
-//			}
-//		});
 
 		$("#line_item_cont .line_item .cancel_remove").click(function(e) {
 			e.preventDefault();
@@ -138,9 +125,10 @@
 			
 			if ($(".pending").length > 0) {
 				$("#account-details").addClass('finish-shown');
-//				$(".finish-outer-cont").fadeIn();
 				$(".finish-outer-cont").show();
-				$(".finish-outer-cont").effect('bounce', { times: 3, distance: 15 }, 600);
+				setTimeout(function() {
+					$(".finish-outer-cont").stop().effect('bounce', { times: 3, distance: 15 }, 600);
+				}, 300);
 			} else {
 				$("#account-details").removeClass('finish-shown');
 				$(".finish-outer-cont").hide();
@@ -162,29 +150,6 @@
 				dataType: 'json'
 			});
 		});
-
-
-		/* $("#line_item_cont .line_item input").change(function(e) {
-		 e.preventDefault();
-		 if (inAjaxCall) {
-		 return false;
-		 }
-		 inAjaxCall = true;
-		 var args_item = {};
-		 args_item.checked = 0;
-		 if ($(this).is(':checked')) {
-		 args_item.checked = 1;
-		 }
-		 args_item.id = $(this).attr('data_id');
-		 var this_check_box = $(this);
-		 $("#line_item_cont .finish input[type=button]").fadeIn();
-		 $.post('/accounts/ajax_setItemChecked', args_item, 
-		 function(data) {
-		 inAjaxCall = false;
-		 $("#line_item_cont .line_item input").removeAttr('disabled');
-		 }, 'json');
-		 return false;
-		 }); */
 
 
 
@@ -230,7 +195,6 @@
 
 
 <?php //debug($overlord_account_info['Account']['next_bill_date']); ?>
-<a name="finalize_changes"></a>
 <div id="account-details" class="<?php if (!empty($add_feature_ref_name)): ?> finish-shown <?php endif; ?> generic_photo_gallery_cont">
 	<div class="page_content_header">
 		<h2><?php echo __('Billing Status', true); ?></h2>
@@ -261,6 +225,7 @@
 
 
 
+<a name="finalize_changes" class="anchor_tag"></a>
 
 <div class='clear' id="line_item_cont">
 	<?php /*<?php if($overlord_account_info['is_pay_fail']): ?>

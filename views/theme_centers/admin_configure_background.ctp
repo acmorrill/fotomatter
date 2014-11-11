@@ -17,10 +17,8 @@
 	var contrast_cont;
 	var desaturation_cont;
 	var inverted_cont;
+	var theme_background_image;
 	function reload_size_change_background() {
-		show_modal('Processing Background Image', 0, function() {}, false);
-		
-		
 		var current_brightness = brightness_cont.slider('value');
 		var current_contrast = contrast_cont.slider('value');
 		var current_desaturation = desaturation_cont.slider('value');
@@ -72,7 +70,6 @@
 		// user has or has not uploaded a custom background image
 		var using_custom_background_image = <?php echo ($background_settings['use_theme_background'] == true) ? 'true' : 'false'; ?>;
 		
-		var theme_background_image = $("#theme_background_palette .theme_background_image");
 		jQuery.ajax({
 			type: 'post',
 			url: '/admin/theme_centers/ajax_create_merged_bg_and_save_bg_config/',
@@ -101,9 +98,6 @@
 			complete: function() {
 //				console.log ("complete");
 				d = new Date();
-				theme_background_image.load(function() {
-					remove_modal();
-				});
 				var start_src = theme_background_image.attr('start-src') + "?t="+d.getTime();
 				theme_background_image.attr("src", start_src);
 			},
@@ -122,11 +116,17 @@
 	}
 	
 	jQuery(document).ready(function() {
+		show_universal_load(true);
+	
 		brightness_cont = jQuery('#bg_brightness');
 		contrast_cont = jQuery('#bg_contrast');
 		desaturation_cont = jQuery('#bg_desaturation');
 		custom_overlays_cont = jQuery('#custom_overlay_transparency_container .slider_container');
 		inverted_cont = jQuery('#bg_inverted');
+		theme_background_image = jQuery("#theme_background_palette .theme_background_image");
+		theme_background_image.load(function() {
+			hide_universal_save();
+		});
 	
 		jQuery('#theme_background_palette .theme_background_image_cont').resizable({
 			aspectRatio: true,
@@ -136,7 +136,6 @@
 				var size = ui.size;
 				
 				var new_style = jQuery(this).attr('style');
-				//jQuery('#theme_background_palette .theme_background_image').css('width', size.width).css('height', size.height);
 				jQuery('#theme_background_palette .theme_background_image').attr('style', new_style);
 			}
 		}).draggable({
@@ -146,9 +145,7 @@
 			scroll: false,
 			drag: function(event, ui) {
 				var position = ui.position;
-				
 				jQuery('#theme_background_palette .theme_background_image').css('left', position.left).css('top', position.top);
-				//console.log (position);
 			}
 		});
 		
@@ -162,17 +159,17 @@
 				{
 					text: "<?php echo __('Use Selected', true); ?>",
 					click: function() {
-						show_modal('Processing Background Image', 0, function() {}, false);
-						jQuery('#choose_background_form').submit();
 						jQuery(this).dialog('close');
+						show_universal_save(true);
+						jQuery('#choose_background_form').submit();
 					}
 				},
 				{
 					text: "<?php echo __('Upload New', true); ?>",
 					click: function() {
-						show_modal('Processing Background Image', 0, function() {}, false);
-						jQuery('#hidden_background_file_chooser').click();
 						jQuery(this).dialog('close');
+						show_universal_save(true);
+						jQuery('#hidden_background_file_chooser').click();
 					}
 				}
 			],
@@ -250,9 +247,9 @@
 		
 		jQuery('#bg_inverted').button();
 		
-		
-		//reload_size_change_background(); // DREW TODO - turn this back on
+		reload_size_change_background();
 		jQuery('#save_custom_background_button').click(function() {
+			show_universal_save(true);
 			reload_size_change_background();
 		});
 	});
@@ -263,25 +260,6 @@
 	
 </script>
 
-
-<style type="text/css">
-	.cache_sample_image_cont {
-		width: 150px;
-		height: 80px;
-		display: inline-block;
-		vertical-align: middle;
-		text-align: center;
-		border: 1px solid black;
-		background: #333;
-		margin-left: 10px;
-		margin-bottom: 10px;
-		padding: 5px;
-	}
-	.cache_sample_image_cont img {
-		max-width: 100px;
-		max-height: 80px;
-	}
-</style>
 
 
 <?php if ($background_settings['theme_has_dynamic_background'] === true): ?>
@@ -314,13 +292,13 @@
 		<?php // DREW TODO - make the below div have the default bg color of the theme ?>
 		<div class="page_content_header">
 			<p>
-				Click and drag photo to set position.<br/>
-				Click and drag lower right corner to set size
+				<?php echo __('Click and drag photo to set position.', true); ?><br/>
+				<?php echo __('Click and drag lower right corner to set size', true); ?>
 			</p>
 		</div>
 		<div id="theme_background_palette_container">
 			<div class="fade_background_top"></div>
-			<div class="bg_effects_controls" style="margin-bottom: 40px;">
+			<div class="bg_effects_controls">
 				<div data-step="5" data-intro="<?php echo __('This setting will ajust the brightness of the background image.', true); ?>" data-position="bottom"  id="bg_brightness" class="slider_container">
 					<?php 
 						$sign = '';
@@ -330,7 +308,7 @@
 						}
 						$start_brightness_display = ($background_settings['current_brightness'] == 0 || $start_brightness == 0) ? __('Default', true) : $sign.$start_brightness . "%"; 
 					?>
-					<div class="slider_label"><label>Brightness</label> (<span><?php echo $start_brightness_display; ?></span>)</div>
+					<div class="slider_label"><label><?php echo __('Brightness', true); ?></label> (<span><?php echo $start_brightness_display; ?></span>)</div>
 				</div>
 
 				<div data-step="6" data-intro="<?php echo __('This setting will ajust the contrast of the background image.', true); ?>" data-position="bottom" id="bg_contrast" class="slider_container">
@@ -341,7 +319,7 @@
 						}
 						$start_contrast = ($background_settings['current_contrast'] == 0) ? __('Default', true) : $sign.$background_settings['current_contrast'] . "%"; 
 					?>
-					<div class="slider_label"><label>Contrast</label> (<span><?php echo $start_contrast; ?></span>)</div>
+					<div class="slider_label"><label><?php echo __('Contrast', true); ?></label> (<span><?php echo $start_contrast; ?></span>)</div>
 
 				</div>
 
@@ -352,7 +330,7 @@
 					<div class="slider_label"><label><?php echo __('Saturation', true); ?></label> (<span><?php echo $start_desaturation; ?></span>)</div>
 				</div>
 
-				<div data-step="8" data-intro="<?php echo __('This setting allows for the image to be inverted horizontally.', true); ?>" data-position="bottom" id="bg_inverted_container" class="slider_container custom_ui">
+				<div data-step="8" data-intro="<?php echo __('This setting allows for the image to be inverted horizontally.', true); ?>" data-position="bottom" id="bg_inverted_container" class="slider_container with_button custom_ui">
 					<div class="slider_label"><label><?php echo __('Flip Image Horizontally', true); ?></label></div>
 					<input type="checkbox" id="bg_inverted" <?php if ($background_settings['current_inverted'] == 1): ?>checked="checked"<?php endif; ?> />
 					<label class="add_button" for="bg_inverted"><div class="content"><?php echo __('Inverted', true); ?></div></label>
@@ -375,16 +353,14 @@
 				<?php endif; ?>
 			</div>
 			
-			
+			<div class="save_custom_background_button">
+				<div id="save_custom_background_button" class="save_button"><div class="content"><?php echo __('Save Background Changes', true); ?></div></div>
+			</div>
 			<div data-step="3" data-intro="<?php echo __('Click and drag the image to set postion.', true); ?>" data-position="left" id="theme_background_palette" style="width: <?php echo $background_settings['max_palette_width']; ?>px; height: <?php echo $background_settings['max_palette_height']; ?>px;">
-				<?php
-					//list($start_left, $start_top, $start_width, $start_height) = $this->Theme->get_theme_dynamic_background_starting_position();
-				?>
-				<img class="theme_background_image" start-src="<?php echo $background_settings['bg_edit_path']; ?>" src="<?php echo $background_settings['bg_edit_path']; ?><?php echo $background_settings['image_cache_ending']; ?>" style="display: inline-block; position: absolute; left: <?php echo $background_settings['start_left']; ?>px; top: <?php echo $background_settings['start_top']; ?>px; width: <?php echo $background_settings['start_width']; ?>px; height: <?php echo $background_settings['start_height']; ?>px;" />
+				<img class="theme_background_image" start-src="<?php echo $background_settings['bg_edit_path']; ?>" src="<?php echo $background_settings['bg_edit_path']; ?><?php echo $background_settings['image_cache_ending']; ?>" style="left: <?php echo $background_settings['start_left']; ?>px; top: <?php echo $background_settings['start_top']; ?>px; width: <?php echo $background_settings['start_width']; ?>px; height: <?php echo $background_settings['start_height']; ?>px;" />
 				<img class="theme_overlay_image" src="<?php echo $background_settings['overlay_web_path']; ?><?php echo $background_settings['image_cache_ending']; ?>" style="display: inline-block; position: absolute; left: <?php echo $background_settings['palette_start_left']; ?>px; top: <?php echo $background_settings['palette_start_top']; ?>px; width: <?php echo $background_settings['palette_background_width']; ?>px; height: <?php echo $background_settings['palette_background_height']; ?>px;" />
 				<div data-step="4" data-intro="<?php echo __('Click and drag the image corners to set size.', true); ?>" data-position="right"  class="theme_background_image_cont" style="left: <?php echo $background_settings['start_left']; ?>px; top: <?php echo $background_settings['start_top']; ?>px; width: <?php echo $background_settings['start_width']; ?>px; height: <?php echo $background_settings['start_height']; ?>px;"></div>
 			</div>
-			<div data-step="9" data-intro="<?php echo __('Once everything looks pretty, save your work. BA-BOOM! Go check it out.', true); ?>" data-position="top" id="save_custom_background_button" class="save_button"><div class="content"><?php echo __('Save', true); ?></div></div>
 		</div>
 	
 		<br /><br /><br /><br /><br /><br /><br /><br />
@@ -404,7 +380,7 @@
 			</div>
 		</div> */ ?>
 	<?php else: ?>
-		<h1><?php __('The current theme does not have a dynamic background.'); ?></h1>
+		<h1><?php echo __('The current theme does not have a dynamic background.', true); ?></h1>
 	<?php endif; ?>
 </div>
 <div class='show_on_mobile'>

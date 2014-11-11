@@ -18,10 +18,15 @@
 		overflow: hidden; position: relative;
 		outline: 1px solid @top_white;
 		margin-top: 20px;
+		margin-bottom: 100px;
 		.theme_background_image_cont {
 			cursor: move; display: inline-block; position: absolute;
 			outline: 1px solid @top_white_half;
 			z-index: @content;
+		}
+		.theme_background_image {
+			display: inline-block;
+			position: absolute;
 		}
 	}
 	.ui-resizable-handle { width: 37px; height: 37px; }
@@ -34,6 +39,13 @@
 	
 }
 
+.save_custom_background_button{
+	text-align: center;
+	#save_custom_background_button {
+		display: inline-block;
+	}
+}
+
 #upload_background_button {
 	margin-bottom: 40px;
 }
@@ -43,7 +55,7 @@
 	//width: 700px;
 }
 .slider_container {
-	margin-top: 32px;
+	margin-top: 47px;
 	margin-bottom: 30px;
 	margin-right: 20px;
 	margin-left: 20px;
@@ -54,12 +66,36 @@
 	.slider_label {
 		display: block;
 		position: absolute;
-		top: -32px;
+		top: -45px;
 		.Code-Pro-LC;
 		font-size: 24px;
 		&, label {
 			color: @gray_text;
 		}
+	}
+	&.with_button {
+		margin-top: 39px;
+		margin-bottom: 5px;
+		.slider_label {
+			top: -36px;
+		}
+	}
+}
+
+.cache_sample_image_cont {
+	width: 150px;
+	height: 80px;
+	display: inline-block;
+	vertical-align: middle;
+	text-align: center;
+	border: 1px solid black;
+	background: #333;
+	margin-left: 10px;
+	margin-bottom: 10px;
+	padding: 5px;
+	img {
+		max-width: 100px;
+		max-height: 80px;
 	}
 }
 
