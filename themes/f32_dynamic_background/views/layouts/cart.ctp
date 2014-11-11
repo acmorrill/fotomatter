@@ -18,7 +18,7 @@
         </div>
         <div class="content">
                 <div class="inner_content <?php echo $accent_colors; ?>">
-                    <h1><?php __('Shopping Cart'); ?></h1>
+                    <h1><?php echo __('Shopping Cart',true); ?></h1>
                     <?php echo $content_for_layout; ?>
                 </div>
             <div class="footer">

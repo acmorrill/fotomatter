@@ -30,7 +30,7 @@
                     </div>
                     <?php if (!empty($curr_photo['Photo']['description'])): ?>
                         <div class="photo_description">
-                            <h1 class="<?php echo $accent_colors; ?>"><strong><?php __('Photo Description'); ?></strong></h1>
+                            <h1 class="<?php echo $accent_colors; ?>"><strong><?php echo __('Photo Description',true); ?></strong></h1>
                             <ul>                      
                                 <li><span class="text_change"><?php echo $curr_photo['Photo']['description']; ?></span></li>
                             </ul>
@@ -44,7 +44,7 @@
                     <?php $photo_sellable_prints = $this->Photo->get_enabled_photo_sellable_prints($photo_id); ?>
                     <?php if (!empty($photo_sellable_prints)): ?>
                         <ul class="dark_background separator">
-                            <li class="small_text_header"><strong><?php __('Add to cart'); ?></strong></li>
+                            <li class="small_text_header"><strong><?php echo __('Add to cart',true); ?></strong></li>
                             <li class="cart_ajustment <?php echo $accent_colors; ?>">
                                 <?php
                                 echo $this->Element('cart_checkout/image_add_to_cart_form_simple', array(
@@ -56,7 +56,7 @@
                         </ul>
                     <?php endif; ?>
                     <ul class="dark_background separator">
-                        <li class="small_text_header"><strong><?php __('Galleries'); ?></strong></li>
+                        <li class="small_text_header"><strong><?php echo __('Galleries',true); ?></strong></li>
                         <?php $galleries = $this->Gallery->get_all_galleries(); ?>
                         <?php foreach ($galleries as $the_curr_gallery): ?>
                             <li class="list_item <?php echo $accent_colors; ?>">

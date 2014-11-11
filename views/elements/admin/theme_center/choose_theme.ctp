@@ -66,12 +66,12 @@ $all_themes = $this->Theme->get_all_available_themes();
 													</form>
 													<div class="usable_form" action="<?php echo $this->here; ?>" method="post">
 														<div class="button_switch_theme add_button" data-current-theme-id="<?php echo $curr_theme['Theme']['id']; ?>">
-															<div class="content"><?php __('Select'); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div>
+															<div class="content"><?php echo __('Select',true); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div>
 														</div>
 													</div>
 												<?php else: ?>
 													<div class="button_current_theme add_button" data-step="2" data-intro="<?php echo __('Under the current theme the button will stay current.', true); ?>" data-position="bottom">
-														<div type="submit" value="" ><div class="content"><?php __('Current'); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div></div>
+														<div type="submit" value="" ><div class="content"><?php echo __('Current',true); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div></div>
 													</div>
 												<?php endif; ?>
 											</td>

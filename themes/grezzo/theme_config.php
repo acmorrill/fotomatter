@@ -1,5 +1,7 @@
 <?php
 
+// config for theme: grezzo
+
 $theme_config = array(
 	'theme_controller_action_layouts'=>array(
 		'SitePages'=>array(
@@ -68,10 +70,14 @@ $theme_config = array(
 		
 		'theme_avail_custom_settings' => array(
 			'settings' => array(
+				'landing_page_settings_group' => array(
+                    'type' => 'group_name',
+                    'display_name' => 'Global theme settings',
+                ),
 				'background_color' => array(
 					'type' => 'dropdown',
 					'display_name' => 'Background Color',
-					'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unch",
+					'description' => "Select the background color of the theme.",
 					'help_message' => "Background color test",
 					'possible_values' => array(
 						'black' => array('display' => 'Black'),
@@ -85,7 +91,7 @@ $theme_config = array(
 				'header_is_full_width' => array(
 					'type' => 'on_off',
 					'display_name' => 'Header is Full Width',
-					'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unch",
+					'description' => "The menu and logo image will ether be the width of the full page or appear closer to the center of the page.",
 					'help_message' => 'On Off Test',
 					'possible_values' => array(
 						'on' => array( 'display' => 'On' ),
@@ -97,7 +103,7 @@ $theme_config = array(
 				'gallery_selection' => array(
 					'type' => 'gallery_chooser',
 					'display_name' => 'Choose a gallery',
-					'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has surviv",
+					'description' => "Select the galley that will display on the home page.",
 					'help_message' => "Choose a gallery test",
 					'possible_values' => array(
 						
@@ -110,6 +116,3 @@ $theme_config = array(
 	)
 );
 ?>
-<!-- <div class="blah /*<ph if ($settings['header_is_full_width'] == 'on'): ?>full_width<?ph endif; ?>">
-	
-</div>-->

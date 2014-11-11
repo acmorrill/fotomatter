@@ -48,7 +48,7 @@
 		<!--DREW TODO  make the below div cover the entire content-->
 		<div id="entire_slider_hider"></div>
 	<?php else: ?>
-		<h4 style="font-weight: bold; font-style: italic; margin: 10px;"><?php __('This gallery does not have any images yet'); ?></h4><?php // DREW TODO - make this section look good ?>
+		<h4 style="font-weight: bold; font-style: italic; margin: 10px;"><?php echo __('This gallery does not have any images yet',true); ?></h4><?php // DREW TODO - make this section look good ?>
 	<?php endif; ?>
 		
 	<div class="container">

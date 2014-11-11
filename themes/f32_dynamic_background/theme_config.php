@@ -227,26 +227,26 @@ $theme_config = array(
                     ),
                     'default_value' => '8',
                 ),
-                'setting_zero' => array(
-                    'type' => 'group_name',
-                    'display_name' => 'Group 1',
-                ),
-                'setting_seven' => array(
-                    'type' => 'text_input',
-                    'display_name' => 'Text Input Test',
-                    'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unch",
-                    'help_message' => 'Text Input Test',
-                    'possible_values' => ".*\\\S+.*", // can be regex
-                    'default_value' => 'default',
-                ),
                 'welcome_paragraph' => array(
                     'type' => 'textarea',
-                    'display_name' => 'Text Area Test',
+                    'display_name' => 'Welcome paragraph',
                     'description' => "Leave this blank if you do not wish to have a welcome paragraph. The space allows for 370 characters ",
                     'help_message' => 'Text Area Test',
                     'possible_values' => '.*\\\S+.*', // can be regex
                     'default_value' => 'Welcome to my online gallery!',
                 ),
+                'setting_zero' => array(
+                    'type' => 'group_name',
+                    'display_name' => 'Gobal theme settings',
+                ),
+//                'setting_seven' => array(
+//                    'type' => 'text_input',
+//                    'display_name' => 'Text Input Test',
+//                    'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unch",
+//                    'help_message' => 'Text Input Test',
+//                    'possible_values' => ".*\\\S+.*", // can be regex
+//                    'default_value' => 'default',
+//                ),
                 'accent_colors' => array(
                     'type' => 'color_radio_flexible',
                     'display_name' => 'Accent colors',

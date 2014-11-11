@@ -568,6 +568,24 @@ h1.no_line {
   margin-bottom: 20px;
   border: 1px dotted #666666;
 }
+#login_container {
+  margin-top: 30px;
+  outline: 1px solid black;
+  padding: 20px;
+}
+#login_container label {
+  display: inline-block;
+  vertical-align: top;
+  width: 100px;
+  text-align: right;
+  margin-right: 10px;
+}
+#login_container .input {
+  margin-bottom: 10px;
+}
+#login_container .submit {
+  padding-left: 114px;
+}
 .background_photo {
   text-align: left;
 }

@@ -63,10 +63,10 @@ $theme_config = array(
 		'logo_config' => array(
 			'available_space' => array(
 				'width' => 400,
-				'height' => 200 
+				'height' => 200
 			),
 			'available_space_screenshot' => array(
-				'absolute_path' => 	PATH_TO_THEMES.DS.'large_image_gray_bar_licky/webroot/img/kent_test_theme_logo_space.jpg', // this image should be max 735 pixels width
+				'absolute_path' => PATH_TO_THEMES . DS . 'large_image_gray_bar_licky/webroot/img/kent_test_theme_logo_space.jpg', // this image should be max 735 pixels width
 				'web_path' => '/img/kent_test_theme_logo_space.jpg',
 				'padding' => array(
 					'left' => 0,
@@ -83,7 +83,7 @@ $theme_config = array(
 		'theme_background_config' => array(
 			'theme_has_dynamic_background' => true,
 			'overlay_image' => array(
-				'absolute_path' => 	PATH_TO_THEMES.DS.'large_image_gray_bar_licky/webroot/img/kent_test_logo.png', // this image should be max 1390 x 953 (DREW TODO - not sure about this)
+				'absolute_path' => PATH_TO_THEMES . DS . 'large_image_gray_bar_licky/webroot/img/kent_test_logo.png', // this image should be max 1390 x 953 (DREW TODO - not sure about this)
 				'web_path' => '/img/kent_test_logo.png',
 				'custom_overlay_transparency_fade' => array(
 					'header' => array(
@@ -111,7 +111,7 @@ $theme_config = array(
 				),
 			),
 			'default_bg_image' => array(
-				'absolute_path' => 	PATH_TO_THEMES.DS.'andrewmorrill/webroot/Passing-Rain.jpg', // max 1600 width and max 1200 height
+				'absolute_path' => PATH_TO_THEMES . DS . 'andrewmorrill/webroot/Passing-Rain.jpg', // max 1600 width and max 1200 height
 				'web_path' => '/Passing-Rain.jpg'
 			)
 		),
@@ -133,13 +133,13 @@ $theme_config = array(
 					'description' => "The amount of time each image is shown.",
 					'help_message' => 'Drop Down Test',
 					'possible_values' => array(
-						'1000' => array( 'display' => '1 second' ),
-						'2000' => array( 'display' => '2 seconds' ),
-						'4000' => array( 'display' => '4 seconds' ),
-						'8000' => array( 'display' => '8 seconds' ),
-						'12000' => array( 'display' => '12 seconds' ),
-						'16000' => array( 'display' => '16 seconds' ),
-						'20000' => array( 'display' => '20 seconds' ),
+						'1000' => array('display' => '1 second'),
+						'2000' => array('display' => '2 seconds'),
+						'4000' => array('display' => '4 seconds'),
+						'8000' => array('display' => '8 seconds'),
+						'12000' => array('display' => '12 seconds'),
+						'16000' => array('display' => '16 seconds'),
+						'20000' => array('display' => '20 seconds'),
 					),
 					'default_value' => '8000',
 				),
@@ -149,13 +149,13 @@ $theme_config = array(
 					'description' => "The amount of time it takes to transition to the next image.",
 					'help_message' => 'Drop Down Test',
 					'possible_values' => array(
-						'333' => array( 'display' => '1/3 second' ),
-						'500' => array( 'display' => '1/2 second' ),
-						'1000' => array( 'display' => '1 second' ),
-						'2000' => array( 'display' => '2 seconds' ),
-						'3000' => array( 'display' => '3 seconds' ),
-						'4000' => array( 'display' => '4 seconds' ),
-						'5000' => array( 'display' => '5 seconds' ),
+						'333' => array('display' => '1/3 second'),
+						'500' => array('display' => '1/2 second'),
+						'1000' => array('display' => '1 second'),
+						'2000' => array('display' => '2 seconds'),
+						'3000' => array('display' => '3 seconds'),
+						'4000' => array('display' => '4 seconds'),
+						'5000' => array('display' => '5 seconds'),
 					),
 					'default_value' => '2000',
 				),
@@ -170,54 +170,48 @@ $theme_config = array(
 					),
 					'default_value' => '8',
 				),
-				
 				'landing_page_transition_type' => array(
 					'type' => 'dropdown',
 					'display_name' => 'Slide show transition  type',
 					'description' => "Transition type. (fade, slide top, slide right and so on).",
 					'help_message' => 'Numeric Dropdown Test',
-					'possible_values' => array(					
-						'1' => array( 'display' => 'Fade' ),
-						'2' => array( 'display' => 'Slide in from top' ),
-						'3' => array( 'display' => 'Slide in from right' ),
-						'4' => array( 'display' => 'Slide in from bottom' ),
-						'5' => array( 'display' => 'Slide in from left' ),
-						'6' => array( 'display' => 'Carousel from right to left' ),
-						'7' => array( 'display' => 'Carousel from left to right' ),
+					'possible_values' => array(
+						'1' => array('display' => 'Fade'),
+						'2' => array('display' => 'Slide in from top'),
+						'3' => array('display' => 'Slide in from right'),
+						'4' => array('display' => 'Slide in from bottom'),
+						'5' => array('display' => 'Slide in from left'),
+						'6' => array('display' => 'Carousel from right to left'),
+						'7' => array('display' => 'Carousel from left to right'),
 					),
 					'default_value' => 'Fade',
 				),
-				
 				'random' => array(
 					'type' => 'on_off',
 					'display_name' => 'Random Slides',
 					'description' => "Images will appear in random order.",
 					'help_message' => 'On Off Test',
 					'possible_values' => array(
-						'true' => array( 'display' => 'On' ),
-						'false' => array( 'display' => 'Off' ),
+						'true' => array('display' => 'On'),
+						'false' => array('display' => 'Off'),
 					),
 					'default_value' => 'false',
-				),				
-				
+				),
 				'setting_zero' => array(
 					'type' => 'group_name',
-					'display_name' => 'All page settings',
+					'display_name' => 'Global theme settings ',
 				),
-				
 				'image_cropping' => array(
 					'type' => 'on_off',
 					'display_name' => 'Image cropping',
 					'description' => "Allows for the image to be cropped and placed on a back background or the image can be fitted to the space allowed.",
 					'help_message' => 'On Off Test',
 					'possible_values' => array(
-						'true' => array( 'display' => 'On' ),
-						'false' => array( 'display' => 'Off' ),
+						'true' => array('display' => 'On'),
+						'false' => array('display' => 'Off'),
 					),
 					'default_value' => 'false',
 				),
-				
-
 //				'accent_colors_across_liky_theme' => array(
 //					'type' => 'dropdown',
 //					'display_name' => 'Accent colors',
@@ -244,84 +238,7 @@ $theme_config = array(
 					),
 					'default_value' => 'red',
 				),
-				'setting_twopoint5' => array(
-					'type' => 'group_name',
-					'display_name' => 'Group 2',
-				),
-				'setting_four' => array(
-					'type' => 'numeric_dropdown',
-					'display_name' => 'Numeric Dropdown Test',
-					'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unch",
-					'help_message' => 'Numeric Dropdown Test',
-					'possible_values' => array(
-						'min' => 20,
-						'max' => 100,
-					),
-					'default_value' => '45',
-				),
-				'setting_five' => array(
-					'type' => 'radio',
-					'display_name' => 'Radio Test',
-					'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unch",
-					'help_message' => 'Radio Test',
-					'possible_values' => array(
-						'option1' => array( 'display' => 'Option 1' ),
-						'option2' => array( 'display' => 'Option 2' ),
-						'option3' => array( 'display' => 'Option 3' ),
-						'option4' => array( 'display' => 'Option 4' ),
-					),
-					'default_value' => 'option3',
-				),
-				'setting_six' => array(
-					'type' => 'color_radio',
-					'display_name' => 'Color Radio Test',
-					'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unch",
-					'help_message' => 'Color Radio Test',
-					'possible_values' => array(
-						'#53B97D',
-						'#FFF400',
-						'#FF9F00',
-						'#B7001C',
-						'#B70086',
-					),
-					'default_value' => '#B7001C',
-				),
-				'setting_fivepoint5' => array(
-					'type' => 'group_name',
-					'display_name' => 'Group 3',
-				),
-				'setting_seven' => array(
-					'type' => 'checkboxes',
-					'display_name' => 'Checkboxes Test',
-					'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unch",
-					'help_message' => 'Checkboxes Test',
-					'possible_values' => array(
-						'option1' => array( 'display' => 'Option 1' ),
-						'option2' => array( 'display' => 'Option 2' ),
-						'option3' => array( 'display' => 'Option 3' ),
-						'option4' => array( 'display' => 'Option 4' ),
-						'option5' => array( 'display' => 'Option 5' ),
-					),
-					'default_value' => 'option5|option4|option2',
-				),
-				'setting_eight' => array(
-					'type' => 'text_input',
-					'display_name' => 'Text Input Test',
-					'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unch",
-					'help_message' => 'Text Input Test',
-					'possible_values' => ".*\\\S+.*", // can be regex
-					'default_value' => 'default',
-				),
-				'setting_nine' => array(
-					'type' => 'textarea',
-					'display_name' => 'Text Area Test',
-					'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unch",
-					'help_message' => 'Text Area Test',
-					'possible_values' => '.*\\\S+.*', // can be regex
-					'default_value' => 'default',
-				),
 			)
 		)
 	)
-	
 );

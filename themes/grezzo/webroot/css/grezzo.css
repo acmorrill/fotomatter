@@ -302,7 +302,7 @@ body.pink #shipping_address_summary h1 {
 #page_content #image_info_container .image_info .side_control_options button {
   display: block;
   position: relative;
-  margin: 5px 2px;
+  margin: 12px 2px;
   width: 160px;
   cursor: pointer;
   padding: 10px 20px;

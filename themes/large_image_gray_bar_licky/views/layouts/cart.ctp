@@ -20,17 +20,17 @@
             <div class="gallerywrapper">
                 <div class="bottom_margin"> 
                     <div class="background_photo <?php echo $accent_colors; ?>">
-                        <h1 class="<?php echo $accent_colors; ?>"><?php __('Shopping Cart'); ?></h1>
+                        <h1 class="<?php echo $accent_colors; ?>"><?php echo __('Shopping Cart',true); ?></h1>
                         <?php echo $content_for_layout; ?>
                     </div>
                 </div>	 
                 <div class="clear"></div>
                 <div class="sidebar">
                     <ul class="dark_background" >
-                        <li><strong><?php __('Shop'); ?></strong></li>
+                        <li><strong><?php echo __('Shop',true); ?></strong></li>
                     </ul>
                     <ul class="dark_background separator">
-                        <li class="small_text_header"><strong><?php __('Galleries'); ?></strong></li>
+                        <li class="small_text_header"><strong><?php echo __('Galleries',true); ?></strong></li>
                         <?php $galleries = $this->Gallery->get_all_galleries(); ?>
                         <?php foreach ($galleries as $the_curr_gallery): ?>
                             <li class="list_item <?php echo $accent_colors; ?>">
