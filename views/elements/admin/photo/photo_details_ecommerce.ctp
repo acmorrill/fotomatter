@@ -117,6 +117,16 @@
 		</thead>
 		<tbody>
 			<tr class="spacer"><td colspan="6"></td></tr>
+			<?php if (empty($photo_sellable_prints)): ?>
+				<tr>
+					<td colspan="6" class="custom_ui" style="text-align: center;">
+						<div class="add_button highlight add_feature_button" type="submit" ref_feature_name="basic_shopping_cart" style="margin-top: 10px;">
+							<div class="content" style="font-size: 18px;"><?php echo __('Add Ecommerce', true); ?></div>
+							<div class="right_arrow_lines icon-arrow-01"><div></div></div>
+						</div>
+					</td>
+				</tr>
+			<?php endif; ?>
 			<?php $count = 0; foreach ($photo_sellable_prints as $photo_sellable_print): ?>
 				<?php 
 					$override_for_photo = $photo_sellable_print['CurrentPrintData']['override_for_photo'];

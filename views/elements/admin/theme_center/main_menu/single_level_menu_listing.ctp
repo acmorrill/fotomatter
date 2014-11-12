@@ -130,7 +130,6 @@
 							url: '/admin/site_menus/add_one_level_menu_item/PhotoGallery/'+photo_gallery_id+'/',
 							data: {},
 							success: function(data) {
-
 								if (data.code == 1) {
 									var new_menu_item = jQuery(data.new_menu_item_html);
 									setup_one_level_menu_item_delete(new_menu_item);
@@ -187,7 +186,7 @@
 					<?php endif; ?>
 					<?php if (empty($current_on_off_features['page_builder'])): ?>
 						<div style="margin-left: 10px;" id="add_feature_button" class="add_button highlight add_feature_button" type="submit" ref_feature_name="page_builder">
-							<div class="content"><?php echo __("Add Page Builder"); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div>
+							<div class="content"><?php echo __("Add Page Builder", true); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div>
 						</div>
 					<?php endif; ?>
 				</div>

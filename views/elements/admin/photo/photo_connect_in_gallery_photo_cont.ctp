@@ -22,7 +22,7 @@ $class = $icon_sizes['class'];
 		<div class="tr">
 			<div class="td">
 				<div class="image_content_cont">
-					<img src="<?php if (!isset($hide_data)) echo $this->Photo->get_photo_path($the_photo['Photo']['id'], $height, $width); ?>" alt="<?php echo __('click to remove', true); ?>" />
+					<img src="<?php if (!isset($hide_data)) echo $this->Photo->get_photo_path($the_photo['Photo']['id'], $height, $width); ?>" />
 				</div>
 			</div>
 		</div>

@@ -382,6 +382,7 @@ table {
   font-variant: normal;
   text-transform: none;
   line-height: 1;
+  text-indent: 0px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -756,12 +757,9 @@ table.list > thead > tr .actions_call {
 table.list > tbody {
   position: relative;
 }
-table.list > tbody > tr {
-  outline: 1px solid #b7b6b4;
-}
 table.list > tbody > tr > td {
   position: relative;
-  border-top: 1px solid #000;
+  border-top: 1px solid #43484c;
   border-bottom: 1px solid transparent;
   text-align: left;
   vertical-align: middle;
@@ -793,7 +791,7 @@ table.list > tbody > tr > td.highlight a {
   color: #2ac0de;
 }
 table.list > tbody > tr > td.first {
-  border-left: 1px solid #000;
+  border-left: 1px solid #43484c;
 }
 table.list > tbody > tr > td.first > span {
   line-height: 30px;
@@ -805,7 +803,7 @@ table.list > tbody > tr > td.first > span i {
 }
 table.list > tbody > tr > td.last {
   padding-right: 10px;
-  border-right: 1px solid #000;
+  border-right: 1px solid #43484c;
 }
 table.list > tbody > tr > td.last .rightborder {
   display: none;
@@ -833,7 +831,7 @@ table.list > tbody > tr > td .rightborder {
   margin: 0px;
   position: absolute;
   right: 0px;
-  top: 39%;
+  top: 30px;
 }
 table.list > tbody > tr > td.table_actions {
   text-align: right;
@@ -867,6 +865,10 @@ table.list > tbody > tr > td.price_width input {
 table.list > tbody > tr > td.price_width > * {
   margin-left: 0px;
 }
+table.list > tbody > tr:last-child > td,
+table.list > tbody > tr.last > td {
+  border-bottom: 1px solid #43484c;
+}
 table.list > tbody > tr:hover > td {
   border-top: 1px solid #ffffff;
   border-bottom: 1px solid #ffffff;
@@ -886,18 +888,17 @@ table.list > tbody > tr:hover > td.first {
 table.list > tbody > tr:hover > td.last {
   border-right: 1px solid #ffffff;
 }
+table.list > tbody > tr.spacer:hover,
 table.list > tbody > tr.spacer {
   border: none;
   background: none;
   outline: 0px;
 }
+table.list > tbody > tr.spacer:hover > td,
 table.list > tbody > tr.spacer > td {
   background: none;
   border: none;
   height: 40px;
-}
-table.list > tbody > tr.last {
-  border-bottom: 1px solid #000;
 }
 table.list > tbody > tr.new > td {
   background: none;
@@ -1103,7 +1104,13 @@ a {
 a:hover {
   text-decoration: underline;
 }
-* {
+a,
+input,
+textarea,
+button,
+span,
+select,
+p {
   outline: 0px;
 }
 .generic_palette_container {
@@ -1211,12 +1218,16 @@ input {
   margin: 0px;
   border: 0px;
   height: 40px;
-  padding-left: 20px;
-  padding-right: 20px;
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
   -khtml-border-radius: 0px;
   border-radius: 0px;
+}
+select {
+  padding-left: 20px;
+}
+input {
+  text-indent: 20px;
 }
 input[type="submit"],
 input[type="image"] {
@@ -1521,7 +1532,7 @@ input[type="checkbox"] {
   padding-bottom: 45px;
 }
 .generic_inner_container .generic_dark_cont {
-  outline: 1px solid #b7b6b4;
+  outline: 1px solid #43484c;
   border: 1px solid #000;
   background-color: #262829;
   padding: 50px;
@@ -1736,6 +1747,7 @@ body .ui-dialog .ui-widget-header .ui-dialog-titlebar-close .ui-icon {
   font-variant: normal;
   text-transform: none;
   line-height: 1;
+  text-indent: 0px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 20px;
@@ -1769,7 +1781,7 @@ body .ui-dialog .ui-dialog-content {
   margin-left: 30px;
   margin-right: 30px;
   background: #262829;
-  outline: 1px solid #b7b6b4;
+  outline: 1px solid #43484c;
   border: 1px solid #000;
   padding: 30px;
 }
@@ -3817,8 +3829,8 @@ a.editable-empty :focus {
   margin-left: 20px;
 }
 #connect_gallery_photos_cont .page_content_header #not_in_gallery_icon_size.custom_ui .add_button {
-  min-width: initial;
-  min-height: initial;
+  min-width: 0px;
+  min-height: 0px;
   padding-left: 14px;
   padding-right: 14px;
 }

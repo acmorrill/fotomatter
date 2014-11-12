@@ -54,7 +54,7 @@ a {
 	&:hover { text-decoration: underline; }
 }
 
-* { outline: 0px; }
+a, input, textarea, button, span, select, p { outline: 0px; }
 
 /********************************************
  GENERIC PALETTE AND SETTINGS CSS
@@ -124,14 +124,16 @@ select, input {
 	margin: 0px;
 	border: 0px;
 	height: @button_height;
-	padding-left: 20px;
-	padding-right: 20px;
 	-moz-border-radius: 0px;
 	-webkit-border-radius: 0px;
 	-khtml-border-radius: 0px;
 	border-radius: 0px;
 }
+select {
+	padding-left: 20px;
+}
 input {
+	text-indent: 20px;
 	&[type="submit"], &[type="image"] {
 		-webkit-appearance: none;
 	}

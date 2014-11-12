@@ -141,7 +141,7 @@ table.list {
 					border-left: 20px solid transparent;
 				}
 				position: relative;
-				border-top: 1px solid @table_border;
+				border-top: 1px solid @table_and_button_outline;
 				&.highlight {
 					&, a {
 						color: @tab2_on_color;
@@ -149,7 +149,7 @@ table.list {
 				}
 				border-bottom: 1px solid transparent;
 				&.first { 
-					border-left: 1px solid @table_border;
+					border-left: 1px solid @table_and_button_outline;
 					> span {
 						line-height: 30px;
 						i {
@@ -161,7 +161,7 @@ table.list {
 				}
 				&.last { 
 					padding-right: 10px;
-					border-right: 1px solid @table_border; 
+					border-right: 1px solid @table_and_button_outline;
 					.rightborder { display: none; }
 				}
 				
@@ -182,7 +182,7 @@ table.list {
 					margin: 0px;
 					position: absolute;
 					right:0px;
-					top: 39%;
+					top: 30px;
 				}
 				&.table_actions{
 					text-align: right;
@@ -213,6 +213,11 @@ table.list {
 					> * { margin-left: 0px; }
 				}
 			}
+			&:last-child, &.last {
+				> td {
+					border-bottom: 1px solid @table_and_button_outline;
+				}
+			}
 			&:hover  { 
 				> td {
 					&, div { color: @top_white; }
@@ -226,18 +231,16 @@ table.list {
 				}
 			}
 			&.spacer { 
-				border: none;
-				background: none;
-				outline: 0px;
-				> td {
-					background: none;
+				&:hover, & {
 					border: none;
-					height: 40px;
+					background: none;
+					outline: 0px;
+					> td {
+						background: none;
+						border: none;
+						height: 40px;
+					}
 				}
-			}
-			outline: 1px solid @table_and_button_outline;
-			&.last { 
-				border-bottom: 1px solid @table_border;
 			}
 			&.new {
 				> td {

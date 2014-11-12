@@ -94,7 +94,7 @@
 						<div class="rightborder"></div>
 						<span><?php echo $photo_print_type['PhotoPrintType']['print_name']; ?></span>
 					</td>
-					<td class="table_actions">
+					<td class="table_actions last">
 						<span class="custom_ui">
 							<a href="/admin/ecommerces/add_print_type_and_pricing/<?php echo $photo_print_type['PhotoPrintType']['id']; ?>/"><div class="add_button"><div class="content"><?php echo __('Edit', true); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div></div></a>
 							<a class="delete_link" href="/admin/ecommerces/delete_print_type/<?php echo $photo_print_type['PhotoPrintType']['id']; ?>/"><div class="add_button icon icon_close"><div class="content icon-close-01"></div></div></a>

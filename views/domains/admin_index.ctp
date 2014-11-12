@@ -157,12 +157,12 @@
 				<tbody>
 					<tr class="spacer"><td colspan="4"></td></tr>
 					<tr  ng-show='domains.length == 0'>
-						<td colspan="4">
+						<td class="first last" colspan="4">
 							<h2 style="padding: 20px;"><?php echo __('We could not find any domains that matched your search, please try again.', true); ?></h2>
 						</td>
 					</tr>
 					<tr ng-repeat='(domain_name, domain) in domains'>
-						<td>
+						<td class="first">
 							<div class="rightborder"></div>
 							<span style='max-width: 400px; overflow: hidden;'>{{domain.name}}</span>
 						</td>
