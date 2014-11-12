@@ -25,7 +25,7 @@
 				<tr>
 					<td class="first">
 						<?php $cart_img_data = $this->Photo->get_photo_path($cart_data['photo_id'], 100, 100, .4, true); ?>
-						<img src="<?php echo $cart_img_data['url']; ?>" <?php echo $cart_img_data['tag_attributes']; ?> />
+						<img src="<?php echo $cart_img_data['url']; ?>" <?php echo $cart_img_data['tag_attributes']; ?> alt="" />
 					</td>
 					<td>
 						$<?php echo $cart_data['price']; ?> <?php // DREW TODO - make the money format better ?>

@@ -266,11 +266,11 @@
 	<div id="change_background_dialog">
 		<form id="choose_background_form" method="POST" action="/admin/theme_centers/set_use_theme_background/">
 			<div class="logo_choice_cont first">
-				<input type="radio" name="change_background_choice" value="theme_background" <?php if ($background_settings['use_theme_background'] == false): ?>checked="checked"<?php endif; ?> /><span class="cache_sample_image_cont"><img src="<?php echo $background_settings['default_bg_web_path']; ?><?php echo $background_settings['image_cache_ending']; ?>" /></span>
+				<input type="radio" name="change_background_choice" value="theme_background" <?php if ($background_settings['use_theme_background'] == false): ?>checked="checked"<?php endif; ?> /><span class="cache_sample_image_cont"><img src="<?php echo $background_settings['default_bg_web_path']; ?><?php echo $background_settings['image_cache_ending']; ?>" alt="" /></span>
 			</div>
 			<?php if ($this->Theme->has_uploaded_custom_background()): ?>
 				<div class="logo_choice_cont last">
-					<input type="radio" name="change_background_choice" value="custom_background" <?php if ($background_settings['use_theme_background'] == true): ?>checked="checked"<?php endif; ?> /><span class="cache_sample_image_cont"><img src="<?php echo UPLOADED_BACKGROUND_WEB_PATH; ?><?php echo $background_settings['image_cache_ending']; ?>" /></span>
+					<input type="radio" name="change_background_choice" value="custom_background" <?php if ($background_settings['use_theme_background'] == true): ?>checked="checked"<?php endif; ?> /><span class="cache_sample_image_cont"><img src="<?php echo UPLOADED_BACKGROUND_WEB_PATH; ?><?php echo $background_settings['image_cache_ending']; ?>" alt="" /></span>
 				</div>
 			<?php endif; ?>
 		</form>
@@ -357,28 +357,17 @@
 				<div id="save_custom_background_button" class="save_button"><div class="content"><?php echo __('Save Background Changes', true); ?></div></div>
 			</div>
 			<div data-step="3" data-intro="<?php echo __('Click and drag the image to set postion.', true); ?>" data-position="left" id="theme_background_palette" style="width: <?php echo $background_settings['max_palette_width']; ?>px; height: <?php echo $background_settings['max_palette_height']; ?>px;">
-				<img class="theme_background_image" start-src="<?php echo $background_settings['bg_edit_path']; ?>" src="<?php echo $background_settings['bg_edit_path']; ?><?php echo $background_settings['image_cache_ending']; ?>" style="left: <?php echo $background_settings['start_left']; ?>px; top: <?php echo $background_settings['start_top']; ?>px; width: <?php echo $background_settings['start_width']; ?>px; height: <?php echo $background_settings['start_height']; ?>px;" />
-				<img class="theme_overlay_image" src="<?php echo $background_settings['overlay_web_path']; ?><?php echo $background_settings['image_cache_ending']; ?>" style="display: inline-block; position: absolute; left: <?php echo $background_settings['palette_start_left']; ?>px; top: <?php echo $background_settings['palette_start_top']; ?>px; width: <?php echo $background_settings['palette_background_width']; ?>px; height: <?php echo $background_settings['palette_background_height']; ?>px;" />
+				<img class="theme_background_image" start-src="<?php echo $background_settings['bg_edit_path']; ?>" src="<?php echo $background_settings['bg_edit_path']; ?><?php echo $background_settings['image_cache_ending']; ?>" style="left: <?php echo $background_settings['start_left']; ?>px; top: <?php echo $background_settings['start_top']; ?>px; width: <?php echo $background_settings['start_width']; ?>px; height: <?php echo $background_settings['start_height']; ?>px;" alt="" />
+				<img class="theme_overlay_image" src="<?php echo $background_settings['overlay_web_path']; ?><?php echo $background_settings['image_cache_ending']; ?>" style="display: inline-block; position: absolute; left: <?php echo $background_settings['palette_start_left']; ?>px; top: <?php echo $background_settings['palette_start_top']; ?>px; width: <?php echo $background_settings['palette_background_width']; ?>px; height: <?php echo $background_settings['palette_background_height']; ?>px;" alt="" />
 				<div data-step="4" data-intro="<?php echo __('Click and drag the image corners to set size.', true); ?>" data-position="right"  class="theme_background_image_cont" style="left: <?php echo $background_settings['start_left']; ?>px; top: <?php echo $background_settings['start_top']; ?>px; width: <?php echo $background_settings['start_width']; ?>px; height: <?php echo $background_settings['start_height']; ?>px;"></div>
 			</div>
 		</div>
 	
 		<br /><br /><br /><br /><br /><br /><br /><br />
 		
-	<?php // DREW TODO - put a note on this page that to see the background image change the user must hard refresh the browser (or use a no cache header for that image) ?>
+	<?php // DREW TODO - put a note on this page that to see the background image change on the frontend the user must hard refresh the browser (or use a no cache header for that image) ?>
 	
 	
-		
-	
-	
-		<?php /*<div class="theme_bg_context_image_cont">
-			<div class="theme_bg_context_bg_darken"></div>
-			<div class="theme_bg_size_change_palette">
-				<div id="theme_bg_size_change_palette">
-					<img class="theme_bg_size_image"/>
-				</div>
-			</div>
-		</div> */ ?>
 	<?php else: ?>
 		<h1><?php echo __('The current theme does not have a dynamic background.', true); ?></h1>
 	<?php endif; ?>

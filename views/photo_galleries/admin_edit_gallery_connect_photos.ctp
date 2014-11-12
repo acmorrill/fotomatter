@@ -510,7 +510,7 @@ $(function() {
 		<div class="in_gallery_main_cont">
 			<div class="image_container_header">
 				<h2><?php echo __('Photos in Gallery', true); ?></h2>
-				<div class="actions"><img id="remove_all_gallery_photos" src="/img/admin/icons/grey_delete_all_icon.png" /></div>
+				<div class="actions"><img id="remove_all_gallery_photos" src="/img/admin/icons/grey_delete_all_icon.png" alt="" /></div>
 				<div style="clear: both;"></div>
 			</div>
 			
@@ -522,7 +522,7 @@ $(function() {
 		<div class="not_in_gallery_main_cont">
 			<div class="image_container_header">
 				<h2><?php echo __('Website Photos', true); ?></h2>
-				<div class="actions" style="float: right;"><img id="refresh_not_in_gallery_photos_button" src="/img/admin/icons/grey_refresh.png" /></div>
+				<div class="actions" style="float: right;"><img id="refresh_not_in_gallery_photos_button" src="/img/admin/icons/grey_refresh.png" alt="" /></div>
 				<div id="sort_photo_radio"><?php /*
 					*/ ?><input type="radio" id="radio1" name="sort_photo_radio" order="modified" sort_dir="desc" <?php if ($order == 'modified' && $sort_dir == 'desc'): ?>checked="checked"<?php endif; ?> /><?php /*
 					*/ ?><label class='add_button' for="radio1"><div class='content'><?php echo __('Newest', true); ?></div></label><?php /*

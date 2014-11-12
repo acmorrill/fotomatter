@@ -76,7 +76,7 @@
 <div id="landing_slide_show_container">
 	<?php foreach ($slide_show_photo_ids as $slide_show_photo_id): ?>
 		<?php $img_src = $this->Photo->get_photo_path($slide_show_photo_id, 453, 556, .4, true, true); ?>
-		<img class="slide_show_image" src="<?php echo $img_src['url']; ?>" <?php echo $img_src['tag_attributes']; ?> />
+		<img class="slide_show_image" src="<?php echo $img_src['url']; ?>" <?php echo $img_src['tag_attributes']; ?> alt="" />
 	
 	<?php endforeach; ?>
 </div>

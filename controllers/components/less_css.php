@@ -20,7 +20,6 @@ class LessCssComponent extends Object {
 		
 		///////////////////////////////////////////
 		// recompile theme css
-		// DREW TODO - turn this back on
 		$top_level_themes_dir = scandir(PATH_TO_THEMES);
 		foreach ($top_level_themes_dir as $curr_top_level_dir) {
 			if ($curr_top_level_dir == '.' || $curr_top_level_dir == '..') {

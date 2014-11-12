@@ -37,7 +37,7 @@
 
 <div id="container">
  
-    <div class="name"> <img src="/img/myname.jpg" alt="charles cramer" width="314" height="51"  /></div>
+    <div class="name"> <img src="/img/myname.jpg" alt="" width="314" height="51"  /></div>
   <div id="navbar"><ul id="qm0" class="qmmc">
 
 	<li><a class="qmparent" href="index.html">HOME</a>

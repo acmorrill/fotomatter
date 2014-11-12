@@ -1110,8 +1110,12 @@ textarea,
 button,
 span,
 select,
-p {
+p,
+img {
   outline: 0px;
+}
+img:-moz-loading {
+  visibility: hidden;
 }
 .generic_palette_container {
   background: url(/img/admin/general/box_transparent_bg_bottom.png) bottom left repeat-x;
@@ -1532,7 +1536,9 @@ input[type="checkbox"] {
   padding-bottom: 45px;
 }
 .generic_inner_container .generic_dark_cont {
-  outline: 1px solid #43484c;
+  -moz-box-shadow: 0px 0px 1px 1px #43484c;
+  -webkit-box-shadow: 0px 0px 1px 1px #43484c;
+  box-shadow: 0px 0px 1px 1px #43484c;
   border: 1px solid #000;
   background-color: #262829;
   padding: 50px;
@@ -2359,7 +2365,7 @@ body {
   background: #f4f9f5;
   border: 1px solid #000;
   margin-bottom: -1px;
-  height: 65px;
+  height: 60px;
 }
 #extra_buttons > li > ul > li .subnav_bg {
   position: absolute;
@@ -2451,7 +2457,7 @@ body {
   -moz-opacity: 1;
   -khtml-opacity: 1;
   opacity: 1;
-  height: 65px;
+  height: 60px;
   border: 1px solid #32373b;
 }
 #extra_buttons > li > ul > li .subnav_bg {
@@ -2475,11 +2481,11 @@ body {
 #extra_buttons > li > ul > li table tr td p {
   color: #333333;
 }
-#extra_buttons > li > ul > li > a div {
-  height: 65px;
+#extra_buttons > li > ul > li > table tbody tr td > a div {
+  height: 60px;
 }
-#extra_buttons > li > ul > li > a div > p {
-  height: 65px;
+#extra_buttons > li > ul > li > table tbody tr td > a div > p {
+  height: 60px;
 }
 #extra_buttons > li.active a i,
 #extra_buttons > li.open a i,
@@ -3030,6 +3036,9 @@ body {
   opacity: .7;
   border: 3px solid #181818;
 }
+#theme_chooser_container .theme_item_container .theme_item_outer_container .theme_item_inner_container .screenshot_container .screenshot_inner_container > a {
+  display: inline-block;
+}
 #theme_chooser_container .theme_item_container .theme_item_outer_container .theme_item_inner_container .container_rectangular_box {
   background-color: #181818;
   background-color: rgba(30,30,31,0.36);
@@ -3380,9 +3389,6 @@ body {
   height: initial;
   min-height: 63px;
   padding: 0px;
-}
-#configure_page_cont .avail_page_elements_cont .page_content_header h2 {
-  padding-bottom: 0px;
 }
 #configure_page_cont .avail_page_elements_cont .generic_palette_container {
   padding: 0px;
@@ -4496,6 +4502,7 @@ table.list > tbody > tr.remove_pending td .cost {
 .sub_submenu_cont .sub_submenu_left_cont {
   border-bottom: 2px solid #7d888e;
   margin-bottom: 10px;
+  min-width: 600px;
 }
 .sub_submenu_cont .sub_submenu_left_cont .sub_menu_bottom_border {
   position: absolute;

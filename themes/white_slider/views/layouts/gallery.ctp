@@ -31,13 +31,13 @@
 	<?php if (count($photos) > 0): ?>
 <!--		<div class="endless_loading">Loading</div> maybe use this later-->
 		<div id="white_slider_listing_actual_container_loading"><?php echo nl2br(str_replace(' ', "\n", __('L O A D I N G', true))); ?></div>
-		<div id="white_slider_listing_actual_container"><img class="blank" src="/images/large_blank.png" width="1600" height="500" /><!--
+		<div id="white_slider_listing_actual_container"><img class="blank" src="/images/large_blank.png" width="1600" height="500" alt="" /><!--
 			--><?php echo $this->Element('gallery/gallery_image_lists/simple_list', array(
 				'photos' => $photos,
 				'height' => '500',
 				'width' => '2000',
 				'sharpness' => '.4'
-			)); ?><img class="blank" src="/images/large_blank.png" width="1600" height="500" /></div>
+			)); ?><img class="blank" src="/images/large_blank.png" width="1600" height="500" alt="" /></div>
 		<div id="white_slider_scroll_hide" class=""></div>
 		<div id="left_arrow" class="navigation_arrow">
 
@@ -470,12 +470,12 @@
 			<div id="white_slider_scroll_control">
 				<div id="white_slider_scroll_control_inner">
 					<div class="scroll_control_div"></div>
-					<img class="blank" src="/images/blank.png" width="160" height="50" /><?php echo $this->Element('gallery/gallery_image_lists/simple_list', array(
+					<img class="blank" src="/images/blank.png" width="160" height="50" alt="" /><?php echo $this->Element('gallery/gallery_image_lists/simple_list', array(
 						'photos' => $photos,
 						'height' => '50',
 						'width' => '200',
 						'sharpness' => '.4'
-					)); ?><img class="blank" src="/images/blank.png" width="160" height="50" />
+					)); ?><img class="blank" src="/images/blank.png" width="160" height="50" alt="" />
 				</div>
 			</div>
 		</div>

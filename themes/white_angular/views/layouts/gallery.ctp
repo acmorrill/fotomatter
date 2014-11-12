@@ -118,7 +118,7 @@
 					<div photo_id="<?php if (isset($photo['Photo']['id'])) { echo $photo['Photo']['id']; } ?>" class="float_image_cont <?php echo implode(' ', $photo['classes']); ?>" style="width: 720px; height: 310px; left: <?php echo $left; ?>px;" start_left="<?php echo $left; ?>" img_width="<?php echo $total_width; ?>" img_height="<?php echo $total_height; ?>">
 						<div class="img_outer_cont <?php if (isset($alt_img_src)): ?>when_open<?php endif; ?>">
 							<div class="curr_image_info_cont">
-								<img class="left_arrow" src="/img/left_arrow.png" />
+								<img class="left_arrow" src="/img/left_arrow.png" alt="" />
 								<h2><?php echo $photo['Photo']['display_title']; ?></h2>
 								<?php if (!empty($photo['Photo']['display_subtitle'])): ?>
 									<h3><?php echo $photo['Photo']['display_subtitle']; ?></h3>
@@ -128,11 +128,11 @@
 									<div class="photo_description"><p><?php echo $photo['Photo']['description']; ?></p></div>
 								<?php endif; ?>
 								<div class="line"></div>
-								<img style="margin-top: 20px;" src="/img/fake_buttons.png" />
+								<img style="margin-top: 20px;" src="/img/fake_buttons.png" alt="" />
 							</div>
 							<div class="img_cont" style="width: <?php echo $total_width; ?>px; height: <?php echo $total_height; ?>px; margin-left: <?php echo -floor($total_width/2); ?>px; margin-top: <?php echo -floor($total_height/2); ?>px;">
 								<div class="img_inner_wrap">
-									<img src="<?php echo $img_src['url']; ?>" style="display: block; width: <?php echo $img_src['width']; ?>px; height: <?php echo $img_src['height']; ?>px;" <?php echo $img_src['tag_attributes']; ?> />
+									<img src="<?php echo $img_src['url']; ?>" style="display: block; width: <?php echo $img_src['width']; ?>px; height: <?php echo $img_src['height']; ?>px;" <?php echo $img_src['tag_attributes']; ?> alt="" />
 								</div>
 							</div>
 						</div>
@@ -140,7 +140,7 @@
 							<div class="img_outer_cont when_closed">
 								<div class="img_cont" style="width: <?php echo $alt_total_width; ?>px; height: <?php echo $alt_total_height; ?>px; margin-left: <?php echo -floor($alt_total_width/2); ?>px; margin-top: <?php echo -floor($alt_total_height/2); ?>px;">
 									<div class="img_inner_wrap">
-										<img src="<?php echo $alt_img_src['url']; ?>" style="display: block; width: <?php echo $alt_img_src['width']; ?>px; height: <?php echo $alt_img_src['height']; ?>px;" <?php echo $alt_img_src['tag_attributes']; ?> />
+										<img src="<?php echo $alt_img_src['url']; ?>" style="display: block; width: <?php echo $alt_img_src['width']; ?>px; height: <?php echo $alt_img_src['height']; ?>px;" <?php echo $alt_img_src['tag_attributes']; ?> alt="" />
 									</div>
 								</div>
 							</div>

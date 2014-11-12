@@ -5,7 +5,7 @@
 			$config['image_element_image_photo_id'] = -1;
 		}
 	?>
-	<img src="<?php echo $this->Photo->get_photo_path($config['image_element_image_photo_id'], 600, 480); ?>" style="float: none;" />
+	<img src="<?php echo $this->Photo->get_photo_path($config['image_element_image_photo_id'], 600, 480); ?>" style="float: none;" alt="" />
 	<div style="clear: both"></div>
 </div>
 <div style="clear: both"></div>

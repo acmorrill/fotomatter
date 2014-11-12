@@ -6,7 +6,7 @@ require_once("dimension.php");
 
 	// setup
 	print ("\t\t<div>\n");
-	print ("\t\t\t<img border=0 id=\"smallRedBar\" src=\"images/smallRedBar.gif\"/>\n");
+	print ("\t\t\t<img border=0 id=\"smallRedBar\" src=\"images/smallRedBar.gif\" alt=\"\" />\n");
 	print ("\t\t</div>\n");
 	print ("<SCRIPT language=\"JavaScript\" SRC=\"javascript/navRedBar.js\"></SCRIPT>\n");
 	print ("\t\t<div id=\"nav\">\n");
@@ -100,7 +100,7 @@ END;
 		}
 		if ($cartSize > 0) {
 			if ($page == "cart") {
-				print ("\t\t\t<b><span onmouseover=\"moveRedBarPos(7);\" class=\"highlight\"><img style=\"position: relative; top: 6px;\" src=\"images/misc/Shoppingcart_16x16.png\"> cart ($cartSize)</span></b><br />\n");
+				print ("\t\t\t<b><span onmouseover=\"moveRedBarPos(7);\" class=\"highlight\"><img style=\"position: relative; top: 6px;\" src=\"images/misc/Shoppingcart_16x16.png\" alt=\"\" > cart ($cartSize)</span></b><br />\n");
 				print <<<END
 					<script type="text/javascript">
 						<!--
@@ -109,7 +109,7 @@ END;
 					</script>\n
 END;
 			} else {
-				print ("\t\t\t<b><a onmouseover=\"moveRedBarPos(7);\" href=\"shoppingcart.php\"><img style=\"position: relative; top: 6px;\" src=\"images/misc/Shoppingcart_16x16.png\"> cart ($cartSize)</a></b><br />\n");
+				print ("\t\t\t<b><a onmouseover=\"moveRedBarPos(7);\" href=\"shoppingcart.php\"><img style=\"position: relative; top: 6px;\" src=\"images/misc/Shoppingcart_16x16.png\" alt=\"\" > cart ($cartSize)</a></b><br />\n");
 			}
 		}
 	}

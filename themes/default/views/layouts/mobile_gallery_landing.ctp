@@ -27,7 +27,7 @@
 				<?php $thumb_img_src = $this->Photo->get_photo_path($f_photo['Photo']['id'], 300, 300, .4, true, true); ?>
 				<li>
 					<a href="<?php echo $large_img_src['url']; ?>" rel="external">
-						<img src="<?php echo $thumb_img_src['url']; ?>" <?php //echo $thumb_img_src['tag_attributes']; ?> />
+						<img src="<?php echo $thumb_img_src['url']; ?>" <?php //echo $thumb_img_src['tag_attributes']; ?> alt="" />
 					</a>
 				</li>
 <!--				<li><a href="/js/photoswipe_3.0.5/examples/images/full/001.jpg" rel="external"><img src="/js/photoswipe_3.0.5/examples/images/thumb/001.jpg" alt="Image 001" /></a></li>-->

@@ -75,11 +75,11 @@
 		<div class="image_navigation">
 			<?php $prev_image_web_path = $this->Photo->get_prev_image_web_path($curr_photo['Photo']['id'], $curr_gallery['PhotoGallery']['id']); ?>
 			<a class="photo_page_nav prev_image arrow <?php if ($is_pano): ?> is_pano<?php endif; ?>" href="<?php echo $prev_image_web_path; ?>">
-				<img src="/img/arrowLeft.png" />
+				<img src="/img/arrowLeft.png" alt="" />
 			</a>
 			<?php $next_image_web_path = $this->Photo->get_next_image_web_path($curr_photo['Photo']['id'], $curr_gallery['PhotoGallery']['id']); ?>
 			<a class="photo_page_nav next_image arrow <?php if ($is_pano): ?> is_pano<?php endif; ?>" href="<?php echo $next_image_web_path; ?>">
-				<img src="/img/arrowRight.png" />
+				<img src="/img/arrowRight.png" alt="" />
 			</a>
 		</div>
 		<div style="clear: both;"></div>

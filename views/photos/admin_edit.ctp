@@ -13,7 +13,7 @@
 	<div class="actual_image_container">
 		<div class="actual_image_inner_container">
 			<?php $img_path = $this->Photo->get_photo_path($this->data['Photo']['id'], $image_element_cache_image_height, $image_element_cache_image_width, .4, true, false); ?>
-			<img src="<?php echo $img_path['url']; ?>" <?php echo $img_path['tag_attributes']; ?> />
+			<img src="<?php echo $img_path['url']; ?>" <?php echo $img_path['tag_attributes']; ?> alt="" />
 		</div>
 		<script type="text/javascript">
 			jQuery(document).ready(function() {

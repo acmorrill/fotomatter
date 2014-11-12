@@ -17,7 +17,7 @@
                         <?php $img_src = $this->Photo->get_photo_path($photo_id, 250, 250, .4, true); ?>                      
                         <span class="gallery_image_outer_cont">
                             <a class="gallery_image_a_link" href="<?php echo $curr_gallery_href; ?>">
-                            <img class="gallery_image_actual_image" src="<?php echo $img_src['url']; ?>" <?php echo $img_src['tag_attributes']; ?>>
+                            <img class="gallery_image_actual_image" src="<?php echo $img_src['url']; ?>" <?php echo $img_src['tag_attributes']; ?> alt="" />
                             </a>
                         </span>
                         <div class="galleriesLink">

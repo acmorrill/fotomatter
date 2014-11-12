@@ -46,7 +46,7 @@ $all_themes = $this->Theme->get_all_available_themes();
 							<div class="screenshot_container">
 								<div class="screenshot_inner_container">
 									<a href="<?php echo $large_image_web_path; ?>" class="screenshot_zoom" title="<?php echo $curr_theme['Theme']['display_name']; ?>" rel="gal1">
-										<img src="<?php echo $small_image_web_path; ?>" title="<?php echo $curr_theme['Theme']['ref_name']; ?>">
+										<img src="<?php echo $small_image_web_path; ?>" title="<?php echo $curr_theme['Theme']['ref_name']; ?>" alt="" />
 									</a>
 									<div style="clear: both;"></div>
 								</div>

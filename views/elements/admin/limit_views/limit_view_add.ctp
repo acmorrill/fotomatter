@@ -17,5 +17,5 @@
 			</ol>
 		<?php endif; ?>
 	</div>
-	<img src="<?php echo $feature_image_src; ?>" />
+	<img src="<?php echo $feature_image_src; ?>" alt="" />
 </div>

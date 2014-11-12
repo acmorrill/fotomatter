@@ -51,7 +51,7 @@
             <div id='gallery_outer_cont'>
                 <div id="grezzo_listing_actual_container_loading"><?php echo nl2br(str_replace(' ', "\n", __('L O A D I N G', true))); ?></div>
                 <div id="grezzo_listing_actual_container">
-                    <img class="blank" src="/images/large_blank.png" width="1600" height="500" />
+                    <img class="blank" src="/images/large_blank.png" width="1600" height="500" alt="" />
                     <?php
                         echo $this->Element('gallery/gallery_image_lists/simple_list', array(
                             'photos' => $photos,

@@ -30,7 +30,7 @@
 
 				<div class="portfolioLinks">
 					<h2><b><?php __('Choose a Gallery'); ?></b></h2>
-					<img id="portfolioThumb" src="/photos/portfolioThumbs/A-Tangerine-Blue.jpg" />
+					<img id="portfolioThumb" src="/photos/portfolioThumbs/A-Tangerine-Blue.jpg" alt="" />
 					<?php $all_galleries = $this->Gallery->get_all_galleries(); ?>
 					<?php foreach ($all_galleries as $curr_gallery): ?>
 						<?php 
@@ -48,7 +48,7 @@
 					<br/><br/><br/>
 				</div>
 				<br />
-				<img src="/images/misc/horiz_gradientline.png">
+				<img src="/images/misc/horiz_gradientline.png" alt="" />
 				<?php echo $this->Element('global_theme_footer_copyright'); ?>
 			</div>
 		</div>

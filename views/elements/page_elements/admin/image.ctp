@@ -110,7 +110,7 @@
 							$img_path_data = $this->Photo->get_dummy_error_image_path($image_element_cache_image_height, $image_element_cache_image_width, false, true);
 						}
 					?>
-					<img class="image_element_actual_image" src="<?php echo $img_path_data['url']; ?>" <?php echo $img_path_data['tag_attributes']; ?> />
+					<img class="image_element_actual_image" src="<?php echo $img_path_data['url']; ?>" <?php echo $img_path_data['tag_attributes']; ?> alt="" />
 				</div>
 				<div class="image_element_image_upload image_upload">
 					<div class="photo_details_upload_progress" style="display: none;" >

@@ -8,7 +8,6 @@
 		overflow: hidden;
 		height: 400px;
 		margin-right:20px;
-		//outline: 15px solid pink;
 		.theme_item_outer_container {
 			display:table;
 			//width:100%;
@@ -21,8 +20,10 @@
 				width:400px;
 				.screenshot_container {
 					.el_opacity(.7, 70);
-					//outline: 5px solid pink;
 					border: 3px solid @off_black;
+					.screenshot_inner_container {
+						> a { display: inline-block; }
+					}
 				}
 				.container_rectangular_box {
 					//.el_opacity(.6, 60);

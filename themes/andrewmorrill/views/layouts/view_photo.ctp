@@ -35,11 +35,11 @@
 				<img src="<?php echo $img_src['url']; ?>" <?php echo $img_src['tag_attributes']; ?> alt="<?php echo $curr_photo['Photo']['alt_text']; ?>" />
 				<?php $prev_image_web_path = $this->Photo->get_prev_image_web_path($curr_photo['Photo']['id'], $curr_gallery['PhotoGallery']['id']); ?>
 				<a class="photo_page_nav prev_image arrow <?php if ($is_pano): ?> is_pano<?php endif; ?>" href="<?php echo $prev_image_web_path; ?>">
-					<img onmouseover="this.src='/images/misc/arrowLeftRed.png';" onmouseout="this.src='/images/misc/arrowLeft.png';" src="/images/misc/arrowLeftRed.png" />
+					<img onmouseover="this.src='/images/misc/arrowLeftRed.png';" onmouseout="this.src='/images/misc/arrowLeft.png';" src="/images/misc/arrowLeftRed.png" alt="" />
 				</a>
 				<?php $next_image_web_path = $this->Photo->get_next_image_web_path($curr_photo['Photo']['id'], $curr_gallery['PhotoGallery']['id']); ?>
 				<a class="photo_page_nav next_image arrow <?php if ($is_pano): ?> is_pano<?php endif; ?>" href="<?php echo $next_image_web_path; ?>">
-					<img onmouseover="this.src='/images/misc/arrowRightRed.png';" onmouseout="this.src='/images/misc/arrowRight.png';" src="/images/misc/arrowRightRed.png" />
+					<img onmouseover="this.src='/images/misc/arrowRightRed.png';" onmouseout="this.src='/images/misc/arrowRight.png';" src="/images/misc/arrowRightRed.png" alt="" />
 				</a>
 			</div>
 
@@ -55,7 +55,7 @@
 			
 			<?php echo $this->Element('cart_checkout/image_add_to_cart_form_simple'); ?>
 			
-			<img src="/images/misc/horiz_gradientline.png" />
+			<img src="/images/misc/horiz_gradientline.png" alt="" />
 			<br/><br/>
 			<br/><br/>
 			<br/><br/>

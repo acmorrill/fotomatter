@@ -1,0 +1,96 @@
+<?php
+
+define('LIB_DIR', ROOT . DS . APP_DIR . DS . 'vendor' . DS . 'php-closure' . DS . 'lib/');
+
+class PhpClosureComponent extends Object {
+
+	public function initialize(&$controller, $settings = array()) {
+		$this->controller = $controller;
+	}
+
+	public function recompile_javascript() {
+		// get less css
+		App::import('Vendor', 'PhpClosure', array(
+			'file' => 'php-closure' . DS . 'lib' . DS . 'third-party' . DS . 'php-closure.php'
+		));
+		$this->PhpClosure = new PhpClosure();
+		$this->PhpClosure->advancedMode();
+
+
+		///////////////////////////////////////////
+		// recompile admin js
+		$webroot_js_path = WEBROOT_ABS . DS . 'js' . DS . 'php_closure' . DS . 'fotomatter_admin.js';
+		$php_closure_root_path = PHP_CLOSURE_ROOT;
+		$this->compile_js_fromdir_todir($php_closure_root_path, $webroot_js_path);
+
+
+		///////////////////////////////////////////
+		// recompile theme js
+		$top_level_themes_dir = scandir(PATH_TO_THEMES);
+		foreach ($top_level_themes_dir as $curr_top_level_dir) {
+			if ($curr_top_level_dir == '.' || $curr_top_level_dir == '..') {
+				continue;
+			}
+
+
+			// recompile theme less css
+//			$theme_webroot_css_path = PATH_TO_THEMES.DS.$curr_top_level_dir.DS.'webroot'.DS.'css';
+//			$theme_less_css_root_path = PATH_TO_THEMES.DS.$curr_top_level_dir.DS.'lesscss';
+//			if (is_dir($theme_webroot_css_path) && is_dir($theme_less_css_root_path)) {
+//				$this->compile_less_fromdir_todir($theme_less_css_root_path, $theme_webroot_css_path);
+//			}
+			// recompile theme subtheme css
+//			if (file_exists(PATH_TO_THEMES.DS.$curr_top_level_dir.DS.'subthemes')) {
+//				$theme_sub_themes_path = PATH_TO_THEMES.DS.$curr_top_level_dir.DS.'subthemes';
+//				$curr_bottom_level_themes_dir = scandir($theme_sub_themes_path);
+//				foreach ($curr_bottom_level_themes_dir as $curr_bottom_level_theme) {
+//					if ($curr_bottom_level_theme == '.' || $curr_bottom_level_theme == '..') {
+//						continue;
+//					}
+//					
+//					$sub_theme_dir = $theme_sub_themes_path.DS.$curr_bottom_level_theme;
+//					
+//					$sub_theme_webroot_css_path = $sub_theme_dir.DS.'webroot'.DS.'css';
+//					$sub_theme_less_css_root_path = $sub_theme_dir.DS.'lesscss';
+//					if (is_dir($sub_theme_webroot_css_path) && is_dir($sub_theme_less_css_root_path)) {
+//						$this->compile_less_fromdir_todir($sub_theme_less_css_root_path, $sub_theme_webroot_css_path);
+//					}
+//				}
+//			}
+		}
+	}
+
+	private function compile_js_fromdir_todir($php_closure_root_path, $webroot_js_path) {
+		$path_info = pathinfo($webroot_js_path);
+		$dir_path = $path_info['dirname'] . DS;
+		$compiled_path = $path_info['dirname'] . DS . $path_info['filename'] . ".min.js";
+		$this->PhpClosure->cacheDir( $dir_path );
+		
+
+		$dir = new DirectoryIterator($php_closure_root_path);
+		foreach ($dir as $fileinfo) {
+			if ($fileinfo->getExtension() == 'php') {
+				$php_closure_file_full_path = $php_closure_root_path . DS . $fileinfo->getFilename();
+
+				require($php_closure_file_full_path);
+				if (empty($php_closure)) {
+					$this->controller->major_error('Failed to recompile less css', compact('php_closure_root_path', 'webroot_js_path'));
+					return false;
+				}
+
+				foreach ($php_closure as $js_file_path) {
+					$this->PhpClosure->add(WEBROOT_ABS . DS . $js_file_path);
+				}
+				$cache_file = $this->PhpClosure->_getCacheFileName();
+				if ($this->PhpClosure->_isRecompileNeeded($cache_file)) {
+					$result = $this->PhpClosure->_compile();
+					if ($result !== false) {
+						file_put_contents($cache_file, $result);
+						file_put_contents($compiled_path, $result);
+					}
+				}
+			}
+		}
+	}
+
+}

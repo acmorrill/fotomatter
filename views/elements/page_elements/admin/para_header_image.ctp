@@ -171,7 +171,7 @@
 										$img_path_data = $this->Photo->get_dummy_error_image_path($cache_image_height, $cache_image_width, false, true);
 									}
 								?>
-								<img src="<?php echo $img_path_data['url']; ?>" <?php echo $img_path_data['tag_attributes']; ?> />
+								<img src="<?php echo $img_path_data['url']; ?>" <?php echo $img_path_data['tag_attributes']; ?> alt="" />
 							</div>
 						</div>
 						<div class="image_size_text">

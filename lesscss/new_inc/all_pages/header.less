@@ -327,7 +327,6 @@ body {
 			line-height: 22px;
 			display: inline-block;
 		}
-		@minor_menu_height: 65px;
 		> ul {
 			position: absolute;
 			margin-top: 8px;
@@ -370,8 +369,10 @@ body {
 				
 				
 				height: @minor_menu_height;
-				> a div { height: @minor_menu_height; }
-				> a div > p { height: @minor_menu_height; }
+				> table tbody tr td {
+					> a div { height: @minor_menu_height; }
+					> a div > p { height: @minor_menu_height; }
+				}
 			}
 		}
 		&.active, &.open, &:hover {

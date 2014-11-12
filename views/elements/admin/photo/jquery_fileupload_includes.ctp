@@ -56,7 +56,7 @@
 			<td class="first thumbnail">
 				<span class="preview">
 					{% if (file.thumbnailUrl) { %}
-						<a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.thumbnailUrl%}"></a>
+						<a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.thumbnailUrl%}" alt=""></a>
 					{% } %}
 				</span>
 			</td>

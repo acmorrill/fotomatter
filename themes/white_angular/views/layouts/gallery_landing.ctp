@@ -54,7 +54,7 @@
 		
 		<div id="image_slider_outer_container">
 			<div id="slider_info_container">
-				<img class="scroll_up_right" src="/img/scroll_up_right.png" />
+				<img class="scroll_up_right" src="/img/scroll_up_right.png" alt="" />
 				<div class="top_info_line">&nbsp;</div>
 				<div class="gallery_info_cont">
 					<?php foreach ($photos as $photo): ?>
@@ -72,7 +72,7 @@
 						<?php endif; ?>
 					<?php endforeach; ?>
 				</div>
-				<img class="scroll_down_left" src="/img/scroll_down_left.png" />
+				<img class="scroll_down_left" src="/img/scroll_down_left.png" alt="" />
 			</div>
 			<div id="image_slider_container">
 				<?php foreach ($photos as &$photo): ?>
@@ -85,7 +85,7 @@
 							<div class="img_outer_cont when_closed">
 								<div class="img_cont" style="width: <?php echo $alt_total_width; ?>px; height: <?php echo $alt_total_height; ?>px; margin-left: <?php echo -floor($alt_total_width/2); ?>px; margin-top: <?php echo -floor($alt_total_height/2); ?>px;">
 									<div class="img_inner_wrap">
-										<img src="<?php echo $alt_img_src['url']; ?>" style="display: block; width: <?php echo $alt_img_src['width']; ?>px; height: <?php echo $alt_img_src['height']; ?>px;" <?php echo $alt_img_src['tag_attributes']; ?> />
+										<img src="<?php echo $alt_img_src['url']; ?>" style="display: block; width: <?php echo $alt_img_src['width']; ?>px; height: <?php echo $alt_img_src['height']; ?>px;" <?php echo $alt_img_src['tag_attributes']; ?> alt="" />
 									</div>
 								</div>
 							</div>
@@ -93,7 +93,7 @@
 							<div class="img_outer_cont">
 								<div class="img_cont" style="width: <?php echo $total_width; ?>px; height: <?php echo $total_height; ?>px; margin-left: <?php echo -round($total_width/2); ?>px; margin-top: <?php echo -round($total_height/2); ?>px;">
 									<div class="img_inner_wrap">
-										<img src="<?php echo $img_src['url']; ?>" style="display: block; width: <?php echo $img_src['width']; ?>px; height: <?php echo $img_src['height']; ?>px;" <?php echo $img_src['tag_attributes']; ?> />
+										<img src="<?php echo $img_src['url']; ?>" style="display: block; width: <?php echo $img_src['width']; ?>px; height: <?php echo $img_src['height']; ?>px;" <?php echo $img_src['tag_attributes']; ?> alt="" />
 									</div>
 								</div>
 							</div>

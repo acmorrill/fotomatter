@@ -19,6 +19,7 @@ class AppController extends Controller {
 		'HashUtil',
 		'ThemeRenderer',
 		'LessCss',
+		'PhpClosure',
 		'MobileDetect',
 		'Validation',
 		'Postmark',
@@ -144,6 +145,14 @@ class AppController extends Controller {
 				$this->Session->write('recompile_css', true);
 			}
 			$this->LessCss->recompile_css();
+		}
+		
+		// recompile php_closure js if a get param is set or debug is set to 2
+		if (Configure::read('debug') == '2' || isset($this->params['url']['php_closure']) || $this->Session->check('php_closure')) {
+			if (isset($this->params['url']['php_closure'])) {
+				$this->Session->write('php_closure', true);
+			}
+			$this->PhpClosure->recompile_javascript();
 		}
 
 

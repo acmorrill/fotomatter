@@ -23,5 +23,5 @@
 </script>
 <div style='text-align:center' class='build-pending'>
 	<h3>We are building one great site, please wait.</h3>
-	<img src='/img/admin/icons/ajax-loader.gif' />
+	<img src='/img/admin/icons/ajax-loader.gif' alt="" />
 </div>

@@ -54,7 +54,11 @@ a {
 	&:hover { text-decoration: underline; }
 }
 
-a, input, textarea, button, span, select, p { outline: 0px; }
+a, input, textarea, button, span, select, p, img { outline: 0px; }
+
+img {
+	&:-moz-loading { visibility: hidden; }
+}
 
 /********************************************
  GENERIC PALETTE AND SETTINGS CSS
@@ -417,7 +421,10 @@ input {
 	/*padding: 45px 0px;*/
 	padding-bottom: 45px;
 	.generic_dark_cont {
-		outline: 1px solid @table_and_button_outline;
+		/*outline: 1px solid @table_and_button_outline;*/
+		-moz-box-shadow: 0px 0px 1px 1px @table_and_button_outline;
+		-webkit-box-shadow: 0px 0px 1px 1px @table_and_button_outline;
+		box-shadow: 0px 0px 1px 1px @table_and_button_outline;
 		border: 1px solid @black;
 		background-color: @body_content_top_bg;
 		padding: 50px;

@@ -42,6 +42,9 @@ a * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.o
  */
 
 
+
+
+
 // site_default_images
 define("SITE_DEFAULT_CONTAINER_NAME", 'site_default_images'); 
 define("SITE_DEFAULT_CONTAINER_URL", 'http://5b3fca59f2744e30ab19-83f12fdaaac179c142328b923267ceea.r18.cf2.rackcdn.com'); 
@@ -87,6 +90,9 @@ define("WEBROOT_ABS", ROOT.DS.APP_DIR.DS.'webroot');
 
 // less_css root path
 define("LESSCSS_ROOT", ROOT.DS.APP_DIR.DS.'lesscss');
+
+// php_closure
+define("PHP_CLOSURE_ROOT", ROOT.DS.APP_DIR.DS.'php_closure');
 
 // themes paths 
 define("PATH_TO_THEMES", ROOT.DS.APP_DIR.DS.'themes');

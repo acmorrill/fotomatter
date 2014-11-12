@@ -1,5 +1,5 @@
 <div class="portfolioLinks">
-	<img id="portfolioThumb" src="/photos/portfolioThumbs/A-Tangerine-Blue.jpg" />
+	<img id="portfolioThumb" src="/photos/portfolioThumbs/A-Tangerine-Blue.jpg" alt="" />
 	<?php $all_galleries = $this->Gallery->get_all_galleries(); ?>
 	<?php foreach ($all_galleries as $curr_gallery): ?>
 		<?php

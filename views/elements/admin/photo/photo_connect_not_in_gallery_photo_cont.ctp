@@ -15,7 +15,7 @@
 			<div class="tr">
 				<div class="td">
 					<div class="image_content_cont">
-						<img src="<?php echo $this->Photo->get_photo_path($not_connected_photo['Photo']['id'], $height, $width); ?>" alt="<?php __('click to add'); ?>" />
+						<img src="<?php echo $this->Photo->get_photo_path($not_connected_photo['Photo']['id'], $height, $width); ?>" alt="<?php echo __('click to add', true); ?>" />
 					</div>
 				</div>
 			</div>

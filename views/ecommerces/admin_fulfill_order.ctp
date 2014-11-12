@@ -81,7 +81,7 @@
 							<td class="first">
 								<div class="rightborder"></div>
 								<?php $order_item_img_data = $this->Photo->get_photo_path($order_item_data['foreign_key'], 70, 70, .4, true); ?>
-								<img src="<?php echo $order_item_img_data['url']; ?>" <?php echo $order_item_img_data['tag_attributes']; ?> />
+								<img src="<?php echo $order_item_img_data['url']; ?>" <?php echo $order_item_img_data['tag_attributes']; ?> alt="" />
 							</td>
 							<td>
 								<div class="rightborder"></div>
