@@ -23,7 +23,7 @@
 	
 </script>
 <div id="<?php echo $uuid; ?>" class="sub_submenu_cont" style="<?php echo isset($css) ? $css : ''; ?>">
-	<div class="sub_submenu_left_cont" data-step="2" data-intro="<?php echo __('All themes have menus. Some have one tier menu and others two tier menus. One tier menus are single links while two tier menus have a dropdown menu system. ', true); ?>" data-position="left">
+	<div class="sub_submenu_left_cont" data-step="2" data-intro="<?php echo __('All themes have menus. Some have one tier menu and others two tier menus. One tier menus are single links while two tier menus have a dropdown menu system. ', true); ?>" data-position="top">
 		<div class="sub_menu_bottom_border"></div>
 		<?php $count = 0; foreach ($tabs as $tab_name => $tab): ?>
 			<div class="sub_submenu_tab <?php if ($count == $starting_tab): ?>selected<?php endif; ?>">
@@ -33,7 +33,7 @@
 			</div>
 		<?php $count++; endforeach; ?>
 	</div>
-	<div class="sub_submenu_right_cont" data-step="1" data-intro="<?php echo __('Create the main menu for your site.', true); ?>" data-position="left">
+	<div class="sub_submenu_right_cont" data-step="1" data-intro="<?php echo __('Create the main menu for your site.', true); ?>" data-position="top">
 		<?php $count = 0; foreach ($tabs as $tab_name => $tab_element_path): ?>
 			<div id="sub_submenu_tab_<?php echo $count; ?>" class="sub_submenu_tab_cont">
 				<div class="content-background <?php if (isset($lighter)): ?>lighter-content-background<?php endif; ?> block_element_base">

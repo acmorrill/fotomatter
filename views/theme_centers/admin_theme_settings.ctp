@@ -12,9 +12,11 @@
 		<?php echo $this->Element('/admin/get_help_button'); ?>
 	</h1>
 	<p>
-		This is the theme settings page - cool right? Kent- "SO SO lame!"
+		<?php echo __('This page enables settings of the chosen theme to be changed.',true)?>
 	</p>
-	<?php echo $this->Element('admin/theme_center/theme_settings/theme_settings_list', compact('avail_settings_list', 'theme_id')); ?>
+	<div data-step="1" data-intro="<?php echo __('This area empowers the theme, and allows for settings to be changed. Go ahead and change something.', true); ?>" data-position="top">
+		<?php echo $this->Element('admin/theme_center/theme_settings/theme_settings_list', compact('avail_settings_list', 'theme_id')); ?>
+	</div>	
 <?php endif; ?>
 
 	
