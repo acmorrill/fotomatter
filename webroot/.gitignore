@@ -5,3 +5,5 @@ xhprof/
 xhprof
 img/temp/
 apc.php
+js/php_closure/*.js
+!js/php_closure/*.min.js
