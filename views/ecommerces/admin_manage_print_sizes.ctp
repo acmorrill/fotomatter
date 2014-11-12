@@ -39,7 +39,7 @@
 </div>
 <div class="clear"></div>
 
-<div class="table_container" data-step="1" data-intro="<?php echo __('Presented are the sizes available to you and it is a complete list of the print size that you sell. You will need to make a Print Type to go along with the Print Size to match the available sizes. That is done in the “Manage Print Types and Default Pricing” tab on the left hand side of the page.', true); ?>" data-position="left">
+<div class="table_container" data-step="1" data-intro="<?php echo __('Presented are the sizes available to you and it is a complete list of the print size that you sell. You will need to make a Print Type to go along with the Print Size to match the available sizes. That is done in the “Manage Print Types and Default Pricing” tab on the left hand side of the page.', true); ?>" data-position="top">
 	<div class="fade_background_top"></div>
 	<div class="table_top"></div>
 	<table class="list">
@@ -81,7 +81,7 @@
 					$size_help_code = '';
 					if ($count === 1) {
 						$edit_help_code = 'data-step="3" data-intro="'.__('The edit button allows you to make changes the the print size. Such as landscape vs panoramic and so on.', true).'" data-position="bottom"';
-						$size_help_code = 'data-step="2" data-intro="'.__('The short side is the dimension of the shorter side of an image depending on the format. For example, the short side of a landscape is the height while the short side of a vertical panoramic is the width. The long side will be calculated based on the actual image depending on the format.', true).'" data-position="bottom"';
+						$size_help_code = 'data-step="2" data-intro="'.__('The short side is the dimension of the shorter side of an image depending on the format. For example, the short side of a landscape is the height while the short side of a vertical panoramic is the width. The long side will be calculated based on the actual image depending on the format.', true).'" data-position="right"';
 					}
 				?>
 

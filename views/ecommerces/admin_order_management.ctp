@@ -6,7 +6,7 @@
 </p>
 
 <?php $sort_dir = $this->Paginator->sortDir('AuthnetOrder'); ?>
-<div class="table_container" data-step="1" data-intro="<?php echo __('Here you will see all the orders that have been approved or are waiting approval.', true); ?>" data-position="left">
+<div class="table_container" data-step="1" data-intro="<?php echo __('Here you will see all the orders that have been approved or are waiting approval.', true); ?>" data-position="top">
 	<div class="fade_background_top"></div>
 	<div class="table_top"></div>		
 	<table class="list">

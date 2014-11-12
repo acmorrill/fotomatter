@@ -19,7 +19,7 @@ $all_themes = $this->Theme->get_all_available_themes();
 	
 	
 	
-	<div id="theme_chooser_container" data-step="1" data-intro="<?php echo __('All the themes are awesome and quite different so try lots of them to see what you’d like to use for your stunning site.', true); ?>" data-position="left">
+	<div id="theme_chooser_container" data-step="1" data-intro="<?php echo __('All the themes are awesome and quite different so try lots of them to see what you’d like to use for your stunning site.', true); ?>" data-position="top">
 		<?php echo $this->Element('/admin/get_help_button'); ?>
 		<div style="clear: both;"></div>
 		<?php $count = 1; foreach ($all_themes as $curr_theme): ?>
