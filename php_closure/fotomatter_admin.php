@@ -1,6 +1,6 @@
 <?php
 
-// NOTE: no leading /
+// NOTE: no leading "/"
 $php_closure = array();
 $php_closure[] = 'js/intro_js/intro.js';
 $php_closure[] = 'js/modernizr.custom.49682.js';

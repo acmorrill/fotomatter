@@ -67,12 +67,6 @@ jQuery(document).ready(function() {
     });
     $(".defaultText").blur(); 
 	
-	/************************************************/
-	/* globally setup add buttons (for add anthing) */
-	/************************************************/
-	//jQuery('.add_button').button();
-	
-	
 	
 	
 	// setup the help button click event

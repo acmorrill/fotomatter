@@ -4,16 +4,7 @@
 	}
 </script>
 
-<script type="text/javascript" src="/js/jquery-1.11.1.min.js"></script>
-<script type="text/javascript" src="/js/jquery-ui-1.11.0/jquery-ui.min.js"></script>
-
-<script type="text/javascript" src="/js/tinymce/jscripts/tiny_mce/jquery.tinymce.js"></script>
-<script type="text/javascript" src="/js/money_format/accounting.min.js"></script>
-<script type="text/javascript" src="/js/chosen_v1.1.0/chosen.jquery.min.js"></script>
-<link href="/js/chosen_v1.1.0/chosen.min.css" rel="stylesheet" type="text/css" />
-
-<script type="text/javascript" src="/js/global_js.js"></script>
-<link href="/js/jquery-ui-1.11.0/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/js/php_closure/fotomatter_admin.min.js"></script>
 
 <script type="text/javascript">
 	/****************************************************************************
