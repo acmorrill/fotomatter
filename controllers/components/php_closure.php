@@ -68,12 +68,18 @@ class PhpClosureComponent extends Object {
 
 				require($php_closure_file_full_path);
 				if (empty($php_closure)) {
-					$this->controller->major_error('Failed to recompile less css', compact('php_closure_root_path', 'webroot_js_path'));
+					$this->controller->major_error('Failed to load php_closure config', compact('php_closure_root_path', 'webroot_js_path'));
 					return false;
 				}
 
 				foreach ($php_closure as $js_file_path) {
-					$php_closure_object->add(WEBROOT_ABS . DS . $js_file_path);
+					$js_to_load_path = WEBROOT_ABS . DS . $js_file_path;
+					if (file_exists($js_to_load_path)) {
+						$php_closure_object->add($js_to_load_path);
+					} else {
+						$this->controller->major_error('error in php_closure config file', compact('php_closure_root_path', 'webroot_js_path'));
+						return false;
+					}
 				}
 				$cache_file = $php_closure_object->_getCacheFileName();
 				if ($php_closure_object->_isRecompileNeeded($cache_file)) {
@@ -81,10 +87,15 @@ class PhpClosureComponent extends Object {
 					if ($result !== false) {
 						file_put_contents($cache_file, $result);
 						file_put_contents($compiled_path, $result);
+					} else {
+						$this->controller->major_error('Failed to recompile php_closure', compact('php_closure_root_path', 'webroot_js_path'));
+						return false;
 					}
 				}
 			}
 		}
+		
+		return true;
 	}
 	
 	private function get_php_closure_object() {
