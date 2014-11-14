@@ -12,7 +12,7 @@
 	<table class="list">
 		<thead>
 			<tr>
-				<th class="first <?php if ($this->Paginator->sortKey('AuthnetOrder') == 'AuthnetOrder.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>"  data-step="2" data-intro="<?php echo __('You may display the orders by Order Number, Order Status, and so on. Indicated by the blue line and arrow.', true); ?>">
+				<th class="first <?php if ($this->Paginator->sortKey('AuthnetOrder') == 'AuthnetOrder.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>"  data-step="2" data-intro="<?php echo __('You may display the orders by Order Number, Order Status, and so on. Indicated by the blue line and arrow.', true); ?>" data-position="right">
 					<div class="content one_line">
 						<div class="direction_arrow"></div>
 						<?php echo $this->Paginator->sort(__('Order Number', true), 'AuthnetOrder.id'); ?>
