@@ -85,9 +85,6 @@ jQuery(document).ready(function() {
 /****************************************************************************
 	GLOBAL FUNCTIONS
 ****************************************************************************/
-function do_nothing() {
-	console.log('sucka!');
-}
 function show_universal_save(show_modal) {
 //	console.log('show save');
 	if (show_modal === undefined) {
