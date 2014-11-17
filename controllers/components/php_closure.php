@@ -24,13 +24,12 @@ class PhpClosureComponent extends Object {
 				continue;
 			}
 
-			// DREW TODO - START HERE TOMORROW
-			// recompile theme less css
-//			$theme_webroot_css_path = PATH_TO_THEMES.DS.$curr_top_level_dir.DS.'webroot'.DS.'css';
-//			$theme_less_css_root_path = PATH_TO_THEMES.DS.$curr_top_level_dir.DS.'lesscss';
-//			if (is_dir($theme_webroot_css_path) && is_dir($theme_less_css_root_path)) {
-//				$this->compile_less_fromdir_todir($theme_less_css_root_path, $theme_webroot_css_path);
-//			}
+			// recompile theme js
+			$theme_webroot_js_path = PATH_TO_THEMES . DS . $curr_top_level_dir . DS . 'webroot' . DS . 'js' . DS . 'php_closure' . DS;
+			$theme_php_closure_root_path = PATH_TO_THEMES . DS . $curr_top_level_dir . DS . 'php_closure';
+			if (is_dir($theme_webroot_js_path) && is_dir($theme_php_closure_root_path)) {
+				$this->compile_less_fromdir_todir($theme_php_closure_root_path, $theme_webroot_js_path);
+			}
 			// recompile theme subtheme css
 //			if (file_exists(PATH_TO_THEMES.DS.$curr_top_level_dir.DS.'subthemes')) {
 //				$theme_sub_themes_path = PATH_TO_THEMES.DS.$curr_top_level_dir.DS.'subthemes';
@@ -54,8 +53,8 @@ class PhpClosureComponent extends Object {
 
 	private function compile_js_fromdir_todir($php_closure_root_path, $webroot_dir_path) {
 		$php_closure_object = $this->get_php_closure_object();
-		
-		$php_closure_object->cacheDir( $webroot_dir_path );
+
+		$php_closure_object->cacheDir($webroot_dir_path);
 
 		$dir = new DirectoryIterator($php_closure_root_path);
 		foreach ($dir as $fileinfo) {
@@ -64,8 +63,8 @@ class PhpClosureComponent extends Object {
 
 				require($php_closure_file_full_path);
 				if (empty($php_closure)) {
-					$this->controller->major_error('Failed to load php_closure config', compact('php_closure_root_path', 'webroot_js_path'));
-					return false;
+//					$this->controller->major_error('Failed to load php_closure config', compact('php_closure_root_path', 'webroot_js_path'));
+					continue;
 				}
 
 				foreach ($php_closure as $js_file_path) {
@@ -74,7 +73,7 @@ class PhpClosureComponent extends Object {
 						$php_closure_object->add($js_to_load_path);
 					} else {
 						$this->controller->major_error('error in php_closure config file', compact('php_closure_root_path', 'webroot_js_path'));
-						return false;
+						continue;
 					}
 				}
 				$cache_file = $php_closure_object->_getCacheFileName();
@@ -86,23 +85,23 @@ class PhpClosureComponent extends Object {
 						file_put_contents($compiled_path, $result);
 					} else {
 						$this->controller->major_error('Failed to recompile php_closure', compact('php_closure_root_path', 'webroot_js_path'));
-						return false;
+						continue;
 					}
 				}
 			}
 		}
-		
+
 		return true;
 	}
-	
+
 	private function get_php_closure_object() {
 		App::import('Vendor', 'PhpClosure', array(
 			'file' => 'php-closure' . DS . 'lib' . DS . 'third-party' . DS . 'php-closure.php'
 		));
-		
+
 		$PhpClosure = new PhpClosure();
 		$PhpClosure->simpleMode()->hideDebugInfo();
-		
+
 		return $PhpClosure;
 	}
 
