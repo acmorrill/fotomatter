@@ -13,7 +13,7 @@ class PhpClosureComponent extends Object {
 		// recompile admin js
 		$webroot_js_path = WEBROOT_ABS . DS . 'js' . DS . 'php_closure' . DS;
 		$php_closure_root_path = PHP_CLOSURE_ROOT;
-		$this->compile_js_fromdir_todir($php_closure_root_path, $webroot_js_path);
+		$this->compile_js_fromdir_todir($php_closure_root_path, $webroot_js_path, WEBROOT_ABS);
 
 
 		///////////////////////////////////////////
@@ -24,68 +24,91 @@ class PhpClosureComponent extends Object {
 				continue;
 			}
 
+			// mixin js path for theme global
+			$mixin_path = PHP_CLOSURE_ROOT . DS . 'theme_global.php';
+			
 			// recompile theme js
-			$theme_webroot_js_path = PATH_TO_THEMES . DS . $curr_top_level_dir . DS . 'webroot' . DS . 'js' . DS . 'php_closure' . DS;
+			$theme_webroot = PATH_TO_THEMES . DS . $curr_top_level_dir . DS . 'webroot';
+			$theme_webroot_js_path = $theme_webroot . DS . 'js' . DS . 'php_closure' . DS;
 			$theme_php_closure_root_path = PATH_TO_THEMES . DS . $curr_top_level_dir . DS . 'php_closure';
-			if (is_dir($theme_webroot_js_path) && is_dir($theme_php_closure_root_path)) {
-				$this->compile_less_fromdir_todir($theme_php_closure_root_path, $theme_webroot_js_path);
+			if (is_dir($theme_webroot_js_path) && is_dir($theme_php_closure_root_path) && is_dir($theme_webroot)) {
+				$this->compile_js_fromdir_todir($theme_php_closure_root_path, $theme_webroot_js_path, $theme_webroot/*, $mixin_path, WEBROOT_ABS*/); // DREW TODO - add mixin path to compile in if wanted
 			}
-			// recompile theme subtheme css
-//			if (file_exists(PATH_TO_THEMES.DS.$curr_top_level_dir.DS.'subthemes')) {
-//				$theme_sub_themes_path = PATH_TO_THEMES.DS.$curr_top_level_dir.DS.'subthemes';
-//				$curr_bottom_level_themes_dir = scandir($theme_sub_themes_path);
-//				foreach ($curr_bottom_level_themes_dir as $curr_bottom_level_theme) {
-//					if ($curr_bottom_level_theme == '.' || $curr_bottom_level_theme == '..') {
-//						continue;
-//					}
-//					
-//					$sub_theme_dir = $theme_sub_themes_path.DS.$curr_bottom_level_theme;
-//					
-//					$sub_theme_webroot_css_path = $sub_theme_dir.DS.'webroot'.DS.'css';
-//					$sub_theme_less_css_root_path = $sub_theme_dir.DS.'lesscss';
-//					if (is_dir($sub_theme_webroot_css_path) && is_dir($sub_theme_less_css_root_path)) {
-//						$this->compile_less_fromdir_todir($sub_theme_less_css_root_path, $sub_theme_webroot_css_path);
-//					}
-//				}
-//			}
+
+			// recompile theme subtheme js
+			if (file_exists(PATH_TO_THEMES . DS . $curr_top_level_dir . DS . 'subthemes')) {
+				$theme_sub_themes_path = PATH_TO_THEMES . DS . $curr_top_level_dir . DS . 'subthemes';
+				$curr_bottom_level_themes_dir = scandir($theme_sub_themes_path);
+				foreach ($curr_bottom_level_themes_dir as $curr_bottom_level_theme) {
+					if ($curr_bottom_level_theme == '.' || $curr_bottom_level_theme == '..') {
+						continue;
+					}
+					$sub_theme_dir = $theme_sub_themes_path . DS . $curr_bottom_level_theme;
+					
+					$sub_theme_webroot = $sub_theme_dir . DS . 'webroot';
+					$sub_theme_webroot_js_path = $sub_theme_webroot . DS . 'js' . DS . 'php_closure' . DS;
+					$sub_theme_php_closure_root_path = $sub_theme_dir . DS . 'php_closure';
+					if (is_dir($sub_theme_webroot_js_path) && is_dir($sub_theme_php_closure_root_path) && is_dir($sub_theme_webroot)) {
+						$this->compile_js_fromdir_todir($sub_theme_php_closure_root_path, $sub_theme_webroot_js_path, $sub_theme_webroot/*, $mixin_path, WEBROOT_ABS*/); // DREW TODO - add mixin path to compile in if wanted
+					}
+				}
+			}
 		}
 	}
 
-	private function compile_js_fromdir_todir($php_closure_root_path, $webroot_dir_path) {
-		$php_closure_object = $this->get_php_closure_object();
-
-		$php_closure_object->cacheDir($webroot_dir_path);
-
+	private function compile_js_fromdir_todir($php_closure_root_path, $webroot_dir_path, $webroot_root_path, $mixin_path = '', $mixin_webroot_root_path = '') {
 		$dir = new DirectoryIterator($php_closure_root_path);
 		foreach ($dir as $fileinfo) {
 			if ($fileinfo->getExtension() == 'php') {
-				$php_closure_file_full_path = $php_closure_root_path . DS . $fileinfo->getFilename();
-
-				require($php_closure_file_full_path);
-				if (empty($php_closure)) {
-//					$this->controller->major_error('Failed to load php_closure config', compact('php_closure_root_path', 'webroot_js_path'));
-					continue;
+				$php_closure_object = $this->get_php_closure_object();
+				$php_closure_object->cacheDir($webroot_dir_path);
+				$files_added = false;
+				
+				if (!empty($mixin_path)) {
+					require($mixin_path);
+					if (!empty($php_closure)) {
+						foreach ($php_closure as $js_file_path) {
+							$js_to_load_path = $mixin_webroot_root_path . DS . $js_file_path;
+							if (file_exists($js_to_load_path)) {
+								$files_added = true;
+								$php_closure_object->add($js_to_load_path);
+							} else {
+								$this->controller->major_error('error in php_closure config file 1', compact('php_closure_root_path', 'webroot_js_path'));
+								continue;
+							}
+						}
+					}
+					unset($php_closure);
 				}
-
-				foreach ($php_closure as $js_file_path) {
-					$js_to_load_path = WEBROOT_ABS . DS . $js_file_path;
-					if (file_exists($js_to_load_path)) {
-						$php_closure_object->add($js_to_load_path);
-					} else {
-						$this->controller->major_error('error in php_closure config file', compact('php_closure_root_path', 'webroot_js_path'));
-						continue;
+				
+				
+				$php_closure_file_full_path = $php_closure_root_path . DS . $fileinfo->getFilename();
+				require($php_closure_file_full_path);
+				if (!empty($php_closure)) {
+					foreach ($php_closure as $js_file_path) {
+						$js_to_load_path = $webroot_root_path . DS . $js_file_path;
+						if (file_exists($js_to_load_path)) {
+							$files_added = true;
+							$php_closure_object->add($js_to_load_path);
+						} else {
+							$this->controller->major_error('error in php_closure config file 2', compact('php_closure_root_path', 'webroot_js_path'));
+							continue;
+						}
 					}
 				}
-				$cache_file = $php_closure_object->_getCacheFileName();
-				if ($php_closure_object->_isRecompileNeeded($cache_file)) {
-					$result = $php_closure_object->_compile();
-					if ($result !== false) {
-						$compiled_path = $webroot_dir_path . $fileinfo->getBasename('.php') . ".min.js";
-						file_put_contents($cache_file, $result);
-						file_put_contents($compiled_path, $result);
-					} else {
-						$this->controller->major_error('Failed to recompile php_closure', compact('php_closure_root_path', 'webroot_js_path'));
-						continue;
+
+				if ($files_added) {
+					$cache_file = $php_closure_object->_getCacheFileName();
+					if ($php_closure_object->_isRecompileNeeded($cache_file)) {
+						$result = $php_closure_object->_compile();
+						if ($result !== false) {
+							$compiled_path = $webroot_dir_path . $fileinfo->getBasename('.php') . ".min.js";
+							file_put_contents($cache_file, $result);
+							file_put_contents($compiled_path, $result);
+						} else {
+							$this->controller->major_error('Failed to recompile php_closure', compact('php_closure_root_path', 'webroot_js_path'));
+							continue;
+						}
 					}
 				}
 			}
