@@ -314,22 +314,25 @@ class PhpClosure {
 
 	function _isRecompileNeeded($cache_file) {
 		// If there is no cache file, we obviously need to recompile.
-		if (!file_exists($cache_file))
+		if (!file_exists($cache_file)) {
 			return true;
+		}
 
 		$cache_mtime = filemtime($cache_file);
 
 		// If the source files are newer than the cache file, recompile.
 		foreach ($this->_srcs as $src) {
-			if (filemtime($src) > $cache_mtime)
+			if (filemtime($src) > $cache_mtime) {
 				return true;
+			}
 		}
 
 		// If this script calling the compiler is newer than the cache file,
 		// recompile.  Note, this might not be accurate if the file doing the
 		// compilation is loaded via an include().
-		if (filemtime($_SERVER["SCRIPT_FILENAME"]) > $cache_mtime)
-			return true;
+//		if (filemtime($_SERVER["SCRIPT_FILENAME"]) > $cache_mtime) {
+//			return true;
+//		}
 
 		// Cache is up to date.
 		return false;

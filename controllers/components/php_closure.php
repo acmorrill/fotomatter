@@ -11,7 +11,7 @@ class PhpClosureComponent extends Object {
 	public function recompile_javascript() {
 		///////////////////////////////////////////
 		// recompile admin js
-		$webroot_js_path = WEBROOT_ABS . DS . 'js' . DS . 'php_closure' . DS . 'fotomatter_admin.js';
+		$webroot_js_path = WEBROOT_ABS . DS . 'js' . DS . 'php_closure' . DS;
 		$php_closure_root_path = PHP_CLOSURE_ROOT;
 		$this->compile_js_fromdir_todir($php_closure_root_path, $webroot_js_path);
 
@@ -52,14 +52,10 @@ class PhpClosureComponent extends Object {
 		}
 	}
 
-	private function compile_js_fromdir_todir($php_closure_root_path, $webroot_js_path) {
+	private function compile_js_fromdir_todir($php_closure_root_path, $webroot_dir_path) {
 		$php_closure_object = $this->get_php_closure_object();
 		
-		$path_info = pathinfo($webroot_js_path);
-		$dir_path = $path_info['dirname'] . DS;
-		$compiled_path = $path_info['dirname'] . DS . $path_info['filename'] . ".min.js";
-		$php_closure_object->cacheDir( $dir_path );
-		
+		$php_closure_object->cacheDir( $webroot_dir_path );
 
 		$dir = new DirectoryIterator($php_closure_root_path);
 		foreach ($dir as $fileinfo) {
@@ -85,6 +81,7 @@ class PhpClosureComponent extends Object {
 				if ($php_closure_object->_isRecompileNeeded($cache_file)) {
 					$result = $php_closure_object->_compile();
 					if ($result !== false) {
+						$compiled_path = $webroot_dir_path . $fileinfo->getBasename('.php') . ".min.js";
 						file_put_contents($cache_file, $result);
 						file_put_contents($compiled_path, $result);
 					} else {
