@@ -152,6 +152,10 @@ class ThemeShell extends Shell {
 			$lesscss_path = $path_to_parent_theme . DS . 'subthemes' . DS . $new_theme_name . DS . 'lesscss';
 			mkdir($lesscss_path, 0775, true);
 			$this->add_empty_file_to_folder($lesscss_path);
+			
+			$php_closure_path = $path_to_parent_theme . DS . 'subthemes' . DS . $new_theme_name . DS . 'php_closure';
+			mkdir($php_closure_path, 0775, true);
+			$this->add_empty_file_to_folder($php_closure_path);
 
 			$webroot_css_path = $path_to_parent_theme . DS . 'subthemes' . DS . $new_theme_name . DS . 'webroot' . DS . 'css';
 			mkdir($webroot_css_path, 0775, true);
@@ -161,8 +165,8 @@ class ThemeShell extends Shell {
 			fwrite($handle, "<?php\n\n\$theme_config = array();\n");
 			fclose($handle);
 
-			// add top level theme
-		} else {
+			
+		} else { // add top level theme
 			$helper_path = PATH_TO_THEMES . DS . $new_theme_name . DS . 'helpers';
 			mkdir($helper_path, 0775, true);
 			$this->add_empty_file_to_folder($helper_path);
@@ -178,6 +182,10 @@ class ThemeShell extends Shell {
 			$lesscss_path = PATH_TO_THEMES . DS . $new_theme_name . DS . 'lesscss';
 			mkdir($lesscss_path, 0775, true);
 			$this->add_empty_file_to_folder($lesscss_path);
+			
+			$php_closure_path = PATH_TO_THEMES . DS . $new_theme_name . DS . 'php_closure';
+			mkdir($php_closure_path, 0775, true);
+			$this->add_empty_file_to_folder($php_closure_path);
 
 			$webroot_css_path = PATH_TO_THEMES . DS . $new_theme_name . DS . 'webroot' . DS . 'css';
 			mkdir($webroot_css_path, 0775, true);
