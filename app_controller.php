@@ -127,20 +127,33 @@ class AppController extends Controller {
 		}
 
 
-		///////////////////////////////////////////////////////
-		// Get browser data
-		$this->Browscap->is_browser_supported();
-		
 		
 		///////////////////////////////////////////////////////
 		// setup mobile settings for mobile theming
+		// and supported browser code
 		$this->is_mobile = false;
+		$this->is_tablet = $this->MobileDetect->isTablet();
 		if (!empty($this->current_on_off_features['mobile_theme']) && $this->MobileDetect->isMobile()) {
 			$this->is_mobile = true;
-			//$this->autoRender = false;
 		}
-//		$this->is_mobile = true; // DREW TODO - remove this
+		$this->browser_is_supported = true;
+		if ($this->is_mobile === false && $this->is_tablet === false) {
+			$this->browser_is_supported = $this->Browscap->is_browser_supported();
+		}
+		$this->showed_supported_browser_popup = false;
+//		unset($_SESSION['showed_supported_browser_popup']);
+		if (empty($_SESSION['showed_supported_browser_popup'])) {
+			$_SESSION['showed_supported_browser_popup'] = true;
+		} else {
+			$this->showed_supported_browser_popup = true;
+		}
+		$this->set('browser_is_supported', $this->browser_is_supported);
+		$this->set('showed_supported_browser_popup', $this->showed_supported_browser_popup);
+		
+		
+		
 		$this->set('is_mobile', $this->is_mobile);
+		$this->set('is_tablet', $this->is_tablet);
 
 
 

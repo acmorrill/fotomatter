@@ -117,33 +117,34 @@ img {
 	}
 }
 
-
-select, input, textarea {
-	.Code-Pro-LC;
-	font-size: 20px;
-	line-height: 20px;
-}
-select, input {
-	padding: 0px;
-	margin: 0px;
-	border: 0px;
-	height: @button_height;
-	-moz-border-radius: 0px;
-	-webkit-border-radius: 0px;
-	-khtml-border-radius: 0px;
-	border-radius: 0px;
-}
-select {
-	padding-left: 20px;
-}
-input {
-	text-indent: 20px;
-	&[type="submit"], &[type="image"] {
-		-webkit-appearance: none;
+&, fieldset {
+	select, input, textarea {
+		.Code-Pro-LC;
+		font-size: 20px;
+		line-height: 20px;
 	}
-	&[type="radio"], &[type="checkbox"] {
-		height: 20px;
-		width: 20px;
+	select, input {
+		padding: 0px;
+		margin: 0px;
+		border: 0px;
+		height: @button_height;
+		-moz-border-radius: 0px;
+		-webkit-border-radius: 0px;
+		-khtml-border-radius: 0px;
+		border-radius: 0px;
+	}
+	select {
+		padding-left: 20px;
+	}
+	input {
+		text-indent: 20px;
+		&[type="submit"], &[type="image"] {
+			-webkit-appearance: none;
+		}
+		&[type="radio"], &[type="checkbox"] {
+			height: 20px;
+			width: 20px;
+		}
 	}
 }
 
@@ -163,7 +164,7 @@ input {
 	-moz-border-radius-topleft: 0px; /* Firefox */
 	border-top-left-radius: 0px; /* CSS3 */
 	z-index: @content;
-	margin-bottom: 60px;
+	margin-bottom: 100px;
 }
 .message_div {
 	.Code-Pro-LC;
