@@ -127,9 +127,11 @@ class AppController extends Controller {
 		}
 
 
-//		print_r(get_browser());
-//		exit();
-
+		///////////////////////////////////////////////////////
+		// Get browser data
+		$this->Browscap->is_browser_supported();
+		
+		
 		///////////////////////////////////////////////////////
 		// setup mobile settings for mobile theming
 		$this->is_mobile = false;
