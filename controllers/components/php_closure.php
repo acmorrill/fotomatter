@@ -1,6 +1,6 @@
 <?php
 
-define('LIB_DIR', ROOT . DS . APP_DIR . DS . 'vendor' . DS . 'php-closure' . DS . 'lib/');
+define('LIB_DIR', ROOT . DS . APP_DIR . DS . 'vendors' . DS . 'php-closure' . DS . 'lib/');
 
 class PhpClosureComponent extends Object {
 

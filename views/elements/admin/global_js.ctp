@@ -153,4 +153,12 @@
 		return false;
 	};
 })(jQuery);
+
+<?php if ($showed_supported_browser_popup === false && $browser_is_supported === false): ?>
+	jQuery(document).ready(function() {
+		alert("<?php echo __('Your web browser is not fully supported for fotomatter.net. You can continue using this browser, but it\'s possible some features will not work correctly. Use the latest version of Firefox, Chrome, IE or Safari to remove this message.', true); ?>");
+//		$.foto('alert', "<?php echo __('Your web browser is not fully supported for fotomatter.net. You can continue using this browser, but it\'s possible some features will not work correctly. Use the latest version of Firefox, Chrome, IE or Safari to remove this message.', true); ?>");
+	});
+<?php endif; ?>
+
 </script>

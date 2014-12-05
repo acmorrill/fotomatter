@@ -283,11 +283,11 @@
 
 
 
-<div id="configure_theme_background" class="content_only_page hide_on_mobile" data-step="1" data-intro="<?php echo __('Some themes have a dynamit background and this is where you can edit the background image.', true); ?>" data-position="left">
+<div id="configure_theme_background" class="content_only_page hide_on_mobile">
 	<?php if ($background_settings['theme_has_dynamic_background'] === true): ?>
 		<div class="custom_ui">
 			<?php echo $this->Element('/admin/get_help_button'); ?>
-			<div data-step="2" data-intro="<?php echo __('upload the background images with this button and the uploaded image will show up down below.', true); ?>" data-position="left" id="upload_background_button" class="add_button" type="submit"><div class="content"><?php __('Upload Background Image'); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div></div>
+			<div data-step="2" data-intro="<?php echo __('upload the background images with this button and the uploaded image will show up down below.', true); ?>" data-position="bottom" id="upload_background_button" class="add_button" type="submit"><div class="content"><?php __('Upload Background Image'); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div></div>
 		</div>
 		<?php // DREW TODO - make the below div have the default bg color of the theme ?>
 		<div class="page_content_header">
@@ -296,10 +296,10 @@
 				<?php echo __('Click and drag lower right corner to set size', true); ?>
 			</p>
 		</div>
-		<div id="theme_background_palette_container">
+		<div id="theme_background_palette_container" data-step="1" data-intro="<?php echo __('Some themes have a dynamit background and this is where you can edit the background image.', true); ?>" data-position="top">
 			<div class="fade_background_top"></div>
 			<div class="bg_effects_controls">
-				<div data-step="5" data-intro="<?php echo __('This setting will ajust the brightness of the background image.', true); ?>" data-position="bottom"  id="bg_brightness" class="slider_container">
+				<div data-step="5" data-intro="<?php echo __('This setting will adjust the brightness of the background image.', true); ?>" data-position="bottom"  id="bg_brightness" class="slider_container">
 					<?php 
 						$sign = '';
 						$start_brightness = round(($background_settings['current_brightness']/255) * 100);
@@ -311,7 +311,7 @@
 					<div class="slider_label"><label><?php echo __('Brightness', true); ?></label> (<span><?php echo $start_brightness_display; ?></span>)</div>
 				</div>
 
-				<div data-step="6" data-intro="<?php echo __('This setting will ajust the contrast of the background image.', true); ?>" data-position="bottom" id="bg_contrast" class="slider_container">
+				<div data-step="6" data-intro="<?php echo __('This setting will adjust the contrast of the background image.', true); ?>" data-position="bottom" id="bg_contrast" class="slider_container">
 					<?php 
 						$sign = '';
 						if ($background_settings['current_contrast'] > 0) {
@@ -323,7 +323,7 @@
 
 				</div>
 
-				<div data-step="7" data-intro="<?php echo __('This setting will ajust the sturation of the background image.', true); ?>" data-position="bottom" id="bg_desaturation" class="slider_container">
+				<div data-step="7" data-intro="<?php echo __('This setting will adjust the sturation of the background image.', true); ?>" data-position="bottom" id="bg_desaturation" class="slider_container">
 					<?php 
 						$start_desaturation = ($background_settings['current_desaturation'] == 100) ? __('Default', true) : $background_settings['current_desaturation'] . "%"; 
 					?>
@@ -338,7 +338,7 @@
 
 				<?php $custom_transparency_settings = $theme_config['admin_config']['theme_background_config']['overlay_image']['custom_overlay_transparency_fade']; ?>
 				<?php if (!empty($custom_transparency_settings)): ?>
-					<div id="custom_overlay_transparency_container">
+					<div data-step="9" data-intro="<?php echo __('The header and body sliders allow the background image to be adjusted for more transparency or to not show at all. ', true); ?>" data-position="bottom" id="custom_overlay_transparency_container">
 						<?php foreach ($custom_transparency_settings as $custom_overlay_section_name => $custom_overlay_section): ?>
 							<?php 
 								$overlay_value = !empty($background_settings['custom_overlay_transparency_settings'][$custom_overlay_section_name]) ? $background_settings['custom_overlay_transparency_settings'][$custom_overlay_section_name] : 4; 
@@ -354,12 +354,12 @@
 			</div>
 			
 			<div class="save_custom_background_button">
-				<div id="save_custom_background_button" class="save_button"><div class="content"><?php echo __('Save Background Changes', true); ?></div></div>
+				<div  data-step="10" data-intro="<?php echo __("Don't forget to save all adjustments.", true); ?>" data-position="bottom" id="save_custom_background_button" class="save_button"><div class="content"><?php echo __('Save Background Changes', true); ?></div></div>
 			</div>
-			<div data-step="3" data-intro="<?php echo __('Click and drag the image to set postion.', true); ?>" data-position="left" id="theme_background_palette" style="width: <?php echo $background_settings['max_palette_width']; ?>px; height: <?php echo $background_settings['max_palette_height']; ?>px;">
+			<div data-step="3" data-intro="<?php echo __('Click and drag the image to set postion.', true); ?>" data-position="bottom" id="theme_background_palette" style="width: <?php echo $background_settings['max_palette_width']; ?>px; height: <?php echo $background_settings['max_palette_height']; ?>px;">
 				<img class="theme_background_image" start-src="<?php echo $background_settings['bg_edit_path']; ?>" src="<?php echo $background_settings['bg_edit_path']; ?><?php echo $background_settings['image_cache_ending']; ?>" style="left: <?php echo $background_settings['start_left']; ?>px; top: <?php echo $background_settings['start_top']; ?>px; width: <?php echo $background_settings['start_width']; ?>px; height: <?php echo $background_settings['start_height']; ?>px;" alt="" />
 				<img class="theme_overlay_image" src="<?php echo $background_settings['overlay_web_path']; ?><?php echo $background_settings['image_cache_ending']; ?>" style="display: inline-block; position: absolute; left: <?php echo $background_settings['palette_start_left']; ?>px; top: <?php echo $background_settings['palette_start_top']; ?>px; width: <?php echo $background_settings['palette_background_width']; ?>px; height: <?php echo $background_settings['palette_background_height']; ?>px;" alt="" />
-				<div data-step="4" data-intro="<?php echo __('Click and drag the image corners to set size.', true); ?>" data-position="right"  class="theme_background_image_cont" style="left: <?php echo $background_settings['start_left']; ?>px; top: <?php echo $background_settings['start_top']; ?>px; width: <?php echo $background_settings['start_width']; ?>px; height: <?php echo $background_settings['start_height']; ?>px;"></div>
+				<div data-step="4" data-intro="<?php echo __('Click and drag the image corners to set size.', true); ?>" data-position="top"  class="theme_background_image_cont" style="left: <?php echo $background_settings['start_left']; ?>px; top: <?php echo $background_settings['start_top']; ?>px; width: <?php echo $background_settings['start_width']; ?>px; height: <?php echo $background_settings['start_height']; ?>px;"></div>
 			</div>
 		</div>
 	

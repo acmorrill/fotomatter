@@ -21,6 +21,7 @@ class AppController extends Controller {
 		'LessCss',
 		'PhpClosure',
 		'MobileDetect',
+		'Browscap',
 		'Validation',
 		'Postmark',
 		'FotomatterEmail',
@@ -118,7 +119,7 @@ class AppController extends Controller {
 
 
 		// DREW TODO - for testing only!
-		if (Configure::read('debug') > 0 && !$this->Session->check('Message.flash') /*&& rand(1, 7) == 5*/ ) {
+		if (Configure::read('debug') > 0 && !$this->Session->check('Message.flash') && rand(1, 7) == 5 ) {
 			$this->Session->setFlash(
 				'If you do not see this on a page that page is not outputting any flash messages and there also is no flash message to display. For testing only.', 
 				'admin/flashMessage/success'
@@ -126,16 +127,33 @@ class AppController extends Controller {
 		}
 
 
-
+		
 		///////////////////////////////////////////////////////
 		// setup mobile settings for mobile theming
+		// and supported browser code
 		$this->is_mobile = false;
+		$this->is_tablet = $this->MobileDetect->isTablet();
 		if (!empty($this->current_on_off_features['mobile_theme']) && $this->MobileDetect->isMobile()) {
 			$this->is_mobile = true;
-			//$this->autoRender = false;
 		}
-//		$this->is_mobile = true; // DREW TODO - remove this
+		$this->browser_is_supported = true;
+		if ($this->is_mobile === false && $this->is_tablet === false) {
+			$this->browser_is_supported = $this->Browscap->is_browser_supported();
+		}
+		$this->showed_supported_browser_popup = false;
+//		unset($_SESSION['showed_supported_browser_popup']);
+		if (empty($_SESSION['showed_supported_browser_popup'])) {
+			$_SESSION['showed_supported_browser_popup'] = true;
+		} else {
+			$this->showed_supported_browser_popup = true;
+		}
+		$this->set('browser_is_supported', $this->browser_is_supported);
+		$this->set('showed_supported_browser_popup', $this->showed_supported_browser_popup);
+		
+		
+		
 		$this->set('is_mobile', $this->is_mobile);
+		$this->set('is_tablet', $this->is_tablet);
 
 
 
