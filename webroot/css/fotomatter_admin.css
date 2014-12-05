@@ -4677,7 +4677,7 @@ body {
   position: fixed;
   top: 150px;
   left: 60px;
-  z-index: 50;
+  z-index: 100;
 }
 #sub-nav ul li {
   position: relative;
@@ -5413,7 +5413,7 @@ body {
   position: fixed;
   top: 150px;
   left: 60px;
-  z-index: 50;
+  z-index: 100;
 }
 #photo_mass_upload_outer_wrapper .generic_photo_gallery_cont .upload_setting_container {
   margin-bottom: 30px;
@@ -5447,7 +5447,7 @@ body {
   position: fixed;
   top: 150px;
   left: 60px;
-  z-index: 50;
+  z-index: 100;
   margin-top: 57px;
 }
 #image_edit_container .sub_submenu_cont .sub_submenu_right_cont .sub_submenu_tab_cont#sub_submenu_tab_0 {
@@ -6152,7 +6152,7 @@ body.no_overflow {
   position: fixed;
   top: 150px;
   left: 60px;
-  z-index: 50;
+  z-index: 100;
   width: 380px;
 }
 #account-details .details {
