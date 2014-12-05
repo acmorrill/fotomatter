@@ -5,16 +5,16 @@ class BrowscapComponent extends Object {
 	public function initialize(&$controller, $settings = array()) {
 		$this->controller = $controller;
 	}
-	
+
 	function is_browser_supported() {
 		$browser_data = get_browser(null, true);
 
-		
+
 		if (empty($browser_data['browser']) || empty($browser_data['majorver'])) {
 			return false;
 		}
-		
-		switch($browser_data['browser']) {
+
+		switch ($browser_data['browser']) {
 			case "Firefox":
 				if ($browser_data['majorver'] >= 31) {
 					return true;
@@ -45,7 +45,8 @@ class BrowscapComponent extends Object {
 				break;
 		}
 
-		
+
 		return false;
 	}
+
 }
