@@ -10,7 +10,7 @@ $_SERVER['global']['password'] = '%global_password%';
 $_SERVER['global']['database'] = '%global_database%';
 
 if (PHP_SAPI != 'cli' && defined('TMP') === false) {
-    define('TMP', ROOT . '/tmp/');
+	define('TMP', ROOT . '/tmp/');
 	define('WELCOME_SITE_URL', '%welcome_site_url%');
 }
 

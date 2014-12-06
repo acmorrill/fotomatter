@@ -7,14 +7,24 @@ class WelcomeController extends AppController {
 	public $layout = 'admin/login';
 
 	public function beforeFilter() {
+		parent::beforeFilter();
 
+		
+		// if haven't done the create user then don't do the choose theme step or your site actions
+		if ($this->action == 'admin_choose_theme' || $this->action == 'admin_your_site') {
+			$this->SiteSetting = ClassRegistry::init('SiteSetting');
+			if ($this->SiteSetting->getVal('welcome_password_set', 0) == 0) {
+				$this->redirect('/admin/welcome/create_password');
+			}
+		}
+		
+		
 		if (isset($_COOKIE['welcome_hash'])) {
 			$this->Auth->allow('admin_create_password', 'admin_index');
 		} else {
 			$this->Auth->allow('admin_index');
 		}
 
-		parent::beforeFilter();
 	}
 
 	public function admin_index($account_welcome_email_hash) {
@@ -45,9 +55,8 @@ class WelcomeController extends AppController {
 	}
 
 	public function admin_create_password() {
-
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
-
+		
 
 		// don't do this method if the password has already been set
 		if ($this->SiteSetting->getVal('welcome_password_set', 1) == 1) {
@@ -59,7 +68,7 @@ class WelcomeController extends AppController {
 		$this->set(compact('account_email'));
 
 		if ($account_email === false) {
-			$this->SiteSetting->major_error('account_email not set for account');
+			$this->SiteSetting->major_error('account_email not set for account during create password');
 			$this->Session->setFlash(__('An error occured during site build. Please contact support.', true), 'admin/flashMessage/error');
 		}
 
@@ -70,7 +79,7 @@ class WelcomeController extends AppController {
 				$this->Validation->validate('account_valid_password', $this->data, 'password', __('The password must be at least 8 characters long.', true));
 				$this->Validation->validate('password_match', $this->data['password'], $this->data['confirm_password'], 'The passwords must match.');
 			} catch (Exception $e) {
-				$this->Session->setFlash($e->getMessage(), 'admin/flashMessage/error');
+				$this->Session->setFlash($e->getMessage(), 'admin/flashMessage/error', array(), 'auth');
 				return;
 			}
 
@@ -80,7 +89,7 @@ class WelcomeController extends AppController {
 				// failed to create user
 				$data = $this->data;
 				$this->User->major_error('Failed to create the initial user!', compact('account_email', 'data'), 'high');
-				$this->Session->setFlash(__('An error occured during site build. Please contact support.', true), 'admin/flashMessage/error');
+				$this->Session->setFlash(__('An error occured during site build. Please contact support.', true), 'admin/flashMessage/error', array(), 'auth');
 				return;
 			}
 
@@ -126,9 +135,14 @@ class WelcomeController extends AppController {
 
 		$dns_domain = '';
 		if ($site_domain === false) {
-			$this->SiteSetting->major_error('Site domain not set!');
+			$this->SiteSetting->major_error('Site domain not set at end of welcome!');
 		} else {
 			$dns_domain = $site_domain . ".fotomatter.net";
+		}
+		
+		// if already on the dns domain then redirect into the admin site
+		if (trim('/', $dns_domain) == trim('/', $_SERVER['HTTP_HOST'])) {
+			$this->redirect('/admin/photos/mass_upload');
 		}
 
 		$this->set(compact('dns_domain'));
