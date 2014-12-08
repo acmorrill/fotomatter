@@ -81,10 +81,9 @@ if (isset($_COOKIE['welcome_hash'])) {
 		// hash is valid - if on welcome site we do some more work
 		if ($on_welcome_site === true) {
 			// check to make sure the hash is not too old
-			$max_old = 60 * 15; // 15 mins
+			/*$max_old = 60 * 15; // 15 mins
 			$created = strtotime($hash_data['created']);
-			if ($created + $max_old > time()) { // will only work if the hash was created within the last 15 minutes
-				
+			if ($created + $max_old > time()) { // will only work if the hash was created within the last 15 minutes*/
 				// make sure that we are only trying to use the welcome controller or login via the welcome site
 				if (startsWith($_SERVER['REQUEST_URI'], '/admin/welcome') == false && startsWith($_SERVER['REQUEST_URI'], '/admin/users/login') == false) {
 					unset($_COOKIE['welcome_hash']);
@@ -95,13 +94,13 @@ if (isset($_COOKIE['welcome_hash'])) {
 
 				// success - we can act as a new site's db
 				require("/var/www/accounts/{$hash_data['account_id']}/db_configs.php"); // DREW TODO - this needs to be on for on the real server
-			} else {
+			/*} else {
 				// redirect to the dns site
 				$request_uri_arr = parse_url($_SERVER['REQUEST_URI']);
 				$redirect_path = 'https://' . $hash_data['site_domain'] . ".fotomatter.net" . $request_uri_arr['path'];
 //				db_redirect('http://fotomatter.dev/'.$request_uri_arr['path']); // DREW TODO - turn this off
 				db_redirect($redirect_path); // DREW TODO - make this into https - and turn this on!
-			}
+			}*/
 		} else {
 			// check if hash applies to current site
 			if ($_SERVER['HTTP_HOST'] !== $hash_data['site_domain'] . '.fotomatter.net') {
