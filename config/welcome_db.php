@@ -58,6 +58,9 @@ if (isset($_COOKIE['welcome_hash'])) {
 	mysql_free_result($query_result);
 	mysql_close($link);
 
+	
+	
+	
 
 	/////////////////////////////////////
 	// check if hash is valid
@@ -82,7 +85,7 @@ if (isset($_COOKIE['welcome_hash'])) {
 			} else {
 				// redirect to the dns site
 				$request_uri_arr = parse_url($_SERVER['REQUEST_URI']);
-				$redirect_path = 'https://' . $hash_data['site_domain'] . ".fotomatter.net/" . $request_uri_arr['path'];
+				$redirect_path = 'https://' . $hash_data['site_domain'] . ".fotomatter.net" . $request_uri_arr['path'];
 //				db_redirect('http://fotomatter.dev/'.$request_uri_arr['path']); // DREW TODO - turn this off
 				db_redirect($redirect_path); // DREW TODO - make this into https - and turn this on!
 			}

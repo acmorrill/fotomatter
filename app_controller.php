@@ -66,11 +66,11 @@ class AppController extends Controller {
 		if (empty($WELCOME_SITE_URL)) {
 			$WELCOME_SITE_URL = 'welcome.fotomatter.net';
 		}
-		$on_welcome_site = $_SERVER['HTTP_HOST'] === $WELCOME_SITE_URL;
-		$not_on_welcome_site = !$on_welcome_site;
-		$not_in_welcome_controller = $this->startsWith($_SERVER['REQUEST_URI'], '/admin/welcome') == false;
-		$not_in_welcome_site_access_area = $not_in_welcome_controller && $this->startsWith($_SERVER['REQUEST_URI'], '/admin/users/login') == false;
-		if ( $on_welcome_site && ( $not_in_welcome_site_access_area || empty($_SERVER['HTTPS']) ) ) {
+		$this->on_welcome_site = $_SERVER['HTTP_HOST'] === $WELCOME_SITE_URL;
+		$this->not_on_welcome_site = !$this->on_welcome_site;
+		$this->not_in_welcome_controller = $this->startsWith($_SERVER['REQUEST_URI'], '/admin/welcome') == false;
+		$this->not_in_welcome_site_access_area = $this->not_in_welcome_controller && $this->startsWith($_SERVER['REQUEST_URI'], '/admin/users/login') == false;
+		if ( $this->on_welcome_site && ( $this->not_in_welcome_site_access_area || empty($_SERVER['HTTPS']) ) ) {
 			header('HTTP/1.0 404 Not Found');
 			die();
 		}
@@ -79,11 +79,12 @@ class AppController extends Controller {
 		/////////////////////////////////////////////////////////////////////////////////////////////////
 		// if a password has never been setup via the welcome 
 		// and in admin
+		// and we are not on welcome site
 		// and we are not in welcome controller
 		// and is not the dev site
 		// then redirect to the welcome create_password
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
-		if ($in_admin && $not_on_welcome_site && $not_in_welcome_controller && $this->SiteSetting->getVal('welcome_password_set', 0) == 0 && $this->SiteSetting->getVal('is_dev', 0) != 1) {
+		if ($in_admin && $this->not_on_welcome_site && $this->not_in_welcome_controller && $this->SiteSetting->getVal('welcome_password_set', 0) == 0 && $this->SiteSetting->getVal('is_dev', 0) != 1) {
 			// grab the hash key from the global db
 			$account_id = $this->SiteSetting->getVal('account_id', false);
 			if (!empty($account_id)) {
@@ -130,19 +131,18 @@ class AppController extends Controller {
 		// 3) if don't need to redirect to ssl
 		$current_primary_domain = $this->AccountDomain->get_current_primary_domain();
 		$http_host = $_SERVER["HTTP_HOST"];
-		if ($not_on_welcome_site && Configure::read('debug') == 0 && !$redirect_to_ssl && $http_host != $current_primary_domain) {
+		if ($this->not_on_welcome_site && Configure::read('debug') == 0 && !$redirect_to_ssl && $http_host != $current_primary_domain) {
 			$this->redirect("http://$current_primary_domain");
 			exit();
 		}
-
 		
 		//////////////////////////////////////////////////////////
 		// turn on the first time login popup if
 		// really is a first time login
-		//	-- $not_in_welcome_site_access_area
+		//	-- $this->not_in_welcome_site_access_area
 		//	-- welcome_first_login_popup is not 1
 		$this->done_welcome_first_login_popup = 1;
-		if ($not_in_welcome_site_access_area) {
+		if ($this->not_in_welcome_site_access_area) {
 			$this->done_welcome_first_login_popup = $this->SiteSetting->getVal('welcome_first_login_popup', 0);
 			if (empty($this->done_welcome_first_login_popup)) {
 				$this->SiteSetting->setVal('welcome_first_login_popup', 1);
