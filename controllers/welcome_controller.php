@@ -141,7 +141,7 @@ class WelcomeController extends AppController {
 		}
 		
 		// if already on the dns domain then redirect into the admin site
-		if (trim('/', $dns_domain) == trim('/', $_SERVER['HTTP_HOST'])) {
+		if (trim($dns_domain, '/') == trim($_SERVER['HTTP_HOST'], '/')) {
 			$this->redirect('/admin/photos/mass_upload');
 		}
 
