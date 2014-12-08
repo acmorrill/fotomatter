@@ -64,6 +64,8 @@
 	
 		// setup chosen based on class
 		jQuery('.chzn-select').chosen();
+		
+		jQuery('html').attr('data-site_domain', '<?php echo $site_domain; ?>');
 	});
         
 	
