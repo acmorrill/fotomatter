@@ -11,17 +11,41 @@ function startsWith($haystack, $needle) {
 	return (substr(strtolower($haystack), 0, $length) === strtolower($needle));
 }
 
+function get_hash_data($welcome_hash) {
+	////////////////////////////////////////////////
+	// get the welcome hash data from the db
+	$link = mysql_connect($_SERVER['global']['host'], $_SERVER['global']['login'], $_SERVER['global']['password']);
+	if (!$link) {
+		die('Could not connect: ' . mysql_error());
+	}
+	mysql_select_db($_SERVER['global']['database'], $link);
+	$welcome_hash = mysql_real_escape_string($welcome_hash, $link);
+	$query = "SELECT * FROM welcome_hashes WHERE hash='$welcome_hash' LIMIT 1;";
+	$query_result = mysql_query($query, $link);
+	$hash_data = mysql_fetch_assoc($query_result);
+	mysql_free_result($query_result);
+	mysql_close($link);
+	
+	return $hash_data;
+}
+
 ////////////////////////////////////////////////////////////////////
 // if have welcome hash get param then store in cookie
 // and redirect (to hide the get param and review cookie)
 if (!empty($_GET['wh'])) {
 	unset($_COOKIE['welcome_hash']);
+	
+	$escaped_wh = mysql_escape_string($_GET['wh']); // NOTE: cannot use mysql_real_escape_string because there is not actual db connection yet
+	$hash_data = get_hash_data($escaped_wh);
 
 	
-	$cookie_date = time() + 60 * 60 * 24 * 30; // 30 days
+	////////////////////////////////////////////////////////////////////
 	// NOTE: cookie works on both welcome and regular site
-	$escaped_wh = mysql_escape_string($_GET['wh']); // NOTE: cannot use mysql_real_escape_string because there is not actual db connection yet
-	setcookie('welcome_hash', $escaped_wh, $cookie_date, '/admin/welcome/', '.fotomatter.net');
+	$cookie_date = time() + 60 * 60 * 24 * 30; // 30 days
+	if (isset($hash_data['site_domain'])) {
+		setcookie('welcome_hash', $escaped_wh, $cookie_date, '/admin/welcome/', "welcome.fotomatter.net");
+		setcookie('welcome_hash', $escaped_wh, $cookie_date, '/admin/welcome/', "{$hash_data['site_domain']}.fotomatter.net");
+	}
 
 
 	// redirect to remove the get param
@@ -44,22 +68,11 @@ if (isset($_COOKIE['welcome_hash'])) {
 		$WELCOME_SITE_URL = 'welcome.fotomatter.net';
 	}
 	$on_welcome_site = $_SERVER['HTTP_HOST'] === $WELCOME_SITE_URL;
+	
+	
 	////////////////////////////////////////////////
 	// get the welcome hash data from the db
-	$link = mysql_connect($_SERVER['global']['host'], $_SERVER['global']['login'], $_SERVER['global']['password']);
-	if (!$link) {
-		die('Could not connect: ' . mysql_error());
-	}
-	mysql_select_db($_SERVER['global']['database'], $link);
-	$welcome_hash = mysql_real_escape_string($_COOKIE['welcome_hash'], $link);
-	$query = "SELECT * FROM welcome_hashes WHERE hash='$welcome_hash' LIMIT 1;";
-	$query_result = mysql_query($query, $link);
-	$hash_data = mysql_fetch_assoc($query_result);
-	mysql_free_result($query_result);
-	mysql_close($link);
-
-	
-	
+	$hash_data = get_hash_data($_COOKIE['welcome_hash']);
 	
 
 	/////////////////////////////////////
