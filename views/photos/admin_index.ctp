@@ -2,7 +2,7 @@
 	<?php echo $this->Element('/admin/get_help_button'); ?>
 </h1>
 <p>
-	<?php echo __('Your stunning photos make it possible to share the world from your view.s', true); ?>
+	<?php echo __('Your stunning photos make it possible to share the world your love affair with life.', true); ?>
 </p>
 
 <script type="text/javascript">
@@ -35,7 +35,7 @@
 			<tr> 
 				<?php /* <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?> */ ?>
 				<?php /* <?php echo $this->Paginator->sort(__('Photo ID', true), 'Photo.id'); ?> */ ?>
-				<th class="first <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>"
+				<th class="first" data-step="3" data-intro="<?php echo __('You may display the orders by ID, photo, title, and so on. Indicated by the blue lina and arrow.', true); ?>" data-position="bottom" <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>"
 					<div class="content one_line">
 						<div class="direction_arrow"></div>
 						<?php echo $this->Paginator->sort(__('ID', true), 'Photo.id'); ?>
@@ -95,7 +95,7 @@
 					</td> 
 					<?php /* <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr<?php endif; ?>"><?php echo $curr_photo['Photo']['id']; ?> */ ?>
 					<?php $img_path = $this->Photo->get_photo_path($curr_photo['Photo']['id'], 60, 60); ?>
-					<td class="photo_image" data-step="5" data-intro="<?php echo __('CONTENT HERE', true); ?>" data-position="bottom">
+					<td class="photo_image">
 						<div class="rightborder"></div>
 						<span class="photo_span <?php if (!$photo_is_enabled):?>disabled<?php endif; ?>"><img src="<?php echo $img_path; ?>" alt="" /><?php //echo $curr_photo['Photo']['id']; ?></span>
 					</td> 

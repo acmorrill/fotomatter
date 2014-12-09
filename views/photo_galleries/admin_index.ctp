@@ -4,7 +4,7 @@
 	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 </h1>
 <p>
-	What is this page anyhow?
+	<?php echo __('This is the astonishing galleries page. It displays all created galleries across the site. Here the galleries can be rearranged, edited and deleted.'); ?>
 </p>
 <div style="clear: both;"></div>
 <script type="text/javascript">
