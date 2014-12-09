@@ -20,7 +20,7 @@ class FotoMatterOverlordApi extends Object {
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
 		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($request));
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_CAINFO, '/etc/apache2/ssl/*.fotomatter.net.crt');
+		curl_setopt($ch, CURLOPT_CAINFO, '/etc/apache2/ssl/*.fotomatter.net.pem');
 		curl_setopt($ch, CURLOPT_CAPATH, '/etc/ssl/certs');
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
