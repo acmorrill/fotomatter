@@ -4,7 +4,7 @@
 	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 </h1>
 <p>
-	What is this page anyhow?
+	<?php echo __('Here you have the chance to create more awe-inspiring elements to your site.', true); ?>
 </p>
 <div style="clear: both;"></div>
 <div style="clear: both;"></div>
@@ -42,7 +42,7 @@
 </script>
 
 
-<div class="right">
+<div class="right" data-step="1" data-intro="<?php echo __('Choose what kind of page you would like to make. Design a custom page, add an external page such as a blog or create a contact page.', true); ?>" data-position="bottom">
 	<?php echo $this->Element('admin/pages/add_page'); ?>
 </div>
 <div class="clear"></div>
@@ -50,7 +50,7 @@
 <div id="pages_list" class="table_container">
 	<div class="fade_background_top"></div>
 	<div class="table_top"></div>
-	<table class="list">
+	<table class="list" data-step="2" data-intro="<?php echo __('This area will display all the pages that have been created or connected to your site.',true); ?>" data-position="top">
 		<thead>
 			<tr> 
 				<?php /* <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?> */ ?>

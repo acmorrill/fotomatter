@@ -3,7 +3,7 @@
 </h1>
 
 <div class="page_content_header generic_basic_settings">
-	<p><?php echo __('modify settings below', true); ?></p>
+	<p data-step="1" data-intro="<?php echo __ ('Adjust the settings for the page below. Add a page title, attach an external page, or create the contact information.',true); ?>" data-position="top"><?php echo __('modify settings below', true); ?></p>
 	<div style="clear: both;"></div>
 </div>
 <div class="generic_palette_container">
