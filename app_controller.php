@@ -144,19 +144,36 @@ class AppController extends Controller {
 		// also - log them in if they also have the correct hash for their website
 		//	-- 
 		$this->done_welcome_first_login_popup = 1;
+		$this->log('came here 1', 'welcome_auto_login');
 		if ($this->not_in_welcome_site_access_area && $this->not_on_welcome_site) {
+			$this->log('came here 2', 'welcome_auto_login');
 			$this->done_welcome_first_login_popup = $this->SiteSetting->getVal('welcome_first_login_popup', 0);
 			if (empty($this->done_welcome_first_login_popup)) {
+				$this->log('came here 3', 'welcome_auto_login');
 				$this->SiteSetting->setVal('welcome_first_login_popup', 1);
-				if (!empty($_COOKIE['welcome_hash'])) {
-					$this->Welcome = ClassRegistry::init('Welcome');
-					$this->User = ClassRegistry::init('User');
-					if ($this->Welcome->welcome_email_hash_is_built_for_site($_COOKIE['welcome_hash'], $site_domain) === true) {
-						// so log them in - this should only happen once because above welcome_first_login_popup is set to 1
-						$account_email = $this->SiteSetting->getVal('account_email');
-						$user_id = $this->User->get_user_id_by_email($account_email);
-						if (!empty($user_id)) {
-							$this->Auth->login($user_id);
+				
+				$account_id = $this->SiteSetting->getVal('account_id', false);
+				if (!empty($account_id)) {
+					$this->GlobalWelcomeHash = ClassRegistry::init('GlobalWelcomeHash');
+					$global_welcome_hash = $this->GlobalWelcomeHash->find('first', array(
+						'conditions' => array(
+							'GlobalWelcomeHash.account_id' => $account_id,
+						),
+						'contain' => false,
+					));
+					if (!empty($global_welcome_hash['GlobalWelcomeHash']['hash'])) {
+						$this->log('came here 4', 'welcome_auto_login');
+						$this->Welcome = ClassRegistry::init('Welcome');
+						$this->User = ClassRegistry::init('User');
+						if ($this->Welcome->welcome_email_hash_is_built_for_site($global_welcome_hash['GlobalWelcomeHash']['hash'], $site_domain) === true) {
+							$this->log('came here 5', 'welcome_auto_login');
+							// so log them in - this should only happen once because above welcome_first_login_popup is set to 1
+							$account_email = $this->SiteSetting->getVal('account_email');
+							$user_id = $this->User->get_user_id_by_email($account_email);
+							if (!empty($user_id)) {
+								$this->log('came here 6', 'welcome_auto_login');
+								$this->Auth->login($user_id);
+							}
 						}
 					}
 				}
