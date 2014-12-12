@@ -31,7 +31,9 @@ class Welcome extends AppModel {
 	public function welcome_email_hash_is_built_for_site($email_hash, $site_domain) {
 		$ch = curl_init();
 
-		$url = 'https://' . Configure::read('OVERLORD_URL') . "/fm_build/welcome_email_hash_is_built_for_site/$email_hash/$site_domain/";
+		$url = 'https://' . Configure::read('OVERLORD_URL') . "/fm_build/welcome_email_hash_is_built_for_site/$email_hash/" . urlencode($site_domain) . "/";
+		$this->log($url, 'welcome_auto_login');
+		$this->log('came here 4.8', 'welcome_auto_login');
 
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
