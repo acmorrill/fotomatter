@@ -53,7 +53,7 @@ class AppController extends Controller {
 		
 		///////////////////////////////////////////////////////////////
 		// clear apc cache if in debug mode
-		if (Configure::read('debug') > 0) {
+		if (Configure::read('debug') > 0 || isset($this->params['apc_clear_cache'])) {
 			apc_clear_cache('user');
 		}
 		
@@ -83,7 +83,6 @@ class AppController extends Controller {
 		// and we are not in welcome controller
 		// and is not the dev site
 		// then redirect to the welcome create_password
-		$this->SiteSetting = ClassRegistry::init('SiteSetting');
 		if ($in_admin && $this->not_on_welcome_site && $this->not_in_welcome_controller && $this->SiteSetting->getVal('welcome_password_set', 0) == 0 && $this->SiteSetting->getVal('is_dev', 0) != 1) {
 			// grab the hash key from the global db
 			$account_id = $this->SiteSetting->getVal('account_id', false);
@@ -141,11 +140,26 @@ class AppController extends Controller {
 		// really is a first time login
 		//	-- $this->not_in_welcome_site_access_area
 		//	-- welcome_first_login_popup is not 1
+		//	-- not on welcome site
+		// also - log them in if they also have the correct hash for their website
+		//	-- 
 		$this->done_welcome_first_login_popup = 1;
-		if ($this->not_in_welcome_site_access_area) {
+		if ($this->not_in_welcome_site_access_area && $this->not_on_welcome_site) {
 			$this->done_welcome_first_login_popup = $this->SiteSetting->getVal('welcome_first_login_popup', 0);
 			if (empty($this->done_welcome_first_login_popup)) {
 				$this->SiteSetting->setVal('welcome_first_login_popup', 1);
+				if (!empty($_COOKIE['welcome_hash'])) {
+					$this->Welcome = ClassRegistry::init('Welcome');
+					$this->User = ClassRegistry::init('User');
+					if ($this->Welcome->welcome_email_hash_is_built_for_site($_COOKIE['welcome_hash'], $site_domain) === true) {
+						// so log them in - this should only happen once because above welcome_first_login_popup is set to 1
+						$account_email = $this->SiteSetting->getVal('account_email');
+						$user_id = $this->User->get_user_id_by_email($account_email);
+						if (!empty($user_id)) {
+							$this->Auth->login($user_id);
+						}
+					}
+				}
 			}
 		}
 		$this->set('done_welcome_first_login_popup', $this->done_welcome_first_login_popup);

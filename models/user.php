@@ -41,4 +41,20 @@ class User extends AppModel {
 			return false;
 		}
 	}
+	
+	public function get_user_by_email($email_address) {
+		$user = $this->find('first', array(
+			'conditions' => array(
+				'User.email_address' => $email_address,
+				'User.admin' => '1',
+			),
+			'contains' => false,
+		));
+		
+		if (isset($user['User']['id'])) {
+			return $user['User']['id'];
+		} else {
+			return false;
+		}
+	}
 }

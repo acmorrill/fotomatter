@@ -1,11 +1,12 @@
 <script type="text/javascript">
 	var ping_dns;
-	var retry_timeout = 3000;
+	var retry_timeout = 10000;
 	function check_dns() {
 		<?php if (!empty($dns_domain)): ?>
+			var random = Math.floor((Math.random() * 100000) + 1);
 			jQuery.ajax({
 				type: 'get',
-				url: 'https://<?php echo $dns_domain; ?>/site_pages/ping?callback=?',
+				url: 'https://<?php echo $dns_domain; ?>/site_pages/ping/' + random + '?callback=?',
 				success: function(the_data) {
 					clearTimeout(ping_dns);
 
