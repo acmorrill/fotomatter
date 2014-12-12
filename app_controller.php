@@ -145,9 +145,12 @@ class AppController extends Controller {
 		//	-- 
 		$this->done_welcome_first_login_popup = 1;
 		$this->log('came here 1', 'welcome_auto_login');
+		apc_clear_cache('user');
 		if ($this->not_in_welcome_site_access_area && $this->not_on_welcome_site) {
 			$this->log('came here 2', 'welcome_auto_login');
 			$this->done_welcome_first_login_popup = $this->SiteSetting->getVal('welcome_first_login_popup', 0);
+			$this->log($this->done_welcome_first_login_popup, 'welcome_auto_login');
+			$this->log('came here 2.5', 'welcome_auto_login');
 			if (empty($this->done_welcome_first_login_popup)) {
 				$this->log('came here 3', 'welcome_auto_login');
 				$this->SiteSetting->setVal('welcome_first_login_popup', 1);
