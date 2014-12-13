@@ -135,6 +135,8 @@ class AppController extends Controller {
 			exit();
 		}
 		
+		
+		
 		//////////////////////////////////////////////////////////
 		// turn on the first time login popup if
 		// really is a first time login
@@ -144,15 +146,9 @@ class AppController extends Controller {
 		// also - log them in if they also have the correct hash for their website
 		//	-- 
 		$this->done_welcome_first_login_popup = 1;
-		$this->log('came here 1', 'welcome_auto_login');
-		apc_clear_cache('user');
 		if ($this->not_in_welcome_site_access_area && $this->not_on_welcome_site) {
-			$this->log('came here 2', 'welcome_auto_login');
 			$this->done_welcome_first_login_popup = $this->SiteSetting->getVal('welcome_first_login_popup', 0);
-			$this->log($this->done_welcome_first_login_popup, 'welcome_auto_login');
-			$this->log('came here 2.5', 'welcome_auto_login');
 			if (empty($this->done_welcome_first_login_popup)) {
-				$this->log('came here 3', 'welcome_auto_login');
 				$this->SiteSetting->setVal('welcome_first_login_popup', 1);
 				
 				$account_id = $this->SiteSetting->getVal('account_id', false);
@@ -165,19 +161,15 @@ class AppController extends Controller {
 						'contain' => false,
 					));
 					if (!empty($global_welcome_hash['GlobalWelcomeHash']['hash'])) {
-						$this->log('came here 4', 'welcome_auto_login');
 						$this->Welcome = ClassRegistry::init('Welcome');
 						$this->User = ClassRegistry::init('User');
-						$this->log($global_welcome_hash['GlobalWelcomeHash']['hash'], 'welcome_auto_login');
-						$this->log($site_domain, 'welcome_auto_login');
-						$this->log('came here 4.5', 'welcome_auto_login');
-						$this->log('came here 5', 'welcome_auto_login');
 						// so log them in - this should only happen once because above welcome_first_login_popup is set to 1
-						$account_email = $this->SiteSetting->getVal('account_email');
-						$user_id = $this->User->get_user_id_by_email($account_email);
-						if (!empty($user_id)) {
-							$this->log('came here 6', 'welcome_auto_login');
-							$this->Auth->login($user_id);
+						$account_email = $this->SiteSetting->getVal('account_email', false);
+						if (!empty($account_email)) {
+							$user_id = $this->User->get_user_id_by_email($account_email);
+							if (!empty($user_id)) {
+								$this->Auth->login($user_id);
+							}
 						}
 					}
 				}

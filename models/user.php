@@ -42,11 +42,12 @@ class User extends AppModel {
 		}
 	}
 	
-	public function get_user_by_email($email_address) {
+	public function get_user_id_by_email($email_address) {
 		$user = $this->find('first', array(
 			'conditions' => array(
 				'User.email_address' => $email_address,
-				'User.admin' => '1',
+				'User.admin' => true,
+				'User.active' => true,
 			),
 			'contains' => false,
 		));
