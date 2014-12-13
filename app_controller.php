@@ -171,15 +171,13 @@ class AppController extends Controller {
 						$this->log($global_welcome_hash['GlobalWelcomeHash']['hash'], 'welcome_auto_login');
 						$this->log($site_domain, 'welcome_auto_login');
 						$this->log('came here 4.5', 'welcome_auto_login');
-						if ($this->Welcome->welcome_email_hash_is_built_for_site($global_welcome_hash['GlobalWelcomeHash']['hash'], $site_domain) === true) {
-							$this->log('came here 5', 'welcome_auto_login');
-							// so log them in - this should only happen once because above welcome_first_login_popup is set to 1
-							$account_email = $this->SiteSetting->getVal('account_email');
-							$user_id = $this->User->get_user_id_by_email($account_email);
-							if (!empty($user_id)) {
-								$this->log('came here 6', 'welcome_auto_login');
-								$this->Auth->login($user_id);
-							}
+						$this->log('came here 5', 'welcome_auto_login');
+						// so log them in - this should only happen once because above welcome_first_login_popup is set to 1
+						$account_email = $this->SiteSetting->getVal('account_email');
+						$user_id = $this->User->get_user_id_by_email($account_email);
+						if (!empty($user_id)) {
+							$this->log('came here 6', 'welcome_auto_login');
+							$this->Auth->login($user_id);
 						}
 					}
 				}
