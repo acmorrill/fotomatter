@@ -33,7 +33,7 @@
 			</div>
 		<?php $count++; endforeach; ?>
 	</div>
-	<div class="sub_submenu_right_cont" data-step="1" data-intro="<?php echo __('Create the main menu for your site. The main menu will allow visitors to navigate the site', true); ?>" data-position="top">
+	<div class="sub_submenu_right_cont" data-step="1" data-intro="<?php echo __('Create the main menu for your site. The main menu will allow visitors to navigate using the created menu below.', true); ?>" data-position="top">
 		<?php $count = 0; foreach ($tabs as $tab_name => $tab_element_path): ?>
 			<div id="sub_submenu_tab_<?php echo $count; ?>" class="sub_submenu_tab_cont">
 				<div class="content-background <?php if (isset($lighter)): ?>lighter-content-background<?php endif; ?> block_element_base">

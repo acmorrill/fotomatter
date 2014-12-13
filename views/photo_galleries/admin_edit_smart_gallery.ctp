@@ -44,7 +44,7 @@
 	<p><?php echo __('modify settings below', true); ?></p>
 	<div style="clear: both;"></div>
 </div>
-<div class="generic_palette_container" data-step="1" data-intro="<?php echo __('Smart galleries allow photos to be easily added to galleries by batch selecting them.', true); ?>" data-position="top">
+<div class="generic_palette_container" data-step="1" data-intro="<?php echo __('Smart galleries allow photos to be easily added to galleries by selecting photos in batches.', true); ?>" data-position="top">
 	<div class="fade_background_top"></div>
 	<?php 
 		$start_settings = array();

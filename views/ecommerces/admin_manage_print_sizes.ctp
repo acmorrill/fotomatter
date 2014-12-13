@@ -77,7 +77,6 @@
 			?>
 			<?php foreach($photo_avail_sizes as $photo_avail_size): ?> 
 				<?php 
-					$edit_help_code = '';
 					$size_help_code = '';
 					if ($count === 1) {
 						$size_help_code = 'data-step="2" data-intro="'.__('The short side is the dimension of the shorter side of an image depending on the format. For example, the short side of a landscape is the height while the short side of a vertical panoramic is the width. The long side will be calculated based on the actual image depending on the format.', true).'" data-position="right"';
