@@ -189,7 +189,6 @@ class Theme extends AppModel {
 			$on_welcome_site = $_SERVER['HTTP_HOST'] === $WELCOME_SITE_URL;
 			if ($on_welcome_site === true) {
 				// grab the account_id
-				$this->SiteSetting = ClassRegistry::init('SiteSetting');
 				$account_id = $this->SiteSetting->getVal('account_id', false);
 				if (!empty($account_id)) {
 					$theme_root_path = "/var/www/accounts/$account_id";

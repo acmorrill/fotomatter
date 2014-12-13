@@ -143,10 +143,10 @@ class AppController extends Controller {
 		//	-- $this->not_in_welcome_site_access_area
 		//	-- welcome_first_login_popup is not 1
 		//	-- not on welcome site
+		//	-- not the ping location
 		// also - log them in if they also have the correct hash for their website
-		//	-- 
 		$this->done_welcome_first_login_popup = 1;
-		if ($this->not_in_welcome_site_access_area && $this->not_on_welcome_site) {
+		if ($this->not_in_welcome_site_access_area && $this->not_on_welcome_site && $this->startsWith($_SERVER['REQUEST_URI'], '/site_pages/ping') === false) {
 			$this->done_welcome_first_login_popup = $this->SiteSetting->getVal('welcome_first_login_popup', 0);
 			if (empty($this->done_welcome_first_login_popup)) {
 				$this->SiteSetting->setVal('welcome_first_login_popup', 1);
