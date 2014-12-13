@@ -473,11 +473,11 @@ $(function() {
 		<div id='add_gallery_filters_cont'>
 			<div id="photos_not_in_a_gallery_cont" class="custom_ui_radio">
 				<input type="checkbox" id="photos_not_in_a_gallery" />
-				<label class='add_button' for="photos_not_in_a_gallery"><div class='content'><?php echo __('Photos Not In A Gallery', true); ?></div></label>
+				<label class='add_button' data-step="3" data-intro="<?php echo __('Also filter by photos not in the gallery.', true); ?>" data-position="left" for="photos_not_in_a_gallery"><div class='content'><?php echo __('Photos Not In A Gallery', true); ?></div></label>
 			</div>
 		</div><?php /*
 		*/ ?><div class="generic_sort_and_filters"><?php /*
-			*/ ?><div id="filter_photo_by_format"><?php /*
+			*/ ?><div id="filter_photo_by_format" data-step="2" data-intro="<?php echo __('You may also filter the photos by using one or more of these buttons.',true); ?>" data-position="bottom"><?php /*
 				*/ ?><input type="checkbox" value="vertical_panoramic" id="check5" /><?php /*
 				*/ ?><label class='add_button' for="check5"><div class='content'><?php echo __('Vertical Panoramic', true); ?></div></label><?php /*
 				*/ ?><input type="checkbox" value="panoramic" id="check4" /><?php /*
@@ -492,22 +492,24 @@ $(function() {
 			*/ ?></div><?php /*
 		*/ ?></div><?php /*
 		*/ ?><div id="not_in_gallery_icon_size" class="box_icon_size custom_ui"><?php /*
-			*/ ?><div id="small_icon" size="small" class="add_button <?php if($not_in_gallery_icon_size == 'small'): ?> selected <?php endif; ?>"><?php /*
-				*/ ?><div class="content">S</div><?php /*
-			*/ ?></div><?php /*
-			*/ ?><div id="medium_icon" size="medium" class="add_button <?php if($not_in_gallery_icon_size == 'medium'): ?> selected <?php endif; ?>"><?php /*
-				*/ ?><div class="content">M</div><?php /*
-			*/ ?></div><?php /*
-			*/ ?><div id="large_icon" size="large" class="add_button <?php if($not_in_gallery_icon_size == 'large'): ?> selected <?php endif; ?>"><?php /*
-				*/ ?><div class="content">L</div><?php /*
-			*/ ?></div><?php /*
-		*/ ?></div>
+			*/ ?><div data-step="1" data-intro="<?php echo __('Choose how you would like to filter your photos. Small, medium or large.', true); ?>" data-position="right">
+					<div id="small_icon" size="small" class="add_button <?php if($not_in_gallery_icon_size == 'small'): ?> selected <?php endif; ?>"><?php /*
+					*/ ?><div class="content">S</div><?php /*
+				*/ ?></div><?php /*
+				*/ ?><div id="medium_icon" size="medium" class="add_button <?php if($not_in_gallery_icon_size == 'medium'): ?> selected <?php endif; ?>"><?php /*
+					*/ ?><div class="content">M</div><?php /*
+				*/ ?></div><?php /*
+				*/ ?><div id="large_icon" size="large" class="add_button <?php if($not_in_gallery_icon_size == 'large'): ?> selected <?php endif; ?>"><?php /*
+					*/ ?><div class="content">L</div><?php /*
+				*/ ?></div><?php /*
+			*/ ?></div>
+			</div>
 		<div style="clear: both;"></div>
 	</div>
 	
 	<div class='table_container custom_ui'>
 		<div class="fade_background_top"></div>
-		<div class="in_gallery_main_cont">
+		<div class="in_gallery_main_cont" data-step="4" data-intro="<?php echo __('This area displays the photos in the gallery. Delete or move the order of the photos by hovering over each image. You may also delete the gallery all together by clicking on the little trash can.', true);?>" data-position="top">
 			<div class="image_container_header">
 				<h2><?php echo __('Photos in Gallery', true); ?></h2>
 				<div class="actions"><img id="remove_all_gallery_photos" src="/img/admin/icons/grey_delete_all_icon.png" alt="" /></div>
@@ -519,7 +521,7 @@ $(function() {
 				<?php echo $this->Element('/admin/photo/photo_connect_in_gallery_photo_cont', array( 'connected_photos' => $this->data['PhotoGalleriesPhoto'], 'not_in_gallery_icon_size' => $not_in_gallery_icon_size )); ?>
 			</div>
 		</div>
-		<div class="not_in_gallery_main_cont">
+		<div class="not_in_gallery_main_cont" data-step="5" data-intro="<?php echo __('These are photos that have been uploaded but have not been added to the gallery. Sort by newest or oldest photos. To add a photo to the gallery simple hover over it and click the little plus symbol.', true); ?>" data-position="top">
 			<div class="image_container_header">
 				<h2><?php echo __('Website Photos', true); ?></h2>
 				<div class="actions" style="float: right;"><img id="refresh_not_in_gallery_photos_button" src="/img/admin/icons/grey_refresh.png" alt="" /></div>
