@@ -137,48 +137,6 @@ class AppController extends Controller {
 		
 		
 		
-		//////////////////////////////////////////////////////////
-		// turn on the first time login popup if
-		// really is a first time login
-		//	-- $this->not_in_welcome_site_access_area
-		//	-- welcome_first_login_popup is not 1
-		//	-- not on welcome site
-		//	-- not the ping location
-		// also - log them in if they also have the correct hash for their website
-		$this->done_welcome_first_login_popup = 1;
-		if ($this->not_in_welcome_site_access_area && $this->not_on_welcome_site && $this->startsWith($_SERVER['REQUEST_URI'], '/site_pages/ping') === false) {
-			$this->done_welcome_first_login_popup = $this->SiteSetting->getVal('welcome_first_login_popup', 0);
-			if (empty($this->done_welcome_first_login_popup)) {
-				$this->SiteSetting->setVal('welcome_first_login_popup', 1);
-				
-				$account_id = $this->SiteSetting->getVal('account_id', false);
-				if (!empty($account_id)) {
-					$this->GlobalWelcomeHash = ClassRegistry::init('GlobalWelcomeHash');
-					$global_welcome_hash = $this->GlobalWelcomeHash->find('first', array(
-						'conditions' => array(
-							'GlobalWelcomeHash.account_id' => $account_id,
-						),
-						'contain' => false,
-					));
-					if (!empty($global_welcome_hash['GlobalWelcomeHash']['hash'])) {
-						$this->Welcome = ClassRegistry::init('Welcome');
-						$this->User = ClassRegistry::init('User');
-						// so log them in - this should only happen once because above welcome_first_login_popup is set to 1
-						$account_email = $this->SiteSetting->getVal('account_email', false);
-						if (!empty($account_email)) {
-							$user_id = $this->User->get_user_id_by_email($account_email);
-							if (!empty($user_id)) {
-								$this->Auth->login($user_id);
-							}
-						}
-					}
-				}
-			}
-		}
-		$this->set('done_welcome_first_login_popup', $this->done_welcome_first_login_popup);
-		
-		
-		
 		// stuff to do only on not cli
 		if (php_sapi_name() !== 'cli-server') {
 			$this->helpers = array(
@@ -305,6 +263,48 @@ class AppController extends Controller {
 				exit();
 			}
 		}
+		
+		
+		
+		//////////////////////////////////////////////////////////
+		// turn on the first time login popup if
+		// really is a first time login
+		//	-- $this->not_in_welcome_site_access_area
+		//	-- welcome_first_login_popup is not 1
+		//	-- not on welcome site
+		//	-- not the ping location
+		// also - log them in if they also have the correct hash for their website
+		$this->done_welcome_first_login_popup = 1;
+		if ($this->not_in_welcome_site_access_area && $this->not_on_welcome_site && $this->startsWith($_SERVER['REQUEST_URI'], '/site_pages/ping') === false) {
+			$this->done_welcome_first_login_popup = $this->SiteSetting->getVal('welcome_first_login_popup', 0);
+			if (empty($this->done_welcome_first_login_popup)) {
+				$this->SiteSetting->setVal('welcome_first_login_popup', 1);
+				
+				$account_id = $this->SiteSetting->getVal('account_id', false);
+				if (!empty($account_id)) {
+					$this->GlobalWelcomeHash = ClassRegistry::init('GlobalWelcomeHash');
+					$global_welcome_hash = $this->GlobalWelcomeHash->find('first', array(
+						'conditions' => array(
+							'GlobalWelcomeHash.account_id' => $account_id,
+						),
+						'contain' => false,
+					));
+					if (!empty($global_welcome_hash['GlobalWelcomeHash']['hash'])) {
+						$this->Welcome = ClassRegistry::init('Welcome');
+						$this->User = ClassRegistry::init('User');
+						// so log them in - this should only happen once because above welcome_first_login_popup is set to 1
+						$account_email = $this->SiteSetting->getVal('account_email', false);
+						if (!empty($account_email)) {
+							$user_id = $this->User->get_user_id_by_email($account_email);
+							if (!empty($user_id)) {
+								$this->Auth->login($user_id);
+							}
+						}
+					}
+				}
+			}
+		}
+		$this->set('done_welcome_first_login_popup', $this->done_welcome_first_login_popup);
 	}
 	
 	public function validatePaymentProfile() {
