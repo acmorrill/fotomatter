@@ -44,6 +44,7 @@ class SitePagesController extends AppController {
 			$callback = $_GET['callback'];
 			echo $callback."(".json_encode(true).");"; 
 		}
+		echo "true";
 		exit();
 	}
 	
