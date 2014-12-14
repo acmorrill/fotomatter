@@ -71,7 +71,7 @@ $all_themes = $this->Theme->get_all_available_themes();
 														</div>
 													</div>
 												<?php else: ?>
-													<div class="button_current_theme add_button" data-step="2" data-intro="<?php echo __('Under the current theme the button will stay current.', true); ?>" data-position="bottom">
+													<div class="button_current_theme add_button" data-step="2" data-intro="<?php echo __('Under the current theme the button will stay current.', true); ?>" data-position="top">
 														<div type="submit" value="" ><div class="content"><?php echo __('Current',true); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div></div>
 													</div>
 												<?php endif; ?>
