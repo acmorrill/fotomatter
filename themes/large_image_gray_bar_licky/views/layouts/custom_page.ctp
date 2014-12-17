@@ -19,8 +19,9 @@
 			 <div class="gallerywrapper">
 				 <div class="bottom_margin"> 
 					<div class="background_photo">
-						<h1><?php __('Custom page'); ?></h1>
-						<div>
+<!--						<h1> __('Custom page'); ?></h1>-->
+							<?php echo $content_for_layout; ?> 
+<!--						<div>
 							<p>Lorem ipsum dolor sit amet, ius ut mollis aperiri antiopam. Fuisset suavitate quo no, in cum aeterno percipit omittantur.
 								Affert labitur gloriatur et mea. Id tempor imperdiet mea, mea aperiam virtute vituperata no. Cum nisl putent disputando et.
 								In insolens dissentias vim, eu vix debet ignota. Vis an liber fuisset, ad vis debitis singulis, ea tempor apeirian pri.
@@ -52,7 +53,7 @@
 								Dolorum maiorum interpretaris nec id.
 							</p>
 							
-						</div>
+						</div>-->
 					</div>
 				 </div>	 
 				 <div class="clear"></div>

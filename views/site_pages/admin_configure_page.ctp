@@ -318,7 +318,7 @@
 					<?php /*<div><?php echo $avail_element['SitePageElement']['ref_name']; ?></div>*/ ?>
 				</div>
 			<?php endforeach; ?>
-		</div>x
+		</div>
 	</div>
 	<div class="page_content_header">
 		<h2 data-step="2" data-intro="<?php echo __ ('Once you have chosen a page element this area will allow you to customize the page to your liking. By adding a title, a photo and text.',true); ?>" data-position="top">modify page content below</h2>
