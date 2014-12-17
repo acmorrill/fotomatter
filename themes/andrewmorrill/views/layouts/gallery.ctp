@@ -1,13 +1,5 @@
 <!DOCTYPE html>
 <?php
-//	if(!isset($_SESSION)) { 
-//		session_start();	
-//	} 
-
-	//debug($curr_gallery);
-
-?>
-<?php
 	require_once(ROOT.DS.'app'.DS.'themes'.DS.'andrewmorrill'.DS.'views'.DS.'elements'.DS.'constants.ctp');
 	//require("php/constants.php"); 
 	//require_once("php/errorHandling.php");

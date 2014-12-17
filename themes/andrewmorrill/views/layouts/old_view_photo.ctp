@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <?php //include './include.php'; //this is for the comments script?>
 <?php 
-	//require_once("php/errorHandling.php");
-//	if(!isset($_SESSION)) { 
-//		session_start();	
-//	}
 	require_once(ROOT.DS.'app'.DS.'themes'.DS.'andrewmorrill'.DS.'views'.DS.'elements'.DS.'constants.ctp');
 	echo $this->Element('dimension');
 	

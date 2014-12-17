@@ -113,6 +113,7 @@ class UsersController extends AppController {
 	}
 
 	function admin_logout() {
+		$this->Session->delete('user_has_logged_in');
 		$this->Session->delete('Permissions');
 		$this->redirect($this->Auth->logout());
 	}

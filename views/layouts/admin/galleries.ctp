@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title><?php __('Admin Dashboard'); ?></title>
+	<?php echo $this->Element('admin/meta_and_tags/title', array('layout_default' => 'Galleries')); // can also $title_for_layout in the controller ?>
 	<?php echo $this->Element('admin/global_includes'); ?>
 	<?php echo $this->Element('admin/global_js'); ?>
 </head>

@@ -2,8 +2,39 @@
 
 class FotomatterEmailComponent extends Object {
 	
-	public $from_email = FOTOMATTER_SUPPORT_EMAIL;
+	public $from_email = FOTOMATTER_SUPPORT_EMAIL_REPLYTO;
 	
+	
+	public function send_first_login_email(&$controller) {
+		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+		
+		$account_email = $this->SiteSetting->getVal('account_email', false);
+		$site_domain = $this->SiteSetting->getVal('site_domain', false);
+		$controller->set(compact('site_domain'));
+		
+		
+		if ($account_email === false) {
+			$controller->major_error('failed to send first login email 1', compact('site_domain'));
+			return false;
+		}
+		
+		$controller->Postmark->delivery = 'postmark';
+		$controller->Postmark->from = "$this->from_email";
+		$controller->Postmark->replyTo = "$this->from_email";
+		$controller->Postmark->to = "<$account_email>";
+		$controller->Postmark->subject = "Congrats! Your website is built - below are some useful links to keep in mind for the future.";
+		$controller->Postmark->template = 'first_login_congrats';
+		$controller->Postmark->sendAs = 'html'; // because we like to send pretty mail
+		$controller->Postmark->tag = 'first_login_congrats';
+		$result = $controller->Postmark->send();
+
+		if (!isset($result['ErrorCode']) || $result['ErrorCode'] != 0) {
+			$controller->major_error('failed to send first login email 2', compact('site_domain'));
+			return false;
+		}
+		
+		return true;
+	}
 	
 	public function send_end_user_contact_us_email(&$controller, $end_user_data) {
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
@@ -19,7 +50,7 @@ class FotomatterEmailComponent extends Object {
 		}
 		
 		$controller->Postmark->delivery = 'postmark';
-		$controller->Postmark->from = "<$this->from_email>";
+		$controller->Postmark->from = "$this->from_email";
 		$controller->Postmark->replyTo = "<{$end_user_data['contact_us_email']}>";
 		$controller->Postmark->to = "<$account_email>";
 		$controller->Postmark->subject = "fotomatter.net contact email from {$end_user_data['contact_us_name']} ({$end_user_data['contact_us_email']})";
@@ -46,8 +77,8 @@ class FotomatterEmailComponent extends Object {
 		
 		if ($account_email !== false && $site_domain !== false) {
 			$controller->Postmark->delivery = 'postmark';
-			$controller->Postmark->from = "<$this->from_email>";
-			$controller->Postmark->replyTo = "<$this->from_email>";
+			$controller->Postmark->from = "$this->from_email";
+			$controller->Postmark->replyTo = "$this->from_email";
 			$controller->Postmark->to = "<$account_email>";
 			$controller->Postmark->subject = 'Your Crons are Working! :)';
 			$controller->Postmark->template = 'cron_working';
@@ -80,8 +111,8 @@ class FotomatterEmailComponent extends Object {
 		$to_email = $change_password_user['User']['email_address'];
 		
 		$controller->Postmark->delivery = 'postmark';
-		$controller->Postmark->from = "<$this->from_email>";
-		$controller->Postmark->replyTo = "<$this->from_email>";
+		$controller->Postmark->from = "$this->from_email";
+		$controller->Postmark->replyTo = "$this->from_email";
 		$controller->Postmark->to = "<$to_email>";
 		$controller->Postmark->subject = 'Change Password Requested';
 		if ($change_password_user['User']['admin'] == 1) {

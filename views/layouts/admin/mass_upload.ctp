@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title><?php __('Pages'); ?></title>
+	<?php echo $this->Element('admin/meta_and_tags/title', array('layout_default' => 'Upload Photos')); // can also $title_for_layout in the controller ?>
 	<?php echo $this->Element('admin/global_includes'); ?>
 	<?php echo $this->Element('admin/global_js'); ?>
 	

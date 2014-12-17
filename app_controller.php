@@ -194,9 +194,8 @@ class AppController extends Controller {
 			$this->browser_is_supported = $this->Browscap->is_browser_supported();
 		}
 		$this->showed_supported_browser_popup = false;
-//		unset($_SESSION['showed_supported_browser_popup']);
-		if (empty($_SESSION['showed_supported_browser_popup'])) {
-			$_SESSION['showed_supported_browser_popup'] = true;
+		if (!$this->Session->check('showed_supported_browser_popup')) {
+			$this->Session->write('showed_supported_browser_popup', true);
 		} else {
 			$this->showed_supported_browser_popup = true;
 		}
@@ -248,7 +247,24 @@ class AppController extends Controller {
 		$this->Auth->userScope = array('User.active = 1');
 		$this->Auth->ajaxLogin = 'admin/ajax_login';
 		//Pass auth component data over to view files
-		$this->set('Auth', $this->Auth->user());
+		$user_data = $this->Auth->user();
+		$this->set('Auth', $user_data);
+		
+		
+		//////////////////////////////////////////////////////////////
+		// Send logged in info to overlord
+		if (!empty($user_data['User']['id'])) {
+			if (!$this->Session->check('user_has_logged_in')) {
+				$this->Session->write('user_has_logged_in', true);
+				
+				// send the login data to overlord
+				$ip = $this->get_real_ip_addr();
+				$this->FotomatterBilling->log_user_logged_in($ip);
+			}
+		}
+		
+		
+		
 
 
 		// locking hash code
@@ -297,6 +313,7 @@ class AppController extends Controller {
 						if (!empty($account_email)) {
 							$user_id = $this->User->get_user_id_by_email($account_email);
 							if (!empty($user_id)) {
+								$this->FotomatterEmail->send_first_login_email($this);
 								$this->Auth->login($user_id);
 							}
 						}
@@ -495,4 +512,16 @@ class AppController extends Controller {
 		$start  = $length * -1; //negative
 		return (substr($haystack, $start) === $needle);
 	}
+	
+	public function get_real_ip_addr() {
+		if (!empty($_SERVER['HTTP_CLIENT_IP'])) {   //check ip from share internet
+			$ip = $_SERVER['HTTP_CLIENT_IP'];
+		} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {   //to check ip is pass from proxy
+			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+		} else {
+			$ip = $_SERVER['REMOTE_ADDR'];
+		}
+		return $ip;
+	}
+
 }

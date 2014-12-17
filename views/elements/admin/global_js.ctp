@@ -169,8 +169,8 @@
 					Welcome to the admin area of your new photography website!\n\
 				</p>\n\
 				<ul class='alert_or_confirm'>\n\
-					<li>To get back to this admin area simply go to <a target='_blank' href='https://<?php echo $site_domain; ?>.fotomatter.net/admin'>jennmorrill.fotomatter.net/admin</a></li>\n\
-					<li>To see your actual website go to <a target='_blank' href='http://<?php echo $site_domain; ?>.fotomatter.net'>jennmorrill.fotomatter.net</a></li>\n\
+					<li>To get back to this admin area simply go to <a target='_blank' href='https://<?php echo $site_domain; ?>.fotomatter.net/admin'><?php echo $site_domain; ?>.fotomatter.net/admin</a></li>\n\
+					<li>To see your actual website go to <a target='_blank' href='http://<?php echo $site_domain; ?>.fotomatter.net'><?php echo $site_domain; ?>.fotomatter.net</a></li>\n\
 					<li>On most pages in the admin area you can click on the \"Get Help With This Page >\" button. Be sure and use this button if you need help.</li>\n\
 					<li>Take a few minutes to look around!</li>\n\
 				</ul>\n\

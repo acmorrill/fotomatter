@@ -4,7 +4,7 @@ class WelcomeController extends AppController {
 
 	public $name = 'Welcome';
 	public $uses = array();
-	public $layout = 'admin/login';
+	public $layout = 'admin/welcome';
 
 	public function beforeFilter() {
 		parent::beforeFilter();

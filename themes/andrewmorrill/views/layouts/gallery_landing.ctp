@@ -1,9 +1,4 @@
 <!DOCTYPE html>
-<?php 
-//	if(!isset($_SESSION)) { 
-//		session_start();	
-//	} 
-?>
 <html>
 	<head>
 		<title>Picture Gallery -- Celestial Light Photography</title>

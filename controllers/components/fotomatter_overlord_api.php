@@ -1,5 +1,5 @@
 <?php
-class FotoMatterOverlordApi extends Object {
+class FotomatterOverlordApi extends Object {
 	
 	protected function send_api_request($api, $params=array()) {
 		$request['Request']['data'] = $params;

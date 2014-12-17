@@ -1,11 +1,4 @@
 <!DOCTYPE html>
-<?php
-	/*if(!isset($_SESSION)) { 
-		session_start();	
-	} 
-	$_SESSION['cart'];*/
-?>
-
 <html>
 	<head>
 		<title>Photography by Andrew Morrill</title>

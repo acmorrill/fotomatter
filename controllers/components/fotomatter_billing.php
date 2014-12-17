@@ -1,6 +1,6 @@
 <?php
 require_once(ROOT . DS . 'app' . DS. 'controllers' . DS . 'components' . DS . 'fotomatter_overlord_api.php');
-class FotomatterBillingComponent extends FotoMatterOverlordApi {
+class FotomatterBillingComponent extends FotomatterOverlordApi {
 	public $account_details_apc_key;
 	public $account_info_apc_key;
 	public $account_payment_profile_apc_key;
@@ -10,6 +10,18 @@ class FotomatterBillingComponent extends FotoMatterOverlordApi {
 		$this->account_details_apc_key =  'account_details_'.$_SERVER['local']['database'];
 		$this->account_info_apc_key =  'account_info_'.$_SERVER['local']['database'];
 		$this->account_payment_profile_apc_key =  'account_payment_profile_'.$_SERVER['local']['database'];
+	}
+	
+	
+	public function log_user_logged_in($ip) {
+		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+		$site_domain = $this->SiteSetting->getVal('site_domain');
+		$account_id = $this->SiteSetting->getVal('account_id');
+		
+		
+		$result = $this->send_api_request('api_billing/log_user_logged_in', compact('site_domain', 'account_id', 'ip'));
+		
+		return $result;
 	}
 	
 	public function getAccountDetails() {

@@ -53,6 +53,7 @@ define("SITE_DEFAULT_CONTAINER_SECURE_URL", 'https://d8da4ad7f3fcaf47b7ae-83f12f
 
 
 define("FOTOMATTER_SUPPORT_EMAIL", 'support@fotomatter.net'); 
+define("FOTOMATTER_SUPPORT_EMAIL_REPLYTO", 'Fotomatter <support@fotomatter.net>'); 
 
 
 // postmark credentials
