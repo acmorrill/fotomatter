@@ -9,7 +9,7 @@
 	<h1><?php echo sprintf(__('No Settings For Theme %s', true), $theme_name); ?></h1>
 <?php else: ?>
 	<h1>Theme Settings <?php echo $theme_name; ?>
-		<?php echo $this->Element('/admin/get_help_button'); ?>
+		<?php //echo $this->Element('/admin/get_help_button'); ?>
 	</h1>
 	<p>
 		<?php echo __('This page enables settings of the chosen theme to be changed.',true)?>

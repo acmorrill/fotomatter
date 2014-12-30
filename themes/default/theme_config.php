@@ -157,6 +157,7 @@ $theme_config = array(
 				'absolute_path' => 	'', // max 1600 width and max 1200 height
 				'web_path' => ''
 			),
+			'default_bg_color' => '#ffffff',
 		),
 		'theme_gallery_listing_config' => array(
 			'default_images_per_page' => 8

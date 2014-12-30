@@ -14,11 +14,12 @@
 ?>	
 <html>
 	<head>
-		<title><?php echo $curr_gallery['PhotoGallery']['display_name']; ?> -- Celestial Light Photography</title>
+		<title><?php echo $curr_gallery['PhotoGallery']['display_name']; ?> &mdash; <?php echo $this->Theme->get_frontend_html_title(); ?></title>
 		<?php echo $this->Element('theme_global_includes'); ?>
 		<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" type="text/css" href="/css/andrewmorrill_style.css" />
 		<link rel="stylesheet" type="text/css" href="/stylesheets/contentReadableBackground.css" />
+		<?php echo $this->Theme->get_theme_dynamic_background_style($theme_config); ?>
 <?php
 if(!isset($HTTP_COOKIE_VARS["usersAvailScreenWidth"]) || !isset($HTTP_COOKIE_VARS["usersAvailScreenHeight"])) {
 ?>

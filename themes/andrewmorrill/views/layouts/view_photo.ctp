@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title><?php print($curr_photo['Photo']['display_title']." - ".$curr_photo['Photo']['display_subtitle']." - ".$curr_gallery['PhotoGallery']['display_name']);?></title>
+		<title><?php echo $this->Photo->get_photo_html_title_str($curr_photo, $curr_gallery); ?><?php echo $this->Theme->get_frontend_html_title(); ?></title>
 		<?php echo $this->Element('theme_global_includes'); ?>
 		<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" type="text/css" href="/css/andrewmorrill_style.css" />
@@ -13,7 +13,8 @@
 		<?php else: ?>
 			<link rel="stylesheet" type="text/css" href="/stylesheets/photoBackground.css" />
 		<?php endif; ?>
-		
+
+		<?php echo $this->Theme->get_theme_dynamic_background_style($theme_config); ?>
 	</head>
 	<body>
 		<?php //$this->log($photo_sellable_prints, 'photo_sellable_prints'); ?>

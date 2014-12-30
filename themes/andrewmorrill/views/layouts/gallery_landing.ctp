@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Picture Gallery -- Celestial Light Photography</title>
-		<meta name="keywords" content="Andrew Morrill, online gallery, fine art, utah photography, utah photography, National Park, Utah, California, LDS temples, temple photography">
-		<meta name="description" content="The online gallery of Utah based photographer Andrew Morrill.">
+		<title>Choose Gallery &mdash; <?php echo $this->Theme->get_frontend_html_title(); ?></title>
+<!--		<meta name="keywords" content="Andrew Morrill, online gallery, fine art, utah photography, utah photography, National Park, Utah, California, LDS temples, temple photography">
+		<meta name="description" content="The online gallery of Utah based photographer Andrew Morrill.">-->
 		<?php echo $this->Element('theme_global_includes'); ?>
 		<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" type="text/css" href="/css/andrewmorrill_style.css" />
 		<link rel="stylesheet" type="text/css" href="/stylesheets/contentReadableBackground.css" />
-	<script type="text/javascript">
-		function setImage( id, path ) {
-			var image = document.getElementById(id);
-			image.src=src=path;
-		}
-	</script>
+		<?php echo $this->Theme->get_theme_dynamic_background_style($theme_config); ?>
+		<script type="text/javascript">
+			function setImage( id, path ) {
+				var image = document.getElementById(id);
+				image.src=src=path;
+			}
+		</script>
 	</head>
 	<body>
 		<div id="side_menu_bg"></div>

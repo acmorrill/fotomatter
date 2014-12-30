@@ -13,6 +13,14 @@ class Theme extends AppModel {
 			'foreignKey' => 'theme_id'
 		)
 	);
+	
+	public function get_theme_dynamic_background_style($theme_config) {
+		if (!empty($theme_config['admin_config']['theme_background_config']['default_bg_color'])) {
+			return "<style type='text/css'>body { background-color: {$theme_config['admin_config']['theme_background_config']['default_bg_color']}; } </style>";
+		}
+		
+		return '';
+	}
 
 	public function get_landing_page_slideshow_images($num_to_grab, $gallery_id = null) {
 		// DREW TODO - for now we are just going to grab the the number of images from the first gallery
@@ -530,7 +538,19 @@ class Theme extends AppModel {
 	}
 
 	public function create_theme_merged_background(
-	$overlay_abs_path, $current_background_abs_path, $final_background_width, $final_background_height, $final_background_left, $final_background_top, $using_custom_background_image, $current_brightness, $current_contrast, $current_desaturation, $current_inverted, $custom_overlay_transparency_settings, $theme_config
+		$overlay_abs_path, 
+		$current_background_abs_path, 
+		$final_background_width, 
+		$final_background_height, 
+		$final_background_left, 
+		$final_background_top, 
+		$using_custom_background_image, 
+		$current_brightness, 
+		$current_contrast, 
+		$current_desaturation, 
+		$current_inverted,
+		$custom_overlay_transparency_settings,
+		$theme_config
 	) {
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
 		$this->ThemeHiddenSetting = ClassRegistry::init('ThemeHiddenSetting');

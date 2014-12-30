@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Photography by Andrew Morrill</title>
-		<meta name="keywords" content="Andrew Morrill, photography, fine art, utah photography, utah photographer, National Park, Utah, California">
-		<meta name="description" content="Large format landscape photography by Utah based photographer Andrew Morrill.">
+		<title><?php echo $this->Theme->get_frontend_html_title(); ?></title>
+<!--		<meta name="keywords" content="Andrew Morrill, photography, fine art, utah photography, utah photographer, National Park, Utah, California">
+		<meta name="description" content="Large format landscape photography by Utah based photographer Andrew Morrill.">-->
 		<?php echo $this->Element('theme_global_includes'); ?>
 		<link rel="stylesheet" type="text/css" href="/css/andrewmorrill_style.css" />
 		<link rel="stylesheet" type="text/css" href="/stylesheets/introBackground.css" />
 		<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+		
+		<?php echo $this->Theme->get_theme_dynamic_background_style($theme_config); ?>
 	</head>
 	<body>
 		<?php echo $this->Element('nameTitle'); ?>
@@ -26,8 +28,8 @@
 			<?php echo $this->Element('global_theme_footer_copyright'); ?>
 		</div>
 		
-		<p id="introBlurb">&nbsp;&nbsp;<b>Welcome</b> to the online gallery of fine art photographer Andrew Morrill. For tips on viewing this site click <a href="viewingTips.php">here</a>. To purchase prints, navigate to an image in the image galleries section. Thank you for visting. Enjoy!
-		</p>
+		<?php $intro_text = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'landing_page_into_text'); ?>
+		<p id="introBlurb"><?php echo strip_tags($intro_text); ?></p>
 	
 		<div id="side_menu_bg"></div>
 <?php

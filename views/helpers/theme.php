@@ -15,6 +15,15 @@ class ThemeHelper extends AppHelper {
 	}
 	
 	
+	public function get_frontend_html_title() {
+		$this->SiteSetting = ClassRegistry::init('SiteSetting', 'Model');
+		$first_name = $this->SiteSetting->getVal('first_name', '');
+		$last_name = $this->SiteSetting->getVal('last_name', '');
+		
+		return "Photography by $first_name $last_name";
+	}
+	
+	
 	public function get_theme_setting($name, $default = false) {
 		$this->ThemeGlobalSetting = ClassRegistry::init('ThemeGlobalSetting', 'Model');
 		
