@@ -3330,7 +3330,7 @@ fieldset input[type="checkbox"] {
   -moz-border-radius-topleft: 0px;
   border-top-left-radius: 0px;
   z-index: 50;
-  margin-bottom: 100px;
+  margin-bottom: 250px;
 }
 .message_div {
   font-family: Code-Pro-LC;
@@ -3886,6 +3886,19 @@ body .ui-dialog .ui-dialog-content p.alert_or_confirm i {
 }
 body .ui-dialog .ui-dialog-content p.alert_or_confirm i.icon-warning-01 {
   color: #E88A35;
+}
+body .ui-dialog .ui-dialog-content p.alert_or_confirm i.icon-Success-01 {
+  color: #2ac0de;
+}
+body .ui-dialog .ui-dialog-content ul.alert_or_confirm {
+  color: #7d888e;
+  margin-left: 40px;
+  margin-top: 10px;
+  list-style: disc;
+  line-height: 44px;
+}
+body .ui-dialog .ui-dialog-content ul.alert_or_confirm li a {
+  color: #f4f9f5;
 }
 body .ui-dialog .ui-dialog-content.popup_content_with_table {
   background: none;
@@ -4608,6 +4621,7 @@ body {
   z-index: -1;
 }
 .add_button {
+  text-indent: 0px;
   margin-bottom: 10px;
 }
 .add_button .right_arrow_lines,
@@ -6311,6 +6325,9 @@ table.list > tbody > tr.remove_pending td .cost {
   margin-right: 30px;
   margin-bottom: 10px;
 }
+#welcome_page_container #help_tour_button {
+  display: none;
+}
 #welcome_page_container .ui-corner-all {
   border-bottom-right-radius: 0px;
   border-bottom-left-radius: 0px;
@@ -6328,7 +6345,14 @@ table.list > tbody > tr.remove_pending td .cost {
 #welcome_page_container .ui-progressbar .ui-progressbar-value {
   margin: 0px;
 }
-#welcome_page_container .generic_palette_container {
+#welcome_page_container #site_building_message {
+  text-align: center;
+  margin-bottom: 0px;
+}
+#welcome_page_container #site_building_progress {
+  margin-top: 35px;
+}
+#welcome_page_container.wider .generic_palette_container {
   max-width: 800px;
 }
 .sub_submenu_cont {

@@ -64,6 +64,8 @@
 	
 		// setup chosen based on class
 		jQuery('.chzn-select').chosen();
+		
+		jQuery('html').attr('data-site_domain', '<?php echo $site_domain; ?>');
 	});
         
 	
@@ -71,6 +73,7 @@
 	var methods = {
 		alert: function(message, args) {
 			var settings = $.extend( {
+				'title' : '<?php echo __('Alert', true); ?>',
 				'type' : 'alert',
 				'onOk' : function() {
 					
@@ -80,7 +83,7 @@
 			var alert_div = $("<div class='gen_alert "+settings.type+"'><p class='alert_or_confirm'><i class='icon-warning-01'></i>" + message + "</p></div>")
 			
 			$(alert_div).dialog({
-				title: "<?php echo __('Alert', true); ?>",
+				title: settings.title,
 				dialogClass: "thin_dialog",
 				buttons: {
 					'<?php echo __('Ok', true); ?>': function() {
@@ -154,11 +157,43 @@
 	};
 })(jQuery);
 
-<?php if ($showed_supported_browser_popup === false && $browser_is_supported === false): ?>
 	jQuery(document).ready(function() {
-		alert("<?php echo __('Your web browser is not fully supported for fotomatter.net. You can continue using this browser, but it\'s possible some features will not work correctly. Use the latest version of Firefox, Chrome, IE or Safari to remove this message.', true); ?>");
-//		$.foto('alert', "<?php echo __('Your web browser is not fully supported for fotomatter.net. You can continue using this browser, but it\'s possible some features will not work correctly. Use the latest version of Firefox, Chrome, IE or Safari to remove this message.', true); ?>");
+		<?php if ($showed_supported_browser_popup === false && $browser_is_supported === false): ?>
+			alert("<?php echo __('Your web browser is not fully supported for fotomatter.net. You can continue using this browser, but it\'s possible some features will not work correctly. Use the latest version of Firefox, Chrome, IE or Safari to remove this message.', true); ?>");
+//			$.foto('alert', "<?php echo __('Your web browser is not fully supported for fotomatter.net. You can continue using this browser, but it\'s possible some features will not work correctly. Use the latest version of Firefox, Chrome, IE or Safari to remove this message.', true); ?>");
+		<?php endif; ?>
+			
+		<?php if (empty($done_welcome_first_login_popup)): ?>
+			var first_time_div = $("<div class='gen_alert alert'>\n\
+				<p class='alert_or_confirm'><i class='icon-Success-01'></i>\n\
+					Welcome to the admin area of your new photography website!\n\
+				</p>\n\
+				<ul class='alert_or_confirm'>\n\
+					<li>To get back to this admin area simply go to <a target='_blank' href='https://<?php echo $site_domain; ?>.fotomatter.net/admin'><?php echo $site_domain; ?>.fotomatter.net/admin</a></li>\n\
+					<li>To see your actual website go to <a target='_blank' href='http://<?php echo $site_domain; ?>.fotomatter.net'><?php echo $site_domain; ?>.fotomatter.net</a></li>\n\
+					<li>On most pages in the admin area you can click on the \"Get Help With This Page >\" button. Be sure and use this button if you need help.</li>\n\
+					<li>Take a few minutes to look around!</li>\n\
+				</ul>\n\
+			</div>");
+			
+			$(first_time_div).dialog({
+				title: '<?php echo __('Welcome', true); ?>',
+				dialogClass: "wide_dialog",
+				buttons: {
+					'<?php echo __('Ok', true); ?>': function() {
+						$(this).dialog('close');
+					}
+				},
+				close: function() {
+					first_time_div.remove();
+				},
+//				minWidth: 400,
+				minHeight: 200,
+				modal: true,
+				resizable: false
+			});
+		<?php endif; ?>
 	});
-<?php endif; ?>
+
 
 </script>

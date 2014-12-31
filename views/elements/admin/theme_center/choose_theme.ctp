@@ -5,6 +5,14 @@ $current_theme = $this->SiteSetting->getVal('current_theme', false);
 // get all themes
 $all_themes = $this->Theme->get_all_available_themes();
 
+if (empty($change_theme_action)) {
+	$change_theme_action = '/admin/theme_centers/choose_theme';
+}
+
+if (!isset($hide_current)) {
+	$hide_current = false;
+}
+
 ?>
 
 
@@ -60,8 +68,8 @@ $all_themes = $this->Theme->get_all_available_themes();
 												<h2><?php echo $curr_theme['Theme']['display_name']; ?></h2>
 											</td>	
 											<td class="choose_theme_button">
-												<?php if (!$is_current_theme): ?>
-													<form id="choose_theme_<?php echo $curr_theme['Theme']['id']; ?>_form" action="/admin/theme_centers/choose_theme" method="POST">
+												<?php if (!$is_current_theme || $hide_current === true): ?>
+													<form id="choose_theme_<?php echo $curr_theme['Theme']['id']; ?>_form" action="<?php echo $change_theme_action; ?>" method="POST">
 														<input type="hidden" name="data[new_theme_id]" value="<?php echo $curr_theme['Theme']['id']; ?>" />
 													</form>
 													<div class="usable_form" action="<?php echo $this->here; ?>" method="post">

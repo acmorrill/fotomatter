@@ -1,5 +1,5 @@
 <?php
-	$firstTimeVisit = true; // !isset($_SESSION['newsLetterVisit']);
+	$firstTimeVisit = true;
 	// count each visit
 	if ($firstTimeVisit) {
 		$_SESSION['newsLetterVisit'] = 1;

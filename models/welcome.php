@@ -12,7 +12,7 @@ class Welcome extends AppModel {
 
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_CAINFO, '/etc/apache2/ssl/*.fotomatter.net.crt');
+		curl_setopt($ch, CURLOPT_CAINFO, '/etc/apache2/ssl/*.fotomatter.net.pem');
 		curl_setopt($ch, CURLOPT_CAPATH, '/etc/ssl/certs');
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
 
@@ -27,7 +27,7 @@ class Welcome extends AppModel {
 			return false;
 		}
 	}
-
+	
 	public function site_is_built($email_hash) {
 		$ch = curl_init();
 
@@ -35,7 +35,7 @@ class Welcome extends AppModel {
 
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_CAINFO, '/etc/apache2/ssl/*.fotomatter.net.crt');
+		curl_setopt($ch, CURLOPT_CAINFO, '/etc/apache2/ssl/*.fotomatter.net.pem');
 		curl_setopt($ch, CURLOPT_CAPATH, '/etc/ssl/certs');
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
 		$json_output = json_decode(trim(curl_exec($ch)));

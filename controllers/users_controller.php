@@ -12,11 +12,17 @@ class UsersController extends AppController {
 	}
 
 	function admin_login() {
-		// before displaying the login check to see if a user has ever been setup - if not - then go to the welcome page
-//		$this->SiteSetting = ClassRegistry::init('SiteSetting');
-//		if ($this->SiteSetting->getVal('welcome_password_set', 1) == 0) { // DREW TODO - this causes a redirect loop
-//			$this->redirect('/admin/welcome/create_password');
-//		}
+		$email = '';
+		
+		if (isset($_GET['email'])) {
+			$email = $_GET['email'];
+		}
+		
+		if (!empty($this->data['User']['email_address'])) {
+			$email = $this->data['User']['email_address'];
+		}
+		
+		$this->set(compact('email'));
 	}
 
 	function request_admin_password_change() {
@@ -107,6 +113,7 @@ class UsersController extends AppController {
 	}
 
 	function admin_logout() {
+		$this->Session->delete('user_has_logged_in');
 		$this->Session->delete('Permissions');
 		$this->redirect($this->Auth->logout());
 	}

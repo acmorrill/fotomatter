@@ -226,9 +226,13 @@ class PhotoGalleriesController extends AppController {
 		));
 		
 		if (isset($this->params['form']['not_in_gallery_icon_size'])) {
-			$_SESSION['not_in_gallery_icon_size'] = $this->params['form']['not_in_gallery_icon_size'];
+			$this->Session->write('not_in_gallery_icon_size', $this->params['form']['not_in_gallery_icon_size']);
 		}
-		$not_in_gallery_icon_size = isset($_SESSION['not_in_gallery_icon_size']) ? $_SESSION['not_in_gallery_icon_size'] : 'medium';
+		if ($this->Session->check('not_in_gallery_icon_size')) {
+			$not_in_gallery_icon_size = $this->Session->read('not_in_gallery_icon_size');
+		} else {
+			$not_in_gallery_icon_size = 'medium';
+		}
 		
 		$returnArr = array();
 		$returnArr['count'] = count($photos['PhotoGalleriesPhoto']);
@@ -328,9 +332,13 @@ class PhotoGalleriesController extends AppController {
 		$photos_not_in_a_gallery = isset($this->params['form']['photos_not_in_a_gallery']) ? $this->params['form']['photos_not_in_a_gallery']: false;
 		
 		if (isset($this->params['form']['not_in_gallery_icon_size'])) {
-			$_SESSION['not_in_gallery_icon_size'] = $this->params['form']['not_in_gallery_icon_size'];
+			$this->Session->write('not_in_gallery_icon_size', $this->params['form']['not_in_gallery_icon_size']);
 		}
-		$not_in_gallery_icon_size = isset($_SESSION['not_in_gallery_icon_size']) ? $_SESSION['not_in_gallery_icon_size'] : 'medium';
+		if ($this->Session->check('not_in_gallery_icon_size')) {
+			$not_in_gallery_icon_size = $this->Session->read('not_in_gallery_icon_size');
+		} else {
+			$not_in_gallery_icon_size = 'medium';
+		}
 		
 		if ($not_in_gallery_icon_size == 'small') {
 			$limit = 85;

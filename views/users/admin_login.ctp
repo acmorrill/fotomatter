@@ -1,5 +1,11 @@
 <script type="text/javascript">
 	jQuery(document).ready(function() {
+		<?php if (isset($email)): ?>
+			jQuery('#UserPassword').focus();
+		<?php else: ?>
+			jQuery('#UserEmailAddress').focus();
+		<?php endif; ?>
+		
 		jQuery('#forgot_password_link').click(function() {
 			jQuery('#UserLoginForm').hide();
 			jQuery('#forgot_password_form').show();
@@ -17,7 +23,7 @@
 			</div>
 			<div class="input text">
 				<label for="UserEmailAddress"><?php echo __('Enter Email Address', true); ?></label>
-				<input autocorrect="off" autocapitalize="off" name="data[User][email_address]" type="text" class="text defaultText" maxlength="127" id="UserEmailAddress" title='john@example.com' autocorrect="off" autocapitalize="off">
+				<input autocorrect="off" autocapitalize="off" name="data[User][email_address]" type="text" class="text defaultText" maxlength="127" id="UserEmailAddress" title='john@example.com' autocorrect="off" autocapitalize="off" value="<?php if (isset($email)) { echo $email; } ?>">
 			</div>
 			<div class="input password">
 				<label for="UserPassword"><?php echo __('Enter Password', true); ?></label>

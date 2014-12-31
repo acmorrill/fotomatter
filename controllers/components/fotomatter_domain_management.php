@@ -2,7 +2,7 @@
 
 require_once(ROOT . DS . 'app' . DS . 'controllers' . DS . 'components' . DS . 'fotomatter_overlord_api.php');
 
-class FotomatterDomainManagementComponent extends FotoMatterOverlordApi {
+class FotomatterDomainManagementComponent extends FotomatterOverlordApi {
 
 	public function __construct() {
 		$this->server_url = 'https://' . Configure::read('OVERLORD_URL');

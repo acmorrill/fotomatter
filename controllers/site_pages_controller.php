@@ -20,7 +20,7 @@ class SitePagesController extends AppController {
 
 		$this->layout = 'admin/pages';
 		
-		$this->Auth->allow('landing_page', 'custom_page', 'htaccess', 'contact_us', 'send_contact_us_email');
+		$this->Auth->allow('ping', 'landing_page', 'custom_page', 'htaccess', 'contact_us', 'send_contact_us_email');
 		
 		/////////////////////////////////////////////
 		// limit pages
@@ -44,6 +44,7 @@ class SitePagesController extends AppController {
 			$callback = $_GET['callback'];
 			echo $callback."(".json_encode(true).");"; 
 		}
+		echo "true";
 		exit();
 	}
 	

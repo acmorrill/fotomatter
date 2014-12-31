@@ -39,6 +39,10 @@ class AppController extends Controller {
 	 */
 	function beforeFilter() {
 		$this->AccountDomain = ClassRegistry::init('AccountDomain');
+		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+		$site_domain = $this->SiteSetting->getVal('site_domain');
+		$this->set('site_domain', $site_domain);
+		
 		
 		//////////////////////////////////////////////////////
 		// stuff todo just in the admin
@@ -49,9 +53,59 @@ class AppController extends Controller {
 		
 		///////////////////////////////////////////////////////////////
 		// clear apc cache if in debug mode
-		if (Configure::read('debug') > 0) {
+		if (Configure::read('debug') > 0 || isset($this->params['apc_clear_cache'])) {
 			apc_clear_cache('user');
 		}
+		
+		
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		// if we are on the welcome site 
+		//	- disallow everything except welcome controller and user login
+		//	- require ssl
+		$WELCOME_SITE_URL = WELCOME_SITE_URL;
+		if (empty($WELCOME_SITE_URL)) {
+			$WELCOME_SITE_URL = 'welcome.fotomatter.net';
+		}
+		$this->on_welcome_site = $_SERVER['HTTP_HOST'] === $WELCOME_SITE_URL;
+		$this->not_on_welcome_site = !$this->on_welcome_site;
+		$this->not_in_welcome_controller = $this->startsWith($_SERVER['REQUEST_URI'], '/admin/welcome') == false;
+		$this->not_in_welcome_site_access_area = $this->not_in_welcome_controller && $this->startsWith($_SERVER['REQUEST_URI'], '/admin/users/login') == false;
+		if ( $this->on_welcome_site && ( $this->not_in_welcome_site_access_area || empty($_SERVER['HTTPS']) ) ) {
+			header('HTTP/1.0 404 Not Found');
+			die();
+		}
+		
+		
+		/////////////////////////////////////////////////////////////////////////////////////////////////
+		// if a password has never been setup via the welcome 
+		// and in admin
+		// and we are not on welcome site
+		// and we are not in welcome controller
+		// and is not the dev site
+		// then redirect to the welcome create_password
+		if ($in_admin && $this->not_on_welcome_site && $this->not_in_welcome_controller && $this->SiteSetting->getVal('welcome_password_set', 0) == 0 && $this->SiteSetting->getVal('is_dev', 0) != 1) {
+			// grab the hash key from the global db
+			$account_id = $this->SiteSetting->getVal('account_id', false);
+			if (!empty($account_id)) {
+				$this->GlobalWelcomeHash = ClassRegistry::init('GlobalWelcomeHash');
+				$global_welcome_hash = $this->GlobalWelcomeHash->find('first', array(
+					'conditions' => array(
+						'GlobalWelcomeHash.account_id' => $account_id,
+					),
+					'contain' => false,
+				));
+				if (!empty($global_welcome_hash['GlobalWelcomeHash']['hash'])) {
+					header("Location: https://$site_domain.fotomatter.net/admin/welcome/create_password?wh=" . $global_welcome_hash['GlobalWelcomeHash']['hash']);
+					exit();
+				}
+			}
+			
+			// error if we made it here because no redirect happened above
+			$this->major_error('went directly to built website, but welcome password not set and could not redirect to set password', array(), 'high');
+			header('HTTP/1.0 404 Not Found');
+			die();
+		}
+		
 		
 		
 		//////////////////////////////////////////////////////////////////////
@@ -62,11 +116,10 @@ class AppController extends Controller {
 		}
 		$redirect_to_ssl = $in_admin || $in_checkout;
 		if (empty($_SERVER['HTTPS']) && Configure::read('debug') == 0 && $redirect_to_ssl) {
-			$this->SiteSetting = ClassRegistry::init('SiteSetting');
-			$site_domain = $this->SiteSetting->getVal('site_domain');
 			$this->redirect("https://$site_domain.fotomatter.net{$_SERVER['REQUEST_URI']}");
 			exit();
 		}
+		
 		
 		
 		
@@ -77,7 +130,7 @@ class AppController extends Controller {
 		// 3) if don't need to redirect to ssl
 		$current_primary_domain = $this->AccountDomain->get_current_primary_domain();
 		$http_host = $_SERVER["HTTP_HOST"];
-		if (Configure::read('debug') == 0 && !$redirect_to_ssl && $http_host != $current_primary_domain) {
+		if ($this->not_on_welcome_site && Configure::read('debug') == 0 && !$redirect_to_ssl && $http_host != $current_primary_domain) {
 			$this->redirect("http://$current_primary_domain");
 			exit();
 		}
@@ -141,9 +194,8 @@ class AppController extends Controller {
 			$this->browser_is_supported = $this->Browscap->is_browser_supported();
 		}
 		$this->showed_supported_browser_popup = false;
-//		unset($_SESSION['showed_supported_browser_popup']);
-		if (empty($_SESSION['showed_supported_browser_popup'])) {
-			$_SESSION['showed_supported_browser_popup'] = true;
+		if (!$this->Session->check('showed_supported_browser_popup')) {
+			$this->Session->write('showed_supported_browser_popup', true);
 		} else {
 			$this->showed_supported_browser_popup = true;
 		}
@@ -195,7 +247,24 @@ class AppController extends Controller {
 		$this->Auth->userScope = array('User.active = 1');
 		$this->Auth->ajaxLogin = 'admin/ajax_login';
 		//Pass auth component data over to view files
-		$this->set('Auth', $this->Auth->user());
+		$user_data = $this->Auth->user();
+		$this->set('Auth', $user_data);
+		
+		
+		//////////////////////////////////////////////////////////////
+		// Send logged in info to overlord
+		if (!empty($user_data['User']['id'])) {
+			if (!$this->Session->check('user_has_logged_in')) {
+				$this->Session->write('user_has_logged_in', true);
+				
+				// send the login data to overlord
+				$ip = $this->get_real_ip_addr();
+				$this->FotomatterBilling->log_user_logged_in($ip);
+			}
+		}
+		
+		
+		
 
 
 		// locking hash code
@@ -210,6 +279,49 @@ class AppController extends Controller {
 				exit();
 			}
 		}
+		
+		
+		
+		//////////////////////////////////////////////////////////
+		// turn on the first time login popup if
+		// really is a first time login
+		//	-- $this->not_in_welcome_site_access_area
+		//	-- welcome_first_login_popup is not 1
+		//	-- not on welcome site
+		//	-- not the ping location
+		// also - log them in if they also have the correct hash for their website
+		$this->done_welcome_first_login_popup = 1;
+		if ($this->not_in_welcome_site_access_area && $this->not_on_welcome_site && $this->startsWith($_SERVER['REQUEST_URI'], '/site_pages/ping') === false) {
+			$this->done_welcome_first_login_popup = $this->SiteSetting->getVal('welcome_first_login_popup', 0);
+			if (empty($this->done_welcome_first_login_popup)) {
+				$this->SiteSetting->setVal('welcome_first_login_popup', 1);
+				
+				$account_id = $this->SiteSetting->getVal('account_id', false);
+				if (!empty($account_id)) {
+					$this->GlobalWelcomeHash = ClassRegistry::init('GlobalWelcomeHash');
+					$global_welcome_hash = $this->GlobalWelcomeHash->find('first', array(
+						'conditions' => array(
+							'GlobalWelcomeHash.account_id' => $account_id,
+						),
+						'contain' => false,
+					));
+					if (!empty($global_welcome_hash['GlobalWelcomeHash']['hash'])) {
+						$this->Welcome = ClassRegistry::init('Welcome');
+						$this->User = ClassRegistry::init('User');
+						// so log them in - this should only happen once because above welcome_first_login_popup is set to 1
+						$account_email = $this->SiteSetting->getVal('account_email', false);
+						if (!empty($account_email)) {
+							$user_id = $this->User->get_user_id_by_email($account_email);
+							if (!empty($user_id)) {
+								$this->FotomatterEmail->send_first_login_email($this);
+								$this->Auth->login($user_id);
+							}
+						}
+					}
+				}
+			}
+		}
+		$this->set('done_welcome_first_login_popup', $this->done_welcome_first_login_popup);
 	}
 	
 	public function validatePaymentProfile() {
@@ -400,4 +512,16 @@ class AppController extends Controller {
 		$start  = $length * -1; //negative
 		return (substr($haystack, $start) === $needle);
 	}
+	
+	public function get_real_ip_addr() {
+		if (!empty($_SERVER['HTTP_CLIENT_IP'])) {   //check ip from share internet
+			$ip = $_SERVER['HTTP_CLIENT_IP'];
+		} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {   //to check ip is pass from proxy
+			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+		} else {
+			$ip = $_SERVER['REMOTE_ADDR'];
+		}
+		return $ip;
+	}
+
 }

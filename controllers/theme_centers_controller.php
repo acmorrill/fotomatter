@@ -106,8 +106,6 @@ class ThemeCentersController extends AppController {
 	}
 	
 	public function admin_ajax_create_merged_bg_and_save_bg_config() {
-		// DREW TODO - make sure the default background color for the theme is also passed and used in this function
-		
 		$returnArr = array();
 		$returnArr['code'] = 1;
 		$using_custom_background_image = ($this->params['form']['using_custom_background_image'] == 'true') ? true : false ;
