@@ -27,8 +27,9 @@ if (!isset($hide_current)) {
 	
 	
 	
-	<div id="theme_chooser_container" data-step="1" data-intro="<?php echo __('All the themes are awesome and quite different so try lots of them to see what you’d like to use for your stunning site.', true); ?>" data-position="top">
+	<div id="theme_chooser_container">
 		<?php echo $this->Element('/admin/get_help_button'); ?>
+		<div data-step="1" data-intro="<?php echo __('All the themes are awesome and quite different so try lots of them to see what you’d like to use for your stunning site.', true); ?>" data-position="bottom"></div>
 		<div style="clear: both;"></div>
 		<?php $count = 1; foreach ($all_themes as $curr_theme): ?>
 				<?php $is_current_theme = $curr_theme['Theme']['ref_name'] == $current_theme; ?>
@@ -78,7 +79,7 @@ if (!isset($hide_current)) {
 														</div>
 													</div>
 												<?php else: ?>
-													<div class="button_current_theme add_button" data-step="2" data-intro="<?php echo __('Under the current theme the button will stay current.', true); ?>" data-position="bottom">
+													<div class="button_current_theme add_button" data-step="2" data-intro="<?php echo __('Under the current theme the button will stay current.', true); ?>" data-position="top">
 														<div type="submit" value="" ><div class="content"><?php echo __('Current',true); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div></div>
 													</div>
 												<?php endif; ?>

@@ -2,7 +2,7 @@
 	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 </h1>
 <p>
-	<?php echo __('This is where you will add photos', true); ?>
+	<?php echo __('This is where you can add photos to your site.', true); ?>
 </p>
 
 <script>
@@ -57,7 +57,7 @@
 		
 		<div class="generic_photo_gallery_cont">
 			<div class="page_content_header">
-				<h2><?php echo __('Photo Upload Settings', true); ?></h2>
+				<h2 data-step="1" data-intro="<?php echo __ ('These settings allow you to choose what gallery or tags that will be associate to the photos before they are uploaded.', true) ?>" data-position="top"><?php echo __('Photo Upload Settings', true); ?></h2>
 			</div>
 			<div class="generic_palette_container">
 				<div class="upload_setting_container first">

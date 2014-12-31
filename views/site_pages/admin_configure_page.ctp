@@ -299,7 +299,7 @@
 	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 </h1>
 <p>
-	What is this page anyhow? What is this page anyhow? What is this page anyhow? What is this page anyhow? What is this page anyhow? What is this page anyhow? 
+	<?php echo __('This page produces the elements which create a custom page. Modify the content below to get the desired appearance.', true); ?>
 </p>
 <div style="clear: both;"></div> 
 
@@ -307,7 +307,7 @@
 <div id="configure_page_cont" class="clear">
 	<div class="avail_page_elements_cont">
 		<div class="page_content_header">
-			<h2><?php echo __('Page Elements', true); ?></h2>
+			<h2 data-step="1" data-intro="<?php echo __ ('Choose the type of page look you would prefer.',true); ?>" data-position="top"><?php echo __('Page Elements', true); ?></h2>
 		</div>
 		<div class="generic_palette_container">
 			<div class="fade_background_top"></div>
@@ -321,7 +321,7 @@
 		</div>
 	</div>
 	<div class="page_content_header">
-		<h2>modify page content below</h2>
+		<h2 data-step="2" data-intro="<?php echo __ ('Once you have chosen a page element this area will allow you to customize the page to your liking. By adding a title, a photo and text.',true); ?>" data-position="top">modify page content below</h2>
 	</div>
 	<div class="page_content_cont generic_palette_container">
 		<div class="fade_background_top"></div>

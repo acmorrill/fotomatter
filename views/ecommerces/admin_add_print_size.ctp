@@ -13,7 +13,7 @@
 	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 </h1>
 <p>
-	What is this page anyhow?
+	<?php echo __('This mind-blowing page allows for the set up of print sizes. '); ?>
 </p>
 <div class="page_content_header">
 	<?php echo $this->Element('admin/back_button'); ?>
@@ -24,7 +24,7 @@
 		<?php if (isset($this->data['PhotoAvailSize']['id'])): ?>
 			<input type="hidden" name="data[PhotoAvailSize][id]" value="<?php echo $this->data['PhotoAvailSize']['id']; ?>" />
 		<?php endif; ?>
-		<div class="generic_palette_container">
+		<div class="generic_palette_container" data-step="1" data-intro="<?php echo __('This pages aids in the creation of print sizes. Now get at it and make some print sizes.', true); ?>" data-position="top">
 			<div class="fade_background_top"></div>
 			<div class="basic_setting_cont">
 				<label><?php __('Print Short Side Dimension'); ?></label>

@@ -8,7 +8,7 @@
 </p>
 <div style="clear: both;"></div> 
 
-<div class="table_container">
+<div class="table_container" data-step="1" data-intro="<?php echo __('This pages displays all the orders that have been place to your account.', true); ?>" data-position="top">
 	<div class="fade_background_top"></div>
 	<div class="table_top"></div>
 	<table class="list">

@@ -1,4 +1,4 @@
-<div class='hide_on_mobile' data-step="1" data-intro="<?php echo __('Each theme comes with their own default logo but you can use your own logo if you would like to make it more impressive.', true); ?>" data-position="bottom" ><?php // DREW TODO move the css to content_only_page  for this page and admin_configure_background.ctp ?>
+<div class='hide_on_mobile' data-step="1" data-intro="<?php echo __("Each theme comes with it's own default logo but you can use your own logo if you would like to make it more impressive.", true); ?>" data-position="bottom" ><?php // DREW TODO move the css to content_only_page  for this page and admin_configure_background.ctp ?>
 	<?php // class="content-background" ?>
 	<?php // echo $this->Element('admin/theme_center/main_menu/list_main_menu_items'); ?>
 	

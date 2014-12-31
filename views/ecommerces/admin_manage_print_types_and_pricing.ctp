@@ -89,15 +89,15 @@
 			<?php // KENT TODO - fix the below as they are in a foreach ?>
 			<?php foreach($photo_print_types as $photo_print_type): ?> 
 				<tr class="photo_print_type_item" photo_print_type_id=" <?php echo $photo_print_type['PhotoPrintType']['id']; ?>">
-					<td class="print_type_id first table_width_reorder_icon"><div class="reorder_print_type_grabber reorder_grabber icon-position-01" data-step="3" data-intro="<?php echo __('Rearrange the order of the print types. ', true); ?>" data-position="top" /> </td> 
-					<td class="print_type" data-step="4" data-intro="<?php echo __('Here is the name of the package. Example: canvas wrap, framed, poster, wood mount, and so on.', true); ?>" data-position="top">
+					<td class="print_type_id first table_width_reorder_icon"><div class="reorder_print_type_grabber reorder_grabber icon-position-01"/> </td> 
+					<td class="print_type">
 						<div class="rightborder"></div>
 						<span><?php echo $photo_print_type['PhotoPrintType']['print_name']; ?></span>
 					</td>
 					<td class="table_actions last">
 						<span class="custom_ui">
-								<a href="/admin/ecommerces/add_print_type_and_pricing/<?php echo $photo_print_type['PhotoPrintType']['id']; ?>/"><div data-step="5" data-intro="<?php echo __('Edit current print types. ', true); ?>" data-position="top" class="add_button"><div class="content"><?php echo __('Edit', true); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div></div></a>
-							<a class="delete_link" href="/admin/ecommerces/delete_print_type/<?php echo $photo_print_type['PhotoPrintType']['id']; ?>/"><div data-step="6" data-intro="<?php echo __('Remove current print types. ', true); ?>" data-position="left" class="add_button icon icon_close"><div class="content icon-close-01"></div></div></a>
+								<a href="/admin/ecommerces/add_print_type_and_pricing/<?php echo $photo_print_type['PhotoPrintType']['id']; ?>/"><div class="add_button"><div class="content"><?php echo __('Edit', true); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div></div></a>
+							<a class="delete_link" href="/admin/ecommerces/delete_print_type/<?php echo $photo_print_type['PhotoPrintType']['id']; ?>/"><div class="add_button icon icon_close"><div class="content icon-close-01"></div></div></a>
 						</span>
 					</td>
 				</tr>

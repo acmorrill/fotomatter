@@ -4,7 +4,7 @@
 	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 </h1>
 <p>
-	What is this page anyhow?
+	<?php echo __('This is the astonishing galleries page. It displays all created galleries across the site. Here the galleries can be rearranged, edited and deleted.'); ?>
 </p>
 <div style="clear: both;"></div>
 <script type="text/javascript">
@@ -40,7 +40,7 @@
 	});
 </script>
 
-<div class="right">
+<div class="right" data-step="1" data-intro="<?php echo __ ('Choose the type of gallery to be created. Whether it be a standard gallery or a smart gallery.',true); ?>" data-position="top">
 	<?php echo $this->Element('admin/gallery/add_gallery'); ?>
 </div>
 <div class="clear"></div>
@@ -48,7 +48,7 @@
 <div id="photo_gallery_list" class="table_container">
 	<div class="fade_background_top"></div>
 	<div class="table_top"></div>
-	<table class="list">
+	<table class="list" data-step="2" data-intro="<?php echo __ ('Below are all the current galleries that have been created. Edit them, manage the photos or delete the gallery completely. ',true); ?>" data-position="top">
 		<thead>
 			<tr> 
 				<?php /* <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?> */ ?>

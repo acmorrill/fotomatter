@@ -44,7 +44,7 @@
 	<p><?php echo __('modify settings below', true); ?></p>
 	<div style="clear: both;"></div>
 </div>
-<div class="generic_palette_container">
+<div class="generic_palette_container" data-step="1" data-intro="<?php echo __('Smart galleries allow photos to be easily added to galleries by selecting photos in batches.', true); ?>" data-position="top">
 	<div class="fade_background_top"></div>
 	<?php 
 		$start_settings = array();
@@ -69,7 +69,7 @@
 						<?php endforeach; ?>
 					</select>
 				</div>
-				<div class="input text">
+				<div class="input text" data-step="2" data-intro="<?php echo __('Add photos to the gallery that were uploaded from selected date to selected date.', true); ?>" data-position="top">
 					<label><?php echo __('Photo Added to Site', true); ?></label>
 
 					<?php $date_added_from_default = 'Beginning of Time'; ?>
@@ -81,7 +81,7 @@
 					<span><?php echo __('To', true); ?></span>
 					<input id="date_added_to" class="defaultText" title="<?php echo $date_added_to_default; ?>" name="data[smart_settings][date_added_to]" type="text" value="<?php echo $start_settings['date_added_to']; ?>" />
 				</div>
-				<div class="input text">
+				<div class="input text" data-step="3" data-intro="<?php echo __('Add photos to the gallery that were taken by you on selected dates.', true); ?>" data-position="top">
 					<label><?php echo __('Photo Taken', true); ?></label>
 
 					<?php $date_taken_from_default = 'Beginning of Time'; ?>
@@ -93,7 +93,7 @@
 					<span><?php echo __('To', true); ?></span>
 					<input id="date_taken_to" class="defaultText" title="<?php echo $date_taken_to_default; ?>" name="data[smart_settings][date_taken_to]" type="text" value="<?php echo $start_settings['date_taken_to']; ?>" />
 				</div>
-				<div class="input custom_ui">
+				<div class="input custom_ui" data-step="4" data-intro="<?php echo __('Format all the photos by choosing one or more of the following.', true); ?>" data-position="top">
 					<label><?php echo __('Format of Photo', true); ?></label>
 					<div id="filter_photo_by_format">
 						<input type="checkbox" name="data[smart_settings][photo_format][]" value="landscape" <?php if (in_array('landscape', $start_settings['photo_format'])): ?>checked="checked"<?php endif; ?> id="check1" />
