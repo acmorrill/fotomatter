@@ -9,12 +9,6 @@
 		<link rel="stylesheet" type="text/css" href="/css/andrewmorrill_style.css" />
 		<link rel="stylesheet" type="text/css" href="/stylesheets/contentReadableBackground.css" />
 		<?php echo $this->Theme->get_theme_dynamic_background_style($theme_config); ?>
-		<script type="text/javascript">
-			function setImage( id, path ) {
-				var image = document.getElementById(id);
-				image.src=src=path;
-			}
-		</script>
 	</head>
 	<body>
 		<div id="side_menu_bg"></div>
@@ -26,7 +20,6 @@
 
 				<div class="portfolioLinks">
 					<h2><b><?php __('Choose a Gallery'); ?></b></h2>
-					<img id="portfolioThumb" src="/photos/portfolioThumbs/A-Tangerine-Blue.jpg" alt="" />
 					<?php $all_galleries = $this->Gallery->get_all_galleries(); ?>
 					<?php foreach ($all_galleries as $curr_gallery): ?>
 						<?php 
@@ -36,11 +29,8 @@
 								$curr_gallery['PhotoGallery']['id']
 							));
 						?>
-						<a onmouseover="setImage('portfolioThumb', '/photos/portfolioThumbs/A-Tangerine-Blue.jpg');" href="<?php echo $curr_gallery_href; ?>"><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></a><br />
+						<a href="<?php echo $curr_gallery_href; ?>"><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></a><br />
 					<?php endforeach; ?>
-					<?php /*<a onmouseover="setImage('portfolioThumb', '/photos/portfolioThumbs/Celestial-ArrayBW.jpg');" href="/photo_galleries/view_gallery?gallery=largeFormatBW">Black &amp; White Landscapes</a><br />
-					<a onmouseover="setImage('portfolioThumb', '/photos/portfolioThumbs/Solar-Migrations.jpg');" href="/photo_galleries/view_gallery?gallery=panoramics">Panoramic Landscapes</a><br />
-					<a onmouseover="setImage('portfolioThumb', '/photos/portfolioThumbs/Provo-Temple-Winter.jpg');" href="/photo_galleries/view_gallery?gallery=temples">LDS Temple Pictures</a><br />*/ ?>
 					<br/><br/><br/>
 				</div>
 				<br />
@@ -49,8 +39,7 @@
 			</div>
 		</div>
 		
-		<p id="sideBlurb"><b>To purchase a print, navigate to an image and add to cart.</b><br /><br/>Before viewing images, consider checking out the <a href="viewingTips.php">viewing tips page</a>.<br />
-		</p>
+		<p id="sideBlurb"><b>To purchase a print, navigate to an image and add to cart.</b><br /><br/></p>
 		
 		
 		

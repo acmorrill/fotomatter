@@ -24,6 +24,15 @@ class FotomatterBillingComponent extends FotomatterOverlordApi {
 		return $result;
 	}
 	
+	public function send_extra_user_data($first_name, $last_name, $industry_type_id) {
+		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+		$account_id = $this->SiteSetting->getVal('account_id');
+		
+		$result = $this->send_api_request('api_billing/recieve_extra_user_data', compact('account_id', 'first_name', 'last_name', 'industry_type_id'));
+		
+		return $result;
+	}
+	
 	
 	public function get_industry_types() {
 		$apc_key = 'industry_type_apckey';

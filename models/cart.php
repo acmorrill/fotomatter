@@ -4,7 +4,21 @@ class Cart extends AppModel {
 	public $useTable = false;
 
 	
-	
+	public function remove_cart_item_by_index($i) {
+		$this->Session = $this->get_session();
+		
+		if ($this->Session->check('Cart.items')) {
+			$cart_items = $this->Session->read('Cart.items');
+			$count = 0; foreach ($cart_items as $key => $cart_item) {
+				if ($i == $count) {
+					unset($cart_items[$key]);
+					break;
+				}
+				$count++;
+			}
+			$this->Session->write('Cart.items', $cart_items);
+		}
+	}
 	
 	public function add_to_cart($photo_id, $photo_print_type_id, $short_side_inches) {
 		$this->Session = $this->get_session();
@@ -141,6 +155,19 @@ class Cart extends AppModel {
 		$items_total = 0;
 		foreach ($cart_items as $cart_item) {
 			$items_total += $cart_item['qty'] * $cart_item['price'];
+		}
+		
+		return $items_total;
+	}
+	
+	public function count_items_in_cart($cart_items = null) {
+		if (!isset($cart_items)) {
+			$cart_items = $this->get_cart_items();
+		}
+		
+		$items_total = 0;
+		foreach ($cart_items as $cart_item) {
+			$items_total += (int) $cart_item['qty'];
 		}
 		
 		return $items_total;

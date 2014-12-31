@@ -79,14 +79,15 @@ class WelcomeController extends AppController {
 
 
 		// validate data if it was submitted
-		if (!empty($this->data['password']) && !empty($this->data['confirm_password'])) {
-			// START HERE - take care of both first name and last name and industry
-			
-			
-			
+		if (!empty($this->data)) {
 			try {
+				$this->Validation->validate('not_empty', $this->data, 'first_name', __('You must provide your first name. This is only used for default text on your website.', true));
+				$this->Validation->validate('not_empty', $this->data, 'last_name', __('You must provide your last name. This is only used for default text on your website.', true));
+				$this->Validation->validate('not_empty', $this->data, 'industry_type_id', __('You must choose your primary focus.', true));
+				$this->Validation->validate('not_empty', $this->data, 'password', __('The password must be at least 8 characters long.', true));
+				$this->Validation->validate('not_empty', $this->data, 'confirm_password', __('The passwords must match.', true));
 				$this->Validation->validate('account_valid_password', $this->data, 'password', __('The password must be at least 8 characters long.', true));
-				$this->Validation->validate('password_match', $this->data['password'], $this->data['confirm_password'], 'The passwords must match.');
+				$this->Validation->validate('password_match', $this->data['password'], $this->data['confirm_password'], __('The passwords must match.', true));
 			} catch (Exception $e) {
 				$this->Session->setFlash($e->getMessage(), 'admin/flashMessage/error', array(), 'auth');
 				return;
@@ -101,6 +102,14 @@ class WelcomeController extends AppController {
 				$this->Session->setFlash(__('An error occured during site build. Please contact support.', true), 'admin/flashMessage/error', array(), 'auth');
 				return;
 			}
+			
+			
+			
+			//////////////////////////////////////////////////////////////////////
+			// send name and industry to overlord and also save locally
+			$this->FotomatterBilling->send_extra_user_data($this->data['first_name'], $this->data['last_name'], $this->data['industry_type_id']);
+			$this->SiteSetting->setVal('first_name', $this->data['first_name']);
+			$this->SiteSetting->setVal('last_name', $this->data['last_name']);
 
 
 			// user created so mark welcome_password as having been done

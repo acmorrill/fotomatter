@@ -13,8 +13,8 @@ class EcommercesController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 
-		$this->Auth->allow(array('view_cart', 'add_to_cart', 'checkout_login_or_guest', 'checkout_get_address', 'get_available_states_for_country_options', 'checkout_finalize_payment', 'change_fe_password', 'checkout_thankyou'));
-		
+		$this->Auth->allow(array('view_cart', 'add_to_cart', 'checkout_login_or_guest', 'checkout_get_address', 'get_available_states_for_country_options', 'checkout_finalize_payment', 'change_fe_password', 'checkout_thankyou', 'check_frontend_cart', 'remove_from_cart', 'remove_cart_item_by_index'));
+
 		
 		/////////////////////////////////////////////
 		// limit ecommerce
@@ -33,6 +33,10 @@ class EcommercesController extends AppController {
 //		$this->front_end_auth = array('checkout_get_address');
 	}
 
+	public function check_frontend_cart() {
+		$this->return_json($this->Cart->count_items_in_cart());
+	}
+	
 	public function admin_index() {
 
 	}
@@ -917,6 +921,13 @@ class EcommercesController extends AppController {
 		
 		$this->ThemeRenderer->render($this);
 	}
+	
+	
+	public function remove_cart_item_by_index($i) {
+		$this->Cart->remove_cart_item_by_index($i);
+		$this->redirect('/ecommerces/view_cart/');
+	}
+	
 	
 	
 	public function checkout_thankyou() {

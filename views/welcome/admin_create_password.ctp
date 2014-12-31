@@ -9,17 +9,19 @@
 				</div>
 				<div class="input password" style="margin-top: 0px;">
 					<label for="FirstName"><?php echo __('First Name', true); ?></label>
-					<input  autocorrect="off" type="input" name="data[first_name]" class="text" id="FirstName">
+					<input  autocorrect="off" type="input" name="data[first_name]" class="text" id="FirstName" value="<?php echo $this->Util->get_not_empty_or($this->data, 'first_name', ''); ?>">
 				</div>
 				<div class="input password">
 					<label for="LastName"><?php echo __('Last Name', true); ?></label>
-					<input  autocorrect="off" type="input" name="data[last_name]" class="text" id="LastName">
+					<input  autocorrect="off" type="input" name="data[last_name]" class="text" id="LastName" value="<?php echo $this->Util->get_not_empty_or($this->data, 'last_name', ''); ?>">
 				</div>
 				<div class="input password">
-					<label for="PhotographyType"><?php echo __('Your Primary Focus', true); ?></label>
-					<select name="data[photography_type]" id="PhotographyType">
+					<label for="IndustryType"><?php echo __('Your Primary Focus', true); ?></label>
+					<?php $previous_option = $this->Util->get_not_empty_or($this->data, 'industry_type_id', 0); ?>
+					<select name="data[industry_type_id]" id="IndustryType">
+						<option value=""><?php echo __('Choose an Option'); ?></option>
 						<?php foreach ($industry_types as $industry_type): ?>
-							<option value="<?php echo $industry_type['IndustryType']['id']; ?>"><?php echo $industry_type['IndustryType']['name']; ?></option>
+							<option <?php if ($previous_option == $industry_type['IndustryType']['id']): ?>selected="selected"<?php endif; ?> value="<?php echo $industry_type['IndustryType']['id']; ?>"><?php echo $industry_type['IndustryType']['name']; ?></option>
 						<?php endforeach; ?>
 					</select>
 				</div>

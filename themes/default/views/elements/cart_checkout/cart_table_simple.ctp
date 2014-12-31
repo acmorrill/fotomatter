@@ -20,10 +20,11 @@
 				<?php /*<th><?php __('Shipping Price'); ?></th> */ ?>
 				<th class='qty'><?php echo __('Qty',true); ?></th>
 				<th class="last total"><?php echo __('Total',true); ?></th>
+				<th class="last total">&nbsp;</th>
 			</tr>
 		</thead>
 		<tbody>
-			<?php foreach ($cart_items as $key => $cart_data): ?>
+			<?php $count = 0; foreach ($cart_items as $key => $cart_data): ?>
 				<tr>
 					<td class="first image">
 						<?php $cart_img_data = $this->Photo->get_photo_path($cart_data['photo_id'], 100, 100, .4, true); ?>
@@ -37,12 +38,13 @@
 					</td> */ ?>
 					<td class='qty'><?php echo $cart_data['qty']; ?></td>
 					<td class="last total">$<?php echo $this->Cart->get_cart_line_total($cart_data['qty'], $cart_data['price']); ?><?php // DREW TODO - make the money format better ?></td>
+					<td class='delete'><a href="/ecommerces/remove_cart_item_by_index/<?php echo $count; ?>">Delete</a></td>
 				</tr>
-			<?php endforeach; ?>
+			<?php $count++; endforeach; ?>
 		</tbody>
 		<tfoot>
 			<tr>
-				<td colspan="5" style="text-align: right;">
+				<td colspan="6" style="text-align: right;">
 					Shipping: $<?php echo $this->Cart->get_cart_shipping_total(); ?><br />
 					Sub Total: $<?php echo $this->Cart->get_cart_subtotal(); ?><br />
 					Total: $<?php echo $this->Cart->get_cart_total(); ?><br />

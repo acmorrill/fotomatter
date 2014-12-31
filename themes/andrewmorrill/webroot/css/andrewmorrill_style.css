@@ -9,10 +9,8 @@
 }
 body {
   font-family: 'Roboto', sans-serif;
-  background-image: url('../images/background-content.jpg');
   background-repeat: no-repeat;
-  background-color: #ffffff;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 19px;
   margin: 0px;
   color: #2B2725;
@@ -112,7 +110,7 @@ a {
 #main_nav {
   position: absolute;
   text-align: right;
-  left: 695px;
+  left: 715px;
   top: 338px;
   line-height: 18px;
   width: 128px;
@@ -219,7 +217,7 @@ div#zoomWidget img {
   position: absolute;
   top: 148px;
   left: 705px;
-  width: 105px;
+  width: 119px;
   font-size: 12px;
   line-height: 15px;
   margin: 0px;
@@ -229,8 +227,8 @@ div#zoomWidget img {
   position: absolute;
   top: 114px;
   left: 679px;
-  width: 125px;
-  font-size: 12px;
+  width: 145px;
+  font-size: 14px;
   line-height: 15px;
   margin: 0px;
   text-align: right;
@@ -622,7 +620,7 @@ td.priceAndDiscountCode.price {
   background: url(/images/misc/side_menu_bg.png) top left no-repeat;
   position: absolute;
   top: 5px;
-  left: 823px;
+  left: 843px;
   width: 24px;
   height: 591px;
 }

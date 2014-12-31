@@ -151,7 +151,7 @@ if(!isset($HTTP_COOKIE_VARS["usersAvailScreenWidth"]) || !isset($HTTP_COOKIE_VAR
 			<img style="padding-top: 8px;" src="/images/misc/horiz_gradientline.png" alt="" />
 		</div>
 		
-		<p id="sideBlurb"><b>To purchase a print, navigate to an image and add to cart.</b><br /><br/>Before viewing images, consider checking out the <a href="viewingTips.php">viewing tips page</a>.<br />
+		<p id="sideBlurb"><b>To purchase a print, navigate to an image and add to cart.</b><br /><br/>
 		</p>
 		
 		<?php echo $this->Element('menu/navBar', array( 'page' => 'gallery' )); ?>

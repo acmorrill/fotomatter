@@ -9,11 +9,33 @@
 	}
 	
 	jQuery(document).ready(function() {
+		// code for the menu hover
 		jQuery('#main_nav li.main_menu_item').mouseover(function() {
 			jQuery('#main_nav li.main_menu_item').removeClass('hover');
 			jQuery(this).addClass('hover');
 		}).mouseout(function() {
 			jQuery('#main_nav li.main_menu_item').removeClass('hover');
+		});
+		
+		
+		// grab the cart totals
+		jQuery.ajax({
+			type: 'post',
+			url: '/ecommerces/check_frontend_cart',
+			data: {},
+			success: function(data) {
+				var cart_link = jQuery('.cart_link');
+				if (data > 0) {
+					jQuery('span.cart_item_content', cart_link).text("cart (" + data + ")");
+				}
+			},
+			complete: function() {
+
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				
+			},
+			dataType: 'json'
 		});
 	});
 </script>
