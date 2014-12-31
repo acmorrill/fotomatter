@@ -86,7 +86,7 @@
 					</td>
 				</tr>
 			<?php endif; ?>
-
+			<?php // KENT TODO - fix the below as they are in a foreach ?>
 			<?php foreach($photo_print_types as $photo_print_type): ?> 
 				<tr class="photo_print_type_item" photo_print_type_id=" <?php echo $photo_print_type['PhotoPrintType']['id']; ?>">
 					<td class="print_type_id first table_width_reorder_icon"><div class="reorder_print_type_grabber reorder_grabber icon-position-01" data-step="3" data-intro="<?php echo __('Rearrange the order of the print types. ', true); ?>" data-position="top" /> </td> 

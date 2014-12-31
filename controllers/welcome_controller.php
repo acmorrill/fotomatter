@@ -80,6 +80,10 @@ class WelcomeController extends AppController {
 
 		// validate data if it was submitted
 		if (!empty($this->data['password']) && !empty($this->data['confirm_password'])) {
+			// START HERE - take care of both first name and last name and industry
+			
+			
+			
 			try {
 				$this->Validation->validate('account_valid_password', $this->data, 'password', __('The password must be at least 8 characters long.', true));
 				$this->Validation->validate('password_match', $this->data['password'], $this->data['confirm_password'], 'The passwords must match.');

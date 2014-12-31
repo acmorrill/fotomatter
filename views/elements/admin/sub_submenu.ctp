@@ -22,6 +22,7 @@
 	
 	
 </script>
+<?php // KENT TODO - make sure this works for two tier menu as well ?>
 <div id="<?php echo $uuid; ?>" class="sub_submenu_cont" style="<?php echo isset($css) ? $css : ''; ?>">
 	<div class="sub_submenu_left_cont" data-step="2" data-intro="<?php echo __('All themes have menus. Some have one tier menu and others two tier menus. One tier menus are single links while two tier menus have a dropdown menu system. ', true); ?>" data-position="bottom">
 		<div class="sub_menu_bottom_border"></div>
