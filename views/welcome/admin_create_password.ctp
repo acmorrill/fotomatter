@@ -7,7 +7,6 @@
 				<div style="display:none;">
 					<input type="hidden" name="_method" value="POST">
 				</div>
-				<?php // $account_email ?>
 				<div class="input password" style="margin-top: 0px;">
 					<label for="FirstName"><?php echo __('First Name', true); ?></label>
 					<input  autocorrect="off" type="input" name="data[first_name]" class="text" id="FirstName">
@@ -15,6 +14,14 @@
 				<div class="input password">
 					<label for="LastName"><?php echo __('Last Name', true); ?></label>
 					<input  autocorrect="off" type="input" name="data[last_name]" class="text" id="LastName">
+				</div>
+				<div class="input password">
+					<label for="PhotographyType"><?php echo __('Your Primary Focus', true); ?></label>
+					<select name="data[photography_type]" id="PhotographyType">
+						<?php foreach ($industry_types as $industry_type): ?>
+							<option value="<?php echo $industry_type['IndustryType']['id']; ?>"><?php echo $industry_type['IndustryType']['name']; ?></option>
+						<?php endforeach; ?>
+					</select>
 				</div>
 				<div class="input password">
 					<label for="UserPassword"><?php echo __('Create Password', true); ?></label>

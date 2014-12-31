@@ -24,6 +24,24 @@ class FotomatterBillingComponent extends FotomatterOverlordApi {
 		return $result;
 	}
 	
+	
+	public function get_industry_types() {
+		$apc_key = 'industry_type_apckey';
+		if (apc_exists($apc_key)) {
+			return apc_fetch($apc_key);
+		}
+		
+		$result = $this->send_api_request('api_billing/get_industry_types', array());
+		if ($result['code'] == 1 && !empty($result['data'])) {
+			apc_store($apc_key, $result['data'], 604800); // 1 week
+			return $result['data'];
+		}
+		
+		$this->MajorError = ClassRegistry::init("MajorError");
+		$this->MajorError->major_error('Failed to get industry types', compact('apc_key', 'result'));
+		return false;
+	}
+	
 	public function getAccountDetails() {
 		if (apc_exists($this->account_details_apc_key)) {
 			return apc_fetch($this->account_details_apc_key);

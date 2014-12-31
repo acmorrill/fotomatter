@@ -3330,7 +3330,7 @@ fieldset input[type="checkbox"] {
   -moz-border-radius-topleft: 0px;
   border-top-left-radius: 0px;
   z-index: 50;
-  margin-bottom: 100px;
+  margin-bottom: 250px;
 }
 .message_div {
   font-family: Code-Pro-LC;

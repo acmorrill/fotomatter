@@ -71,6 +71,11 @@ class WelcomeController extends AppController {
 			$this->SiteSetting->major_error('account_email not set for account during create password');
 			$this->Session->setFlash(__('An error occured during site build. Please contact support.', true), 'admin/flashMessage/error');
 		}
+		
+		
+		$industry_types = $this->FotomatterBilling->get_industry_types();
+		$this->set(compact('industry_types'));
+		
 
 
 		// validate data if it was submitted
