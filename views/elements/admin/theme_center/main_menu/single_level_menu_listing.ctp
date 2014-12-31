@@ -153,7 +153,7 @@
 			</script>
 
 			<?php $all_pages = $this->Page->get_all_pages(); ?>
-			<div class="custom_ui">
+			<div class="custom_ui" data-step="3" data-intro="<?php echo __('If this feature is active it will add custom made pages to your site. ', true); ?>" data-position="bottom">
 				<h2><?php echo __('Add Information Page To Main Menu', true); ?></h2>
 				<div class="drop_down_sub_title" >	
 					<?php 
@@ -193,7 +193,7 @@
 			</div>
 			<div class="hr_element"></div>
 			<?php $all_galleries = $this->Gallery->get_all_galleries(); ?>
-			<div class="custom_ui">
+			<div class="custom_ui" data-step="4" data-intro="<?php echo __('Here you can add the galleries that you have created to the main menu.', true); ?>" data-position="bottom">
 				<h2><?php echo __('Add Gallery Page To Main Menu', true); ?></h2>
 				<div class="drop_down_sub_title">
 					<?php if (!empty($all_galleries)): ?>

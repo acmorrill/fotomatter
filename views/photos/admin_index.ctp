@@ -31,11 +31,11 @@
 	<div class="table_top"></div>
 	<?php $sort_dir = $this->Paginator->sortDir('Photo'); ?>
 	<table class="list">
-		<thead>
+		<thead data-step="3" data-intro="<?php echo __('You may display the orders by ID, photo, title, and so on. Indicated by the blue lina and arrow.', true); ?>" data-position="bottom">
 			<tr> 
 				<?php /* <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?> */ ?>
 				<?php /* <?php echo $this->Paginator->sort(__('Photo ID', true), 'Photo.id'); ?> */ ?>
-				<th class="first" data-step="3" data-intro="<?php echo __('You may display the orders by ID, photo, title, and so on. Indicated by the blue lina and arrow.', true); ?>" data-position="bottom" <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>">
+				<th class="first" <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?>">
 					<div class="content one_line">
 						<div class="direction_arrow"></div>
 						<?php echo $this->Paginator->sort(__('ID', true), 'Photo.id'); ?>

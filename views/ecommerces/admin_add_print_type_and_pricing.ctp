@@ -21,7 +21,7 @@
 		<div class="generic_palette_container">
 			<div class="fade_background_top"></div>
 			<div class="basic_setting_cont no_border">
-				<label><?php __('Enter Name of Print Type'); ?></label>
+				<label><?php echo __('Enter Name of Print Type', true); ?></label>
 				<div class="theme_setting_inputs_container">
 					<input type="text" name="data[PhotoPrintType][print_name]" value="<?php if (!empty($photo_print_type['PhotoPrintType']['print_name'])) echo $photo_print_type['PhotoPrintType']['print_name']; ?>" />
 				</div>
@@ -30,7 +30,7 @@
 				</div>
 			</div>
 			<div class="basic_setting_cont no_border">
-				<label><?php __('Enter Estimated Turnaround Time'); ?></label>
+				<label><?php echo __('Enter Estimated Turnaround Time', true); ?></label>
 				<div class="theme_setting_inputs_container">
 					<?php $print_type_turnaround_time = (!empty($photo_print_type['PhotoPrintType']['turnaround_time'])) ? $photo_print_type['PhotoPrintType']['turnaround_time'] : ''; ?>
 					<input id="print_type_turnaround_time" type="text" name="data[PhotoPrintType][turnaround_time]" prev_value="<?php echo $print_type_turnaround_time; ?>" value="<?php echo $print_type_turnaround_time; ?>" />
@@ -84,42 +84,42 @@
 						<tr>
 							<th class="first" style="min-width: 190px;">
 								<div class="content">
-									<?php __('Make print type available at size and format??'); ?>
+									<?php echo __('Make print type available at size and format??', true); ?>
 								</div>
 							</th>
 							<th style="min-width: 80px;">
 								<div class="content">
-									<?php __('Print Size'); ?>
+									<?php echo __('Print Size', true); ?>
 								</div>
 							</th>
 							<th style="min-width: 130px;">
 								<div class="content">
-									<?php __('Print Formats'); ?>
+									<?php echo __('Print Formats', true); ?>
 								</div>
 							</th>
 							<th style="min-width: 144px;">
 								<div class="content">
-									<?php __('Available on Photo by Default?'); ?>
+									<?php echo __('Available on Photo by Default?', true); ?>
 								</div>
 							</th>
 							<th>
 								<div class="content">
-									<?php __('Default Price'); ?>
+									<?php echo __('Default Price', true); ?>
 								</div>
 							</th>
 							<th>
 								<div class="content">
-									<?php __('Default Shipping Price'); ?>
+									<?php echo __('Default Shipping Price', true); ?>
 								</div>
 							</th>
 							<th>
 								<div class="content">
-									<?php __('Default Turnaround Time'); ?>
+									<?php echo __('Default Turnaround Time', true); ?>
 								</div>
 							</th>
 							<th class="last">
 								<div class="content">
-									<?php __('Force as default on photo?'); ?>
+									<?php echo __('Force as default on photo?', true); ?>
 								</div>
 							</th>
 						</tr>

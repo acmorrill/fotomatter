@@ -7,11 +7,11 @@
 	<p><?php echo __('modify settings below', true); ?></p>
 	<div style="clear: both;"></div>
 </div>
-<div class="generic_palette_container" data-step="1" data-intro="<?php echo __('Edit the name and description of the gallery.', true); ?>" data-position="top">
+<div class="generic_palette_container">
 	<div class="fade_background_top"></div>
 	<?php echo $this->Form->create('PhotoGallery'); ?>
 		<div class="generic_inner_container">
-			<div class="generic_dark_cont fotomatter_form">
+			<div class="generic_dark_cont fotomatter_form" data-step="1" data-intro="<?php echo __('Edit the name and description of the gallery.', true); ?>" data-position="top">
 				<div style="display:none;">
 					<input type="hidden" name="_method" value="PUT">
 				</div>
