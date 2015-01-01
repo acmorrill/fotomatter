@@ -210,7 +210,7 @@ class AppController extends Controller {
 
 
 		// recompile less css if a get param is set or debug is set to 2
-		if (Configure::read('debug') == '2' || isset($this->params['url']['lesscss']) || $this->Session->check('recompile_css')) {
+		if (Configure::read('debug') == '2' || isset($this->params['url']['lesscss']) || $this->Session->check('recompile_css') ) {
 			if (isset($this->params['url']['lesscss'])) {
 				$this->Session->write('recompile_css', true);
 			}

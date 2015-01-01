@@ -96,10 +96,9 @@ require(ROOT . "/db_configs.php");
 
 
 
-///////////////////////////////////////////////////////////////////////////////////
-// if we have the welcome cookie hash then try and see if we can use it
-// to pull in the actual sites db_configs.php
-if (isset($_COOKIE['welcome_hash'])) {
+
+
+function handle_assume_site_db_based_on_build_hash($build_hash) {
 	$WELCOME_SITE_URL = WELCOME_SITE_URL;
 	if (empty($WELCOME_SITE_URL)) {
 		$WELCOME_SITE_URL = 'welcome.fotomatter.net';
@@ -125,8 +124,7 @@ if (isset($_COOKIE['welcome_hash'])) {
 				if (startsWith($_SERVER['REQUEST_URI'], '/admin/welcome') == false && startsWith($_SERVER['REQUEST_URI'], '/admin/users/login') == false) {
 					unset($_COOKIE['welcome_hash']);
 					record_major_welcome_error("in bad place on welcome site", compact('hash_data', '_COOKIE', '_SERVER'));
-					header('HTTP/1.0 404 Not Found');
-					die();
+					return;
 				}
 				
 
@@ -144,15 +142,21 @@ if (isset($_COOKIE['welcome_hash'])) {
 			if ($_SERVER['HTTP_HOST'] !== $hash_data['site_domain'] . '.fotomatter.net') {
 				unset($_COOKIE['welcome_hash']);
 				record_major_welcome_error("hash applies to some other site", compact('hash_data', '_COOKIE', '_SERVER'));
-				header('HTTP/1.0 404 Not Found');
-				die();
+				return;
 			}
 		}
 	} else {
 		// means hash was bad so clear the cookie (so it won't work in welcome controller)
 		unset($_COOKIE['welcome_hash']);
 		record_major_welcome_error("hash data empty 2", compact('hash_data', '_COOKIE', '_SERVER'));
-		header('HTTP/1.0 404 Not Found');
-		die();
+		return;
 	}
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////
+// if we have the welcome cookie hash then try and see if we can use it
+// to pull in the actual sites db_configs.php
+if (isset($_COOKIE['welcome_hash'])) {
+	handle_assume_site_db_based_on_build_hash($_COOKIE['welcome_hash']);
 } 
