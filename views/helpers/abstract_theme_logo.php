@@ -195,13 +195,13 @@ abstract class AbstractThemeLogoHelper extends AppHelper {
 	protected function _get_logo_firstname() {
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
 		
-		return $this->SiteSetting->getVal('firstname', 'Andrew');
+		return $this->SiteSetting->getVal('first_name', 'Andrew');
 	}
 	
 	protected function _get_logo_lastname() {
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
 		
-		return $this->SiteSetting->getVal('lastname', 'Morrill');
+		return $this->SiteSetting->getVal('last_name', 'Morrill');
 	}
 	
 	protected function _get_logo_companyname() {
