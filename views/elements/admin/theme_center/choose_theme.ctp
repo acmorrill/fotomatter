@@ -25,15 +25,18 @@ if (!isset($hide_current)) {
 		});
 	</script>
 	
-	
-	
 	<div id="theme_chooser_container">
 		<?php echo $this->Element('/admin/get_help_button'); ?>
-		<div data-step="1" data-intro="<?php echo __('All the themes are awesome and quite different so try lots of them to see what you’d like to use for your stunning site.', true); ?>" data-position="bottom"></div>
 		<div style="clear: both;"></div>
 		<?php $count = 1; foreach ($all_themes as $curr_theme): ?>
 				<?php $is_current_theme = $curr_theme['Theme']['ref_name'] == $current_theme; ?>
-				<div class="theme_item_container <?php if ($is_current_theme === true) echo 'current'; ?>">
+				<?php 
+					$theme_help_code = ''; 		
+					if ($count === 1) {
+						$theme_help_code = 'data-step="1" data-intro="'.__("All the themes are awesome and quite different so try lots of them to see what you'd like to use for your stunning site.", true).'" data-position="right"';
+					}
+				?>
+				<div class="theme_item_container <?php if ($is_current_theme === true) echo 'current'; ?>" <?php echo $theme_help_code; ?>>
 					<div class="theme_item_outer_container">
 						<div class="theme_item_inner_container">
 							<?php 
@@ -51,7 +54,7 @@ if (!isset($hide_current)) {
 								if (!file_exists($small_image_abs_path)) {
 									$small_image_web_path = $small_default_web_path;
 								}
-							?>
+							?>								
 							<div class="screenshot_container">
 								<div class="screenshot_inner_container">
 									<a href="<?php echo $large_image_web_path; ?>" class="screenshot_zoom" title="<?php echo $curr_theme['Theme']['display_name']; ?>" rel="gal1">
