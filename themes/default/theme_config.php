@@ -120,8 +120,8 @@ $theme_config = array(
 				'height' => 200
 			),
 			'available_space_screenshot' => array(
-				'absolute_path' => 	PATH_TO_THEMES.DS.'large_image_gray_bar_licky/webroot/img/kent_test_theme_logo_space.jpg', // this image should be max 735 pixels width
-				'web_path' => '/img/kent_test_theme_logo_space.jpg',
+				'absolute_path' => 	'', // this image should be max 735 pixels width
+				'web_path' => '',
 				'padding' => array(
 					'left' => 0,
 					'top' => 0,
@@ -135,10 +135,10 @@ $theme_config = array(
 			)
 		),
 		'theme_background_config' => array(
-			'theme_has_dynamic_background' => true,
+			'theme_has_dynamic_background' => false,
 			'overlay_image' => array(
-				'absolute_path' => 	PATH_TO_THEMES.DS.'large_image_gray_bar_licky/webroot/img/kent_test_logo.png', // this image should be max 1390 x 953 (DREW TODO - not sure about this)
-				'web_path' => '/img/kent_test_logo.png',
+				'absolute_path' => '', // this image should be max 1390 x 953 (DREW TODO - not sure about this)
+				'web_path' => '',
 //				'custom_overlay_transparency_fade' => array(
 //					'general' => array(
 //						'tl' => array(
