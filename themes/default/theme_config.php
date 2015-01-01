@@ -3,6 +3,7 @@
 // config for theme: default
 
 $theme_config = array(
+	'theme_name' => 'default',
 	'theme_include_helpers' => array(),
 	'theme_controller_action_layouts' => array(
 		'Default' => array(

@@ -3,6 +3,7 @@
 // config for theme: andrewmorrill
 
 $theme_config = array(
+	'theme_name' => 'andrewmorrill',
 	'theme_controller_action_layouts' => array(
 		'Default' => array(
 			'layout' => 'custom_page',

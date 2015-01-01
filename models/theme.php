@@ -785,4 +785,15 @@ class Theme extends AppModel {
 		return $dst;
 	}
 
+	public function get_theme_setting($name, $default = false) {
+		$this->ThemeGlobalSetting = ClassRegistry::init('ThemeGlobalSetting', 'Model');
+		
+		return $this->ThemeGlobalSetting->getVal($name, $default);
+	}
+	
+	public function get_theme_hidden_setting($name, $default = false) {
+		$this->ThemeHiddenSetting = ClassRegistry::init('ThemeHiddenSetting', 'Model');
+		
+		return $this->ThemeHiddenSetting->getVal($name, $default);
+	}
 }

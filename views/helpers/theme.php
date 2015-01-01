@@ -23,19 +23,6 @@ class ThemeHelper extends AppHelper {
 		return "Photography by $first_name $last_name";
 	}
 	
-	
-	public function get_theme_setting($name, $default = false) {
-		$this->ThemeGlobalSetting = ClassRegistry::init('ThemeGlobalSetting', 'Model');
-		
-		return $this->ThemeGlobalSetting->getVal($name, $default);
-	}
-	
-	public function get_theme_hidden_setting($name, $default = false) {
-		$this->ThemeHiddenSetting = ClassRegistry::init('ThemeHiddenSetting', 'Model');
-		
-		return $this->ThemeHiddenSetting->getVal($name, $default);
-	}
-
 	public function get_theme_uploaded_background_abs_path($theme_name = null) {
 		if (!isset($theme_name)) {
 			$theme_name = $this->get_theme_name();

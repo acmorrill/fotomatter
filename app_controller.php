@@ -28,6 +28,23 @@ class AppController extends Controller {
 		'FotomatterBilling',
 		'FeatureLimiter',
 	);
+	var $helpers = array(
+		'Session',
+		'Form',
+		'Util',
+		'ThemeMenu',
+		'ThemeLogo',
+		'Theme',
+		'Photo',
+		'Gallery',
+		'Ecommerce',
+		'Cart',
+		'Account',
+		'SiteSetting',
+		'Number',
+		'Cache',
+		'Page'
+	);
 //	public $helpers = array(); // see helpers in beforeFilter
 
 	/**

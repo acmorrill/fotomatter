@@ -3,6 +3,7 @@
 // config for theme: simple_lightgrey_textured
 
 $theme_config = array(
+	'theme_name' => 'simple_lightgrey_textured',
 	'theme_controller_action_layouts' => array(
 		'SitePages' => array(
 			'landing_page' => array(
