@@ -53,7 +53,7 @@ class AppController extends Controller {
 		
 		///////////////////////////////////////////////////////////////
 		// clear apc cache if in debug mode
-		if (Configure::read('debug') > 0 || isset($this->params['apc_clear_cache'])) {
+		if (Configure::read('debug') > 0 || isset($_GET['apc_clear_cache'])) {
 			apc_clear_cache('user');
 		}
 		
