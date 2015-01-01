@@ -12,7 +12,7 @@
 	<?php  
 		$delete_button = ''; 
 		if ($count === 0) {
-			$delete_button = 'data-step="3" data-intro="'.__("All themes have system pages that are required to have and can't be moved from thier current position", true).'" data-position="right"';
+			$delete_button = 'data-step="2" data-intro="'.__("All themes have system pages that are required to have and can't be moved from thier current position", true).'" data-position="right"';
 		}
 	?>
 	
