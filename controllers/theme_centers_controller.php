@@ -79,27 +79,10 @@ class ThemeCentersController extends AppController {
 			////////////////////////////////////////////////////////////////////////////////////////////////////////
 			// stuff to do after theme changed
 			$new_theme_config = $this->ThemeRenderer->_process_theme_config_with_user_settings(true);
-			$this->log($new_theme_config, 'todo_after_theme_change');
 			$this->Theme->get_theme_background_config_values($new_theme_config, true);
-			
-			clearCache();
-			App::import('Helper', 'ThemeLogo'); 
-			$ThemeLogo = new ThemeLogoHelper();
-			$ThemeLogo->get_display_logo_data($new_theme_config);
 
-//			opcache_reset();
-//			clearCache();
-//			apc_clear_cache();
-//			apc_clear_cache('user');
-//			apcu_clear_cache();
-//			apcu_clear_cache('user');
-			
-//			$this->ThemeGlobalSetting = ClassRegistry::init('ThemeGlobalSetting', 'Model');
-//			$this->ThemeGlobalSetting->setVal('use_theme_logo', true);
-//			return $this->ThemeGlobalSetting->getVal($name, $default);
-		
-			
-			
+			// important!  --   this makes sure that paths to helpers etc are correct after the symlinks change in change theme above
+			apc_add('clear_cake_core_apc_cache_on_next_request', true);
 		}
 	}
 	

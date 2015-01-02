@@ -41,7 +41,6 @@ class ThemeLogoHelper extends AbstractThemeLogoHelper {
 	}
 	
 	function _get_theme_name() {
-		$this->log(__FILE__, 'theme_name');
 		return "andrewmorrill";
 	}
 	

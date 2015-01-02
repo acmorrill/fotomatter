@@ -67,7 +67,7 @@
 				if (data.count > 0) {
 					jQuery('.in_gallery_main_cont .empty_help_content').hide();
 					var new_images = jQuery(data.html);
-					setup_remove_from_gallery_buttons(new_images);
+					setup_remove_from_gallery_buttons(jQuery('.remove_from_gallery_button', new_images));
 					jQuery('#in_gallery_photos_cont').html(new_images);
 				} else {
 					jQuery('.in_gallery_main_cont .empty_help_content').show();
@@ -134,7 +134,7 @@
 				success: function(data) {
 					if (data.code == 1) {
 						// its all good
-						setup_remove_from_gallery_buttons(new_div);
+						setup_remove_from_gallery_buttons(jQuery('.remove_from_gallery_button', new_div));
 
 						// check to see if the website photos needs a help message
 						if (element_is_empty('endless_scroll_div')) {
@@ -492,17 +492,16 @@ $(function() {
 			*/ ?></div><?php /*
 		*/ ?></div><?php /*
 		*/ ?><div id="not_in_gallery_icon_size" class="box_icon_size custom_ui"><?php /*
-			*/ ?><div data-step="1" data-intro="<?php echo __('Choose how you would like to filter your photos. Small, medium or large.', true); ?>" data-position="right">
-					<div id="small_icon" size="small" class="add_button <?php if($not_in_gallery_icon_size == 'small'): ?> selected <?php endif; ?>"><?php /*
+			*/ ?><div id="small_icon" size="small" class="add_button <?php if($not_in_gallery_icon_size == 'small'): ?> selected <?php endif; ?>"><?php /*
 					*/ ?><div class="content">S</div><?php /*
 				*/ ?></div><?php /*
-				*/ ?><div id="medium_icon" size="medium" class="add_button <?php if($not_in_gallery_icon_size == 'medium'): ?> selected <?php endif; ?>"><?php /*
+				*/ ?><div id="medium_icon" size="medium" class="add_button <?php if($not_in_gallery_icon_size == 'medium'): ?> selected <?php endif; ?>" data-step="1" data-intro="<?php echo __('Choose how you would like to filter your photos. Small, medium or large.', true); ?>" data-position="right"><?php /*
 					*/ ?><div class="content">M</div><?php /*
 				*/ ?></div><?php /*
 				*/ ?><div id="large_icon" size="large" class="add_button <?php if($not_in_gallery_icon_size == 'large'): ?> selected <?php endif; ?>"><?php /*
 					*/ ?><div class="content">L</div><?php /*
 				*/ ?></div><?php /*
-			*/ ?></div>
+			*/ ?>
 			</div>
 		<div style="clear: both;"></div>
 	</div>

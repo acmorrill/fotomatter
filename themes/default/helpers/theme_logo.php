@@ -3,7 +3,7 @@ require_once(ROOT.DS.'app'.DS.'views'.DS.'helpers'.DS.'abstract_theme_logo.php')
 
 class ThemeLogoHelper extends AbstractThemeLogoHelper {
 	
-	protected function _create_theme_base_logo($base_logo_file_path) {
+	function _create_theme_base_logo($base_logo_file_path) {
 		$firstname = $this->_get_logo_firstname();
 		$lastname = $this->_get_logo_lastname();
 //		$company_name = $this->_get_logo_companyname();
@@ -40,7 +40,7 @@ class ThemeLogoHelper extends AbstractThemeLogoHelper {
 		}
 	}
 	
-	protected function _get_theme_name() {
+	function _get_theme_name() {
 		return "default";
 	}
 	

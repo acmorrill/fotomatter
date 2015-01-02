@@ -1,12 +1,4 @@
-<?php 
-
-$this->log('===============================', 'theme_name');
-$this->log($GLOBALS['CURRENT_THEME_PATH'], 'theme_name');
-$this->log($theme_config['theme_name'], 'theme_name');
-$this->log('===============================', 'theme_name');
-$logo_data = $this->ThemeLogo->get_display_logo_data($theme_config); 
-
-?>
+<?php $logo_data = $this->ThemeLogo->get_display_logo_data($theme_config); ?>
 
 <style type="text/css">
 	#logo_cont {

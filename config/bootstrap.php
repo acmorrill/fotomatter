@@ -42,9 +42,6 @@ a * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.o
  */
 
 
-
-
-
 // site_default_images
 define("SITE_DEFAULT_CONTAINER_NAME", 'site_default_images'); 
 define("SITE_DEFAULT_CONTAINER_URL", 'http://5b3fca59f2744e30ab19-83f12fdaaac179c142328b923267ceea.r18.cf2.rackcdn.com'); 
