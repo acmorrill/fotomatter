@@ -58,6 +58,26 @@
 	}
 	z-index: @intro_bottom;
 }
+#login_page, #welcome_page {
+	#global_frontend_link {
+		display: none;
+	}
+}
+#global_frontend_link {
+	.Code-Pro-Bold-LC;
+	position: fixed;
+	bottom: 0px;
+	right: 0px;
+	vertical-align: top;
+	height: @button_height;
+	margin-bottom: 0px;
+	z-index: @intro_bottom;
+	outline: 1px solid @gray_text;
+	.el_opacity(.6, 60);
+	&:hover {
+		.el_opacity(1, 100);
+	}
+}
 #global_modal_background {
 	display: none;
 	.default_modal_background;

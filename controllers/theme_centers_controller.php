@@ -75,7 +75,11 @@ class ThemeCentersController extends AppController {
 	public function admin_choose_theme() {
 		if (!empty($this->data['new_theme_id'])) {
 			$this->Theme->change_to_theme_by_id($this->data['new_theme_id']);
+			
+			////////////////////////////////////////////////////////////////////////////////////////////////////////
+			// stuff to do after theme changed
 			$new_theme_config = $this->ThemeRenderer->_process_theme_config_with_user_settings(true);
+			$this->log($new_theme_config, 'todo_after_theme_change');
 			$this->Theme->get_theme_background_config_values($new_theme_config, true);
 		}
 	}

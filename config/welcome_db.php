@@ -108,7 +108,7 @@ function handle_assume_site_db_based_on_build_hash($build_hash) {
 	
 	////////////////////////////////////////////////
 	// get the welcome hash data from the db
-	$hash_data = get_hash_data($_COOKIE['welcome_hash']);
+	$hash_data = get_hash_data($build_hash);
 	
 
 	/////////////////////////////////////
@@ -122,9 +122,8 @@ function handle_assume_site_db_based_on_build_hash($build_hash) {
 			if ($created + $max_old > time()) { // will only work if the hash was created within the last 15 minutes*/
 				// make sure that we are only trying to use the welcome controller or login via the welcome site
 				if (startsWith($_SERVER['REQUEST_URI'], '/admin/welcome') == false && startsWith($_SERVER['REQUEST_URI'], '/admin/users/login') == false) {
-					unset($_COOKIE['welcome_hash']);
 					record_major_welcome_error("in bad place on welcome site", compact('hash_data', '_COOKIE', '_SERVER'));
-					return;
+					return false;
 				}
 				
 
@@ -140,17 +139,17 @@ function handle_assume_site_db_based_on_build_hash($build_hash) {
 		} else {
 			// check if hash applies to current site
 			if ($_SERVER['HTTP_HOST'] !== $hash_data['site_domain'] . '.fotomatter.net') {
-				unset($_COOKIE['welcome_hash']);
 				record_major_welcome_error("hash applies to some other site", compact('hash_data', '_COOKIE', '_SERVER'));
-				return;
+				return false;
 			}
 		}
 	} else {
 		// means hash was bad so clear the cookie (so it won't work in welcome controller)
-		unset($_COOKIE['welcome_hash']);
 		record_major_welcome_error("hash data empty 2", compact('hash_data', '_COOKIE', '_SERVER'));
-		return;
+		return false;
 	}
+	
+	return true;
 }
 
 
@@ -158,5 +157,7 @@ function handle_assume_site_db_based_on_build_hash($build_hash) {
 // if we have the welcome cookie hash then try and see if we can use it
 // to pull in the actual sites db_configs.php
 if (isset($_COOKIE['welcome_hash'])) {
-	handle_assume_site_db_based_on_build_hash($_COOKIE['welcome_hash']);
+	if (handle_assume_site_db_based_on_build_hash($_COOKIE['welcome_hash']) !== true) {
+		unset($_COOKIE['welcome_hash']);
+	}
 } 

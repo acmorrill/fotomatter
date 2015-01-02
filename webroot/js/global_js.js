@@ -80,6 +80,15 @@ jQuery(document).ready(function() {
 		window.history.back();
 	});
 	
+	var newtab;
+	jQuery('#global_frontend_link').click(function() {
+		var live_site_url = "http://" + jQuery(this).attr('data-live_site_url');
+		
+		if (typeof newtab == 'object') {
+			newtab.close();
+		} 
+		newtab = window.open(live_site_url, live_site_url);
+	});
 });
 
 /****************************************************************************

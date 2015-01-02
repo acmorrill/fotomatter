@@ -2485,6 +2485,33 @@ table {
 #universal_load_popup .content a {
   color: #ffffff;
 }
+#login_page #global_frontend_link,
+#welcome_page #global_frontend_link {
+  display: none;
+}
+#global_frontend_link {
+  font-family: Code-Pro-Bold-LC;
+  font-weight: normal;
+  font-style: normal;
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  vertical-align: top;
+  height: 40px;
+  margin-bottom: 0px;
+  z-index: 120;
+  outline: 1px solid #7d888e;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+  -moz-opacity: .6;
+  -khtml-opacity: .6;
+  opacity: .6;
+}
+#global_frontend_link:hover {
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  opacity: 1;
+}
 #global_modal_background {
   display: none;
   background: #181818;
