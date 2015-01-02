@@ -201,6 +201,8 @@ function get_local_db_handle($global_db = true) {
  *
  */
 function record_major_error($location, $line_number, $description, $log_data) {
+	global $root_path;
+	
 	$local_db = get_local_db_handle();
 	
 	$location = mysql_real_escape_string($location);

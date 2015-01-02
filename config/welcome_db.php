@@ -1,17 +1,21 @@
 <?php
+
 ////////////////////////////////////////
 // helper functions
-function get_local_db_handle_in_welcome() {
-	require_once(CONFIGS.'database.php');
-	$dbconfig = new DATABASE_CONFIG();
-       
-	$local_db = mysql_connect($dbconfig->server_global['host'], $dbconfig->server_global['login'], $dbconfig->server_global['password'], true);
+function get_local_db_handle_in_welcome($global_db = true) {
+	if ($global_db) {
+		$db_data = $_SERVER['global'];
+	} else {
+		$db_data = $_SERVER['local'];
+	}
+	
+	$local_db = mysql_connect($db_data['host'], $db_data['login'], $db_data['password'], true);
 	if (mysql_error($local_db)) {
 		echo ("Cannot connect to local db. Check config, and try again.");
 		return;
 	}
 
-	mysql_select_db($dbconfig->server_global['database'], $local_db);
+	mysql_select_db($db_data['database'], $local_db);
 	if (mysql_error($local_db)) {
 		echo ("Cannot select local db. Check config, and try again.");
 		return;
