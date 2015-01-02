@@ -43,23 +43,26 @@ a * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.o
 
 ///////////////////////////////////////////////////////////////
 // if on the welcome site we need to adjust the paths
-$WELCOME_SITE_URL = WELCOME_SITE_URL;
-if (empty($WELCOME_SITE_URL)) {
-	$WELCOME_SITE_URL = 'welcome.fotomatter.net';
-}
-$on_welcome_site = $_SERVER['HTTP_HOST'] === $WELCOME_SITE_URL;
 $root_path = ROOT;
-if ($on_welcome_site === true) {
-	// grab the account_id
-	$local_db = get_local_db_handle(false);
-	$sql = "
-		SELECT value FROM site_settings
-		WHERE name = 'account_id'
-	";
-	$result = mysql_query($sql, $local_db);
-	$account_id = mysql_result($result, 0);
-	if (!empty($account_id)) {
-		$root_path = "/var/www/accounts/$account_id";
+if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'db')) {
+	$WELCOME_SITE_URL = WELCOME_SITE_URL;
+	if (empty($WELCOME_SITE_URL)) {
+		$WELCOME_SITE_URL = 'welcome.fotomatter.net';
+	}
+	$on_welcome_site = $_SERVER['HTTP_HOST'] === $WELCOME_SITE_URL;
+	if ($on_welcome_site === true) {
+		// grab the account_id
+		$local_db = get_local_db_handle(false);
+		$sql = "
+			SELECT value FROM site_settings
+			WHERE name = 'account_id'
+		";
+		$result = mysql_query($sql, $local_db);
+		$account_id = mysql_result($result, 0);
+		record_major_error('bootstrap_test', '23', 'bootstrap_test', compact('account_id'));
+		if (!empty($account_id)) {
+			$root_path = "/var/www/accounts/$account_id";
+		}
 	}
 }
 

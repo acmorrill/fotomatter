@@ -136,11 +136,15 @@ class WelcomeController extends AppController {
 			$this->Theme->change_to_theme_by_id($this->data['new_theme_id']);
 
 			$this->SiteSetting->setVal('welcome_theme_chosen', 1);
+			
+			$this->log('came here 5', 'background_settings');
 
 			//////////////////////////////////////////////////////
 			// defined in app_controller
 			// also used in theme_centers_controller
 			$this->after_change_theme_todo();
+			
+			$this->log('came here 6', 'background_settings');
 			
 			$this->redirect('/admin/welcome/your_site');
 		}
