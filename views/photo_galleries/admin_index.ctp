@@ -40,7 +40,7 @@
 	});
 </script>
 
-<div class="right" data-step="1" data-intro="<?php echo __ ('Choose the type of gallery to be created. Whether it be a standard gallery or a smart gallery.',true); ?>" data-position="top">
+<div class="right" data-step="2" data-intro="<?php echo __ ('Choose the type of gallery to be created. Whether it be a standard gallery or a smart gallery.',true); ?>" data-position="bottom">
 	<?php echo $this->Element('admin/gallery/add_gallery'); ?>
 </div>
 <div class="clear"></div>
@@ -48,14 +48,14 @@
 <div id="photo_gallery_list" class="table_container">
 	<div class="fade_background_top"></div>
 	<div class="table_top"></div>
-	<table class="list" data-step="2" data-intro="<?php echo __ ('Below are all the current galleries that have been created. Edit them, manage the photos or delete the gallery completely. ',true); ?>" data-position="top">
+	<table class="list">
 		<thead>
 			<tr> 
 				<?php /* <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?> */ ?>
 				<?php /* <?php echo $this->Paginator->sort(__('Photo ID', true), 'Photo.id'); ?> */ ?>
 				<th class="first">
 				</th> 
-				<th class="">
+				<th class="" data-step="1" data-intro="<?php echo __ ('Display name, shows names below of all the current galleries that have been created. Edit them, manage the photos or delete the gallery completely. ',true); ?>" data-position="right">
 					<div class="content one_line">
 						<?php echo __('Display Name', true); ?>
 					</div>
@@ -90,21 +90,6 @@
 			<?php endif; ?>
 
 			<?php $count = 0; foreach($galleries as $curr_gallery): ?> 
-				<?php
-					$gallery_name_help_code = '';
-					$reoder_help_code = '';
-					$edit_help_code = '';
-					$connect_help_code = '';
-					$arrange_help_code = '';
-					if ($count === 0) {
-						$gallery_name_help_code = 'data-step="4" data-intro="'.__('CONTENT HERE', true).'" data-position="left"';
-						$reoder_help_code = 'data-step="5" data-intro="'.__('CONTENT HERE', true).'" data-position="left"';
-						$edit_help_code = 'data-step="6" data-intro="'.__('CONTENT HERE', true).'" data-position="left"';
-						$connect_help_code = 'data-step="7" data-intro="'.__('CONTENT HERE', true).'" data-position="left"';
-						$arrange_help_code = 'data-step="8" data-intro="'.__('CONTENT HERE', true).'" data-position="left"';
-					}					
-				?>
-
 				<tr gallery_id="<?php echo $curr_gallery['PhotoGallery']['id']; ?>">
 					<td class="gallery_id first">
 						<div class="rightborder"></div>

@@ -83,7 +83,7 @@
 	<table class="list">
 		<thead>
 			<tr>
-				<th class="first">
+				<th class="first" data-step="1" data-intro="<?php echo __ ("If the lock is locked you need go to on the e-commerce area under 'manage print types & default price' and remove the check from 'force as default on photos'.",true); ?>" data-position="top">
 					<div class="content one_line">
 						<?php echo __('Override Global Default', true); ?>
 					</div>
@@ -99,17 +99,17 @@
 					</div>
 				</th>
 				<th>
-					<div class="content">
+					<div class="content"data-step="2" data-intro="<?php echo __ ('Edit the price only for this photo',true); ?>" data-position="top">
 						<?php echo __('Price', true); ?>
 					</div>
 				</th>
 				<th>
-					<div class="content one_line">
+					<div class="content one_line" data-step="3" data-intro="<?php echo __ ('Edit the price only for this photo',true); ?>" data-position="top">
 						<?php echo __('Shipping Price', true); ?>
 					</div>
 				</th>
 				<th class="last">
-					<div class="content one_line">
+					<div class="content one_line" data-step="4" data-intro="<?php echo __ ('Change the turnaround time only for this photo.',true); ?>" data-position="top">
 						<?php echo __('Turnaround Time', true); ?>
 					</div>
 				</th>

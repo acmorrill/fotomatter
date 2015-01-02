@@ -3,7 +3,7 @@
 </h1>
 
 <div class="page_content_header generic_basic_settings">
-	<p data-step="1" data-intro="<?php echo __ ('Adjust the settings for the page below. Add a page title, attach an external page, or create the contact information.',true); ?>" data-position="top"><?php echo __('modify settings below', true); ?></p>
+	<p data-step="1" data-intro="<?php echo __ ('Adjust the settings for the page below by add a page title. If all the features are unlock on your theme you may attach an external page, or create the contact information.',true); ?>" data-position="bottom"><?php echo __('modify settings below', true); ?></p>
 	<div style="clear: both;"></div>
 </div>
 <div class="generic_palette_container">
@@ -23,7 +23,7 @@
 				?>
 			</div>
 		</div>
-		<div class="submit save_button javascript_submit">
+		<div class="submit save_button javascript_submit"data-step="2" data-intro="<?php echo __ ('Save your changes.',true); ?>" data-position="top">
 			<div class="content"><?php echo __('Save', true); ?></div>
 		</div>
 	<?php echo $this->Form->end(); ?>

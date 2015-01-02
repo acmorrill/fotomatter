@@ -126,7 +126,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="submit save_button javascript_submit">
+		<div class="submit save_button javascript_submit"data-step="5" data-intro="<?php echo __("Don't fotget to save." , true); ?>" data-position="top">
 			<div class="content"><?php echo __('Save', true); ?></div>
 		</div>
 	</form>

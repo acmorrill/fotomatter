@@ -244,7 +244,7 @@
 				<div class="right_arrow_lines icon-arrow-01"><div></div></div>
 			</div>
 		</div>
-		<p><?php echo __('add/remove features below', true); ?></p>
+		<p data-step="2" data-intro="<?php echo __ ("Add all our awesome features. Go ahead try one out. If you don't like it you can always remove it.",true); ?>" data-position="bottom"><?php echo __('add/remove features below', true); ?></p>
 		<div style="clear: both;"></div>
 	</div>
 	<div class="generic_palette_container">

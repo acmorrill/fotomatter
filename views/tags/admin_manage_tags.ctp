@@ -23,7 +23,7 @@
 		<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 	</h1>
 	<p style>
-		This is the tags page
+		<?php echo __('This is the tags page',true); ?>
 	</p>
 	
 	<div style="clear: both;"></div>
@@ -31,7 +31,7 @@
 		<div id="filter_tag_input" class="left">
 			<input ng-model="tag_query" type="text" placeholder="<?php echo __('Search Tags', true); ?>" />
 		</div>
-		<div id="add_tag_input" class="right">
+		<div id="add_tag_input" class="right" data-step="1" data-intro="<?php echo __('Add a new tag to your site.', true); ?>" data-position="left">
 			<form ng-submit='add_tag()'>
 				<div class="custom_ui">
 					<input type='text' ng-model='new_tag' placeholder="<?php echo __('Tag Name', true); ?>" />
@@ -50,7 +50,7 @@
 		<table class="list">
 			<thead>
 				<tr> 
-					<th ng-class="{ 'first': true, 'curr asc': orderProp == 'Tag.id', 'curr desc': orderProp == '-Tag.id' }" >
+					<th ng-class="{ 'first': true, 'curr asc': orderProp == 'Tag.id', 'curr desc': orderProp == '-Tag.id' }" data-step="2" data-intro="<?php echo __('Sort the tags by ID, Tag Name or Connected Photos. Indicated by the blue line and arrow.', true); ?>" data-position="top">
 						<div class="content one_line" ng-click="change_sort('Tag.id')">
 							<div class="direction_arrow"></div>
 							<?php echo __('ID', true); ?>

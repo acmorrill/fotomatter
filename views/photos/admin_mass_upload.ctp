@@ -82,7 +82,7 @@
 			</div>
 		</div>
 		
-		<div class="files_ready_to_upload_cont">
+		<div class="files_ready_to_upload_cont" data-step="2" data-intro="<?php echo __("Upload your photos by drag and dropping or using the 'Choose Photos' button. Once have selected the photos click 'Start Upload'", true) ?>" data-position="top">
 			<div class='files_ready_to_upload_inner_cont custom_ui_radio'>
 				<div class="page_content_header">
 					<!-- Redirect browsers with JavaScript disabled to the origin page -->

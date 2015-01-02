@@ -112,7 +112,7 @@
 	</div>
 	<h1 style="margin-top: 50px;"><?php echo __('Search Domains to Buy', true); ?></h1>
 	<input type='hidden' ng-model='domain_mark_up' value='<?php echo DOMAIN_MARKUP_DOLLAR; ?>' />
-	<div class='domain_header' style="margin-top: 30px;">
+	<div class='domain_header' style="margin-top: 30px;" data-step="1" data-intro="<?php echo __ ('Search for a domain that will personalize your site.',true); ?>" data-position="top">
 		<div class='search_box custom_ui'>
 			<form ng-submit="search()">
 				<input ng-model='query' placeholder='<?php echo __('{your_domain}.com', true); ?>' />
@@ -194,7 +194,7 @@
 	<?php if ($total_external_domains <= 2): ?>
 		<h1 style="margin-top: 50px;"><?php echo __('Connect Domains Managed Elsewhere (Advanced)', true); ?></h1>
 		<div class='domain_header' style="margin-top: 30px;">
-			<div class='search_box custom_ui'>
+			<div class='search_box custom_ui'data-step="2" data-intro="<?php echo __ ('Connect a domain that you already own to fotomatter.',true); ?>" data-position="top">
 				<form ng-submit="add_external_domain()">
 					<input ng-model='external_domain_query' placeholder='<?php echo __('{your_domain}.com', true); ?>' />
 					<div class="add_button search" ng-click='add_external_domain()'>

@@ -11,7 +11,7 @@
 	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 </h1>
 
-<div id="account_details_landing">
+<div id="account_details_landing" data-step="1" data-intro="<?php echo __ ('Here you can change your password, check billing details, and payment history.',true); ?>" data-position="top">
 	<div class="page_content_header generic_basic_settings">
 		<p><?php echo __('Change Password', true); ?></p>
 		<div style="clear: both;"></div>

@@ -19,7 +19,7 @@
 				<?php echo $this->Form->input('description'); ?>
 			</div>
 		</div>
-		<div class="submit save_button javascript_submit">
+		<div class="submit save_button javascript_submit" data-step="2" data-intro="<?php echo __("Don't forget to save your changes.", true); ?>" data-position="top">
 			<div class="content"><?php echo __('Save', true); ?></div>
 		</div>
 	<?php echo $this->Form->end(); ?>

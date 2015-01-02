@@ -305,9 +305,9 @@
 
 
 <div id="configure_page_cont" class="clear">
-	<div class="avail_page_elements_cont">
+	<div class="avail_page_elements_cont" data-step="1" data-intro="<?php echo __ ('Choose the type of page look you would prefer.',true); ?>" data-position="right">
 		<div class="page_content_header">
-			<h2 data-step="1" data-intro="<?php echo __ ('Choose the type of page look you would prefer.',true); ?>" data-position="top"><?php echo __('Page Elements', true); ?></h2>
+			<h2><?php echo __('Page Elements', true); ?></h2>
 		</div>
 		<div class="generic_palette_container">
 			<div class="fade_background_top"></div>

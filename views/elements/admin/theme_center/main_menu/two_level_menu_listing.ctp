@@ -240,7 +240,7 @@
 		});
 	</script>
 
-	<div class="large_container no_td_as_block">
+	<div class="large_container no_td_as_block" data-step="1" data-intro="<?php echo __('Two tier menus have a dropdown menu system. You may place pages inside of the container which will create the dropdown menu.', true); ?>" data-position="top">
 		<div class="table_border two_level_menu_items_cont configure_table_list menu_items_cont">
 			<?php $two_level_menu_items = $this->ThemeMenu->get_two_level_menu_items(); ?>
 			<?php //debug($two_level_menu_items); ?>
@@ -497,7 +497,7 @@
 
 			
 			
-			<div class="custom_ui" data-step="2" data-intro="<?php echo __('Containers allow the user to choose one value from a list also know as a dropsdown. ', true); ?>" data-position="bottom">
+			<div class="custom_ui" data-step="2" data-intro="<?php echo __('Containers allow the user to choose one value from a list also know as a dropsdown. ', true); ?>" data-position="top">
 				<h2><?php echo __('Add Container to Main Menu', true); ?></h2>
 				<div class="drop_down_sub_title">
 					<input class="new_menu_container_name defaultText" title="container name" type="text" />
@@ -512,7 +512,7 @@
 			<div class="hr_element"></div>
 
 			
-			<div id="rename_container_cont" class="custom_ui" <?php if (empty($all_containers)): ?>style="display: none;"<?php endif; ?> data-step="3" data-intro="<?php echo __('Will allow the containers to be renamed without having to recreate a new contaainer. ', true); ?>" data-position="bottom">
+			<div id="rename_container_cont" class="custom_ui" <?php if (empty($all_containers)): ?>style="display: none;"<?php endif; ?> data-step="3" data-intro="<?php echo __('Will allow the containers to be renamed without having to recreate a new contaainer. ', true); ?>" data-position="top">
 				<h2><?php echo __('Rename Main Menu Container', true); ?></h2>
 				<?php echo $this->Element('admin/theme_center/main_menu/container_select_box', array('all_containers' => $all_containers, 'hide_top_level' => true)); ?>
 				<input class="rename_menu_container_name defaultText" title="new container name" type="text" />
@@ -533,7 +533,7 @@
 					$pages_disabled_class = ' disabled ';
 				}
 			?>
-			<div class="custom_ui" data-step="4" data-intro="<?php echo __('If this feature is active it will add custom made pages to your site. ', true); ?>" data-position="bottom">
+			<div class="custom_ui" data-step="4" data-intro="<?php echo __('If this feature is active it will add custom made pages to your site. ', true); ?>" data-position="top">
 				<?php if (!empty($all_pages)): ?>
 					<div class="<?php echo $pages_disabled_class; ?>" style="display: inline-block;">
 						<h2><?php echo __('Add Page to Main Menu', true); ?></h2>
@@ -589,7 +589,7 @@
 			
 			
 			<?php $all_galleries = $this->Gallery->get_all_galleries(); ?>
-			<div class="custom_ui" data-step="5" data-intro="<?php echo __('Here you can add the galleries that you have created to the main menu.', true); ?>" data-position="bottom">
+			<div class="custom_ui" data-step="5" data-intro="<?php echo __('Here you can add the galleries that you have created to the main menu.', true); ?>" data-position="top">
 				<?php if (!empty($all_galleries)): ?>
 					<h2><?php echo __('Add Gallery to Main Menu', true); ?></h2>
 					<select id="two_level_menu_gallery_add_list">
