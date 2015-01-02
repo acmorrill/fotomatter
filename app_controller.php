@@ -526,19 +526,14 @@ class AppController extends Controller {
 
 	
 	public function after_change_theme_todo() {
-		$this->log('came here 1', 'background_settings');
-		
 		$this->Theme = ClassRegistry::init('Theme');
-		$this->log('came here 2', 'background_settings');
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// stuff to do after theme changed
 		$new_theme_config = $this->ThemeRenderer->_process_theme_config_with_user_settings(true);
 		$this->Theme->get_theme_background_config_values($new_theme_config, true);
-		$this->log('came here 3', 'background_settings');
 
 		// important!  --   this makes sure that paths to helpers etc are correct after the symlinks change in change theme above
 		apc_add('clear_cake_core_apc_cache_on_next_request', true);
-		$this->log('came here 4', 'background_settings');
 	}
 }

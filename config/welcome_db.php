@@ -131,8 +131,6 @@ function handle_assume_site_db_based_on_build_hash($build_hash) {
 
 				// success - we can act as a new site's db
 				require("/var/www/accounts/{$hash_data['account_id']}/db_configs.php"); // DREW TODO - this needs to be on for on the real server
-				$the_server = $_SERVER['local'];
-				record_major_welcome_error("holy came here 4", compact('hash_data', 'the_server'));
 			/*} else {
 				// redirect to the dns site
 				$request_uri_arr = parse_url($_SERVER['REQUEST_URI']);
