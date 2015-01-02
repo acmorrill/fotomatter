@@ -159,28 +159,13 @@ if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'd
 //	$Theme = new Theme();
 //	$curr_theme = $SiteSetting->getVal('current_theme', 'default');
 //	$the_theme = $Theme->get_theme($curr_theme);
+
 	
-	//die(ROOT.DS."current_theme_webroot");
+	
 	$GLOBALS['CURRENT_THEME_PATH'] = dirname(realpath(ROOT.DS."current_theme_webroot"));
 	$GLOBALS['PARENT_THEME_PATH'] = dirname(realpath(ROOT.DS."parent_theme_webroot"));
-	// DREW TODO - delete the below
-//	if (!empty($the_theme)) {
-//		if ($the_theme['Theme']['theme_id'] == 0) {
-//			$GLOBALS['CURRENT_THEME_PATH'] = PATH_TO_THEMES.DS.$curr_theme;
-//			$GLOBALS['PARENT_THEME_PATH'] = PATH_TO_THEMES.DS.$curr_theme;
-//		} else {
-//			$GLOBALS['CURRENT_THEME_PATH'] = PATH_TO_THEMES.DS.$the_theme['ParentTheme']['ref_name'].DS.'subthemes'.DS.$curr_theme;
-//			$GLOBALS['PARENT_THEME_PATH'] = PATH_TO_THEMES.DS.$the_theme['ParentTheme']['ref_name'];
-//		}
-//	} else {
-//		$GLOBALS['CURRENT_THEME_PATH'] = PATH_TO_THEMES.DS.'default';
-//		$GLOBALS['PARENT_THEME_PATH'] = PATH_TO_THEMES.DS.'default';
-//	}
 	define("DEFAULT_THEME_PATH", PATH_TO_THEMES.DS.'default');
 
-	//die(VIEWS);
-	//die(PATH_TO_THEMES.DS.$curr_theme.DS.'views'.DS);
-	//die(PATH_TO_THEMES.DS.'default'.DS.'views');
 
 	App::build(array(
 	//	'plugins' => array('/full/path/to/plugins/', '/next/full/path/to/plugins/'),

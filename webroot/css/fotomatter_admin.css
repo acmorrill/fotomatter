@@ -2495,16 +2495,20 @@ table {
   font-style: normal;
   position: fixed;
   bottom: 0px;
-  right: 0px;
+  right: leftpx;
   vertical-align: top;
   height: 40px;
   margin-bottom: 0px;
   z-index: 120;
   outline: 1px solid #7d888e;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
-  -moz-opacity: .6;
-  -khtml-opacity: .6;
-  opacity: .6;
+  -moz-opacity: .60;
+  -khtml-opacity: .60;
+  opacity: .60;
+}
+#global_frontend_link .add_button {
+  padding-left: 15px;
+  padding-right: 15px;
 }
 #global_frontend_link:hover {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";

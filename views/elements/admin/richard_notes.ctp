@@ -1,4 +1,4 @@
-<script type="text/javascript">
+<?php /*<script type="text/javascript">
 	function setCookie(c_name, value, exdays) {
 		var exdate=new Date();
 		exdate.setDate(exdate.getDate() + exdays);
@@ -59,7 +59,7 @@
 </div>
 <div class="richard_notes_toggle"><span>RH</span></div>
 
-
+*/ ?>
 
 
 

@@ -110,6 +110,30 @@ class ThemeRendererComponent extends Object {
 				$default_theme_config = $theme_config;
 				unset($theme_config);
 			}
+			
+			
+			
+			
+			///////////////////////////////////////////////////////////////
+			// if on the welcome site we need to adjust the paths
+			$WELCOME_SITE_URL = WELCOME_SITE_URL;
+			if (empty($WELCOME_SITE_URL)) {
+				$WELCOME_SITE_URL = 'welcome.fotomatter.net';
+			}
+			$on_welcome_site = $_SERVER['HTTP_HOST'] === $WELCOME_SITE_URL;
+			if ($on_welcome_site === true) {
+				// grab the account_id
+				$this->SiteSetting = ClassRegistry::init("SiteSetting");
+				$account_id = $this->SiteSetting->getVal('account_id', false);
+				if (!empty($account_id)) {
+					$theme_root_path = "/var/www/accounts/$account_id";
+					$GLOBALS['CURRENT_THEME_PATH'] = dirname(realpath($theme_root_path.DS."current_theme_webroot"));
+					$GLOBALS['PARENT_THEME_PATH'] = dirname(realpath($theme_root_path.DS."parent_theme_webroot"));
+				}
+			}
+			
+			
+			
 
 			$curr_theme_config_file_path = $GLOBALS['CURRENT_THEME_PATH'].DS.'theme_config.php';
 			$current_theme_config = array();
@@ -142,9 +166,6 @@ class ThemeRendererComponent extends Object {
 			
 		}
 
-		
-		// DREW TODO - add apc caching for the theme config here
-		
 		
 		return $this->merged_theme_config;
 	}

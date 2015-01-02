@@ -67,13 +67,17 @@
 	.Code-Pro-Bold-LC;
 	position: fixed;
 	bottom: 0px;
-	right: 0px;
+	right: leftpx;
 	vertical-align: top;
 	height: @button_height;
 	margin-bottom: 0px;
 	z-index: @intro_bottom;
 	outline: 1px solid @gray_text;
-	.el_opacity(.6, 60);
+	.add_button {
+		padding-left: 15px;
+		padding-right: 15px;
+	}
+	.el_opacity(.60, 60);
 	&:hover {
 		.el_opacity(1, 100);
 	}
