@@ -73,7 +73,7 @@
  */
 
 
-require('welcome_db.php');
+//require('welcome_db.php'); // this was moved to bootstrap
 class DATABASE_CONFIG {
 
 	var $default = array(

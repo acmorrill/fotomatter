@@ -116,5 +116,7 @@ class DATABASE_CONFIG {
 	    $this->server_global['login'] = $_SERVER['global']['login'];
 	    $this->server_global['password'] = $_SERVER['global']['password'];
 	    $this->server_global['database'] = $_SERVER['global']['database'];
+		
+		
 	}
 }
