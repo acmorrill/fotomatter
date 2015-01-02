@@ -43,7 +43,6 @@ class AppController extends Controller {
 		$site_domain = $this->SiteSetting->getVal('site_domain');
 		$this->set('site_domain', $site_domain);
 		
-		
 		//////////////////////////////////////////////////////
 		// stuff todo just in the admin
 		$in_admin = isset($this->params['admin']) && $this->params['admin'] == 1;

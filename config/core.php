@@ -332,4 +332,3 @@
 	if (isset($_GET['xhprof']) && PHP_SAPI != 'cli') {
 		require_once('xhprof.php');
 	}
-	
