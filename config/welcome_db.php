@@ -97,12 +97,13 @@ if (!empty($_GET['wh'])) {
 
 // require db_config (could be welcome db_config)
 require(ROOT . "/db_configs.php");
-
+record_major_welcome_error("holy came here 1", array());
 
 
 
 
 function handle_assume_site_db_based_on_build_hash($build_hash) {
+	record_major_welcome_error("holy came here 2", array());
 	$WELCOME_SITE_URL = WELCOME_SITE_URL;
 	if (empty($WELCOME_SITE_URL)) {
 		$WELCOME_SITE_URL = 'welcome.fotomatter.net';
@@ -113,6 +114,7 @@ function handle_assume_site_db_based_on_build_hash($build_hash) {
 	////////////////////////////////////////////////
 	// get the welcome hash data from the db
 	$hash_data = get_hash_data($build_hash);
+	record_major_welcome_error("holy came here 3", compact('hash_data'));
 	
 
 	/////////////////////////////////////
@@ -133,6 +135,7 @@ function handle_assume_site_db_based_on_build_hash($build_hash) {
 
 				// success - we can act as a new site's db
 				require("/var/www/accounts/{$hash_data['account_id']}/db_configs.php"); // DREW TODO - this needs to be on for on the real server
+				record_major_welcome_error("holy came here 4", compact('hash_data'));
 			/*} else {
 				// redirect to the dns site
 				$request_uri_arr = parse_url($_SERVER['REQUEST_URI']);
