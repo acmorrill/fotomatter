@@ -169,16 +169,6 @@ define("GLOBAL_TTF_FONT_PATH", $root_path.DS.APP_DIR.DS.'webroot'.DS.'fonts');
 
 
 function get_local_db_handle($global_db = true) {
-//	$_SERVER['local']['host'] = 'localhost';
-//	$_SERVER['local']['login'] = '53bdcb4c-7fd0-4f';
-//	$_SERVER['local']['password'] = 'cd5da86a765c';
-//	$_SERVER['local']['database'] = 'FM_53bdcb4c-7fd0-4f09-bdbf-6eba9e3f42ff';
-//
-//	$_SERVER['global']['host'] = 'localhost';
-//	$_SERVER['global']['login'] = 'global_settings';
-//	$_SERVER['global']['password'] = '238017910aeb';
-//	$_SERVER['global']['database'] = 'global_settings';
-     
 	if ($global_db) {
 		$db_data = $_SERVER['global'];
 	} else {

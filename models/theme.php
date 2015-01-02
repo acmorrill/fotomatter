@@ -246,6 +246,7 @@ class Theme extends AppModel {
 
 	public function get_theme_background_config_values($theme_config, $reset_to_defaults = false) {
 		// DREW TODO - start here tomorrow - fix the paths in here for the case where we are on teh welcome site
+		// maybe can log background settings
 		
 		$background_settings = array();
 
@@ -391,6 +392,7 @@ class Theme extends AppModel {
 			$background_settings['final_background_height'] = ($background_settings['orig_palette_background_height'] * $background_settings['start_height']) / $background_settings['palette_background_height'];
 			$background_settings['final_background_left'] = ($background_settings['final_background_width'] * $background_settings['small_background_left']) / $background_settings['start_width'];
 			$background_settings['final_background_top'] = ($background_settings['final_background_height'] * $background_settings['small_background_top']) / $background_settings['start_height'];
+			$this->log($background_settings, 'background_settings');
 			if ($reset_to_defaults === true) {
 				$this->create_theme_merged_background(
 						$background_settings['overlay_abs_path'], $background_settings['current_background_abs_path'], $background_settings['final_background_width'], $background_settings['final_background_height'], $background_settings['final_background_left'], $background_settings['final_background_top'], false, 0, 0, 100, 0, $background_settings['default_overlay_transparency_settings'], $theme_config
