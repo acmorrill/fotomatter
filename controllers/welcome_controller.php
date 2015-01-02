@@ -126,7 +126,7 @@ class WelcomeController extends AppController {
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
 
 		// don't do this method if the theme has already been chosen
-		if ($this->SiteSetting->getVal('welcome_theme_chosen', 1) == 1) {
+		if ($this->SiteSetting->getVal('welcome_theme_chosen', 1) == 1) { // DREW TODO - turn this back on
 			$this->redirect('/admin/welcome/your_site');
 		}
 
@@ -137,7 +137,12 @@ class WelcomeController extends AppController {
 
 			$this->SiteSetting->setVal('welcome_theme_chosen', 1);
 
-			$this->redirect('/admin/welcome/your_site');
+			//////////////////////////////////////////////////////
+			// defined in app_controller
+			// also used in theme_centers_controller
+			$this->after_change_theme_todo();
+			
+			$this->redirect('/admin/welcome/your_site'); // DREW TODO - turn this back on
 		}
 	}
 

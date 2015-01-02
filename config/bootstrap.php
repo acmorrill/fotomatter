@@ -146,55 +146,30 @@ Configure::write('SHOW_FAKE_BILLING_DATA', false);
 define("GLOBAL_TTF_FONT_PATH", ROOT.DS.APP_DIR.DS.'webroot'.DS.'fonts');
 
 
-if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'db')) {
-//	$local_db = get_local_db_handle();
-//	$theme_sql = "SELECT * FROM theme_id as Theme
-//		WHERE Theme.display_name = (SELECT )
-//	";
-//	mysql_query($theme_sql, $local_db);
+function get_local_db_handle($global_db = true) {
+//	$_SERVER['local']['host'] = 'localhost';
+//	$_SERVER['local']['login'] = '53bdcb4c-7fd0-4f';
+//	$_SERVER['local']['password'] = 'cd5da86a765c';
+//	$_SERVER['local']['database'] = 'FM_53bdcb4c-7fd0-4f09-bdbf-6eba9e3f42ff';
+//
+//	$_SERVER['global']['host'] = 'localhost';
+//	$_SERVER['global']['login'] = 'global_settings';
+//	$_SERVER['global']['password'] = '238017910aeb';
+//	$_SERVER['global']['database'] = 'global_settings';
+     
+	if ($global_db) {
+		$db_data = $_SERVER['global'];
+	} else {
+		$db_data = $_SERVER['local'];
+	}
 	
-//	App::import('Model', 'SiteSetting');
-//	App::import('Model', 'Theme');
-//	$SiteSetting = new SiteSetting();
-//	$Theme = new Theme();
-//	$curr_theme = $SiteSetting->getVal('current_theme', 'default');
-//	$the_theme = $Theme->get_theme($curr_theme);
-
-	
-	
-	$GLOBALS['CURRENT_THEME_PATH'] = dirname(realpath(ROOT.DS."current_theme_webroot"));
-	$GLOBALS['PARENT_THEME_PATH'] = dirname(realpath(ROOT.DS."parent_theme_webroot"));
-	define("DEFAULT_THEME_PATH", PATH_TO_THEMES.DS.'default');
-
-
-	App::build(array(
-	//	'plugins' => array('/full/path/to/plugins/', '/next/full/path/to/plugins/'),
-	//	'models' =>  array('/full/path/to/models/', '/next/full/path/to/models/'),
-			'views' => array($GLOBALS['CURRENT_THEME_PATH'].DS."views".DS, $GLOBALS['PARENT_THEME_PATH'].DS."views".DS, DEFAULT_THEME_PATH.DS.'views'.DS),
-	//	'controllers' => array('/full/path/to/controllers/', '/next/full/path/to/controllers/'),
-	//	'datasources' => array('/full/path/to/datasources/', '/next/full/path/to/datasources/'),
-	//	'behaviors' => array('/full/path/to/behaviors/', '/next/full/path/to/behaviors/'),
-	//	'components' => array('/full/path/to/components/', '/next/full/path/to/components/'),
-			'helpers' => array($GLOBALS['CURRENT_THEME_PATH'].DS."helpers".DS, $GLOBALS['PARENT_THEME_PATH'].DS."helpers".DS, DEFAULT_THEME_PATH.DS.'helpers'.DS),
-	//	'vendors' => array('/full/path/to/vendors/', '/next/full/path/to/vendors/'),
-	//	'shells' => array('/full/path/to/shells/', '/next/full/path/to/shells/'),
-	//	'locales' => array('/full/path/to/locale/', '/next/full/path/to/locale/')
-	));
-}
-
-
-
-function get_local_db_handle() {
-	require_once(CONFIGS.'database.php');
-	$dbconfig = new DATABASE_CONFIG();
-       
-	$local_db = mysql_connect($dbconfig->server_global['host'], $dbconfig->server_global['login'], $dbconfig->server_global['password'], true);
+	$local_db = mysql_connect($db_data['host'], $db_data['login'], $db_data['password'], true);
 	if (mysql_error($local_db)) {
 		echo ("Cannot connect to local db. Check config, and try again.");
 		return;
 	}
 
-	mysql_select_db($dbconfig->server_global['database'], $local_db);
+	mysql_select_db($db_data['database'], $local_db);
 	if (mysql_error($local_db)) {
 		echo ("Cannot select local db. Check config, and try again.");
 		return;
@@ -280,6 +255,68 @@ function myErrorHandler($errno, $errstr, $errfile, $errline) {
 	return false;
 }
 $old_error_handler = set_error_handler("myErrorHandler");
+
+
+if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'db')) {
+//	$local_db = get_local_db_handle();
+//	$theme_sql = "SELECT * FROM theme_id as Theme
+//		WHERE Theme.display_name = (SELECT )
+//	";
+//	mysql_query($theme_sql, $local_db);
+	
+//	App::import('Model', 'SiteSetting');
+//	App::import('Model', 'Theme');
+//	$SiteSetting = new SiteSetting();
+//	$Theme = new Theme();
+//	$curr_theme = $SiteSetting->getVal('current_theme', 'default');
+//	$the_theme = $Theme->get_theme($curr_theme);
+
+	
+	$GLOBALS['CURRENT_THEME_PATH'] = dirname(realpath(ROOT.DS."current_theme_webroot"));
+	$GLOBALS['PARENT_THEME_PATH'] = dirname(realpath(ROOT.DS."parent_theme_webroot"));
+	define("DEFAULT_THEME_PATH", PATH_TO_THEMES.DS.'default');
+	
+	
+	///////////////////////////////////////////////////////////////
+	// if on the welcome site we need to adjust the paths
+	$WELCOME_SITE_URL = WELCOME_SITE_URL;
+	if (empty($WELCOME_SITE_URL)) {
+		$WELCOME_SITE_URL = 'welcome.fotomatter.net';
+	}
+	$on_welcome_site = $_SERVER['HTTP_HOST'] === $WELCOME_SITE_URL;
+	if ($on_welcome_site === true) {
+		// grab the account_id
+		$local_db = get_local_db_handle(false);
+		$sql = "
+			SELECT value FROM site_settings
+			WHERE name = 'account_id'
+		";
+		$result = mysql_query($sql, $local_db);
+		$account_id = mysql_result($result, 0);
+		if (!empty($account_id)) {
+			$theme_root_path = "/var/www/accounts/$account_id";
+			$GLOBALS['CURRENT_THEME_PATH'] = dirname(realpath($theme_root_path.DS."current_theme_webroot"));
+			$GLOBALS['PARENT_THEME_PATH'] = dirname(realpath($theme_root_path.DS."parent_theme_webroot"));
+		}
+	}
+	
+	
+
+
+	App::build(array(
+	//	'plugins' => array('/full/path/to/plugins/', '/next/full/path/to/plugins/'),
+	//	'models' =>  array('/full/path/to/models/', '/next/full/path/to/models/'),
+			'views' => array($GLOBALS['CURRENT_THEME_PATH'].DS."views".DS, $GLOBALS['PARENT_THEME_PATH'].DS."views".DS, DEFAULT_THEME_PATH.DS.'views'.DS),
+	//	'controllers' => array('/full/path/to/controllers/', '/next/full/path/to/controllers/'),
+	//	'datasources' => array('/full/path/to/datasources/', '/next/full/path/to/datasources/'),
+	//	'behaviors' => array('/full/path/to/behaviors/', '/next/full/path/to/behaviors/'),
+	//	'components' => array('/full/path/to/components/', '/next/full/path/to/components/'),
+			'helpers' => array($GLOBALS['CURRENT_THEME_PATH'].DS."helpers".DS, $GLOBALS['PARENT_THEME_PATH'].DS."helpers".DS, DEFAULT_THEME_PATH.DS.'helpers'.DS),
+	//	'vendors' => array('/full/path/to/vendors/', '/next/full/path/to/vendors/'),
+	//	'shells' => array('/full/path/to/shells/', '/next/full/path/to/shells/'),
+	//	'locales' => array('/full/path/to/locale/', '/next/full/path/to/locale/')
+	));
+}
 
 
 require('core_ignored.php');

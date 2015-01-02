@@ -76,13 +76,10 @@ class ThemeCentersController extends AppController {
 		if (!empty($this->data['new_theme_id'])) {
 			$this->Theme->change_to_theme_by_id($this->data['new_theme_id']);
 			
-			////////////////////////////////////////////////////////////////////////////////////////////////////////
-			// stuff to do after theme changed
-			$new_theme_config = $this->ThemeRenderer->_process_theme_config_with_user_settings(true);
-			$this->Theme->get_theme_background_config_values($new_theme_config, true);
-
-			// important!  --   this makes sure that paths to helpers etc are correct after the symlinks change in change theme above
-			apc_add('clear_cake_core_apc_cache_on_next_request', true);
+			//////////////////////////////////////////////////////
+			// defined in app_controller
+			// also used in welcome controller
+			$this->after_change_theme_todo();
 		}
 	}
 	
