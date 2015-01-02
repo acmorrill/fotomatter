@@ -245,6 +245,8 @@ class Theme extends AppModel {
 	}
 
 	public function get_theme_background_config_values($theme_config, $reset_to_defaults = false) {
+		// DREW TODO - start here tomorrow - fix the paths in here for the case where we are on teh welcome site
+		
 		$background_settings = array();
 
 		$this->ThemeHiddenSetting = ClassRegistry::init('ThemeHiddenSetting');

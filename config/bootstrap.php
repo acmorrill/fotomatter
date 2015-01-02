@@ -41,6 +41,29 @@ a * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.o
  *
  */
 
+///////////////////////////////////////////////////////////////
+// if on the welcome site we need to adjust the paths
+$WELCOME_SITE_URL = WELCOME_SITE_URL;
+if (empty($WELCOME_SITE_URL)) {
+	$WELCOME_SITE_URL = 'welcome.fotomatter.net';
+}
+$on_welcome_site = $_SERVER['HTTP_HOST'] === $WELCOME_SITE_URL;
+$root_path = ROOT;
+if ($on_welcome_site === true) {
+	// grab the account_id
+	$local_db = get_local_db_handle(false);
+	$sql = "
+		SELECT value FROM site_settings
+		WHERE name = 'account_id'
+	";
+	$result = mysql_query($sql, $local_db);
+	$account_id = mysql_result($result, 0);
+	if (!empty($account_id)) {
+		$root_path = "/var/www/accounts/$account_id";
+	}
+}
+
+
 // site_default_images
 define("SITE_DEFAULT_CONTAINER_NAME", 'site_default_images'); 
 define("SITE_DEFAULT_CONTAINER_URL", 'http://5b3fca59f2744e30ab19-83f12fdaaac179c142328b923267ceea.r18.cf2.rackcdn.com'); 
@@ -62,7 +85,7 @@ define("HELP_TOUR_ENGLISH_TEXT", 'Get Help With This Page');
 define("SITE_SETTINGS_APC_CACHE_TTL", 28800); // 8  hours
 define("SITE_SETTINGS_APC_DEFAULT_KEY", 'USE_THE_DEFAULT'); // the string to store for site settings apc to indicate to use the default setting
 define("FRONTEND_VIEW_CACHING_STRTOTIME_TTL", '1 week'); // how long to keep view caching
-define("VIEW_CACHE_PATH", ROOT . '/tmp/cache/views');
+define("VIEW_CACHE_PATH", $root_path . '/tmp/cache/views');
 
 date_default_timezone_set('America/Denver');
 
@@ -83,19 +106,19 @@ define('DOMAIN_MARKUP_DOLLAR', '2');
 define('DOMAIN_MAX_DAYS_PAST_EXPIRE', -20);
 
 // webroot abs path
-define("WEBROOT_ABS", ROOT.DS.APP_DIR.DS.'webroot');
+define("WEBROOT_ABS", $root_path.DS.APP_DIR.DS.'webroot');
 
 // less_css root path
-define("LESSCSS_ROOT", ROOT.DS.APP_DIR.DS.'lesscss');
+define("LESSCSS_ROOT", $root_path.DS.APP_DIR.DS.'lesscss');
 
 // php_closure
-define("PHP_CLOSURE_ROOT", ROOT.DS.APP_DIR.DS.'php_closure');
+define("PHP_CLOSURE_ROOT", $root_path.DS.APP_DIR.DS.'php_closure');
 
 // themes paths 
-define("PATH_TO_THEMES", ROOT.DS.APP_DIR.DS.'themes');
+define("PATH_TO_THEMES", $root_path.DS.APP_DIR.DS.'themes');
 
 // site logo paths
-define("SITE_LOGO_PATH", ROOT.DS.'site_logo');
+define("SITE_LOGO_PATH", $root_path.DS.'site_logo');
 define("SITE_LOGO_THEME_BASE_PATH", SITE_LOGO_PATH.DS.'base');
 define("SITE_LOGO_THEME_BASE_WEB_PATH", DS.'base');
 define("SITE_LOGO_UPLOAD_PATH", SITE_LOGO_PATH.DS.'uploaded');
@@ -105,7 +128,7 @@ define("SITE_LOGO_CACHES_PATH", SITE_LOGO_PATH.DS.'caches');
 define("SITE_LOGO_CACHES_WEB_PATH", DS.'caches');
 
 // site background paths
-define("SITE_BACKGROUND_PATH", ROOT.DS.'site_background');
+define("SITE_BACKGROUND_PATH", $root_path.DS.'site_background');
 define("SITE_THEME_UPLOADED_IMAGES", SITE_BACKGROUND_PATH.DS.'theme_uploaded_images');
 define("UPLOADED_BACKGROUND_PATH", SITE_THEME_UPLOADED_IMAGES.DS.'base_uploaded_background.jpg');
 define("SITE_THEME_MERGED_FINAL_IMAGES", SITE_BACKGROUND_PATH.DS.'theme_merged_final_images');
@@ -117,15 +140,15 @@ define("SITE_THEME_BG_EDITED_IMAGES_WEB_PATH", DS.'theme_bg_edited_images');
 define("UPLOADED_BACKGROUND_WEB_PATH", SITE_THEME_UPLOADED_IMAGES_WEB_PATH.DS.'base_uploaded_background.jpg');
 
 // paths for schema directories
-define("LOCAL_SCHEMA_PATH", ROOT.DS.APP_DIR.DS.'config'.DS.'versioning'.DS.'local'.DS.'schema');   
-define("GLOBAL_SCHEMA_PATH", ROOT.DS.APP_DIR.DS.'config'.DS.'versioning'.DS.'global'.DS.'schema');   
+define("LOCAL_SCHEMA_PATH", $root_path.DS.APP_DIR.DS.'config'.DS.'versioning'.DS.'local'.DS.'schema');   
+define("GLOBAL_SCHEMA_PATH", $root_path.DS.APP_DIR.DS.'config'.DS.'versioning'.DS.'global'.DS.'schema');   
 
 // image and image caching paths
-define("TEMP_IMAGE_PATH", ROOT.DS.'image_tmp');
-define("TEMP_IMAGE_VAULT", ROOT.DS.'image_vault');
-define("TEMP_IMAGE_UNIT", ROOT.DS.'unit_test_cache');
-define("LOCAL_MASTER_CACHE", ROOT.DS.'local_master_cache');
-define("LOCAL_SMALLER_MASTER_CACHE", ROOT.DS.'local_smaller_master_cache');
+define("TEMP_IMAGE_PATH", $root_path.DS.'image_tmp');
+define("TEMP_IMAGE_VAULT", $root_path.DS.'image_vault');
+define("TEMP_IMAGE_UNIT", $root_path.DS.'unit_test_cache');
+define("LOCAL_MASTER_CACHE", $root_path.DS.'local_master_cache');
+define("LOCAL_SMALLER_MASTER_CACHE", $root_path.DS.'local_smaller_master_cache');
 
 // photo and caching constants
 define("MASTER_CACHE_PREFIX", 'mastercache_');
@@ -142,7 +165,7 @@ Configure::write('OVERLORD_URL', 'builds.fotomatter.net');
 Configure::write('SHOW_FAKE_BILLING_DATA', false);
 
 // path to fonts
-define("GLOBAL_TTF_FONT_PATH", ROOT.DS.APP_DIR.DS.'webroot'.DS.'fonts');
+define("GLOBAL_TTF_FONT_PATH", $root_path.DS.APP_DIR.DS.'webroot'.DS.'fonts');
 
 
 function get_local_db_handle($global_db = true) {
@@ -191,7 +214,7 @@ function record_major_error($location, $line_number, $description, $log_data) {
 	$line_number = mysql_real_escape_string($line_number);
 	$description = mysql_real_escape_string($description);
 	$log_data_str = mysql_real_escape_string(print_r($log_data, true));
-	$account_id = basename(realpath(ROOT));
+	$account_id = basename(realpath($root_path));
 	$sql = "INSERT INTO  `major_errors` (`id` , `account_id`, `location` ,`line_num` ,`description` ,`extra_data` ,`severity` ,`created`)
 		VALUES (NULL ,  '$account_id', '$location',  '$line_number',  '$description',  '$log_data_str',  'high', NOW()  );
 	";
@@ -271,36 +294,11 @@ if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'd
 //	$the_theme = $Theme->get_theme($curr_theme);
 
 	
-	$GLOBALS['CURRENT_THEME_PATH'] = dirname(realpath(ROOT.DS."current_theme_webroot"));
-	$GLOBALS['PARENT_THEME_PATH'] = dirname(realpath(ROOT.DS."parent_theme_webroot"));
+	$GLOBALS['CURRENT_THEME_PATH'] = dirname(realpath($root_path.DS."current_theme_webroot"));
+	$GLOBALS['PARENT_THEME_PATH'] = dirname(realpath($root_path.DS."parent_theme_webroot"));
 	define("DEFAULT_THEME_PATH", PATH_TO_THEMES.DS.'default');
 	
 	
-	///////////////////////////////////////////////////////////////
-	// if on the welcome site we need to adjust the paths
-	$WELCOME_SITE_URL = WELCOME_SITE_URL;
-	if (empty($WELCOME_SITE_URL)) {
-		$WELCOME_SITE_URL = 'welcome.fotomatter.net';
-	}
-	$on_welcome_site = $_SERVER['HTTP_HOST'] === $WELCOME_SITE_URL;
-	if ($on_welcome_site === true) {
-		// grab the account_id
-		$local_db = get_local_db_handle(false);
-		$sql = "
-			SELECT value FROM site_settings
-			WHERE name = 'account_id'
-		";
-		$result = mysql_query($sql, $local_db);
-		$account_id = mysql_result($result, 0);
-		if (!empty($account_id)) {
-			$theme_root_path = "/var/www/accounts/$account_id";
-			$GLOBALS['CURRENT_THEME_PATH'] = dirname(realpath($theme_root_path.DS."current_theme_webroot"));
-			$GLOBALS['PARENT_THEME_PATH'] = dirname(realpath($theme_root_path.DS."parent_theme_webroot"));
-		}
-	}
-	
-	
-
 
 	App::build(array(
 	//	'plugins' => array('/full/path/to/plugins/', '/next/full/path/to/plugins/'),
