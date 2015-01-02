@@ -97,13 +97,10 @@ if (!empty($_GET['wh'])) {
 
 // require db_config (could be welcome db_config)
 require(ROOT . "/db_configs.php");
-record_major_welcome_error("holy came here 1", array());
-
 
 
 
 function handle_assume_site_db_based_on_build_hash($build_hash) {
-	record_major_welcome_error("holy came here 2", array());
 	$WELCOME_SITE_URL = WELCOME_SITE_URL;
 	if (empty($WELCOME_SITE_URL)) {
 		$WELCOME_SITE_URL = 'welcome.fotomatter.net';
@@ -114,7 +111,6 @@ function handle_assume_site_db_based_on_build_hash($build_hash) {
 	////////////////////////////////////////////////
 	// get the welcome hash data from the db
 	$hash_data = get_hash_data($build_hash);
-	record_major_welcome_error("holy came here 3", compact('hash_data'));
 	
 
 	/////////////////////////////////////
