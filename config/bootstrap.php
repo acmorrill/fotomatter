@@ -59,7 +59,8 @@ if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'd
 		";
 		$result = mysql_query($sql, $local_db);
 		$account_id = mysql_result($result, 0);
-		record_major_error('bootstrap_test', '23', 'bootstrap_test', compact('account_id', '_SERVER'));
+		$server = $_SERVER['local'];
+		record_major_error('bootstrap_test', '23', 'bootstrap_test', compact('account_id', 'server'));
 		if (!empty($account_id)) {
 			$root_path = "/var/www/accounts/$account_id";
 		}
