@@ -41,6 +41,9 @@ a * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.o
  *
  */
 
+
+require('welcome_db.php');
+
 ///////////////////////////////////////////////////////////////
 // if on the welcome site we need to adjust the paths
 $root_path = ROOT;
