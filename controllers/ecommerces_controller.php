@@ -13,7 +13,7 @@ class EcommercesController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 
-		$this->Auth->allow(array('view_cart', 'add_to_cart', 'checkout_login_or_guest', 'checkout_get_address', 'get_available_states_for_country_options', 'checkout_finalize_payment', 'change_fe_password', 'checkout_thankyou', 'check_frontend_cart', 'remove_from_cart', 'remove_cart_item_by_index'));
+		$this->Auth->allow(array('view_cart', 'add_to_cart', 'checkout_login_or_guest', 'checkout_get_address', 'get_available_states_for_country_options', 'checkout_finalize_payment', 'change_fe_password', 'checkout_thankyou', 'check_frontend_cart', 'remove_from_cart', 'remove_cart_item_by_index', 'remove_cart_item_by_key', 'update_cart_qty'));
 
 		
 		/////////////////////////////////////////////
@@ -533,6 +533,14 @@ class EcommercesController extends AppController {
 		}
 	}
 	
+	public function update_cart_qty() {
+		if (!empty($this->data['cart_items'])) {
+			$this->Cart->update_cart_qty($this->data['cart_items']);
+		}
+		
+		$this->redirect('/ecommerces/view_cart');
+	}
+	
 	public function view_cart() {
 //		$this->Cart->create_fake_cart_items(); // DREW TODO - delete this line
 		//$this->Cart->create_fake_cart_items_laptop(); // DREW TODO - delete this line
@@ -925,6 +933,13 @@ class EcommercesController extends AppController {
 	
 	public function remove_cart_item_by_index($i) {
 		$this->Cart->remove_cart_item_by_index($i);
+		$this->redirect('/ecommerces/view_cart/');
+	}
+	
+	public function remove_cart_item_by_key($cart_key) {
+		print_r($cart_key);
+		die('holy sucka');
+		$this->Cart->remove_cart_item_by_key($cart_key);
 		$this->redirect('/ecommerces/view_cart/');
 	}
 	

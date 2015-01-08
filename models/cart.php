@@ -4,6 +4,22 @@ class Cart extends AppModel {
 	public $useTable = false;
 
 	
+	public function update_cart_qty($updated_cart_items) {
+		$this->Session = $this->get_session();
+		
+		if ($this->Session->check('Cart.items')) {
+			$cart_items = $this->Session->read('Cart.items');
+			foreach ($updated_cart_items as $updated_cart_item_key => $updated_cart_item_qty) {
+				if ($updated_cart_item_qty == 0) {
+					unset($cart_items[$updated_cart_item_key]);
+				} else {
+					$cart_items[$updated_cart_item_key]['qty'] = (int) $updated_cart_item_qty;
+				}
+			}
+			$this->Session->write('Cart.items', $cart_items);
+		}
+	}
+	
 	public function remove_cart_item_by_index($i) {
 		$this->Session = $this->get_session();
 		
@@ -19,6 +35,18 @@ class Cart extends AppModel {
 			$this->Session->write('Cart.items', $cart_items);
 		}
 	}
+	
+	
+	public function remove_cart_item_by_key($cart_key) {
+		$this->Session = $this->get_session();
+		
+		if ($this->Session->check('Cart.items')) {
+			$cart_items = $this->Session->read('Cart.items');
+			unset($cart_items[$cart_key]);
+			$this->Session->write('Cart.items', $cart_items);
+		}
+	}
+	
 	
 	public function add_to_cart($photo_id, $photo_print_type_id, $short_side_inches) {
 		$this->Session = $this->get_session();

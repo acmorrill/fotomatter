@@ -46,17 +46,20 @@
 
 			<a name="availablePrints"></a>
 			<h2 class="photoTitle"><?php print("\"<b>{$curr_photo['Photo']['display_title']}</b>\""); ?></h2>
-			<p style="margin-bottom: 13px;"><?php print("{$curr_photo['Photo']['display_subtitle']}"); ?><br/>
+			<p style="margin-bottom: 13px;">
+				<?php if (!empty($curr_photo['Photo']['display_subtitle'])): ?>
+					<?php print("{$curr_photo['Photo']['display_subtitle']}"); ?>
+					<br/>
+				<?php endif; ?>
 				<?php $phpdate = strtotime( 'last monday' ); ?>
 				<?php echo date("F Y",$phpdate); ?>
 			</p>
 
 			<p style="width: 520px"><?php print("{$curr_photo['Photo']['description']}"); ?></p>
-			
+			<img src="/images/misc/horiz_gradientline.png" alt="" />
 			
 			<?php echo $this->Element('cart_checkout/image_add_to_cart_form_simple'); ?>
 			
-			<img src="/images/misc/horiz_gradientline.png" alt="" />
 			<br/><br/>
 			<br/><br/>
 			<br/><br/>

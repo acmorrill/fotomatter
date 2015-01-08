@@ -3,6 +3,21 @@
 // config for theme: default
 
 $theme_config = array(
+	'merge_testing' => array(
+		'merge_testing1' => array(
+			'override_able' => true,
+			'merge_testing2_1' => array(
+				'merge_testing3' => true
+			),
+			'merge_testing2_2' => 'just a value',
+			'merge_testing2_3' => array(
+				'merge_testing4' => true,
+				'merge_testing5' => false,
+				'merge_testing6' => true,
+			),
+			'merge_testing55' => true,
+		),
+	),
 	'theme_name' => 'default',
 	'theme_include_helpers' => array(),
 	'theme_controller_action_layouts' => array(
@@ -165,15 +180,26 @@ $theme_config = array(
 		),
 		'theme_avail_custom_settings' => array(
 			'settings' => array(
-//				'landing_page_settings_group' => array(
-//					'type' => 'group_name',
-//					'display_name' => 'Landing Page Settings',
-//				),
-//				'landing_page_gallery' => array(
-//					'type' => 'gallery_chooser',
-//					'display_name' => 'Slideshow Gallery',
-//					'description' => "Choose which gallery to use for the theme landing page.",
-//					'help_message' => 'Drop Down Test',
+				'global_settings_group' => array( // all global theme settings should start with "global_" so they are sorted correctly
+					'type' => 'group_name',
+					'display_name' => 'Global Theme Settings',
+				),
+				'global_photo_page_add_to_cart_text' => array(
+					'type' => 'text_input',
+					'display_name' => 'Photo Page Print Types Heading',
+					'description' => "The text that goes above available print types when there are available print types for the photo.",
+					'help_message' => 'Text Input Test',
+					'possible_values' => ".*\\\S+.*", // can be regex
+					'default_value' => 'Print Types',
+				),
+				// DREW TODO - START HERE TOMORROW - move global settings somewhere easier to understand
+//				'global_photo_page_add_to_cart_button_text' => array(
+//					'type' => 'text_input',
+//					'display_name' => 'Photo Page Add to Cart Text',
+//					'description' => "The text that goes above available print types when there are available print types for the photo.",
+//					'help_message' => 'Text Input Test',
+//					'possible_values' => ".*\\\S+.*", // can be regex
+//					'default_value' => 'Print Types',
 //				),
 //				'landing_page_slideshow_interval_time' => array(
 //					'type' => 'dropdown',

@@ -12,11 +12,12 @@
 		});
 	</script>
 
+	<h1 id='print_types_heading'><?php echo $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'photo_page_add_to_cart_text') ?></h1>
+	
 	<div id="add_to_cart_buttons_cont">
 	<?php if (empty($photo_sellable_prints)): ?>
 		<!-- <?php __('The add to cart buttons have not been fully setup'); ?> -->
 	<?php else: ?>
-		<?php //debug($photo_sellable_prints); ?>
 		<?php foreach ($photo_sellable_prints as $print_type_name => $print_type_sizes): ?>
 			<h2><?php echo $print_type_name; ?></h2>
 			<form action="/ecommerces/add_to_cart/" method="post">
@@ -32,7 +33,7 @@
 					<?php endforeach; ?>
 				</select> 
 				<div class="submit_button_cont">
-					<button class="submit_inner"><?php echo isset($submit_button_text) ? $submit_button_text : __('Submit', true); ?></button>
+					<button class="submit_inner"><?php echo isset($submit_button_text) ? $submit_button_text : __('Add to Cart', true); ?></button>
 				</div>
 			</form>
 		<?php endforeach; ?>

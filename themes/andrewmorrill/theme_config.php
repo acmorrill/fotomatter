@@ -3,6 +3,31 @@
 // config for theme: andrewmorrill
 
 $theme_config = array(
+	'merge_testing' => array(
+		'merge_testing1' => array(
+			'merge_testing2_1' => array(
+				'merge_testing3' => true
+			),
+			'merge_testing2_2' => 'just a value',
+			'merge_testing2_3' => array(
+				'override_able' => true,
+				'merge_testing4' => true,
+				'merge_testing5' => array(
+					'merge_testing8' => true
+				),
+				'merge_testing7' => true,
+				'merge_testing9' => array(
+					'merge_testing10' => true,
+					'merge_testing11' => true,
+					'merge_testing12' => array(
+						'merge_testing13' => true,
+						'merge_testing14' => true,
+					),
+				),
+				'merge_testing66' => true,
+			),
+		),
+	),
 	'theme_name' => 'andrewmorrill',
 	'theme_controller_action_layouts' => array(
 		'Default' => array(

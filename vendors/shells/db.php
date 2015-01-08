@@ -64,9 +64,9 @@ class DbShell extends GenericDbShell {
 
 		
 		// recompile the less css
-		App::import('Component', 'LessCss');
-		$this->LessCss = new LessCssComponent();
-		$this->LessCss->recompile_css();
+//		App::import('Component', 'LessCss');
+//		$this->LessCss = new LessCssComponent();
+//		$this->LessCss->recompile_css();
 		
 		
 		$this->_update(true);		

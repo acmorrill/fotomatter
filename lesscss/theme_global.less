@@ -9,45 +9,15 @@
 @button_hover: rgba(40,40,40,0.7);
 
 
-#billing_address_container, #shipping_address_container, #create_account, #final_payment_info, #billing_address_summary, #shipping_address_summary {
-	margin-top: 30px;
-    outline: 1px solid black;
-    padding: 20px;
-    label {
-        display: inline-block;
-        vertical-align: top;
-        width: 100px;
-        text-align: right;
-        margin-right: 10px;
-    }
-    .input, .select {
-        margin-bottom: 10px;
-    }
-    .state {
-        display: none;
-    }
-	outline: 1px solid black;
-	padding: 20px;
-	label {
-		display: inline-block;
-		vertical-align: top;
-		width: 100px;
-		text-align: right;
-		margin-right: 10px;
-	}
-	.input, .select {
-		margin-bottom: 10px;
-	}
-	.state {
-		display: none;
-	}
-}
-.no_label {
-	margin-top: 20px;
-	float: right;
-}
+
+// libraries
+@import url("new_inc/libraries/icomoon.less");
 
 
+
+//////////////////////////////////////////////////////////////
+// forgot address
+//--------------------------------------------
 #forgot_your_password_container {
 	#forgot_password_link {
 		cursor: pointer;
@@ -110,6 +80,47 @@
 
 /*======================== Shopping cart ========================*/
 
+/*#billing_address_container, #shipping_address_container, #create_account, #final_payment_info, #billing_address_summary, #shipping_address_summary {
+	margin-top: 30px;
+	outline: 1px solid black;
+	padding: 20px;
+	label {
+		display: inline-block;
+		vertical-align: top;
+		width: 100px;
+		text-align: right;
+		margin-right: 10px;
+	}
+	.input, .select {
+		margin-bottom: 10px;
+	}
+	.state {
+		display: none;
+	}
+	outline: 1px solid black;
+	padding: 20px;
+	label {
+		display: inline-block;
+		vertical-align: top;
+		width: 100px;
+		text-align: right;
+		margin-right: 10px;
+	}
+	.input, .select {
+		margin-bottom: 10px;
+	}
+	.state {
+		display: none;
+	}
+}
+.no_label {
+	margin-top: 20px;
+	float: right;
+}*/
+
+
+
+
 #cart_table {
 	width: 100%;
 	margin-top: 20px;
@@ -138,6 +149,15 @@
 					margin-top: 10px;
 					margin-bottom: 10px;
 					border: 1px solid @black;
+				}
+				&.qty input { width: 30px; text-align: right; }
+				&.delete {
+					text-align: center;
+					width: 70px;
+					.icon-trash-01 {
+						font-size: 20px;
+						color: @black;
+					}
 				}
 			}
 		}
