@@ -3,7 +3,12 @@
 		if (empty($photo_sellable_prints)) {
 			$photo_sellable_prints = $this->Photo->get_enabled_photo_sellable_prints($photo_id);
 		}
+		
+		if (empty($beforeHtml)) {
+			$beforeHtml = '';
+		}
 	?>
+	<?php echo $beforeHtml; ?>
 	<script type="text/javascript">
 		jQuery(document).ready(function() {
 			jQuery('#add_to_cart_buttons_cont .submit_button_cont').click(function() { 
@@ -12,7 +17,7 @@
 		});
 	</script>
 
-	<h1 id='print_types_heading'><?php echo $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'photo_page_add_to_cart_text') ?></h1>
+	<h1 id='print_types_heading'><?php echo $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'global_photo_page_add_to_cart_text') ?></h1>
 	
 	<div id="add_to_cart_buttons_cont">
 	<?php if (empty($photo_sellable_prints)): ?>

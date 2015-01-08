@@ -258,7 +258,6 @@ div#zoomWidget img {
 }
 #mainImage {
   border: 10px solid white;
-  cursor: pointer;
   display: inline-block;
   vertical-align: middle;
   position: relative;
@@ -349,6 +348,52 @@ span.printsAvailable {
 }
 #add_to_cart_buttons_cont button {
   cursor: pointer;
+}
+#photo_bread_crumbs {
+  position: absolute;
+  bottom: -33px;
+  right: -10px;
+}
+#photo_bread_crumbs a {
+  color: #252525;
+}
+#photo_bread_crumbs a:hover {
+  color: #d12e19;
+}
+#sizing_tools {
+  position: absolute;
+  top: 25px;
+  right: -40px;
+}
+#sizing_tools .small,
+#sizing_tools .medium,
+#sizing_tools .large {
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  margin-bottom: 10px;
+  color: #252525;
+  text-align: center;
+  border: 1px solid #252525;
+  border-left: 0px;
+}
+#sizing_tools .small span,
+#sizing_tools .medium span,
+#sizing_tools .large span {
+  display: inline-block;
+  padding-top: 5px;
+  font-weight: bold;
+}
+#sizing_tools .small:hover,
+#sizing_tools .small.active,
+#sizing_tools .medium:hover,
+#sizing_tools .medium.active,
+#sizing_tools .large:hover,
+#sizing_tools .large.active {
+  color: #ffffff;
+  background-color: #7b838d;
+  border: 1px solid #ffffff;
+  border-left: 0px;
 }
 .section {
   position: relative;

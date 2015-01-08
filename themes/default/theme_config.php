@@ -5,7 +5,7 @@
 $theme_config = array(
 	'merge_testing' => array(
 		'merge_testing1' => array(
-			'override_able' => true,
+			'override_able' => true, // if this is true then if a subtheme sets the parent key this entire array will be wiped out
 			'merge_testing2_1' => array(
 				'merge_testing3' => true
 			),

@@ -23,7 +23,10 @@
 		<?php echo $this->Element('nameTitle'); ?>
 		
 		<div id="largePhotoPos" style="width: 892px">
-			<?php $img_src = $this->Photo->get_photo_path($curr_photo['Photo']['id'], 700, 700, .4, true); ?>
+			<?php 
+				$dynamic_photo_sizes = $this->Theme->get_dynamic_photo_size(700, 1000, 1200);
+				$img_src = $this->Photo->get_photo_path($curr_photo['Photo']['id'], $dynamic_photo_sizes['photo_size'], $dynamic_photo_sizes['photo_size'], .4, true); 
+			?>
 			
 			<script type="text/javascript">
 				jQuery(document).ready(function() {
@@ -42,6 +45,28 @@
 				<a class="photo_page_nav next_image arrow <?php if ($is_pano): ?> is_pano<?php endif; ?>" href="<?php echo $next_image_web_path; ?>">
 					<img onmouseover="this.src='/images/misc/arrowRightRed.png';" onmouseout="this.src='/images/misc/arrowRight.png';" src="/images/misc/arrowRightRed.png" alt="" />
 				</a>
+				<div id='photo_bread_crumbs'>
+					<a href='/'>home</a> >
+					<a href='/photo_galleries/choose_gallery'>image galleries</a>
+					<?php 
+						$curr_gallery_href = '';
+						if (!empty($curr_gallery['PhotoGallery']['id'])) {
+							$curr_gallery_href = $this->Html->url(array(    
+								'controller' => 'photo_galleries',    
+								'action' => 'view_gallery',    
+								$curr_gallery['PhotoGallery']['id']
+							));
+						}
+					?>
+					<?php if (!empty($curr_gallery_href) && !empty($curr_gallery['PhotoGallery']['display_name'])): ?>
+						> <a href='<?php echo $curr_gallery_href; ?>'><?php echo strtolower($curr_gallery['PhotoGallery']['display_name']); ?></a>
+					<?php endif; ?>
+				</div>
+				<div id='sizing_tools' class='sizing_tools'>
+					<div class='sizing_button small <?php if ($dynamic_photo_sizes['current_size'] == 'small'): ?> active <?php endif; ?>'><span>S</span></div>
+					<div class='sizing_button medium <?php if ($dynamic_photo_sizes['current_size'] == 'medium'): ?> active <?php endif; ?>'><span>M</span></div>
+					<div class='sizing_button large <?php if ($dynamic_photo_sizes['current_size'] == 'large'): ?> active <?php endif; ?>'><span>L</span></div>
+				</div>
 			</div>
 
 			<a name="availablePrints"></a>
@@ -56,9 +81,9 @@
 			</p>
 
 			<p style="width: 520px"><?php print("{$curr_photo['Photo']['description']}"); ?></p>
-			<img src="/images/misc/horiz_gradientline.png" alt="" />
-			
-			<?php echo $this->Element('cart_checkout/image_add_to_cart_form_simple'); ?>
+			<?php echo $this->Element('cart_checkout/image_add_to_cart_form_simple', array(
+				'beforeHtml' => '<img src="/images/misc/horiz_gradientline.png" alt="" />'
+			)); ?>
 			
 			<br/><br/>
 			<br/><br/>

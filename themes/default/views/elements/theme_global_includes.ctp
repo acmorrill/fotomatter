@@ -18,6 +18,30 @@
 		});
 		
 		
+		// setup the code for changing the image size on the image page
+		jQuery('.sizing_tools .sizing_button').click(function() {
+			if (jQuery(this).hasClass('active')) {
+				return false;
+			}
+			
+			var current_size = 'small';
+			if (jQuery(this).hasClass('small')) {
+				current_size = 'small';
+			} else if (jQuery(this).hasClass('medium')) {
+				current_size = 'medium';
+			} else if (jQuery(this).hasClass('large')) {
+				current_size = 'large';
+			}
+			
+			jQuery.cookie("frontend_photo_size", current_size, {
+			   expires : 30,
+			   path    : '/photos/view_photo',
+			});
+			
+			document.location.reload();
+		});
+		
+		
 		// grab the cart totals
 		jQuery.ajax({
 			type: 'post',

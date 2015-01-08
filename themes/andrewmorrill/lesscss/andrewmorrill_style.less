@@ -279,7 +279,6 @@ div#zoomWidget img {
 /* ===================== Photo Page ========================================== */
 #mainImage {
 	border: 10px solid white;
-	cursor: pointer;
 	display: inline-block;
 	vertical-align: middle;
 	position: relative;
@@ -378,6 +377,42 @@ span.printsAvailable {
 		margin-right: 15px;
 	}
 	button { cursor: pointer; }
+}
+#photo_bread_crumbs {
+	position: absolute;
+	bottom: -33px;
+	right: -10px;
+	a { 
+		color: #252525; 
+		&:hover { color: #d12e19; }
+	}
+}
+@sizing_tool_size: 30px;
+#sizing_tools {
+	position: absolute;
+	top: -10px + 35px;
+	right: (-@sizing_tool_size - 10px);
+	.small, .medium, .large {
+		cursor: pointer;
+		width: @sizing_tool_size;
+		height: @sizing_tool_size;
+		margin-bottom: 10px;
+		color: #252525;
+		text-align: center;
+		border: 1px solid #252525;
+		border-left: 0px;
+		span {
+			display: inline-block;
+			padding-top: 5px;
+			font-weight: bold;
+		}
+		&:hover, &.active {
+			color: #ffffff;
+			background-color: #7b838d;
+			border: 1px solid #ffffff;
+			border-left: 0px;
+		}
+	}
 }
 
 /* photo page cool disapearing bottom info bars */

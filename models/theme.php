@@ -21,6 +21,24 @@ class Theme extends AppModel {
 		
 		return '';
 	}
+	
+	
+	public function get_dynamic_photo_size($small, $medium, $large) {
+		$current_size = 'small';
+		if (isset($_COOKIE['frontend_photo_size'])) {
+			$current_size = $_COOKIE['frontend_photo_size'];
+		}
+		if ($current_size == 'small') {
+			$photo_size = $small;
+		} else if ($current_size == 'medium') {
+			$photo_size = $medium;
+		} else if ($current_size == 'large') {
+			$photo_size = $large;
+		}
+		
+		return compact('current_size', 'photo_size');
+	}
+	
 
 	public function get_landing_page_slideshow_images($num_to_grab, $gallery_id = null) {
 		// DREW TODO - for now we are just going to grab the the number of images from the first gallery
