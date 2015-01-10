@@ -154,7 +154,7 @@
 		min-width: 0px;
 	}
 }
-#create_account, #final_payment_info { margin-bottom: 0px; }
+#create_account, #final_payment_info, #order_summary_container #cart_table  { margin-bottom: 0px; }
 #shipping_address_container {
 	.shipping_data_cont {
 		margin-bottom: 50px;
@@ -198,6 +198,7 @@
 
 // Global shopping cart page
 #cart_table {
+	margin-bottom: 120px;
 	width: 100%;
 	margin-top: 20px;
 	border-collapse: collapse;
@@ -209,6 +210,9 @@
 		text-align: center;
 		.last {
 			border-right: 1px solid @black;
+		}
+		th {
+			height: 27px;
 		}
 	}
 	tbody {
@@ -235,6 +239,19 @@
 						color: @black;
 					}
 				}
+				#cart_photo_item_data_container {
+					margin-bottom: 8px;
+					h2 {
+						font-size: 14px;
+						padding: 0px;
+						margin: 0px;
+					}
+					span {
+						font-size: 13px;
+						padding: 0px;
+						margin: 0px;
+					}
+				}
 			}
 		}
 	}
@@ -244,6 +261,15 @@
 			padding-top: 10px;
 			.submit_button {
 				margin-top: 15px;
+			}
+			.price_summary_item {
+				display: inline-block;
+				vertical-align: top;
+				min-width: 70px;
+				margin-left: 10px;
+			}
+			.cart_total {
+				font-weight: bold;
 			}
 		}
 	}

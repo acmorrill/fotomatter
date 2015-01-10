@@ -8,15 +8,6 @@
 			$beforeHtml = '';
 		}
 	?>
-	<script type="text/javascript">
-		jQuery(document).ready(function() {
-			jQuery('#add_to_cart_buttons_cont .submit_button_cont').click(function() { 
-				jQuery(this).closest('form').submit();
-			});
-		});
-	</script>
-
-	
 	<div id="add_to_cart_buttons_cont">
 			<?php if (empty($photo_sellable_prints)): ?>
 				<!-- <?php __('The add to cart buttons have not been fully setup'); ?> -->
@@ -39,7 +30,7 @@
 								<?php endforeach; ?>
 							</select> 
 							<div class="submit_button_cont">
-								<button class="submit_inner"><?php echo isset($submit_button_text) ? $submit_button_text : __('Add to Cart', true); ?></button>
+								<div class="frontend_form_submit_button submit_button"><span class='content'><?php echo __('Add to Cart', true); ?></span><span class='extra'></span></div>
 							</div>
 						</form>
 					<?php endforeach; ?>

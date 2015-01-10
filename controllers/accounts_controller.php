@@ -57,6 +57,8 @@ class AccountsController extends AppController {
 	public function admin_index($add_feature_ref_name = null) {
 		$this->FotomatterBilling->clear_billing_apc();
 		$overlord_account_info = $this->FotomatterBilling->get_account_info();
+		print_r($overlord_account_info);
+		die();
 		
 		$this->Session->delete('account_line_items');
 		$this->Session->write('account_line_items', array('checked'=>array(), 'unchecked'=>array()));

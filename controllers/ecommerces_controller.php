@@ -146,7 +146,7 @@ class EcommercesController extends AppController {
 		$this->redirect('/admin/ecommerces/manage_print_sizes');
 	}
 	
-	public function admin_add_print_size($photo_avail_size_id = null) {
+	public function admin_add_print_size($photo_avail_size_id = '') {
 		$this->HashUtil->set_new_hash('ecommerce');
 		
 		if (!empty($this->data)) {
@@ -165,7 +165,9 @@ class EcommercesController extends AppController {
 					$this->redirect('/admin/ecommerces/manage_print_sizes');
 				}
 			}
-		} else if (isset($photo_avail_size_id)) {
+		}
+		
+		if (isset($photo_avail_size_id)) {
 			$this->data = $this->PhotoAvailSize->find('first', array(
 				'conditions' => array(
 					'PhotoAvailSize.id' => $photo_avail_size_id
@@ -174,11 +176,15 @@ class EcommercesController extends AppController {
 			));
 		}
 
+		
 		$used_short_side_dimensions = $this->PhotoAvailSize->get_used_short_side_values();
+		if (isset($this->data['PhotoAvailSize']['short_side_length'])) {
+			unset($used_short_side_dimensions[$this->data['PhotoAvailSize']['short_side_length']]);
+		}
 
 		$short_side_values = $this->PhotoAvailSize->valid_short_side_values();
 
-		$this->set(compact('short_side_values', 'used_short_side_dimensions'));
+		$this->set(compact('short_side_values', 'used_short_side_dimensions', 'photo_avail_size_id'));
 	}
 	 
 	public function admin_manage_print_sizes() {

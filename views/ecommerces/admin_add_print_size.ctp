@@ -20,7 +20,7 @@
 	<h2>Select a Dimension and Format</h2>
 	<div style="clear: both;"></div>
 </div>
-	<form action="/admin/ecommerces/add_print_size" method="post">
+	<form action="/admin/ecommerces/add_print_size/<?php echo $photo_avail_size_id; ?>" method="post">
 		<?php if (isset($this->data['PhotoAvailSize']['id'])): ?>
 			<input type="hidden" name="data[PhotoAvailSize][id]" value="<?php echo $this->data['PhotoAvailSize']['id']; ?>" />
 		<?php endif; ?>
@@ -31,7 +31,7 @@
 				<div class="theme_setting_inputs_container">
 					<select name="data[PhotoAvailSize][short_side_length]" <?php if ($all_used == true): ?>disabled="disabled"<?php endif; ?>>
 						<?php foreach ($short_side_values as $short_side_value): ?>
-							<option value="<?php echo $short_side_value; ?>" <?php if (isset($this->data['PhotoAvailSize']['short_side_length']) && $this->data['PhotoAvailSize']['short_side_length'] == $short_side_value): ?>selected="selected"<?php endif; ?> <?php if (isset($used_short_side_dimensions[(string)$short_side_value])): ?> suck="suck" disabled="disabled"<?php endif; ?>><?php echo $short_side_value; ?></option>
+							<option value="<?php echo $short_side_value; ?>" <?php if (isset($this->data['PhotoAvailSize']['short_side_length']) && $this->data['PhotoAvailSize']['short_side_length'] == $short_side_value): ?>selected="selected"<?php endif; ?> <?php if (isset($used_short_side_dimensions[(string)$short_side_value])): ?> disabled="disabled"<?php endif; ?>><?php echo $short_side_value; ?></option>
 						<?php endforeach; ?>
 					</select>
 				</div>

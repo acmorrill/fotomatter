@@ -119,7 +119,7 @@
 	<div id="final_payment_info">
 		<div class="payment_display" <?php if ($logged_in !== true): ?>style="display: none;"<?php endif; ?>>
 			<div class="input">
-				<div class="frontend_form_submit_button submit_button final_checkout_button"><span class='content'><?php echo __('Checkout Now', true); ?></span><span class='extra'></span></div>
+				<div class="frontend_form_submit_button submit_button final_checkout_button"><span class='content'><?php echo __('Finish Purchase', true); ?></span><span class='extra'></span></div>
 			</div>
 			<hr />
 			<h1><?php echo __('Payment Info', true); ?> (<a id="edit_payment_data" style="cursor: pointer;">edit</a>)</h1>
@@ -208,7 +208,7 @@
 				<input type="text" name="data[Payment][security_code]" value="<?php if (isset($Payment['security_code'])): ?><?php echo $Payment['security_code']; ?><?php endif; ?>" />
 			</div>
 			<div class="submit">
-				<div class="frontend_form_submit_button submit_button final_checkout_button"><span class='content'><?php echo __('Checkout', true); ?></span><span class='extra'></span></div>
+				<div class="frontend_form_submit_button submit_button final_checkout_button"><span class='content'><?php echo __('Finish Purchase', true); ?></span><span class='extra'></span></div>
 			</div>
 		</div>
 	</div>
