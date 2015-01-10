@@ -228,7 +228,9 @@
 #create_account,
 #final_payment_info,
 #billing_address_summary,
-#shipping_address_summary {
+#shipping_address_summary,
+#order_summary_container,
+#thankyou_page_container {
   margin-top: 20px;
   margin-bottom: 80px;
 }
@@ -238,7 +240,9 @@
 #create_account hr,
 #final_payment_info hr,
 #billing_address_summary hr,
-#shipping_address_summary hr {
+#shipping_address_summary hr,
+#order_summary_container hr,
+#thankyou_page_container hr {
   margin-bottom: 20px;
   margin-top: 20px;
 }
@@ -248,7 +252,9 @@
 #create_account h1,
 #final_payment_info h1,
 #billing_address_summary h1,
-#shipping_address_summary h1 {
+#shipping_address_summary h1,
+#order_summary_container h1,
+#thankyou_page_container h1 {
   margin-top: 0px;
   padding: 0px;
   font-size: 20px;
@@ -260,7 +266,9 @@
 #create_account .flashMessage,
 #final_payment_info .flashMessage,
 #billing_address_summary .flashMessage,
-#shipping_address_summary .flashMessage {
+#shipping_address_summary .flashMessage,
+#order_summary_container .flashMessage,
+#thankyou_page_container .flashMessage {
   padding-left: 130px;
 }
 #login_container input,
@@ -283,7 +291,13 @@
 #billing_address_summary select,
 #shipping_address_summary input,
 #shipping_address_summary button,
-#shipping_address_summary select {
+#shipping_address_summary select,
+#order_summary_container input,
+#order_summary_container button,
+#order_summary_container select,
+#thankyou_page_container input,
+#thankyou_page_container button,
+#thankyou_page_container select {
   min-width: 200px;
   height: 20px;
 }
@@ -293,7 +307,9 @@
 #create_account select,
 #final_payment_info select,
 #billing_address_summary select,
-#shipping_address_summary select {
+#shipping_address_summary select,
+#order_summary_container select,
+#thankyou_page_container select {
   height: 25px;
 }
 #login_container label,
@@ -302,7 +318,9 @@
 #create_account label,
 #final_payment_info label,
 #billing_address_summary label,
-#shipping_address_summary label {
+#shipping_address_summary label,
+#order_summary_container label,
+#thankyou_page_container label {
   display: inline-block;
   vertical-align: top;
   width: 140px;
@@ -323,7 +341,11 @@
 #billing_address_summary .input,
 #billing_address_summary .select,
 #shipping_address_summary .input,
-#shipping_address_summary .select {
+#shipping_address_summary .select,
+#order_summary_container .input,
+#order_summary_container .select,
+#thankyou_page_container .input,
+#thankyou_page_container .select {
   margin-bottom: 15px;
 }
 #login_container .submit,
@@ -339,7 +361,11 @@
 #billing_address_summary .submit,
 #billing_address_summary .step_1,
 #shipping_address_summary .submit,
-#shipping_address_summary .step_1 {
+#shipping_address_summary .step_1,
+#order_summary_container .submit,
+#order_summary_container .step_1,
+#thankyou_page_container .submit,
+#thankyou_page_container .step_1 {
   padding-left: 153px;
   margin-top: 20px;
 }
@@ -349,7 +375,9 @@
 #create_account .submit,
 #final_payment_info .submit,
 #billing_address_summary .submit,
-#shipping_address_summary .submit {
+#shipping_address_summary .submit,
+#order_summary_container .submit,
+#thankyou_page_container .submit {
   margin-bottom: 20px;
 }
 #login_container .submit > input,
@@ -358,7 +386,9 @@
 #create_account .submit > input,
 #final_payment_info .submit > input,
 #billing_address_summary .submit > input,
-#shipping_address_summary .submit > input {
+#shipping_address_summary .submit > input,
+#order_summary_container .submit > input,
+#thankyou_page_container .submit > input {
   cursor: pointer;
 }
 #login_container .state,
@@ -367,7 +397,9 @@
 #create_account .state,
 #final_payment_info .state,
 #billing_address_summary .state,
-#shipping_address_summary .state {
+#shipping_address_summary .state,
+#order_summary_container .state,
+#thankyou_page_container .state {
   display: none;
 }
 #login_container #forgot_your_password_container .input,
@@ -376,14 +408,17 @@
 #create_account #forgot_your_password_container .input,
 #final_payment_info #forgot_your_password_container .input,
 #billing_address_summary #forgot_your_password_container .input,
-#shipping_address_summary #forgot_your_password_container .input {
+#shipping_address_summary #forgot_your_password_container .input,
+#order_summary_container #forgot_your_password_container .input,
+#thankyou_page_container #forgot_your_password_container .input {
   margin-bottom: 25px;
 }
 #create_account .card_expiration select,
 #final_payment_info .card_expiration select {
   min-width: 0px;
 }
-#create_account {
+#create_account,
+#final_payment_info {
   margin-bottom: 0px;
 }
 #shipping_address_container .shipping_data_cont {
@@ -408,6 +443,16 @@
 .submit_button:hover {
   background-color: #000000;
   color: #ffffff;
+}
+.submit_button.final_checkout_button {
+  height: 35px;
+}
+.submit_button.final_checkout_button .content {
+  line-height: 35px;
+  font-size: 16px;
+  margin-left: 20px;
+  margin-right: 20px;
+  font-weight: bold;
 }
 #cart_table {
   width: 100%;

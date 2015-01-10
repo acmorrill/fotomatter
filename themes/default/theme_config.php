@@ -192,6 +192,14 @@ $theme_config = array(
 					'possible_values' => ".*\\\S+.*", // can be regex
 					'default_value' => 'Print Types',
 				),
+				'global_frontend_checkout_thankyou_page_text' => array(
+					'type' => 'textarea',
+					'display_name' => 'Thankyou Page Text',
+					'description' => "This is the text your customers will see after they are done purchasing.",
+					'help_message' => 'Text Area Test',
+					'possible_values' => '.*\\\S+.*', // can be regex
+					'default_value' => 'Your order processed successfully.',
+				),
 				// DREW TODO - START HERE TOMORROW - move global settings somewhere easier to understand
 //				'global_photo_page_add_to_cart_button_text' => array(
 //					'type' => 'text_input',

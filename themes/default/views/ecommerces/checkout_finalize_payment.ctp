@@ -29,8 +29,8 @@
 					url: url,
 					data: {},
 					success: function(state_data) {
-						console.log ("success");
-						console.log (state_data.count);
+//						console.log ("success");
+//						console.log (state_data.count);
 						if (state_data.count == 0) {
 							state_cont.hide();
 							state_select.html(state_data.html);
@@ -40,10 +40,10 @@
 						}
 					},
 					complete: function() {
-						console.log ("complete");
+//						console.log ("complete");
 					},
 					error: function(jqXHR, textStatus, errorThrown) {
-						console.log ("error");
+//						console.log ("error");
 //						console.log (textStatus);
 //						console.log (errorThrown);
 					},
@@ -118,17 +118,21 @@
 	
 	<div id="final_payment_info">
 		<div class="payment_display" <?php if ($logged_in !== true): ?>style="display: none;"<?php endif; ?>>
-			<p>Your card ending in <?php echo $Payment['last_four']; ?> will be charged. (<a id="edit_payment_data" style="cursor: pointer;">edit</a>)</p>
-			<h1><?php /* __('Payment Info'); ?></h1>
-			<?php if (!empty($billing_address['firstname'])): ?><?php echo $billing_address['firstname']; ?><?php endif; ?> <?php if (!empty($billing_address['lastname'])): ?><?php echo $billing_address['lastname']; ?><?php endif; ?><br />
-			<?php if (!empty($billing_address['address1'])): ?><?php echo $billing_address['address1']; ?><br /><?php endif; ?>
-			<?php if (!empty($billing_address['address2'])): ?><?php echo $billing_address['address2']; ?><br /><?php endif; ?>
-			<?php if (!empty($billing_address['city'])): ?><?php echo $billing_address['city']; ?><br /><?php endif; ?>
-			<?php if (!empty($billing_address['zip'])): ?><?php echo $billing_address['zip']; ?><br /><?php endif; ?>
-			<?php if (!empty($billing_address['country_id'])): ?><?php echo $this->Ecommerce->get_country_name_by_id($billing_address['country_id']); ?><br /><?php endif; ?>
-			<?php if (!empty($billing_address['state_id'])): ?><?php echo $this->Ecommerce->get_state_name_by_id($billing_address['state_id']); ?><br /><?php endif; ?>
-			<?php if (!empty($billing_address['phone'])): ?><?php echo $billing_address['phone']; ?><br /><?php endif; ?>
-			<?php if (!empty($Payment['credit_card_method'])): ?><?php echo $Payment['credit_card_method']; ?><br /><?php endif;  */ ?>
+			<div class="input">
+				<div class="frontend_form_submit_button submit_button final_checkout_button"><span class='content'><?php echo __('Checkout Now', true); ?></span><span class='extra'></span></div>
+			</div>
+			<hr />
+			<h1><?php echo __('Payment Info', true); ?> (<a id="edit_payment_data" style="cursor: pointer;">edit</a>)</h1>
+			<span>Your card ending in <?php echo $Payment['last_four']; ?> will be charged</span><br />
+			<?php if (!empty($billing_address['firstname'])): ?><span><?php echo $billing_address['firstname']; ?></span><?php endif; ?> <?php if (!empty($billing_address['lastname'])): ?><span><?php echo $billing_address['lastname']; ?></span><?php endif; ?><br />
+			<?php if (!empty($billing_address['address1'])): ?><span><?php echo $billing_address['address1']; ?></span><br /><?php endif; ?>
+			<?php if (!empty($billing_address['address2'])): ?><span><?php echo $billing_address['address2']; ?></span><br /><?php endif; ?>
+			<?php if (!empty($billing_address['city'])): ?><span><?php echo $billing_address['city']; ?></span><br /><?php endif; ?>
+			<?php if (!empty($billing_address['zip'])): ?><span><?php echo $billing_address['zip']; ?></span><br /><?php endif; ?>
+			<?php if (!empty($billing_address['country_id'])): ?><span><?php echo $this->Ecommerce->get_country_name_by_id($billing_address['country_id']); ?></span><br /><?php endif; ?>
+			<?php if (!empty($billing_address['state_id'])): ?><span><?php echo $this->Ecommerce->get_state_name_by_id($billing_address['state_id']); ?></span><br /><?php endif; ?>
+			<?php if (!empty($billing_address['phone'])): ?><span><?php echo $billing_address['phone']; ?></span><br /><?php endif; ?>
+			<?php if (!empty($Payment['credit_card_method'])): ?><span><?php echo ucfirst($Payment['credit_card_method']); ?></span><br /><?php endif; ?>
 		</div>
 		<div class="payment_edit" <?php if ($logged_in === true): ?>style="display: none;"<?php endif; ?>>
 			<h1><?php echo __('Payment Info',true); ?></h1>
@@ -204,18 +208,20 @@
 				<input type="text" name="data[Payment][security_code]" value="<?php if (isset($Payment['security_code'])): ?><?php echo $Payment['security_code']; ?><?php endif; ?>" />
 			</div>
 			<div class="submit">
-				<div class="frontend_form_submit_button submit_button"><span class='content'><?php echo __('Checkout', true); ?></span><span class='extra'></span></div>
+				<div class="frontend_form_submit_button submit_button final_checkout_button"><span class='content'><?php echo __('Checkout', true); ?></span><span class='extra'></span></div>
 			</div>
 		</div>
 	</div>
 </form>
 
-<br />
-<hr />
-<h1><?php echo __('Order Summary',true); ?></h1>
-<?php echo $this->Element('cart_checkout/cart_table_summary', array(
-	'hide_checkout' => true
-)); ?>
+<div id="order_summary_container">
+	<br />
+	<hr />
+	<h1><?php echo __('Order Summary',true); ?></h1>
+	<?php echo $this->Element('cart_checkout/cart_table_summary', array(
+		'hide_checkout' => true
+	)); ?>
+</div>
 
 <?php //echo $this->Element('cart_checkout/billing_address_summary'); ?>	
 <?php echo $this->Element('cart_checkout/shipping_address_summary'); ?>	

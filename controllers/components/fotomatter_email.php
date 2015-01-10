@@ -101,9 +101,9 @@ class FotomatterEmailComponent extends Object {
 		$modified_hash = openssl_digest($change_password_user['User']['modified'].FORGOT_PASSWORD_SALT, 'sha512');
 		$user_id = $change_password_user['User']['id'];
 		if ($change_password_user['User']['admin'] == 1) {
-			$return_link = "http://$site_domain.fotomatter.net/users/change_admin_password/$user_id/$modified_hash/"; 
+			$return_link = "https://$site_domain.fotomatter.net/users/change_admin_password/$user_id/$modified_hash/"; 
 		} else {
-			$return_link = "http://$site_domain.fotomatter.net/ecommerces/change_fe_password/$user_id/$modified_hash/"; 
+			$return_link = "https://$site_domain.fotomatter.net/ecommerces/change_fe_password/$user_id/$modified_hash/"; 
 		}
 		
 		$controller->set(compact('modified_hash', 'user_id', 'return_link'));

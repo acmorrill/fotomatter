@@ -17,9 +17,6 @@
 		<?php echo $this->Theme->get_theme_dynamic_background_style($theme_config); ?>
 	</head>
 	<body>
-		<?php //$this->log($photo_sellable_prints, 'photo_sellable_prints'); ?>
-		
-		
 		<?php echo $this->Element('nameTitle'); ?>
 		
 		<div id="largePhotoPos" style="width: 892px">
