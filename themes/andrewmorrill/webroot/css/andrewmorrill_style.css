@@ -125,7 +125,8 @@ a {
   position: relative;
   text-transform: lowercase;
 }
-#main_nav ul li.hover span.extra {
+#main_nav ul li.hover span.extra,
+#main_nav ul li.last_hover span.extra {
   position: absolute;
   top: 0px;
   right: -19px;
@@ -257,30 +258,33 @@ div#zoomWidget img {
   -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#444444')";
   filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4,Direction=135,Color='#444444');
 }
-#mainImage {
+#main_image_outer {
+  min-height: 438px;
+  background: rgba(123,131,141,0.3);
+  position: relative;
+}
+#main_image_outer .photo_page_nav {
+  position: absolute;
+  top: 444px;
+  z-index: 200;
+}
+#main_image_outer .photo_page_nav.prev_image {
+  left: -47px;
+}
+#main_image_outer .photo_page_nav.next_image {
+  right: -47px;
+}
+#main_image_outer #mainImage {
   border: 10px solid white;
+  outline: 1px solid #e0e0e0;
   display: inline-block;
   vertical-align: middle;
   position: relative;
   background-color: #E6E6E6;
 }
-#mainImage img {
+#main_image_outer #mainImage img {
   display: inline-block;
   vertical-align: middle;
-}
-#mainImage .photo_page_nav {
-  position: absolute;
-  top: 436px;
-  z-index: 200;
-}
-#mainImage .photo_page_nav.is_pano {
-  top: 197px;
-}
-#mainImage .photo_page_nav.prev_image {
-  left: -47px;
-}
-#mainImage .photo_page_nav.next_image {
-  right: -47px;
 }
 h1#imageHoverText {
   position: absolute;
@@ -325,7 +329,7 @@ span.printsAvailable {
 }
 .photoTitle {
   text-transform: uppercase;
-  padding: 8px 0px 3px 0px;
+  padding: 12px 0px 3px 0px;
 }
 .pageOptionBox {
   width: 600px;
@@ -341,22 +345,23 @@ span.printsAvailable {
 #print_types_heading {
   padding-bottom: 0px;
 }
-#add_to_cart_buttons_cont {
-  margin-left: 20px;
-}
 #add_to_cart_buttons_cont select {
   margin-right: 15px;
 }
 #add_to_cart_buttons_cont button {
   cursor: pointer;
 }
+#add_to_cart_buttons_cont #add_to_cart_buttons_inner_cont {
+  margin-left: 20px;
+}
 #photo_bread_crumbs {
   position: absolute;
-  bottom: -33px;
-  right: -10px;
+  top: -33px;
+  right: 5px;
+  color: #ffffff;
 }
 #photo_bread_crumbs a {
-  color: #252525;
+  color: #ffffff;
 }
 #photo_bread_crumbs a:hover {
   color: #d12e19;
@@ -528,7 +533,8 @@ div.dropDownBoxContent {
 .galleryContent table {
   margin-top: 4px;
 }
-#portfolioThumb {
+.portfolioThumb {
+  display: none;
   position: absolute;
   top: 35px;
   left: 178px;
@@ -680,4 +686,34 @@ td.priceAndDiscountCode.price {
   left: 843px;
   width: 24px;
   height: 591px;
+}
+.submit_button {
+  cursor: pointer;
+  height: 30px;
+  border: 1px solid black;
+  display: inline-block;
+  vertical-align: top;
+  background-color: #ffffff;
+}
+.submit_button .content {
+  display: inline-block;
+  vertical-align: top;
+  line-height: 30px;
+  font-size: 14px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+.submit_button:hover {
+  background-color: ;
+  color: #ffffff;
+}
+.submit_button.final_checkout_button {
+  height: 35px;
+}
+.submit_button.final_checkout_button .content {
+  line-height: 35px;
+  font-size: 16px;
+  margin-left: 20px;
+  margin-right: 20px;
+  font-weight: bold;
 }

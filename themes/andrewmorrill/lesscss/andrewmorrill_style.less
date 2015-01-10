@@ -117,7 +117,7 @@ img, div, a { behavior: url(../iepngfix.htc) }
 	position: relative;
 	text-transform: lowercase;
 }
-#main_nav ul li.hover span.extra {
+#main_nav ul li.hover span.extra, #main_nav ul li.last_hover span.extra {
 	position: absolute;
 	top: 0px;
 	right: -19px;
@@ -278,30 +278,29 @@ div#zoomWidget img {
 }
 
 /* ===================== Photo Page ========================================== */
-#mainImage {
-	border: 10px solid white;
-	display: inline-block;
-	vertical-align: middle;
+#main_image_outer {
+	min-height: 438px;
+	background: rgba(123, 131, 141, .3);
 	position: relative;
-	background-color: #E6E6E6;
-}
-#mainImage img {
-	display: inline-block;
-	vertical-align: middle;
-}
-#mainImage .photo_page_nav {
-	position: absolute;
-	top: 436px;
-	z-index: 200;
-}
-#mainImage .photo_page_nav.is_pano {
-	top: 197px;
-}
-#mainImage .photo_page_nav.prev_image {
-	left: -47px;
-}
-#mainImage .photo_page_nav.next_image {
-	right: -47px;
+	.photo_page_nav {
+		position: absolute;
+		top: 444px;
+		z-index: 200;
+		&.prev_image { left: -47px; }
+		&.next_image { right: -47px; }
+	}
+	#mainImage {
+		border: 10px solid white;
+		outline: 1px solid #e0e0e0;
+		display: inline-block;
+		vertical-align: middle;
+		position: relative;
+		background-color: #E6E6E6;
+		img {
+			display: inline-block;
+			vertical-align: middle;
+		}
+	}
 }
 h1#imageHoverText {
 	position: absolute;
@@ -353,7 +352,7 @@ span.printsAvailable {
 
 .photoTitle {
 	text-transform: uppercase;
-	padding: 8px 0px 3px 0px;
+	padding: 12px 0px 3px 0px;
 }
 
 .pageOptionBox {
@@ -373,18 +372,21 @@ span.printsAvailable {
 	padding-bottom: 0px;
 }
 #add_to_cart_buttons_cont {
-	margin-left: 20px;
 	select {
 		margin-right: 15px;
 	}
 	button { cursor: pointer; }
+	#add_to_cart_buttons_inner_cont {
+		margin-left: 20px;
+	}
 }
 #photo_bread_crumbs {
 	position: absolute;
-	bottom: -33px;
-	right: -10px;
+	top: -33px;
+	right: 5px;
+	color: #ffffff; 
 	a { 
-		color: #252525; 
+		color: #ffffff; 
 		&:hover { color: #d12e19; }
 	}
 }
@@ -568,7 +570,8 @@ div.dropDownBoxContent {
 .galleryContent table {
 	margin-top: 4px;
 }
-#portfolioThumb {
+.portfolioThumb {
+	display: none;
 	position: absolute;
 	top: 35px;
 	left: 178px;

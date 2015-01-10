@@ -101,8 +101,8 @@ $theme_config = array(
 				'padding' => array(
 					'left' => 0,
 					'top' => 0,
-					'right' => 137,
-					'bottom' => 54
+					'right' => 179,
+					'bottom' => 260
 				)
 			),
 			'default_space' => array(

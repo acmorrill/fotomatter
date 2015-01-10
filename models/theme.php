@@ -23,8 +23,12 @@ class Theme extends AppModel {
 	}
 	
 	
-	public function get_dynamic_photo_size($small, $medium, $large) {
+	public function get_dynamic_photo_size($small, $medium, $large, $format) {
 		$current_size = 'small';
+		if ($format == 'panoramic' || $format == 'vertical_panoramic') {
+			$current_size = 'medium';
+		}
+		
 		if (isset($_COOKIE['frontend_photo_size'])) {
 			$current_size = $_COOKIE['frontend_photo_size'];
 		}

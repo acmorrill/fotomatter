@@ -54,11 +54,29 @@ if (!isset($hide_current)) {
 								if (!file_exists($small_image_abs_path)) {
 									$small_image_web_path = $small_default_web_path;
 								}
+								
+								$theme_image_cache_apc_key = $small_image_abs_path;
+								if (apc_exists($theme_image_cache_apc_key)) {
+									$image_data = apc_fetch($theme_image_cache_apc_key);
+								} else {
+									$image_data = array();
+									$image_data['image_width'] = 400;
+									$image_data['image_height'] = 250;
+									$image_data['image_attr'] = 'width="400" height="250"';
+									if (file_exists($small_image_abs_path)) {
+										list($image_width, $image_height, $image_type, $image_attr) = @getimagesize($small_image_abs_path);
+										$image_data = array();
+										$image_data['image_width'] = $image_width;
+										$image_data['image_height'] = $image_height;
+										$image_data['image_attr'] = $image_attr;
+										apc_store($theme_image_cache_apc_key, $image_data, 604800); // 1 week
+									}
+								}
 							?>								
 							<div class="screenshot_container">
-								<div class="screenshot_inner_container">
-									<a href="<?php echo $large_image_web_path; ?>" class="screenshot_zoom" title="<?php echo $curr_theme['Theme']['display_name']; ?>" rel="gal1">
-										<img src="<?php echo $small_image_web_path; ?>" title="<?php echo $curr_theme['Theme']['ref_name']; ?>" alt="" />
+								<div class="screenshot_inner_container" style="width: <?php echo $image_data['image_width']; ?>px; height: <?php echo $image_data['image_height']; ?>px;">
+									<a style="width: <?php echo $image_data['image_width']; ?>px; height: <?php echo $image_data['image_height']; ?>px;" target="<?php echo $large_image_web_path; ?>" href="<?php echo $large_image_web_path; ?>" title="<?php echo $curr_theme['Theme']['display_name']; ?>">
+										<img <?php echo $image_data['image_attr']; ?> src="<?php echo $small_image_web_path; ?>" title="<?php echo $curr_theme['Theme']['display_name']; ?>" alt="" />
 									</a>
 									<div style="clear: both;"></div>
 								</div>

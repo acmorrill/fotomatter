@@ -64,8 +64,8 @@ class PhotoGallery extends AppModel {
             }
             
             
-            if (!empty($photo_gallery_photos[0]['PhotoGalleriesPhoto']['id'])) {
-                return $photo_gallery_photos[0]['PhotoGalleriesPhoto']['id'];
+            if (!empty($photo_gallery_photos[0]['PhotoGalleriesPhoto']['photo_id'])) {
+                return $photo_gallery_photos[0]['PhotoGalleriesPhoto']['photo_id'];
             } else {
                 return $this->Photo->get_first_photo_id();
             }

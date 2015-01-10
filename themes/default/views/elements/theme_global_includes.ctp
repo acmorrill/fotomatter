@@ -84,9 +84,11 @@
 		// code for the menu hover
 		jQuery('#main_nav li.main_menu_item').mouseover(function() {
 			jQuery('#main_nav li.main_menu_item').removeClass('hover');
+			jQuery('#main_nav li.main_menu_item').removeClass('last_hover');
 			jQuery(this).addClass('hover');
 		}).mouseout(function() {
 			jQuery('#main_nav li.main_menu_item').removeClass('hover');
+			jQuery(this).addClass('last_hover');
 		});
 		
 		
