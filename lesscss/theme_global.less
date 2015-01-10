@@ -8,6 +8,9 @@
 @boxshadow_button: rgba(0,0,0,0.2);
 @button_hover: rgba(40,40,40,0.7);
 
+@error_red: #FF4336;
+@tab2_on_color: #2ac0de;
+@warning_tan: #E88A35;
 
 
 // libraries
@@ -80,47 +83,110 @@
 
 /*======================== Shopping cart ========================*/
 
-/*#billing_address_container, #shipping_address_container, #create_account, #final_payment_info, #billing_address_summary, #shipping_address_summary {
-	margin-top: 30px;
-	outline: 1px solid black;
-	padding: 20px;
+
+// Global flash message styles
+@flash_font_size: 14px;
+.flashMessage {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	vertical-align: top;
+	padding-left: 15px;
+	i {
+		vertical-align: top;
+		font-size: @flash_font_size;
+		line-height: @flash_font_size;
+	}
+	span {
+		vertical-align: top;
+		margin: 0 0 0 8px;
+		max-width: 82%;
+		display: inline-block;
+		line-height: 20px;
+	}
+	&.error i { color: @error_red; }
+	&.success i { color: @tab2_on_color; }
+	&.warning i { color: @warning_tan; }
+}
+
+
+// Global checkout_login_or_guest page
+#checkout_as_guest_button {
+	cursor: pointer;
+	margin-top: 20px;
+}
+#login_container, #billing_address_container, #shipping_address_container, #create_account, #final_payment_info, #billing_address_summary, #shipping_address_summary {
+	hr { margin-bottom: 20px; margin-top: 20px; }
+	h1 {
+		margin-top: 0px;
+		padding: 0px;
+		font-size: 20px;
+		margin-bottom: 20px;
+	}
+	.flashMessage { padding-left: 130px; }
+	margin-top: 20px;
+	input, button, select {
+		min-width: 200px;
+		height: 20px;
+	}
+	select {
+		height: 25px;
+	}
 	label {
 		display: inline-block;
 		vertical-align: top;
-		width: 100px;
+		width: 140px;
 		text-align: right;
 		margin-right: 10px;
+		line-height: 22px;
 	}
-	.input, .select {
-		margin-bottom: 10px;
+	.input, .select { margin-bottom: 15px; }
+	.submit, .step_1 { padding-left: 153px; margin-top: 20px; }
+	.submit { 
+		margin-bottom: 20px; 
+		> input { cursor: pointer; } 
 	}
-	.state {
-		display: none;
-	}
-	outline: 1px solid black;
-	padding: 20px;
-	label {
-		display: inline-block;
-		vertical-align: top;
-		width: 100px;
-		text-align: right;
-		margin-right: 10px;
-	}
-	.input, .select {
-		margin-bottom: 10px;
-	}
-	.state {
-		display: none;
+	.state { display: none; }
+	#forgot_your_password_container .input { margin-bottom: 25px; }
+	margin-bottom: 80px;
+}
+#create_account, #final_payment_info {
+	.card_expiration select {
+		min-width: 0px;
 	}
 }
-.no_label {
-	margin-top: 20px;
-	float: right;
-}*/
+#create_account { margin-bottom: 0px; }
+#shipping_address_container {
+	.shipping_data_cont {
+		margin-bottom: 50px;
+	}
+}
+
+
+// global submit button 
+.submit_button {
+	cursor: pointer;
+	height: 30px;
+	border: 1px solid black;
+	display: inline-block;
+	vertical-align: top;
+	background-color: #ffffff;
+	.content {
+		display: inline-block;
+		vertical-align: top;
+		line-height: 30px;
+		font-size: 14px;
+		margin-left: 15px;
+		margin-right: 15px;
+	}
+	&:hover {
+		background-color: @black;
+		color: #ffffff;
+	}
+}
 
 
 
-
+// Global shopping cart page
 #cart_table {
 	width: 100%;
 	margin-top: 20px;
@@ -166,17 +232,9 @@
 		line-height: 25px;
 		td {
 			padding-top: 10px;
-		}
-		button {
-			display: inline-block;
-			.box-sizing(content-box);
-			cursor: pointer;
-			padding: 10px 20px;
-			color: @button_color;
-			-o-text-overflow: clip;
-			text-overflow: clip;
-			//background: @button_bg;
-			box-shadow: 2px 2px 2px 0 @boxshadow_button;
+			.submit_button {
+				margin-top: 15px;
+			}
 		}
 	}
 }

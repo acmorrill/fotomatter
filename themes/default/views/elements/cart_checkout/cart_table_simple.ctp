@@ -1,25 +1,8 @@
 <?php $cart_items = $this->Cart->get_cart_items(); ?>
 
-<?php //debug($cart_items); ?>
+	<?php //debug($cart_items); ?>
 
-	<script type="text/javascript">
-		jQuery(document).ready(function() {
-			jQuery('#standard_checkout_button').click(function(e) {
-				jQuery('#standard_checkout_form').submit();
-			});
-			
-			jQuery('#update_cart_button').click(function(e) {
-				jQuery('#update_cart_form .update_cart_hidden_field').remove();
-				jQuery('#cart_table tbody tr').each(function() {
-					var cart_item_key = jQuery(this).attr('data-cart_item_key');
-					var cart_item_qty = jQuery('.qty input', this).val();
-					jQuery('#update_cart_form').prepend('<input class="update_cart_hidden_field" type="hidden" value="' + cart_item_qty + '" name="data[cart_items][' + cart_item_key + ']" />');
-				});
-				jQuery('#update_cart_form').submit();
-			});
-		});
-	</script>
-
+	<?php echo $this->Session->flash(); ?>
 
 	<table id="cart_table">
 		<thead>
@@ -59,8 +42,9 @@
 			<tr>
 				<td colspan="2" style="text-align: left; vertical-align: top;">
 					<?php if (!empty($cart_items)): ?>
-						<form id="update_cart_form" action="/ecommerces/update_cart_qty" method="post"></form>
-						<button id="update_cart_button"><?php echo __('Update', true); ?></button>
+						<form id="update_cart_button_form" action="/ecommerces/update_cart_qty" method="post">
+							<div id="update_cart_button" class="submit_button"><span class='content'><?php echo __('Update', true); ?></span><span class='extra'></span></div>
+						</form>
 					<?php endif; ?>
 				</td>
 				<td colspan="4" style="text-align: right;">
@@ -70,8 +54,9 @@
 
 					<?php if (!empty($cart_items)): ?>
 						<?php if (!isset($hide_checkout) || $hide_checkout !== true): ?>
-							<form id="standard_checkout_form" action="/ecommerces/checkout_login_or_guest" method="post"></form>
-							<button id="standard_checkout_button"><?php echo __('Checkout', true); ?></button>
+							<form id="standard_checkout_button_form" action="/ecommerces/checkout_login_or_guest" method="post">
+								<div id="standard_checkout_button" class="frontend_form_submit_button submit_button"><span class='content'><?php echo __('Checkout', true); ?></span><span class='extra'></span></div>
+							</form>
 						<?php endif; ?>
 					<?php endif; ?>
 				</td>

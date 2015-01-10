@@ -191,6 +191,224 @@
 #footer_tagline .footer_tagline_container_outer .footer_tagline_container_inner .powered_by a .fotomatter_logo {
   height: 30px;
 }
+.flashMessage {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  vertical-align: top;
+  padding-left: 15px;
+}
+.flashMessage i {
+  vertical-align: top;
+  font-size: 14px;
+  line-height: 14px;
+}
+.flashMessage span {
+  vertical-align: top;
+  margin: 0 0 0 8px;
+  max-width: 82%;
+  display: inline-block;
+  line-height: 20px;
+}
+.flashMessage.error i {
+  color: #FF4336;
+}
+.flashMessage.success i {
+  color: #2ac0de;
+}
+.flashMessage.warning i {
+  color: #E88A35;
+}
+#checkout_as_guest_button {
+  cursor: pointer;
+  margin-top: 20px;
+}
+#login_container,
+#billing_address_container,
+#shipping_address_container,
+#create_account,
+#final_payment_info,
+#billing_address_summary,
+#shipping_address_summary {
+  margin-top: 20px;
+  margin-bottom: 80px;
+}
+#login_container hr,
+#billing_address_container hr,
+#shipping_address_container hr,
+#create_account hr,
+#final_payment_info hr,
+#billing_address_summary hr,
+#shipping_address_summary hr {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+#login_container h1,
+#billing_address_container h1,
+#shipping_address_container h1,
+#create_account h1,
+#final_payment_info h1,
+#billing_address_summary h1,
+#shipping_address_summary h1 {
+  margin-top: 0px;
+  padding: 0px;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+#login_container .flashMessage,
+#billing_address_container .flashMessage,
+#shipping_address_container .flashMessage,
+#create_account .flashMessage,
+#final_payment_info .flashMessage,
+#billing_address_summary .flashMessage,
+#shipping_address_summary .flashMessage {
+  padding-left: 130px;
+}
+#login_container input,
+#login_container button,
+#login_container select,
+#billing_address_container input,
+#billing_address_container button,
+#billing_address_container select,
+#shipping_address_container input,
+#shipping_address_container button,
+#shipping_address_container select,
+#create_account input,
+#create_account button,
+#create_account select,
+#final_payment_info input,
+#final_payment_info button,
+#final_payment_info select,
+#billing_address_summary input,
+#billing_address_summary button,
+#billing_address_summary select,
+#shipping_address_summary input,
+#shipping_address_summary button,
+#shipping_address_summary select {
+  min-width: 200px;
+  height: 20px;
+}
+#login_container select,
+#billing_address_container select,
+#shipping_address_container select,
+#create_account select,
+#final_payment_info select,
+#billing_address_summary select,
+#shipping_address_summary select {
+  height: 25px;
+}
+#login_container label,
+#billing_address_container label,
+#shipping_address_container label,
+#create_account label,
+#final_payment_info label,
+#billing_address_summary label,
+#shipping_address_summary label {
+  display: inline-block;
+  vertical-align: top;
+  width: 140px;
+  text-align: right;
+  margin-right: 10px;
+  line-height: 22px;
+}
+#login_container .input,
+#login_container .select,
+#billing_address_container .input,
+#billing_address_container .select,
+#shipping_address_container .input,
+#shipping_address_container .select,
+#create_account .input,
+#create_account .select,
+#final_payment_info .input,
+#final_payment_info .select,
+#billing_address_summary .input,
+#billing_address_summary .select,
+#shipping_address_summary .input,
+#shipping_address_summary .select {
+  margin-bottom: 15px;
+}
+#login_container .submit,
+#login_container .step_1,
+#billing_address_container .submit,
+#billing_address_container .step_1,
+#shipping_address_container .submit,
+#shipping_address_container .step_1,
+#create_account .submit,
+#create_account .step_1,
+#final_payment_info .submit,
+#final_payment_info .step_1,
+#billing_address_summary .submit,
+#billing_address_summary .step_1,
+#shipping_address_summary .submit,
+#shipping_address_summary .step_1 {
+  padding-left: 153px;
+  margin-top: 20px;
+}
+#login_container .submit,
+#billing_address_container .submit,
+#shipping_address_container .submit,
+#create_account .submit,
+#final_payment_info .submit,
+#billing_address_summary .submit,
+#shipping_address_summary .submit {
+  margin-bottom: 20px;
+}
+#login_container .submit > input,
+#billing_address_container .submit > input,
+#shipping_address_container .submit > input,
+#create_account .submit > input,
+#final_payment_info .submit > input,
+#billing_address_summary .submit > input,
+#shipping_address_summary .submit > input {
+  cursor: pointer;
+}
+#login_container .state,
+#billing_address_container .state,
+#shipping_address_container .state,
+#create_account .state,
+#final_payment_info .state,
+#billing_address_summary .state,
+#shipping_address_summary .state {
+  display: none;
+}
+#login_container #forgot_your_password_container .input,
+#billing_address_container #forgot_your_password_container .input,
+#shipping_address_container #forgot_your_password_container .input,
+#create_account #forgot_your_password_container .input,
+#final_payment_info #forgot_your_password_container .input,
+#billing_address_summary #forgot_your_password_container .input,
+#shipping_address_summary #forgot_your_password_container .input {
+  margin-bottom: 25px;
+}
+#create_account .card_expiration select,
+#final_payment_info .card_expiration select {
+  min-width: 0px;
+}
+#create_account {
+  margin-bottom: 0px;
+}
+#shipping_address_container .shipping_data_cont {
+  margin-bottom: 50px;
+}
+.submit_button {
+  cursor: pointer;
+  height: 30px;
+  border: 1px solid black;
+  display: inline-block;
+  vertical-align: top;
+  background-color: #ffffff;
+}
+.submit_button .content {
+  display: inline-block;
+  vertical-align: top;
+  line-height: 30px;
+  font-size: 14px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+.submit_button:hover {
+  background-color: #000000;
+  color: #ffffff;
+}
 #cart_table {
   width: 100%;
   margin-top: 20px;
@@ -242,12 +460,6 @@
 #cart_table tfoot td {
   padding-top: 10px;
 }
-#cart_table tfoot button {
-  display: inline-block;
-  cursor: pointer;
-  padding: 10px 20px;
-  color: #000000;
-  -o-text-overflow: clip;
-  text-overflow: clip;
-  box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2);
+#cart_table tfoot td .submit_button {
+  margin-top: 15px;
 }
