@@ -120,13 +120,11 @@ class AccountDomain extends AppModel {
 	}
 	
 	public function get_current_primary_domain() {
-		$this->log('came here 1', 'primary_domain_redirect');
 		if (apc_exists($this->primary_domain_apc_key)) {
 			return apc_fetch($this->primary_domain_apc_key);
 		}
 		
 		$end_of_day_today = date('Y-m-d H:i:s', strtotime('23:59:59'));
-		$this->log('came here 2', 'primary_domain_redirect');
 		$primary_domain = $this->find('first', array(
 			'conditions' => array(
 				'AccountDomain.expires >' => $end_of_day_today,
@@ -136,7 +134,6 @@ class AccountDomain extends AppModel {
 			'contain' => false,
 		));
 		if (empty($primary_domain['AccountDomain']['url'])) {
-			$this->log('came here 3', 'primary_domain_redirect');
 			$primary_domain = $this->find('first', array(
 				'conditions' => array(
 					'AccountDomain.is_primary' => 1,
@@ -147,12 +144,10 @@ class AccountDomain extends AppModel {
 		}
 		$result = false;
 		if (!empty($primary_domain['AccountDomain']['url'])) {
-			$this->log('came here 4', 'primary_domain_redirect');
 			$result = $primary_domain['AccountDomain']['url'];
 		}
 		
 		if ($result === false) { // if no primary domain return the build domain
-			$this->log('came here 5', 'primary_domain_redirect');
 			$this->SiteSetting = ClassRegistry::init('SiteSetting');
 			$site_domain = $this->SiteSetting->getVal('site_domain');
 			$result = "$site_domain.fotomatter.net";

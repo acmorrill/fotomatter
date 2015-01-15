@@ -45,7 +45,7 @@ class AppController extends Controller {
 		
 		//////////////////////////////////////////////////////
 		// stuff todo just in the admin
-		$in_admin = isset($this->params['admin']) && $this->params['admin'] == 1;
+		$in_admin = $this->startsWith($_SERVER['REQUEST_URI'], '/admin');
 		if ($in_admin) {
 			$this->AccountDomain->invalidate_and_clear_view_cache();
 		}
@@ -129,8 +129,8 @@ class AppController extends Controller {
 		// 3) if don't need to redirect to ssl
 		$current_primary_domain = $this->AccountDomain->get_current_primary_domain();
 		$http_host = $_SERVER["HTTP_HOST"];
-		$not_on_welcome_site = $this->not_on_welcome_site;
-		$this->log(compact('current_primary_domain', 'http_host', 'not_on_welcome_site', 'redirect_to_ssl'), 'primary_domain_redirect');
+//		$not_on_welcome_site = $this->not_on_welcome_site;
+//		$this->log(compact('current_primary_domain', 'http_host', 'not_on_welcome_site', 'redirect_to_ssl'), 'primary_domain_redirect');
 		if ($this->not_on_welcome_site && Configure::read('debug') == 0 && !$redirect_to_ssl && $http_host != $current_primary_domain) {
 			$this->redirect("http://$current_primary_domain");
 			exit();
