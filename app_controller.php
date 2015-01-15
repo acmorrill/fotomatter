@@ -113,11 +113,13 @@ class AppController extends Controller {
 		if ($this->startsWith($_SERVER['REQUEST_URI'], '/ecommerces') && !$this->startsWith($_SERVER['REQUEST_URI'], '/ecommerces/view_cart') && !$this->startsWith($_SERVER['REQUEST_URI'], '/ecommerces/add_to_cart')) {
 			$in_checkout = true;
 		}
+		$system_url = "$site_domain.fotomatter.net";
+		$on_system_site = $_SERVER['HTTP_HOST'] === $system_url;
 		$redirect_to_ssl = $in_admin || $in_checkout;
 		$server = $_SERVER;
 		$debug = Configure::read('debug');
-		$this->log(compact('in_admin', 'in_checkout', 'redirect_to_ssl', 'server', 'debug'), 'ssl_redirect');
-		if (empty($_SERVER['HTTPS']) && Configure::read('debug') == 0 && $redirect_to_ssl) {
+		$this->log(compact('in_admin', 'in_checkout', 'redirect_to_ssl', 'server', 'debug', 'on_system_site'), 'ssl_redirect');
+		if ( (empty($_SERVER['HTTPS']) || !$on_system_site) && Configure::read('debug') == 0 && $redirect_to_ssl) {
 			$this->log('came here 1', 'ssl_redirect');
 			$this->redirect("https://$site_domain.fotomatter.net{$_SERVER['REQUEST_URI']}");
 			exit();
