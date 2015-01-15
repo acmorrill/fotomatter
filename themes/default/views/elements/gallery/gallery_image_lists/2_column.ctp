@@ -7,7 +7,7 @@
 			<?php $curr_photo = $photos[$index]; ?>
 			<td>
 				<div class="galleries">
-					<?php $photoUrl = "/photos/view_photo/{$curr_photo['Photo']['id']}/gid:$gallery_id/"; ?>
+					<?php $photoUrl = "/photos/view_photo/{$curr_photo['Photo']['id']}/gid:$gallery_id"; ?>
 					<span class="gallery_image_outer_cont">
 						<a class="gallery_image_a_link" href="<?php echo $photoUrl; ?>">
 							<?php // DREW TODO (DONE) - make the below icons look better - ie tweek the convert function for these icons to look better ?>

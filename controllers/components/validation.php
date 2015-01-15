@@ -9,6 +9,17 @@ class ValidationComponent extends Object {
 	public function validate($type, $data, $value, $flash_message) {
       
 		switch($type) {
+			case 'is_decimal_percent':
+				if (empty($data[$value])) {
+					throw new Exception($flash_message);
+					return;
+				}
+				$float_val = floatval($data[$value]);
+				if ($float_val <= 0 || $float_val >= 1) {
+					throw new Exception($flash_message);
+					return;
+				}
+				break;
 			case 'not_empty':
 				if (empty($data[$value])) {
 					throw new Exception($flash_message);

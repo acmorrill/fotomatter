@@ -585,11 +585,11 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			'total' => $this->Cart->get_cart_total(),
 			'foreign_model' => 'User',
 			'foreign_key' => 0,
-//			'tax' => array( // DREW TODO - add tax here when we have tax
-//				'amount' => '',
-//				'name' => '',
-//				'description' => '',
-//			),
+			'tax' => array(
+				'amount' => $this->Cart->get_cart_tax(),
+				'name' => 'Sales Tax',
+				'description' => 'The calculated sales tax',
+			),
 			'shipping' => array(
 				'amount' => $this->Cart->get_cart_shipping_total(),
 				'name' => '',
@@ -650,11 +650,11 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 //						)
 //					)
 //				),
-//				'tax' => array(
-//					'amount' => '4.26',
-//					'name' => 'level2 tax name',
-//					'description' => 'level2 tax',
-//				),
+				'tax' => array(
+					'amount' => $this->Cart->get_cart_tax(),
+					'name' => 'Sales Tax',
+					'description' => 'The calculated sales tax',
+				),
 //				'duty' => array(
 //					'amount' => '8.55',
 //					'name' => 'duty name',
@@ -865,18 +865,18 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			// DREW TODO - put in major error here
 			return false;
 		}
-
+		
 
 		$order = array(
 			'authnet_profile_id' => $authnet_profile_id,
 			'total' => $this->Cart->get_cart_total(),
 			'foreign_model' => 'User',
 			'foreign_key' => $profile['AuthnetProfile']['user_id'],
-//			'tax' => array( // DREW TODO - add tax here when we have tax
-//				'amount' => '',
-//				'name' => '',
-//				'description' => '',
-//			),
+			'tax' => array(
+				'amount' => $this->Cart->get_cart_tax(),
+				'name' => 'Sales Tax',
+				'description' => 'The calculated sales tax',
+			),
 			'shipping' => array(
 				'amount' => $this->Cart->get_cart_shipping_total(),
 				'name' => '',

@@ -455,6 +455,29 @@
   margin-right: 20px;
   font-weight: bold;
 }
+#add_to_cart_buttons_cont select {
+  margin-right: 7px;
+  margin-left: 7px;
+  height: 34px;
+  font-size: 14px;
+}
+#add_to_cart_buttons_cont button {
+  cursor: pointer;
+}
+#add_to_cart_buttons_cont #add_to_cart_buttons_inner_cont {
+  margin-left: 20px;
+}
+#add_to_cart_buttons_cont #add_to_cart_buttons_inner_cont h1 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+#add_to_cart_buttons_cont #add_to_cart_buttons_inner_cont h2 {
+  font-size: 18px;
+}
+#add_to_cart_buttons_cont #add_to_cart_buttons_inner_cont form,
+#add_to_cart_buttons_cont #add_to_cart_buttons_inner_cont h2 {
+  margin-left: 15px;
+}
 #cart_table {
   margin-bottom: 120px;
   width: 100%;

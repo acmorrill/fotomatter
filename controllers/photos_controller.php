@@ -3,7 +3,7 @@
 class PhotosController extends AppController {
 
 	public $name = 'Photos';
-	public $uses = array(/* 'OldPhoto', */'Photo', 'SiteSetting', 'PhotoFormat', 'SiteSetting', 'PhotoGalleriesPhoto', 'PhotoGallery', 'PhotosTag', 'Tag', 'PhotoAvailSizesPhotoPrintType', 'PhotoSellablePrint');
+	public $uses = array(/* 'OldPhoto', */'Photo', 'SiteSetting', 'PhotoFormat', 'SiteSetting', 'PhotoGalleriesPhoto', 'PhotoGallery', 'PhotosTag', 'Tag', 'PhotoAvailSizesPhotoPrintType', 'PhotoSellablePrint', 'Theme');
 	public $helpers = array('Menu', 'Photo', 'Gallery');
 	public $components = array('Upload', "ImageVersion", "Gd", "CloudFiles");
 	public $paginate = array(
@@ -84,6 +84,7 @@ class PhotosController extends AppController {
 		}
 
 
+		
 		// what gallery are we currently in
 		$gallery_id = isset($this->params['named']['gid']) ? $this->params['named']['gid'] : '';
 		$conditions = array();
@@ -98,7 +99,7 @@ class PhotosController extends AppController {
 		if (empty($curr_photo['Photo']['display_title'])) {
 			$curr_photo['Photo']['display_title'] = "Untitled";
 		}
-		$this->set(compact('curr_photo', 'curr_gallery', 'photo_sellable_prints', 'photo_id'));
+		$this->set(compact('curr_photo', 'curr_gallery', 'photo_sellable_prints', 'photo_id', 'dynamic_photo_size'));
 		$this->ThemeRenderer->render($this);
 	}
 

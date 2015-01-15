@@ -3561,37 +3561,47 @@ fieldset input[type="checkbox"] {
 .disabled * {
   cursor: text !important;
 }
-.fotomatter_form .input {
+.fotomatter_form .input,
+.fotomatter_form .select {
   font-family: Code-Pro-LC;
   font-weight: normal;
   font-style: normal;
   margin-top: 30px;
   margin-bottom: 30px;
 }
-.fotomatter_form .input > label {
+.fotomatter_form .input > label,
+.fotomatter_form .select > label {
   color: #7d888e;
   font-size: 20px;
   display: block;
   margin-bottom: 15px;
 }
-.fotomatter_form .input > input {
+.fotomatter_form .input > input,
+.fotomatter_form .select > input {
   width: 250px;
   display: inline-block;
   vertical-align: top;
   margin-right: 30px;
 }
-.fotomatter_form .input > input[type=checkbox] {
+.fotomatter_form .input > input[type=checkbox],
+.fotomatter_form .select > input[type=checkbox] {
   width: 20px;
 }
-.fotomatter_form .input > textarea {
+.fotomatter_form .input > textarea,
+.fotomatter_form .select > textarea {
   width: 250px;
 }
-.fotomatter_form .input.date > select {
+.fotomatter_form .input.date > select,
+.fotomatter_form .select.date > select {
   margin-right: 10px;
 }
-.fotomatter_form .input > span {
+.fotomatter_form .input > span,
+.fotomatter_form .select > span {
   line-height: 40px;
   margin-right: 30px;
+}
+.fotomatter_form .select.state {
+  display: none;
 }
 .fotomatter_form.short .input {
   margin-top: 0px;

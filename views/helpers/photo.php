@@ -134,6 +134,7 @@ class PhotoHelper extends AppHelper {
 						'controller' => 'photos',
 						'action' => 'view_photo',
 						'gid' => $gallery_id,
+//						'ps' => $dynamic_photo_size,
 						$prev_gallery_photo['PhotoGalleriesPhoto']['photo_id']
 			));
 		}

@@ -37,6 +37,11 @@ class SiteSetting extends AppModel {
 		return trim($imageContainerUrl, '/').'/';
 	}
 	
+	public function clearVal($name) {
+		apc_delete($this->get_apc_key($name));
+		$this->query("DELETE FROM site_settings WHERE name = '$name'");
+	}
+	
 	public function getVal ($name, $default = false) {
 		// check if the setting is stored in apc
 		$apc_key = $this->get_apc_key($name);

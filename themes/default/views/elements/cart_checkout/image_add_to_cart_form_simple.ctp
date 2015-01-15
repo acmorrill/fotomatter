@@ -24,6 +24,12 @@
 				<!--			<input type="hidden" name="data[Photo][price]" value="<?php //echo $print_type_sizes['price']; ?>" />
 							<input type="hidden" name="data[Photo][shipping_price]" value="<?php //echo $print_type_sizes['shipping_price']; ?>" />
 							<input type="hidden" name="data[Photo][long_side_inches]" value="<?php //echo $print_type_sizes['long_side_feet_inches']; ?>" />-->
+							<select name='data[qty]'>
+								<?php for ($i = 1; $i < 1000; $i++): ?>
+									<option value='<?php echo $i; ?>'><?php echo $i; ?></option>
+								<?php endfor; ?>
+							</select>
+							<span>x</span>
 							<select name="data[Photo][short_side_inches]">
 								<?php foreach ($print_type_sizes['items'] as $print_type_size): ?>
 									<option value="<?php echo $print_type_size['short_side_inches']; ?>"><?php echo $print_type_size['short_side_inches']; ?> x <?php echo $print_type_size['long_side_feet_inches']; ?> --- <?php echo $this->Number->currency($print_type_size['price']); ?></option>  

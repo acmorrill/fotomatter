@@ -54,7 +54,8 @@
 											$curr_gallery_href = $this->Html->url(array(    
 												'controller' => 'photo_galleries',    
 												'action' => 'view_gallery',    
-												$curr_gallery['PhotoGallery']['id']
+//												'ps' => $dynamic_photo_size,
+												$curr_gallery['PhotoGallery']['id'],
 											));
 										}
 									?>
@@ -62,11 +63,14 @@
 										> <a href='<?php echo $curr_gallery_href; ?>'><?php echo strtolower($curr_gallery['PhotoGallery']['display_name']); ?></a>
 									<?php endif; ?>
 								</div>
-								<div id='sizing_tools' class='sizing_tools'>
-									<div class='sizing_button small <?php if ($dynamic_photo_sizes['current_size'] == 'small'): ?> active <?php endif; ?>'><span>S</span></div>
-									<div class='sizing_button medium <?php if ($dynamic_photo_sizes['current_size'] == 'medium'): ?> active <?php endif; ?>'><span>M</span></div>
-									<div class='sizing_button large <?php if ($dynamic_photo_sizes['current_size'] == 'large'): ?> active <?php endif; ?>'><span>L</span></div>
-								</div>
+								<?php /*<div id='sizing_tools' class='sizing_tools'>
+									<?php $small_photo_size_url = $this->Html->url(array('controller' => 'photos', 'action' => 'view_photo', 'gid' => $curr_gallery['PhotoGallery']['id'], 'ps' => 'small', $curr_photo['Photo']['id'])); ?>
+									<?php $medium_photo_size_url = $this->Html->url(array('controller' => 'photos', 'action' => 'view_photo', 'gid' => $curr_gallery['PhotoGallery']['id'], 'ps' => 'medium', $curr_photo['Photo']['id'])); ?>
+									<?php $large_photo_size_url = $this->Html->url(array('controller' => 'photos', 'action' => 'view_photo', 'gid' => $curr_gallery['PhotoGallery']['id'], 'ps' => 'large', $curr_photo['Photo']['id'])); ?>
+									<div class='sizing_button small <?php if ($dynamic_photo_sizes['current_size'] == 'small'): ?> active <?php endif; ?>' data-photo_url='<?php echo $small_photo_size_url; ?>'><span>S</span></div>
+									<div class='sizing_button medium <?php if ($dynamic_photo_sizes['current_size'] == 'medium'): ?> active <?php endif; ?>' data-photo_url='<?php echo $medium_photo_size_url; ?>'><span>M</span></div>
+									<div class='sizing_button large <?php if ($dynamic_photo_sizes['current_size'] == 'large'): ?> active <?php endif; ?>' data-photo_url='<?php echo $large_photo_size_url; ?>'><span>L</span></div>
+								</div>*/ ?>
 							</div>
 						</td>
 					</tr>

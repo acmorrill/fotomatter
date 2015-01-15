@@ -38,7 +38,36 @@ class EcommercesController extends AppController {
 	}
 	
 	public function admin_index() {
-
+		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+		if (!empty($this->data)) {
+			try {
+				if (!empty($this->data['site_country_id'])) {
+					$this->SiteSetting->setVal('site_country_id', $this->data['site_country_id']);
+				} else {
+					$this->SiteSetting->clearVal('site_country_id');
+				}
+				if (!empty($this->data['site_state_id'])) {
+					$this->SiteSetting->setVal('site_state_id', $this->data['site_state_id']);
+				} else {
+					$this->SiteSetting->clearVal('site_state_id');
+				}
+				if (!empty($this->data['site_sales_tax_percentage'])) {
+					$this->Validation->validate('is_decimal_percent', $this->data, 'site_sales_tax_percentage', 'The sales tax must be a decimal value between 0 and 1. For example - 6% would be .06');
+					
+					$this->SiteSetting->setVal('site_sales_tax_percentage', $this->data['site_sales_tax_percentage']);
+				} else {
+					$this->SiteSetting->clearVal('site_sales_tax_percentage');
+				}
+			} catch (Exception $e) {
+				$this->Session->setFlash($e->getMessage(), 'admin/flashMessage/error');
+				return;
+			}
+		}
+		
+		
+		$this->data['site_country_id'] = $this->SiteSetting->getVal('site_country_id', false);
+		$this->data['site_state_id'] = $this->SiteSetting->getVal('site_state_id', false);
+		$this->data['site_sales_tax_percentage'] = $this->SiteSetting->getVal('site_sales_tax_percentage', false);
 	}
 	
 	
@@ -527,11 +556,16 @@ class EcommercesController extends AppController {
 			// DREW TODO - add in the price to the calculation
 			// validate the price againts the print type and size
 			
+			
+			$qty = 1;
+			if (!empty($this->data['qty'])) {
+				$qty = $this->data['qty'];
+			}
 		// end validation
 		
 			
 			
-		$this->Cart->add_to_cart($photo_id, $photo_print_type_id, $short_side_inches);
+		$this->Cart->add_to_cart($photo_id, $photo_print_type_id, $short_side_inches, $qty);
 		if (empty($this->data['redirect_url'])) {
 			$this->redirect('/ecommerces/view_cart/');
 		} else {
@@ -650,9 +684,9 @@ class EcommercesController extends AppController {
 		
 		$logged_in = $this->is_logged_in_frontend();
 		if ($logged_in) {
-//			if ($no_addresses) { // DREW TODO
-//				redirect to collect address
-//			}
+			if (!$this->Cart->has_cart_shipping_address_data()) {
+				$this->redirect('/ecommerces/checkout_get_address/');
+			}
 			
 			$this->redirect('/ecommerces/checkout_finalize_payment');
 		}
@@ -877,6 +911,8 @@ class EcommercesController extends AppController {
 					return;
 				}
 				
+				// this means that the purchase was a success so we need to empty the cart now
+				$this->Cart->destroy_cart();
 				$this->redirect('/ecommerces/checkout_thankyou');
 			} else {
 				$authnet_data = array();
@@ -919,7 +955,8 @@ class EcommercesController extends AppController {
 					return;
 				} 
 				
-				
+				// this means that the purchase was a success so we need to empty the cart now
+				$this->Cart->destroy_cart();
 				$this->redirect('/ecommerces/checkout_thankyou');
 			}
 		}
@@ -952,15 +989,19 @@ class EcommercesController extends AppController {
 	
 	
 	public function checkout_thankyou() {
+		// this means that the purchase was a success so we need to empty the cart now
+		$this->Cart->destroy_cart();
+		
 		$this->ThemeRenderer->render($this);
 	}
 	
 	
-	public function get_available_states_for_country_options($country_id, $state_id = null) {
+	public function get_available_states_for_country_options($country_id, $state_id = '') {
 		$state_option_html = '';
 		$data = array();
 		$this->GlobalCountryState = ClassRegistry::init('GlobalCountryState');
 
+		// NOTE: this call is APC cached so no need to cache the below
 		$states = $this->GlobalCountryState->get_states_by_country($country_id);
 
 		$data['count'] = count($states);

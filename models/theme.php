@@ -22,16 +22,27 @@ class Theme extends AppModel {
 		return '';
 	}
 	
-	
-	public function get_dynamic_photo_size($small, $medium, $large, $format) {
+	public function get_default_photo_size($format) {
 		$current_size = 'small';
 		if ($format == 'panoramic' || $format == 'vertical_panoramic') {
 			$current_size = 'medium';
 		}
 		
+		return $current_size;
+	}
+	
+	public function get_dynamic_photo_cookie_value($format) {
+		$current_size = $this->get_default_photo_size($format);
+		
 		if (isset($_COOKIE['frontend_photo_size'])) {
 			$current_size = $_COOKIE['frontend_photo_size'];
 		}
+		
+		return $current_size;
+	}
+	
+	public function get_dynamic_photo_size($small, $medium, $large, $format) {
+		$current_size = $this->get_default_photo_size($format);
 		if ($current_size == 'small') {
 			$photo_size = $small;
 		} else if ($current_size == 'medium') {

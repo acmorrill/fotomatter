@@ -117,6 +117,7 @@ class PhotoGalleriesController extends AppController {
 			$photos = $this->paginate('PhotoGalleriesPhoto');    
 		}
 		
+		
 		// add in photo format using best performance
 		$this->Photo->add_photo_format($photos);
 		

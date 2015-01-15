@@ -48,7 +48,7 @@ class Cart extends AppModel {
 	}
 	
 	
-	public function add_to_cart($photo_id, $photo_print_type_id, $short_side_inches) {
+	public function add_to_cart($photo_id, $photo_print_type_id, $short_side_inches, $qty = 1) {
 		$this->Session = $this->get_session();
 		
 //		$this->Session->delete('Cart'); // DREW TODO - remove this
@@ -80,9 +80,9 @@ class Cart extends AppModel {
 //			$this->log($this->Session->read('Cart'), 'cart_error');
 		}
 		if (isset($cart_items[$key])) {
-			$cart_items[$key]['qty'] += 1;
+			$cart_items[$key]['qty'] += $qty;
 		} else {
-			$cart_items[$key]['qty'] = 1;
+			$cart_items[$key]['qty'] = $qty;
 		}
 		$cart_items[$key]['photo_id'] = $photo_id;
 		$cart_items[$key]['photo_print_type_id'] = $photo_print_type_id;
@@ -145,8 +145,10 @@ class Cart extends AppModel {
 		}
 		
 		$total = 0;
-		$total += $this->get_cart_subtotal($cart_items);
+		$subtotal = $this->get_cart_subtotal($cart_items);
+		$total += $subtotal;
 		$total += $this->get_cart_shipping_total($cart_items);
+		$total += $this->get_cart_tax($subtotal, $cart_items);
 		
 		return $total;
 	}
@@ -160,6 +162,41 @@ class Cart extends AppModel {
 		$total += $this->get_cart_items_total($cart_items);
 		
 		return $total;
+	}
+	
+	public function get_cart_tax($subtotal = null, $cart_items = null) {
+		if (!isset($cart_items)) {
+			$cart_items = $this->get_cart_items();
+		}
+		
+		$tax = 0;
+		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+		$site_country_id = $this->SiteSetting->getVal('site_country_id', false);
+		$site_state_id = $this->SiteSetting->getVal('site_state_id', false);
+		$site_sales_tax_percentage = $this->SiteSetting->getVal('site_sales_tax_percentage', false);
+		if (!empty($site_country_id) && !empty($site_state_id) && !empty($site_sales_tax_percentage)) {
+			// grab shipping address data
+			$address_data = $this->get_cart_shipping_address();
+			
+			if (isset($address_data['country_id']) && isset($address_data['state_id'])) {
+				/////////////////////////////////////////////////////////////////////////////////
+				//	if in USA -- DREW TODO - maybe upgrade later for other countries
+				//	AND site country is same as shipping country
+				//	AND site state is same as shipping state
+				//	AND site_sales_tax_percentage is between 0 and 1
+				//	THEN charge tax based on the subtotal
+				//---------------------------------------------------------
+				if ($site_country_id == 223 && $site_country_id == $address_data['country_id'] && $site_state_id == $address_data['state_id'] && $site_sales_tax_percentage > 0 && $site_sales_tax_percentage < 1) {
+					if (empty($subtotal)) {
+						$subtotal = $this->get_cart_subtotal();
+					}
+					$tax = round($subtotal * $site_sales_tax_percentage, 2);
+				}
+			}
+			
+		}
+		
+		return $tax;
 	}
 	
 	public function get_cart_shipping_total($cart_items = null) {
@@ -419,6 +456,12 @@ class Cart extends AppModel {
 		} else {
 			return false;
 		}
+	}
+	
+	public function destroy_cart() {
+		$this->Session = $this->get_session();
+		
+		$this->Session->delete('Cart');
 	}
 	
 }

@@ -14,14 +14,14 @@
 		// address page javascript
 		function country_select_reset(context, country_id, first_load) {
 			if (country_id !== 'empty_option') {
-				var state_cont = jQuery(context).closest('.address_cont').find('.state');
+				var state_cont = jQuery(context).closest('form').find('.state');
 				var state_select = jQuery('.state_select', state_cont);
 				var url = '/ecommerces/get_available_states_for_country_options/'+country_id+'/';
 				if (first_load) {
 					var start_state_id = state_select.attr('first_load_id');
 					url += start_state_id;
 				} 
-				
+
 				jQuery.ajax({
 					type: 'post',
 					url: url,
@@ -36,12 +36,12 @@
 						}
 					},
 					complete: function() {
-//						console.log ("complete");
+	//						console.log ("complete");
 					},
 					error: function(jqXHR, textStatus, errorThrown) {
-//						console.log ("error");
-//						console.log (textStatus);
-//						console.log (errorThrown);
+	//						console.log ("error");
+	//						console.log (textStatus);
+	//						console.log (errorThrown);
 					},
 					dataType: 'json'
 				});
@@ -50,24 +50,16 @@
 		jQuery('.country_select').each(function() {
 			var context = this;
 			var country_id = jQuery(context).val();
-			
+
 			country_select_reset(context, country_id, true);
 		});
 		jQuery('.country_select').change(function() {
 			var context = this;
 			var country_id = jQuery(context).val();
-			
+
 			country_select_reset(context, country_id, false);
 		});
 		//------------------------------------------------------
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		// setup the update cart code
 		jQuery('#update_cart_button').click(function(e) {
@@ -107,12 +99,16 @@
 				current_size = 'large';
 			}
 			
-			jQuery.cookie("frontend_photo_size", current_size, {
-			   expires : 30,
-			   path    : '/photos/view_photo',
-			});
 			
-			document.location.reload();
+			jQuery.removeCookie("frontend_photo_size");
+			jQuery.cookie("frontend_photo_size", current_size, {
+				expires : 30,
+				path    : '/photos/view_photo'
+			});
+
+			var new_location = jQuery(this).attr('data-photo_url');
+
+			document.location.href = new_location;
 		});
 		
 		jQuery('.frontend_form_submit_button').click(function() {

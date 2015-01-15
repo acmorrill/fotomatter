@@ -22,7 +22,7 @@ class GlobalCountryState extends AppModel {
 				'contain' => false,
 			));
                         
-			apc_store($apc_key, $states, 60*60*24*7); // store for one week
+			apc_store($apc_key, $states, 2419200); // store for one month
 		}
 		
 		return $states;
