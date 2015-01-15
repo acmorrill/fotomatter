@@ -61,7 +61,7 @@ class AccountDomain extends AppModel {
 		$account_domains = $this->find('all', array(
 			'conditions' => array(
 				'AccountDomain.expires <=' => $three_months_from_now,
-				'AccountDomain.type !=' => 'system',
+				'AccountDomain.type' => 'purchased',
 			),
 			'contain' => false,
 		));
@@ -129,9 +129,19 @@ class AccountDomain extends AppModel {
 			'conditions' => array(
 				'AccountDomain.expires >' => $end_of_day_today,
 				'AccountDomain.is_primary' => 1,
+				'AccountDomain.type' => 'purchased',
 			),
 			'contain' => false,
 		));
+		if (empty($primary_domain['AccountDomain']['url'])) {
+			$primary_domain = $this->find('first', array(
+				'conditions' => array(
+					'AccountDomain.is_primary' => 1,
+					'AccountDomain.type !=' => 'purchased',
+				),
+				'contain' => false,
+			));
+		}
 		$result = false;
 		if (!empty($primary_domain['AccountDomain']['url'])) {
 			$result = $primary_domain['AccountDomain']['url'];
