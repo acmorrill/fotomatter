@@ -59,7 +59,9 @@
 			</div>
 			<hr />
 			<h1><?php echo __('Payment Info', true); ?> (<a id="edit_payment_data" style="cursor: pointer;">edit</a>)</h1>
-			<span>Your card ending in <?php echo $Payment['last_four']; ?> will be charged</span> <?php echo $this->Number->currency($this->Cart->get_cart_total()); ?><br />
+			<?php if (!empty($Payment['last_four'])): ?>
+				<span>Your card ending in <?php echo $Payment['last_four']; ?> will be charged</span> <?php echo $this->Number->currency($this->Cart->get_cart_total()); ?><br />
+			<?php endif; ?>
 			<?php if (!empty($billing_address['firstname'])): ?><span><?php echo $billing_address['firstname']; ?></span><?php endif; ?> <?php if (!empty($billing_address['lastname'])): ?><span><?php echo $billing_address['lastname']; ?></span><?php endif; ?><br />
 			<?php if (!empty($billing_address['address1'])): ?><span><?php echo $billing_address['address1']; ?></span><br /><?php endif; ?>
 			<?php if (!empty($billing_address['address2'])): ?><span><?php echo $billing_address['address2']; ?></span><br /><?php endif; ?>

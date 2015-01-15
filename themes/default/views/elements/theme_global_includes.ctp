@@ -13,7 +13,7 @@
 		///////////////////////////////////////////////////////
 		// address page javascript
 		function country_select_reset(context, country_id, first_load) {
-			if (country_id !== 'empty_option') {
+			if (country_id !== '') {
 				var state_cont = jQuery(context).closest('form').find('.state');
 				var state_select = jQuery('.state_select', state_cont);
 				var url = '/ecommerces/get_available_states_for_country_options/'+country_id+'/';
