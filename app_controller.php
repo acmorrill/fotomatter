@@ -114,7 +114,11 @@ class AppController extends Controller {
 			$in_checkout = true;
 		}
 		$redirect_to_ssl = $in_admin || $in_checkout;
+		$server = $_SERVER;
+		$debug = Configure::read('debug');
+		$this->log(compact('in_admin', 'in_checkout', 'redirect_to_ssl', 'server', 'debug'), 'ssl_redirect');
 		if (empty($_SERVER['HTTPS']) && Configure::read('debug') == 0 && $redirect_to_ssl) {
+			$this->log('came here 1', 'ssl_redirect');
 			$this->redirect("https://$site_domain.fotomatter.net{$_SERVER['REQUEST_URI']}");
 			exit();
 		}
