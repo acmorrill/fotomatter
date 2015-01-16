@@ -39,6 +39,8 @@ class AppController extends Controller {
 	 */
 	function beforeFilter() {
 		global $in_no_redirect_url;
+		global $in_checkout;
+		global $in_admin;
 		
 		$this->AccountDomain = ClassRegistry::init('AccountDomain');
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
@@ -48,7 +50,6 @@ class AppController extends Controller {
 		
 		//////////////////////////////////////////////////////
 		// stuff todo just in the admin
-		$in_admin = $this->startsWith($_SERVER['REQUEST_URI'], '/admin');
 		if ($in_admin) {
 			$this->AccountDomain->invalidate_and_clear_view_cache();
 		}
@@ -112,10 +113,6 @@ class AppController extends Controller {
 		
 		//////////////////////////////////////////////////////////////////////
 		// redirect to ssl if need be
-		$in_checkout = false;
-		if ($this->startsWith($_SERVER['REQUEST_URI'], '/ecommerces') && !$this->startsWith($_SERVER['REQUEST_URI'], '/ecommerces/view_cart') && !$this->startsWith($_SERVER['REQUEST_URI'], '/ecommerces/add_to_cart')) {
-			$in_checkout = true;
-		}
 		$system_url = "$site_domain.fotomatter.net";
 		$on_system_site = $_SERVER['HTTP_HOST'] === $system_url;
 		$redirect_to_ssl = $in_admin || $in_checkout;

@@ -54,8 +54,6 @@
 					<?php $cart_tax = $this->Cart->get_cart_tax(); ?>
 					<?php if (!empty($cart_tax)): ?>
 						<label>Tax</label> <span class='price_summary_item'><?php echo $this->Number->currency($cart_tax); ?></span><br />
-					<?php else: ?>
-						<label>Tax (* at checkout)</label> <span class='price_summary_item'>*</span><br />
 					<?php endif; ?>
 					<label class='cart_total'>Total</label> <span class='price_summary_item cart_total'><?php echo $this->Number->currency($this->Cart->get_cart_total()); ?></span><br />
 					<?php if (!empty($cart_items)): ?>

@@ -103,19 +103,56 @@ function get_primary_domain() {
 
 
 
+
+
 $root_path = ROOT;
-$no_redirect_urls = array(
-	'/ecommerces/check_frontend_cart' => true,
-);
+$GLOBALS['in_checkout'] = false;
 $GLOBALS['in_no_redirect_url'] = false;
-foreach ($no_redirect_urls as $url => $foo) {
-	if (startsWith($_SERVER['REQUEST_URI'], $url)) {
-		$GLOBALS['in_no_redirect_url'] = true;
-		break;
-	}
-}
-//!startsWith($_SERVER['REQUEST_URI'], '/ecommerces/check_frontend_cart')
+$GLOBALS['in_admin'] = false;
 if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'db')) {
+	// figure out if we are in the admin
+	$GLOBALS['in_admin'] = startsWith($_SERVER['REQUEST_URI'], '/admin');
+	
+	
+	//////////////////////////////////////////////////////////////////
+	// figure out if url is in checkout
+	//-----------------------------------------------
+	$not_checkout_urls = array(
+		'/ecommerces/view_cart' => true,
+		'/ecommerces/add_to_cart' => true,
+		'/ecommerces/update_cart_qty' => true,
+		'/ecommerces/remove_cart_item_by_index' => true,
+	);
+	$url_not_in_checkout = false;
+	foreach ($not_checkout_urls as $url => $foo) {
+		if (startsWith($_SERVER['REQUEST_URI'], $url)) {
+			$url_not_in_checkout = true;
+			break;
+		}
+	}
+	if (startsWith($_SERVER['REQUEST_URI'], '/ecommerces') && $url_not_in_checkout === false) {
+		$GLOBALS['in_checkout'] = true;
+	}
+	//-----------------------------------------------
+
+
+
+	//////////////////////////////////////////////////////////////////
+	// figure out if no redirects should happen
+	//-----------------------------------------------
+	$no_redirect_urls = array(
+		'/ecommerces/check_frontend_cart' => true,
+	);
+	foreach ($no_redirect_urls as $url => $foo) {
+		if (startsWith($_SERVER['REQUEST_URI'], $url)) {
+			$GLOBALS['in_no_redirect_url'] = true;
+			break;
+		}
+	}
+	//-----------------------------------------------
+	
+	
+	
 	///////////////////////////////////////////////////////////////
 	// if on the welcome site we need to adjust the paths
 	$WELCOME_SITE_URL = WELCOME_SITE_URL;
@@ -147,12 +184,7 @@ if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'd
 		// 1) not already on primary or on https
 		// 2) primary is not expired (if is purchased type domain)
 		// 3) if don't need to redirect to ssl
-		$in_checkout = false;
-		if (startsWith($_SERVER['REQUEST_URI'], '/ecommerces') && !startsWith($_SERVER['REQUEST_URI'], '/ecommerces/view_cart') && !startsWith($_SERVER['REQUEST_URI'], '/ecommerces/add_to_cart')) {
-			$in_checkout = true;
-		}
-		$in_admin = startsWith($_SERVER['REQUEST_URI'], '/admin');
-		$redirect_to_ssl = $in_admin || $in_checkout;
+		$redirect_to_ssl = $GLOBALS['in_admin'] || $GLOBALS['in_checkout'];
 		$current_primary_domain = get_primary_domain();
 		$http_host = $_SERVER["HTTP_HOST"];
 		if (!$GLOBALS['in_no_redirect_url'] && !$on_welcome_site && Configure::read('debug') == 0 && !$redirect_to_ssl && ($http_host != $current_primary_domain || !empty($_SERVER['HTTPS'])) ) {
