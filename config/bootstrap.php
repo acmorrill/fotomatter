@@ -144,7 +144,7 @@ if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'd
 		$redirect_to_ssl = $in_admin || $in_checkout;
 		$current_primary_domain = get_primary_domain();
 		$http_host = $_SERVER["HTTP_HOST"];
-		if (!$on_welcome_site && Configure::read('debug') == 0 && !$redirect_to_ssl && ($http_host != $current_primary_domain || !empty($_SERVER['HTTPS']))) {
+		if (!$on_welcome_site && Configure::read('debug') == 0 && !$redirect_to_ssl && ($http_host != $current_primary_domain || !empty($_SERVER['HTTPS'])) ) {
 			header("Location: http://$current_primary_domain{$_SERVER['REQUEST_URI']}");
 			die();
 		}
