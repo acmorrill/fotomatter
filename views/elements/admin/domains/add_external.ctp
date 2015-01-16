@@ -17,8 +17,8 @@
 			<ol>
 				<li>Change the dns nameservers for {{external_domain}} to:
 					<ul>
-						<li>ns1.fotomatter.net</li>
-						<li>ns2.fotomatter.net</li>
+						<li>dns1.stabletransit.com</li>
+						<li>dns1.stabletransit.com</li>
 					</ul>
 					This is usually done through the registar's domain settings (ie godaddy.com, name.com etc).
 				</li>
