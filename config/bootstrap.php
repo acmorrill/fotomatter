@@ -44,10 +44,69 @@ a * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.o
 
 require('welcome_db.php');
 
-///////////////////////////////////////////////////////////////
-// if on the welcome site we need to adjust the paths
+
+function get_primary_domain() {
+	// grab the account_id
+	$local_db = get_local_db_handle(false);
+	
+	$primary_domain_apc_key = 'primary_domain_'.$_SERVER['local']['database'];
+	if (apc_exists($primary_domain_apc_key)) {
+		return apc_fetch($primary_domain_apc_key);
+	}
+
+	
+	$end_of_day_today = date('Y-m-d H:i:s', strtotime('23:59:59'));
+	$sql = "
+		SELECT url FROM account_domains AS AccountDomain
+		WHERE
+			(
+				AccountDomain.type = 'purchased'
+				AND
+				AccountDomain.is_primary = '1'
+				AND
+				AccountDomain.expires > '$end_of_day_today'
+			)
+			OR
+			(
+				AccountDomain.type != 'purchased'
+				AND
+				AccountDomain.is_primary = '1'
+			)
+		LIMIT 1
+	";
+	$result = mysql_query($sql, $local_db);
+	$primary_domain_arr = mysql_fetch_array($result);
+	$primary_domain = '';
+	if (!empty($primary_domain_arr['url'])) {
+		$primary_domain = $primary_domain_arr['url'];
+	}
+	
+	if (empty($primary_domain)) {
+		// so need to grab the system domain
+		$sql = "
+			SELECT value FROM site_settings
+			WHERE name = 'site_domain'
+		";
+		$result = mysql_query($sql, $local_db);
+		$site_domain = mysql_result($result, 0);
+		if (!empty($site_domain)) {
+			$primary_domain = "$site_domain.fotomatter.net";
+		}
+	}
+	
+	apc_store($primary_domain_apc_key, $primary_domain, 28800); // 8 hours
+
+	return $result;
+}
+
+
+
+
+
 $root_path = ROOT;
 if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'db')) {
+	///////////////////////////////////////////////////////////////
+	// if on the welcome site we need to adjust the paths
 	$WELCOME_SITE_URL = WELCOME_SITE_URL;
 	if (empty($WELCOME_SITE_URL)) {
 		$WELCOME_SITE_URL = 'welcome.fotomatter.net';
@@ -66,6 +125,29 @@ if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'd
 			$root_path = "/var/www/accounts/$account_id";
 		}
 	}
+	
+	
+	
+	//////////////////////////////////////////////////////////////////
+	// check to see if we need to redirect to primary domain
+	//----------------------------------------------
+		//////////////////////////////////////////////////////////////////////////
+		// redirect to primary domain if:
+		// 1) not already on primary or on https
+		// 2) primary is not expired (if is purchased type domain)
+		// 3) if don't need to redirect to ssl
+		$in_checkout = false;
+		if (startsWith($_SERVER['REQUEST_URI'], '/ecommerces') && !startsWith($_SERVER['REQUEST_URI'], '/ecommerces/view_cart') && !startsWith($_SERVER['REQUEST_URI'], '/ecommerces/add_to_cart')) {
+			$in_checkout = true;
+		}
+		$in_admin = startsWith($_SERVER['REQUEST_URI'], '/admin');
+		$redirect_to_ssl = $in_admin || $in_checkout;
+		$current_primary_domain = get_primary_domain();
+		$http_host = $_SERVER["HTTP_HOST"];
+		if (!$on_welcome_site && Configure::read('debug') == 0 && !$redirect_to_ssl && ($http_host != $current_primary_domain || !empty($_SERVER['HTTPS'])) ) {
+			header("Location: http://$current_primary_domain{$_SERVER['REQUEST_URI']}");
+			die();
+		}
 }
 
 

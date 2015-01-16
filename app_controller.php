@@ -113,34 +113,19 @@ class AppController extends Controller {
 		if ($this->startsWith($_SERVER['REQUEST_URI'], '/ecommerces') && !$this->startsWith($_SERVER['REQUEST_URI'], '/ecommerces/view_cart') && !$this->startsWith($_SERVER['REQUEST_URI'], '/ecommerces/add_to_cart')) {
 			$in_checkout = true;
 		}
+		$system_url = "$site_domain.fotomatter.net";
+		$on_system_site = $_SERVER['HTTP_HOST'] === $system_url;
 		$redirect_to_ssl = $in_admin || $in_checkout;
-		$server = $_SERVER;
-		$debug = Configure::read('debug');
-		$this->log(compact('in_admin', 'in_checkout', 'redirect_to_ssl', 'server', 'debug'), 'ssl_redirect');
-		if (empty($_SERVER['HTTPS']) && Configure::read('debug') == 0 && $redirect_to_ssl) {
-			$this->log('came here 1', 'ssl_redirect');
+		if ( (empty($_SERVER['HTTPS']) || !$on_system_site) && Configure::read('debug') == 0 && $redirect_to_ssl) {
 			$this->redirect("https://$site_domain.fotomatter.net{$_SERVER['REQUEST_URI']}");
 			exit();
 		}
 		
 		
 		
-		
 		//////////////////////////////////////////////////////////////////////////
-		// redirect to primary domain if:
-		// 1) not already on primary
-		// 2) primary is not expired
-		// 3) if don't need to redirect to ssl
 		$current_primary_domain = $this->AccountDomain->get_current_primary_domain();
-		$http_host = $_SERVER["HTTP_HOST"];
-//		$not_on_welcome_site = $this->not_on_welcome_site;
-//		$this->log(compact('current_primary_domain', 'http_host', 'not_on_welcome_site', 'redirect_to_ssl'), 'primary_domain_redirect');
-		if ($this->not_on_welcome_site && Configure::read('debug') == 0 && !$redirect_to_ssl && $http_host != $current_primary_domain) {
-			$this->redirect("http://$current_primary_domain");
-			exit();
-		}
 		$this->set('current_primary_domain', $current_primary_domain);
-		
 		
 		
 		// stuff to do only on not cli
