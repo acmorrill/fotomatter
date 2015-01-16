@@ -123,20 +123,9 @@ class AppController extends Controller {
 		
 		
 		
-		
 		//////////////////////////////////////////////////////////////////////////
-		// redirect to primary domain if:
-		// 1) not already on primary
-		// 2) primary is not expired
-		// 3) if don't need to redirect to ssl
 		$current_primary_domain = $this->AccountDomain->get_current_primary_domain();
-		$http_host = $_SERVER["HTTP_HOST"];
-		if ($this->not_on_welcome_site && Configure::read('debug') == 0 && !$redirect_to_ssl && $http_host != $current_primary_domain) {
-			$this->redirect("http://$current_primary_domain{$_SERVER['REQUEST_URI']}");
-			exit();
-		}
 		$this->set('current_primary_domain', $current_primary_domain);
-		
 		
 		
 		// stuff to do only on not cli
