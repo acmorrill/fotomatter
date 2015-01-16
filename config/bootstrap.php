@@ -117,11 +117,11 @@ if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'd
 	
 	
 	// grab the http host without www
-	$prefix = 'www.';
 	$GLOBALS['http_host'] = $_SERVER["HTTP_HOST"];
-	if (substr($_SERVER["HTTP_HOST"], 0, strlen($prefix)) == $prefix) { 
-		$GLOBALS['http_host'] = substr($_SERVER["HTTP_HOST"], strlen($prefix)); 
-	}
+//	$prefix = 'www.';
+//	if (substr($_SERVER["HTTP_HOST"], 0, strlen($prefix)) == $prefix) { 
+//		$GLOBALS['http_host'] = substr($_SERVER["HTTP_HOST"], strlen($prefix)); 
+//	}
 
 	
 	// figure out if we are in the admin
@@ -200,11 +200,6 @@ if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'd
 		// 3) if don't need to redirect to ssl
 		$redirect_to_ssl = $GLOBALS['in_admin'] || $GLOBALS['in_checkout'];
 		if (!$GLOBALS['in_no_redirect_url'] && !$on_welcome_site && Configure::read('debug') == 0 && !$redirect_to_ssl && ($GLOBALS['http_host'] != $GLOBALS['current_primary_domain'] || !empty($_SERVER['HTTPS'])) ) {
-			print_r($on_welcome_site);
-			print_r(Configure::read('debug'));
-			print_r($GLOBALS);
-			print_r($_SERVER);
-			die('hey man');
 			header("Location: http://{$GLOBALS['current_primary_domain']}{$_SERVER['REQUEST_URI']}");
 			die();
 		}
