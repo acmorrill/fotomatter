@@ -48,6 +48,14 @@ class Cart extends AppModel {
 	}
 	
 	
+	public function override_cart($cart_data) {
+		$this->Session = $this->get_session();
+		if (isset($cart_data['items'])) {
+			$this->Session->write('Cart.items', $cart_data['items']);
+		}
+	}
+	
+	
 	public function add_to_cart($photo_id, $photo_print_type_id, $short_side_inches, $qty = 1) {
 		$this->Session = $this->get_session();
 		

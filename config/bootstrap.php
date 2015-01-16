@@ -137,7 +137,7 @@ if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'd
 		// 2) primary is not expired (if is purchased type domain)
 		// 3) if don't need to redirect to ssl
 		$in_checkout = false;
-		if (startsWith($_SERVER['REQUEST_URI'], '/ecommerces') && !startsWith($_SERVER['REQUEST_URI'], '/ecommerces/view_cart') && !startsWith($_SERVER['REQUEST_URI'], '/ecommerces/add_to_cart')) {
+		if (startsWith($_SERVER['REQUEST_URI'], '/ecommerces') && !startsWith($_SERVER['REQUEST_URI'], '/ecommerces/view_cart') && !startsWith($_SERVER['REQUEST_URI'], '/ecommerces/add_to_cart') && !startsWith($_SERVER['REQUEST_URI'], '/ecommerces/check_frontend_cart')) {
 			$in_checkout = true;
 		}
 		$in_admin = startsWith($_SERVER['REQUEST_URI'], '/admin');

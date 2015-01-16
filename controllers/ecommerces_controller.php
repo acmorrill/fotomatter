@@ -647,6 +647,12 @@ class EcommercesController extends AppController {
 	
 	
 	public function checkout_login_or_guest() {
+		if (isset($this->data['Cart'])) {
+			$restored_cart_data = unserialize(base64_decode($this->data['Cart']));
+			$this->Cart->override_cart($restored_cart_data);
+		}
+		
+		
 		if ($this->Cart->cart_empty()) {
 			 $this->cart_empty_redirect();
 		}
