@@ -96,7 +96,7 @@ function get_primary_domain() {
 	
 	apc_store($primary_domain_apc_key, $primary_domain, 28800); // 8 hours
 
-	return $result;
+	return $primary_domain;
 }
 
 
