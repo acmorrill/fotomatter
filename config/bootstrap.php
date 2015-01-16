@@ -110,7 +110,12 @@ $GLOBALS['in_checkout'] = false;
 $GLOBALS['in_no_redirect_url'] = false;
 $GLOBALS['in_admin'] = false;
 $GLOBALS['http_host'] = '';
+$GLOBALS['current_primary_domain'] = '';
 if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'db')) {
+	// get the current primary domain
+	$GLOBALS['current_primary_domain'] = get_primary_domain();
+	
+	
 	// grab the http host without www
 	$prefix = 'www.';
 	$GLOBALS['http_host'] = $_SERVER["HTTP_HOST"];
@@ -194,9 +199,13 @@ if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'd
 		// 2) primary is not expired (if is purchased type domain)
 		// 3) if don't need to redirect to ssl
 		$redirect_to_ssl = $GLOBALS['in_admin'] || $GLOBALS['in_checkout'];
-		$current_primary_domain = get_primary_domain();
-		if (!$GLOBALS['in_no_redirect_url'] && !$on_welcome_site && Configure::read('debug') == 0 && !$redirect_to_ssl && ($GLOBALS['http_host'] != $current_primary_domain || !empty($_SERVER['HTTPS'])) ) {
-			header("Location: http://$current_primary_domain{$_SERVER['REQUEST_URI']}");
+		if (!$GLOBALS['in_no_redirect_url'] && !$on_welcome_site && Configure::read('debug') == 0 && !$redirect_to_ssl && ($GLOBALS['http_host'] != $GLOBALS['current_primary_domain'] || !empty($_SERVER['HTTPS'])) ) {
+			print_r($on_welcome_site);
+			print_r(Configure::read('debug'));
+			print_r($GLOBALS);
+			print_r($_SERVER);
+			die('hey man');
+			header("Location: http://{$GLOBALS['current_primary_domain']}{$_SERVER['REQUEST_URI']}");
 			die();
 		}
 }

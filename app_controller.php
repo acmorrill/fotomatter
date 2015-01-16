@@ -38,10 +38,12 @@ class AppController extends Controller {
 	 * @access public
 	 */
 	function beforeFilter() {
+		// these vars are all defined in bootstrap (mostly because we need them even in view cache scenarios)
 		global $in_no_redirect_url;
 		global $in_checkout;
 		global $in_admin;
 		global $http_host;
+		global $current_primary_domain;
 		
 		$this->AccountDomain = ClassRegistry::init('AccountDomain');
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
@@ -126,7 +128,6 @@ class AppController extends Controller {
 		
 		
 		//////////////////////////////////////////////////////////////////////////
-		$current_primary_domain = $this->AccountDomain->get_current_primary_domain();
 		$this->set('current_primary_domain', $current_primary_domain);
 		
 		
