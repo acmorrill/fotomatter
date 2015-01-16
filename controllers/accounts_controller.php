@@ -21,13 +21,25 @@ class AccountsController extends AppController {
 			parent::beforeFilter();
 		}
 	}
-	
-	public function admin_test_email(){
-		$end_user_data ['contact_us_email']= 'giggerkent@gmail.com';
-		$end_user_data ['contact_us_name'] = 'kent boss';
-		$end_user_data ['contact_us_content'] = 'Hey I just want to slap you in the face. Hey I just want to slap you in the face. Hey I just want to slap you in the face. Hey I just want to slap you in the face.';
-		$this->FotomatterEmail->send_end_user_contact_us_email($this, $end_user_data);
-		die('who who sucka yes');
+//	
+//	public function admin_test_email(){
+//		$end_user_data ['contact_us_email']= 'giggerkent@gmail.com';
+//		$end_user_data ['contact_us_name'] = 'kent boss';
+//		$end_user_data ['contact_us_content'] = 'Hey I just want to slap you in the face.';
+//		$this->FotomatterEmail->send_end_user_contact_us_email($this, $end_user_data);
+//		die('who who sucka yes');
+//	}
+		public function admin_test_email(){
+		$change_password_user ['User']= 'giggerkent@gmail.com';
+		$change_password_user ['email_address'] = 'giggerkent@gmail.com';
+		$change_password_user ['return_link'] = 'fotomatter.net';
+		$change_password_user ['modified_hash'] = 'ppakdjf;alkjdpofjapodjfa';
+		$change_password_user ['modified'] = 'ooialkdf;lwe';
+		$change_password_user ['id'] = 'giggerkent@gmail.com';
+		$change_password_user ['admin'] = 'giggerkent@gmail.com';
+		$change_password_user ['admin'] = 'giggerkent@gmail.com';
+		$this->FotomatterEmail->send_forgot_password_email($this, $change_password_user);
+		die('sucka yes');
 	}
 	
 	
