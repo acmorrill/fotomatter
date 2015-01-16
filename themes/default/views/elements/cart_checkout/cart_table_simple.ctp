@@ -58,7 +58,7 @@
 					<label class='cart_total'>Total</label> <span class='price_summary_item cart_total'><?php echo $this->Number->currency($this->Cart->get_cart_total()); ?></span><br />
 					<?php if (!empty($cart_items)): ?>
 						<?php if (!isset($hide_checkout) || $hide_checkout !== true): ?>
-							<form id="standard_checkout_button_form" action="/ecommerces/checkout_login_or_guest" method="post">
+							<form id="standard_checkout_button_form" action="https://<?php echo $system_url; ?>/ecommerces/checkout_login_or_guest" method="post">
 								<?php if ($this->Session->check('Cart')): ?>
 									<input type='hidden' name='data[Cart]' value='<?php echo base64_encode(serialize($this->Session->read('Cart'))); ?>' />
 								<?php endif; ?>
