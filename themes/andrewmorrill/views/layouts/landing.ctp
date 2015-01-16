@@ -7,7 +7,7 @@
 		<?php echo $this->Element('theme_global_includes'); ?>
 		<link rel="stylesheet" type="text/css" href="/css/andrewmorrill_style.css" />
 		<link rel="stylesheet" type="text/css" href="/stylesheets/introBackground.css" />
-		<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+		<link href='//fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 		
 		<?php echo $this->Theme->get_theme_dynamic_background_style($theme_config); ?>
 	</head>

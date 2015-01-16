@@ -5,7 +5,7 @@
 <!--		<meta name="keywords" content="Andrew Morrill, photography, fine art, utah photography, utah photographer, National Park, Utah, California, Large Format">
 		<meta name="description" content="Large format landscape photography by Utah based photographer Andrew Morrill.">-->
 		<?php echo $this->Element('theme_global_includes'); ?>
-		<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+		<link href='//fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" type="text/css" href="/css/andrewmorrill_style.css" />
 		
 		<link rel="stylesheet" type="text/css" href="/stylesheets/contentReadableBackground.css" />

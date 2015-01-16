@@ -5,7 +5,7 @@
 <!--		<meta name="keywords" content="Andrew Morrill, online gallery, fine art, utah photography, utah photography, National Park, Utah, California, LDS temples, temple photography">
 		<meta name="description" content="The online gallery of Utah based photographer Andrew Morrill.">-->
 		<?php echo $this->Element('theme_global_includes'); ?>
-		<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+		<link href='//fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" type="text/css" href="/css/andrewmorrill_style.css" />
 		<link rel="stylesheet" type="text/css" href="/stylesheets/contentReadableBackground.css" />
 		<?php echo $this->Theme->get_theme_dynamic_background_style($theme_config); ?>
