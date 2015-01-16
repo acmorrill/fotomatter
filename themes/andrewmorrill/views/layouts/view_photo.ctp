@@ -46,6 +46,12 @@
 							<div id="mainImage">
 								<img src="<?php echo $img_src['url']; ?>" <?php echo $img_src['tag_attributes']; ?> alt="<?php echo $curr_photo['Photo']['alt_text']; ?>" />
 								<div id='photo_bread_crumbs'>
+									<span class='cart_link' style='display: none;'>
+										<a href="/ecommerces/view_cart">
+											<span class='cart_item_content'>cart</span>
+											<span class='extra'></span>
+										</a> >
+									</span>
 									<a href='/'>home</a> >
 									<a href='/photo_galleries/choose_gallery'>image galleries</a>
 									<?php 

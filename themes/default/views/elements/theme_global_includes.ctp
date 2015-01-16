@@ -125,6 +125,7 @@
 				var cart_link = jQuery('.cart_link');
 				if (data > 0) {
 					jQuery('span.cart_item_content', cart_link).text("cart (" + data + ")");
+					cart_link.show();
 				}
 			},
 			complete: function() {
