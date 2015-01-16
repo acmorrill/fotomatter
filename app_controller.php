@@ -38,10 +38,13 @@ class AppController extends Controller {
 	 * @access public
 	 */
 	function beforeFilter() {
+		global $in_no_redirect_url;
+		
 		$this->AccountDomain = ClassRegistry::init('AccountDomain');
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
 		$site_domain = $this->SiteSetting->getVal('site_domain');
 		$this->set('site_domain', $site_domain);
+		
 		
 		//////////////////////////////////////////////////////
 		// stuff todo just in the admin
@@ -116,7 +119,7 @@ class AppController extends Controller {
 		$system_url = "$site_domain.fotomatter.net";
 		$on_system_site = $_SERVER['HTTP_HOST'] === $system_url;
 		$redirect_to_ssl = $in_admin || $in_checkout;
-		if ( (empty($_SERVER['HTTPS']) || !$on_system_site) && Configure::read('debug') == 0 && $redirect_to_ssl) {
+		if (!$in_no_redirect_url && (empty($_SERVER['HTTPS']) || !$on_system_site) && Configure::read('debug') == 0 && $redirect_to_ssl) {
 			$this->redirect("https://$site_domain.fotomatter.net{$_SERVER['REQUEST_URI']}");
 			exit();
 		}

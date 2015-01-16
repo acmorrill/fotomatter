@@ -104,6 +104,17 @@ function get_primary_domain() {
 
 
 $root_path = ROOT;
+$no_redirect_urls = array(
+	'/ecommerces/check_frontend_cart' => true,
+);
+$GLOBALS['in_no_redirect_url'] = false;
+foreach ($no_redirect_urls as $url => $foo) {
+	if (startsWith($_SERVER['REQUEST_URI'], $url)) {
+		$GLOBALS['in_no_redirect_url'] = true;
+		break;
+	}
+}
+//!startsWith($_SERVER['REQUEST_URI'], '/ecommerces/check_frontend_cart')
 if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'db')) {
 	///////////////////////////////////////////////////////////////
 	// if on the welcome site we need to adjust the paths
@@ -137,14 +148,14 @@ if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'd
 		// 2) primary is not expired (if is purchased type domain)
 		// 3) if don't need to redirect to ssl
 		$in_checkout = false;
-		if (startsWith($_SERVER['REQUEST_URI'], '/ecommerces') && !startsWith($_SERVER['REQUEST_URI'], '/ecommerces/view_cart') && !startsWith($_SERVER['REQUEST_URI'], '/ecommerces/add_to_cart') && !startsWith($_SERVER['REQUEST_URI'], '/ecommerces/check_frontend_cart')) {
+		if (startsWith($_SERVER['REQUEST_URI'], '/ecommerces') && !startsWith($_SERVER['REQUEST_URI'], '/ecommerces/view_cart') && !startsWith($_SERVER['REQUEST_URI'], '/ecommerces/add_to_cart')) {
 			$in_checkout = true;
 		}
 		$in_admin = startsWith($_SERVER['REQUEST_URI'], '/admin');
 		$redirect_to_ssl = $in_admin || $in_checkout;
 		$current_primary_domain = get_primary_domain();
 		$http_host = $_SERVER["HTTP_HOST"];
-		if (!$on_welcome_site && Configure::read('debug') == 0 && !$redirect_to_ssl && ($http_host != $current_primary_domain || !empty($_SERVER['HTTPS'])) ) {
+		if (!$GLOBALS['in_no_redirect_url'] && !$on_welcome_site && Configure::read('debug') == 0 && !$redirect_to_ssl && ($http_host != $current_primary_domain || !empty($_SERVER['HTTPS'])) ) {
 			header("Location: http://$current_primary_domain{$_SERVER['REQUEST_URI']}");
 			die();
 		}
