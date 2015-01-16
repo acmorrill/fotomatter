@@ -109,7 +109,16 @@ $root_path = ROOT;
 $GLOBALS['in_checkout'] = false;
 $GLOBALS['in_no_redirect_url'] = false;
 $GLOBALS['in_admin'] = false;
+$GLOBALS['http_host'] = '';
 if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'db')) {
+	// grab the http host without www
+	$prefix = 'www.';
+	$GLOBALS['http_host'] = $_SERVER["HTTP_HOST"];
+	if (substr($_SERVER["HTTP_HOST"], 0, strlen($prefix)) == $prefix) { 
+		$GLOBALS['http_host'] = substr($_SERVER["HTTP_HOST"], strlen($prefix)); 
+	}
+
+	
 	// figure out if we are in the admin
 	$GLOBALS['in_admin'] = startsWith($_SERVER['REQUEST_URI'], '/admin');
 	
@@ -159,7 +168,7 @@ if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'd
 	if (empty($WELCOME_SITE_URL)) {
 		$WELCOME_SITE_URL = 'welcome.fotomatter.net';
 	}
-	$on_welcome_site = $_SERVER['HTTP_HOST'] === $WELCOME_SITE_URL;
+	$on_welcome_site = $GLOBALS['http_host'] === $WELCOME_SITE_URL;
 	if ($on_welcome_site === true) {
 		// grab the account_id
 		$local_db = get_local_db_handle(false);
@@ -186,8 +195,7 @@ if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'd
 		// 3) if don't need to redirect to ssl
 		$redirect_to_ssl = $GLOBALS['in_admin'] || $GLOBALS['in_checkout'];
 		$current_primary_domain = get_primary_domain();
-		$http_host = $_SERVER["HTTP_HOST"];
-		if (!$GLOBALS['in_no_redirect_url'] && !$on_welcome_site && Configure::read('debug') == 0 && !$redirect_to_ssl && ($http_host != $current_primary_domain || !empty($_SERVER['HTTPS'])) ) {
+		if (!$GLOBALS['in_no_redirect_url'] && !$on_welcome_site && Configure::read('debug') == 0 && !$redirect_to_ssl && ($GLOBALS['http_host'] != $current_primary_domain || !empty($_SERVER['HTTPS'])) ) {
 			header("Location: http://$current_primary_domain{$_SERVER['REQUEST_URI']}");
 			die();
 		}
