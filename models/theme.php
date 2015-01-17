@@ -16,7 +16,15 @@ class Theme extends AppModel {
 	
 	public function get_theme_dynamic_background_style($theme_config) {
 		if (!empty($theme_config['admin_config']['theme_background_config']['default_bg_color'])) {
-			return "<style type='text/css'>body { background-color: {$theme_config['admin_config']['theme_background_config']['default_bg_color']}; } </style>";
+			$this->ThemeGlobalSetting = ClassRegistry::init('ThemeGlobalSetting');
+			$break_dynamic_bg_cache = $this->ThemeGlobalSetting->getVal('break_dynamic_bg_cache', false);
+			$bg_url_ending = '';
+			if ($break_dynamic_bg_cache == true) {
+				$bg_url_ending = '?v=' . rand(10000, 99999);
+				$this->ThemeGlobalSetting->setVal('break_dynamic_bg_cache', false);
+			}
+			
+			return "<style type='text/css'>body { background: {$theme_config['admin_config']['theme_background_config']['default_bg_color']} url('/theme_merged_final_images/{$theme_config['theme_name']}.jpg{$bg_url_ending}') no-repeat; } </style>";
 		}
 		
 		return '';
@@ -587,6 +595,7 @@ class Theme extends AppModel {
 	) {
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
 		$this->ThemeHiddenSetting = ClassRegistry::init('ThemeHiddenSetting');
+		$this->ThemeGlobalSetting = ClassRegistry::init('ThemeGlobalSetting');
 		$theme_name = $this->SiteSetting->getVal('current_theme', false);
 
 
@@ -773,6 +782,8 @@ class Theme extends AppModel {
 
 
 		imagejpeg($imgBanner, $dest_save_path, 100);
+		$this->ThemeGlobalSetting->setVal('break_dynamic_bg_cache', true);
+		
 
 		if ($using_custom_background_image == true) {
 			$this->ThemeHiddenSetting->setVal('uploaded_bg_overlay_abs_path', $overlay_abs_path);

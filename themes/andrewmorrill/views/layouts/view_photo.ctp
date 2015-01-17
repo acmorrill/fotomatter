@@ -7,13 +7,6 @@
 		<link rel="stylesheet" type="text/css" href="/css/andrewmorrill_style.css" />
 
 		<?php $is_pano = $curr_photo['PhotoFormat']['ref_name'] == "panoramic"; ?>
-		
-		<?php if ($is_pano): ?>
-			<link rel="stylesheet" type="text/css" href="/stylesheets/panoBackground.css" />
-		<?php else: ?>
-			<link rel="stylesheet" type="text/css" href="/stylesheets/photoBackground.css" />
-		<?php endif; ?>
-
 		<?php echo $this->Theme->get_theme_dynamic_background_style($theme_config); ?>
 	</head>
 	<body>

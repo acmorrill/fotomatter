@@ -21,6 +21,11 @@
 				'url' => "/admin/ecommerces",
 			);
 			$subnav['pages'][] = array(
+				'name' => __('Ecommerce Settings', true),
+				'url' => "/admin/ecommerces/index/",
+				'icon_css' => 'PageSettings-01',
+			);
+			$subnav['pages'][] = array(
 				'name' => __('Manage Print Sizes', true),
 				'url' => array(
 					"/admin/ecommerces/manage_print_sizes/",
