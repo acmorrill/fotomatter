@@ -37,6 +37,10 @@ class ThemeCentersController extends AppController {
 		}
 		
 		
+		// this is just so that everytime a setting is changed the frontend cache will be broken for themes that use user chosen dynamic images
+		$this->ThemeGlobalSetting->setVal('break_user_dynamic_bg_cache', true);
+		
+		
 		if (!$this->ThemeUserSetting->setVal($setting_name, $setting_value, $theme_id)) {
 			$returnArr['code'] = -1;
 			$this->Theme->major_error('failed to save theme user setting', compact('setting_name', 'setting_value', 'theme_id'));

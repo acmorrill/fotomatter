@@ -1,36 +1,11 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel='stylesheet' type='text/css' href='quickmenu_styles.css'/>
-<script type='text/javascript' src='quickmenu2.js'></script>
-
-
-<title>About Charles Cramer</title>
-
-
-<!--[if IE 5]>
-<style type="text/css"> 
-/* place css box model fixes for IE 5* in this conditional comment */
-.twoColFixRt #sidebar1 { width: 220px; }
-</style>
-<![endif]-->
-<!--[if IE]>
-<style type="text/css"> 
-/* place css fixes for all versions of IE in this conditional comment */
-.twoColFixRt #sidebar1 { padding-top: 30px; }
-.twoColFixRt #mainContent { zoom: 1; }
-/* the above proprietary zoom property gives IE the hasLayout it needs to avoid several bugs */
-</style>
-<![endif]-->
-
-
-
-<script type="text/javascript"></script>
-
-
-
-<link href="bio.css" rel="stylesheet" type="text/css" />
+	<title><?php echo $this->Theme->get_frontend_html_title(); ?></title>
+	<?php echo $this->Element('theme_global_includes'); ?>
+	<script type='text/javascript' src='/js/php_closure/simple_lightgrey_textured.min.js'></script>
+	<link href="/css/simple_lightgrey_textured_style.css" rel="stylesheet" type="text/css" />
+	<?php echo $this->Theme->get_theme_dynamic_background_style($theme_config); ?>
 </head>
 
 <body class="twoColFixRt">

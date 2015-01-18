@@ -175,6 +175,11 @@ $theme_config = array(
 			),
 			'default_bg_color' => '#ffffff',
 		),
+		'theme_user_chosen_background' => array(
+			'theme_has_user_chosen_background' => false,
+//			'repeating_background' => true,
+//			'background_path_theme_setting_name' => 'site_repeated_background', // the name of the theme setting that lets the user choose the background
+		),
 		'theme_gallery_listing_config' => array(
 			'default_images_per_page' => 8
 		),
@@ -200,7 +205,6 @@ $theme_config = array(
 					'possible_values' => '.*\\\S+.*', // can be regex
 					'default_value' => 'Your order processed successfully.',
 				),
-				// DREW TODO - START HERE TOMORROW - move global settings somewhere easier to understand
 //				'global_photo_page_add_to_cart_button_text' => array(
 //					'type' => 'text_input',
 //					'display_name' => 'Photo Page Add to Cart Text',
@@ -321,6 +325,33 @@ $theme_config = array(
 //						'#B70086',
 //					),
 //					'default_value' => '#B7001C',
+//				),
+//				'accent_colors' => array(
+//					'type' => 'color_radio_flexible',
+//					'display_name' => 'Accent colors',
+//					'description' => "Changes the accent colors. Hover on buttons and header underline.",
+//					'help_message' => 'Color Radio Test',
+//					'possible_values' => array(
+//						'red' => '#cc0000',
+//						'blue' => '#0000cc',
+//						'yellow' => '#ffff00',
+//						'pink' => '#ff0099',
+//					),
+//					'default_value' => 'red',
+//				),
+//				'setting_five' => array(
+//					'type' => 'small_image_radio',
+//					'display_name' => 'Theme Background Texture',
+//					'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unch",
+//					'help_message' => 'Small Image Radio Test',
+//					'possible_values' => array(
+//						'/img/gray_bg/cloth_1.png', // NOTE: there is a leading /
+//						'/img/gray_bg/cloth_2.png',
+//						'/img/gray_bg/cloth_3.png',
+//						'/img/gray_bg/cloth_4.png',
+//						'/img/gray_bg/cloth_5.png',
+//					),
+//					'default_value' => 'img/gray_bg/cloth_1.png',
 //				),
 //				'setting_fivepoint5' => array(
 //					'type' => 'group_name',

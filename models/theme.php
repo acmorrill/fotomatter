@@ -15,7 +15,7 @@ class Theme extends AppModel {
 	);
 	
 	public function get_theme_dynamic_background_style($theme_config) {
-		if (!empty($theme_config['admin_config']['theme_background_config']['default_bg_color'])) {
+		if ($theme_config['admin_config']['theme_background_config']['theme_has_dynamic_background'] === true) {
 			$this->ThemeGlobalSetting = ClassRegistry::init('ThemeGlobalSetting');
 			$break_dynamic_bg_cache = $this->ThemeGlobalSetting->getVal('break_dynamic_bg_cache', false);
 			$bg_url_ending = '';
@@ -26,6 +26,26 @@ class Theme extends AppModel {
 			
 			return "<style type='text/css'>body { background: {$theme_config['admin_config']['theme_background_config']['default_bg_color']} url('/theme_merged_final_images/{$theme_config['theme_name']}.jpg{$bg_url_ending}') no-repeat; } </style>";
 		}
+
+		if ($theme_config['admin_config']['theme_user_chosen_background']['theme_has_user_chosen_background'] === true) {
+			$user_chosen_bg_settings = $theme_config['admin_config']['theme_user_chosen_background'];
+			$user_chosen_background_path = $theme_config['admin_config']['theme_avail_custom_settings']['settings'][$user_chosen_bg_settings['background_path_theme_setting_name']]['current_value'];
+			$repeat_background_str = 'no-repeat';
+			if ($user_chosen_bg_settings['repeating_background'] == true) {
+				$repeat_background_str = 'repeat';
+			}
+			
+			$this->ThemeGlobalSetting = ClassRegistry::init('ThemeGlobalSetting');
+			$break_dynamic_bg_cache = $this->ThemeGlobalSetting->getVal('break_user_dynamic_bg_cache', false);
+			$bg_url_ending = '';
+			if ($break_dynamic_bg_cache == true) {
+				$bg_url_ending = '?v=' . rand(10000, 99999);
+				$this->ThemeGlobalSetting->setVal('break_user_dynamic_bg_cache', false);
+			}
+			
+			return "<style type='text/css'>body { background: url('{$user_chosen_background_path}{$bg_url_ending}') $repeat_background_str; }</style>";
+		}
+			
 		
 		return '';
 	}

@@ -5004,12 +5004,14 @@ body {
 }
 #theme_centers_list_container .theme_setting_container .theme_setting_inputs_container .radio_buttons > label,
 #theme_centers_list_container .theme_setting_container .theme_setting_inputs_container .check_boxes > label,
-#theme_centers_list_container .theme_setting_container .theme_setting_inputs_container .color_radio > label {
+#theme_centers_list_container .theme_setting_container .theme_setting_inputs_container .color_radio > label,
+#theme_centers_list_container .theme_setting_container .theme_setting_inputs_container .small_image_radio > label {
   margin-right: 30px;
 }
 #theme_centers_list_container .theme_setting_container .theme_setting_inputs_container .radio_buttons input,
 #theme_centers_list_container .theme_setting_container .theme_setting_inputs_container .check_boxes input,
-#theme_centers_list_container .theme_setting_container .theme_setting_inputs_container .color_radio input {
+#theme_centers_list_container .theme_setting_container .theme_setting_inputs_container .color_radio input,
+#theme_centers_list_container .theme_setting_container .theme_setting_inputs_container .small_image_radio input {
   margin-left: 20px;
   margin-right: 20px;
   margin-bottom: 20px;
@@ -5017,10 +5019,23 @@ body {
 }
 #theme_centers_list_container .theme_setting_container .theme_setting_inputs_container .radio_buttons .color_chooser,
 #theme_centers_list_container .theme_setting_container .theme_setting_inputs_container .check_boxes .color_chooser,
-#theme_centers_list_container .theme_setting_container .theme_setting_inputs_container .color_radio .color_chooser {
+#theme_centers_list_container .theme_setting_container .theme_setting_inputs_container .color_radio .color_chooser,
+#theme_centers_list_container .theme_setting_container .theme_setting_inputs_container .small_image_radio .color_chooser {
   width: 10px;
   display: inline-block;
   margin-right: 20px;
+}
+#theme_centers_list_container .theme_setting_container .theme_setting_inputs_container .small_image_radio input {
+  margin-top: 24px;
+  margin-bottom: 38px;
+  margin-right: 10px;
+  margin-left: 15px;
+}
+#theme_centers_list_container .theme_setting_container .theme_setting_inputs_container .small_image_radio .image_chooser {
+  display: inline-block;
+  vertical-align: top;
+  width: 60px;
+  height: 60px;
 }
 #theme_centers_list_container .generic_palette_container {
   padding-bottom: 60px;

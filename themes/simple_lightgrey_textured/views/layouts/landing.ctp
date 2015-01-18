@@ -1,15 +1,21 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<title><?php echo $this->Theme->get_frontend_html_title(); ?></title>
 		<?php echo $this->Element('theme_global_includes'); ?>
 		<script type='text/javascript' src='/js/php_closure/simple_lightgrey_textured.min.js'></script>
 		<link href="/css/simple_lightgrey_textured_style.css" rel="stylesheet" type="text/css" />
+		<?php echo $this->Theme->get_theme_dynamic_background_style($theme_config); ?>
 	</head>
 <body>
 	<?php echo $this->Element('nameTitle'); ?>
 	<?php echo $this->Element('menu/two_level_navbar'); ?>
 
-	<div id="bigimage"><img src="/img/A-Tangerine-Blue.jpg" alt="A Tagerine Blue" /></div>
+	<?php 
+		$gallery_to_use_id = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'landing_page_gallery', null);
+		$images = $this->Theme->get_landing_page_slideshow_images(1, $gallery_to_use_id);
+		$imgSrc = $this->Photo->get_photo_path($images[0], 720, 720, .5, true);
+	?>
+	<div id="landing_image"><div class='landing_image_inner'><img src="<?php echo $imgSrc['url']; ?>" <?php echo $imgSrc['tag_attributes']; ?> /></div></div>
 </body>
 </html>

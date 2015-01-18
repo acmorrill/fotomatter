@@ -52,9 +52,50 @@ $theme_config = array(
 		'theme_background_config' => array(
 			'theme_has_dynamic_background' => false
 		),
+		'theme_user_chosen_background' => array(
+			'theme_has_user_chosen_background' => true,
+			'repeating_background' => true,
+			'background_path_theme_setting_name' => 'site_repeated_background',
+		),
+		'theme_avail_custom_settings' => array(
+			'settings' => array(
+				'landing_page_settings_group' => array(
+					'type' => 'group_name',
+					'display_name' => 'General Settings',
+				),
+				'landing_page_gallery' => array(
+					'type' => 'gallery_chooser',
+					'display_name' => 'Slideshow Gallery',
+					'description' => "Choose which gallery to use for the theme landing page.",
+					'help_message' => 'Drop Down Test',
+				),
+				'site_repeated_background' => array(
+					'type' => 'small_image_radio',
+					'display_name' => 'Theme Background Texture',
+					'description' => "Choose the texture that will be used for the background on your website.",
+					'help_message' => 'Small Image Radio Test',
+					'possible_values' => array(
+						'/img/gray_bg/grey_wash_wall_1.png', // NOTE: there is a leading /
+						'/img/gray_bg/grey_wash_wall_2.png',
+						'/img/gray_bg/grey_wash_wall_3.png',
+						'/img/gray_bg/grey_wash_wall_4.png',
+						'/img/gray_bg/grey_wash_wall_5.png',
+						'/img/gray_bg/grey_wash_wall_6.png',
+						'/img/gray_bg/grey_wash_wall_7.png',
+						'/img/gray_bg/grey_wash_wall_8.png',
+						'/img/gray_bg/cloth_1.png', 
+						'/img/gray_bg/cloth_2.png',
+						'/img/gray_bg/cloth_3.png',
+						'/img/gray_bg/cloth_4.png',
+						'/img/gray_bg/cloth_5.png',
+					),
+					'default_value' => '/img/gray_bg/grey_wash_wall_7.png',
+				),
+			),
+		),
 		'theme_gallery_listing_config' => array(
 			'default_images_per_page' => 12
-		)
+		),
 	)
 	
 );
