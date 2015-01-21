@@ -333,6 +333,7 @@
   border: 1px solid black;
   display: inline-block;
   vertical-align: top;
+  color: #333333;
   background-color: #ffffff;
 }
 .submit_button .content {
@@ -378,7 +379,34 @@
 }
 #add_to_cart_buttons_cont #add_to_cart_buttons_inner_cont form,
 #add_to_cart_buttons_cont #add_to_cart_buttons_inner_cont h2 {
-  margin-left: 15px;
+  margin-left: 0px;
+}
+#add_to_cart_buttons_cont #add_to_cart_buttons_inner_cont > table {
+  width: 520px;
+}
+#add_to_cart_buttons_cont #add_to_cart_buttons_inner_cont > table > tbody > tr > td {
+  vertical-align: top;
+}
+#add_to_cart_buttons_cont #add_to_cart_buttons_inner_cont > table > tbody > tr > td table {
+  width: 100%;
+}
+#add_to_cart_buttons_cont #add_to_cart_buttons_inner_cont > table > tbody > tr > td table > tbody > tr > td.last {
+  width: 200px;
+  text-align: left;
+}
+#add_to_cart_buttons_cont #add_to_cart_buttons_inner_cont > table > tbody > tr > td.last {
+  width: 500px;
+  text-align: left;
+}
+#add_to_cart_buttons_cont #add_to_cart_buttons_inner_cont > table > tbody > tr > td.first {
+  width: 82px;
+}
+#add_to_cart_buttons_cont #add_to_cart_buttons_inner_cont > table > tbody > tr > td.print_type_name {
+  width: 215px;
+  text-align: left;
+}
+#add_to_cart_buttons_cont #add_to_cart_buttons_inner_cont > table > tbody > tr > td.print_type_name h2 {
+  margin-right: 10px;
 }
 #cart_table {
   margin-bottom: 120px;

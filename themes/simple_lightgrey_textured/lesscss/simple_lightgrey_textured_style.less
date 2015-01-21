@@ -67,7 +67,7 @@ table {
 		-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=135, Color='#333333')"; /* DREW TODO - test this in IE8 */
 		/* For IE 5.5 - 7 */
 		filter: progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=135, Color='#333333'); /* DREW TODO - test this in IE 6 */
-		margin-top: 10px;
+		margin-top: 42px;
 		border: 18px solid #ffffff;
 		display: inline-block;
 		vertical-align: top;
@@ -182,7 +182,7 @@ table {
 #main_nav ul.top_level li.main_menu_item .second_level li.sub_menu_item:hover {
 	background-color: #DADADA;
 }
-#main_nav ul.top_level li.main_menu_item .second_level li.sub_menu_item:hover a {
+#main_nav ul.top_level li.main_menu_item .second_level li.sub_menu_item:hover a, #main_nav ul.top_level li.main_menu_item .second_level li.sub_menu_item:hover span {
 	color: #333333;
 }
 #main_nav ul.top_level li.main_menu_item .second_level li.sub_menu_item a {
@@ -238,5 +238,111 @@ table {
 
 
 
-
+#largePhotoPos {
+	margin-top: 20px;
+	.image_navigation {
+		float: right;
+		margin-bottom: 15px;
+		margin-right: 200px;
+		a {
+			text-decoration: none;
+			margin-right: 8px;
+			opacity:0.7;
+			filter:alpha(opacity=70); /* For IE8 and earlier */
+			&:hover {
+				opacity:1;
+				filter:alpha(opacity=100); /* For IE8 and earlier */
+			}
+		}
+	}
+	#mainImage {
+		border: 18px solid #FFF;
+		display: inline-block;
+		background-color: #E6E6E6;
+		vertical-align: middle;
+		-moz-box-shadow: 5px 5px 10px rgba(51,51,51,0.5);
+		-webkit-box-shadow: 5px 5px 10px rgba(51,51,51,0.5);
+		box-shadow: 5px 5px 10px rgba(51,51,51,0.5);
+		/* For IE 8 */
+		-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=135, Color='#333333')"; /* DREW TODO - test this in IE8 */
+		/* For IE 5.5 - 7 */
+		filter: progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=135, Color='#333333'); /* DREW TODO - test this in IE 6 */
+		img {
+			display: inline-block;
+			vertical-align: middle;
+		}
+		
+	}
+	#image_data_container {
+		select, .submit_button {
+			color: #656565;
+		}
+		.submit_button {
+			border: 1px solid #656565;
+			&:hover {
+				color: #ffffff;
+			}
+		}
+		
+		
+		margin-bottom: 300px;
+		text-align: center;
+		
+		.photo_title {
+			font-size: 15px;
+			margin-top: 12px;
+			margin-bottom: 5px;
+			text-align: center;
+		}
+		.photo_subtitle {
+			font-size: 13px;
+			margin-top: 5px;
+			margin-bottom: 5px;
+		}
+		.photo_date {
+			font-size: 13px;
+			margin-top: 5px;
+			margin-bottom: 5px;
+		}
+		.photo_description {
+			display: inline-block;
+			vertical-align: top;
+			font-size: 13px;
+			max-width: 450px;
+		}
+		#add_to_cart_buttons_cont {
+			margin-top: 18px;
+			display: inline-block;
+			vertical-align: top;
+			width: 680px;
+			.hr {
+				width: 100%;
+				height: 1px;
+				background-color: #b1b1b1;
+				border-top: 1px solid #d0d0d0;
+			}
+			#add_to_cart_buttons_inner_cont { 
+				margin-left: 0px;
+				margin-top: 13px;
+				#print_types_heading {
+					font-size: 16px;
+				}
+				h2, > form {
+					display: inline-block;
+					vertical-align: top;
+					font-size: 14px;
+				}
+				> table {
+					width: 500px;
+					display: inline-block;
+					vertical-align: top;
+				}
+				.submit_button_cont {
+					display: inline-block;
+					vertical-align: top;
+				}
+			}
+		}
+	}
+}
 

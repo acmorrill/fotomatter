@@ -58,6 +58,7 @@
 	border: 1px solid black;
 	display: inline-block;
 	vertical-align: top;
+	color: #333333;
 	background-color: #ffffff;
 	.content {
 		display: inline-block;
@@ -98,7 +99,37 @@
 		h1 { font-size: 20px; margin-bottom: 10px; }
 		h2 { font-size: 18px; }
 		form, h2 {
-			margin-left: 15px;
+			margin-left: 0px;
+		}
+		> table {
+			width: 520px;
+			span {
+				
+			}
+			> tbody {
+				> tr {
+					> td {
+						vertical-align: top;
+						table {
+							width: 100%;
+							> tbody {
+								> tr {
+									> td {
+										&.last { width: 200px; text-align: left; }
+									}
+								}
+							}
+						}
+						&.last { width: 500px; text-align: left; }
+						&.first { width: 82px; }
+						&.print_type_name {
+							width: 215px;
+							text-align: left;
+							h2 { margin-right: 10px; }
+						}
+					}
+				}
+			}
 		}
 	}
 }

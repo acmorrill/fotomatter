@@ -58,6 +58,7 @@ class PhotoCache extends AppModel {
 					return array(
 						'url' => $dummy_image_url_path,
 						'tag_attributes' => $tag_attributes,
+						'style_attributes' => "width: {$width}px; height: {$height}px;",
 						'width' => $width,
 						'height' => $height,
 					);
@@ -117,6 +118,7 @@ class PhotoCache extends AppModel {
 				return array(
 					'url' => $url_image_path,
 					'tag_attributes' => $tag_attributes,
+					'style_attributes' => "width: {$width}px; height: {$height}px;",
 					'width' => $width,
 					'height' => $height,
 				);
@@ -154,6 +156,7 @@ class PhotoCache extends AppModel {
 			return array(
 				'url' => $this->SiteSetting->getImageContainerUrl($force_ssl).$photo_cache['PhotoCache']['cdn-filename'],
 				'tag_attributes' => $photo_cache['PhotoCache']['tag_attributes'],
+				'style_attributes' => "width: {$photo_cache['PhotoCache']['pixel_width']}px; height: {$photo_cache['PhotoCache']['pixel_height']}px;",
 				'width' => $photo_cache['PhotoCache']['pixel_width'],
 				'height' => $photo_cache['PhotoCache']['pixel_height'],
 			);
@@ -185,6 +188,7 @@ class PhotoCache extends AppModel {
 					return array(
 						'url' => '/photo_caches/create_cache/'.$this->id."/?firsttime=true",
 						'tag_attributes' => $calculated_data['tag_attributes'],
+						'style_attributes' => "width: {$calculated_data['width']}px; height: {$calculated_data['height']}px;",
 						'width' => $calculated_data['width'],
 						'height' => $calculated_data['height'],
 					);
@@ -210,6 +214,7 @@ class PhotoCache extends AppModel {
 		if ($curr_photo_cache['PhotoCache']['crop'] == '1') {
 			return array(
 				'tag_attributes' =>	'width="'.$curr_photo_cache['PhotoCache']['max_width'].'" height="'.$curr_photo_cache['PhotoCache']['max_height'].'"',
+				'style_attributes' => "width: {$curr_photo_cache['PhotoCache']['max_width']}px; height: {$curr_photo_cache['PhotoCache']['max_height']}px;",
 				'width' => $curr_photo_cache['PhotoCache']['max_width'],
 				'height' => $curr_photo_cache['PhotoCache']['max_height'],
 			);
@@ -236,12 +241,14 @@ class PhotoCache extends AppModel {
 		if ($use_height) {
 			return array(
 				'tag_attributes' =>	'width="'.$H_width.'" height="'.$H_height.'"',
+				'style_attributes' => "width: {$H_width}px; height: {$H_height}px;",
 				'width' => $H_width,
 				'height' => $H_height,
 			);
 		} else {
 			return array(
 				'tag_attributes' =>	'width="'.$W_width.'" height="'.$W_height.'"',
+				'style_attributes' => "width: {$W_width}px; height: {$W_height}px;",
 				'width' => $W_width,
 				'height' => $W_height,
 			);
@@ -254,6 +261,7 @@ class PhotoCache extends AppModel {
 			return array(
 				'url' => '/photo_caches/create_cache/'.$photo_cache_id.'/?firsttime=false',
 				'tag_attributes' => $calculated_data['tag_attributes'],
+				'style_attributes' => "width: {$calculated_data['width']}px; height: {$calculated_data['height']}px;",
 				'width' => $calculated_data['width'],
 				'height' => $calculated_data['height'],
 			);
@@ -432,6 +440,7 @@ class PhotoCache extends AppModel {
 			$photoCache['PhotoCache']['pixel_height'] = $newcache_height;
 			$photoCache['PhotoCache']['cdn-filename'] = $cache_image_name;
 			$photoCache['PhotoCache']['tag_attributes'] = $newcache_attr;
+			$photoCache['PhotoCache']['style_attributes'] = "width: {$newcache_width}px; height: {$newcache_height}px;";
 			$photoCache['PhotoCache']['status'] = 'ready';
 			unset($photoCache['PhotoCache']['created']);
 			unset($photoCache['PhotoCache']['modified']);

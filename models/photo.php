@@ -249,6 +249,7 @@ class Photo extends AppModel {
 				$this->data['Photo']['pixel_width'] = $width;
 				$this->data['Photo']['pixel_height'] = $height;
 				$this->data['Photo']['tag_attributes'] = $attr;
+				$this->data['Photo']['style_attributes'] = "width: {$width}px; height: {$height}px;";
 
 				// now remove the old cloud file if there was one
 				if (isset($this->data['Photo']['id'])) {

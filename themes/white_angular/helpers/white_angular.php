@@ -23,6 +23,7 @@ class WhiteAngularHelper extends AppHelper {
 			$img_src['width'] = $width;
 			$img_src['height'] = $height;
 			$img_src['tag_attributes'] = "width='$width' height='$height'";
+			$img_src['style_attributes'] = "width: {$width}px; height: {$height}px;";
 		} else {
 			$width = null;
 			$height = null;

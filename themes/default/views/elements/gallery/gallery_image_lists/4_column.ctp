@@ -15,11 +15,10 @@
 						}
 						$photoUrl = "/photos/view_photo/{$curr_photo['Photo']['id']}/gid:$gallery_id"; 
 						$imgSrc = $this->Photo->get_photo_path($curr_photo['Photo']['id'], $using_max_size, $using_max_size, .5, true);
-						$style_str = "width: {$imgSrc['width']}px; height: {$imgSrc['height']}px;"
 					?>
 					<span class="gallery_image_outer_cont">
-						<a class="gallery_image_a_link" href="<?php echo $photoUrl; ?>" style="<?php echo $style_str; ?>">
-							<img class="gallery_image_actual_image" src="<?php echo $imgSrc['url']; ?>" <?php echo $imgSrc['tag_attributes']; ?> alt="<?php echo $curr_photo['Photo']['alt_text']; ?>" style="<?php echo $style_str; ?>">
+						<a class="gallery_image_a_link" href="<?php echo $photoUrl; ?>" style="<?php echo $imgSrc['style_attributes']; ?>">
+							<img class="gallery_image_actual_image" src="<?php echo $imgSrc['url']; ?>" <?php echo $imgSrc['tag_attributes']; ?> alt="<?php echo $curr_photo['Photo']['alt_text']; ?>" style="<?php echo $imgSrc['style_attributes']; ?>">
 						</a>
 					</span>
 					<div class="galleriesLink">
