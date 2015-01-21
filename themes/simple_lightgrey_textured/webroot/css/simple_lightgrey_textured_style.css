@@ -3,9 +3,20 @@ body {
   font-size: 10px;
   color: #E4E4E4;
   text-align: center;
-  width: 923px;
+  width: 1020px;
+  margin: 0px;
   margin-right: auto;
   margin-left: auto;
+}
+body .container {
+  position: relative;
+  padding-top: 72px;
+}
+body #nav_location {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 1020px;
 }
 table {
   text-align: center;
@@ -61,17 +72,19 @@ table {
   vertical-align: top;
 }
 #logo_cont {
-  float: left;
-  position: relative;
+  position: absolute;
+  top: 0px;
+  left: 0px;
   text-align: left;
 }
 #mainName {
   position: absolute;
+  z-index: 100;
 }
 #main_nav {
   float: right;
   height: 51px;
-  width: 571px;
+  width: 655px;
   font-family: Arial;
   font-size: 11px;
   text-decoration: none;
@@ -106,13 +119,6 @@ table {
   position: relative;
   text-align: center;
 }
-#main_nav ul.top_level li.main_menu_item:hover {
-  background-color: #C8C8C8;
-  border: 1px solid #DADADA;
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  border-radius: 6px;
-}
 #main_nav ul.top_level li.main_menu_item.menu_item_container:hover {
   -webkit-border-bottom-left-radius: 0px;
   -webkit-border-bottom-right-radius: 0px;
@@ -125,48 +131,45 @@ table {
 #main_nav ul.top_level li.main_menu_item:last-child {
   border-right: none;
 }
-#main_nav ul.top_level li.main_menu_item ul.second_level {
+#main_nav ul.top_level li.main_menu_item .second_level {
   display: none;
   position: absolute;
   top: 100%;
   text-align: left;
-  background-color: #C8C8C8;
-  border: 1px solid #DADADA;
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  border-radius: 6px;
-  -webkit-border-top-left-radius: 0px;
-  -moz-border-top-left-radius: 0px;
-  border-top-left-radius: 0px;
   min-width: 120%;
-  padding-top: 10px;
-  margin-left: -11px;
+  margin-left: -12px;
   margin-top: -1px;
   z-index: -1000;
+  padding-top: 5px;
 }
-#main_nav ul.top_level li.main_menu_item:hover ul.second_level {
+#main_nav ul.top_level li.main_menu_item .second_level .second_level_inner {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  background-color: #9c9c9c;
+  border: 1px solid #bbbbbb;
+}
+#main_nav ul.top_level li.main_menu_item:hover .second_level {
   display: block;
 }
-#main_nav ul.top_level li.main_menu_item ul.second_level li.sub_menu_item {
+#main_nav ul.top_level li.main_menu_item .second_level li.sub_menu_item {
   display: block;
   text-align: center;
-  margin: 7px;
-  margin-top: 0px;
+  margin: 4px;
   padding: 4px;
   padding-top: 5px;
   padding-bottom: 5px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
 }
-#main_nav ul.top_level li.main_menu_item ul.second_level li.sub_menu_item:hover {
+#main_nav ul.top_level li.main_menu_item .second_level li.sub_menu_item:hover {
   background-color: #DADADA;
 }
-#main_nav ul.top_level li.main_menu_item ul.second_level li.sub_menu_item:hover a {
-  color: #CC0000;
+#main_nav ul.top_level li.main_menu_item .second_level li.sub_menu_item:hover a {
+  color: #333333;
 }
-#main_nav ul.top_level li.main_menu_item ul.second_level li.sub_menu_item a {
+#main_nav ul.top_level li.main_menu_item .second_level li.sub_menu_item a {
   display: block;
+}
+#gallery_list_table tr td .galleries {
+  width: 250px;
 }
 #gallery_list_table tr td .galleries .gallery_image_outer_cont {
   border: 1px solid #D0D0D0;
@@ -195,10 +198,13 @@ table {
 }
 #grey_textured_gallery_listing_container .paginationDiv {
   color: #FFF;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: bold;
   font-family: "Times New Roman", Times, serif;
 }
 #grey_textured_gallery_listing_container .paginationDiv a {
   color: #FFF;
+}
+#grey_textured_gallery_listing_container .paginationDiv span {
+  margin-left: 4px;
 }

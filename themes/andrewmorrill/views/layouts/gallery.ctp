@@ -30,7 +30,7 @@
 		</div>
 		
 		<div id="navChain" class="lowercase">
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/site_pages/landing_page">home</a>&nbsp;>&nbsp;<a href="/photo_galleries/choose_gallery">image galleries</a>&nbsp;>&nbsp;<?php print ("{$curr_gallery['PhotoGallery']['display_name']}\n"); ?>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/">home</a>&nbsp;>&nbsp;<a href="/photo_galleries/choose_gallery">image galleries</a>&nbsp;>&nbsp;<?php print ("{$curr_gallery['PhotoGallery']['display_name']}\n"); ?>
 			<img style="padding-top: 8px;" src="/images/misc/horiz_gradientline.png" alt="" />
 		</div>
 		

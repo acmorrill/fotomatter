@@ -240,7 +240,7 @@
 		});
 	</script>
 
-	<div class="large_container no_td_as_block" data-step="1" data-intro="<?php echo __('Two tier menus have a dropdown menu system. You may place pages inside of the container which will create the dropdown menu.', true); ?>" data-position="top">
+	<div class="large_container no_td_as_block">
 		<div class="table_border two_level_menu_items_cont configure_table_list menu_items_cont">
 			<?php $two_level_menu_items = $this->ThemeMenu->get_two_level_menu_items(); ?>
 			<?php //debug($two_level_menu_items); ?>
@@ -256,6 +256,33 @@
 		<div class="tab_tools_container">
 			<script type="text/javascript">
 				jQuery(document).ready(function() {
+					var in_show_home_link_call = false;
+					jQuery('#show_home_link_input').button();
+					jQuery('#show_home_link_input').click(function() {
+						if (in_show_home_link_call == true) {
+							return;
+						}
+						in_show_home_link_call = true;
+						
+						var show_home_link = jQuery(this).is(':checked');
+						jQuery.ajax({
+							type: 'post',
+							url: '/admin/site_menus/set_show_home_link/' + show_home_link,
+							data: {},
+							success: function(data) {
+//								console.log(data);
+							},
+							complete: function() {
+								in_show_home_link_call = false;
+							},
+							error: function(jqXHR, textStatus, errorThrown) {
+
+							},
+							dataType: 'json'
+						});
+					});
+					
+					
 					jQuery('#two_level_menu_page_add_button').click(function() {
 						<?php if (empty($current_on_off_features['page_builder'])): ?>
 							return false;
@@ -497,7 +524,7 @@
 
 			
 			
-			<div class="custom_ui" data-step="2" data-intro="<?php echo __('Containers allow the user to choose one value from a list also know as a dropsdown. ', true); ?>" data-position="top">
+			<div class="custom_ui">
 				<h2><?php echo __('Add Container to Main Menu', true); ?></h2>
 				<div class="drop_down_sub_title">
 					<input class="new_menu_container_name defaultText" title="container name" type="text" />
@@ -512,7 +539,7 @@
 			<div class="hr_element"></div>
 
 			
-			<div id="rename_container_cont" class="custom_ui" <?php if (empty($all_containers)): ?>style="display: none;"<?php endif; ?> data-step="3" data-intro="<?php echo __('Will allow the containers to be renamed without having to recreate a new contaainer. ', true); ?>" data-position="top">
+			<div id="rename_container_cont" class="custom_ui" <?php if (empty($all_containers)): ?>style="display: none;"<?php endif; ?>>
 				<h2><?php echo __('Rename Main Menu Container', true); ?></h2>
 				<?php echo $this->Element('admin/theme_center/main_menu/container_select_box', array('all_containers' => $all_containers, 'hide_top_level' => true)); ?>
 				<input class="rename_menu_container_name defaultText" title="new container name" type="text" />
@@ -533,7 +560,7 @@
 					$pages_disabled_class = ' disabled ';
 				}
 			?>
-			<div class="custom_ui" data-step="4" data-intro="<?php echo __('If this feature is active it will add custom made pages to your site. ', true); ?>" data-position="top">
+			<div class="custom_ui">
 				<?php if (!empty($all_pages)): ?>
 					<div class="<?php echo $pages_disabled_class; ?>" style="display: inline-block;">
 						<h2><?php echo __('Add Page to Main Menu', true); ?></h2>
@@ -589,7 +616,7 @@
 			
 			
 			<?php $all_galleries = $this->Gallery->get_all_galleries(); ?>
-			<div class="custom_ui" data-step="5" data-intro="<?php echo __('Here you can add the galleries that you have created to the main menu.', true); ?>" data-position="top">
+			<div class="custom_ui">
 				<?php if (!empty($all_galleries)): ?>
 					<h2><?php echo __('Add Gallery to Main Menu', true); ?></h2>
 					<select id="two_level_menu_gallery_add_list">
@@ -611,6 +638,19 @@
 					</div>
 				<?php endif; ?>
 			</div>
+			
+			
+			<div class="hr_element"></div>
+			<div class="custom_ui">
+				<h2><?php echo __('Show "Home" Link in Menu?', true); ?></h2>
+				<div class="drop_down_sub_title">
+					<?php $show_in_link = $this->Theme->get_theme_global_setting('show_home_link_in_menu', true); ?>
+					<input type="checkbox" id="show_home_link_input" <?php if ($show_in_link == true): ?>checked="checked"<?php endif; ?> />
+					<label class='add_button' for="show_home_link_input" id="show_home_link_label"><div class='content'><?php echo __('Show Home Link', true); ?></div></label>
+				</div>	
+			</div>
+			
+			
 		</div>
 </div>
 <?php endif; ?>

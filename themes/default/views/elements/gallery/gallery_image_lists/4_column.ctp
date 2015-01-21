@@ -1,17 +1,3 @@
-<style type="text/css">
-	/* DREW TODO - move this into global css somewhere -- also make it used in other listing layouts */
-	#gallery_list_table {
-		width: 100%;
-	}
-	#gallery_list_table tr td {
-		vertical-align: middle;
-		text-align: center;
-	}
-	#gallery_list_table tr td .galleries {
-		margin: 12px 0px;
-	}
-</style>
-
 <table id="gallery_list_table" class="two_column_gallery_list">
 	<?php if (isset($top_message)): ?>
 		<tr class="gallery_list_top_message"><td colspan="2"><h4><?php echo $top_message; ?></h4></td></tr>
@@ -21,12 +7,19 @@
 			<?php $curr_photo = $photos[$index]; ?>
 			<td>
 				<div class="galleries">
-					<?php $photoUrl = "/photos/view_photo/{$curr_photo['Photo']['id']}/gid:$gallery_id"; ?>
+					<?php
+						if ($curr_photo['Photo']['PhotoFormat']['ref_name'] === 'square') {
+							$using_max_size = $this->Theme->reduce_gallery_list_square_size($image_max_size);
+						} else {
+							$using_max_size = $image_max_size;
+						}
+						$photoUrl = "/photos/view_photo/{$curr_photo['Photo']['id']}/gid:$gallery_id"; 
+						$imgSrc = $this->Photo->get_photo_path($curr_photo['Photo']['id'], $using_max_size, $using_max_size, .5, true);
+						$style_str = "width: {$imgSrc['width']}px; height: {$imgSrc['height']}px;"
+					?>
 					<span class="gallery_image_outer_cont">
-						<a class="gallery_image_a_link" href="<?php echo $photoUrl; ?>">
-							<?php // DREW TODO (DONE) - make the below icons look better - ie tweek the convert function for these icons to look better ?>
-							<?php $imgSrc = $this->Photo->get_photo_path($curr_photo['Photo']['id'], $image_max_size, $image_max_size, .5, true); ?>
-							<img class="gallery_image_actual_image" src="<?php echo $imgSrc['url']; ?>" <?php echo $imgSrc['tag_attributes']; ?> alt="<?php echo $curr_photo['Photo']['alt_text']; ?>">
+						<a class="gallery_image_a_link" href="<?php echo $photoUrl; ?>" style="<?php echo $style_str; ?>">
+							<img class="gallery_image_actual_image" src="<?php echo $imgSrc['url']; ?>" <?php echo $imgSrc['tag_attributes']; ?> alt="<?php echo $curr_photo['Photo']['alt_text']; ?>" style="<?php echo $style_str; ?>">
 						</a>
 					</span>
 					<div class="galleriesLink">

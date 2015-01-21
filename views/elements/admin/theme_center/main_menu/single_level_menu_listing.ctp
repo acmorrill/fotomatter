@@ -68,23 +68,22 @@
 			setup_one_level_menu_sortable('.list tbody');
 
 			setup_one_level_menu_item_delete('.single_level_menu_items_cont .delete_one_level_menu_item');
-
 		});
 	</script>
 
-	<div class="large_container"data-step="1" data-intro="<?php echo __('One tier menus are single links menu system.', true); ?>" data-position="top">
+	<div class="large_container">
 		<div class="table_border single_level_menu_items_cont">
 			<?php $single_menu_items = $this->ThemeMenu->get_single_menu_items(); ?>
-			<?php $do_not_sort_items = array($single_menu_items[0]['SiteOneLevelMenu']['id']); ?>
+			<?php //$do_not_sort_items = array($single_menu_items[0]['SiteOneLevelMenu']['id']); ?>
 			<table class="list">
 				<tbody>
-					<?php echo $this->Element('admin/theme_center/main_menu/single_level_menu_item', array('single_menu_items' => $single_menu_items, 'do_not_sort_items' => $do_not_sort_items)); ?>
+					<?php echo $this->Element('admin/theme_center/main_menu/single_level_menu_item', array('single_menu_items' => $single_menu_items)); ?>
 				</tbody>
 			</table>
 		</div>
 		<div class="tab_tools_container">
 			<script type="text/javascript">
-				jQuery(document).ready(function() { 
+				jQuery(document).ready(function() {
 					jQuery('#single_menu_page_add_button').click(function() { 
 						<?php if (empty($current_on_off_features['page_builder'])): ?>
 							return false;
@@ -149,11 +148,38 @@
 							dataType: 'json'
 						});	
 					});
+					
+					
+					var in_show_home_link_call = false;
+					jQuery('#show_home_link_input').button();
+					jQuery('#show_home_link_input').click(function() {
+						if (in_show_home_link_call == true) {
+							return;
+						}
+						in_show_home_link_call = true;
+						
+						var show_home_link = jQuery(this).is(':checked');
+						jQuery.ajax({
+							type: 'post',
+							url: '/admin/site_menus/set_show_home_link/' + show_home_link,
+							data: {},
+							success: function(data) {
+//								console.log(data);
+							},
+							complete: function() {
+								in_show_home_link_call = false;
+							},
+							error: function(jqXHR, textStatus, errorThrown) {
+
+							},
+							dataType: 'json'
+						});
+					});
 				});
 			</script>
 
 			<?php $all_pages = $this->Page->get_all_pages(); ?>
-			<div class="custom_ui" data-step="3" data-intro="<?php echo __('If this feature is active it will add custom made pages to your site. ', true); ?>" data-position="top">
+			<div class="custom_ui">
 				<h2><?php echo __('Add Information Page To Main Menu', true); ?></h2>
 				<div class="drop_down_sub_title" >	
 					<?php 
@@ -193,7 +219,7 @@
 			</div>
 			<div class="hr_element"></div>
 			<?php $all_galleries = $this->Gallery->get_all_galleries(); ?>
-			<div class="custom_ui" data-step="4" data-intro="<?php echo __('Here you can add the galleries that you have created to the main menu.', true); ?>" data-position="top">
+			<div class="custom_ui">
 				<h2><?php echo __('Add Gallery Page To Main Menu', true); ?></h2>
 				<div class="drop_down_sub_title">
 					<?php if (!empty($all_galleries)): ?>
@@ -218,6 +244,17 @@
 							</a>
 						</div>
 					<?php endif; ?>
+				</div>	
+			</div>
+			
+			
+			<div class="hr_element"></div>
+			<div class="custom_ui">
+				<h2><?php echo __('Show "Home" Link in Menu?', true); ?></h2>
+				<div class="drop_down_sub_title">
+					<?php $show_in_link = $this->Theme->get_theme_global_setting('show_home_link_in_menu', true); ?>
+					<input type="checkbox" id="show_home_link_input" <?php if ($show_in_link == true): ?>checked="checked"<?php endif; ?> />
+					<label class='add_button' for="show_home_link_input" id="show_home_link_label"><div class='content'><?php echo __('Show Home Link', true); ?></div></label>
 				</div>	
 			</div>
 

@@ -50,6 +50,12 @@ class Theme extends AppModel {
 		return '';
 	}
 	
+	public function reduce_gallery_list_square_size($start_size) {
+		$new_size = round($start_size * .9);
+		
+		return $new_size;
+	}
+	
 	public function get_default_photo_size($format) {
 		$current_size = 'small';
 		if ($format == 'panoramic' || $format == 'vertical_panoramic') {
@@ -102,6 +108,11 @@ class Theme extends AppModel {
 		if (!empty($gallery_id)) {
 			$slide_show_photo_ids = $this->PhotoGalleriesPhoto->get_gallery_photos_ids_by_weight($gallery_id, $num_to_grab);
 		}
+		
+		
+		// DREW TODO - if there are no galleries then just need to grab the first image
+		// DREW TODO - if there are no images then we need to return the error image
+		
 
 		return $slide_show_photo_ids;
 	}

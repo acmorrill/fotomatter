@@ -59,7 +59,6 @@
 		
 		
 		<?php 
-			// DREW TODO - change this to use cakephp html helper getCrumbs
 			echo $this->Element('nav_chain', array( 
 				'avail_pages' => array(
 					array(
