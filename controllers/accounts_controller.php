@@ -29,18 +29,13 @@ class AccountsController extends AppController {
 //		$this->FotomatterEmail->send_end_user_contact_us_email($this, $end_user_data);
 //		die('who who sucka yes');
 //	}
-		public function admin_test_email(){
-		$change_password_user ['User']= 'giggerkent@gmail.com';
-		$change_password_user ['email_address'] = 'giggerkent@gmail.com';
-		$change_password_user ['return_link'] = 'fotomatter.net';
-		$change_password_user ['modified_hash'] = 'ppakdjf;alkjdpofjapodjfa';
-		$change_password_user ['modified'] = 'ooialkdf;lwe';
-		$change_password_user ['id'] = 'giggerkent@gmail.com';
-		$change_password_user ['admin'] = 'giggerkent@gmail.com';
-		$change_password_user ['admin'] = 'giggerkent@gmail.com';
-		$this->FotomatterEmail->send_forgot_password_email($this, $change_password_user);
-		die('sucka yes');
-	}
+		public function admin_test_email() {
+			$data_to_send = array();
+			$data_to_send['expiringdomain.com'] = array('days_till_expired' => 20);
+		
+			$this->FotomatterEmail->send_domain_renew_reminder_email($this, $data_to_send);
+			die('sucka face yes');
+		}
 	
 	
 	
