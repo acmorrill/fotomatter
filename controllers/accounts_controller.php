@@ -21,23 +21,6 @@ class AccountsController extends AppController {
 			parent::beforeFilter();
 		}
 	}
-//	
-//	public function admin_test_email(){
-//		$end_user_data ['contact_us_email']= 'giggerkent@gmail.com';
-//		$end_user_data ['contact_us_name'] = 'kent boss';
-//		$end_user_data ['contact_us_content'] = 'Hey I just want to slap you in the face.';
-//		$this->FotomatterEmail->send_end_user_contact_us_email($this, $end_user_data);
-//		die('who who sucka yes');
-//	}
-		public function admin_test_email() {
-			$data_to_send = array();
-			$data_to_send['expiringdomain.com'] = array('days_till_expired' => 20);
-		
-			$this->FotomatterEmail->send_domain_renew_reminder_email($this, $data_to_send);
-			die('sucka face yes');
-		}
-	
-	
 	
 	public function clear_billing_cache() {
 		$this->FotomatterBilling->clear_billing_apc();
