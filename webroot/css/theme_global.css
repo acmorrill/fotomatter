@@ -403,7 +403,7 @@
 }
 #add_to_cart_buttons_cont #add_to_cart_buttons_inner_cont > table > tbody > tr > td.print_type_name {
   width: 215px;
-  text-align: left;
+  text-align: right;
 }
 #add_to_cart_buttons_cont #add_to_cart_buttons_inner_cont > table > tbody > tr > td.print_type_name h2 {
   margin-right: 10px;

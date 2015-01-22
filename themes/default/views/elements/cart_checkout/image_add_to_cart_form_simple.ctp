@@ -17,7 +17,8 @@
 					<table>
 						<thead>
 							<tr>
-								<th colspan='2'><h1 id='print_types_heading'><?php echo $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'global_photo_page_add_to_cart_text') ?></h1></th>
+								<th class="first"></th>
+								<th colspan='2' style="text-align: left;"><h1 id='print_types_heading'><?php echo $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'global_photo_page_add_to_cart_text') ?></h1></th>
 							</tr>
 						</thead>
 						<tbody>

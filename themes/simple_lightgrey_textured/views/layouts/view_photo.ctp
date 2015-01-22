@@ -6,6 +6,14 @@
 	<!--<script type='text/javascript' src='/js/php_closure/simple_lightgrey_textured.min.js'></script>-->
 	<link href="/css/simple_lightgrey_textured_style.css" rel="stylesheet" type="text/css" />
 	<?php echo $this->Theme->get_theme_dynamic_background_style($theme_config); ?>
+	<?php $show_white_border = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'show_white_border', 'off'); ?>
+	<?php if ($show_white_border == 'off'): ?>
+		<style type="text/css">
+			#largePhotoPos #mainImage {
+				border: 0px !important;
+			}
+		</style>
+	<?php endif; ?>
 </head>
 
 <body>
@@ -36,7 +44,6 @@
 		<div style="clear: both;"></div>
 		<div id="mainImage">
 			<img src="<?php echo $img_src['url']; ?>" <?php echo $img_src['tag_attributes']; ?> alt="<?php echo $curr_photo['Photo']['alt_text']; ?>" />
-			
 		</div>
 		
 		<div id='image_data_container'>

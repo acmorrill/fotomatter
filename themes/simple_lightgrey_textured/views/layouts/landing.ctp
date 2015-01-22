@@ -12,7 +12,8 @@
 			<?php echo $this->Element('nameTitle'); ?>
 			<?php echo $this->Element('menu/two_level_navbar'); ?>
 
-			<?php 
+			<?php
+				$show_white_border = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'show_white_border', 'off');
 				$gallery_to_use_id = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'landing_page_gallery', null);
 				$images = $this->Theme->get_landing_page_slideshow_images(1, $gallery_to_use_id);
 				$imgSrc = array();
@@ -21,7 +22,7 @@
 				}
 			?>
 			<?php if (!empty($imgSrc)): ?>
-				<div id="landing_image"><div class='landing_image_inner' style="<?php echo $imgSrc['style_attributes']; ?>"><img src="<?php echo $imgSrc['url']; ?>" <?php echo $imgSrc['tag_attributes']; ?> style="<?php echo $imgSrc['style_attributes']; ?>" /></div></div>
+				<div id="landing_image"><div class='landing_image_inner' style="<?php echo $imgSrc['style_attributes']; ?> <?php if ($show_white_border == 'off'):?>border: 0px;<?php endif; ?>"><img src="<?php echo $imgSrc['url']; ?>" <?php echo $imgSrc['tag_attributes']; ?> style="<?php echo $imgSrc['style_attributes']; ?>" /></div></div>
 			<?php endif; ?>
 		</div>
 	</body>
