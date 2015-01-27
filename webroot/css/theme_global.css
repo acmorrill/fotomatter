@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'icomoon';
-  src: url('/fonts/icomoon_frontend/fonts/icomoon.eot?-cdzch');
-  src: url('/fonts/icomoon_frontend/fonts/icomoon.eot?#iefix-cdzch') format('embedded-opentype'), url('/fonts/icomoon_frontend/fonts/icomoon.woff?-cdzch') format('woff'), url('/fonts/icomoon_frontend/fonts/icomoon.ttf?-cdzch') format('truetype'), url('/fonts/icomoon_frontend/fonts/icomoon.svg?-cdzch#icomoon') format('svg');
+  src: url('/fonts/icomoon_frontend/fonts/icomoon.eot?-lzz66b');
+  src: url('/fonts/icomoon_frontend/fonts/icomoon.eot?#iefix-lzz66b') format('embedded-opentype'), url('/fonts/icomoon_frontend/fonts/icomoon.woff?-lzz66b') format('woff'), url('/fonts/icomoon_frontend/fonts/icomoon.ttf?-lzz66b') format('truetype'), url('/fonts/icomoon_frontend/fonts/icomoon.svg?-lzz66b#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -22,6 +22,15 @@
 }
 .icon-bin:before {
   content: "\e9ac";
+}
+.icon-warning:before {
+  content: "\ea07";
+}
+.icon-notification:before {
+  content: "\ea08";
+}
+.icon-checkmark2:before {
+  content: "\ea11";
 }
 .icon-google-plus2:before {
   content: "\ea89";
@@ -100,7 +109,6 @@
   vertical-align: top;
   height: 30px;
   text-decoration: none;
-  color: #333;
   cursor: pointer;
 }
 #footer_tagline .footer_tagline_container_outer .footer_tagline_container_inner .powered_by a span.text_replacement {
@@ -108,7 +116,7 @@
   text-indent: -9999px;
 }
 #footer_tagline .footer_tagline_container_outer .footer_tagline_container_inner .powered_by a .fotomatter_logo {
-  height: 30px;
+  height: 25px;
 }
 #gallery_list_table {
   width: 100%;
@@ -502,4 +510,44 @@
 }
 .icon-cart {
   margin-right: 3px;
+}
+#custom_page_elements_container .site_element {
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+#custom_page_elements_container .site_element.first {
+  margin-top: 0px;
+}
+#custom_page_elements_container .site_element > h2 {
+  margin: 0px;
+  margin-bottom: 20px;
+}
+#custom_page_elements_container .site_element.left > img {
+  margin-right: 30px;
+}
+#custom_page_elements_container .site_element.right > img {
+  margin-left: 30px;
+}
+#contact_us_container > h2 {
+  margin: 0px;
+  margin-bottom: 20px;
+}
+#contact_us_container > p {
+  margin-bottom: 30px;
+}
+#contact_us_container .input,
+#contact_us_container .submit {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+#contact_us_container .input label,
+#contact_us_container .submit label {
+  text-align: right;
+  display: inline-block;
+  vertical-align: top;
+  width: 160px;
+  margin-right: 20px;
+}
+#contact_us_container .submit {
+  margin-top: 15px;
 }

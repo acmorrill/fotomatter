@@ -1,4 +1,4 @@
-@import url("../../../lesscss/inc/admin_reset.less");
+@import url("../../../lesscss/admin_inc/admin_reset.less");
 
 
 
@@ -426,3 +426,20 @@ body {
 	}
 }
 
+
+////////////////////////////////////////////////////////////////////////////////////
+// Footer tagline
+//-----------------------------------------------------------
+#footer_tagline {
+	position: fixed;
+	right: 30px;
+	bottom: 15px;
+	text-align: right;
+	.footer_tagline_container_outer {
+		margin-bottom: 0px;
+		.text_replacement {
+			visibility: hidden;
+		}
+	}
+	&, a { color: @base_text_color; }
+}

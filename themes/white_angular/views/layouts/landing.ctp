@@ -62,18 +62,8 @@
 			</div>
 			<div id="image_slider_container">
 				<?php 
-				
-					if (!isset($photos)) {
-						// treat the landing page as the first gallery
-						$curr_gallery = $this->Gallery->get_first_gallery(); 
-						if (isset($curr_gallery['PhotoGallery']['id'])) {
-							$gallery_id = $curr_gallery['PhotoGallery']['id'];
-						} else {
-							$gallery_id = 0;
-						}
-						$photos = $this->Gallery->get_gallery_photos($gallery_id, 200);
-					}
-				
+					$gallery_to_use_id = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'landing_page_gallery', null);
+					$photos = $this->Theme->get_landing_page_slideshow_images(10, $gallery_to_use_id, true);
 					
 					$this->WhiteAngular->process_photos_for_angular_slide($photos);
 				?>
@@ -123,5 +113,6 @@
 				</div>
 			</div>
 		</div>
+		<?php echo $this->Element('global_theme_footer_copyright'); ?>
 	</body>
 </html>

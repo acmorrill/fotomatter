@@ -20,11 +20,18 @@ class PhotoGalleriesPhoto extends AppModel {
 		)
 	);
 	
-	public function get_gallery_photos_ids_by_weight($gallery_id, $limit = null) {
+	public function get_gallery_photos_ids_by_weight($gallery_id, $limit = null, $actually_grab_photos = false) {
 		$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
 		$max_photo_extra_condition = '';
 		if (!empty($max_photo_id)) {
 			$max_photo_extra_condition = "PhotoGalleriesPhoto.photo_id <= $max_photo_id";
+		}
+		
+		$contain_arr = false;
+		if ($actually_grab_photos == true) {
+			$contain_arr = array(
+				'Photo'
+			);
 		}
 		
 		$photo_gallery_photos = $this->find('all', array(
@@ -36,8 +43,13 @@ class PhotoGalleriesPhoto extends AppModel {
 				'PhotoGalleriesPhoto.photo_order ASC'
 			),
 			'limit' => $limit,
-			'contain' => false
+			'contain' => $contain_arr // DREW TODO - maybe need to make this more efficient
 		));
+		
+		if ($actually_grab_photos == true) {
+			$this->Photo->add_photo_format($photo_gallery_photos);
+			return $photo_gallery_photos;
+		}
 		
 		$photo_gallery_ids = Set::extract('/PhotoGalleriesPhoto/photo_id', $photo_gallery_photos);
 		

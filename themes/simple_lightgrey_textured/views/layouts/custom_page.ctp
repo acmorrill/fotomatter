@@ -16,5 +16,9 @@
 				<?php echo $content_for_layout; ?>
 			</div>
 		</div>
+		
+		<?php echo $this->Element('global_theme_footer_copyright', array(
+			'inverse' => true,
+		)); ?>
 	</body>
 </html>

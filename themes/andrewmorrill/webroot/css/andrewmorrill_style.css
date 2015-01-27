@@ -853,3 +853,6 @@ td.priceAndDiscountCode.price {
   line-height: 30px;
   margin: 0px;
 }
+#footer_tagline a {
+  color: #333333;
+}

@@ -89,7 +89,7 @@ class Theme extends AppModel {
 	}
 	
 
-	public function get_landing_page_slideshow_images($num_to_grab, $gallery_id = null) {
+	public function get_landing_page_slideshow_images($num_to_grab, $gallery_id = null, $actually_grab_photos = false) {
 		// DREW TODO - for now we are just going to grab the the number of images from the first gallery
 		// later we will have a way for the user to specify the images that get pulled in
 
@@ -106,12 +106,15 @@ class Theme extends AppModel {
 
 		$slide_show_photo_ids = array();
 		if (!empty($gallery_id)) {
-			$slide_show_photo_ids = $this->PhotoGalleriesPhoto->get_gallery_photos_ids_by_weight($gallery_id, $num_to_grab);
+			$slide_show_photo_ids = $this->PhotoGalleriesPhoto->get_gallery_photos_ids_by_weight($gallery_id, $num_to_grab, $actually_grab_photos);
 		}
 		
 		
 		// DREW TODO - if there are no galleries then just need to grab the first image
 		// DREW TODO - if there are no images then we need to return the error image
+		
+		
+		
 		
 
 		return $slide_show_photo_ids;

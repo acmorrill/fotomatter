@@ -1,4 +1,134 @@
-@import url("../../../lesscss/inc/admin_reset.less");
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.no_select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 h1,
 h2,
 h3,
@@ -171,6 +301,12 @@ body {
   position: absolute;
   top: 0px;
   left: 482px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 #image_slider_outer_container #slider_info_container {
   position: absolute;
@@ -381,4 +517,20 @@ body {
 #image_slider_outer_container #image_slider_container .float_image_cont.panoramic .img_outer_cont .curr_image_info_cont {
   right: 0px;
   top: 110%;
+}
+#footer_tagline {
+  position: fixed;
+  right: 30px;
+  bottom: 15px;
+  text-align: right;
+}
+#footer_tagline .footer_tagline_container_outer {
+  margin-bottom: 0px;
+}
+#footer_tagline .footer_tagline_container_outer .text_replacement {
+  visibility: hidden;
+}
+#footer_tagline,
+#footer_tagline a {
+  color: #000;
 }

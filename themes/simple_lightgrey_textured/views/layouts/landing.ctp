@@ -25,5 +25,8 @@
 				<div id="landing_image"><div class='landing_image_inner' style="<?php echo $imgSrc['style_attributes']; ?> <?php if ($show_white_border == 'off'):?>border: 0px;<?php endif; ?>"><img src="<?php echo $imgSrc['url']; ?>" <?php echo $imgSrc['tag_attributes']; ?> style="<?php echo $imgSrc['style_attributes']; ?>" /></div></div>
 			<?php endif; ?>
 		</div>
+		<?php echo $this->Element('global_theme_footer_copyright', array(
+			'inverse' => true,
+		)); ?>
 	</body>
 </html>
