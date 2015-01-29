@@ -8,3 +8,4 @@ $php_closure[] = 'js/fadeSlideShow.js';
 $php_closure[] = 'js/jquery-cookie/src/jquery.cookie.js';
 $php_closure[] = 'js/frontend/general.js';
 $php_closure[] = 'js/frontend/shopping_cart.js';
+$php_closure[] = 'js/frontend/preload_images_for_progress.js';
