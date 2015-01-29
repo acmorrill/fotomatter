@@ -129,6 +129,20 @@ table {
   -ms-user-select: none;
   user-select: none;
 }
+@font-face {
+  font-family: 'Signika Negative';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Signika Negative Light'), local('SignikaNegative-Light'), url(//fonts.gstatic.com/s/signikanegative/v5/q5TOjIw4CenPw6C-TW06FlQm6jw9jd4_TLOgXPl3aMI.woff2) format('woff2');
+  unicode-range: U0100-024F, U1E -1EFF, U20A -20AB, U20AD-20CF, U2C 58C 7F, UA720-A7FF;
+}
+@font-face {
+  font-family: 'Signika Negative';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Signika Negative Light'), local('SignikaNegative-Light'), url(//fonts.gstatic.com/s/signikanegative/v5/q5TOjIw4CenPw6C-TW06FpYOZfD05paxOum1Eorz4ao.woff2) format('woff2');
+  unicode-range: U0000-00FF, U0131, U0152-0153, U02C 6, U02DA, U02DC, U2000-206F, U2074, U20AC, U2212, U2215, UE0FF, UEFFD, UF000;
+}
 h1,
 h2,
 h3,
@@ -151,8 +165,8 @@ body {
 }
 #logo_cont {
   position: absolute;
-  top: 113px;
-  left: 102px;
+  top: 0px;
+  left: 0px;
   z-index: 200;
 }
 #logo_cont #mainName {
@@ -533,4 +547,83 @@ body {
 #footer_tagline,
 #footer_tagline a {
   color: #000;
+}
+.jspContainer {
+  overflow: hidden;
+  position: relative;
+}
+.jspPane {
+  position: absolute;
+}
+.jspVerticalBar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 16px;
+  height: 100%;
+  background: red;
+}
+.jspHorizontalBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 16px;
+  background: red;
+}
+.jspVerticalBar *,
+.jspHorizontalBar * {
+  margin: 0;
+  padding: 0;
+}
+.jspCap {
+  display: none;
+}
+.jspHorizontalBar .jspCap {
+  float: left;
+}
+.jspTrack {
+  background: #dde;
+  position: relative;
+}
+.jspDrag {
+  background: #bbd;
+  position: relative;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+}
+.jspHorizontalBar .jspTrack,
+.jspHorizontalBar .jspDrag {
+  float: left;
+  height: 100%;
+}
+.jspArrow {
+  background: #50506d;
+  text-indent: -20000px;
+  display: block;
+  cursor: pointer;
+}
+.jspArrow.jspDisabled {
+  cursor: default;
+  background: #80808d;
+}
+.jspVerticalBar .jspArrow {
+  height: 16px;
+}
+.jspHorizontalBar .jspArrow {
+  width: 16px;
+  float: left;
+  height: 100%;
+}
+.jspVerticalBar .jspArrow:focus {
+  outline: none;
+}
+.jspCorner {
+  background: #eeeef4;
+  float: left;
+  height: 100%;
+}
+* html .jspCorner {
+  margin: 0 -3px 0 0;
 }

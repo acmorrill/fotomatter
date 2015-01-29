@@ -328,7 +328,7 @@ function count_loaded_photos() {
 			update_progress_bar();
 		};
 		tmpImg.error = function() {
-			console.log ("error loading image");
+//			console.log ("error loading image");
 			loaded_images++;
 			update_progress_bar();
 		};

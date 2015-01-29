@@ -43,12 +43,12 @@ $theme_config = array(
 		),
 		'logo_config' => array(
 			'available_space' => array(// the max width and height of the logo (overridden by settings below in the available space screenshot)
-				'width' => 400,
-				'height' => 200
+				'width' => 637,
+				'height' => 159
 			),
 			'available_space_screenshot' => array(
-				'absolute_path' => PATH_TO_THEMES . DS . 'large_image_gray_bar_licky/webroot/img/kent_test_theme_logo_space.jpg', // this image should be max 735 pixels width
-				'web_path' => '/img/kent_test_theme_logo_space.jpg',
+//				'absolute_path' => PATH_TO_THEMES . DS . 'large_image_gray_bar_licky/webroot/img/kent_test_theme_logo_space.jpg', // this image should be max 735 pixels width
+//				'web_path' => '/img/kent_test_theme_logo_space.jpg',
 				'padding' => array(
 					'left' => 0,
 					'top' => 0,
@@ -97,7 +97,7 @@ $theme_config = array(
 			)
 		),
 		'theme_gallery_listing_config' => array(
-			'default_images_per_page' => 8
+			'default_images_per_page' => 50
 		),
 		'theme_avail_custom_settings' => array(
 			'settings' => array(

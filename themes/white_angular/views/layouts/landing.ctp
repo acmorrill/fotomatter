@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Photography by Andrew Morrill</title>
-		<meta name="keywords" content="Andrew Morrill, photography, fine art, utah photography, utah photographer, National Park, Utah, California">
-		<meta name="description" content="Large format landscape photography by Utah based photographer Andrew Morrill.">
+		<title><?php echo $this->Theme->get_frontend_html_title(); ?></title>
 		<?php echo $this->Element('theme_global_includes'); ?>
 		<link rel="stylesheet" type="text/css" href="/css/white_angular_style.css" />
-		<link href='http://fonts.googleapis.com/css?family=Signika+Negative:300' rel='stylesheet' type='text/css'>
-		<script src="/js/angular_functions.js"></script>
+		<script src="/js/php_closure/white_angular.min.js"></script>
 	</head>
 	<body>
 <!--		<div style="width: 650px; height: 100px; z-index: 3000; position: fixed; outline: 1px solid orange;"></div>-->

@@ -431,6 +431,7 @@ if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'd
 	$GLOBALS['CURRENT_THEME_PATH'] = dirname(realpath($root_path.DS."current_theme_webroot"));
 	$GLOBALS['PARENT_THEME_PATH'] = dirname(realpath($root_path.DS."parent_theme_webroot"));
 	define("DEFAULT_THEME_PATH", PATH_TO_THEMES.DS.'default');
+	define("DEFAULT_THEME_WEBROOT_ABS", PATH_TO_THEMES.DS.'default'.DS.'webroot');
 	
 	
 
