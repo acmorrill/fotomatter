@@ -110,6 +110,8 @@
 				</div>
 			</div>
 		</div>
-		<?php echo $this->Element('global_theme_footer_copyright'); ?>
+		<?php echo $this->Element('global_theme_footer_copyright', array(
+			'classes' => array( 'fixed_position' )
+		)); ?>
 	</body>
 </html>

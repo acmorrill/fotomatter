@@ -1,10 +1,13 @@
 <div style="clear: both;"></div>
 <?php
+	if (!isset($classes)) {
+		$classes = array();
+	}
 	if (!isset($inverse)) {
 		$inverse = false;
 	}
 ?>
-<div id="footer_tagline" class="<?php if ($inverse): ?> inverse <?php endif; ?>">
+<div id="footer_tagline" class="<?php echo implode(' ', $classes); ?> <?php if ($inverse): ?> inverse <?php endif; ?>">
 	<?php
 		$first_name = $this->SiteSetting->getVal('first_name', '');
 		$last_name = $this->SiteSetting->getVal('last_name', '');

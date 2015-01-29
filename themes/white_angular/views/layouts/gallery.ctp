@@ -34,13 +34,13 @@
 					}, 20);
 				});
 				
-				jQuery('.scroll_up_right').click(function() {
-					scroll_to_next_image(false);
-				});
-				
-				jQuery('.scroll_down_left').click(function() {
-					scroll_to_prev_image(false);
-				});
+//				jQuery('.scroll_up_right').click(function() {
+//					scroll_to_next_image(false);
+//				});
+//				
+//				jQuery('.scroll_down_left').click(function() {
+//					scroll_to_prev_image(false);
+//				});
 				
 				jQuery('#image_slider_container .float_image_cont.actual_image').click(function() {
 					// fail on any animation
@@ -94,7 +94,10 @@
 									<div class="photo_description"><p><?php echo $photo['Photo']['description']; ?></p></div>
 								<?php endif; ?>
 								<div class="line"></div>
-								<img style="margin-top: 20px;" src="/img/fake_buttons.png" alt="" />
+								<?php echo $this->Element('cart_checkout/compact_image_add_to_cart_form_simple', array(
+									'photo_id' => $photo['Photo']['id'],
+								)); ?>
+								<?php /* <img style="margin-top: 20px;" src="/img/fake_buttons.png" alt="" /> // DREW TODO - style the buttons as in this image */ ?>
 							</div>
 							<div class="img_cont" style="width: <?php echo $total_width; ?>px; height: <?php echo $total_height; ?>px; margin-left: <?php echo -floor($total_width/2); ?>px; margin-top: <?php echo -floor($total_height/2); ?>px;">
 								<div class="img_inner_wrap">

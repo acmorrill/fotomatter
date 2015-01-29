@@ -143,6 +143,51 @@ table {
   src: local('Signika Negative Light'), local('SignikaNegative-Light'), url(//fonts.gstatic.com/s/signikanegative/v5/q5TOjIw4CenPw6C-TW06FpYOZfD05paxOum1Eorz4ao.woff2) format('woff2');
   unicode-range: U0000-00FF, U0131, U0152-0153, U02C 6, U02DA, U02DC, U2000-206F, U2074, U20AC, U2212, U2215, UE0FF, UEFFD, UF000;
 }
+#custom_page_content_container {
+  position: relative;
+  left: 262px;
+  top: 159px;
+  width: 750px;
+  background-color: #ffffff;
+  border: 5px solid #808080;
+  padding: 40px;
+  margin-bottom: 200px;
+}
+#custom_page_content_container a {
+  color: #000;
+}
+#cart_table {
+  margin-top: 0px;
+}
+#cart_table thead {
+  border: 0px;
+}
+#cart_table thead th {
+  background-color: #505050;
+  border: 0px;
+  border-right: 3px solid #ffffff;
+  border-bottom: 3px solid #ffffff;
+  color: #ffffff;
+  height: 32px;
+  line-height: 32px;
+}
+#cart_table thead th.last {
+  border-right: 0px;
+}
+#cart_table tbody {
+  background-color: #dcdcdc;
+  border: 0px;
+}
+#cart_table tbody tr {
+  border: 0px;
+}
+#cart_table tbody tr td {
+  border: 0px;
+  border-bottom: 3px solid #ffffff;
+}
+#cart_table tbody tr td.first {
+  border-right: 3px solid #ffffff;
+}
 h1,
 h2,
 h3,
@@ -486,6 +531,9 @@ body {
 #image_slider_outer_container #image_slider_container .float_image_cont .img_outer_cont .curr_image_info_cont .photo_description .jspVerticalBar .jspTrack .jspDrag {
   background: #cecdcd;
 }
+#image_slider_outer_container #image_slider_container .float_image_cont .img_outer_cont .curr_image_info_cont .line {
+  margin-bottom: 30px;
+}
 #image_slider_outer_container #image_slider_container .float_image_cont .img_outer_cont.when_open {
   display: none;
 }
@@ -532,21 +580,34 @@ body {
   right: 0px;
   top: 110%;
 }
-#footer_tagline {
+#footer_tagline.fixed_position {
   position: fixed;
   right: 30px;
   bottom: 15px;
   text-align: right;
 }
-#footer_tagline .footer_tagline_container_outer {
+#footer_tagline.fixed_position .footer_tagline_container_outer {
   margin-bottom: 0px;
 }
-#footer_tagline .footer_tagline_container_outer .text_replacement {
+#footer_tagline.fixed_position .footer_tagline_container_outer .text_replacement {
   visibility: hidden;
 }
-#footer_tagline,
-#footer_tagline a {
+#footer_tagline.fixed_position,
+#footer_tagline.fixed_position a {
   color: #000;
+}
+.submit_button .content {
+  color: #000;
+  font-size: 16px;
+}
+.submit_button:hover .content {
+  color: #FFFFFF;
+}
+.compact_add_to_cart_buttons_cont select {
+  margin-bottom: 15px;
+}
+.compact_add_to_cart_buttons_cont .print_type_data span {
+  margin-right: 7px;
 }
 .jspContainer {
   overflow: hidden;

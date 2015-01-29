@@ -33,20 +33,6 @@ $theme_config = array(
 		'Default' => array(
 			'layout' => 'custom_page',
 		),
-		'SitePages' => array(
-			'landing_page' => array(
-				'layout' => 'landing',
-				'view' => false,
-			),
-			'custom_page' => array(
-				'layout' => 'custom_page',
-				'view' => 'custom_page',
-			),
-			'contact_us' => array(
-				'layout' => 'custom_page',
-				'view' => 'contact',
-			),
-		),
 		'PhotoGalleries' => array(
 			'choose_gallery' => array(
 				'layout' => 'gallery_landing',
@@ -61,28 +47,6 @@ $theme_config = array(
 			'view_photo' => array(
 				'layout' => 'view_photo',
 				'view' => false,
-			),
-		),
-		'Ecommerces' => array(
-			'view_cart' => array(
-				'layout' => 'custom_page',
-				'view' => 'view_cart',
-			),
-			'checkout_login_or_guest' => array(
-				'layout' => 'custom_page',
-				'view' => 'checkout_login_or_guest',
-			),
-			'checkout_get_address' => array(
-				'layout' => 'custom_page',
-				'view' => 'checkout_get_address',
-			),
-			'checkout_finalize_payment' => array(
-				'layout' => 'custom_page',
-				'view' => 'checkout_finalize_payment',
-			),
-			'checkout_thankyou' => array(
-				'layout' => 'custom_page',
-				'view' => 'checkout_thankyou',
 			),
 		),
 	),

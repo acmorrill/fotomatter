@@ -7,16 +7,6 @@ $theme_config = array(
 		'WhiteAngular'
 	),
 	'theme_controller_action_layouts' => array(
-		'SitePages' => array(
-			'landing_page' => array(
-				'layout' => 'landing',
-				'view' => false,
-			),
-			'custom_page' => array(
-				'layout' => 'landing',
-				'view' => false,
-			),
-		),
 		'PhotoGalleries' => array(
 			'choose_gallery' => array(
 				'layout' => 'gallery_landing',

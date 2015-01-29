@@ -1,0 +1,41 @@
+#cart_table {
+	margin-top: 0px;
+	thead {
+		border: 0px;
+		th {
+			background-color: #505050;
+			border: 0px;
+			border-right: 3px solid #ffffff;
+			border-bottom: 3px solid #ffffff;
+			color: #ffffff;
+			height: 32px;
+			line-height: 32px;
+			&.last { border-right: 0px; }
+		}
+	}
+	tbody {
+		background-color: #dcdcdc;
+		border: 0px;
+		tr {
+			border: 0px;
+			td {
+				&, &.delete .icon-trash-01 {
+					&, a { /*color: #ffffff;*/ }
+				}
+				/*color: #ffffff;*/
+				border: 0px;
+				border-bottom: 3px solid #ffffff;
+				&.first { border-right: 3px solid #ffffff; }
+			}
+		}
+	}
+	tfoot {
+/*		line-height: 25px;
+		td {
+			padding-top: 10px;
+			.submit_button {
+				margin-top: 15px;
+			}
+		}*/
+	}
+}

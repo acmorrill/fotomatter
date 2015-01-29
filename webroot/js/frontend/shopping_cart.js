@@ -81,4 +81,22 @@ jQuery(document).ready(function() {
 		});
 		jQuery('#update_cart_button_form').submit();
 	});
+	
+	
+	/////////////////////////////////////////////////////////////////////
+	// compact add to cart javascript
+	function handle_print_type_change() {
+
+	}
+		
+	jQuery(document).ready(function() {
+		jQuery('.print_type_chooser').change(function(e) {
+			var current_print_type = jQuery(this).val();
+			var print_type_datas = jQuery(this).closest('.compact_add_to_cart_buttons_inner_cont').find('.print_type_data');
+			print_type_datas.hide();
+			print_type_datas.filter('[data-print_type_id=' + current_print_type + ']').show();
+		});
+	});
+	
+	
 });

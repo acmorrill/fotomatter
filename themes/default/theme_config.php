@@ -31,7 +31,7 @@ $theme_config = array(
 			),
 			'custom_page' => array(
 				'layout' => 'custom_page',
-				'view' => false,
+				'view' => 'custom_page',
 			),
 			'contact_us' => array(
 				'layout' => 'custom_page',
@@ -57,23 +57,23 @@ $theme_config = array(
 		'Ecommerces' => array(
 			'view_cart' => array(
 				'layout' => 'custom_page',
-				'view' => false,
+				'view' => 'view_cart',
 			),
 			'checkout_login_or_guest' => array(
 				'layout' => 'custom_page',
-				'view' => false,
+				'view' => 'checkout_login_or_guest',
 			),
 			'checkout_get_address' => array(
 				'layout' => 'custom_page',
-				'view' => false,
+				'view' => 'checkout_get_address',
 			),
 			'checkout_finalize_payment' => array(
 				'layout' => 'custom_page',
-				'view' => false,
+				'view' => 'checkout_finalize_payment',
 			),
 			'checkout_thankyou' => array(
 				'layout' => 'custom_page',
-				'view' => false,
+				'view' => 'checkout_thankyou',
 			),
 		),
 	),

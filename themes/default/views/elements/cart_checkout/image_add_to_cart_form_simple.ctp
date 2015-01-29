@@ -7,12 +7,12 @@
 			$beforeHtml = '';
 		}
 	?>
-	<div id="add_to_cart_buttons_cont">
+	<div class="add_to_cart_buttons_cont">
 		<?php if (empty($photo_sellable_prints)): ?>
 			<!-- <?php __('The add to cart buttons have not been fully setup'); ?> -->
 		<?php else: ?>
 			<?php echo $beforeHtml; ?>
-			<div id="add_to_cart_buttons_inner_cont">
+			<div class="add_to_cart_buttons_inner_cont">
 				<table>
 					<thead>
 						<tr>
@@ -67,5 +67,3 @@
 		<?php endif; ?>
 	</div>
 <?php endif; ?>
-
-
