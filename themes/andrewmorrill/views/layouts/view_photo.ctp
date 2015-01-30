@@ -83,8 +83,11 @@
 					<?php print("{$curr_photo['Photo']['display_subtitle']}"); ?>
 					<br/>
 				<?php endif; ?>
-				<?php $phpdate = strtotime( 'last monday' ); ?>
-				<?php echo date("F Y",$phpdate); ?>
+					
+				<?php if (!empty($curr_photo['Photo']['date_taken'])): ?>
+					<?php $phpdate = strtotime($curr_photo['Photo']['date_taken']); ?>
+					<?php echo date("F Y", $phpdate); ?>
+				<?php endif; ?>
 			</p>
 
 			<p style="width: 520px"><?php print("{$curr_photo['Photo']['description']}"); ?></p>

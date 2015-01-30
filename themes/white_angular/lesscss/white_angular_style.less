@@ -30,7 +30,7 @@ body {
 	font-size: 18px;
 	font-weight: 300;
 	position: relative;
-	overflow: hidden;
+	overflow-x: hidden;
 }
 
 /**************************************************************************************
@@ -42,13 +42,7 @@ body {
 	left: 0px;
 	z-index: @logo_zindex;
 	#mainName {
-		width: 324px;
-		height: 26px;
-		background: url('/img/sample_logo.png') no-repeat top left;
-		display: block;
-		img {
-			display: none;
-		}
+		position: absolute;
 	}
 }
 
@@ -211,6 +205,15 @@ body {
 			top: 42px;
 			left: 341px;
 		}
+		.choose_a_gallery_message {
+			position: absolute;
+			top: 9px;
+			left: 426px;
+			font-size: 20px;
+			font-weight: 800;
+			z-index: 1;
+			text-transform: uppercase;
+		}
 		.welcome_info_line {
 			position: absolute;
 			left: 99px;
@@ -225,6 +228,12 @@ body {
 					font-weight: 800;
 				}
 			}
+		}
+		#intro_text {
+			position: absolute;
+			left: 238px;
+			top: 57px;
+			width: 248px;
 		}
 		.gallery_info_cont {
 			.curr_gallery_info {
@@ -335,15 +344,20 @@ body {
 						margin-left: 6px;
 						margin-bottom: 20px;
 					}
-					h2, h3 {
+					h2, h3, h4 {
 						margin-bottom: 14px;
 					}
 					h3 {
 						font-weight: 300;
 						font-size: 20px;
 					}
+					h4 {
+						font-weight: 300;
+						font-size: 18px;
+					}
 					.photo_description {
-						height: 238px;
+						min-height: 80px;
+						max-height: 238px;
 						overflow-x: hidden;
 						overflow-y: auto;
 						padding-top: 20px;
@@ -440,9 +454,9 @@ body {
 //-----------------------------------------------------------
 #footer_tagline {
 	&.fixed_position {
-		position: fixed;
-		right: 30px;
-		bottom: 15px;
+		position: absolute;
+		left: 501px;
+		top: 992px;
 		text-align: right;
 		.footer_tagline_container_outer {
 			margin-bottom: 0px;

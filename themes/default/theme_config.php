@@ -181,7 +181,8 @@ $theme_config = array(
 //			'background_path_theme_setting_name' => 'site_repeated_background', // the name of the theme setting that lets the user choose the background
 		),
 		'theme_gallery_listing_config' => array(
-			'default_images_per_page' => 8
+			'default_images_per_page' => 8,
+			'based_on_theme_option' => '', // if this is not empty the gallery will get the number based on the current theme setting
 		),
 		'theme_avail_custom_settings' => array(
 			'settings' => array(

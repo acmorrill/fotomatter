@@ -107,14 +107,16 @@ class Theme extends AppModel {
 		$slide_show_photo_ids = array();
 		if (!empty($gallery_id)) {
 			$slide_show_photo_ids = $this->PhotoGalleriesPhoto->get_gallery_photos_ids_by_weight($gallery_id, $num_to_grab, $actually_grab_photos);
+		} else {
+			// so just grab the first image among all images
+			$this->Photo = ClassRegistry::init('Photo');
+			$slide_show_photo_ids = $this->Photo->get_first_n_photos($num_to_grab, $actually_grab_photos);
 		}
 		
 		
-		// DREW TODO - if there are no galleries then just need to grab the first image
-		// DREW TODO - if there are no images then we need to return the error image
-		
-		
-		
+		if (empty($slide_show_photo_ids)) {
+			$this->major_error("no images to use on landing page");
+		}
 		
 
 		return $slide_show_photo_ids;
@@ -656,17 +658,17 @@ class Theme extends AppModel {
 		$this->ThemeHiddenSetting->setVal('current_inverted', $current_inverted);
 		if ($current_desaturation != 100) {
 			if (imagecopymergegray($imgAvatar, $imgAvatar, 0, 0, 0, 0, imagesx($imgAvatar), imagesy($imgAvatar), $current_desaturation) === false) {
-				// DREW TODO - put in a major error here
+				$this->major_error("failed to change saturation on dynamic background");
 			}
 		}
 		if ($current_brightness != 0) {
 			if (imagefilter($imgAvatar, IMG_FILTER_BRIGHTNESS, $current_brightness) === false) { // -255 = min brightness, 0 = no change, +255 = max brightness
-				// DREW TODO - put in a major error here
+				$this->major_error("failed to change brightness on dynamic background");
 			}
 		}
 		if ($current_contrast != 0) {
 			if (imagefilter($imgAvatar, IMG_FILTER_CONTRAST, -$current_contrast) === false) { // -100 = max contrast, 0 = no change, +100 = min contrast (note the direction!)
-				// DREW TODO - put in a major error here
+				$this->major_error("failed to change contrast on dynamic background");
 			}
 		}
 		if ($current_inverted == 1) {

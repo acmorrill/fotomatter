@@ -53,10 +53,17 @@
 			<div id="slider_info_container">
 				<img class="scroll_up_right" src="/img/scroll_up_right.png" alt="" />
 				<div class="top_info_line">&nbsp;</div>
+				<div class="choose_a_gallery_message">Choose A Gallery</div>
 				<div class="gallery_info_cont">
 					<?php foreach ($photos as $photo): ?>
 						<?php if (isset($photo['actual_image'])): ?>
-							<?php $photos_count = $this->Gallery->count_gallery_photos($photo); ?>
+							<?php 
+								$photos_count = $this->Gallery->count_gallery_photos($photo);
+								$max_gallery_images = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'max_gallery_images'); 
+								if ($photos_count > $max_gallery_images) {
+									$photos_count = $max_gallery_images;
+								}
+							?>
 					
 							<div class="curr_gallery_info" photo_gallery_id="<?php echo $photo['PhotoGallery']['id']; ?>">
 								<div class="content">
@@ -118,5 +125,9 @@
 				</div>
 			</div>
 		</div>
+		
+		<?php echo $this->Element('global_theme_footer_copyright', array(
+			'classes' => array( 'fixed_position' )
+		)); ?>
 	</body>
 </html>

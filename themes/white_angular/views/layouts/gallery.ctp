@@ -31,46 +31,60 @@
 						var first_image = jQuery('#image_slider_container .float_image_cont.first');
 						var second_to_last_image = first_image.prev();
 						open_image(second_to_last_image, 700);
+						
+						jQuery('#image_slider_container .float_image_cont.actual_image').click(function() {
+							// fail on any animation
+							if ($(':animated').length) {
+								return false;
+							}
+
+							scroll_to_image(jQuery(this), 0);
+							
+							if (jQuery(this).data('jscroll_init') == undefined) {
+								jQuery(this).data('jscroll_init', true);
+								var photo_description = jQuery('.img_outer_cont .curr_image_info_cont .photo_description', this);
+								if (photo_description.length > 0) {
+									var jscrollpane = photo_description.data('jsp');
+									jscrollpane.reinitialise();
+								}
+							}
+						});
+
+						jQuery('#image_slider_container .float_image_cont.fake_image').click(function() {
+							// fail on any animation
+							if ($(':animated').length) {
+								return false;
+							}
+
+							var photo_id = jQuery(this).attr('photo_id');
+							var real_image = jQuery('#image_slider_container .float_image_cont.actual_image[photo_id='+photo_id+']');
+							var scroll_from = undefined;
+							if (jQuery(this).hasClass('before')) {
+								scroll_from = real_image.prev();
+							} else {
+								scroll_from = real_image.next();
+							}
+							scroll_to_image(scroll_from, 0, true);
+							scroll_to_image(real_image, 0);
+							
+							if (jQuery(this).data('jscroll_init') == undefined) {
+								jQuery(this).data('jscroll_init', true);
+								var photo_description = jQuery('.img_outer_cont .curr_image_info_cont .photo_description', this);
+								if (photo_description.length > 0) {
+									var jscrollpane = photo_description.data('jsp');
+									jscrollpane.reinitialise();
+								}
+							}
+						});
+						
 					}, 20);
 				});
 				
-//				jQuery('.scroll_up_right').click(function() {
-//					scroll_to_next_image(false);
-//				});
-//				
-//				jQuery('.scroll_down_left').click(function() {
-//					scroll_to_prev_image(false);
-//				});
-				
-				jQuery('#image_slider_container .float_image_cont.actual_image').click(function() {
-					// fail on any animation
-					if ($(':animated').length) {
-						return false;
-					}
-					
-					scroll_to_image(jQuery(this), 0);
-				});
-				
-				jQuery('#image_slider_container .float_image_cont.fake_image').click(function() {
-					// fail on any animation
-					if ($(':animated').length) {
-						return false;
-					}
-					
-					var photo_id = jQuery(this).attr('photo_id');
-					var real_image = jQuery('#image_slider_container .float_image_cont.actual_image[photo_id='+photo_id+']');
-					var scroll_from = undefined;
-					if (jQuery(this).hasClass('before')) {
-						scroll_from = real_image.prev();
-					} else {
-						scroll_from = real_image.next();
-					}
-					scroll_to_image(scroll_from, 0, true);
-					scroll_to_image(real_image, 0);
-				});
 				
 				jQuery('#image_slider_outer_container #image_slider_container .float_image_cont .img_outer_cont .curr_image_info_cont .photo_description').jScrollPane();
 			});
+			
+			
 		</script>
 		
 		<div id="image_slider_outer_container">
@@ -84,20 +98,27 @@
 					<div count="<?php echo $count; ?>" photo_id="<?php if (isset($photo['Photo']['id'])) { echo $photo['Photo']['id']; } ?>" class="float_image_cont <?php echo implode(' ', $photo['classes']); ?>" style="width: 720px; height: 310px; left: <?php echo $left; ?>px;" start_left="<?php echo $left; ?>" img_width="<?php echo $total_width; ?>" img_height="<?php echo $total_height; ?>">
 						<div class="img_outer_cont <?php if (isset($alt_img_src)): ?>when_open<?php endif; ?>">
 							<div class="curr_image_info_cont">
-								<img class="left_arrow" src="/img/left_arrow.png" alt="" />
-								<h2><?php echo $photo['Photo']['display_title']; ?></h2>
-								<?php if (!empty($photo['Photo']['display_subtitle'])): ?>
-									<h3><?php echo $photo['Photo']['display_subtitle']; ?></h3>
+								<?php if (!empty($photo['Photo'])): ?>
+									<img class="left_arrow" src="/img/left_arrow.png" alt="" />
+									<h2><?php echo $photo['Photo']['display_title']; ?></h2>
+									<?php if (!empty($photo['Photo']['display_subtitle'])): ?>
+										<h3><?php echo $photo['Photo']['display_subtitle']; ?></h3>
+									<?php endif; ?>
+									<?php if (!empty($photo['Photo']['date_taken'])): ?>
+										<?php $phpdate = strtotime($photo['Photo']['date_taken']); ?>
+										<h4><?php echo date("F Y", $phpdate); ?></h4>
+									<?php endif; ?>
+
+									<div class="thick_line"></div>
+									<?php if (!empty($photo['Photo']['description'])): ?>
+										<div class="photo_description"><p><?php echo $photo['Photo']['description']; ?></p></div>
+									<?php endif; ?>
+									<div class="line"></div>
+									<?php echo $this->Element('cart_checkout/compact_image_add_to_cart_form_simple', array(
+										'photo_id' => $photo['Photo']['id'],
+									)); ?>
+									<?php /* <img style="margin-top: 20px;" src="/img/fake_buttons.png" alt="" /> // DREW TODO - style the buttons as in this image */ ?>
 								<?php endif; ?>
-								<div class="thick_line"></div>
-								<?php if (!empty($photo['Photo']['description'])): ?>
-									<div class="photo_description"><p><?php echo $photo['Photo']['description']; ?></p></div>
-								<?php endif; ?>
-								<div class="line"></div>
-								<?php echo $this->Element('cart_checkout/compact_image_add_to_cart_form_simple', array(
-									'photo_id' => $photo['Photo']['id'],
-								)); ?>
-								<?php /* <img style="margin-top: 20px;" src="/img/fake_buttons.png" alt="" /> // DREW TODO - style the buttons as in this image */ ?>
 							</div>
 							<div class="img_cont" style="width: <?php echo $total_width; ?>px; height: <?php echo $total_height; ?>px; margin-left: <?php echo -floor($total_width/2); ?>px; margin-top: <?php echo -floor($total_height/2); ?>px;">
 								<div class="img_inner_wrap">
@@ -137,5 +158,8 @@
 				</div>
 			</div>
 		</div>
+		<?php echo $this->Element('global_theme_footer_copyright', array(
+			'classes' => array( 'fixed_position' )
+		)); ?>
 	</body>
 </html>

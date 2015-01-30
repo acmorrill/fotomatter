@@ -269,20 +269,24 @@ function close_image(image, animation_time) {
 }
 
 
-function scroll_to_next_image(no_open) {
+function scroll_to_next_image(no_open, speed) {
 	if (no_open == undefined) {
 		no_open = false;
+	}
+	
+	if (speed == undefined) {
+		speed = 300;
 	}
 	
 	var current_image = jQuery('#image_slider_container .float_image_cont.current_image');
 	var next_image = current_image.prev();
 	if (next_image.hasClass('actual_image')) {
-		scroll_to_image(next_image, 300, false, no_open);
+		scroll_to_image(next_image, speed, false, no_open);
 	} else {
 		var first_image = jQuery('#image_slider_container .float_image_cont.first');
 		var before_first_image = first_image.next();
 		scroll_to_image(before_first_image, 0, true, no_open);
-		scroll_to_image(first_image, 300, false, no_open);
+		scroll_to_image(first_image, speed, false, no_open);
 	}
 }
 

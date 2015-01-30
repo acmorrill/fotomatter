@@ -5,31 +5,27 @@
 		<?php echo $this->Element('theme_global_includes'); ?>
 		<link rel="stylesheet" type="text/css" href="/css/white_angular_style.css" />
 		<script src="/js/php_closure/white_angular.min.js"></script>
+		<?php 
+			$landing_page_slideshow_interval_time = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'landing_page_slideshow_interval_time'); 
+			$landing_page_slideshow_transition_time = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'landing_page_slideshow_transition_time'); 
+			$landing_page_slideshow_max_images = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'landing_page_slideshow_max_images'); 
+		?>
 	</head>
 	<body>
-<!--		<div style="width: 650px; height: 100px; z-index: 3000; position: fixed; outline: 1px solid orange;"></div>-->
-		
 		<?php echo $this->Element('nameTitle'); ?>
-		
 		<?php echo $this->Element('menu/navBar'); ?>
-		
 		<script type="text/javascript">
 			var scroll_to_height = 257;
+			var autoscroll_interval;
 			
 			jQuery(document).ready(function() {
-				jQuery('.scroll_up_right').click(function() {
-					scroll_to_next_image(true);
-				});
-				
-				jQuery('.scroll_down_left').click(function() {
-					scroll_to_prev_image(true);
-				});
-				
 				jQuery('#image_slider_container .float_image_cont.actual_image').click(function() {
+					clearInterval(autoscroll_interval);
 					scroll_to_image(jQuery(this), 300, false, true);
 				});
 				
 				jQuery('#image_slider_container .float_image_cont.fake_image').click(function() {
+					clearInterval(autoscroll_interval);
 					var photo_id = jQuery(this).attr('photo_id');
 					var real_image = jQuery('#image_slider_container .float_image_cont.actual_image[photo_id='+photo_id+']');
 					var scroll_from = undefined;
@@ -42,11 +38,23 @@
 					scroll_to_image(real_image, 300, false, true);
 				});
 			});
+			
+			jQuery(window).load(function() {
+				var scrolling_time = <?php echo $landing_page_slideshow_transition_time; ?>;
+				var delay_between_scrolls = <?php echo $landing_page_slideshow_interval_time; ?>;
+				
+				setTimeout(function() {
+					scroll_to_next_image(true, scrolling_time);
+					autoscroll_interval = setInterval(function () {
+						scroll_to_next_image(true, scrolling_time);
+					}, scrolling_time + delay_between_scrolls);
+				}, 1000);
+			});
 		</script>
 		
 		<div id="image_slider_outer_container">
 			<div id="slider_info_container">
-				<img class="scroll_up_right" src="/img/scroll_up_right.png" alt="" />
+				<?php //<img class="scroll_up_right" src="/img/scroll_up_right.png" alt="" /> ?>
 				<div class="top_info_line">&nbsp;</div>
 				<div class="welcome_info_line">
 					<div class="content">
@@ -54,13 +62,17 @@
 						<div class="thick_line"></div>
 					</div>
 					<div class="line"></div>
+					<?php $intro_text = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'landing_page_into_text'); ?>
+					<?php if (!empty($intro_text)): ?>
+						<div id="intro_text"><p><?php echo strip_tags($intro_text); ?></p></div>
+					<?php endif; ?>
 				</div>
-				<img class="scroll_down_left" src="/img/scroll_down_left.png" alt="" />
+				<?php //<img class="scroll_down_left" src="/img/scroll_down_left.png" alt="" /> ?>
 			</div>
 			<div id="image_slider_container">
 				<?php 
 					$gallery_to_use_id = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'landing_page_gallery', null);
-					$photos = $this->Theme->get_landing_page_slideshow_images(10, $gallery_to_use_id, true);
+					$photos = $this->Theme->get_landing_page_slideshow_images($landing_page_slideshow_max_images, $gallery_to_use_id, true);
 					
 					$this->WhiteAngular->process_photos_for_angular_slide($photos);
 				?>

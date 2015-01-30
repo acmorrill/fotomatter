@@ -72,6 +72,25 @@ class Photo extends AppModel {
 			return 0;
 		}
 	}
+	
+	public function get_first_n_photos($limit, $return_full_photos = false) {
+		$first_photos = $this->find('all', array(
+			'limit' => $limit,
+			'contain' => false,
+		));
+
+		if (!empty($first_photos)) {
+			if ($return_full_photos) {
+				$this->add_photo_format($first_photos);
+				return $first_photos;
+			}
+			
+			$photo_ids = Set::extract('/Photo/id', $first_photos);
+			return $photo_ids;
+		} else {
+			return array();
+		}
+	}
         
 	public function clear_apc_cache() {
 		apc_delete($this->limit_last_photo_apc_key);
@@ -536,7 +555,7 @@ class Photo extends AppModel {
 				'conditions' => $conditions,
 				'contain' => false
 			));
-			if (!$photoCache) {
+			if (empty($photoCache)) {
 				$return_url = $this->PhotoCache->prepare_new_cachesize($photo_id, $height, $width, false, $unsharp_amount, $return_tag_attributes, $crop);
 			} else {
 				$return_url = $this->PhotoCache->get_dummy_error_image_path($height, $width, false, $return_tag_attributes, $crop);

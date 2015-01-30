@@ -148,13 +148,15 @@ table {
   left: 262px;
   top: 159px;
   width: 750px;
-  background-color: #ffffff;
-  border: 5px solid #808080;
-  padding: 40px;
   margin-bottom: 200px;
 }
 #custom_page_content_container a {
   color: #000;
+}
+#custom_page_content_container #custom_page_content_container_inner {
+  background-color: #ffffff;
+  border: 5px solid #808080;
+  padding: 40px;
 }
 #cart_table {
   margin-top: 0px;
@@ -206,7 +208,7 @@ body {
   font-size: 18px;
   font-weight: 300;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 #logo_cont {
   position: absolute;
@@ -215,13 +217,7 @@ body {
   z-index: 200;
 }
 #logo_cont #mainName {
-  width: 324px;
-  height: 26px;
-  background: url('/img/sample_logo.png') no-repeat top left;
-  display: block;
-}
-#logo_cont #mainName img {
-  display: none;
+  position: absolute;
 }
 #main_nav {
   z-index: 250;
@@ -382,6 +378,15 @@ body {
   top: 42px;
   left: 341px;
 }
+#image_slider_outer_container #slider_info_container .choose_a_gallery_message {
+  position: absolute;
+  top: 9px;
+  left: 426px;
+  font-size: 20px;
+  font-weight: 800;
+  z-index: 1;
+  text-transform: uppercase;
+}
 #image_slider_outer_container #slider_info_container .welcome_info_line {
   position: absolute;
   left: 99px;
@@ -395,6 +400,12 @@ body {
   width: 400px;
   margin-bottom: 14px;
   font-weight: 800;
+}
+#image_slider_outer_container #slider_info_container #intro_text {
+  position: absolute;
+  left: 238px;
+  top: 57px;
+  width: 248px;
 }
 #image_slider_outer_container #slider_info_container .gallery_info_cont .curr_gallery_info {
   position: absolute;
@@ -506,15 +517,21 @@ body {
   margin-bottom: 20px;
 }
 #image_slider_outer_container #image_slider_container .float_image_cont .img_outer_cont .curr_image_info_cont h2,
-#image_slider_outer_container #image_slider_container .float_image_cont .img_outer_cont .curr_image_info_cont h3 {
+#image_slider_outer_container #image_slider_container .float_image_cont .img_outer_cont .curr_image_info_cont h3,
+#image_slider_outer_container #image_slider_container .float_image_cont .img_outer_cont .curr_image_info_cont h4 {
   margin-bottom: 14px;
 }
 #image_slider_outer_container #image_slider_container .float_image_cont .img_outer_cont .curr_image_info_cont h3 {
   font-weight: 300;
   font-size: 20px;
 }
+#image_slider_outer_container #image_slider_container .float_image_cont .img_outer_cont .curr_image_info_cont h4 {
+  font-weight: 300;
+  font-size: 18px;
+}
 #image_slider_outer_container #image_slider_container .float_image_cont .img_outer_cont .curr_image_info_cont .photo_description {
-  height: 238px;
+  min-height: 80px;
+  max-height: 238px;
   overflow-x: hidden;
   overflow-y: auto;
   padding-top: 20px;
@@ -581,9 +598,9 @@ body {
   top: 110%;
 }
 #footer_tagline.fixed_position {
-  position: fixed;
-  right: 30px;
-  bottom: 15px;
+  position: absolute;
+  left: 501px;
+  top: 992px;
   text-align: right;
 }
 #footer_tagline.fixed_position .footer_tagline_container_outer {
