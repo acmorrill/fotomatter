@@ -1,0 +1,23 @@
+// Global flash message styles
+@flash_font_size: 14px;
+.flashMessage {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	vertical-align: top;
+	padding-left: 15px;
+	i {
+		vertical-align: top;
+		font-size: @flash_font_size;
+		line-height: @flash_font_size;
+	}
+	span {
+		vertical-align: top;
+		margin: 0 0 0 8px;
+		max-width: 82%;
+		display: inline-block;
+		line-height: 20px;
+	}
+	&.error i { color: @error_red; }
+	&.success i { color: @tab2_on_color; }
+	&.warning i { color: @warning_tan; }
+}

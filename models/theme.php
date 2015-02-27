@@ -50,6 +50,12 @@ class Theme extends AppModel {
 		return '';
 	}
 	
+	public function reduce_gallery_list_square_size($start_size) {
+		$new_size = round($start_size * .9);
+		
+		return $new_size;
+	}
+	
 	public function get_default_photo_size($format) {
 		$current_size = 'small';
 		if ($format == 'panoramic' || $format == 'vertical_panoramic') {
@@ -83,7 +89,7 @@ class Theme extends AppModel {
 	}
 	
 
-	public function get_landing_page_slideshow_images($num_to_grab, $gallery_id = null) {
+	public function get_landing_page_slideshow_images($num_to_grab, $gallery_id = null, $actually_grab_photos = false) {
 		// DREW TODO - for now we are just going to grab the the number of images from the first gallery
 		// later we will have a way for the user to specify the images that get pulled in
 
@@ -100,8 +106,18 @@ class Theme extends AppModel {
 
 		$slide_show_photo_ids = array();
 		if (!empty($gallery_id)) {
-			$slide_show_photo_ids = $this->PhotoGalleriesPhoto->get_gallery_photos_ids_by_weight($gallery_id, $num_to_grab);
+			$slide_show_photo_ids = $this->PhotoGalleriesPhoto->get_gallery_photos_ids_by_weight($gallery_id, $num_to_grab, $actually_grab_photos);
+		} else {
+			// so just grab the first image among all images
+			$this->Photo = ClassRegistry::init('Photo');
+			$slide_show_photo_ids = $this->Photo->get_first_n_photos($num_to_grab, $actually_grab_photos);
 		}
+		
+		
+		if (empty($slide_show_photo_ids)) {
+			$this->major_error("no images to use on landing page");
+		}
+		
 
 		return $slide_show_photo_ids;
 	}
@@ -642,17 +658,17 @@ class Theme extends AppModel {
 		$this->ThemeHiddenSetting->setVal('current_inverted', $current_inverted);
 		if ($current_desaturation != 100) {
 			if (imagecopymergegray($imgAvatar, $imgAvatar, 0, 0, 0, 0, imagesx($imgAvatar), imagesy($imgAvatar), $current_desaturation) === false) {
-				// DREW TODO - put in a major error here
+				$this->major_error("failed to change saturation on dynamic background");
 			}
 		}
 		if ($current_brightness != 0) {
 			if (imagefilter($imgAvatar, IMG_FILTER_BRIGHTNESS, $current_brightness) === false) { // -255 = min brightness, 0 = no change, +255 = max brightness
-				// DREW TODO - put in a major error here
+				$this->major_error("failed to change brightness on dynamic background");
 			}
 		}
 		if ($current_contrast != 0) {
 			if (imagefilter($imgAvatar, IMG_FILTER_CONTRAST, -$current_contrast) === false) { // -100 = max contrast, 0 = no change, +100 = min contrast (note the direction!)
-				// DREW TODO - put in a major error here
+				$this->major_error("failed to change contrast on dynamic background");
 			}
 		}
 		if ($current_inverted == 1) {

@@ -134,4 +134,16 @@ class UtilHelper extends AppHelper {
 			return GLOBAL_FOTOMATTER_CONTAINER_URL.$file_name;
 		}
 	}
+	
+	public function get_count_class($count, $total) {
+		if ($count == 1) {
+			return 'first';
+		}
+		
+		if ($count == $total) {
+			return 'last';
+		}
+		
+		return '';
+	}
 }

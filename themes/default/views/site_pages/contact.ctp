@@ -1,16 +1,11 @@
-<?php //debug($site_page); ?>
-
-<?php echo $this->Session->flash(); ?>
-<div class="site_element">
+<div id="contact_us_container">
+	<?php echo $this->Session->flash(); ?>
 	<?php if (!empty($site_page['SitePage']['contact_header'])): ?>
 		<h2><b><?php echo $site_page['SitePage']['contact_header']; ?></b></h2>
 	<?php endif; ?>
 	<?php if (isset($site_page['SitePage']['contact_message'])): ?>
 		<p><?php echo $site_page['SitePage']['contact_message']; ?></p>
 	<?php endif; ?>
-	<div style="clear: both"></div>
-</div>
-<div class="site_element">
 	<form action="/site_pages/send_contact_us_email/<?php echo $site_page['SitePage']['id']; ?>" method="post" accept-charset="utf-8">
 		<div style="display:none;"><input type="hidden" name="_method" value="PUT"></div>
 		<div class="input text">
@@ -26,10 +21,12 @@
 			<textarea name="data[SitePage][contact_us_content]" cols="30" rows="6" id="ContactUsContent"></textarea>
 		</div>
 		<div class="submit">
-			<input type="submit" value="Send">
+			<label>&nbsp;</label>
+			<div class="frontend_form_submit_button submit_button"><span class="content"><?php echo __('Send', true); ?></span><span class="extra"></span></div>
 		</div>
 	</form>
+	<div style="clear: both"></div>
 </div>
-<div style="clear: both"></div>
+
 
 

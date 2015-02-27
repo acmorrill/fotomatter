@@ -3,20 +3,11 @@
 // config for theme: white angular
 
 $theme_config = array(
+	'theme_name' => 'white_angular',
 	'theme_include_helpers' => array(
 		'WhiteAngular'
 	),
 	'theme_controller_action_layouts' => array(
-		'SitePages' => array(
-			'landing_page' => array(
-				'layout' => 'landing',
-				'view' => false,
-			),
-			'custom_page' => array(
-				'layout' => 'landing',
-				'view' => false,
-			),
-		),
 		'PhotoGalleries' => array(
 			'choose_gallery' => array(
 				'layout' => 'gallery_landing',
@@ -43,17 +34,17 @@ $theme_config = array(
 		),
 		'logo_config' => array(
 			'available_space' => array(// the max width and height of the logo (overridden by settings below in the available space screenshot)
-				'width' => 400,
-				'height' => 200
+				'width' => 637,
+				'height' => 159
 			),
 			'available_space_screenshot' => array(
-				'absolute_path' => PATH_TO_THEMES . DS . 'large_image_gray_bar_licky/webroot/img/kent_test_theme_logo_space.jpg', // this image should be max 735 pixels width
-				'web_path' => '/img/kent_test_theme_logo_space.jpg',
+				'absolute_path' => PATH_TO_THEMES . DS . 'white_angular/webroot/img/logo_screenshot.jpg', // this image should be max 735 pixels width
+				'web_path' => '/img/logo_screenshot.jpg',
 				'padding' => array(
 					'left' => 0,
 					'top' => 0,
-					'right' => 0,
-					'bottom' => 0,
+					'right' => 542,
+					'bottom' => 281,
 				)
 			),
 			'default_space' => array(// the bounding size of the logo if no size has been specified (should be smaller than available space
@@ -61,43 +52,9 @@ $theme_config = array(
 				'height' => 150
 			)
 		),
-		'theme_background_config' => array(
-			'theme_has_dynamic_background' => true,
-			'overlay_image' => array(
-				'absolute_path' => PATH_TO_THEMES . DS . 'f32_dynamic_background/webroot/img/transparent_bg.png', // this image should be max 1390 x 953 (DREW TODO - not sure about this)
-				'web_path' => '/img/transparent_bg.png',
-				'custom_overlay_transparency_fade' => array(
-					'header' => array(
-						'tl' => array(
-							'x' => 0,
-							'y' => 0,
-						),
-						'br' => array(
-							'x' => '*', // NOTE - * means full length or width - also, NOTICE that max width is width minus 1 because the calc starts at 0
-							'y' => 149,
-						),
-						'label' => 'Header',
-					),
-					'body' => array(
-						'tl' => array(
-							'x' => 0,
-							'y' => 149,
-						),
-						'br' => array(
-							'x' => '*', // NOTE - * means full length or width - also, NOTICE that max width is width minus 1 because the calc starts at 0
-							'y' => 622,
-						),
-						'label' => 'Body',
-					),
-				),
-			),
-			'default_bg_image' => array(
-				'absolute_path' => PATH_TO_THEMES . DS . 'f32_dynamic_background/webroot/img/passing-rain.jpg', // max 1600 width and max 1200 height
-				'web_path' => '/img/passing-rain.jpg'
-			)
-		),
 		'theme_gallery_listing_config' => array(
-			'default_images_per_page' => 8
+			'default_images_per_page' => 50,
+			'based_on_theme_option' => 'max_gallery_images'
 		),
 		'theme_avail_custom_settings' => array(
 			'settings' => array(
@@ -110,6 +67,78 @@ $theme_config = array(
 					'display_name' => 'Slider Gallery',
 					'description' => "Choose which gallery to use for the theme landing page.",
 					'help_message' => 'Drop Down Test',
+				),
+				'landing_page_slideshow_interval_time' => array(
+					'type' => 'dropdown',
+					'display_name' => 'Slideshow Interval Time',
+					'description' => "The amount of time each image is shown.",
+					'help_message' => 'Drop Down Test',
+					'possible_values' => array(
+						'1000' => array( 'display' => '1 second' ),
+						'2000' => array( 'display' => '2 seconds' ),
+						'3000' => array( 'display' => '3 seconds' ),
+						'4000' => array( 'display' => '4 seconds' ),
+						'8000' => array( 'display' => '8 seconds' ),
+						'12000' => array( 'display' => '12 seconds' ),
+						'16000' => array( 'display' => '16 seconds' ),
+						'20000' => array( 'display' => '20 seconds' ),
+					),
+					'default_value' => '3000',
+				),
+				'landing_page_slideshow_transition_time' => array(
+					'type' => 'dropdown',
+					'display_name' => 'Slideshow Transition Time',
+					'description' => "The amount of time it takes to transition to the next image.",
+					'help_message' => 'Drop Down Test',
+					'possible_values' => array(
+						'500' => array( 'display' => '1/2 second' ),
+						'1000' => array( 'display' => '1 second' ),
+						'2000' => array( 'display' => '2 seconds' ),
+						'3000' => array( 'display' => '3 seconds' ),
+						'4000' => array( 'display' => '4 seconds' ),
+						'5000' => array( 'display' => '5 seconds' ),
+						'7000' => array( 'display' => '7 seconds' ),
+						'10000' => array( 'display' => '10 seconds' ),
+						'15000' => array( 'display' => '15 seconds' ),
+					),
+					'default_value' => '2000',
+				),
+				'landing_page_slideshow_max_images' => array(
+					'type' => 'numeric_dropdown',
+					'display_name' => 'Slideshow Images',
+					'description' => "The maximum number of images to show on the landing page slideshow.",
+					'help_message' => 'Numeric Dropdown Test',
+					'possible_values' => array(
+						'min' => 1,
+						'max' => 30,
+					),
+					'default_value' => '8',
+				),
+				'landing_page_into_text' => array(
+					'type' => 'textarea',
+					'display_name' => 'Landing Page Intro Text',
+					'description' => "The text that shows up on the landing page next to the slideshow.",
+					'help_message' => 'Text Area Test',
+					'possible_values' => '.*\\\S+.*', // can be regex
+					'default_value' => 'Welcome to my online gallery. To purchase prints, navigate to an image in the image galleries section. Thank you for visting. Enjoy!',
+				),
+				'gallery_settings_group' => array(
+					'type' => 'group_name',
+					'display_name' => 'Gallery Settings',
+				),
+				'max_gallery_images' => array(
+					'type' => 'dropdown',
+					'display_name' => 'Max Gallery Images',
+					'description' => "The maximum amount of images that will be shown in each gallery. If a gallery has more images than the chosen option the other images will simply not load. We recommend no more than 50 so that the gallery load time won't be too high, but we leave it up to you.",
+					'possible_values' => array(
+						'50' => array( 'display' => '50' ),
+						'75' => array( 'display' => '75' ),
+						'100' => array( 'display' => '100' ),
+						'150' => array( 'display' => '150' ),
+						'200' => array( 'display' => '200' ),
+						'250' => array( 'display' => '250' ),
+					),
+					'default_value' => '50',
 				),
 			)
 		)

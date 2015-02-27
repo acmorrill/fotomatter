@@ -13,7 +13,7 @@ class PhpClosureComponent extends Object {
 		// recompile admin js
 		$webroot_js_path = WEBROOT_ABS . DS . 'js' . DS . 'php_closure' . DS;
 		$php_closure_root_path = PHP_CLOSURE_ROOT;
-		$this->compile_js_fromdir_todir($php_closure_root_path, $webroot_js_path, WEBROOT_ABS);
+		$this->compile_js_fromdir_todir($php_closure_root_path, $webroot_js_path, array( WEBROOT_ABS ));
 
 
 		///////////////////////////////////////////
@@ -32,7 +32,7 @@ class PhpClosureComponent extends Object {
 			$theme_webroot_js_path = $theme_webroot . DS . 'js' . DS . 'php_closure' . DS;
 			$theme_php_closure_root_path = PATH_TO_THEMES . DS . $curr_top_level_dir . DS . 'php_closure';
 			if (is_dir($theme_webroot_js_path) && is_dir($theme_php_closure_root_path) && is_dir($theme_webroot)) {
-				$this->compile_js_fromdir_todir($theme_php_closure_root_path, $theme_webroot_js_path, $theme_webroot/*, $mixin_path, WEBROOT_ABS*/); // DREW TODO - add mixin path to compile in if wanted
+				$this->compile_js_fromdir_todir($theme_php_closure_root_path, $theme_webroot_js_path, array( $theme_webroot, DEFAULT_THEME_WEBROOT_ABS, WEBROOT_ABS )/*, $mixin_path, WEBROOT_ABS*/); // DREW TODO - add mixin path to compile in if wanted
 			}
 
 			// recompile theme subtheme js
@@ -49,14 +49,14 @@ class PhpClosureComponent extends Object {
 					$sub_theme_webroot_js_path = $sub_theme_webroot . DS . 'js' . DS . 'php_closure' . DS;
 					$sub_theme_php_closure_root_path = $sub_theme_dir . DS . 'php_closure';
 					if (is_dir($sub_theme_webroot_js_path) && is_dir($sub_theme_php_closure_root_path) && is_dir($sub_theme_webroot)) {
-						$this->compile_js_fromdir_todir($sub_theme_php_closure_root_path, $sub_theme_webroot_js_path, $sub_theme_webroot/*, $mixin_path, WEBROOT_ABS*/); // DREW TODO - add mixin path to compile in if wanted
+						$this->compile_js_fromdir_todir($sub_theme_php_closure_root_path, $sub_theme_webroot_js_path, array( $sub_theme_webroot, $theme_webroot, DEFAULT_THEME_WEBROOT_ABS, WEBROOT_ABS )/*, $mixin_path, WEBROOT_ABS*/); // DREW TODO - add mixin path to compile in if wanted
 					}
 				}
 			}
 		}
 	}
 
-	private function compile_js_fromdir_todir($php_closure_root_path, $webroot_dir_path, $webroot_root_path, $mixin_path = '', $mixin_webroot_root_path = '') {
+	private function compile_js_fromdir_todir($php_closure_root_path, $webroot_dir_path, $webroot_root_paths, $mixin_path = '', $mixin_webroot_root_path = '') {
 		$dir = new DirectoryIterator($php_closure_root_path);
 		foreach ($dir as $fileinfo) {
 			if ($fileinfo->getExtension() == 'php') {
@@ -64,6 +64,12 @@ class PhpClosureComponent extends Object {
 				$php_closure_object->cacheDir($webroot_dir_path);
 				$files_added = false;
 				
+				
+				/////////////////////////////////////////////////
+				// add possible mixin files
+				// mixins are only things that we will 
+				// want to add to all compiles
+				// not currently used
 				if (!empty($mixin_path)) {
 					require($mixin_path);
 					if (!empty($php_closure)) {
@@ -82,12 +88,20 @@ class PhpClosureComponent extends Object {
 				}
 				
 				
+				//////////////////////////////////////////
+				// add files to compile queue
 				$php_closure_file_full_path = $php_closure_root_path . DS . $fileinfo->getFilename();
 				require($php_closure_file_full_path);
 				if (!empty($php_closure)) {
 					foreach ($php_closure as $js_file_path) {
-						$js_to_load_path = $webroot_root_path . DS . $js_file_path;
-						if (file_exists($js_to_load_path)) {
+						$js_to_load_path = '';
+						foreach ($webroot_root_paths as $curr_path) {
+							if (file_exists($curr_path . DS . $js_file_path)) {
+								$js_to_load_path = $curr_path . DS . $js_file_path;
+							}
+						}
+						
+						if (!empty($js_to_load_path)) {
 							$files_added = true;
 							$php_closure_object->add($js_to_load_path);
 						} else {
@@ -97,6 +111,9 @@ class PhpClosureComponent extends Object {
 					}
 				}
 
+				
+				////////////////////////////////////////////////////////////
+				// compile files and put in correct location
 				if ($files_added) {
 					$cache_file = $php_closure_object->_getCacheFileName();
 					if ($php_closure_object->_isRecompileNeeded($cache_file)) {

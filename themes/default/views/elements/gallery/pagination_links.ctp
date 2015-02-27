@@ -1,18 +1,17 @@
-<a name="pagination_start"></a>
 <?php // DREW TODO - make it so that the pagination links go to the above spot on the next page -- ie the likns end in #pagination_start ?>
-<?php // DREW TODO - make it so the pagination is not there at all if there are no pages ?>
-<div class="paginationDiv" style="<?php echo $extra_css; ?>">
-	<?php 
-		$current_page = isset($this->Paginator->params['paging']['PhotoGalleriesPhoto']['page']) ? $this->Paginator->params['paging']['PhotoGalleriesPhoto']['page'] : $this->Paginator->params['paging']['Photo']['page'];
-		$total_pages = isset($this->Paginator->params['paging']['PhotoGalleriesPhoto']['pageCount']) ? $this->Paginator->params['paging']['PhotoGalleriesPhoto']['pageCount'] : $this->Paginator->params['paging']['Photo']['pageCount'];
-	?>
+<?php 
+	$current_page = isset($this->Paginator->params['paging']['PhotoGalleriesPhoto']['page']) ? $this->Paginator->params['paging']['PhotoGalleriesPhoto']['page'] : $this->Paginator->params['paging']['Photo']['page'];
+	$total_pages = isset($this->Paginator->params['paging']['PhotoGalleriesPhoto']['pageCount']) ? $this->Paginator->params['paging']['PhotoGalleriesPhoto']['pageCount'] : $this->Paginator->params['paging']['Photo']['pageCount'];
+?>
+<a name="pagination_start"></a>
+<div class="paginationDiv" style="<?php echo $extra_css; ?> <?php if ($total_pages <= 1): ?> visibility: hidden; <?php endif; ?>">
 	<?php 
 		if ($current_page - 3 >= 1) {
 			echo $this->Paginator->first(__('First', true));
 		}
 	?>
 	<?php 
-		echo $this->Paginator->prev(__('Prev&nbsp;', true), array(
+		echo $this->Paginator->prev(__('Prev', true), array(
 			'escape' => false
 		));
 	?>
@@ -29,7 +28,7 @@
 		<span>...</span>
 	<?php endif; ?>
 	<?php 
-		echo $this->Paginator->next(__('&nbsp;Next', true), array(
+		echo $this->Paginator->next(__('Next', true), array(
 			'escape' => false
 		));
 	?>

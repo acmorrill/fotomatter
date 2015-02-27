@@ -1,1 +1,1 @@
-<div <?php if (isset($angular_code)) { echo $angular_code; } ?> class='success flashMessage'><i class='icon-Success-01'></i><span><?php echo $message; ?></span></div>
+<div <?php if (isset($angular_code)) { echo $angular_code; } ?> class='success flashMessage'><i class='icon-Success-01 icon-checkmark2'></i><span><?php echo $message; ?></span></div>

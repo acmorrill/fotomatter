@@ -32,7 +32,7 @@
 						</td>
 						<td class='qty'><input type="text" value="<?php echo $cart_data['qty']; ?>" /></td>
 						<td class="total"><?php echo $this->Number->currency($this->Cart->get_cart_line_total($cart_data['qty'], $cart_data['price'])); ?><?php // DREW TODO - make the money format better ?></td>
-						<td class='last delete'><a class="icon-trash-01" href="/ecommerces/remove_cart_item_by_index/<?php echo $count; ?>"></a></td>
+						<td class='last delete'><a class="icon-bin" href="/ecommerces/remove_cart_item_by_index/<?php echo $count; ?>"></a></td>
 					</tr>
 				<?php $count++; endforeach; ?>
 			<?php else: ?>

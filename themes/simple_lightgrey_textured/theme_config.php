@@ -5,10 +5,21 @@
 $theme_config = array(
 	'theme_name' => 'simple_lightgrey_textured',
 	'theme_controller_action_layouts' => array(
+		'Default' => array(
+			'layout' => 'custom_page',
+		),
 		'SitePages' => array(
 			'landing_page' => array(
 				'layout' => 'landing',
 				'view' => false,
+			),
+			'custom_page' => array(
+				'layout' => 'custom_page',
+				'view' => 'custom_page',
+			),
+			'contact_us' => array(
+				'layout' => 'custom_page',
+				'view' => 'contact',
 			),
 		),
 		'PhotoGalleries' => array(
@@ -23,7 +34,7 @@ $theme_config = array(
 				'layout' => 'view_photo',
 				'view' => false,
 			),
-		)
+		),
 	),
 	'admin_config' => array(
 		'main_menu' => array(
@@ -31,17 +42,17 @@ $theme_config = array(
 		),
 		'logo_config' => array(
 			'available_space' => array(
-				'width' => 338,
-				'height' => 71
+				'width' => 350,
+				'height' => 110
 			),
 			'available_space_screenshot' => array(
 				'absolute_path' => 	PATH_TO_THEMES.DS.'simple_lightgrey_textured/webroot/simple_lightgrey_textured_theme_logo_space.jpg', // this image should be max 735 pixels width
 				'web_path' => '/simple_lightgrey_textured_theme_logo_space.jpg',
 				'padding' => array(
-					'left' => 114,
+					'left' => 59,
 					'top' => 0,
-					'right' => 119,
-					'bottom' => 96
+					'right' => 571,
+					'bottom' => 317
 				)
 			),
 			'default_space' => array(
@@ -89,7 +100,17 @@ $theme_config = array(
 						'/img/gray_bg/cloth_4.png',
 						'/img/gray_bg/cloth_5.png',
 					),
-					'default_value' => '/img/gray_bg/grey_wash_wall_7.png',
+					'default_value' => '/img/gray_bg/grey_wash_wall_4.png',
+				),
+				'show_white_border' => array(
+					'type' => 'on_off',
+					'display_name' => 'White Border',
+					'description' => "If set to on the images displayed in the theme will have a white border.",
+					'possible_values' => array(
+						'on' => array( 'display' => 'On' ),
+						'off' => array( 'display' => 'Off' ),
+					),
+					'default_value' => 'off',
 				),
 			),
 		),

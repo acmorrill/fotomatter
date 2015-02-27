@@ -269,20 +269,24 @@ function close_image(image, animation_time) {
 }
 
 
-function scroll_to_next_image(no_open) {
+function scroll_to_next_image(no_open, speed) {
 	if (no_open == undefined) {
 		no_open = false;
+	}
+	
+	if (speed == undefined) {
+		speed = 300;
 	}
 	
 	var current_image = jQuery('#image_slider_container .float_image_cont.current_image');
 	var next_image = current_image.prev();
 	if (next_image.hasClass('actual_image')) {
-		scroll_to_image(next_image, 300, false, no_open);
+		scroll_to_image(next_image, speed, false, no_open);
 	} else {
 		var first_image = jQuery('#image_slider_container .float_image_cont.first');
 		var before_first_image = first_image.next();
 		scroll_to_image(before_first_image, 0, true, no_open);
-		scroll_to_image(first_image, 300, false, no_open);
+		scroll_to_image(first_image, speed, false, no_open);
 	}
 }
 
@@ -304,44 +308,19 @@ function scroll_to_prev_image(no_open) {
 }
 
 
-var total_images = 0;
-var loaded_images = 0;
-function update_progress_bar() {
-	var total_progress = Math.round((loaded_images / total_images) * 100);
-	jQuery("#progress_bar .ui-progressbar-value").height(total_progress+'%');
-	jQuery("#progress_bar .percent_text span").text(total_progress);
-	if (total_progress == 100) {
-		jQuery(document).trigger('images_loaded');
-	}
-}
-
-function count_loaded_photos() {
-	// count how many of the images have loaded
-	jQuery('#image_slider_container .img_cont img').each(function() {
-		total_images++;
-		
-		var img_src = $(this).attr('src');
-		
-		var tmpImg = document.createElement('img'); // new Image(1, 1); 
-		tmpImg.onload = function() {
-			loaded_images++;
-			update_progress_bar();
-		};
-		tmpImg.error = function() {
-			console.log ("error loading image");
-			loaded_images++;
-			update_progress_bar();
-		};
-		tmpImg.src = img_src;
-	});
-}
-
 function bootstrap() { 
 	jQuery('#image_slider_container').css({
 		opacity: 100
 	});
 
-	count_loaded_photos();
+	
+	// update progress as images load
+	jQuery(document).bind('image_load_progress', function(e, total_progress) {
+		jQuery("#progress_bar .ui-progressbar-value").height(total_progress+'%');
+		jQuery("#progress_bar .percent_text span").text(total_progress);
+	});
+	// start the preload progress
+	jQuery(document).trigger('preload_images_for_progress');
 }
 
 function scroll_to_second_to_second_image(no_open) {

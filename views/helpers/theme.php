@@ -99,4 +99,9 @@ class ThemeHelper extends AppHelper {
 		return $this->SiteSetting->getVal('current_theme', false);
 	}
 	
+	public function get_theme_global_setting($name, $default = false) {
+		$this->ThemeGlobalSetting = ClassRegistry::init('ThemeGlobalSetting');
+		return $this->ThemeGlobalSetting->getVal($name, $default);
+	}
+	
 }

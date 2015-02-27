@@ -1,5 +1,5 @@
 <div id="navChain">
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/site_pages/landing_page"><?php __('home'); ?></a>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/"><?php __('home'); ?></a>
 	<?php foreach ($avail_pages as $avail_page): ?>
 		> 
 		<?php if (trim($avail_page['url'], '/') == trim($this->here, '/')): ?>

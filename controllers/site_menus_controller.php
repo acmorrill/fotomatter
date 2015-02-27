@@ -96,6 +96,19 @@ class SiteMenusController extends AppController {
 		$this->return_json($returnArr);
 	}
 	
+	public function admin_set_show_home_link($value) {
+		$show_home_link = true;
+		if ($value == 'false') {
+			$show_home_link = false;
+		}
+		
+		$this->ThemeGlobalSetting = ClassRegistry::init('ThemeGlobalSetting');
+		$this->ThemeGlobalSetting->setVal('show_home_link_in_menu', $show_home_link);
+	
+		$returnArr['code'] = 1;
+		$this->return_json($returnArr);
+	}
+	
 	public function admin_add_one_level_menu_item($external_model, $external_id) {
 		if ($external_model == 'SitePage') {
 			$this->FeatureLimiter->limit_function($this, 'page_builder'); // $controller, $feature_ref_name

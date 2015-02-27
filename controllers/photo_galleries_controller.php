@@ -55,6 +55,7 @@ class PhotoGalleriesController extends AppController {
 	public function view_gallery($gallery_id = null) {
 		$this->setup_front_end_view_cache($this);
 		
+		$custom_settings = $this->viewVars['theme_config']['admin_config']['theme_avail_custom_settings']['settings'];
 		$gallery_listing_config = $this->viewVars['theme_config']['admin_config']['theme_gallery_listing_config'];
 		
 		$conditions = array();
@@ -72,9 +73,12 @@ class PhotoGalleriesController extends AppController {
 		));
 
 		$photos = array();
-		$limit = $gallery_listing_config['default_images_per_page']; // DREW TODO - maybe make this number (the number of photos per gallery page) a global option in the admin
+		$limit = $gallery_listing_config['default_images_per_page'];
+		if (!empty($gallery_listing_config['based_on_theme_option']) && !empty($custom_settings[$gallery_listing_config['based_on_theme_option']]['current_value'])) {
+			$limit = $custom_settings[$gallery_listing_config['based_on_theme_option']]['current_value'];
+		}
 		if ($this->is_mobile === true) {
-			$limit = 1000;
+			$limit = 1000; // DREW TODO - maybe we need to change this
 		}
 		if ($curr_gallery['PhotoGallery']['type'] == 'smart') {
 			$smart_settings = $curr_gallery['PhotoGallery']['smart_settings'];

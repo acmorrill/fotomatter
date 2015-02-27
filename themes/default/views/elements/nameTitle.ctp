@@ -1,5 +1,4 @@
 <?php $logo_data = $this->ThemeLogo->get_display_logo_data($theme_config); ?>
-
 <style type="text/css">
 	#logo_cont {
 		width: <?php echo $logo_data['logo_max_width']; ?>px; height: <?php echo $logo_data['logo_max_height']; ?>px;

@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Photography by Andrew Morrill</title>
-		<meta name="keywords" content="Andrew Morrill, photography, fine art, utah photography, utah photographer, National Park, Utah, California">
-		<meta name="description" content="Large format landscape photography by Utah based photographer Andrew Morrill.">
+		<title>Choose Gallery &mdash; <?php echo $this->Theme->get_frontend_html_title(); ?></title>
 		<?php echo $this->Element('theme_global_includes'); ?>
 		<link rel="stylesheet" type="text/css" href="/css/white_angular_style.css" />
-		<link href='http://fonts.googleapis.com/css?family=Signika+Negative:300' rel='stylesheet' type='text/css'>
-		<script src="/js/angular_functions.js"></script>
+		<script src="/js/php_closure/white_angular.min.js"></script>
 	</head>
 	<body>
 <!--		<div style="width: 650px; height: 100px; z-index: 3000; position: fixed; outline: 1px solid orange;"></div>-->
@@ -56,10 +53,17 @@
 			<div id="slider_info_container">
 				<img class="scroll_up_right" src="/img/scroll_up_right.png" alt="" />
 				<div class="top_info_line">&nbsp;</div>
+				<div class="choose_a_gallery_message">Choose A Gallery</div>
 				<div class="gallery_info_cont">
 					<?php foreach ($photos as $photo): ?>
 						<?php if (isset($photo['actual_image'])): ?>
-							<?php $photos_count = $this->Gallery->count_gallery_photos($photo); ?>
+							<?php 
+								$photos_count = $this->Gallery->count_gallery_photos($photo);
+								$max_gallery_images = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'max_gallery_images'); 
+								if ($photos_count > $max_gallery_images) {
+									$photos_count = $max_gallery_images;
+								}
+							?>
 					
 							<div class="curr_gallery_info" photo_gallery_id="<?php echo $photo['PhotoGallery']['id']; ?>">
 								<div class="content">
@@ -85,7 +89,7 @@
 							<div class="img_outer_cont when_closed">
 								<div class="img_cont" style="width: <?php echo $alt_total_width; ?>px; height: <?php echo $alt_total_height; ?>px; margin-left: <?php echo -floor($alt_total_width/2); ?>px; margin-top: <?php echo -floor($alt_total_height/2); ?>px;">
 									<div class="img_inner_wrap">
-										<img src="<?php echo $alt_img_src['url']; ?>" style="display: block; width: <?php echo $alt_img_src['width']; ?>px; height: <?php echo $alt_img_src['height']; ?>px;" <?php echo $alt_img_src['tag_attributes']; ?> alt="" />
+										<img class="preload_for_progress" src="<?php echo $alt_img_src['url']; ?>" style="display: block; width: <?php echo $alt_img_src['width']; ?>px; height: <?php echo $alt_img_src['height']; ?>px;" <?php echo $alt_img_src['tag_attributes']; ?> alt="" />
 									</div>
 								</div>
 							</div>
@@ -93,7 +97,7 @@
 							<div class="img_outer_cont">
 								<div class="img_cont" style="width: <?php echo $total_width; ?>px; height: <?php echo $total_height; ?>px; margin-left: <?php echo -round($total_width/2); ?>px; margin-top: <?php echo -round($total_height/2); ?>px;">
 									<div class="img_inner_wrap">
-										<img src="<?php echo $img_src['url']; ?>" style="display: block; width: <?php echo $img_src['width']; ?>px; height: <?php echo $img_src['height']; ?>px;" <?php echo $img_src['tag_attributes']; ?> alt="" />
+										<img class="preload_for_progress" src="<?php echo $img_src['url']; ?>" style="display: block; width: <?php echo $img_src['width']; ?>px; height: <?php echo $img_src['height']; ?>px;" <?php echo $img_src['tag_attributes']; ?> alt="" />
 									</div>
 								</div>
 							</div>
@@ -121,5 +125,9 @@
 				</div>
 			</div>
 		</div>
+		
+		<?php echo $this->Element('global_theme_footer_copyright', array(
+			'classes' => array( 'fixed_position' )
+		)); ?>
 	</body>
 </html>

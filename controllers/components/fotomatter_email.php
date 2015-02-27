@@ -137,7 +137,7 @@ class FotomatterEmailComponent extends Object {
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
 		$account_email = $this->SiteSetting->getVal('account_email', false);
 		$site_domain = $this->SiteSetting->getVal('site_domain', false);
-		$login_url = "http://$site_domain.fotomatter.net/admin/domains"; 
+		$login_url = "https://$site_domain.fotomatter.net/admin/domains"; 
 		
 		$controller->set(compact('data_to_send', 'login_url'));
 		

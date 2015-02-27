@@ -1,0 +1,46 @@
+////////////////////////////////////////////////////////////////////////////////////////
+// Global Footer tagline
+//--------------------------------------------------------------
+#footer_tagline {
+	margin-top: 30px;
+	font-size: 14px;
+	line-height: 30px;
+	border: 1px solid transparent;
+	text-align: center;
+	.footer_tagline_container_outer {
+		position: relative;
+		margin-bottom: 50px;
+		.footer_tagline_container_inner {
+			position: relative;
+			.copyright_container, .mdash, .powered_by {
+				display: inline-block;
+				vertical-align: top;
+			}
+			.mdash { margin-left: 8px; margin-right: 8px; }
+			.powered_by {
+				margin-top: 10px;
+				font-weight: bold;
+				span {
+					display: inline-block;
+					vertical-align: top;
+					margin-right: 15px;
+				}
+				a {
+					display: inline-block;
+					vertical-align: top;
+					height: 30px;
+					text-decoration: none;
+					/*color: #333;*/
+					cursor: pointer;
+					span.text_replacement { position: absolute; text-indent: -9999px; }
+					.fotomatter_logo {
+						height: 25px;
+					}
+				}
+			}
+		}
+	}
+/*	&.inverse .footer_tagline_container_outer .footer_tagline_container_inner .powered_by a {
+		color: #ffffff;
+	}*/
+}

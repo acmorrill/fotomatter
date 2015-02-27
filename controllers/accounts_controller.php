@@ -12,6 +12,52 @@ class AccountsController extends AppController {
 		'FotomatterEmail'
 	);
 	
+//	public function admin_decide_photo_trip() {
+//		$rating_schema = array(
+//			'newness' => .8, // how cool it would be to see something new
+//			'uniqueness' => .8, // how unique the places is (so can get unique pictures)
+//			'sellable' => .8, // how easily it will be to sell pictures from the location
+//			'opportunity' => .9, // how easy will it be to get new pictures quickly
+//			'cost' => .3, // cost of the trip
+//			'efficiency' => .4, // if I can do multiple spots on the same trip
+//			'planning' => .3, // how much pre trip work it could take
+//			'feeling' => .7, // just my gut feeling
+//		);
+//		$rating_schema_keys = array_keys($rating_schema);
+//		
+//		
+//		$places = array(
+//			'antelope_canyon' => array(7, 5, 9, 4, 4, 7, 4, 6),
+//			'the_wave' => array(7, 6, 9, 7, 4, 7, 3, 7),
+//			'monument_valley' => array(7, 5, 7, 5, 5, 8, 6, 6),
+//			'green_river_area' => array(5, 5, 5, 4, 8, 8, 9, 5),
+//			'remote_slot_canyons' => array(9, 8, 7, 8, 6, 6, 4, 8),
+//			'robbers_roost_area' => array(9, 9, 6, 5, 8, 7, 7, 7),
+//			'buckskin_gulch' => array(9, 9, 7, 7, 5, 7, 7, 4),
+//			'coyote_gulch' => array(4, 8, 8, 5, 7, 8, 9, 7),
+//			'moab_area' => array(4, 8, 8, 8, 7, 8, 9, 7),
+//		);
+//		
+//		
+//		
+//		$results = array();
+//		foreach ($places as $place_name => $place_ratings) {
+//			$results[$place_name] = 0;
+//			$count = 0; 
+//			foreach ($place_ratings as $place_rating) {
+//				$rating_schema_value = $rating_schema[$rating_schema_keys[$count]];
+//				$results[$place_name] += $place_rating * $rating_schema_value;
+//				
+//				$count++;
+//			}
+//		}
+//		
+//		arsort($results);
+//		
+//		print("<pre>" . print_r($results, true) . "</pre>");
+//		die();
+//	}
+	
 	public function  beforeFilter() {
 		if ($this->action == 'clear_billing_cache') {
 			$this->is_mobile = false;
@@ -21,28 +67,6 @@ class AccountsController extends AppController {
 			parent::beforeFilter();
 		}
 	}
-//	
-//	public function admin_test_email(){
-//		$end_user_data ['contact_us_email']= 'giggerkent@gmail.com';
-//		$end_user_data ['contact_us_name'] = 'kent boss';
-//		$end_user_data ['contact_us_content'] = 'Hey I just want to slap you in the face.';
-//		$this->FotomatterEmail->send_end_user_contact_us_email($this, $end_user_data);
-//		die('who who sucka yes');
-//	}
-		public function admin_test_email(){
-		$change_password_user ['User']= 'giggerkent@gmail.com';
-		$change_password_user ['email_address'] = 'giggerkent@gmail.com';
-		$change_password_user ['return_link'] = 'fotomatter.net';
-		$change_password_user ['modified_hash'] = 'ppakdjf;alkjdpofjapodjfa';
-		$change_password_user ['modified'] = 'ooialkdf;lwe';
-		$change_password_user ['id'] = 'giggerkent@gmail.com';
-		$change_password_user ['admin'] = 'giggerkent@gmail.com';
-		$change_password_user ['admin'] = 'giggerkent@gmail.com';
-		$this->FotomatterEmail->send_forgot_password_email($this, $change_password_user);
-		die('sucka yes');
-	}
-	
-	
 	
 	public function clear_billing_cache() {
 		$this->FotomatterBilling->clear_billing_apc();

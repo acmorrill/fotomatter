@@ -23,6 +23,7 @@ class WhiteAngularHelper extends AppHelper {
 			$img_src['width'] = $width;
 			$img_src['height'] = $height;
 			$img_src['tag_attributes'] = "width='$width' height='$height'";
+			$img_src['style_attributes'] = "width: {$width}px; height: {$height}px;";
 		} else {
 			$width = null;
 			$height = null;
@@ -93,7 +94,18 @@ class WhiteAngularHelper extends AppHelper {
 		return compact('blank', 'img_src', 'alt_img_src', 'total_width', 'total_height', 'alt_total_width', 'alt_total_height', 'distance_to_close', 'cover_width_left', 'cover_width_right', 'left');
 	}
 	
+	
+	////////////////////////////////////////////////////////////////////////////////////////
+	// What the freak does this function do anyhow??
+	// 
+	//--------------------------------------------------------------
 	public function process_photos_for_angular_slide(&$photos) {
+		////////////////////////////////////////////////////
+		// move last element to the beginning so 
+		// that actual first image will open first
+		$last_element = array_pop($photos);
+		array_unshift($photos, $last_element);
+		
 		/////////////////////////////////////////////////////////
 		// mark start photos as real photos
 		foreach ($photos as $key => $photo) {
@@ -109,7 +121,9 @@ class WhiteAngularHelper extends AppHelper {
 		end($photos);
 		$last_key = key($photos);
 		$photos[$last_key]['classes'][] = 'last';
+		reset($photos);
 
+		
 
 		/////////////////////////////////////////////////////////
 		// add photos for endless circle illusion
@@ -125,27 +139,37 @@ class WhiteAngularHelper extends AppHelper {
 		$first_n_pad_photos = array();
 		$last_n_pad_photos = array();
 		if ($num_to_pad > 0) {
-			// grab nub from beginning and end
-			$first_n_pad_photos = array_slice($photos, 0, $num_to_pad);
-			$last_n_pad_photos = array_slice($photos, -$num_to_pad);
+			for ($t = 0; $t < $total_real_photos; $t++) {
+				if ($t < $num_to_pad) {
+					$first_n_pad_photos[] = $photos[$t];
+				}
+				if ($t >= $total_real_photos - $num_to_pad) {
+					$last_n_pad_photos[] = $photos[$t];
+				}
+			}
+			if (!empty($last_n_pad_photos)) {
+				$last_n_pad_photos = array_reverse($last_n_pad_photos);
+			}
 		}
-		foreach ($last_n_pad_photos as &$last_n_pad_photo) {
-			unset($last_n_pad_photo['classes']);
-			unset($last_n_pad_photo['actual_image']);
-			$last_n_pad_photo['classes'][] = 'fake_image';
-			$last_n_pad_photo['classes'][] = 'before';
+		foreach ($last_n_pad_photos as &$last_photo) {
+			unset($last_photo['classes']);
+			unset($last_photo['actual_image']);
+			$last_photo['classes'] = array();
+			$last_photo['classes'][] = 'fake_image';
+			$last_photo['classes'][] = 'before';
 		}
-		for ($i = count($last_n_pad_photos) - 1; $i >= 0; $i--) {
-			array_unshift($photos, $last_n_pad_photos[$i]);
+		foreach ($last_n_pad_photos as $last_n_pad_photo) {
+			array_unshift($photos, $last_n_pad_photo);
 		}
-		foreach ($first_n_pad_photos as &$first_n_pad_photo) {
-			unset($first_n_pad_photo['classes']);
-			unset($first_n_pad_photo['actual_image']);
-			$first_n_pad_photo['classes'][] = 'fake_image';
-			$first_n_pad_photo['classes'][] = 'after';
+		
+		foreach ($first_n_pad_photos as &$first_photo) {
+			unset($first_photo['classes']);
+			unset($first_photo['actual_image']);
+			$first_photo['classes'][] = 'fake_image';
+			$first_photo['classes'][] = 'after';
 		}
-		foreach ($first_n_pad_photos as $first_n_pad_photo) {
-			array_push($photos, $first_n_pad_photo);
+		foreach ($first_n_pad_photos as $first_add_photo) {
+			array_push($photos, $first_add_photo);
 		}
 
 
@@ -164,6 +188,8 @@ class WhiteAngularHelper extends AppHelper {
 
 		// reverse photos just for this theme (because of the way the js animations are done)
 		$photos = array_reverse($photos);
+		
+		return $photos;
 	}
 	
 	

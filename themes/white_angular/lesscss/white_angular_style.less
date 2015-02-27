@@ -1,7 +1,3 @@
-@import url("../../../lesscss/inc/admin_reset.less");
-
-
-
 /// VARIABLES
 @img_slider_zindex: 100;
 @logo_zindex: (@img_slider_zindex + 100);
@@ -9,6 +5,15 @@
 @slider_info_zindex: (@img_slider_zindex + 200);
 
 @base_text_color: #000;
+
+
+@import url("../../../lesscss/admin_inc/admin_reset.less");
+@import url("inc/fonts.less");
+@import url("inc/custom_page.less");
+@import url("inc/checkout_and_cart.less");
+
+
+
 
 
 h1, h2, h3, h4, h5, h6 {
@@ -25,7 +30,7 @@ body {
 	font-size: 18px;
 	font-weight: 300;
 	position: relative;
-	overflow: hidden;
+	overflow-x: hidden;
 }
 
 /**************************************************************************************
@@ -33,17 +38,11 @@ body {
 **************************************************************************************/
 #logo_cont {
 	position: absolute;
-	top: 113px;
-	left: 102px;
+	top: 0px;
+	left: 0px;
 	z-index: @logo_zindex;
 	#mainName {
-		width: 324px;
-		height: 26px;
-		background: url('/img/sample_logo.png') no-repeat top left;
-		display: block;
-		img {
-			display: none;
-		}
+		position: absolute;
 	}
 }
 
@@ -206,6 +205,15 @@ body {
 			top: 42px;
 			left: 341px;
 		}
+		.choose_a_gallery_message {
+			position: absolute;
+			top: 9px;
+			left: 426px;
+			font-size: 20px;
+			font-weight: 800;
+			z-index: 1;
+			text-transform: uppercase;
+		}
 		.welcome_info_line {
 			position: absolute;
 			left: 99px;
@@ -220,6 +228,12 @@ body {
 					font-weight: 800;
 				}
 			}
+		}
+		#intro_text {
+			position: absolute;
+			left: 238px;
+			top: 57px;
+			width: 248px;
 		}
 		.gallery_info_cont {
 			.curr_gallery_info {
@@ -330,15 +344,20 @@ body {
 						margin-left: 6px;
 						margin-bottom: 20px;
 					}
-					h2, h3 {
+					h2, h3, h4 {
 						margin-bottom: 14px;
 					}
 					h3 {
 						font-weight: 300;
 						font-size: 20px;
 					}
+					h4 {
+						font-weight: 300;
+						font-size: 18px;
+					}
 					.photo_description {
-						height: 238px;
+						min-height: 80px;
+						max-height: 238px;
 						overflow-x: hidden;
 						overflow-y: auto;
 						padding-top: 20px;
@@ -354,6 +373,9 @@ body {
 								}
 							}
 						}
+					}
+					.line {
+						margin-bottom: 30px;
 					}
 				}
 				&.when_open {
@@ -426,3 +448,44 @@ body {
 	}
 }
 
+
+////////////////////////////////////////////////////////////////////////////////////
+// Footer tagline
+//-----------------------------------------------------------
+#footer_tagline {
+	&.fixed_position {
+		position: absolute;
+		left: 501px;
+		top: 992px;
+		text-align: right;
+		.footer_tagline_container_outer {
+			margin-bottom: 0px;
+			.text_replacement {
+				visibility: hidden;
+			}
+		}
+		&, a { color: @base_text_color; }
+	}
+}
+
+
+/////////////////////////////////////
+// add to cart stuff
+.submit_button {
+	.content {
+		color: @base_text_color;
+		font-size: 16px;
+	}
+	&:hover {
+		.content { color: #FFFFFF; }
+	}
+}
+.compact_add_to_cart_buttons_cont {
+	select { margin-bottom: 15px; }
+	.print_type_data {
+		span { margin-right: 7px; }
+	}
+}
+
+
+@import url("inc/jscrollpane.less");
