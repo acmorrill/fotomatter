@@ -81,8 +81,12 @@ $sqls[] = "INSERT INTO `site_pages` (`id`, `title`, `external_link`, `weight`, `
 (null, 'About Me', '', 1, 'custom', NULL, NULL, '2014-07-30 14:12:18', '2014-07-30 14:12:30'),
 (null, 'Contact', '', 2, 'contact_us', 'Contact Andrew Morrill', 'Please fill out the form below to contact me.', '2014-07-30 14:57:08', '2014-07-30 14:57:16');";
 
+
+
 $sqls[] = "INSERT INTO `site_pages_site_page_elements` (`id`, `site_page_id`, `site_page_element_id`, `config`, `page_element_order`, `created`, `modified`) VALUES
-(null, (select id from site_pages where title='About Me'), 1, 'a:5:{s:22:\"para_image_header_text\";s:9:\"Biography\";s:26:\"para_header_image_photo_id\";s:2:\"-1\";s:25:\"para_image_paragraph_text\";s:273:\"<p>I am a really amazing photographer that decided to try fotomatter as my online presence.</p>\r\n<p>I''m continually improving and someday I'll be the photographer I set out to be. </p>\";s:27:\"para_image_header_image_pos\";s:4:\"left\";s:28:\"para_image_header_image_size\";s:6:\"medium\";}', 1, '2014-07-30 14:18:16', '2014-07-30 14:21:28');";
+(2, 3, 1, '" 
+. 'a:5:{s:22:"para_image_header_text";s:9:"Biography";s:26:"para_header_image_photo_id";s:2:"-1";s:25:"para_image_paragraph_text";s:33:"<p>This is your about me page</p>";s:27:"para_image_header_image_pos";s:4:"left";s:28:"para_image_header_image_size";s:6:"medium";}' 
+. "', 1, '2015-02-26 20:25:17', '2015-02-26 20:26:33');";
 
 $sqls[] = "INSERT INTO `site_two_level_menu_containers` (`id`, `display_name`, `modified`, `created`) VALUES
 (null, 'Galleries', '2014-07-30 15:04:56', '2014-07-30 15:04:56');";
