@@ -1,6 +1,12 @@
+function sleep(miliseconds) {
+   var currentTime = new Date().getTime();
+
+   while (currentTime + miliseconds >= new Date().getTime()) {}
+}
 var total_images = 0;
 var loaded_images = 0;
 function update_progress_bar() {
+//	sleep(2000);
 	var total_progress = Math.round((loaded_images / total_images) * 100);
 	jQuery(document).trigger('image_load_progress', [ total_progress ]);
 	if (total_progress == 100) {
@@ -11,9 +17,7 @@ jQuery(document).ready(function() {
 	jQuery(document).bind('preload_images_for_progress', function() {
 		jQuery('img.preload_for_progress').each(function() {
 			total_images++;
-			
 			var raw_element = $(this)[0];
-			
 			if (raw_element.complete == true) {
 				loaded_images++;
 				update_progress_bar();

@@ -318,6 +318,8 @@ function bootstrap() {
 	jQuery(document).bind('image_load_progress', function(e, total_progress) {
 		jQuery("#progress_bar .ui-progressbar-value").height(total_progress+'%');
 		jQuery("#progress_bar .percent_text span").text(total_progress);
+		jQuery("#progress_bar").hide();
+		jQuery("#progress_bar").show();
 	});
 	// start the preload progress
 	jQuery(document).trigger('preload_images_for_progress');

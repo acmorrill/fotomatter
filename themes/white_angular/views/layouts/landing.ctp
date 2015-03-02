@@ -18,7 +18,7 @@
 			var scroll_to_height = 257;
 			var autoscroll_interval;
 			
-			jQuery(document).ready(function() {
+			jQuery(window).load(function() {
 				jQuery('#image_slider_container .float_image_cont.actual_image').click(function() {
 					clearInterval(autoscroll_interval);
 					scroll_to_image(jQuery(this), 300, false, true);
@@ -37,9 +37,7 @@
 					scroll_to_image(scroll_from, 0, true, true);
 					scroll_to_image(real_image, 300, false, true);
 				});
-			});
-			
-			jQuery(window).load(function() {
+				
 				var scrolling_time = <?php echo $landing_page_slideshow_transition_time; ?>;
 				var delay_between_scrolls = <?php echo $landing_page_slideshow_interval_time; ?>;
 				
