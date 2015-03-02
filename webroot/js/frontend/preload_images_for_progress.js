@@ -11,24 +11,24 @@ jQuery(document).ready(function() {
 	jQuery(document).bind('preload_images_for_progress', function() {
 		jQuery('img.preload_for_progress').each(function() {
 			total_images++;
-			var img_src = $(this).attr('src');
-			var tmpImg = document.createElement('img'); // new Image(1, 1); 
-			tmpImg.src = img_src;
-
-			if (!tmpImg.complete) {
+			
+			var raw_element = $(this)[0];
+			
+			if (raw_element.complete == true) {
 				loaded_images++;
 				update_progress_bar();
 			} else {
-				var tmpImg2 = document.createElement('img'); // new Image(1, 1); 
-				tmpImg2.onload = function() {
+				var img_src = $(this).attr('src');
+				var tmpImg = document.createElement('img'); // new Image(1, 1); 
+				tmpImg.onload = function() {
 					loaded_images++;
 					update_progress_bar();
 				};
-				tmpImg2.error = function() {
+				tmpImg.error = function() {
 					loaded_images++;
 					update_progress_bar();
 				};
-				tmpImg2.src = img_src;
+				tmpImg.src = img_src;
 			}
 		});
 	});

@@ -33,6 +33,10 @@
 						open_image(second_to_last_image, 700);
 						
 						jQuery('#image_slider_container .float_image_cont.actual_image').click(function() {
+							if (jQuery(this).hasClass('open_image')) {
+								return false;
+							}
+							
 							// fail on any animation
 							if ($(':animated').length) {
 								return false;
@@ -51,6 +55,10 @@
 						});
 
 						jQuery('#image_slider_container .float_image_cont.fake_image').click(function() {
+							if (jQuery(this).hasClass('open_image')) {
+								return false;
+							}
+							
 							// fail on any animation
 							if ($(':animated').length) {
 								return false;
