@@ -17,6 +17,8 @@ jQuery(document).ready(function() {
 	jQuery(document).bind('preload_images_for_progress', function() {
 		jQuery('img.preload_for_progress').each(function() {
 			total_images++;
+		});
+		jQuery('img.preload_for_progress').each(function() {
 			var raw_element = $(this)[0];
 			if (raw_element.complete == true) {
 				loaded_images++;
