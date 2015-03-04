@@ -91,6 +91,11 @@
   display: inline-block;
   vertical-align: top;
 }
+#footer_tagline .footer_tagline_container_outer .footer_tagline_container_inner .copyright_container .login_link {
+  text-decoration: none;
+  cursor: pointer;
+  text-transform: lowercase;
+}
 #footer_tagline .footer_tagline_container_outer .footer_tagline_container_inner .mdash {
   margin-left: 8px;
   margin-right: 8px;

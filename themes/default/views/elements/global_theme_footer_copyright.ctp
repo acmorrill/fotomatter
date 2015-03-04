@@ -15,7 +15,7 @@
 	<div class="footer_tagline_container_outer">
 		<div class="footer_tagline_container_inner">
 			<?php $hide_fotomatter_link = empty($current_on_off_features['remove_fotomatter_branding']) ? false : true; ?>
-			<div class="copyright_container">All material &copy; copyright by <?php echo "$first_name $last_name"; ?></div>
+			<div class="copyright_container">All material &copy; copyright by <?php echo "$first_name $last_name"; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&mdash;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="login_link" href="/admin" target="_blank">Login</a></div>
 			<div class="br" style="clear: both;"></div>
 			<?php /*<div class="mdash" <?php if ($hide_fotomatter_link): ?>style="display: none;"<?php endif; ?>>&mdash; </div>*/ ?>
 			<div class="powered_by" <?php if ($hide_fotomatter_link): ?>style="display: none;"<?php endif; ?> >

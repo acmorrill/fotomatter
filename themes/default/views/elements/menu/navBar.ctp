@@ -18,15 +18,17 @@
 			<?php echo $this->Element('menu/menu_item', array('menu_item_data' => $menu_item_data, 'li_class' => 'main_menu_item')); ?>
 		<?php $count++; endforeach; ?>
 		<?php
-			$count_items_in_cart = $this->Cart->count_items_in_cart();
-			$cart_item_data = array();
-			$cart_item_data['type'] = 'System';
-			$cart_item_data['id'] = 0;
-			$cart_item_data['name'] = "";
-			$cart_item_data['name_html'] = "<span class='icon-cart'></span>";
-			$cart_item_data['url'] = '/ecommerces/view_cart';
-			$cart_item_data['display_type'] = 'System';
-			echo $this->Element('menu/menu_item', array('menu_item_data' => $cart_item_data, 'li_class' => 'main_menu_item|cart_link')); 
+			if (!empty($current_on_off_features['basic_shopping_cart'])) {
+				$count_items_in_cart = $this->Cart->count_items_in_cart();
+				$cart_item_data = array();
+				$cart_item_data['type'] = 'System';
+				$cart_item_data['id'] = 0;
+				$cart_item_data['name'] = "";
+				$cart_item_data['name_html'] = "<span class='icon-cart'></span>";
+				$cart_item_data['url'] = '/ecommerces/view_cart';
+				$cart_item_data['display_type'] = 'System';
+				echo $this->Element('menu/menu_item', array('menu_item_data' => $cart_item_data, 'li_class' => 'main_menu_item|cart_link')); 
+			}
 		?>
 	</ul>
 </div>

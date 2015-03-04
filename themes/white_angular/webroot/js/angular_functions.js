@@ -331,7 +331,13 @@ function scroll_to_second_to_second_image(no_open) {
 	}
 	
 	// find the second to last image and scroll to it at the beginning
-	var second_to_last_image = jQuery('#image_slider_container .float_image_cont.first').prev();
+	var first_image = jQuery('#image_slider_container .float_image_cont.first');
+	var second_to_last_image;
+	if (no_open == false && first_image.hasClass('last')) {
+		second_to_last_image = first_image;
+	} else {
+		second_to_last_image = first_image.prev();
+	}
 	scroll_to_image(second_to_last_image, 0, true, no_open);
 }
 
