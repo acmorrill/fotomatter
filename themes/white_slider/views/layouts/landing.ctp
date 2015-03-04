@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title><?php echo $curr_gallery['PhotoGallery']['display_name']; ?> &mdash; <?php echo $this->Theme->get_frontend_html_title(); ?></title>
+	<title><?php echo $this->Theme->get_frontend_html_title(); ?></title>
 	<?php echo $this->Element('theme_global_includes'); ?>
 	<link rel="stylesheet" type="text/css" href="/css/white_slider_style.css" />
 	<link href='//fonts.googleapis.com/css?family=PT+Sans:400italic,400' rel='stylesheet' type='text/css' />
@@ -9,6 +9,11 @@
 	<script src="/js/php_closure/white_slider.min.js"></script>
 </head>
 <body>
+	<?php
+		$landing_page_slideshow_max_images = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'landing_page_slideshow_max_images'); 
+		$gallery_to_use_id = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'landing_page_gallery', null);
+		$photos = $this->Theme->get_landing_page_slideshow_images($landing_page_slideshow_max_images, $gallery_to_use_id, true);
+	?>
 	<?php if (count($photos) > 0): ?>
 <!--		<div class="endless_loading">Loading</div> maybe use this later-->
 		<div id="white_slider_listing_actual_container_loading"><?php echo  __('Loading', true); ?></div>

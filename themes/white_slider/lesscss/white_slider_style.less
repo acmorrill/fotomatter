@@ -129,9 +129,7 @@ body {
 	position: relative;
 	height: 33px;
 }
-#main_nav ul.top_level li.main_menu_item:hover {
-}
-#main_nav ul.top_level li.main_menu_item ul.second_level {
+#main_nav ul.top_level li.main_menu_item .second_level {
 	display: none;
 	position: absolute;
 	top: 100%;
@@ -149,15 +147,15 @@ body {
 	padding-bottom: 7px;
 	text-decoration: none;
 }
-#main_nav ul.top_level li.main_menu_item ul.second_level a {
+#main_nav ul.top_level li.main_menu_item .second_level a {
 	color: white;
 	text-decoration: none;
 }
-#main_nav ul.top_level li.main_menu_item:hover ul.second_level {
+#main_nav ul.top_level li.main_menu_item.hover .second_level {
 	text-decoration: none;
 	display: block;
 }
-#main_nav ul.top_level li.main_menu_item ul.second_level li.sub_menu_item {
+#main_nav ul.top_level li.main_menu_item .second_level li.sub_menu_item {
 	display: block;
 	text-align: left;
 	margin: 7px;
@@ -168,7 +166,7 @@ body {
 	text-align: center;
 	text-decoration: none;
 }
-#main_nav ul.top_level li.main_menu_item ul.second_level li.sub_menu_item:hover {
+#main_nav ul.top_level li.main_menu_item .second_level li.sub_menu_item:hover {
 /*	font-size: 14px;*/
 	font-weight: bold;
 }
@@ -201,23 +199,19 @@ body {
 	position: absolute;
 	top: 100px;
 /*	outline: 1px solid black;*/
-	background-color: #FFF;
 	z-index: 1000;
+	background-color: #efefef;
 }
 #white_slider_listing_actual_container_loading {
-	width: 44px;
-	height: 498px;
-	background-color: white;
-	position: fixed;
-	top: 100px;
-	right: 0px;
+	position: absolute;
+	top: 625px;
+	right: 80px;
 	z-index: 1000;
-	font-family: 'PT Sans', sans-serif;
-	font-size: 45px;
-	line-height: 70px;
-	padding-left: 15px;
-	border: 1px solid #D9D9D9;
+	font-size: 30px;
+	line-height: 30px;
 	color: #333;
+	font-family: 'PT Sans', sans-serif;
+	text-transform: uppercase;
 	display: none;
 }
 #white_slider_listing_container {

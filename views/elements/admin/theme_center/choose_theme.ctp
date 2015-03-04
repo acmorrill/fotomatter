@@ -74,7 +74,7 @@ if (!isset($hide_current)) {
 								}
 							?>								
 							<div class="screenshot_container">
-								<div class="screenshot_inner_container" style="width: <?php echo $image_data['image_width']; ?>px; height: <?php echo $image_data['image_height']; ?>px;">
+								<div class="screenshot_inner_container" style="width: <?php echo $image_data['image_width']; ?>px; height: <?php echo $image_data['image_height']; ?>px; max-height: 319px; overflow: hidden;">
 									<a style="width: <?php echo $image_data['image_width']; ?>px; height: <?php echo $image_data['image_height']; ?>px;" target="<?php echo $large_image_web_path; ?>" href="<?php echo $large_image_web_path; ?>" title="<?php echo $curr_theme['Theme']['display_name']; ?>">
 										<img <?php echo $image_data['image_attr']; ?> src="<?php echo $small_image_web_path; ?>" title="<?php echo $curr_theme['Theme']['display_name']; ?>" alt="" />
 									</a>

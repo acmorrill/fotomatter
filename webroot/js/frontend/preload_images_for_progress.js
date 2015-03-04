@@ -6,7 +6,6 @@ function sleep(miliseconds) {
 var total_images = 0;
 var loaded_images = 0;
 function update_progress_bar() {
-//	sleep(2000);
 	var total_progress = Math.round((loaded_images / total_images) * 100);
 	jQuery(document).trigger('image_load_progress', [ total_progress ]);
 	if (total_progress == 100) {

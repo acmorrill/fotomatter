@@ -3,10 +3,11 @@
 // config for theme: white_slider
 
 $theme_config = array(
+	'theme_name' => 'white_slider',
 	'theme_controller_action_layouts' => array(
 		'SitePages' => array(
 			'landing_page' => array(
-				'layout' => 'gallery',
+				'layout' => 'landing',
 				'view' => false,
 			),
 			'custom_page' => array(
@@ -16,7 +17,7 @@ $theme_config = array(
 		),
 		'PhotoGalleries' => array(
 			'choose_gallery' => array(
-				'layout' => 'gallery',
+				'layout' => false,
 				'view' => false,
 			),
 			'view_gallery' => array(
@@ -26,7 +27,7 @@ $theme_config = array(
 		),
 		'Photos' => array(
 			'view_photo' => array(
-				'layout' => 'gallery',
+				'layout' => false,
 				'view' => false,
 			),
 		)
@@ -59,7 +60,33 @@ $theme_config = array(
 			'theme_has_dynamic_background' => false,
 		),
 		'theme_gallery_listing_config' => array(
-			'default_images_per_page' => 15
-		)
+			'default_images_per_page' => 30,
+			'based_on_theme_option' => 'max_gallery_images'
+		),
+		'theme_avail_custom_settings' => array(
+			'settings' => array(
+				'landing_page_settings_group' => array(
+					'type' => 'group_name',
+					'display_name' => 'Landing Page Settings',
+				),
+				'landing_page_gallery' => array(
+					'type' => 'gallery_chooser',
+					'display_name' => 'Slider Gallery',
+					'description' => "Choose which gallery to use for the theme landing page.",
+					'help_message' => 'Drop Down Test',
+				),
+				'landing_page_slideshow_max_images' => array(
+					'type' => 'numeric_dropdown',
+					'display_name' => 'Slideshow Images',
+					'description' => "The maximum number of images to show on the landing page slideshow.",
+					'help_message' => 'Numeric Dropdown Test',
+					'possible_values' => array(
+						'min' => 1,
+						'max' => 30,
+					),
+					'default_value' => '8',
+				),
+			),
+		),
 	)
 );

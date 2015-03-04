@@ -1,12 +1,4 @@
 <!DOCTYPE html>
-<?php
-
-	// possible bugs
-	// 4) use less space at the top
-	// 7) figure out forward and back when viewing images
-	// 8) bug for going to second photo when only one gallery
-	// 9) sometimes the styled scroll doesn't show because the thing was hidden when the scroll intialized
-?>
 <html>
 	<head>
 		<title><?php echo $curr_gallery['PhotoGallery']['display_name']; ?> &mdash; <?php echo $this->Theme->get_frontend_html_title(); ?></title>
