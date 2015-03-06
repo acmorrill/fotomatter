@@ -10,14 +10,20 @@
 </head>
 <body>
 	<?php
-		$landing_page_slideshow_max_images = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'landing_page_slideshow_max_images'); 
+		$max_gallery_images = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'max_gallery_images'); 
 		$gallery_to_use_id = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'landing_page_gallery', null);
-		$photos = $this->Theme->get_landing_page_slideshow_images($landing_page_slideshow_max_images, $gallery_to_use_id, true);
+		if (empty($gallery_to_use_id)) {
+			$first_gallery = $this->Gallery->get_first_gallery_by_weight();
+			if (!empty($first_gallery['PhotoGallery']['id'])) {
+				$gallery_to_use_id = $first_gallery['PhotoGallery']['id'];
+			}
+		}
+		$photos = $this->Theme->get_landing_page_slideshow_images($max_gallery_images, $gallery_to_use_id, true);
 	?>
 	<?php if (count($photos) > 0): ?>
 <!--		<div class="endless_loading">Loading</div> maybe use this later-->
 		<div id="white_slider_listing_actual_container_loading"><?php echo  __('Loading', true); ?></div>
-		<div id="white_slider_listing_actual_container"><img class="blank" src="/images/large_blank.png" width="1600" height="500" alt="" /><!--
+		<div id="white_slider_listing_actual_container" data-gallery_id="<?php echo $gallery_to_use_id; ?>" data-max_gallery_images="<?php echo $max_gallery_images; ?>"><img class="blank" src="/images/large_blank.png" width="1600" height="500" alt="" /><!--
 			--><?php echo $this->Element('gallery/gallery_image_lists/simple_list', array(
 				'photos' => $photos,
 				'height' => '500',
@@ -38,7 +44,7 @@
 	<?php endif; ?>
 		
 	<div class="container">
-		<div id="image_slider_progressbar"></div>
+		<div id="image_slider_progressbar_container"><div id="image_slider_progressbar"></div></div>
 		
 		
 		<?php echo $this->Element('nameTitle'); ?>

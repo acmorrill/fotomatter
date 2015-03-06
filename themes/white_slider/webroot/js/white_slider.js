@@ -5,47 +5,63 @@
 		if (in_callback == true) {
 			return;
 		}
-		jQuery('#white_slider_listing_actual_container_loading').stop().fadeIn();
 
 		in_callback = true;
-		if (last_photo_id == undefined) {
-			last_photo_id = jQuery('#white_slider_listing_actual_container img:not(.blank):last').attr('photo_id');
-		} 
+		last_photo_id = jQuery('#white_slider_listing_actual_container img:not(.blank):last').attr('photo_id');
 		if (last_photo_id == undefined) { 
 			last_photo_id = 0;
 		}
+
+		
+		jQuery(document).unbind('images_loaded');
+		jQuery(document).unbind('image_load_progress');
+		jQuery("#image_slider_progressbar_container").show();
+		jQuery("#image_slider_progressbar").progressbar('value', 0);
+
+		
+		var gallery_id = jQuery('#white_slider_listing_actual_container').attr('data-gallery_id');
+		var max_gallery_images = jQuery('#white_slider_listing_actual_container').attr('data-max_gallery_images');
 		jQuery.ajax({
 			type : 'post',
-			url : '/photo_galleries/ajax_get_gallery_photos_after/<?php echo $gallery_id; ?>/'+last_photo_id+'/',
+			url : '/photo_galleries/ajax_get_gallery_photos_after/' + gallery_id + '/' + last_photo_id + '/' + max_gallery_images,
 			data : {},
 			success : function (image_list) {
-//						console.log (image_list);
 				var image_list_large_html = jQuery(image_list.large_html);
 				var image_list_small_html = jQuery(image_list.small_html);
 				setup_image_clicks(image_list_small_html);
 
-//							console.log (image_list_large_html);
-//							console.log (image_list_small_html);
 
+				var all_images = jQuery(image_list_small_html).add(image_list_large_html).filter('img');
+				if (all_images.size() > 0) {
+					// progress bar is finished loading
+					jQuery(document).bind('images_loaded', function(e) {
+						jQuery("#image_slider_progressbar_container").stop().fadeOut(1000);
+					});
 
-				var last_large_image = jQuery('#white_slider_listing_actual_container img.blank:last');
-				last_large_image.before(image_list_large_html);
+					// update progress as images load
+					jQuery(document).bind('image_load_progress', function(e, total_progress) {
+						jQuery("#image_slider_progressbar").progressbar('value', total_progress);
+					});
+					
+					
+					var last_large_image = jQuery('#white_slider_listing_actual_container img.blank:last');
+					last_large_image.before(image_list_large_html);
 
-				var last_small_image = jQuery('#white_slider_scroll_control_inner img.blank:last');
-				last_small_image.before(image_list_small_html);
-
+					var last_small_image = jQuery('#white_slider_scroll_control_inner img.blank:last');
+					last_small_image.before(image_list_small_html);
+					
+					jQuery(document).trigger('preload_images_for_progress', [ all_images ]);
+				} else {
+					jQuery("#image_slider_progressbar_container").stop().fadeOut(1000);
+				}
+				
 
 				if (image_list.has_more == false) {
 					cease_fire = true;
 				}
 			},
-			complete: function(jqXHR, textStatus) {
-//						console.log ("came into complete");
-				jQuery('#white_slider_listing_actual_container_loading').stop().fadeOut(2000);
-			},
-			error: function () {
-//						console.log ("came into the error");
-			},
+			complete: function(jqXHR, textStatus) { in_callback = false; },
+			error: function () { jQuery("#image_slider_progressbar_container").stop().hide(); },
 			dataType: "json"
 		}); 
 	}
@@ -296,16 +312,23 @@
 	}
 
 	jQuery(document).ready(function() {
+		// setup the loading progressbar
+		jQuery("#image_slider_progressbar").progressbar({ value: 0 });
+		
+		
+		// move to the image just to the right of center
 		jQuery('#white_slider_listing_actual_container').scrollLeft(Math.round(jQuery('#white_slider_listing_actual_container')[0].scrollWidth * .40));
 		move_to_next_prev_image('right');
 		
+		// setup the endless scroll
 		jQuery('#white_slider_listing_actual_container').endlessScroll_horizontal({
-			bottomPixels: 2000,
+			bottomPixels: 500,
 			loader: '',
 			insertAfter: '',
 			callback: function (i) {
 				endless_scroll_callback();
-			}
+			},
+			ceaseFire: function() { return cease_fire; }
 		});
 
 
@@ -341,24 +364,17 @@
 			}
 		});
 
-		// setup the loading progressbar
-		jQuery("#image_slider_progressbar").progressbar({
-			value: 0,
-			complete: function( event, ui ) {
-				// DREW TODO - put in a failsafe to make sure the complete gets run at some point
-				jQuery(this).progressbar('destroy').hide();
-
-//				jQuery('#white_slider_listing_actual_container, #white_slider_scroll_control_inner').show();
-				jQuery('#entire_slider_hider').fadeTo(1000, 0, function() {
-					jQuery(this).hide();
-				});
-			}
-		});
-
 
 		// progress bar is finished loading
 		jQuery(document).bind('images_loaded', function(e) {
 			setup_image_clicks('#white_slider_scroll_control_inner img:not(.blank)');
+
+
+			// hide the progress bar
+			jQuery("#image_slider_progressbar_container").hide();
+			jQuery('#entire_slider_hider').fadeTo(1000, 0, function() {
+				jQuery(this).hide();
+			});
 		});
 
 		// update progress as images load

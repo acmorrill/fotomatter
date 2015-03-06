@@ -75,16 +75,16 @@ $theme_config = array(
 					'description' => "Choose which gallery to use for the theme landing page.",
 					'help_message' => 'Drop Down Test',
 				),
-				'landing_page_slideshow_max_images' => array(
+				'max_gallery_images' => array(
 					'type' => 'numeric_dropdown',
 					'display_name' => 'Slideshow Images',
-					'description' => "The maximum number of images to show on the landing page slideshow.",
+					'description' => "The maximum number of preloaded images show on the landing page and in galleries. Additional load as you scroll.",
 					'help_message' => 'Numeric Dropdown Test',
 					'possible_values' => array(
 						'min' => 1,
 						'max' => 30,
 					),
-					'default_value' => '8',
+					'default_value' => '15',
 				),
 			),
 		),

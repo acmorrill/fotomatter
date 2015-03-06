@@ -253,41 +253,86 @@ class PhotoGalleriesController extends AppController {
 		$this->return_json($returnArr);
 	}
 	
-	public function ajax_get_gallery_photos_after($gallery_id, $last_photo_id, $limit=30) {
-		// DREW TODO - make this function use smart gallery finding code
-		// $found_photo_ids = $this->PhotoGallery->get_smart_gallery_photo_ids($smart_settings);
+	public function ajax_get_gallery_photos_after($gallery_id, $last_photo_id, $limit = 30) {
+		$returnArr = array();
+		
+		$curr_gallery = $this->PhotoGallery->find('first', array(
+			'conditions' => array(
+				'PhotoGallery.id' => $gallery_id,
+			),
+			'contain' => false,
+		));
+		
+		if ($curr_gallery['PhotoGallery']['type'] == 'smart') {
+			$smart_settings = $curr_gallery['PhotoGallery']['smart_settings'];
+			
+			$found_photo_ids = $this->PhotoGallery->get_smart_gallery_photo_ids($smart_settings);
+			$found_photos = $this->Photo->find('all', array(
+				'conditions' => array(
+					'Photo.id' => $found_photo_ids
+				),
+				'contain' => false,
+				'order' => "Photo.{$smart_settings['order_by']} {$smart_settings['order_direction']}"
+			));
+			
+			
+			$photos_total_count = count($found_photo_ids);
+			$photos = array();
+			$start_find = false;
+			$found_end = false;
+			$returnArr['has_more'] = false;
+			$count = 0; foreach ($found_photos as $found_photo) {
+				if ($found_end) { // reached the end earlier and loop not finished
+					$returnArr['has_more'] = true;
+					break;
+				}
+				
+				if ($start_find && !$found_end && $count < $limit) {
+					$count++;
+					$photos[] = $found_photo;
 
-		$last_photo = $this->PhotoGalleriesPhoto->find('first', array(
-			'conditions' => array(
-				'PhotoGalleriesPhoto.photo_id' => $last_photo_id,
-				'PhotoGalleriesPhoto.photo_gallery_id' => $gallery_id
-			),
-			'contain' => false
-		));
-		
-		$photos_total_count = $this->PhotoGalleriesPhoto->find('count', array(
-			'conditions' => array(
-				'PhotoGalleriesPhoto.photo_gallery_id' => $gallery_id,
-				'PhotoGalleriesPhoto.photo_order >' => $last_photo['PhotoGalleriesPhoto']['photo_order']
-			),
-			'order' => 'PhotoGalleriesPhoto.photo_order',
-			'contain' => false
-		));
-		
-		$photos = $this->PhotoGalleriesPhoto->find('all', array(
-			'conditions' => array(
-				'PhotoGalleriesPhoto.photo_gallery_id' => $gallery_id,
-				'PhotoGalleriesPhoto.photo_order >' => $last_photo['PhotoGalleriesPhoto']['photo_order']
-			),
-			'order' => 'PhotoGalleriesPhoto.photo_order',
-			'limit' => $limit,
-			'contain' => array(
-				'Photo'
-			)
-		));
+					if ($count == $limit) {
+						$found_end = true;
+					}
+				}
+				
+				if ($found_photo['Photo']['id'] == $last_photo_id) {
+					$start_find = true;
+				}
+			}
+		} else {
+			$last_photo = $this->PhotoGalleriesPhoto->find('first', array(
+				'conditions' => array(
+					'PhotoGalleriesPhoto.photo_id' => $last_photo_id,
+					'PhotoGalleriesPhoto.photo_gallery_id' => $gallery_id
+				),
+				'contain' => false
+			));
 
+			$photos_total_count = $this->PhotoGalleriesPhoto->find('count', array(
+				'conditions' => array(
+					'PhotoGalleriesPhoto.photo_gallery_id' => $gallery_id,
+					'PhotoGalleriesPhoto.photo_order >' => $last_photo['PhotoGalleriesPhoto']['photo_order']
+				),
+				'order' => 'PhotoGalleriesPhoto.photo_order',
+				'contain' => false
+			));
+
+			$photos = $this->PhotoGalleriesPhoto->find('all', array(
+				'conditions' => array(
+					'PhotoGalleriesPhoto.photo_gallery_id' => $gallery_id,
+					'PhotoGalleriesPhoto.photo_order >' => $last_photo['PhotoGalleriesPhoto']['photo_order']
+				),
+				'order' => 'PhotoGalleriesPhoto.photo_order',
+				'limit' => $limit,
+				'contain' => array(
+					'Photo'
+				)
+			));
+			$returnArr['has_more'] = count($photos) < $photos_total_count;
+		}
 		
-		$returnArr['has_more'] = count($photos) < $photos_total_count;
+		
 		$returnArr['large_html'] = $this->element('gallery/gallery_image_lists/simple_list', array(
 			'photos' => $photos,
 			'height' => '500',
@@ -300,7 +345,7 @@ class PhotoGalleriesController extends AppController {
 			'width' => '200',
 			'sharpness' => '.4'
 		));
-		
+
 
 		$this->return_json($returnArr);
 	}

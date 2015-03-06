@@ -13,11 +13,15 @@ function update_progress_bar() {
 	}
 }
 jQuery(document).ready(function() {
-	jQuery(document).bind('preload_images_for_progress', function() {
-		jQuery('img.preload_for_progress').each(function() {
+	jQuery(document).bind('preload_images_for_progress', function(e, images_to_load) {
+		if (images_to_load == undefined) {
+			images_to_load = jQuery('img.preload_for_progress');
+		}
+		
+		images_to_load.each(function() {
 			total_images++;
 		});
-		jQuery('img.preload_for_progress').each(function() {
+		images_to_load.each(function() {
 			var raw_element = $(this)[0];
 			if (raw_element.complete == true) {
 				loaded_images++;

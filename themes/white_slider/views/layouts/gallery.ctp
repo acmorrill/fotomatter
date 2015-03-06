@@ -9,18 +9,19 @@
 	<script src="/js/php_closure/white_slider.min.js"></script>
 </head>
 <body>
+	<?php $max_gallery_images = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'max_gallery_images'); ?>
 	<?php if (count($photos) > 0): ?>
 <!--		<div class="endless_loading">Loading</div> maybe use this later-->
 		<div id="white_slider_listing_actual_container_loading"><?php echo  __('Loading', true); ?></div>
-		<div id="white_slider_listing_actual_container"><img class="blank" src="/images/large_blank.png" width="1600" height="500" alt="" /><!--
-			--><?php echo $this->Element('gallery/gallery_image_lists/simple_list', array(
-				'photos' => $photos,
-				'height' => '500',
-				'width' => '2000',
-				'sharpness' => '.4'
-			)); ?><img class="blank" src="/images/large_blank.png" width="1600" height="500" alt="" /></div>
+		<div id="white_slider_listing_actual_container" data-gallery_id="<?php echo $gallery_id; ?>" data-max_gallery_images="<?php echo $max_gallery_images; ?>"><img class="blank" src="/images/large_blank.png" width="1600" height="500" alt="" /><!--
+		--><?php echo $this->Element('gallery/gallery_image_lists/simple_list', array(
+			'photos' => $photos,
+			'height' => '500',
+			'width' => '2000',
+			'sharpness' => '.4'
+		)); ?><img class="blank" src="/images/large_blank.png" width="1600" height="500" alt="" /></div>
 		<div id="white_slider_scroll_hide" class=""></div>
-		<div id="left_arrow" class="navigation_arrow">
+		<!--<div id="left_arrow" class="navigation_arrow">
 
 		</div>
 		<div id="right_arrow" class="navigation_arrow">
@@ -33,7 +34,7 @@
 	<?php endif; ?>
 		
 	<div class="container">
-		<div id="image_slider_progressbar"></div>
+		<div id="image_slider_progressbar_container"><div id="image_slider_progressbar"></div></div>
 		
 		
 		<?php echo $this->Element('nameTitle'); ?>

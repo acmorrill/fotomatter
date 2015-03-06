@@ -109,6 +109,7 @@ class EcommercesController extends AppController {
 				$this->redirect('/admin/ecommerces/get_paid/');
 			}
 			$user_email_address = $logged_in_user['User']['email_address'];
+			// DREW TODO - need to take out 3% from the order here to pay for processing - also need to take out 3% from display on the recieve payment page
 			$amount = $this->AuthnetOrder->get_order_totals($payable_order_ids);
 			// mark all the payable orders as being in the process of paying
 			$this->AuthnetOrder->set_orders_pay_out_status($payable_order_ids, 'processing');

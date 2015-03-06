@@ -223,16 +223,24 @@ table {
 .container {
   overflow-x: hidden;
 }
-#image_slider_progressbar {
+#image_slider_progressbar_container {
   position: absolute;
   top: 300px;
   left: 50%;
+  width: 750px;
+  margin-left: -375px;
+  height: 90px;
+  z-index: 1001;
+}
+#image_slider_progressbar {
+  position: absolute;
+  top: 30px;
+  left: 50px;
   width: 650px;
   height: 30px;
   margin: 0px;
-  margin-left: -325px;
-  outline: 1px solid #595959;
-  z-index: 1001;
+  outline: 1px solid #ababab;
+  background-color: #ffffff;
 }
 #image_slider_progressbar .ui-progressbar-value {
   height: 100%;
@@ -283,6 +291,7 @@ table {
   overflow-y: visible;
 }
 #white_slider_listing_actual_container .endless_loading {
+  display: none;
   position: absolute;
   top: 0px;
   right: 0px;
