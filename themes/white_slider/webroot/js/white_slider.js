@@ -113,15 +113,13 @@
 		});
 
 		// means there was no image that was in the center (aka on the edges)
-		if (next_image == undefined) {
+		if (next_image.attr('photo_id') == undefined) {
 			if (direction == 'right') {
-				next_image = jQuery('#white_slider_listing_actual_container img:not(.blank)').first();
-			} else {
 				next_image = jQuery('#white_slider_listing_actual_container img:not(.blank)').last();
+			} else {
+				next_image = jQuery('#white_slider_listing_actual_container img:not(.blank)').first();
 			}
 		}
-
-
 
 		// center the next image
 		if (next_image != undefined && next_image.length > 0 && !next_image.hasClass('blank')) {
@@ -310,6 +308,37 @@
 			calculate_control_container_scroll();
 		});
 	}
+	
+	function setup_large_image_clicks(selector) {
+		jQuery(selector).click(function() {
+			var photo_id = jQuery(this).attr('photo_id');
+			go_to_this_image(photo_id);
+		});
+	}
+	
+	function go_to_this_image(photo_id) {
+		var element = jQuery('#white_slider_listing_actual_container img[photo_id=' + photo_id + ']');
+		if (element === undefined) {
+			return;
+		}
+		go_to_this_image_element(element);
+//		show_image_data(element);
+	}
+
+	function go_to_this_image_element(element) {
+		// START HERE TOMORROW
+		console.log('====================================');
+		var control = jQuery('#white_slider_listing_actual_container');
+		console.log(element.position().left);
+		console.log(element.width() / 2);
+		var image_center = element.position().left + (element.width() / 2);
+		console.log(image_center);
+		var new_left = image_center + (control.width() / 2);
+		console.log(new_left);
+//		control.scrollLeft(new_left);
+		console.log('====================================');
+	}
+	
 
 	jQuery(document).ready(function() {
 		// setup the loading progressbar
@@ -368,6 +397,7 @@
 		// progress bar is finished loading
 		jQuery(document).bind('images_loaded', function(e) {
 			setup_image_clicks('#white_slider_scroll_control_inner img:not(.blank)');
+			setup_large_image_clicks("#white_slider_listing_actual_container img:not(.blank)");
 
 
 			// hide the progress bar
