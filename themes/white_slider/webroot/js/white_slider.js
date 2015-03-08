@@ -1,6 +1,7 @@
 	var in_callback = false;
 	var cease_fire = false;
 	var last_photo_id = undefined;
+	var first_endless_load = true;
 	function endless_scroll_callback() {
 		if (in_callback == true) {
 			return;
@@ -8,15 +9,9 @@
 
 		in_callback = true;
 		last_photo_id = jQuery('#white_slider_listing_actual_container img:not(.blank):last').attr('photo_id');
-		if (last_photo_id == undefined) { 
+		if (last_photo_id == 'undefined') { 
 			last_photo_id = 0;
 		}
-
-		
-		jQuery(document).unbind('images_loaded');
-		jQuery(document).unbind('image_load_progress');
-		jQuery("#image_slider_progressbar_container").show();
-		jQuery("#image_slider_progressbar").progressbar('value', 0);
 
 		
 		var gallery_id = jQuery('#white_slider_listing_actual_container').attr('data-gallery_id');
@@ -26,9 +21,20 @@
 			url : '/photo_galleries/ajax_get_gallery_photos_after/' + gallery_id + '/' + last_photo_id + '/' + max_gallery_images,
 			data : {},
 			success : function (image_list) {
+				jQuery(document).unbind('images_loaded');
+				jQuery(document).unbind('image_load_progress');
+				if (first_endless_load) {
+					first_endless_load = false;
+				} else {
+					jQuery("#image_slider_progressbar_container").show();
+					jQuery("#image_slider_progressbar").progressbar('value', 5);
+				}
+				
+				
 				var image_list_large_html = jQuery(image_list.large_html);
 				var image_list_small_html = jQuery(image_list.small_html);
 				setup_image_clicks(image_list_small_html);
+				setup_large_image_clicks(image_list_large_html.filter('img'));
 
 
 				var all_images = jQuery(image_list_small_html).add(image_list_large_html).filter('img');
@@ -113,7 +119,7 @@
 		});
 
 		// means there was no image that was in the center (aka on the edges)
-		if (next_image.attr('photo_id') == undefined) {
+		if (typeof next_image == 'undefined' || next_image.attr('photo_id') == 'undefined') {
 			if (direction == 'right') {
 				next_image = jQuery('#white_slider_listing_actual_container img:not(.blank)').last();
 			} else {
@@ -122,7 +128,7 @@
 		}
 
 		// center the next image
-		if (next_image != undefined && next_image.length > 0 && !next_image.hasClass('blank')) {
+		if (next_image != 'undefined' && next_image.length > 0 && !next_image.hasClass('blank')) {
 			var center_of_next_image = jQuery('#white_slider_listing_actual_container').scrollLeft() + next_image.offset().left + (next_image.width() / 2);
 	//					console.log (next_image);
 	//					console.log (center_of_next_image);
@@ -326,41 +332,24 @@
 	}
 
 	function go_to_this_image_element(element) {
-		// START HERE TOMORROW
-		console.log('====================================');
-		var control = jQuery('#white_slider_listing_actual_container');
-		console.log(element.position().left);
-		console.log(element.width() / 2);
+		var main_listing = jQuery('#white_slider_listing_actual_container');
 		var image_center = element.position().left + (element.width() / 2);
-		console.log(image_center);
-		var new_left = image_center + (control.width() / 2);
-		console.log(new_left);
-//		control.scrollLeft(new_left);
-		console.log('====================================');
+		var page_center = (main_listing.width() / 2);
+		var new_left = page_center - image_center;
+		main_listing.scrollLeft(main_listing.scrollLeft() - new_left);
+		calculate_scroll_control_div_width_and_pos();
+	}
+	
+	function calculate_ecommerce_display_and_opacity() {
+		// START HERE TOMORROW
 	}
 	
 
 	jQuery(document).ready(function() {
 		// setup the loading progressbar
-		jQuery("#image_slider_progressbar").progressbar({ value: 0 });
+		jQuery("#image_slider_progressbar").progressbar({ value: 5 });
 		
 		
-		// move to the image just to the right of center
-		jQuery('#white_slider_listing_actual_container').scrollLeft(Math.round(jQuery('#white_slider_listing_actual_container')[0].scrollWidth * .40));
-		move_to_next_prev_image('right');
-		
-		// setup the endless scroll
-		jQuery('#white_slider_listing_actual_container').endlessScroll_horizontal({
-			bottomPixels: 500,
-			loader: '',
-			insertAfter: '',
-			callback: function (i) {
-				endless_scroll_callback();
-			},
-			ceaseFire: function() { return cease_fire; }
-		});
-
-
 		jQuery('#left_arrow').click(function() {
 			move_to_next_prev_image('left');
 		});
@@ -405,6 +394,20 @@
 			jQuery('#entire_slider_hider').fadeTo(1000, 0, function() {
 				jQuery(this).hide();
 			});
+			
+			
+			// setup the endless scroll
+			jQuery('#white_slider_listing_actual_container').endlessScroll_horizontal({
+				bottomPixels: 1200,
+				loader: '',
+				insertAfter: '',
+				callback: function (i) {
+					endless_scroll_callback();
+				},
+				ceaseFire: function() {
+					return cease_fire;
+				}
+			});
 		});
 
 		// update progress as images load
@@ -417,6 +420,10 @@
 	});
 
 	jQuery(window).load(function() {
+		// move to the image just to the right of center
+		jQuery('#white_slider_listing_actual_container').scrollLeft(Math.round(jQuery('#white_slider_listing_actual_container')[0].scrollWidth * .40));
+		move_to_next_prev_image('right');
+		
 //		setup the autoscrolling
 //		autoscrolling = true;
 //		var duration = 100;

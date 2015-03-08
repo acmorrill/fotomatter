@@ -22,7 +22,6 @@
 	?>
 	<?php if (count($photos) > 0): ?>
 <!--		<div class="endless_loading">Loading</div> maybe use this later-->
-		<div id="white_slider_listing_actual_container_loading"><?php echo  __('Loading', true); ?></div>
 		<div id="white_slider_listing_actual_container" data-gallery_id="<?php echo $gallery_to_use_id; ?>" data-max_gallery_images="<?php echo $max_gallery_images; ?>"><img class="blank" src="/images/large_blank.png" width="1600" height="500" alt="" /><!--
 			--><?php echo $this->Element('gallery/gallery_image_lists/simple_list', array(
 				'photos' => $photos,
@@ -31,12 +30,12 @@
 				'sharpness' => '.4'
 			)); ?><img class="blank" src="/images/large_blank.png" width="1600" height="500" alt="" /></div>
 		<div id="white_slider_scroll_hide" class=""></div>
-		<div id="left_arrow" class="navigation_arrow">
+<!--		<div id="left_arrow" class="navigation_arrow">
 
 		</div>
 		<div id="right_arrow" class="navigation_arrow">
 
-		</div>
+		</div>-->
 		<!--DREW TODO  make the below div cover the entire content-->
 		<div id="entire_slider_hider"></div>
 	<?php else: ?>

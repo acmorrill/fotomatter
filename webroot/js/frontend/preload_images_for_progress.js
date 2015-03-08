@@ -21,24 +21,30 @@ jQuery(document).ready(function() {
 		images_to_load.each(function() {
 			total_images++;
 		});
-		images_to_load.each(function() {
-			var raw_element = $(this)[0];
-			if (raw_element.complete == true) {
-				loaded_images++;
-				update_progress_bar();
-			} else {
-				var img_src = $(this).attr('src');
-				var tmpImg = document.createElement('img'); // new Image(1, 1); 
-				tmpImg.onload = function() {
+		
+		if (total_images > 0) {
+			images_to_load.each(function() {
+				var raw_element = $(this)[0];
+				if (raw_element.complete == true) {
 					loaded_images++;
 					update_progress_bar();
-				};
-				tmpImg.error = function() {
-					loaded_images++;
-					update_progress_bar();
-				};
-				tmpImg.src = img_src;
-			}
-		});
+				} else {
+					var img_src = $(this).attr('src');
+					var tmpImg = document.createElement('img'); // new Image(1, 1); 
+					tmpImg.onload = function() {
+						loaded_images++;
+						update_progress_bar();
+					};
+					tmpImg.error = function() {
+						loaded_images++;
+						update_progress_bar();
+					};
+					tmpImg.src = img_src;
+				}
+			});
+		} else {
+			jQuery(document).trigger('image_load_progress', [ 100 ]);
+			jQuery(document).trigger('images_loaded');
+		}
 	});
 });
