@@ -260,7 +260,7 @@ body {
 #white_slider_listing_actual_container img {
 	vertical-align: top;
 	display: inline-block;
-	border-right: 1px solid white;
+	border-right: 10px solid white;
 	cursor: pointer;
 }
 #white_slider_listing_actual_container img.blank, #white_slider_scroll_control_inner img.blank {
@@ -320,7 +320,7 @@ body {
 #white_slider_scroll_control_inner img {
 	vertical-align: top;
 	display: inline-block;
-/*	border-right: 1px solid white;*/
+	border-right: 1px solid white;
 }
 #white_slider_scroll_control_inner .scroll_control_div {
 	position: absolute;
@@ -328,14 +328,25 @@ body {
 	top: 0px;
 	height: 50px;
 	width: 80px;
-	border: 3px solid black;
+	border-left: 5px solid black;
+	border-right: 5px solid black;
 	z-index: 50;
-	-webkit-border-radius: 6px; /* safari/chrome */
-	-moz-border-radius: 6px; /* Firefox */
-	border-radius: 6px; /* CSS3 */
-	margin-top: -3px;
-	margin-left: -3px;
+	margin-left: -5px;
 	cursor: move;
+	.left_opacity_cover, .right_opacity_cover {
+		position: absolute;
+		top: 0px;
+		width: 800px;
+		height: 50px;
+		background: #000000;
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+		filter: alpha(opacity=50);
+		-moz-opacity: 0.5;
+		-khtml-opacity: 0.5;
+		opacity: 0.5;
+	}
+	.left_opacity_cover { left: -800px; }
+	.right_opacity_cover { right: -800px; }
 }
 .hide {
 	display: none;
@@ -344,6 +355,24 @@ body {
 #white_slider_scroll_control_cont {
 	position: relative;
 	width: 100%;
+	z-index: 40;
+	#current_image_linepointer_container {
+		display: none;
+		z-index: 200;
+		position: absolute;
+		left: 50%;
+		width: 2px;
+		margin-left: -1px;
+		height: 100px;
+		.first_line_segment, .last_line_segment {
+			position: absolute;
+			left: 0px;
+			width: 2px;
+			background-color: #000000;
+		}
+		.first_line_segment { top: -21px; height: 17px; }
+		.last_line_segment { top: 61px; height: 33px; }
+	}
 }
 
 .navigation_arrow {
@@ -399,7 +428,7 @@ body {
 // Ecommerce photo add to cart stuff
 //------------------------------------------------------------------------------------------
 #white_slider_ecommerce_container {
-	
+	position: relative;
 	margin-bottom: 300px;
 	.image_data_container {
 		font-family: 'PT Sans', sans-serif;

@@ -71,16 +71,11 @@
 			dataType: "json"
 		}); 
 	}
-
-	function move_to_next_prev_image(direction) {
-		if (direction != 'left' && direction != 'right') {
-			direction = 'right';
-		}
-
-		// find the next image
+	
+	function get_current_middle_image() {
 		var middle_of_screen = jQuery(document).width() / 2;
 		var current_middle_image = undefined;
-		var next_image = undefined;
+		var return_data = undefined;
 		jQuery('#white_slider_listing_actual_container img:not(.blank)').each(function() {
 			var current_middle = jQuery(this).offset().left + (jQuery(this).width() / 2);
 			var current_left = jQuery(this).offset().left;
@@ -88,37 +83,48 @@
 
 			if (current_left <= middle_of_screen && current_right >= middle_of_screen) {
 				current_middle_image = jQuery(this);
-
-				var current_distance = Math.abs(middle_of_screen - current_middle);
-				var tenth_of_image_width = (current_middle_image.width() * .1);
-
-				// for debugging
-	//						console.log ("===============================");
-	//						console.log ('current_distance: '+current_distance);
-	//						console.log ('tenth_of_image_width: '+tenth_of_image_width);
-	//						console.log ('current_middle: '+current_middle);
-	//						console.log ('middle_of_screen: '+middle_of_screen);
-	//						console.log ("===============================");
-
-
-				if (direction == 'right') {
-					if (current_middle > middle_of_screen && current_distance > tenth_of_image_width ) {
-						next_image = current_middle_image;
-					} else {
-						next_image = current_middle_image.next();
-					}
-				} else {
-					if (current_middle < middle_of_screen && current_distance > tenth_of_image_width) {
-						next_image = current_middle_image;
-					} else {
-						next_image = current_middle_image.prev();
-					}
-				}
-				return;
+				
+				return_data = {};
+				return_data.current_middle_image = current_middle_image;
+				return_data.current_middle = current_middle;
+				
+				return false;
 			}
 		});
+		
+		return return_data;
+	}
+	
+	function move_to_next_prev_image(direction) {
+		if (direction != 'left' && direction != 'right') {
+			direction = 'right';
+		}
 
-		// means there was no image that was in the center (aka on the edges)
+
+		////////////////////////////////////////////////////////////////////////////////
+		// find the next image
+		var middle_of_screen = jQuery(document).width() / 2;
+		var middle_image_data = get_current_middle_image();
+		var next_image = undefined;
+		var current_distance = Math.abs(middle_of_screen - middle_image_data.current_middle);
+		var tenth_of_image_width = (middle_image_data.current_middle_image.width() * .1);
+		if (direction == 'right') {
+			if (middle_image_data.current_middle > middle_of_screen && current_distance > tenth_of_image_width ) {
+				next_image = middle_image_data.current_middle_image;
+			} else {
+				next_image = middle_image_data.current_middle_image.next();
+			}
+		} else {
+			if (middle_image_data.current_middle < middle_of_screen && current_distance > tenth_of_image_width) {
+				next_image = middle_image_data.current_middle_image;
+			} else {
+				next_image = middle_image_data.current_middle_image.prev();
+			}
+		}
+
+
+
+		// means there was no image that was in the center (aka images are on the edges)
 		if (typeof next_image == 'undefined' || next_image.attr('photo_id') == 'undefined') {
 			if (direction == 'right') {
 				next_image = jQuery('#white_slider_listing_actual_container img:not(.blank)').last();
@@ -126,7 +132,7 @@
 				next_image = jQuery('#white_slider_listing_actual_container img:not(.blank)').first();
 			}
 		}
-
+	
 		// center the next image
 		if (next_image != 'undefined' && next_image.length > 0 && !next_image.hasClass('blank')) {
 			var center_of_next_image = jQuery('#white_slider_listing_actual_container').scrollLeft() + next_image.offset().left + (next_image.width() / 2);
@@ -165,6 +171,7 @@
 
 		var actual_control = jQuery('#white_slider_scroll_control_inner .scroll_control_div');
 		actual_control.css('left', control_left);
+		calculate_ecommerce_display_and_opacity();
 	}
 
 	function calculate_scroll_control_div_width_and_pos() {
@@ -200,6 +207,7 @@
 	//				console.log (slider_scroll);
 
 		slider.scrollLeft(slider_scroll);
+		calculate_ecommerce_display_and_opacity();
 	}
 
 	function calculate_control_container_scroll() {
@@ -341,7 +349,52 @@
 	}
 	
 	function calculate_ecommerce_display_and_opacity() {
-		// START HERE TOMORROW
+		// get the middle image
+		var middle_of_screen = jQuery(document).width() / 2;
+		var middle_image_data = get_current_middle_image();
+		if (middle_image_data != undefined) {
+			// figure out the distance
+			var middle_image_width = middle_image_data.current_middle_image.width();
+			var curr_photo_id = middle_image_data.current_middle_image.attr('photo_id');
+			var middle_image_center = middle_image_data.current_middle_image.position().left + (middle_image_width / 2);
+			var distance_from_middle = Math.abs(middle_of_screen - middle_image_center);
+			var percent = distance_from_middle / (middle_image_width / 2);
+			
+			
+			var show_image_ecommerce = false;
+			var image_ecommerce_opacity = 0;
+			var opaque_cutoff_percent = .4;
+			var hide_cutoff_percent = .9;
+			if (percent > hide_cutoff_percent) { // hide the dang thing
+				show_image_ecommerce = false;
+				image_ecommerce_opacity = 0;
+			} else if (percent > opaque_cutoff_percent) { // a partial opacity
+				show_image_ecommerce = true;
+				image_ecommerce_opacity = 1 - ((percent - (1 - hide_cutoff_percent)) / (1 - opaque_cutoff_percent));
+			} else { // show 100%
+				show_image_ecommerce = true;
+				image_ecommerce_opacity = 100;
+			}
+			
+//			console.log('==========================================');
+//			console.log("percent: " + percent);
+//			console.log("image_ecommerce_opacity: " + image_ecommerce_opacity);
+//			console.log('==========================================');
+			
+			
+			
+			if (show_image_ecommerce == true) {
+				var curr_image_ecommerce_el = '#image_data_container_' + curr_photo_id + ', #current_image_linepointer_container';
+				jQuery('.image_data_container').not(curr_image_ecommerce_el).hide();
+				jQuery(curr_image_ecommerce_el).show().fadeTo(0, image_ecommerce_opacity);
+			} else {
+				jQuery('.image_data_container, #current_image_linepointer_container').hide();
+			}
+		}
+		
+		
+		
+		
 	}
 	
 
@@ -423,6 +476,7 @@
 		// move to the image just to the right of center
 		jQuery('#white_slider_listing_actual_container').scrollLeft(Math.round(jQuery('#white_slider_listing_actual_container')[0].scrollWidth * .40));
 		move_to_next_prev_image('right');
+		
 		
 //		setup the autoscrolling
 //		autoscrolling = true;

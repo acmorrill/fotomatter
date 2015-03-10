@@ -6,7 +6,9 @@
 	<link rel="stylesheet" type="text/css" href="/css/white_slider_style.css" />
 	<link href='//fonts.googleapis.com/css?family=PT+Sans:400italic,400' rel='stylesheet' type='text/css' />
 	
-	<script src="/js/php_closure/white_slider.min.js"></script>
+	<script src="/js/scrollto/jquery.scrollTo.min.js"></script>
+	<script src="/js/jquery.endless-scroll_horizontal.js"></script>
+	<script src="/js/white_slider.js"></script>
 </head>
 <body>
 	<?php $max_gallery_images = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'max_gallery_images'); ?>
@@ -49,23 +51,27 @@
 		<div id="white_slider_listing_container"></div>
 		
 		<div id="white_slider_scroll_control_cont">
+			<div id="current_image_linepointer_container">
+				<div class="first_line_segment"></div>
+				<div class="last_line_segment"></div>
+			</div>
 			<div id="hide_control_scroll_div" class=""></div>
 			<div id="white_slider_scroll_control">
-				<div id="white_slider_scroll_control_inner">
-					<div class="scroll_control_div"></div>
-					<img class="blank" src="/images/blank.png" width="160" height="50" alt="" /><?php echo $this->Element('gallery/gallery_image_lists/simple_list', array(
+				<div id="white_slider_scroll_control_inner"><!--
+					--><div class="scroll_control_div"><div class="left_opacity_cover"></div><div class="right_opacity_cover"></div></div><!--
+					--><img class="blank" src="/images/blank.png" width="160" height="50" alt="" /><?php echo $this->Element('gallery/gallery_image_lists/simple_list', array(
 						'photos' => $photos,
 						'height' => '50',
 						'width' => '200',
 						'sharpness' => '.4'
-					)); ?><img class="blank" src="/images/blank.png" width="160" height="50" alt="" />
-				</div>
+					)); ?><img class="blank" src="/images/blank.png" width="160" height="50" alt="" /><!--
+				--></div>
 			</div>
 		</div>
 		
 		<div id="white_slider_ecommerce_container">
 			<?php foreach ($photos as $photo): ?>
-				<div class='image_data_container' data-ecommerce_photo_id="<?php echo $photo['Photo']['id']; ?>">
+				<div id="image_data_container_<?php echo $photo['Photo']['id']; ?>" class='image_data_container' data-ecommerce_photo_id="<?php echo $photo['Photo']['id']; ?>">
 					<div class="hr"></div>
 					<h2 class="photo_title"><?php echo $photo['Photo']['display_title']; ?></h2>
 					<?php if (!empty($photo['Photo']['display_subtitle'])): ?>

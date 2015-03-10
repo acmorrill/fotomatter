@@ -303,7 +303,7 @@ table {
 #white_slider_listing_actual_container img {
   vertical-align: top;
   display: inline-block;
-  border-right: 1px solid white;
+  border-right: 10px solid white;
   cursor: pointer;
 }
 #white_slider_listing_actual_container img.blank,
@@ -352,6 +352,7 @@ table {
 #white_slider_scroll_control_inner img {
   vertical-align: top;
   display: inline-block;
+  border-right: 1px solid white;
 }
 #white_slider_scroll_control_inner .scroll_control_div {
   position: absolute;
@@ -359,14 +360,30 @@ table {
   top: 0px;
   height: 50px;
   width: 80px;
-  border: 3px solid black;
+  border-left: 5px solid black;
+  border-right: 5px solid black;
   z-index: 50;
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  border-radius: 6px;
-  margin-top: -3px;
-  margin-left: -3px;
+  margin-left: -5px;
   cursor: move;
+}
+#white_slider_scroll_control_inner .scroll_control_div .left_opacity_cover,
+#white_slider_scroll_control_inner .scroll_control_div .right_opacity_cover {
+  position: absolute;
+  top: 0px;
+  width: 800px;
+  height: 50px;
+  background: #000000;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+  filter: alpha(opacity=50);
+  -moz-opacity: 0.5;
+  -khtml-opacity: 0.5;
+  opacity: 0.5;
+}
+#white_slider_scroll_control_inner .scroll_control_div .left_opacity_cover {
+  left: -800px;
+}
+#white_slider_scroll_control_inner .scroll_control_div .right_opacity_cover {
+  right: -800px;
 }
 .hide {
   display: none;
@@ -374,6 +391,31 @@ table {
 #white_slider_scroll_control_cont {
   position: relative;
   width: 100%;
+  z-index: 40;
+}
+#white_slider_scroll_control_cont #current_image_linepointer_container {
+  display: none;
+  z-index: 200;
+  position: absolute;
+  left: 50%;
+  width: 2px;
+  margin-left: -1px;
+  height: 100px;
+}
+#white_slider_scroll_control_cont #current_image_linepointer_container .first_line_segment,
+#white_slider_scroll_control_cont #current_image_linepointer_container .last_line_segment {
+  position: absolute;
+  left: 0px;
+  width: 2px;
+  background-color: #000000;
+}
+#white_slider_scroll_control_cont #current_image_linepointer_container .first_line_segment {
+  top: -21px;
+  height: 17px;
+}
+#white_slider_scroll_control_cont #current_image_linepointer_container .last_line_segment {
+  top: 61px;
+  height: 33px;
 }
 .navigation_arrow {
   border: 25px solid transparent;
@@ -409,6 +451,7 @@ table {
   left: 10px;
 }
 #white_slider_ecommerce_container {
+  position: relative;
   margin-bottom: 300px;
 }
 #white_slider_ecommerce_container .image_data_container {
