@@ -52,7 +52,7 @@
 		
 		<div id="white_slider_scroll_control_cont">
 			<div id="current_image_linepointer_container">
-				<div class="first_line_segment"></div>
+				<!--<div class="first_line_segment"></div>-->
 				<div class="last_line_segment"></div>
 			</div>
 			<div id="hide_control_scroll_div" class=""></div>

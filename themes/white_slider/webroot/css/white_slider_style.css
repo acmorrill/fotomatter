@@ -360,10 +360,10 @@ table {
   top: 0px;
   height: 50px;
   width: 80px;
-  border-left: 20px solid black;
-  border-right: 20px solid black;
+  border: 3px solid black;
   z-index: 50;
-  margin-left: -5px;
+  margin-left: -3px;
+  margin-top: -3px;
   cursor: move;
 }
 #white_slider_scroll_control_inner .scroll_control_div .left_opacity_cover,
@@ -380,12 +380,10 @@ table {
   opacity: 0.5;
 }
 #white_slider_scroll_control_inner .scroll_control_div .left_opacity_cover {
-  left: -823px;
-  border-right: 3px solid white;
+  left: -803px;
 }
 #white_slider_scroll_control_inner .scroll_control_div .right_opacity_cover {
-  right: -823px;
-  border-left: 3px solid white;
+  right: -803px;
 }
 .hide {
   display: none;
@@ -416,8 +414,8 @@ table {
   height: 17px;
 }
 #white_slider_scroll_control_cont #current_image_linepointer_container .last_line_segment {
-  top: 61px;
-  height: 33px;
+  top: 78px;
+  height: 16px;
 }
 .navigation_arrow {
   border: 25px solid transparent;
