@@ -360,8 +360,8 @@ table {
   top: 0px;
   height: 50px;
   width: 80px;
-  border-left: 5px solid black;
-  border-right: 5px solid black;
+  border-left: 20px solid black;
+  border-right: 20px solid black;
   z-index: 50;
   margin-left: -5px;
   cursor: move;
@@ -380,10 +380,12 @@ table {
   opacity: 0.5;
 }
 #white_slider_scroll_control_inner .scroll_control_div .left_opacity_cover {
-  left: -800px;
+  left: -823px;
+  border-right: 3px solid white;
 }
 #white_slider_scroll_control_inner .scroll_control_div .right_opacity_cover {
-  right: -800px;
+  right: -823px;
+  border-left: 3px solid white;
 }
 .hide {
   display: none;
