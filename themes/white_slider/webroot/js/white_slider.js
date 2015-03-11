@@ -57,6 +57,12 @@
 					last_small_image.before(image_list_small_html);
 					
 					jQuery(document).trigger('preload_images_for_progress', [ all_images ]);
+					
+					
+					// add in the photo data including add to cart buttons
+					console.log(photo_data_html);
+					var photo_data_html = jQuery(image_list.photo_data_html);
+					jQuery('#white_slider_ecommerce_container').append(photo_data_html);
 				} else {
 					jQuery("#image_slider_progressbar_container").stop().fadeOut(1000);
 				}
@@ -375,6 +381,7 @@
 				show_image_ecommerce = true;
 				image_ecommerce_opacity = 100;
 			}
+			
 			
 //			console.log('==========================================');
 //			console.log("percent: " + percent);

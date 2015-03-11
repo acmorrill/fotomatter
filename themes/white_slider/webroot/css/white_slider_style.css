@@ -303,7 +303,7 @@ table {
 #white_slider_listing_actual_container img {
   vertical-align: top;
   display: inline-block;
-  border-right: 10px solid white;
+  border-right: 1px solid white;
   cursor: pointer;
 }
 #white_slider_listing_actual_container img.blank,
@@ -352,7 +352,6 @@ table {
 #white_slider_scroll_control_inner img {
   vertical-align: top;
   display: inline-block;
-  border-right: 1px solid white;
 }
 #white_slider_scroll_control_inner .scroll_control_div {
   position: absolute;

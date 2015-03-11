@@ -6,9 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="/css/white_slider_style.css" />
 	<link href='//fonts.googleapis.com/css?family=PT+Sans:400italic,400' rel='stylesheet' type='text/css' />
 	
-	<script src="/js/scrollto/jquery.scrollTo.min.js"></script>
-	<script src="/js/jquery.endless-scroll_horizontal.js"></script>
-	<script src="/js/white_slider.js"></script>
+	<script src="/js/php_closure/white_slider.min.js"></script>
 </head>
 <body>
 	<?php $max_gallery_images = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'max_gallery_images'); ?>
@@ -32,8 +30,8 @@
 	</div>
 	<div id="right_arrow" class="navigation_arrow">
 
-	</div>
-	<!--DREW TODO  make the below div cover the entire content-->
+	</div>-->
+	
 	<div id="entire_slider_hider"></div>
 		
 	<div class="container">
@@ -42,9 +40,7 @@
 		
 		<?php echo $this->Element('nameTitle'); ?>
 
-		<?php //echo $this->Element('temp_menu'); ?>
 		<?php echo $this->Element('menu/two_level_navbar'); ?>
-
 
 		
 		<div style="clear: both"></div>
@@ -70,35 +66,7 @@
 		</div>
 		
 		<div id="white_slider_ecommerce_container">
-			<?php foreach ($photos as $photo): ?>
-				<div id="image_data_container_<?php echo $photo['Photo']['id']; ?>" class='image_data_container' data-ecommerce_photo_id="<?php echo $photo['Photo']['id']; ?>">
-					<div class="hr"></div>
-					<h2 class="photo_title"><?php echo $photo['Photo']['display_title']; ?></h2>
-					<?php if (!empty($photo['Photo']['display_subtitle'])): ?>
-						<h3 class='photo_subtitle'>
-							<?php echo $photo['Photo']['display_subtitle']; ?>
-						</h3>
-					<?php endif; ?>
-
-					<?php if (!empty($photo['Photo']['date_taken'])): ?>
-						<h3 class='photo_date'>
-							<?php $phpdate = strtotime($photo['Photo']['date_taken']); ?>
-							<?php echo date("F Y", $phpdate); ?>
-						</h3>
-					<?php endif; ?>
-
-					<?php if (!empty($photo['Photo']['description'])): ?>
-						<p class='photo_description'><?php echo $photo['Photo']['description']; ?></p>
-					<?php endif; ?>
-
-					<br style='clear: both;' />
-
-					<?php echo $this->Element('cart_checkout/image_add_to_cart_form_simple', array(
-						'photo_id' => $photo['Photo']['id'],
-					)); ?>
-
-				</div>
-			<?php endforeach; ?>
+			<?php echo $this->Element('gallery/image_data/image_data_list', compact('photos')); ?>
 		</div>
 	</div>
 </body>

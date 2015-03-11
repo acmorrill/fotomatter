@@ -59,15 +59,15 @@
 		<div id="white_slider_scroll_control_cont">
 			<div id="hide_control_scroll_div" class=""></div>
 			<div id="white_slider_scroll_control">
-				<div id="white_slider_scroll_control_inner">
-					<div class="scroll_control_div"></div>
-					<img class="blank" src="/images/blank.png" width="160" height="50" alt="" /><?php echo $this->Element('gallery/gallery_image_lists/simple_list', array(
+				<div id="white_slider_scroll_control_inner"><!--
+					--><div class="scroll_control_div"><div class="left_opacity_cover"></div><div class="right_opacity_cover"></div></div><!--
+					--><img class="blank" src="/images/blank.png" width="160" height="50" alt="" /><?php echo $this->Element('gallery/gallery_image_lists/simple_list', array(
 						'photos' => $photos,
 						'height' => '50',
 						'width' => '200',
 						'sharpness' => '.4'
-					)); ?><img class="blank" src="/images/blank.png" width="160" height="50" alt="" />
-				</div>
+					)); ?><img class="blank" src="/images/blank.png" width="160" height="50" alt="" /><!--
+				--></div>
 			</div>
 		</div>
 	</div>

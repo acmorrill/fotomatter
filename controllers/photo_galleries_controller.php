@@ -345,6 +345,8 @@ class PhotoGalleriesController extends AppController {
 			'width' => '200',
 			'sharpness' => '.4'
 		));
+		// START HERE TOMORROW
+//		$returnArr['photo_data_html'] = $this->element('gallery/image_data/image_data_list', compact('photos'));
 
 
 		$this->return_json($returnArr);
