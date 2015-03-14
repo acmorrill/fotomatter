@@ -479,9 +479,14 @@
 	});
 
 	jQuery(window).load(function() {
-		// move to the image just to the right of center
-		jQuery('#white_slider_listing_actual_container').scrollLeft(Math.round(jQuery('#white_slider_listing_actual_container')[0].scrollWidth * .40));
-		move_to_next_prev_image('right');
+		console.log('=======================================');
+		console.log(jQuery('#white_slider_listing_actual_container').length);
+		console.log('=======================================');
+		if (jQuery('#white_slider_listing_actual_container').length > 0) {
+			// move to the image just to the right of center
+			jQuery('#white_slider_listing_actual_container').scrollLeft(Math.round(jQuery('#white_slider_listing_actual_container')[0].scrollWidth * .40));
+			move_to_next_prev_image('right');
+		}
 		
 		
 //		setup the autoscrolling

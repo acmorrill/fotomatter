@@ -4085,6 +4085,17 @@ body {
   width: 100px;
   height: 100px;
 }
+#header .logo #beta_icon {
+  font-family: Code-Pro-Bold-LC;
+  font-weight: normal;
+  font-style: normal;
+  display: inline-block;
+  vertical-align: top;
+  position: absolute;
+  color: #25C1DD;
+  right: 0px;
+  bottom: 27px;
+}
 #header #top-navigation {
   font-family: Code-Pro-LC;
   font-weight: normal;

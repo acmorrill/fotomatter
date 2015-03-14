@@ -8,6 +8,7 @@
 
 
 <div class="logo">
+	<span id="beta_icon">BETA</span>
 	<table>
 		<tbody>
 			<tr>

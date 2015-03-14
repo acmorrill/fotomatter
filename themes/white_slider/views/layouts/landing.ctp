@@ -70,6 +70,9 @@
 				--></div>
 			</div>
 		</div>
+		
+		
+		<?php echo $this->Element('global_theme_footer_copyright'); ?>
 	</div>
 </body>
 </html>

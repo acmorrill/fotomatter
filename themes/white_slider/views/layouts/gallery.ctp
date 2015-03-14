@@ -68,6 +68,8 @@
 		<div id="white_slider_ecommerce_container">
 			<?php echo $this->Element('gallery/image_data/image_data_list', compact('photos')); ?>
 		</div>
+		
+		<?php echo $this->Element('global_theme_footer_copyright'); ?>
 	</div>
 </body>
 </html>

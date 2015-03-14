@@ -5,16 +5,6 @@
 $theme_config = array(
 	'theme_name' => 'white_slider',
 	'theme_controller_action_layouts' => array(
-		'SitePages' => array(
-			'landing_page' => array(
-				'layout' => 'landing',
-				'view' => false,
-			),
-			'custom_page' => array(
-				'layout' => 'gallery',
-				'view' => false,
-			),
-		),
 		'PhotoGalleries' => array(
 			'choose_gallery' => array(
 				'layout' => false,
