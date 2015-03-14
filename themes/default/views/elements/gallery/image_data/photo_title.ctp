@@ -1,0 +1,1 @@
+<h2 class="photo_title"><?php echo $photo['Photo']['display_title']; ?></h2>

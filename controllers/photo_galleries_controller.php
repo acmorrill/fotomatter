@@ -345,8 +345,14 @@ class PhotoGalleriesController extends AppController {
 			'width' => '200',
 			'sharpness' => '.4'
 		));
-		// START HERE TOMORROW
-//		$returnArr['photo_data_html'] = $this->element('gallery/image_data/image_data_list', compact('photos'));
+		$returnArr['photo_data_html'] = '';
+		foreach ($photos as $curr_photo) {
+			$photo_sellable_prints = $this->Photo->get_enabled_photo_sellable_prints($curr_photo['Photo']['id']);
+			$returnArr['photo_data_html'] .= $this->element('gallery/image_data/basic_image_data', array(
+				'photo' => $curr_photo,
+				'photo_sellable_prints' => $photo_sellable_prints,
+			));
+		}
 
 
 		$this->return_json($returnArr);

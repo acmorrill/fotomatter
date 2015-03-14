@@ -60,7 +60,6 @@
 					
 					
 					// add in the photo data including add to cart buttons
-					console.log(photo_data_html);
 					var photo_data_html = jQuery(image_list.photo_data_html);
 					jQuery('#white_slider_ecommerce_container').append(photo_data_html);
 				} else {
