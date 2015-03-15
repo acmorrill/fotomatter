@@ -30,6 +30,22 @@
 #cart_table tbody tr td.first {
   border-right: 3px solid #ffffff;
 }
+#cart_table tbody tr.last td {
+  border-bottom: 0px;
+}
+.submit_button {
+  color: #000000;
+}
+#page_content_container {
+  border: 5px solid #000000;
+  padding: 60px;
+  background: #EEEEEE;
+  margin-top: 40px;
+  font-family: 'PT Sans', sans-serif;
+}
+#page_content_container h2 {
+  font-size: 20px;
+}
 root {
   display: block;
 }
@@ -535,9 +551,6 @@ table {
 #footer_tagline a {
   color: #000000;
 }
-#page_content_container {
-  border: 5px solid #000000;
-  padding: 60px;
-  background: #EEEEEE;
-  margin-top: 40px;
+#nav_location {
+  z-index: 1000;
 }

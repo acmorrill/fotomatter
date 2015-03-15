@@ -17,7 +17,9 @@
 		
 		<div style="clear: both"></div>
 		<div id="page_content_container">
-			<?php echo $content_for_layout; ?>
+			<div id="#custom_page_content_container_inner">
+				<?php echo $content_for_layout; ?>
+			</div>
 		</div>
 		
 		<?php echo $this->Element('global_theme_footer_copyright'); ?>

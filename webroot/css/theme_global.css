@@ -459,7 +459,7 @@
   font-weight: 600;
   text-align: center;
 }
-#cart_table thead .last {
+#cart_table thead th.last {
   border-right: 1px solid #000000;
 }
 #cart_table thead th {
@@ -507,6 +507,9 @@
   font-size: 13px;
   padding: 0px;
   margin: 0px;
+}
+#cart_table tbody tr.last {
+  border-bottom: 0px solid transparent;
 }
 #cart_table tfoot {
   line-height: 25px;

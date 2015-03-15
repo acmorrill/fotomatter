@@ -136,11 +136,11 @@ class UtilHelper extends AppHelper {
 	}
 	
 	public function get_count_class($count, $total) {
-		if ($count == 1) {
+		if ($count == 1 && $count == $total) {
+			return 'first last';
+		} else if ($count == 1) {
 			return 'first';
-		}
-		
-		if ($count == $total) {
+		} else if ($count == $total) {
 			return 'last';
 		}
 		

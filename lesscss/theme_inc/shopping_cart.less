@@ -169,12 +169,8 @@
 		border: 1px solid @black;
 		font-weight: 600;
 		text-align: center;
-		.last {
-			border-right: 1px solid @black;
-		}
-		th {
-			height: 27px;
-		}
+		th.last { border-right: 1px solid @black; }
+		th { height: 27px; }
 	}
 	tbody {
 		background-color: @white;//@bg_color_cart;
@@ -214,6 +210,7 @@
 					}
 				}
 			}
+			&.last { border-bottom: 0px solid transparent; }
 		}
 	}
 	tfoot {

@@ -17,8 +17,9 @@
 		</thead>
 		<tbody>
 			<?php if (!empty($cart_items)): ?>
+				<?php $total_cart_items = count($cart_items); ?>
 				<?php $count = 0; foreach ($cart_items as $key => $cart_data): ?>
-					<tr data-cart_item_key="<?php echo $key; ?>">
+					<tr class=" <?php echo $this->Util->get_count_class(($count + 1), $total_cart_items); ?> " data-cart_item_key="<?php echo $key; ?>">
 						<td class="first image">
 							<?php $cart_img_data = $this->Photo->get_photo_path($cart_data['photo_id'], 100, 100, .4, true); ?>
 							<img src="<?php echo $cart_img_data['url']; ?>" <?php echo $cart_img_data['tag_attributes']; ?> alt="" />
