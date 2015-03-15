@@ -368,10 +368,10 @@
 			
 			var show_image_ecommerce = false;
 			var image_ecommerce_opacity = 0;
-			var opaque_cutoff_percent = .4;
-			var hide_cutoff_percent = .9;
+			var opaque_cutoff_percent = 0;
+			var hide_cutoff_percent = 1;
 			if (percent > hide_cutoff_percent) { // hide the dang thing
-				show_image_ecommerce = false;
+				show_image_ecommerce = true;
 				image_ecommerce_opacity = 0;
 			} else if (percent > opaque_cutoff_percent) { // a partial opacity
 				show_image_ecommerce = true;
