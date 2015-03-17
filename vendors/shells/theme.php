@@ -160,6 +160,14 @@ class ThemeShell extends Shell {
 			$webroot_css_path = $path_to_parent_theme . DS . 'subthemes' . DS . $new_theme_name . DS . 'webroot' . DS . 'css';
 			mkdir($webroot_css_path, 0775, true);
 			$this->add_empty_file_to_folder($webroot_css_path);
+			
+			$webroot_js_path = $path_to_parent_theme . DS . 'subthemes' . DS . $new_theme_name . DS . 'webroot' . DS . 'js';
+			mkdir($webroot_js_path, 0775, true);
+			$this->add_empty_file_to_folder($webroot_js_path);
+			
+			$webroot_js_closure_path = $path_to_parent_theme . DS . 'subthemes' . DS . $new_theme_name . DS . 'webroot' . DS . 'js' . DS . 'php_closure';
+			mkdir($webroot_js_closure_path, 0775, true);
+			$this->add_empty_file_to_folder($webroot_js_closure_path);
 
 			$handle = fopen($path_to_parent_theme . DS . 'subthemes' . DS . $new_theme_name . DS . 'theme_config.php', 'x+');
 			fwrite($handle, "<?php\n\n\$theme_config = array();\n");
@@ -190,6 +198,14 @@ class ThemeShell extends Shell {
 			$webroot_css_path = PATH_TO_THEMES . DS . $new_theme_name . DS . 'webroot' . DS . 'css';
 			mkdir($webroot_css_path, 0775, true);
 			$this->add_empty_file_to_folder($webroot_css_path);
+			
+			$webroot_js_path = PATH_TO_THEMES . DS . $new_theme_name . DS . 'webroot' . DS . 'js';
+			mkdir($webroot_js_path, 0775, true);
+			$this->add_empty_file_to_folder($webroot_js_path);
+			
+			$webroot_js_closure_path = PATH_TO_THEMES . DS . $new_theme_name . DS . 'webroot' . DS . 'js' . DS . "php_closure";
+			mkdir($webroot_js_closure_path, 0775, true);
+			$this->add_empty_file_to_folder($webroot_js_closure_path);
 
 			$handle = fopen(PATH_TO_THEMES . DS . $new_theme_name . DS . 'theme_config.php', 'x+');
 			fwrite($handle, "<?php\n\n\$theme_config = array();\n");

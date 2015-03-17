@@ -75,9 +75,11 @@ class ThemeMenuHelper extends AppHelper {
 				if ($menu_item['ref_name'] === 'home') {
 					$data['name'] = __('Home', true);
 					$data['url'] = '/';
+					$data['basic_url'] = '/';
 				} else if ($menu_item['ref_name'] === 'image_galleries') {
 					$data['name'] = __('Image Galleries', true); // DREW TODO - change this later to use the gallery name setting
 					$data['url'] = '/photo_galleries/choose_gallery';
+					$data['basic_url'] = '/photo_galleries/choose_gallery';
 				} else {
 					return false;
 				}
@@ -87,14 +89,17 @@ class ThemeMenuHelper extends AppHelper {
 				$data['name'] = $all_menu_item_data['PhotoGallery']['display_name'];
 				$data['display_type'] = __('Gallery', true);
 				$data['url'] = '/photo_galleries/view_gallery/'.$all_menu_item_data['PhotoGallery']['id'];
+				$data['basic_url'] = '/photo_galleries/view_gallery';
 				break;
 			case 'SitePage':
 				$data['name'] = $all_menu_item_data['SitePage']['title'];
 				$data['display_type'] = __('Page', true);
 				if ($all_menu_item_data['SitePage']['type'] == 'custom') {
 					$data['url'] = '/site_pages/custom_page/'.$menu_item['external_id'];
+					$data['basic_url'] = '/site_pages/custom_page';
 				} else if ($all_menu_item_data['SitePage']['type'] == 'contact_us') {
 					$data['url'] = '/site_pages/contact_us/'.$menu_item['external_id'];
+					$data['basic_url'] = '/site_pages/contact_us';
 				} else if ($all_menu_item_data['SitePage']['type'] == 'external') {
 					$data['target_blank'] = true;
 					$data['url'] = $all_menu_item_data['SitePage']['external_link'];

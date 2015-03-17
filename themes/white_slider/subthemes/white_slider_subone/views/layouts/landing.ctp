@@ -3,10 +3,10 @@
 <head>
 	<title><?php echo $this->Theme->get_frontend_html_title(); ?></title>
 	<?php echo $this->Element('theme_global_includes'); ?>
-	<link rel="stylesheet" type="text/css" href="/css/white_slider_style.css" />
+	<link rel="stylesheet" type="text/css" href="/css/white_slider_subone.css" />
 	<link href='//fonts.googleapis.com/css?family=PT+Sans:400italic,400' rel='stylesheet' type='text/css' />
 	
-	<script src="/js/php_closure/white_slider.min.js"></script>
+	<script src="/js/php_closure/white_slider_subone.min.js"></script>
 </head>
 <body>
 	<?php
@@ -44,6 +44,9 @@
 
 	<div id="entire_slider_hider"></div>
 		
+	<div id="header_background"></div>
+	<div id="below_header_line"></div>
+	
 	<div class="container">
 		<div id="image_slider_progressbar_container"><div id="image_slider_progressbar"></div></div>
 		
@@ -57,21 +60,6 @@
 		
 		<div style="clear: both"></div>
 		<div id="white_slider_listing_container"></div>
-		
-		<div id="white_slider_scroll_control_cont">
-			<div id="hide_control_scroll_div" class=""></div>
-			<div id="white_slider_scroll_control">
-				<div id="white_slider_scroll_control_inner"><!--
-					--><div class="scroll_control_div"><div class="left_opacity_cover"></div><div class="right_opacity_cover"></div></div><!--
-					--><img class="blank" src="/images/blank.png" width="160" height="50" alt="" /><?php echo $this->Element('gallery/gallery_image_lists/simple_list', array(
-						'photos' => $photos,
-						'height' => '50',
-						'width' => '200',
-						'sharpness' => '.4'
-					)); ?><img class="blank" src="/images/blank.png" width="160" height="50" alt="" /><!--
-				--></div>
-			</div>
-		</div>
 		
 		
 		<?php echo $this->Element('global_theme_footer_copyright'); ?>

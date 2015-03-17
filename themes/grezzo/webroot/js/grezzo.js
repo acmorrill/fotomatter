@@ -218,24 +218,21 @@
 	function calculate_control_container_scroll() {
 		var scroll_control_cont = jQuery('#white_slider_scroll_control');
 		var scroll_control = jQuery('#white_slider_scroll_control_inner .scroll_control_div');
-		if (scroll_control.length > 0) {
-			scroll_control_cont.stop(true);
+		scroll_control_cont.stop(true);
 
-			// figure out the current middle
-			var middle = scroll_control.position().left + (scroll_control.width() / 2) - (scroll_control_cont.width() / 2);
-			if (middle < 0) {
-				middle = 0;
-			}
-			if (middle > scroll_control_cont[0].scrollWidth - scroll_control_cont.width()) {
-				middle = scroll_control_cont[0].scrollWidth - scroll_control_cont.width();
-			}
-
-			scroll_control_cont.scrollTo(middle+'px', {
-				axis: 'x',
-				duration: 500
-			});
+		// figure out the current middle
+		var middle = scroll_control.position().left + (scroll_control.width() / 2) - (scroll_control_cont.width() / 2);
+		if (middle < 0) {
+			middle = 0;
 		}
-		
+		if (middle > scroll_control_cont[0].scrollWidth - scroll_control_cont.width()) {
+			middle = scroll_control_cont[0].scrollWidth - scroll_control_cont.width();
+		}
+
+		scroll_control_cont.scrollTo(middle+'px', {
+			axis: 'x',
+			duration: 500
+		});
 	}
 
 	//			var autoscrolling = false;
