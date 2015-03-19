@@ -4,7 +4,12 @@
 		&.photo_details, &.mass_upload { margin-left: 0px; }
 	}
 	#header {
-		.logo { left: 13px; }
+		.logo { 
+			left: 13px; 
+			#beta_icon {
+				bottom: 24px;
+			}
+		}
 		#top-navigation { left: 228px; }
 		#login_tagline { left: 263px; }
 	}
@@ -91,7 +96,13 @@ only screen and (min-resolution: 192dpi) {
 			#login_tagline { display: none; }
 			position: relative;
 			height: auto;
-			.logo { 
+			.logo {
+				#beta_icon {
+					display: none;
+					left: 30%;
+					bottom: 0px;
+					right: initial;
+				}
 				position: relative;
 				bottom: initial;
 				left: initial;
