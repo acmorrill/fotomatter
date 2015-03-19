@@ -72,6 +72,7 @@
  *
  */
 
+
 //require('welcome_db.php'); // this was moved to bootstrap
 class DATABASE_CONFIG {
 
@@ -79,31 +80,44 @@ class DATABASE_CONFIG {
 		'driver' => 'mysql',
 		'persistent' => false,
 		'host' => 'localhost',
-		'login' => 'user',
-		'password' => 'password',
-		'database' => 'database_name',
+		'login' => '',
+		'password' => '',
+		'database' => '',
 		'prefix' => '',
 		//'encoding' => 'utf8',
 	);
+
+	/*var $old_photos = array(
+               'driver' => 'mysql',
+               'persistent' => false,
+               'host' => 'localhost',
+               'login' => 'root',
+               'password' => '123000am',
+               'database' => 'celestj7_images',
+               'prefix' => '',
+       ); */
 	
 	var $server_global = array(
 		'driver' => 'mysql',
 		'persistent' => false,
 		'host' => 'localhost',
-		'login' => 'root',
-		'password' => '123000am',
-		'database' => 'server_global',
+		'login' => '',
+		'password' => '',
+		'database' => '',
 		'prefix' => ''
 	);
-
-	/*var $test = array(
-		'driver' => 'mysql',
-		'persistent' => false,
-		'host' => 'localhost',
-		'login' => 'user',
-		'password' => 'password',
-		'database' => 'test_database_name',
-		'prefix' => '',
-		//'encoding' => 'utf8',
-	);*/
+	
+	public function __construct() {
+	    $this->default['host'] = $_SERVER['local']['host'];
+	    $this->default['login'] = $_SERVER['local']['login'];
+	    $this->default['password'] = $_SERVER['local']['password'];
+	    $this->default['database'] = $_SERVER['local']['database'];
+	    
+	    $this->server_global['host'] = $_SERVER['global']['host'];
+	    $this->server_global['login'] = $_SERVER['global']['login'];
+	    $this->server_global['password'] = $_SERVER['global']['password'];
+	    $this->server_global['database'] = $_SERVER['global']['database'];
+	    
+	    
+	}
 }
