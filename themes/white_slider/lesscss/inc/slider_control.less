@@ -1,0 +1,95 @@
+#white_slider_scroll_control {
+	width: 75%;
+	height: 81px;
+	margin: 0px;
+	margin-left: auto;
+	margin-right: auto;
+	white-space: nowrap;
+	vertical-align: top;
+	overflow-x: scroll;
+	overflow-y: hidden;
+/*	outline: 1px solid #EEE;*/
+	margin-top: 14px;
+	position: relative;
+	text-align: center;
+}
+#hide_control_scroll_div {
+	position: absolute;
+	top: 100%;
+	width: 100%;
+	height: 25px;
+	background-color: white;
+	z-index: 100;
+	margin-top: -25px;
+}
+#white_slider_scroll_control_inner {
+	position: relative;
+	display: inline-block;
+	height: 50px;
+	margin: 0px;
+	margin-top: 3px;
+	margin-left: 3px;
+	white-space: nowrap;
+	vertical-align: top;
+	overflow: visible;
+	cursor: pointer;
+/*	padding-left: 80px;
+	padding-right: 80px;*/
+}
+#white_slider_scroll_control_inner img {
+	vertical-align: top;
+	display: inline-block;
+	/*border-right: 1px solid white;*/
+}
+#white_slider_scroll_control_inner .scroll_control_div {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	height: 50px;
+	width: 80px;
+	border: 3px solid black;
+	z-index: 50;
+	margin-left: -3px;
+	margin-top: -3px;
+	cursor: move;
+	.left_opacity_cover, .right_opacity_cover {
+		position: absolute;
+		top: 0px;
+		width: 800px;
+		height: 50px;
+		background: #000000;
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+		filter: alpha(opacity=50);
+		-moz-opacity: 0.5;
+		-khtml-opacity: 0.5;
+		opacity: 0.5;
+	}
+	.left_opacity_cover { left: -803px;}
+	.right_opacity_cover { right: -803px;}
+}
+.hide {
+	display: none;
+}
+
+#white_slider_scroll_control_cont {
+	position: relative;
+	width: 100%;
+	z-index: 40;
+	#current_image_linepointer_container {
+		display: none;
+		z-index: 200;
+		position: absolute;
+		left: 50%;
+		width: 2px;
+		margin-left: -1px;
+		height: 100px;
+		.first_line_segment, .last_line_segment {
+			position: absolute;
+			left: 0px;
+			width: 2px;
+			background-color: #000000;
+		}
+		.first_line_segment { top: -21px; height: 17px; }
+		.last_line_segment { top: 78px; height: 16px; }
+	}
+}

@@ -1,0 +1,32 @@
+#header_background {
+	background: #000;
+	height: 139px;
+	width: 100%;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+#below_header_line {
+	height: 2px;
+	width: 100%;
+	background: #bfbfbf;
+	position: absolute;
+	top: 167px;
+	left: 0px;
+}
+
+#nav_location {
+	#main_nav {
+		&, a {
+			color: #ffffff;
+		}
+		ul.top_level {
+			li.main_menu_item {
+				padding-top: 6px;
+				&.last_hover, &.hover {
+					border-top: 2px solid #ffffff;
+				}
+			}
+		}
+	}
+}

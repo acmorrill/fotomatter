@@ -1,0 +1,103 @@
+
+/* start image carosel styles */
+#image_slider_progressbar_container {
+	position: absolute;
+	top: 300px;
+	left: 50%;
+	width: 750px;
+	margin-left: -375px;
+	height: 90px;
+	z-index: 1001;
+}
+#image_slider_progressbar {
+	position: absolute;
+	top: 30px;
+	left: 50px;
+	width: 650px;
+	height: 30px;
+	margin: 0px;
+	outline: 1px solid #ababab;
+	background-color: #ffffff;
+}
+#image_slider_progressbar .ui-progressbar-value {
+	height: 100%;
+	background-color: #595959;
+}
+#entire_slider_hider {
+	width: 100%;
+	height: 600px;
+	position: absolute;
+	top: 100px;
+/*	outline: 1px solid black;*/
+	z-index: 1000;
+	background-color: #efefef;
+}
+#white_slider_listing_actual_container_loading {
+	position: absolute;
+	top: 625px;
+	right: 80px;
+	z-index: 1000;
+	font-size: 30px;
+	line-height: 30px;
+	color: #333;
+	font-family: 'PT Sans', sans-serif;
+	text-transform: uppercase;
+	display: none;
+}
+#white_slider_listing_container {
+/*	outline: 1px solid black;*/
+	width: 100%;
+	position: relative;
+	height: 500px;
+	overflow: visible;
+}
+#white_slider_scroll_hide {
+	position: absolute;
+	height: 24px;
+	width: 100%;
+	background-color: white;
+	top: 594px;
+	z-index: 21;
+}
+#white_slider_listing_actual_container {
+	position: absolute;
+	height: 515px;
+/*	outline: 1px solid red;*/
+	top: 100px;
+	width: 100%;
+	margin: 0px;
+	white-space: nowrap;
+	vertical-align: top;
+	overflow-x: scroll;
+	overflow-y: hidden;
+	z-index: 20;
+}
+#white_slider_listing_actual_container .endless_loading {
+	display: none;
+	position: absolute;
+	top: 0px; right: 0px;
+	outline: 1px solid red;
+	color: red;
+}
+#white_slider_listing_actual_container img {
+	vertical-align: top;
+	display: inline-block;
+	border-right: 1px solid white;
+	cursor: pointer;
+}
+#white_slider_listing_actual_container img.blank, #white_slider_scroll_control_inner img.blank {
+	/* IE 8 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=5)";
+
+	/* IE 5-7 */
+	filter: alpha(opacity=5);
+
+	/* Netscape */
+	-moz-opacity: 0.05;
+
+	/* Safari 1.x */
+	-khtml-opacity: 0.05;
+
+	/* Good browsers */
+	opacity: 0.05;
+}
