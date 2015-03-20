@@ -17,14 +17,29 @@
 
 #nav_location {
 	#main_nav {
+		.Museo-500;
+		font-size: 13px;
 		&, a {
-			color: #ffffff;
+			color: #fff;
 		}
 		ul.top_level {
 			li.main_menu_item {
 				padding-top: 6px;
+				border-top: 2px solid transparent;
 				&.last_hover, &.hover {
-					border-top: 2px solid #ffffff;
+					border-top: 2px solid #fff;
+					.second_level {
+						background-color: #fff;
+						color: #4d4d4f;
+						.second_level_inner {
+							.sub_menu_item {
+								&:hover {
+									background: #dcdcdc;
+									color: #000;
+								}
+							}
+						}
+					}
 				}
 			}
 		}

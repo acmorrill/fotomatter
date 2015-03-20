@@ -12,17 +12,18 @@
 		$menu_item_data['name_html'] = '';
 	}
 	
-	// START HERE TOMORROW - need to get the below working correctely
-//	$test_url = $menu_item_data['url'];
-//	if (!empty($menu_item_data['basic_url'])) {
-//		$test_url = $menu_item_data['basic_url'];
-//	}
-//	
-//	$is_home = $this->here == "/";
-//	$not_home_and_starts_with = $test_url != "/" && $this->Util->startsWith(trim($this->here, '/'), trim($test_url, '/'));
+
+	$test_url = $menu_item_data['url'];
+	if (!empty($menu_item_data['basic_url'])) {
+		$test_url = $menu_item_data['basic_url'];
+	}
+	
+	$on_home = $this->here == "/" && $test_url == '/';
+	$current_starts_with = $test_url != "/" && $this->Util->startsWith(trim($this->here, '/'), trim($test_url, '/'));
+	
+	$is_current = $on_home || $current_starts_with;
 ?>
-<?php //if ( $is_home || $not_home_and_starts_with ): ?>
-<?php if (trim($menu_item_data['url'], '/') == trim($this->here, '/')): ?>
+<?php if ( $is_current ): ?>
 	<li class="<?php echo implode(' ', explode('|', $li_class)); ?> hover highlight last_hover" style="<?php echo $style; ?>" ><!--
 		--><span class="cart_item_content"><?php echo $menu_item_data['name_html']; ?><?php echo str_replace(' ', '&nbsp;', $menu_item_data['name']); ?></span><!--
 		--><span class="extra"></span><!--

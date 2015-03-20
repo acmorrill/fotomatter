@@ -4,7 +4,6 @@
 	<title><?php echo $curr_gallery['PhotoGallery']['display_name']; ?> &mdash; <?php echo $this->Theme->get_frontend_html_title(); ?></title>
 	<?php echo $this->Element('theme_global_includes'); ?>
 	<link rel="stylesheet" type="text/css" href="/css/white_slider_subone.css" />
-	<link href='//fonts.googleapis.com/css?family=PT+Sans:400italic,400' rel='stylesheet' type='text/css' />
 	
 	<script src="/js/php_closure/white_slider_subone.min.js"></script>
 </head>
@@ -25,12 +24,12 @@
 	<div id="white_slider_scroll_hide" class=""></div>
 	
 	
-	<!--<div id="left_arrow" class="navigation_arrow">
-
+	<div id="left_arrow" class="navigation_arrow">
+		<img src="/img/arrow_left.png" />
 	</div>
 	<div id="right_arrow" class="navigation_arrow">
-
-	</div>-->
+		<img src="/img/arrow_right.png" />
+	</div>
 	
 	<div id="entire_slider_hider"></div>
 		
