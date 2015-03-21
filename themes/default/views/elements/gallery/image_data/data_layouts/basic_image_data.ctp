@@ -1,13 +1,13 @@
 <div id="image_data_container_<?php echo $photo['Photo']['id']; ?>" class='image_data_container' data-ecommerce_photo_id="<?php echo $photo['Photo']['id']; ?>">
 	<div class="hr"></div>
 	
-	<?php echo $this->Element('gallery/image_data/photo_title', compact('photo')); ?>
+	<?php echo $this->Element('gallery/image_data/data_items/photo_title', compact('photo')); ?>
 	
-	<?php echo $this->Element('gallery/image_data/display_subtitle', compact('photo')); ?>
+	<?php echo $this->Element('gallery/image_data/data_items/display_subtitle', compact('photo')); ?>
 	
-	<?php echo $this->Element('gallery/image_data/date_taken', compact('photo')); ?>
+	<?php echo $this->Element('gallery/image_data/data_items/date_taken', compact('photo')); ?>
 	
-	<?php echo $this->Element('gallery/image_data/description', compact('photo')); ?>
+	<?php echo $this->Element('gallery/image_data/data_items/description', compact('photo')); ?>
 
 	<br style='clear: both;' />
 

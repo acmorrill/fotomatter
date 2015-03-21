@@ -253,7 +253,7 @@ class PhotoGalleriesController extends AppController {
 		$this->return_json($returnArr);
 	}
 	
-	public function ajax_get_gallery_photos_after($gallery_id, $last_photo_id, $limit = 30) {
+	public function ajax_get_gallery_photos_after($gallery_id, $last_photo_id, $limit = 30, $data_layout = '') {
 		$returnArr = array();
 		
 		$curr_gallery = $this->PhotoGallery->find('first', array(
@@ -348,7 +348,10 @@ class PhotoGalleriesController extends AppController {
 		$returnArr['photo_data_html'] = '';
 		foreach ($photos as $curr_photo) {
 			$photo_sellable_prints = $this->Photo->get_enabled_photo_sellable_prints($curr_photo['Photo']['id']);
-			$returnArr['photo_data_html'] .= $this->element('gallery/image_data/basic_image_data', array(
+			if (empty($data_layout)) {
+				$data_layout = 'basic_image_data';
+			}
+			$returnArr['photo_data_html'] .= $this->element("gallery/image_data/data_layouts/$data_layout", array(
 				'photo' => $curr_photo,
 				'photo_sellable_prints' => $photo_sellable_prints,
 			));

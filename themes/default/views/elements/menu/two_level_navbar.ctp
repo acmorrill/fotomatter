@@ -44,12 +44,8 @@
 						<div class="second_level">
 							<ul class="second_level_inner">
 								<?php if (!empty($menu_item_data['submenu_items'])): ?>
-									<?php
-//										debug($menu_item_data['submenu_items']);
-//										die('holy moly');
-									?>
 									<?php foreach ($menu_item_data['submenu_items'] as $submenu_item): ?>
-										<?php echo $this->Element('menu/menu_item', array('menu_item_data' => $submenu_item, 'li_class' => 'sub_menu_item')); ?>
+										<?php echo $this->Element('menu/menu_item', array('menu_item_data' => $submenu_item, 'li_class' => 'sub_menu_item', 'in_sub_sub' => true)); ?>
 									<?php endforeach; ?>
 								<?php else: ?>
 									<li class="sub_menu_item hover highlight">

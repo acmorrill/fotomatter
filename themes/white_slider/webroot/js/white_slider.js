@@ -16,9 +16,13 @@
 		
 		var gallery_id = jQuery('#white_slider_listing_actual_container').attr('data-gallery_id');
 		var max_gallery_images = jQuery('#white_slider_listing_actual_container').attr('data-max_gallery_images');
+		var data_layout = jQuery('#white_slider_listing_actual_container').attr('data-image_data_layout');
+		if (typeof data_layout != 'string') {
+			data_layout = 'basic_image_data';
+		}
 		jQuery.ajax({
 			type : 'post',
-			url : '/photo_galleries/ajax_get_gallery_photos_after/' + gallery_id + '/' + last_photo_id + '/' + max_gallery_images,
+			url : '/photo_galleries/ajax_get_gallery_photos_after/' + gallery_id + '/' + last_photo_id + '/' + max_gallery_images + '/' + data_layout,
 			data : {},
 			success : function (image_list) {
 				jQuery(document).unbind('images_loaded');

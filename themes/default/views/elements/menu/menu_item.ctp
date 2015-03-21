@@ -14,7 +14,7 @@
 	
 
 	$test_url = $menu_item_data['url'];
-	if (!empty($menu_item_data['basic_url'])) {
+	if (!empty($menu_item_data['basic_url']) && empty($in_sub_sub)) {
 		$test_url = $menu_item_data['basic_url'];
 	}
 	

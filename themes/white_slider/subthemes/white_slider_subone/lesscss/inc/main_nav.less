@@ -15,6 +15,17 @@
 	left: 0px;
 }
 
+#white_slider_under_scroll {
+	position: absolute;
+	height: 21px;
+	width: 1400px;
+	top: 691px;
+	left: 50%;
+	margin-left: -700px;
+	z-index: 30;
+	background: url('/img/border_bottom.png') no-repeat;
+}
+
 #nav_location {
 	#main_nav {
 		.Museo-500;
@@ -23,6 +34,7 @@
 			color: #fff;
 		}
 		ul.top_level {
+			margin-top: 80px;
 			li.main_menu_item {
 				padding-top: 6px;
 				border-top: 2px solid transparent;
@@ -30,12 +42,16 @@
 					border-top: 2px solid #fff;
 					.second_level {
 						background-color: #fff;
-						color: #4d4d4f;
+						&, a { 
+							color: #4d4d4f; 
+						}
 						.second_level_inner {
 							.sub_menu_item {
+								margin: 4px;
+								margin-top: 0px;
 								&:hover {
 									background: #dcdcdc;
-									color: #000;
+									&, span, a { color: #000; }
 								}
 							}
 						}

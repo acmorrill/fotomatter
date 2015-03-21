@@ -565,12 +565,25 @@ table {
   top: 167px;
   left: 0px;
 }
+#white_slider_under_scroll {
+  position: absolute;
+  height: 21px;
+  width: 1400px;
+  top: 691px;
+  left: 50%;
+  margin-left: -700px;
+  z-index: 30;
+  background: url('/img/border_bottom.png') no-repeat;
+}
 #nav_location #main_nav {
   font-size: 13px;
 }
 #nav_location #main_nav,
 #nav_location #main_nav a {
   color: #fff;
+}
+#nav_location #main_nav ul.top_level {
+  margin-top: 80px;
 }
 #nav_location #main_nav ul.top_level li.main_menu_item {
   padding-top: 6px;
@@ -583,12 +596,32 @@ table {
 #nav_location #main_nav ul.top_level li.main_menu_item.last_hover .second_level,
 #nav_location #main_nav ul.top_level li.main_menu_item.hover .second_level {
   background-color: #fff;
+}
+#nav_location #main_nav ul.top_level li.main_menu_item.last_hover .second_level,
+#nav_location #main_nav ul.top_level li.main_menu_item.last_hover .second_level a,
+#nav_location #main_nav ul.top_level li.main_menu_item.hover .second_level,
+#nav_location #main_nav ul.top_level li.main_menu_item.hover .second_level a {
   color: #4d4d4f;
+}
+#nav_location #main_nav ul.top_level li.main_menu_item.last_hover .second_level .second_level_inner .sub_menu_item,
+#nav_location #main_nav ul.top_level li.main_menu_item.hover .second_level .second_level_inner .sub_menu_item {
+  margin: 4px;
+  margin-top: 0px;
 }
 #nav_location #main_nav ul.top_level li.main_menu_item.last_hover .second_level .second_level_inner .sub_menu_item:hover,
 #nav_location #main_nav ul.top_level li.main_menu_item.hover .second_level .second_level_inner .sub_menu_item:hover {
   background: #dcdcdc;
+}
+#nav_location #main_nav ul.top_level li.main_menu_item.last_hover .second_level .second_level_inner .sub_menu_item:hover,
+#nav_location #main_nav ul.top_level li.main_menu_item.last_hover .second_level .second_level_inner .sub_menu_item:hover span,
+#nav_location #main_nav ul.top_level li.main_menu_item.last_hover .second_level .second_level_inner .sub_menu_item:hover a,
+#nav_location #main_nav ul.top_level li.main_menu_item.hover .second_level .second_level_inner .sub_menu_item:hover,
+#nav_location #main_nav ul.top_level li.main_menu_item.hover .second_level .second_level_inner .sub_menu_item:hover span,
+#nav_location #main_nav ul.top_level li.main_menu_item.hover .second_level .second_level_inner .sub_menu_item:hover a {
   color: #000;
+}
+#white_slider_listing_container {
+  height: 630px;
 }
 #white_slider_listing_actual_container {
   top: 179px;

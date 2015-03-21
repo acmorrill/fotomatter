@@ -14,7 +14,7 @@
 			$photos = array();
 		}
 	?>
-	<div id="white_slider_listing_actual_container" data-gallery_id="<?php echo $gallery_id; ?>" data-max_gallery_images="<?php echo $max_gallery_images; ?>"><img class="blank" src="/images/large_blank.png" width="1600" height="500" alt="" /><!--
+	<div id="white_slider_listing_actual_container" data-gallery_id="<?php echo $gallery_id; ?>" data-max_gallery_images="<?php echo $max_gallery_images; ?>" data-image_data_layout="basic_image_data_grezzo"><img class="blank" src="/images/large_blank.png" width="1600" height="500" alt="" /><!--
 	--><?php echo $this->Element('gallery/gallery_image_lists/simple_list', array(
 		'photos' => $photos,
 		'height' => '500',
@@ -22,6 +22,7 @@
 		'sharpness' => '.4'
 	)); ?><img class="blank" src="/images/large_blank.png" width="1600" height="500" alt="" /></div>
 	<div id="white_slider_scroll_hide" class=""></div>
+	<div id="white_slider_under_scroll" class=""></div>
 	
 	
 	<div id="left_arrow" class="navigation_arrow">
@@ -39,18 +40,18 @@
 	<div class="container">
 		<div id="image_slider_progressbar_container"><div id="image_slider_progressbar"></div></div>
 		
-		
 		<?php echo $this->Element('nameTitle'); ?>
 
 		<?php echo $this->Element('menu/two_level_navbar'); ?>
-
 		
 		<div style="clear: both"></div>
 		<div id="white_slider_listing_container"></div>
 		
-		
 		<div id="white_slider_ecommerce_container">
-			<?php echo $this->Element('gallery/image_data/image_data_list', compact('photos')); ?>
+			<?php 
+				$data_layout = 'basic_image_data_grezzo';
+				echo $this->Element('gallery/image_data/image_data_list', compact('photos', 'data_layout')); 
+			?>
 		</div>
 		
 		<?php echo $this->Element('global_theme_footer_copyright'); ?>
