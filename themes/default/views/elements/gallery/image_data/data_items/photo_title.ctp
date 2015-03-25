@@ -1,1 +1,1 @@
-<h2 class="photo_title"><?php echo $photo['Photo']['display_title']; ?></h2>
+<?php if (!empty($photo['Photo']['display_title'])): ?><h2 class="photo_title"><?php echo $photo['Photo']['display_title']; ?></h2><?php endif; ?>

@@ -1,4 +1,18 @@
-@import url("inc/font.less");
+@font-face {
+  font-family: 'Nexa Bold';
+  src: url('/fonts/nexa_bold/Nexa_Free_Bold-webfont.eot');
+  src: url('/fonts/nexa_bold/Nexa_Free_Bold-webfont.eot?#iefix') format('embedded-opentype'), url('/fonts/nexa_bold/Nexa_Free_Bold-webfont.woff') format('woff'), url('/fonts/nexa_bold/Nexa_Free_Bold-webfont.ttf') format('truetype'), url('/fonts/nexa_bold/Nexa_Free_Bold-webfont.svg#wf') format('svg');
+}
+@font-face {
+  font-family: 'Museo-500';
+  src: url('/fonts/museo_500/Museo500-Regular-webfont.eot');
+  src: url('/fonts/museo_500/Museo500-Regular-webfont.eot?#iefix') format('embedded-opentype'), url('/fonts/museo_500/Museo500-Regular-webfont.woff') format('woff'), url('/fonts/museo_500/Museo500-Regular-webfont.ttf') format('truetype'), url('/fonts/museo_500/Museo500-Regular-webfont.svg#wf') format('svg');
+}
+@font-face {
+  font-family: 'Museo-300';
+  src: url('/fonts/museo_300/Museo300-Regular-webfont.eot');
+  src: url('/fonts/museo_300/Museo300-Regular-webfont.eot?#iefix') format('embedded-opentype'), url('/fonts/museo_300/Museo300-Regular-webfont.woff') format('woff'), url('/fonts/museo_300/Museo300-Regular-webfont.ttf') format('truetype'), url('/fonts/museo_300/Museo300-Regular-webfont.svg#wf') format('svg');
+}
 root {
   display: block;
 }
@@ -576,6 +590,9 @@ table {
   background: url('/img/border_bottom.png') no-repeat;
 }
 #nav_location #main_nav {
+  font-family: Museo-500;
+  font-weight: normal;
+  font-style: normal;
   font-size: 13px;
 }
 #nav_location #main_nav,
@@ -672,4 +689,70 @@ table {
 #right_arrow img {
   left: initial;
   right: 12px;
+}
+#white_slider_ecommerce_container .image_data_container {
+  font-family: Museo-500;
+  font-weight: normal;
+  font-style: normal;
+}
+#white_slider_ecommerce_container .image_data_container .hr {
+  background: #333;
+  margin-bottom: 18px;
+}
+#white_slider_ecommerce_container .image_data_container .photo_title_container {
+  font-family: Nexa Bold;
+  font-weight: normal;
+  font-style: normal;
+  height: 45px;
+  background: #000;
+  width: 75%;
+  display: inline-block;
+}
+#white_slider_ecommerce_container .image_data_container .photo_title_container .photo_title {
+  color: #fff;
+  font-size: 20px;
+  line-height: 45px;
+}
+#white_slider_ecommerce_container .image_data_container .left_and_right_container {
+  width: 75%;
+  display: inline-block;
+}
+#white_slider_ecommerce_container .image_data_container .left_and_right_container .left_photo_data {
+  float: left;
+  width: 52%;
+  text-align: left;
+  border-right: 1px solid #333;
+  padding: 22px;
+  padding-top: 0px;
+  font-size: 16px;
+}
+#white_slider_ecommerce_container .image_data_container .left_and_right_container .left_photo_data .subtitle_description_container {
+  margin-bottom: 20px;
+}
+#white_slider_ecommerce_container .image_data_container .left_and_right_container .left_photo_data .subtitle_description_container .photo_subtitle {
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+#white_slider_ecommerce_container .image_data_container .left_and_right_container .left_photo_data .subtitle_description_container .photo_date {
+  font-size: 14px;
+}
+#white_slider_ecommerce_container .image_data_container .left_and_right_container .left_photo_data .photo_description {
+  font-family: Museo-300;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 12px;
+}
+#white_slider_ecommerce_container .image_data_container .left_and_right_container .right_cart_data {
+  float: right;
+  width: 36%;
+  text-align: left;
+}
+#white_slider_ecommerce_container .image_data_container .left_and_right_container .right_cart_data.left {
+  float: left;
+  width: 50%;
+  margin-left: 5%;
+}
+#white_slider_ecommerce_container .image_data_container .left_and_right_container.no_ecommerce .left_photo_data {
+  border-right: 0px;
+  width: 70%;
 }

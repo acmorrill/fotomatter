@@ -152,7 +152,19 @@
 			jQuery('#white_slider_listing_actual_container').scrollLeft(new_scroll_left);
 			calculate_scroll_control_div_width_and_pos();
 			calculate_control_container_scroll();
+			
+			// check to see if the image was the last image - if so then we need to do the endless scroll
+			var last_image = jQuery('#white_slider_listing_actual_container img:not(.blank)').last();
+			if (last_image != 'undefined' && last_image.length > 0) {
+				if (last_image[0] === next_image[0]) {
+					// START HERE TOMORROW
+					// may need to setup config with correct values
+					endless_scroll_callback();
+				}
+			}
 		}
+		
+		
 	}
 
 	function calculate_scroll_control_div_width() {
