@@ -2,18 +2,6 @@
 	<?php // class="content-background" ?>
 	<?php // echo $this->Element('admin/theme_center/main_menu/list_main_menu_items'); ?>
 	
-	<?php 
-//	echo $this->Element('admin/sub_submenu', array( 
-//		'tabs' => array(
-//			'Choose Logo' => 'admin/theme_center/configure_logo/logo_upload',
-//			'Size and Position Your Logo' => 'admin/theme_center/configure_logo/theme_logo_size',
-//		),
-//		'width' => 814,
-//		'lighter' => true,
-//		'right_side_content' => 'admin/theme_center/configure_logo/right_logo_help'
-//	)); 
-	?>
-	
 	<script type="text/javascript">
 		jQuery(document).ready(function() {
 			jQuery('#change_logo_dialog').dialog({

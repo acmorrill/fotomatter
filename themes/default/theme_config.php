@@ -190,11 +190,31 @@ $theme_config = array(
 					'type' => 'group_name',
 					'display_name' => 'Global Theme Settings',
 				),
+				'global_first_name' => array(
+					'type' => 'text_input',
+					'display_name' => 'First Name',
+					'description' => "The first name that is used in auto generated logos and content on your website.",
+					'possible_values' => ".*\\\S+.*", // can be regex
+					'default_value' => '',
+				),
+				'global_last_name' => array(
+					'type' => 'text_input',
+					'display_name' => 'Last Name',
+					'description' => "The last name that is used in auto generated logos and content on your website.",
+					'possible_values' => ".*\\\S+.*", // can be regex
+					'default_value' => '',
+				),
+				'global_company_or_tagline' => array(
+					'type' => 'text_input',
+					'display_name' => 'Company or Tagline',
+					'description' => "The company name or tagline that is used in auto generated logos and content on your website.",
+					'possible_values' => ".*\\\S+.*", // can be regex
+					'default_value' => '',
+				),
 				'global_photo_page_add_to_cart_text' => array(
 					'type' => 'text_input',
 					'display_name' => 'Photo Page Print Types Heading',
 					'description' => "The text that goes above available print types when there are available print types for the photo.",
-					'help_message' => 'Text Input Test',
 					'possible_values' => ".*\\\S+.*", // can be regex
 					'default_value' => 'Print Types',
 				),

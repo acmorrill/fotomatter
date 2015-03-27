@@ -24,7 +24,6 @@
 	<div id="white_slider_scroll_hide" class=""></div>
 	<div id="white_slider_under_scroll" class=""></div>
 	
-	
 	<div id="left_arrow" class="navigation_arrow">
 		<img src="/img/arrow_left.png" />
 	</div>

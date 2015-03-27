@@ -1,7 +1,7 @@
 <div id="image_data_container_<?php echo $photo['Photo']['id']; ?>" class='image_data_container' data-ecommerce_photo_id="<?php echo $photo['Photo']['id']; ?>">
 	<?php 
 		$left_empty = false;
-		if (empty($photo['Photo']['display_subtitle']) && empty($photo['Photo']['date_taken']) && empty($photo['Photo']['description'])) {
+		if (empty($photo['Photo']['display_subtitle']) && empty($photo['Photo']['description'])) {
 			$left_empty = true;
 		}
 		

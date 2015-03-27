@@ -93,6 +93,8 @@ abstract class AbstractThemeLogoHelper extends AppHelper {
 	
 	
 	public function get_display_logo_data($theme_config) {
+		$this->theme_config = $theme_config;
+		$this->theme_settings = $theme_config['admin_config']['theme_avail_custom_settings']['settings'];
 		$this->Theme = ClassRegistry::init('Theme');
 		
 		$logo_max_width = $logo_context_width = isset($theme_config['admin_config']['logo_config']['available_space']['width']) ? $theme_config['admin_config']['logo_config']['available_space']['width'] : 400;
@@ -246,21 +248,37 @@ abstract class AbstractThemeLogoHelper extends AppHelper {
 
 	
 	protected function _get_logo_firstname() {
-		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+		$first_name = $this->theme_settings['global_first_name']['current_value'];
+
+		if (empty($first_name)) {
+			$this->SiteSetting = ClassRegistry::init('SiteSetting');
+			$first_name = $this->SiteSetting->getVal('first_name', 'John');
+		}
 		
-		return $this->SiteSetting->getVal('first_name', 'John');
+		return $first_name;
 	}
 	
 	protected function _get_logo_lastname() {
-		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+		$last_name = $this->theme_settings['global_last_name']['current_value'];
 		
-		return $this->SiteSetting->getVal('last_name', 'Doe');
+		if (empty($last_name)) {
+			$this->SiteSetting = ClassRegistry::init('SiteSetting');
+			$last_name = $this->SiteSetting->getVal('last_name', 'Doe');
+		}
+		
+		return $last_name;
 	}
 	
 	protected function _get_logo_companyname() {
-		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+		$company_or_tagline = $this->theme_settings['global_company_or_tagline']['current_value'];
 		
-		return $this->SiteSetting->getVal('company_name', 'Celestial Light Photography');
+		if (empty($company_or_tagline)) {
+			$this->SiteSetting = ClassRegistry::init('SiteSetting');
+			$company_or_tagline = $this->SiteSetting->getVal('company_name', 'Photography');
+		}
+		
+		
+		return $company_or_tagline;
 	}
 	
 	protected function _get_logo_path($theme_name = null) {

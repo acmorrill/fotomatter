@@ -3,6 +3,9 @@
 }
 #white_slider_listing_actual_container {
 	top: 179px;
+	img {
+		border-right: 7px solid #ffffff;
+	}
 }
 #white_slider_scroll_hide {
 	top: 679px;
@@ -14,6 +17,12 @@
 #image_slider_progressbar_container {
 	top: 385px;
 }
+#image_slider_progressbar {
+	outline: 1px solid #333;
+	.ui-progressbar-value {
+		background-color: #000;
+	}
+}
 
 
 .navigation_arrow {
@@ -23,6 +32,7 @@
 	width: 52px;
 	background: #000;
 	border: 0px;
+	.noselect;
 	img {
 		position: absolute;
 		width: 22px;

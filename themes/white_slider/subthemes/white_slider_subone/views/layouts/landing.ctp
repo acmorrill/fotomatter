@@ -34,12 +34,12 @@
 	
 	
 	
-<!--		<div id="left_arrow" class="navigation_arrow">
-
+	<div id="left_arrow" class="navigation_arrow">
+		<img src="/img/arrow_left.png" />
 	</div>
 	<div id="right_arrow" class="navigation_arrow">
-
-	</div>-->
+		<img src="/img/arrow_right.png" />
+	</div>
 
 
 	<div id="entire_slider_hider"></div>

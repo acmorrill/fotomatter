@@ -83,6 +83,7 @@ class WelcomeController extends AppController {
 			try {
 				$this->Validation->validate('not_empty', $this->data, 'first_name', __('You must provide your first name. This is only used for default text on your website.', true));
 				$this->Validation->validate('not_empty', $this->data, 'last_name', __('You must provide your last name. This is only used for default text on your website.', true));
+				$this->Validation->validate('not_empty', $this->data, 'company_or_tagline', __('You must provide your company or tagline. This is only used for default text on your website.', true));
 				$this->Validation->validate('not_empty', $this->data, 'industry_type_id', __('You must choose your primary focus.', true));
 				$this->Validation->validate('not_empty', $this->data, 'password', __('The password must be at least 8 characters long.', true));
 				$this->Validation->validate('not_empty', $this->data, 'confirm_password', __('The passwords must match.', true));
@@ -110,6 +111,7 @@ class WelcomeController extends AppController {
 			$this->FotomatterBilling->send_extra_user_data($this->data['first_name'], $this->data['last_name'], $this->data['industry_type_id']);
 			$this->SiteSetting->setVal('first_name', $this->data['first_name']);
 			$this->SiteSetting->setVal('last_name', $this->data['last_name']);
+			$this->SiteSetting->setVal('company_name', $this->data['company_or_tagline']);
 
 
 			// user created so mark welcome_password as having been done

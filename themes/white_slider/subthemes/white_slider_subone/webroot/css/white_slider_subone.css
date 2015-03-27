@@ -643,6 +643,9 @@ table {
 #white_slider_listing_actual_container {
   top: 179px;
 }
+#white_slider_listing_actual_container img {
+  border-right: 7px solid #ffffff;
+}
 #white_slider_scroll_hide {
   top: 679px;
 }
@@ -653,6 +656,12 @@ table {
 #image_slider_progressbar_container {
   top: 385px;
 }
+#image_slider_progressbar {
+  outline: 1px solid #333;
+}
+#image_slider_progressbar .ui-progressbar-value {
+  background-color: #000;
+}
 .navigation_arrow {
   position: absolute;
   top: 400px;
@@ -660,6 +669,12 @@ table {
   width: 52px;
   background: #000;
   border: 0px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .navigation_arrow img {
   position: absolute;
@@ -755,4 +770,22 @@ table {
 #white_slider_ecommerce_container .image_data_container .left_and_right_container.no_ecommerce .left_photo_data {
   border-right: 0px;
   width: 70%;
+}
+#page_content_container {
+  margin-top: 46px;
+  font-family: Museo-500;
+  font-weight: normal;
+  font-style: normal;
+}
+#page_content_container,
+#page_content_container a {
+  color: #000;
+}
+#page_content_container a {
+  text-decoration: none;
+}
+#page_content_container .frontend_form_submit_button {
+  font-family: Nexa Bold;
+  font-weight: normal;
+  font-style: normal;
 }

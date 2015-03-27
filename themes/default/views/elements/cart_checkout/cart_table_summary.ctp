@@ -21,8 +21,9 @@
 			</tr>
 		</thead>
 		<tbody>
-			<?php foreach ($cart_items as $key => $cart_data): ?>
-				<tr>
+			<?php $total_cart_items = count($cart_items); ?>
+			<?php $count = 0; foreach ($cart_items as $key => $cart_data): ?>
+				<tr class="<?php echo $this->Util->get_count_class(($count + 1), $total_cart_items); ?>">
 					<td class="first">
 						<?php $cart_img_data = $this->Photo->get_photo_path($cart_data['photo_id'], 100, 100, .4, true); ?>
 						<img src="<?php echo $cart_img_data['url']; ?>" <?php echo $cart_img_data['tag_attributes']; ?> alt="" />
@@ -37,7 +38,7 @@
 					<td><?php echo $cart_data['qty']; ?></td>
 					<td class="last"><?php echo $this->Number->currency($this->Cart->get_cart_line_total($cart_data['qty'], $cart_data['price'])); ?></td>
 				</tr>
-			<?php endforeach; ?>
+			<?php $count++; endforeach; ?>
 		</tbody>
 		<tfoot>
 			<tr>

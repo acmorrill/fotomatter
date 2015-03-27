@@ -157,9 +157,9 @@
 			var last_image = jQuery('#white_slider_listing_actual_container img:not(.blank)').last();
 			if (last_image != 'undefined' && last_image.length > 0) {
 				if (last_image[0] === next_image[0]) {
-					// START HERE TOMORROW
-					// may need to setup config with correct values
-					endless_scroll_callback();
+					if (cease_fire === false) {
+						endless_scroll_callback();
+					}
 				}
 			}
 		}

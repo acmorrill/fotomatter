@@ -16,6 +16,10 @@
 					<input  autocorrect="off" type="input" name="data[last_name]" class="text" id="LastName" value="<?php echo $this->Util->get_not_empty_or($this->data, 'last_name', ''); ?>">
 				</div>
 				<div class="input password">
+					<label for="CompanyOrTagline"><?php echo __('Company or Tagline', true); ?></label>
+					<input  autocorrect="off" type="input" name="data[company_or_tagline]" class="text" id="CompanyOrTagline" value="<?php echo $this->Util->get_not_empty_or($this->data, 'company_or_tagline', ''); ?>">
+				</div>
+				<div class="input password">
 					<label for="IndustryType"><?php echo __('Your Primary Focus', true); ?></label>
 					<?php $previous_option = $this->Util->get_not_empty_or($this->data, 'industry_type_id', 0); ?>
 					<select name="data[industry_type_id]" id="IndustryType">
