@@ -10,10 +10,10 @@
 
 			save_theme_setting(setting_name, setting_value, 
 				function() {
-					console.log ("success");
+//					console.log ("success");
 				}, 
 				function() {
-					console.log ("error");
+//					console.log ("error");
 				}
 			);
 		});

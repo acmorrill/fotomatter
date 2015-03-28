@@ -79,6 +79,7 @@ class ThemeRendererComponent extends Object {
 			$avail_settings_list = $theme_config['admin_config']['theme_avail_custom_settings']['settings'];
 			$this->Theme = ClassRegistry::init('Theme');
 			$this->ThemeUserSetting = ClassRegistry::init('ThemeUserSetting');
+			$this->SiteSetting = ClassRegistry::init('SiteSetting');
 			$theme_id = $this->Theme->get_current_theme_id();
 			$theme_user_settings = $this->ThemeUserSetting->find('all', array(
 				'conditions' => array(
@@ -90,9 +91,18 @@ class ThemeRendererComponent extends Object {
 			if (!empty($theme_user_settings)) {
 				$settings_by_name = Set::combine($theme_user_settings, '{n}.ThemeUserSetting.name', '{n}.ThemeUserSetting.value');
 			}
+			
 			$global_settings = array();
 			foreach ($avail_settings_list as $key => $curr_setting) {
-				if (isset($settings_by_name[$key])) {
+				$site_setting_value = false;
+				if (isset($curr_setting['site_settings_name'])) {
+					$site_setting_value = $this->SiteSetting->getVal($curr_setting['site_settings_name'], false);
+				}
+				
+				
+				if ($site_setting_value !== false) {
+					$avail_settings_list[$key]['current_value'] = $site_setting_value;
+				} else if (isset($settings_by_name[$key])) {
 					$avail_settings_list[$key]['current_value'] = $settings_by_name[$key];
 				} else if (isset($curr_setting['default_value'])) {
 					$avail_settings_list[$key]['current_value'] = $curr_setting['default_value'];

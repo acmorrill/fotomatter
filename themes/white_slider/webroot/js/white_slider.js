@@ -115,23 +115,24 @@
 		var middle_of_screen = jQuery(document).width() / 2;
 		var middle_image_data = get_current_middle_image();
 		var next_image = undefined;
-		var current_distance = Math.abs(middle_of_screen - middle_image_data.current_middle);
-		var tenth_of_image_width = (middle_image_data.current_middle_image.width() * .1);
-		if (direction == 'right') {
-			if (middle_image_data.current_middle > middle_of_screen && current_distance > tenth_of_image_width ) {
-				next_image = middle_image_data.current_middle_image;
+		if (typeof middle_image_data != 'undefined') {
+			var current_distance = Math.abs(middle_of_screen - middle_image_data.current_middle);
+			var tenth_of_image_width = (middle_image_data.current_middle_image.width() * .1);
+			if (direction == 'right') {
+				if (middle_image_data.current_middle > middle_of_screen && current_distance > tenth_of_image_width ) {
+					next_image = middle_image_data.current_middle_image;
+				} else {
+					next_image = middle_image_data.current_middle_image.next();
+				}
 			} else {
-				next_image = middle_image_data.current_middle_image.next();
-			}
-		} else {
-			if (middle_image_data.current_middle < middle_of_screen && current_distance > tenth_of_image_width) {
-				next_image = middle_image_data.current_middle_image;
-			} else {
-				next_image = middle_image_data.current_middle_image.prev();
+				if (middle_image_data.current_middle < middle_of_screen && current_distance > tenth_of_image_width) {
+					next_image = middle_image_data.current_middle_image;
+				} else {
+					next_image = middle_image_data.current_middle_image.prev();
+				}
 			}
 		}
-
-
+		
 
 		// means there was no image that was in the center (aka images are on the edges)
 		if (typeof next_image == 'undefined' || next_image.attr('photo_id') == 'undefined') {
@@ -154,12 +155,17 @@
 			calculate_control_container_scroll();
 			
 			// check to see if the image was the last image - if so then we need to do the endless scroll
-			var last_image = jQuery('#white_slider_listing_actual_container img:not(.blank)').last();
-			if (last_image != 'undefined' && last_image.length > 0) {
-				if (last_image[0] === next_image[0]) {
-					if (cease_fire === false) {
-						endless_scroll_callback();
-					}
+			if (cease_fire === false) {
+				var last_image = jQuery('#white_slider_listing_actual_container img:not(.blank)').last();
+				var has_last_image = last_image != 'undefined' && last_image.length > 0;
+				var on_last_image = has_last_image && last_image[0] === next_image[0];
+				var on_second_to_last_image = false;
+				if (has_last_image) {
+					var second_to_last_image = last_image.prev(':not(.blank)');
+					on_second_to_last_image = second_to_last_image != 'undefined' && second_to_last_image.length > 0 && second_to_last_image[0] === next_image[0];
+				}
+				if (on_last_image || on_second_to_last_image) {
+					endless_scroll_callback();
 				}
 			}
 		}
@@ -251,7 +257,6 @@
 				duration: 500
 			});
 		}
-		
 	}
 
 	//			var autoscrolling = false;
@@ -502,6 +507,7 @@
 			// move to the image just to the right of center
 			jQuery('#white_slider_listing_actual_container').scrollLeft(Math.round(jQuery('#white_slider_listing_actual_container')[0].scrollWidth * .40));
 			move_to_next_prev_image('right');
+			move_to_next_prev_image('left');
 		}
 		
 		

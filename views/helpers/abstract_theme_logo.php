@@ -176,107 +176,29 @@ abstract class AbstractThemeLogoHelper extends AppHelper {
 			$theme_name = $this->_get_theme_name();
 		}
 		
-		$base_logo_file_path = $this->_get_logo_path($theme_name);
-		
-		if (file_exists($base_logo_file_path)) {
-			if (unlink($base_logo_file_path)) {
-				// delete cache files associated with this logo
-				$logo_cache_folder = SITE_LOGO_CACHES_PATH.DS.$theme_name.DS;
-				$this->MajorError = ClassRegistry::init('MajorError');
-				if (file_exists($logo_cache_folder)) {
-					if (!$this->MajorError->recursive_remove_directory($logo_cache_folder)) {
-						$this->MajorError = ClassRegistry::init('MajorError');
-						$this->MajorError->major_error('Failed to delete theme cache files', compact('theme_name'));
-						return false;	
-					}
-				}
-
-				return true;
-			} else {
-				$this->MajorError = ClassRegistry::init('MajorError');
-				$this->MajorError->major_error('Failed to delete theme base logo', compact('theme_name'));
-				return false;
-			}
-		}
-		
-		return true;
+		$this->ThemeLogo = ClassRegistry::init('ThemeLogo');
+		$this->ThemeLogo->delete_theme_base_logo($theme_name);
 	}
 	
 	
-	public function delete_all_theme_base_logos() {
-		$this->Theme = ClassRegistry::init('Theme');
-		
-		$all_themes = $this->Theme->find('all', array(
-			'contain' => false
-		));
-		
-		// add in the default theme if its not there
-		$all_themes[] = array(
-			'Theme' => array(
-				'ref_name' => 'default'
-			)
-		);
-		
-		foreach ($all_themes as $theme) {
-			if (!$this->delete_theme_base_logo($theme['Theme']['ref_name'])) {
-				return false;
-			}
-		}
-		
-		return true;
-	}
-	
-	public function clear_expired_logo_files() {
-		$logo_caches_dir = SITE_LOGO_CACHES_PATH;
-		exec("find $logo_caches_dir -name '*.png' -depth -type f -atime +14 -delete", $output, $return_var);
-		
-		if ($return_var != 0) {
-			$this->MajorError = ClassRegistry::init('MajorError');
-			$this->MajorError->major_error('Failed to expire logo cache files', compact('logo_caches_dir'));
-		}
-		
-		
-		$logo_base_dir = SITE_LOGO_THEME_BASE_PATH;
-		exec("find $logo_base_dir -name '*.png' -depth -type f -atime +14 -delete", $output, $return_var);
-		if ($return_var != 0) {
-			$this->MajorError = ClassRegistry::init('MajorError');
-			$this->MajorError->major_error('Failed to expire logo base files', compact('logo_base_dir'));
-		}
-		
-		return true;
-	}
-
 	
 	protected function _get_logo_firstname() {
-		$first_name = $this->theme_settings['global_first_name']['current_value'];
-
-		if (empty($first_name)) {
-			$this->SiteSetting = ClassRegistry::init('SiteSetting');
-			$first_name = $this->SiteSetting->getVal('first_name', 'John');
-		}
+		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+		$first_name = $this->SiteSetting->getVal('first_name', 'John');
 		
 		return $first_name;
 	}
 	
 	protected function _get_logo_lastname() {
-		$last_name = $this->theme_settings['global_last_name']['current_value'];
-		
-		if (empty($last_name)) {
-			$this->SiteSetting = ClassRegistry::init('SiteSetting');
-			$last_name = $this->SiteSetting->getVal('last_name', 'Doe');
-		}
+		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+		$last_name = $this->SiteSetting->getVal('last_name', 'Doe');
 		
 		return $last_name;
 	}
 	
 	protected function _get_logo_companyname() {
-		$company_or_tagline = $this->theme_settings['global_company_or_tagline']['current_value'];
-		
-		if (empty($company_or_tagline)) {
-			$this->SiteSetting = ClassRegistry::init('SiteSetting');
-			$company_or_tagline = $this->SiteSetting->getVal('company_name', 'Photography');
-		}
-		
+		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+		$company_or_tagline = $this->SiteSetting->getVal('company_name', 'Photography');
 		
 		return $company_or_tagline;
 	}

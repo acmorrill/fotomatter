@@ -3,6 +3,7 @@
 	jQuery(document).ready(function() {
 		var saving_input_value;
 		
+		var site_setting_name_name = jQuery('#<?php echo $uuid; ?>').attr('data-site_setting_name');
 		var possible_value_regex = "<?php echo $curr_setting['possible_values']; ?>";
 		var patt = undefined;
 		if (possible_value_regex != '') {
@@ -25,18 +26,25 @@
 
 				save_theme_setting(setting_name, setting_value, 
 					function() {
-						console.log ("success");
+//						console.log ("success");
 					}, 
 					function() {
-						console.log ("error");
-					}
+//						console.log ("error");
+					},
+					site_setting_name_name
 				);
 			}, 700);
 		});
 	});
 </script>
 
-<div id="<?php echo $uuid; ?>" class="theme_setting_container">
+<?php
+	$data_site_setting_name = '';
+	if(isset($curr_setting['site_settings_name'])) {
+		$data_site_setting_name = "data-site_setting_name='{$curr_setting['site_settings_name']}'";
+	}
+?>
+<div id="<?php echo $uuid; ?>" class="theme_setting_container" <?php echo $data_site_setting_name; ?> >
 	<label class="text_input"><?php echo $curr_setting['display_name']; ?></label>
 	<div class="theme_setting_inputs_container">
 		<form class="text_input_text">

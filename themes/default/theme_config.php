@@ -193,37 +193,40 @@ $theme_config = array(
 				'global_first_name' => array(
 					'type' => 'text_input',
 					'display_name' => 'First Name',
-					'description' => "The first name that is used in auto generated logos and content on your website.",
-					'possible_values' => ".*\\\S+.*", // can be regex
+					'description' => "The first name that is used in auto generated logos and content on your website. Value cannot be empty.",
+					'possible_values' => ".*\\\S+.*", // can be regex -- this is only non empty
 					'default_value' => '',
+					'site_settings_name' => 'first_name', // if this is set then the setting will be saved
 				),
 				'global_last_name' => array(
 					'type' => 'text_input',
 					'display_name' => 'Last Name',
 					'description' => "The last name that is used in auto generated logos and content on your website.",
-					'possible_values' => ".*\\\S+.*", // can be regex
+					'possible_values' => ".*\\\S*.*", // can be regex - can be empty
 					'default_value' => '',
+					'site_settings_name' => 'last_name', // if this is set then the setting will be saved
 				),
 				'global_company_or_tagline' => array(
 					'type' => 'text_input',
 					'display_name' => 'Company or Tagline',
-					'description' => "The company name or tagline that is used in auto generated logos and content on your website.",
-					'possible_values' => ".*\\\S+.*", // can be regex
+					'description' => "The company name or tagline that is used in auto generated logos and content on your website. Value cannot be empty.",
+					'possible_values' => ".*\\\S+.*", // can be regex -- this is only non empty
 					'default_value' => '',
+					'site_settings_name' => 'company_name', // if this is set then the setting will be saved
 				),
 				'global_photo_page_add_to_cart_text' => array(
 					'type' => 'text_input',
 					'display_name' => 'Photo Page Print Types Heading',
-					'description' => "The text that goes above available print types when there are available print types for the photo.",
-					'possible_values' => ".*\\\S+.*", // can be regex
+					'description' => "The text that goes above available print types when there are available print types for the photo. Value cannot be empty.",
+					'possible_values' => ".*\\\S+.*", // can be regex -- this is only non empty
 					'default_value' => 'Print Types',
 				),
 				'global_frontend_checkout_thankyou_page_text' => array(
 					'type' => 'textarea',
 					'display_name' => 'Thankyou Page Text',
-					'description' => "This is the text your customers will see after they are done purchasing.",
+					'description' => "This is the text your customers will see after they are done purchasing. Value cannot be empty.",
 					'help_message' => 'Text Area Test',
-					'possible_values' => '.*\\\S+.*', // can be regex
+					'possible_values' => '.*\\\S+.*', // can be regex -- this is only non empty
 					'default_value' => 'Your order processed successfully.',
 				),
 //				'global_photo_page_add_to_cart_button_text' => array(

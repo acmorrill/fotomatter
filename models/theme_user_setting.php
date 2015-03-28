@@ -65,7 +65,7 @@ class ThemeUserSetting extends AppModel {
 				'value' => $value
 			)
 		);
-
+		
 		$exists = $this->find('first', array(
 			'conditions' => array(
 				'ThemeUserSetting.theme_id' => $theme_id,

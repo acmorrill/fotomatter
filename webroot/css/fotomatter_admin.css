@@ -4909,6 +4909,7 @@ body {
   overflow: hidden;
   height: 400px;
   margin-right: 20px;
+  margin-bottom: 20px;
 }
 #theme_chooser_container .theme_item_container .theme_item_outer_container {
   display: table;

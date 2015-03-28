@@ -1,8 +1,12 @@
 <?php //debug($avail_settings_list); ?>
 
 <script type="text/javascript">
-	function save_theme_setting(setting_name, setting_value, success, error) {
+	function save_theme_setting(setting_name, setting_value, success, error, site_setting_name) {
 		show_universal_save();
+		if (typeof site_setting_name == 'undefined') {
+			site_setting_name = '';
+		}
+		
 		
 		jQuery.ajax({
 			type: 'post',
@@ -10,7 +14,8 @@
 			data: {
 				setting_name: setting_name,
 				setting_value: setting_value,
-				theme_id: '<?php echo $theme_id; ?>'
+				theme_id: '<?php echo $theme_id; ?>',
+				site_setting_name: site_setting_name
 			},
 			success: function(the_data) {
 				if (the_data.code == '1') {

@@ -1,7 +1,7 @@
 <?php
 class ThemeCentersController extends AppController {
     public $name = 'ThemeCenters';
-	public $uses = array('ThemeGlobalSetting', 'SiteSetting', 'ThemeHiddenSetting', 'Theme', 'ThemeUserSetting', 'ThemeHiddenSetting');
+	public $uses = array('ThemeGlobalSetting', 'SiteSetting', 'ThemeHiddenSetting', 'Theme', 'ThemeUserSetting', 'ThemeHiddenSetting', 'ThemeLogo');
 	public $helpers = array(
 		'Page',
 		'Gallery',
@@ -26,6 +26,7 @@ class ThemeCentersController extends AppController {
 		$returnArr = array();
 		$returnArr['code'] = 1;
 		
+		$site_setting_name = isset($this->params['form']['site_setting_name']) ? $this->params['form']['site_setting_name'] : '';
 		$setting_name = isset($this->params['form']['setting_name']) ? $this->params['form']['setting_name'] : null;
 		$setting_value = isset($this->params['form']['setting_value']) ? $this->params['form']['setting_value'] : null;
 		$theme_id = isset($this->params['form']['theme_id']) ? $this->params['form']['theme_id'] : null;
@@ -37,14 +38,29 @@ class ThemeCentersController extends AppController {
 		}
 		
 		
-		// this is just so that everytime a setting is changed the frontend cache will be broken for themes that use user chosen dynamic images
-		$this->ThemeGlobalSetting->setVal('break_user_dynamic_bg_cache', true);
+		///////////////////////////////////////////////////////////////////////////////////////
+		// do things on settings change
+			// this is just so that everytime a setting is changed the frontend cache will be broken for themes that use user chosen dynamic images
+			$this->ThemeGlobalSetting->setVal('break_user_dynamic_bg_cache', true);
+			// clear the logo cache when settings are changed - DREW TODO - maybe make this more efficient
+			$current_theme_name = $this->SiteSetting->getVal('current_theme', false);
+			if (!empty($current_theme_name)) {
+				$this->ThemeLogo->delete_theme_base_logo($current_theme_name);
+			}
+
 		
-		
-		if (!$this->ThemeUserSetting->setVal($setting_name, $setting_value, $theme_id)) {
-			$returnArr['code'] = -1;
-			$this->Theme->major_error('failed to save theme user setting', compact('setting_name', 'setting_value', 'theme_id'));
-			$returnArr['message'] = 'failed to save theme user setting';
+		if (!empty($site_setting_name)) {
+			if (!$this->SiteSetting->setVal($site_setting_name, $setting_value)) {
+				$returnArr['code'] = -1;
+				$this->Theme->major_error('failed to save theme user setting', compact('setting_name', 'setting_value', 'theme_id', 'site_setting_name'));
+				$returnArr['message'] = 'failed to save site setting as theme user setting';
+			}
+		} else {
+			if (!$this->ThemeUserSetting->setVal($setting_name, $setting_value, $theme_id)) {
+				$returnArr['code'] = -1;
+				$this->Theme->major_error('failed to save theme user setting', compact('setting_name', 'setting_value', 'theme_id'));
+				$returnArr['message'] = 'failed to save theme user setting';
+			}
 		}
 		
 		

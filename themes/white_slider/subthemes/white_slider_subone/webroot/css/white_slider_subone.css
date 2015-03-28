@@ -784,8 +784,18 @@ table {
 #page_content_container a {
   text-decoration: none;
 }
-#page_content_container .frontend_form_submit_button {
+#page_content_container .frontend_form_submit_button,
+#page_content_container h1,
+#page_content_container h2,
+#page_content_container h3 {
   font-family: Nexa Bold;
   font-weight: normal;
   font-style: normal;
+}
+#page_content_container p {
+  font-family: Museo-300;
+  font-weight: normal;
+  font-style: normal;
+  line-height: 20px;
+  font-size: 14px;
 }
