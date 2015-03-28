@@ -101,7 +101,7 @@ if (!isset($hide_current)) {
 													</div>
 												<?php else: ?>
 													<div class="button_current_theme add_button" data-step="2" data-intro="<?php echo __('Under the current theme the button will stay current.', true); ?>" data-position="top">
-														<div type="submit" value="" ><div class="content"><?php echo __('Current',true); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div></div>
+														<div type="submit" value="" ><div class="content"><?php echo __('Current',true); ?></div></div>
 													</div>
 												<?php endif; ?>
 											</td>
