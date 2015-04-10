@@ -23,6 +23,7 @@ class EcommercesController extends AppController {
 			'admin_manage_print_types_and_pricing',
 			'admin_order_management',
 			'admin_get_paid',
+			'admin_index',
 		))) {
 			$this->FeatureLimiter->limit_view($this, 'basic_shopping_cart', 'ecommerce'); // $controller, $feature_ref_name, $element_path in /elements/admin/limit_views
 		} else {
