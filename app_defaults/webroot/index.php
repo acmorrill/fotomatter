@@ -22,16 +22,17 @@
 /**
  * Use the DS to separate the directories in other defines
  */
-	if (apc_exists('clear_cake_core_apc_cache_on_next_request')) {
-		apc_delete('app_cake_core_object_map_expires');
-		apc_delete('app_cake_core_object_map');
-		apc_delete('app_cake_core_file_map_expires');
-		apc_delete('app_cake_core_file_map');
-		apc_delete('app_cake_core_dir_map_expires');
-		apc_delete('app_cake_core_dir_map');
-		
-		apc_delete('clear_cake_core_apc_cache_on_next_request');
-	}
+	// this is no longer needed as the logo code was refactored
+//	if (apc_exists('clear_cake_core_apc_cache_on_next_request')) {
+//		apc_delete('app_cake_core_object_map_expires');
+//		apc_delete('app_cake_core_object_map');
+//		apc_delete('app_cake_core_file_map_expires');
+//		apc_delete('app_cake_core_file_map');
+//		apc_delete('app_cake_core_dir_map_expires');
+//		apc_delete('app_cake_core_dir_map');
+//		
+//		apc_delete('clear_cake_core_apc_cache_on_next_request');
+//	}
 
 
 	if (!defined('DS')) {

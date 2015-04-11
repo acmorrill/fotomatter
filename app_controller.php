@@ -527,7 +527,9 @@ class AppController extends Controller {
 		$new_theme_config = $this->ThemeRenderer->_process_theme_config_with_user_settings(true);
 		$this->Theme->get_theme_background_config_values($new_theme_config, true);
 
+		
+		// this is no longer needed as the logo code was refactered
 		// important!  --   this makes sure that paths to helpers etc are correct after the symlinks change in change theme above
-		apc_add('clear_cake_core_apc_cache_on_next_request', true);
+//		apc_add('clear_cake_core_apc_cache_on_next_request', true);
 	}
 }
