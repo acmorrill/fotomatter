@@ -40,11 +40,8 @@ if (!isset($hide_current)) {
 					<div class="theme_item_outer_container">
 						<div class="theme_item_inner_container">
 							<?php 
-//								$base_path = ROOT.DS.APP_DIR.DS.'webroot'.DS.'img'.DS.'theme_screenshots'.DS;
-								$base_path = "https://d4f9baf5b96f3eeed9c9-4af0fb97e675ed71f0af4b096cd907ac.ssl.cf2.rackcdn.com/";
-							
-								$large_image_abs_path = $base_path.$curr_theme['Theme']['ref_name'].'_large.jpg';
-								$small_image_abs_path = $base_path.$curr_theme['Theme']['ref_name'].'_small.jpg';
+								$large_image_abs_path = $this->Util->global_cdn($curr_theme['Theme']['ref_name'].'_large.jpg');
+								$small_image_abs_path = $this->Util->global_cdn($curr_theme['Theme']['ref_name'].'_small.jpg');
 								$large_image_web_path = $large_image_abs_path;
 								$small_image_web_path = $small_image_abs_path;
 
