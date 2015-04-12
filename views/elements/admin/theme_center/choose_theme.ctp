@@ -40,18 +40,21 @@ if (!isset($hide_current)) {
 					<div class="theme_item_outer_container">
 						<div class="theme_item_inner_container">
 							<?php 
-								$large_image_abs_path = ROOT.DS.APP_DIR.DS.'webroot'.DS.'img'.DS.'theme_screenshots'.DS.$curr_theme['Theme']['ref_name'].'_large.jpg';
-								$small_image_abs_path = ROOT.DS.APP_DIR.DS.'webroot'.DS.'img'.DS.'theme_screenshots'.DS.$curr_theme['Theme']['ref_name'].'_small.jpg';
-								$large_image_web_path = '/img/theme_screenshots/'.$curr_theme['Theme']['ref_name'].'_large.jpg';
-								$small_image_web_path = '/img/theme_screenshots/'.$curr_theme['Theme']['ref_name'].'_small.jpg';
+//								$base_path = ROOT.DS.APP_DIR.DS.'webroot'.DS.'img'.DS.'theme_screenshots'.DS;
+								$base_path = "https://d4f9baf5b96f3eeed9c9-4af0fb97e675ed71f0af4b096cd907ac.ssl.cf2.rackcdn.com/";
+							
+								$large_image_abs_path = $base_path.$curr_theme['Theme']['ref_name'].'_large.jpg';
+								$small_image_abs_path = $base_path.$curr_theme['Theme']['ref_name'].'_small.jpg';
+								$large_image_web_path = $large_image_abs_path;
+								$small_image_web_path = $small_image_abs_path;
 
 								$large_default_web_path = '/img/theme_screenshots/default_large.jpg';
 								$small_default_web_path = '/img/theme_screenshots/default_small.jpg';
 
-								if (!file_exists($large_image_abs_path)) {
+								if (!$this->Util->url_exists($large_image_abs_path)) {
 									$large_image_web_path = $large_default_web_path;
 								}
-								if (!file_exists($small_image_abs_path)) {
+								if (!$this->Util->url_exists($small_image_abs_path)) {
 									$small_image_web_path = $small_default_web_path;
 								}
 								
@@ -63,7 +66,7 @@ if (!isset($hide_current)) {
 									$image_data['image_width'] = 400;
 									$image_data['image_height'] = 250;
 									$image_data['image_attr'] = 'width="400" height="250"';
-									if (file_exists($small_image_abs_path)) {
+									if ($this->Util->url_exists($small_image_abs_path)) {
 										list($image_width, $image_height, $image_type, $image_attr) = @getimagesize($small_image_abs_path);
 										$image_data = array();
 										$image_data['image_width'] = $image_width;

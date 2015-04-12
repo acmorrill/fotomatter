@@ -146,4 +146,15 @@ class UtilHelper extends AppHelper {
 		
 		return '';
 	}
+	
+	public function url_exists($url) {
+		$file_headers = @get_headers($url);
+		if($file_headers[0] == 'HTTP/1.1 404 Not Found') {
+			$exists = false;
+		} else {
+			$exists = true;
+		}
+		
+		return $exists;
+	}
 }
