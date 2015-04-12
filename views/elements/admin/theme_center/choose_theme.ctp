@@ -51,12 +51,12 @@ if (!isset($hide_current)) {
 								$large_default_web_path = '/img/theme_screenshots/default_large.jpg';
 								$small_default_web_path = '/img/theme_screenshots/default_small.jpg';
 
-								if (!$this->Util->url_exists($large_image_abs_path)) {
-									$large_image_web_path = $large_default_web_path;
-								}
-								if (!$this->Util->url_exists($small_image_abs_path)) {
-									$small_image_web_path = $small_default_web_path;
-								}
+//								if (!$this->Util->url_exists($large_image_abs_path)) {
+//									$large_image_web_path = $large_default_web_path;
+//								}
+//								if (!$this->Util->url_exists($small_image_abs_path)) {
+//									$small_image_web_path = $small_default_web_path;
+//								}
 								
 								$theme_image_cache_apc_key = $small_image_abs_path;
 								if (apc_exists($theme_image_cache_apc_key)) {

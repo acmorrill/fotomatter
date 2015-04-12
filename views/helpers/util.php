@@ -149,7 +149,7 @@ class UtilHelper extends AppHelper {
 	
 	public function url_exists($url) {
 		$file_headers = @get_headers($url);
-		if($file_headers[0] == 'HTTP/1.1 404 Not Found') {
+		if(isset($file_headers[0]) && strpos($file_headers[0], '404 Not Found') !== false) {
 			$exists = false;
 		} else {
 			$exists = true;
