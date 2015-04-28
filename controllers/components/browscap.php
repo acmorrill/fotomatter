@@ -10,34 +10,36 @@ class BrowscapComponent extends Object {
 		$browser_data = get_browser(null, true);
 
 
-		if (empty($browser_data['browser']) || empty($browser_data['majorver'])) {
+		if (empty($browser_data['browser']) || empty($browser_data['version'])) {
 			return false;
 		}
 
+		$version = intval($browser_data['version']);
+		
 		switch ($browser_data['browser']) {
 			case "Firefox":
-				if ($browser_data['majorver'] >= 31) {
+				if ($version >= 31) {
 					return true;
 				} else {
 					return false;
 				}
 				break;
 			case "Chrome":
-				if ($browser_data['majorver'] >= 30) {
+				if ($version >= 30) {
 					return true;
 				} else {
 					return false;
 				}
 				break;
 			case "IE":
-				if ($browser_data['majorver'] >= 9) {
+				if ($version >= 9) {
 					return true;
 				} else {
 					return false;
 				}
 				break;
 			case "Safari":
-				if ($browser_data['majorver'] >= 7) {
+				if ($version >= 7) {
 					return true;
 				} else {
 					return false;
