@@ -111,6 +111,7 @@ $GLOBALS['in_no_redirect_url'] = false;
 $GLOBALS['in_admin'] = false;
 $GLOBALS['http_host'] = '';
 $GLOBALS['current_primary_domain'] = '';
+$GLOBALS['on_welcome_site'] = false;
 if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'db')) {
 	// get the current primary domain
 	$GLOBALS['current_primary_domain'] = get_primary_domain();
@@ -173,8 +174,8 @@ if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'd
 	if (empty($WELCOME_SITE_URL)) {
 		$WELCOME_SITE_URL = 'welcome.fotomatter.net';
 	}
-	$on_welcome_site = $GLOBALS['http_host'] === $WELCOME_SITE_URL;
-	if ($on_welcome_site === true) {
+	$GLOBALS['on_welcome_site'] = $GLOBALS['http_host'] === $WELCOME_SITE_URL;
+	if ($GLOBALS['on_welcome_site'] === true) {
 		// grab the account_id
 		$local_db = get_local_db_handle(false);
 		$sql = "
@@ -196,10 +197,11 @@ if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'd
 		//////////////////////////////////////////////////////////////////////////
 		// redirect to primary domain if:
 		// 1) not already on primary or on https
-		// 2) primary is not expired (if is purchased type domain)
-		// 3) if don't need to redirect to ssl
+		// 2) not on welcome_site
+		// 3) primary is not expired (if is purchased type domain)
+		// 4) if don't need to redirect to ssl
 		$redirect_to_ssl = $GLOBALS['in_admin'] || $GLOBALS['in_checkout'];
-		if (!$GLOBALS['in_no_redirect_url'] && !$on_welcome_site && Configure::read('debug') == 0 && !$redirect_to_ssl && ($GLOBALS['http_host'] != $GLOBALS['current_primary_domain'] || !empty($_SERVER['HTTPS'])) ) {
+		if (!$GLOBALS['in_no_redirect_url'] && !$GLOBALS['on_welcome_site'] && Configure::read('debug') == 0 && !$redirect_to_ssl && ($GLOBALS['http_host'] != $GLOBALS['current_primary_domain'] || !empty($_SERVER['HTTPS'])) ) {
 			header("Location: http://{$GLOBALS['current_primary_domain']}{$_SERVER['REQUEST_URI']}");
 			die();
 		}

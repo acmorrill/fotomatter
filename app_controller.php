@@ -44,6 +44,7 @@ class AppController extends Controller {
 		global $in_admin;
 		global $http_host;
 		global $current_primary_domain;
+		global $on_welcome_site;
 		
 		$this->AccountDomain = ClassRegistry::init('AccountDomain');
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
@@ -120,7 +121,7 @@ class AppController extends Controller {
 		// redirect to ssl if need be
 		$on_system_site = $http_host === $system_url;
 		$redirect_to_ssl = $in_admin || $in_checkout;
-		if (!$in_no_redirect_url && (empty($_SERVER['HTTPS']) || !$on_system_site) && Configure::read('debug') == 0 && $redirect_to_ssl) {
+		if (!$on_welcome_site && !$in_no_redirect_url && (empty($_SERVER['HTTPS']) || !$on_system_site) && Configure::read('debug') == 0 && $redirect_to_ssl) {
 			$this->redirect("https://$site_domain.fotomatter.net{$_SERVER['REQUEST_URI']}");
 			exit();
 		}
