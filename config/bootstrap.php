@@ -157,6 +157,7 @@ if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'd
 	//-----------------------------------------------
 	$no_redirect_urls = array(
 		'/ecommerces/check_frontend_cart' => true,
+		'/site_pages/ping' => true,
 	);
 	foreach ($no_redirect_urls as $url => $foo) {
 		if (startsWith($_SERVER['REQUEST_URI'], $url)) {
