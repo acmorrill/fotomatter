@@ -14,7 +14,7 @@
 								url: "/admin/accounts/ajax_save_client_billing/closeWhenDone:<?php echo $closeWhenDone ? 'true' : 'false'; ?>",
 								data: $("#payment_details_client").serialize(),
 								success: function(data) {
-									if(data.result !== undefined && data.result == false) {
+									if(data.result != 'undefined' && data.result == false) {
 										open_add_profile_popup();
 									} else {
 										<?php if($closeWhenDone): ?>
@@ -26,8 +26,8 @@
 								},
 								dataType: 'json'
 							});
-						} 
-					} 
+						}
+					}
 				],
 				open: function(event, ui) {
 				},

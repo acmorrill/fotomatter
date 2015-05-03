@@ -24,44 +24,74 @@ class Account extends AppModel {
 		return true;
 	}
 
-	public function finish_line_change(&$controller, $payment_profile) {
-
+	public function finish_line_change(&$controller, $payment_profile, $noCCPromoConfirm) {
 		//If payment needed collect authnet 
 		$this->Session = $this->get_session();
 
+		
+		/////////////////////////////////////////////////////////////////////////////////////////////
+		// account info is the account info from overlord side
+		// -- this is set in /admin/accounts/index
+		//
+		// account_line_items ($account_changes)
+		// -- this is set in account.php - set_item_checked
+		// -- this is basically the items that are pending add (deletes happen on reload)
 		$account_info = $this->Session->read('account_info');
 		$account_changes = $this->Session->read('account_line_items');
+		
 
-
+		////////////////////////////////////////////////////////////////////////////////////////
+		// rekey account items - this just changes the items array keys to match the account_line_item id's
 		$account_info = $this->rekey_account_info($account_info);
+
+		
+		////////////////////////////////////////////////////////////////////////////////////////
+		// calculate the current bill based on all active items
+		// -- this does not count new items
 		$current_bill = 0;
 		foreach ($account_info['items'] as $line_item) {
 			if ($line_item['AccountLineItem']['active']) {
 				$current_bill += $line_item['AccountLineItem']['customer_cost'];
 			}
 		}
+//		$this->log($current_bill, 'finish_line_change');
 
-		//compare checked items
+		//////////////////////////////////////////////////////////
+		// compare checked items
+		// -- this just assures that you can't add an item you already have
 		foreach ($account_changes['checked'] as $id => $change) {
 			if ($account_info['items'][$id]['AccountLineItem']['active']) {
 				unset($account_changes['checked'][$id]);
 			}
 		}
-
-		//compare unchecked items
+		
+		/////////////////////////////////////////////////////////////////////////////////////////////
+		// compare unchecked items
+		// -- this just assures you can't uncheck items you don't have
 		foreach ($account_changes['unchecked'] as $id => $change) {
 			if ($account_info['items'][$id]['AccountLineItem']['active'] == false) {
 				unset($account_changes['unchecked'][$id]);
 			}
 		}
 
+		
+		////////////////////////////////////////////////////////////////////////////////////////////
+		// figure out the prorated bill today
+		// -- this is the prorated amount for just the new items as
+		// -- as other items are charged in the monthly bill
 		$bill_today = $this->find_amount_due_today($account_changes, $account_info);
-//		$this->log('===============', 'authnet_profile');
-//		$this->log($bill_today, 'authnet_profile');
-//		$this->log('===============', 'authnet_profile');
-//		$this->log($account_info['Account']['promo_credit_balance'], 'authnet_profile');
-
-		if (empty($this->params['named']['noCCPromoConfirm']) && empty($account_info['Account']['authnet_profile_id'])) {
+		
+		
+		
+		$this->Session->delete('final_account_changes');
+		$this->Session->write('final_account_changes', $account_changes);
+		
+		
+		
+		///////////////////////////////////////////////////////////////////////////////////////////
+		// if a cc card is needed then either collect the cc
+		// -- OR give a choice to collect depending on if enough credit is available
+		if ($noCCPromoConfirm === false && empty($account_info['Account']['authnet_profile_id'])) {
 			if ($account_info['Account']['promo_credit_balance'] >= $bill_today) {
 				return $controller->element('admin/accounts/promo_notification_form', compact(array('account_info', 'bill_today', 'current_bill', 'account_changes')));
 			} else {
@@ -70,8 +100,6 @@ class Account extends AppModel {
 		}
 
 
-		$this->Session->delete('final_account_changes');
-		$this->Session->write('final_account_changes', $account_changes);
 
 		
 		$return_data = array();
@@ -105,11 +133,7 @@ class Account extends AppModel {
 	public function rekey_account_info($account_info) {
 		//rekey the original array
 		$tmp_array = array();
-		$current_bill = 0;
 		foreach ($account_info['items'] as $line_item) {
-			if ($line_item['AccountLineItem']['active']) {
-				$current_bill += $line_item['AccountLineItem']['current_cost'];
-			}
 			$tmp_array['items'][$line_item['AccountLineItem']['id']] = $line_item;
 		}
 		$tmp_array['Account'] = $account_info['Account'];
@@ -117,7 +141,8 @@ class Account extends AppModel {
 	}
 
 	public function find_amount_due_today($account_changes, $account_info) {
-		//add everything being added
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// $whole_month_cost - this is the cost for the month just for the new items
 		$whole_month_cost = 0;
 		foreach ($account_changes['checked'] as $id => $change) {
 			$whole_month_cost += $account_info['items'][$id]['AccountLineItem']['current_cost'];
@@ -131,18 +156,28 @@ class Account extends AppModel {
 		$next_billing_date = strtotime($account_info['Account']['next_bill_date']);
 		$now = time();
 
+		
+		///////////////////////////////////////////////////////////////////////////
+		// means the next bill date is in the past
+		// -- so change the bill date to tomorrow so at least something is charged
 		if ($now > $next_billing_date) {
 			$this->major_error('Billing date is in the past, probably billing problem.', $account_changes, 'high');
-			return 0;
+			$next_billing_date = $now + 86400; // date tomorrow
 		}
 
+		
 		$days_difference = ($next_billing_date - $now) / (60 * 60 * 24);
+		
+		//////////////////////////////////////////////////////////////////////////////
+		// means the next bill date is more than a month away
+		// change the bill date to 31 days ahead
 		if ($days_difference > 35) {
 			$this->major_error('Trying to prorate bill for too many days!', compact('account_changes', 'account_info'), 'high');
-			return 0;
+			$next_billing_date = $now + 2678400; // date in 31 days
+			$days_difference = ($next_billing_date - $now) / (60 * 60 * 24);
 		}
 
-		//figure out cost per day for features added
+		// figure out cost per day for features added
 		$year_cost_for_features_added = $whole_month_cost * 12;
 		$cost_per_day = $year_cost_for_features_added / 365;
 		$pro_rated_amount = round($days_difference * $cost_per_day, 2);

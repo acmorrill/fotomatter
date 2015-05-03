@@ -154,6 +154,9 @@
 
 
 		$(".finish_account_add").click(function() {
+			if (typeof inAjaxCall == 'boolean' && inAjaxCall) {
+				return false;
+			}
 			show_universal_load();
 			open_finish_account_change();
 		});
@@ -304,7 +307,7 @@
 								<div class="rightborder"></div>
 								<div class="cost"><?php echo $line_item['AccountLineItem']['current_cost']; ?></div>
 								<div class="feature_on"><?php echo __('Active', true); ?></div>
-								<div class="cancel_pending"><?php echo __('Cancel Pending', t-rue); ?></div>
+								<div class="cancel_pending"><?php echo __('Cancel Pending', true); ?></div>
 							</td>
 							<td class="last table_actions custom_ui">
 								<div class="rightborder"></div>

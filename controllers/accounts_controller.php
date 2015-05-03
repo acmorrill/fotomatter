@@ -119,7 +119,7 @@ class AccountsController extends AppController {
 			if (isset($parsed_features_data[$add_feature_ref_name]['id'])) {
 				$this->Account->set_item_checked($parsed_features_data[$add_feature_ref_name]['id'], true);
 			}
-			$add_feature_ref_name_popup_html = $this->Account->finish_line_change($this, $this->FotomatterBilling->getPaymentProfile());
+			$add_feature_ref_name_popup_html = $this->Account->finish_line_change($this, $this->FotomatterBilling->getPaymentProfile(), false);
 		}
 		
 		$curr_page = 'add_features';
@@ -235,20 +235,43 @@ class AccountsController extends AppController {
 				exit();
 			}
 
+			//////////////////////////////////////////////////////////////////////
+			// parse the last four to pass to overlord
 			$this->data['AuthnetProfile']['payment_cc_last_four'] = substr($this->data['AuthnetProfile']['payment_cardNumber'], -4, 4);
+			
+			
+			//////////////////////////////////////////////////////////////////////
+			// actually send the payment data to overlord
+			$return['result'] = true;
 			if ($this->FotomatterBilling->save_payment_profile($this->data) === false) {
+				$return['result'] = false;
 				$the_data = $this->data;
 				$this->major_error('failed to save payment data in ajax_save_client_billing', compact('the_data'));
+				$_SESSION['finalize_features_error'] = __('An error occured saving your payment data. Please try again.', true);
+				$_SESSION['finalize_features_payment_data'] = $this->data;
+				$return['result'] = false;
+				print(json_encode($return));
+				exit();
 			}
 			unset($_SESSION['finalize_features_payment_data']);
+			
+			
+			
+			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			// reset the account_info session because the profile could have just been created
+			$this->FotomatterBilling->clear_billing_apc();
+			$overlord_account_info = $this->FotomatterBilling->get_account_info();
+			$this->Session->delete('account_info');
+			$this->Session->write('account_info', $overlord_account_info);
+			
+			
 
 			if (!empty($this->params['named']['closeWhenDone']) && $this->params['named']['closeWhenDone'] == 'true') {
 				$this->Session->setFlash(__('Your billing details have been successfully updated.', true), 'admin/flashMessage/success');
-				$this->return_json(array('result'=>true));
+				$this->return_json($return);
 				exit();
 			}
 
-			$return['result'] = true;
 			print(json_encode($return));
 			exit();
 		}
@@ -264,7 +287,8 @@ class AccountsController extends AppController {
 	* @return Function will get the html for the account_change_finish_element. 
 	*/
 	public function admin_ajax_finishLineChange() {
-		$return['html'] = $this->Account->finish_line_change($this, $this->FotomatterBilling->getPaymentProfile());
+		$noCCPromoConfirm = !empty($this->params['named']['noCCPromoConfirm']) ? true : false;
+		$return['html'] = $this->Account->finish_line_change($this, $this->FotomatterBilling->getPaymentProfile(), $noCCPromoConfirm);
 		$this->return_json($return);
 	}
    
