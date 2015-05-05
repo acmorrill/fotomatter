@@ -195,20 +195,64 @@ class AppModel extends LazyModel {
 	}
 	
 	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// locking functions
+	//-----------------------------------------------------------------------------------------------------------
 	public function get_lock($lock_name, $wait_time) {
-		$initLocked = $this->query("SELECT GET_LOCK('$lock_name', $wait_time)");
-		if ($initLocked['0']['0']["GET_LOCK('$lock_name', $wait_time)"] == 0 || $initLocked['0']['0']["GET_LOCK('$lock_name', $wait_time)"] == null) {
-			// could not get the lock
-			return false;
+		if (php_sapi_name() == 'cli') {
+			return $this->get_file_lock($lock_name, $wait_time);
+		} else {
+			return $this->get_apc_lock($lock_name, $wait_time);
 		}
-		
-		return true;
 	}
 	
 	public function release_lock($lock_name) {
-		$releaseLock = $this->query("SELECT RELEASE_LOCK('$lock_name')");
+		if (php_sapi_name() == 'cli') {
+			return $this->release_file_lock($lock_name);
+		} else {
+			return $this->release_apc_lock($lock_name);
+		}
+	}
+	
+	private function get_file_lock($lock_name, $wait_time) {
+		$file_name = APP . "locks/" . $this->get_lock_key($lock_name) . ".lock";
+		if ( file_exists($file_name) ) {
+			$file_modified_time = shell_exec("stat -c %Y $file_name");
+			if (!empty($file_modified_time)) {
+				$time_since_touched = time() - $file_modified_time;
+				if ( $time_since_touched < $wait_time ) {
+					return false;
+				}
+			}
+		}
+		
+		shell_exec("touch $file_name");
 		
 		return true;
+	}
+	private function release_file_lock($lock_name) {
+		$file_name = APP . "locks/" . $this->get_lock_key($lock_name) . ".lock";
+		@unlink($file_name);
+	}
+	
+	private function get_apc_lock($lock_name, $wait_time) {
+		$apc_key = $this->get_lock_key($lock_name);
+		
+		if (apc_exists($apc_key)) {
+			return false;
+		}
+		apc_store($apc_key, true, $wait_time);
+		
+		return true;
+	}
+
+	private function release_apc_lock($lock_name) {
+		$apc_key = $this->get_lock_key($lock_name);
+		apc_delete($apc_key);
+	}
+	
+	private function get_lock_key($lock_name) {
+		return "overlord_lock_$lock_name";
 	}
 	
 }
