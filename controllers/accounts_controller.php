@@ -12,6 +12,7 @@ class AccountsController extends AppController {
 		'FotomatterEmail'
 	);
 	
+	
 //	public function admin_decide_photo_trip() {
 //		$rating_schema = array(
 //			'newness' => .8, // how cool it would be to see something new

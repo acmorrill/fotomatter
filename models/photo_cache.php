@@ -313,7 +313,7 @@ class PhotoCache extends AppModel {
 		}
 		
 		$photo_cache_id = $photoCache['PhotoCache']['id'];
-		$initLocked = $this->get_lock("finish_create_cache_".$photo_cache_id, 8);
+		$initLocked = $this->get_lock("finish_create_cache_".$photo_cache_id . "_" . $_SERVER['local']['database'], 8);
 		if ($initLocked === false) {
 			// DREW TODO - should maybe put a major_error here
 			if ( !empty($photoCache['PhotoCache']['max_height']) || !empty($photoCache['PhotoCache']['max_width']) ) {
@@ -325,7 +325,7 @@ class PhotoCache extends AppModel {
 
 
 		if ($photoCache['PhotoCache']['status'] != 'queued') {
-			$releaseLock = $this->release_lock("finish_create_cache_".$photo_cache_id);
+			$releaseLock = $this->release_lock("finish_create_cache_".$photo_cache_id . "_" . $_SERVER['local']['database']);
 			if ( !empty($photoCache['PhotoCache']['max_height']) || !empty($photoCache['PhotoCache']['max_width']) ) {
 				return $this->get_dummy_processing_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], $direct_output, false, $photoCache['PhotoCache']['crop']);
 			} else {
@@ -336,7 +336,7 @@ class PhotoCache extends AppModel {
 		$cache_prefix = 'cache_';
 		$photoCache['PhotoCache']['status'] = 'processing';
 		$this->save($photoCache);
-		$releaseLock = $this->release_lock("finish_create_cache_".$photo_cache_id);
+		$releaseLock = $this->release_lock("finish_create_cache_".$photo_cache_id . "_" . $_SERVER['local']['database']);
 		
 		
 		// TODO - these may not be necessary anymore (cus height and width are both requered to be set)

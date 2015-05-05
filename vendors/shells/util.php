@@ -60,6 +60,7 @@ class UtilShell extends Shell {
 		}
 	}
 
+	
 	public function add_user() {
 		if (count($this->args) != 2) {
 			$this->error('You must supply an email address and password.');

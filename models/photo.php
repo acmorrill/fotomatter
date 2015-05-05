@@ -397,7 +397,8 @@ class Photo extends AppModel {
 				'contain' => false
 			));
 			foreach ($all_cache_sizes as $all_cache_size) {
-				$initLocked = $this->get_lock("start_create_cache_" . $this->id, 8);
+				$lock_name = "start_create_cache_" . $this->id . "_" . $_SERVER['local']['database'];
+				$initLocked = $this->get_lock($lock_name, 8);
 				if ($initLocked === false) {
 					continue;
 				}
@@ -416,11 +417,11 @@ class Photo extends AppModel {
 				if (!$photoCache) {
 					$photo_cache_id = $this->PhotoCache->prepare_new_cachesize($this->id, $all_cache_size['PhotoPrebuildCacheSize']['max_height'], $all_cache_size['PhotoPrebuildCacheSize']['max_width'], true);
 				} else {
-					$releaseLock = $this->release_lock("start_create_cache_" . $this->id);
+					$releaseLock = $this->release_lock($lock_name);
 					continue;
 				}
 
-				$releaseLock = $this->release_lock("start_create_cache_" . $this->id);
+				$releaseLock = $this->release_lock($lock_name);
 
 				ignore_user_abort(true);
 				set_time_limit(0);
@@ -524,7 +525,7 @@ class Photo extends AppModel {
 			} else if ($photoCache['PhotoCache']['status'] == 'failed') {
 				$return_url = $this->PhotoCache->get_dummy_error_image_path($height, $width, false, $return_tag_attributes, $crop);
 			} else {
-				$initLocked = $this->get_lock("finish_create_cache_" . $photoCache['PhotoCache']['id'], 8);
+				$initLocked = $this->get_lock("finish_create_cache_" . $photoCache['PhotoCache']['id'] . "_" . $_SERVER['local']['database'], 8);
 				if ($initLocked === false) {
 					return $this->PhotoCache->get_dummy_processing_image_path($height, $width, false, $return_tag_attributes, $crop);
 				}
@@ -543,10 +544,10 @@ class Photo extends AppModel {
 					$return_url = $this->PhotoCache->get_dummy_error_image_path($height, $width, false, $return_tag_attributes, $crop);
 				}
 
-				$releaseLock = $this->release_lock("finish_create_cache_" . $photoCache['PhotoCache']['id']);
+				$releaseLock = $this->release_lock("finish_create_cache_" . $photoCache['PhotoCache']['id'] . "_" . $_SERVER['local']['database']);
 			}
 		} else {
-			$initLocked = $this->get_lock("start_create_cache_" . $photo_id, 8);
+			$initLocked = $this->get_lock("start_create_cache_" . $photo_id . "_" . $_SERVER['local']['database'], 8);
 			if ($initLocked === false) {
 				return $this->PhotoCache->get_dummy_processing_image_path($height, $width, false, $return_tag_attributes, $crop);
 			}
@@ -561,7 +562,7 @@ class Photo extends AppModel {
 				$return_url = $this->PhotoCache->get_dummy_error_image_path($height, $width, false, $return_tag_attributes, $crop);
 			}
 
-			$releaseLock = $this->release_lock("start_create_cache_" . $photo_id);
+			$releaseLock = $this->release_lock("start_create_cache_" . $photo_id . "_" . $_SERVER['local']['database']);
 		}
 
 		return preg_replace('/\s+/', '', $return_url);

@@ -252,7 +252,7 @@ class AppModel extends LazyModel {
 	}
 	
 	private function get_lock_key($lock_name) {
-		return "overlord_lock_$lock_name";
+		return "fmapp_lock_$lock_name";
 	}
 	
 }
