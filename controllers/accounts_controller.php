@@ -71,6 +71,7 @@ class AccountsController extends AppController {
 	
 	public function clear_billing_cache() {
 		$this->FotomatterBilling->clear_billing_apc();
+		print_r('cache cleared');
 		exit();
 	}
 	
@@ -326,7 +327,7 @@ class AccountsController extends AppController {
 		foreach ($account_changes['unchecked'] as $key => $item_to_remove) {
 			$change_to_send['remove'][] = $account_info['items'][$key];
 		}
-		$change_to_send['amount_due_today'] = $this->Account->find_amount_due_today($account_changes, $account_info);
+		$change_to_send['amount_due_today'] = $this->FotomatterBilling->find_amount_due_today($change_to_send['add']);
 		if ($change_to_send['amount_due_today'] === false) {
 			$this->major_error('Someone tried to send billing even though their billing date was in the past, probably a hacking attempt.', $change_to_send, 'high');
 			$result['code'] = false;

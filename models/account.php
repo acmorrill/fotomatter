@@ -79,7 +79,11 @@ class Account extends AppModel {
 		// figure out the prorated bill today
 		// -- this is the prorated amount for just the new items as
 		// -- as other items are charged in the monthly bill
-		$bill_today = $this->find_amount_due_today($account_changes, $account_info);
+		$items_to_add = array();
+		foreach ($account_changes['checked'] as $id => $change) {
+			$items_to_add[] = $account_info['items'][$id];
+		}
+		$bill_today = $controller->FotomatterBilling->find_amount_due_today($items_to_add);
 		
 		
 		
@@ -138,56 +142,6 @@ class Account extends AppModel {
 		}
 		$tmp_array['Account'] = $account_info['Account'];
 		return $tmp_array;
-	}
-
-	public function find_amount_due_today($account_changes, $account_info) {
-		//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		// $whole_month_cost - this is the cost for the month just for the new items
-		$whole_month_cost = 0;
-		foreach ($account_changes['checked'] as $id => $change) {
-			$whole_month_cost += $account_info['items'][$id]['AccountLineItem']['current_cost'];
-		}
-
-		if (empty($account_info['Account']['next_bill_date'])) {
-			return $whole_month_cost;
-		}
-
-		//figure out how many days we are billing for
-		$next_billing_date = strtotime($account_info['Account']['next_bill_date']);
-		$now = time();
-
-		
-		///////////////////////////////////////////////////////////////////////////
-		// means the next bill date is in the past
-		// -- so change the bill date to tomorrow so at least something is charged
-		if ($now > $next_billing_date) {
-			$this->major_error('Billing date is in the past, probably billing problem.', $account_changes, 'high');
-			$next_billing_date = $now + 86400; // date tomorrow
-		}
-
-		
-		$days_difference = ($next_billing_date - $now) / (60 * 60 * 24);
-		
-		//////////////////////////////////////////////////////////////////////////////
-		// means the next bill date is more than a month away
-		// change the bill date to 31 days ahead
-		if ($days_difference > 35) {
-			$this->major_error('Trying to prorate bill for too many days!', compact('account_changes', 'account_info'), 'high');
-			$next_billing_date = $now + 2678400; // date in 31 days
-			$days_difference = ($next_billing_date - $now) / (60 * 60 * 24);
-		}
-
-		// figure out cost per day for features added
-		$year_cost_for_features_added = $whole_month_cost * 12;
-		$cost_per_day = $year_cost_for_features_added / 365;
-		$pro_rated_amount = round($days_difference * $cost_per_day, 2);
-
-		if ($pro_rated_amount > $whole_month_cost) {
-			$this->major_error('Prorated monthly cost higher than monthly cost!', compact('account_changes', 'account_info'), 'high');
-			return $whole_month_cost;
-		} else {
-			return $pro_rated_amount;
-		}
 	}
 
 }

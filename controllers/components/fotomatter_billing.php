@@ -142,6 +142,13 @@ class FotomatterBillingComponent extends FotomatterOverlordApi {
 		}
 		return false;
 	}
+	public function find_amount_due_today($items_to_add) {
+		$result = $this->send_api_request('api_billing/find_amount_due_today', $items_to_add);
+		if ($result['code']) {
+			return $result['data'];
+		}
+		return false;
+	}
     
 	public function save_payment_profile($profile_data) {
 		$this->clear_billing_apc();

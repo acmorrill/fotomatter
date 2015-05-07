@@ -211,11 +211,11 @@
 				</div>
 			<?php endif; ?>
 			<div class='detail new_bill'>
-				<span class='title'><?php echo __('Projected Bill', true); ?></span>
+				<span class='title'><?php echo __('Projected Monthly Bill', true); ?></span>
 				<span class='info pending_total'></span>
 			</div>
 			<div class='detail current_bill'>
-				<span class='title'><?php echo __('Current Bill', true); ?></span>
+				<span class='title'><?php echo __('Current Monthly Bill', true); ?></span>
 				<span class='info'><?php echo $overlord_account_info['total_bill']; ?></span>
 			</div>
 			<div class='detail current_credit'>
