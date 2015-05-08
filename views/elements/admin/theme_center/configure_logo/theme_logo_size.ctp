@@ -26,11 +26,11 @@
 		$use_logo_height = min($logo_current_height, $logo_max_height);
 		
 		$use_theme_logo = $this->Theme->get_theme_setting('use_theme_logo', true);
-		$start_logo_path = $this->ThemeLogo->get_logo_cache_size_path($use_logo_height, $use_logo_width, true, $use_theme_logo);
+		$start_logo_path = $this->ThemeLogo->get_logo_cache_size_path($use_logo_height, $use_logo_width, $theme_config['theme_name'], true, $use_theme_logo);
 		$image_size = getimagesize($start_logo_path);
 		$use_logo_width = $image_size[0];
 		$use_logo_height = $image_size[1];
-		$start_logo_web_path = $this->ThemeLogo->get_logo_cache_size_path($use_logo_height, $use_logo_width, false, $use_theme_logo);
+		$start_logo_web_path = $this->ThemeLogo->get_logo_cache_size_path($use_logo_height, $use_logo_width, $theme_config['theme_name'], false, $use_theme_logo);
 		
 		$logo_current_top = $this->Theme->get_theme_setting('logo_current_top', 0);
 		$logo_current_left = $this->Theme->get_theme_setting('logo_current_left', 0);
@@ -55,7 +55,7 @@
 			
 			jQuery.ajax({
 				type: 'post',
-				url: '/admin/theme_centers/ajax_get_logo_webpath_and_save_dimension/'+current_logo_height+'/'+current_logo_width+'/'+current_logo_top+'/'+current_logo_left+'/',
+				url: '/admin/theme_centers/ajax_get_logo_webpath_and_save_dimension/'+current_logo_height+'/'+current_logo_width+'/'+current_logo_top+'/'+current_logo_left+'/<?php echo $theme_config['theme_name']; ?>' ,
 				data: {},
 				success: function(data) {
 					if (data.code == 1) {

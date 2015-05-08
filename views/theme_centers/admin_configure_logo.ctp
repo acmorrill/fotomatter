@@ -42,16 +42,15 @@
 	
 	<?php $use_theme_logo = $this->Theme->get_theme_setting('use_theme_logo', true); ?>
 	
-	
 	<div id="change_logo_dialog">
-		<?php $theme_logo_cache_path = $this->ThemeLogo->get_logo_cache_size_path(80, 150); ?>
+		<?php $theme_logo_cache_path = $this->ThemeLogo->get_logo_cache_size_path(80, 150, $theme_config['theme_name']); ?>
 			<form id="choose_logo_form" method="POST" action="/admin/theme_centers/set_use_theme_logo/">
 				<div class="logo_choice_cont first">
 					<input type="radio" name="change_logo_choice" value="theme_logo" <?php if ($use_theme_logo): ?>checked="checked"<?php endif; ?> /><span class="cache_sample_image_cont"><img src="<?php echo $theme_logo_cache_path; ?>" alt="" /></span>
 				</div>
 				<?php if ($this->ThemeLogo->has_uploaded_custom_logo()): ?>
 					<div class="logo_choice_cont last">
-						<?php $theme_uploaded_logo_cache_path = $this->ThemeLogo->get_logo_cache_size_path(80, 150, false, false); ?>
+						<?php $theme_uploaded_logo_cache_path = $this->ThemeLogo->get_logo_cache_size_path(80, 150, $theme_config['theme_name'], false, false); ?>
 						<input type="radio" name="change_logo_choice" value="custom_logo" <?php if (!$use_theme_logo): ?>checked="checked"<?php endif; ?> /><span class="cache_sample_image_cont"><img src="<?php echo $theme_uploaded_logo_cache_path; ?>" alt="" /></span>
 					</div>
 				<?php endif; ?>

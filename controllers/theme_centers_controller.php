@@ -103,14 +103,14 @@ class ThemeCentersController extends AppController {
 		}
 	}
 	
-	public function admin_ajax_get_logo_webpath_and_save_dimension($height, $width, $top, $left) {
+	public function admin_ajax_get_logo_webpath_and_save_dimension($height, $width, $top, $left, $theme_name) {
 		App::import('Helper', 'ThemeLogo'); 
 		$ThemeLogo = new ThemeLogoHelper();
 		
 		$returnArr = array();
 		
 		$use_theme_logo = $this->ThemeGlobalSetting->getVal('use_theme_logo', true);
-		$logo_path = $ThemeLogo->get_logo_cache_size_path($height, $width, false, $use_theme_logo);
+		$logo_path = $ThemeLogo->get_logo_cache_size_path($height, $width, $theme_name, false, $use_theme_logo);
 		if ($logo_path !== false) {
 			$this->ThemeGlobalSetting->setVal('logo_current_height', $height);
 			$this->ThemeGlobalSetting->setVal('logo_current_width', $width);
