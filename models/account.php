@@ -83,7 +83,7 @@ class Account extends AppModel {
 		foreach ($account_changes['checked'] as $id => $change) {
 			$items_to_add[] = $account_info['items'][$id];
 		}
-		$bill_today = $controller->FotomatterBilling->find_amount_due_today($items_to_add);
+		$bill_today_data = $controller->FotomatterBilling->find_amount_due_today($items_to_add);
 		
 		
 		
@@ -96,7 +96,8 @@ class Account extends AppModel {
 		// if a cc card is needed then either collect the cc
 		// -- OR give a choice to collect depending on if enough credit is available
 		if ($noCCPromoConfirm === false && empty($account_info['Account']['authnet_profile_id'])) {
-			if ($account_info['Account']['promo_credit_balance'] >= $bill_today) {
+			if (empty($bill_today_data['total'])) {
+				$bill_today = $bill_today_data['amount'];
 				return $controller->element('admin/accounts/promo_notification_form', compact(array('account_info', 'bill_today', 'current_bill', 'account_changes')));
 			} else {
 				return $this->get_add_profile_form($controller, $payment_profile['data']);
@@ -111,7 +112,9 @@ class Account extends AppModel {
 			'current_bill' => $current_bill,
 			'account_changes' => $account_changes,
 			'account_info' => $account_info,
-			'bill_today' => $bill_today,
+			'bill_today' => $bill_today_data['amount'], // the amount you would pay without promo
+			'bill_today_promo' => $bill_today_data['promo_total'], // the amount of promo being used
+			'total' => $bill_today_data['total'], // the actual total you have to pay
 			'payment_profile' => $payment_profile)
 		);
 		return $return_data;

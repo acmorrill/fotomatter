@@ -67,7 +67,7 @@
 					<div class='cc_info'>
 						<?php
 							$billing_message = '';
-							if ($bill_today < $account_info['Account']['promo_credit_balance'] || empty($payment_profile['data'])) {
+							if (empty($total) || empty($payment_profile['data'])) {
 								$billing_message = __('Total amount is from fotomatter credit', true);
 							} else {
 								$billing_message = sprintf(__('Using card ending in %s', true), $payment_profile['data']['AuthnetProfile']['payment_cc_last_four']);
@@ -87,10 +87,21 @@
 							<label><?php echo __('New Monthly Bill', true); ?></label>
 							<span class='value'><?php echo $this->Number->currency($current_bill + $amount_to_add); ?></span>
 						</div>
+						<div class="hr"></div>
 						<div class='payment_item due_today'>
 							<label><?php echo __('Due Today', true); ?></label>
 							<span class='value'><?php echo $this->Number->currency($bill_today); ?></span>
 						</div>
+						<?php if (!empty($bill_today_promo)): ?>
+							<div class='payment_item due_today_promo'>
+								<label><?php echo __('Fotomatter Credit', true); ?></label>
+								<span class='value'>(<?php echo $this->Number->currency($bill_today_promo); ?>)</span>
+							</div>
+							<div class='payment_item due_today'>
+								<label><?php echo __('Total', true); ?></label>
+								<span class='value'><?php echo $this->Number->currency($total); ?></span>
+							</div>
+						<?php endif; ?>
 					</div>
 				</td>
 			</tr>

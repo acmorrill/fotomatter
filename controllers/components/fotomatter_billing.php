@@ -152,6 +152,7 @@ class FotomatterBillingComponent extends FotomatterOverlordApi {
     
 	public function save_payment_profile($profile_data) {
 		$this->clear_billing_apc();
+		
 		$save_result = $this->send_api_request('api_billing/save_payment_profile', $profile_data);
 		if ($save_result['code']) {
 			return $save_result['data']['authnet_profile_id'];

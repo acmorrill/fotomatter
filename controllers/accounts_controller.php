@@ -327,7 +327,8 @@ class AccountsController extends AppController {
 		foreach ($account_changes['unchecked'] as $key => $item_to_remove) {
 			$change_to_send['remove'][] = $account_info['items'][$key];
 		}
-		$change_to_send['amount_due_today'] = $this->FotomatterBilling->find_amount_due_today($change_to_send['add']);
+		$bill_today_data = $this->FotomatterBilling->find_amount_due_today($change_to_send['add']);
+		$change_to_send['amount_due_today'] = $bill_today_data['total'];
 		if ($change_to_send['amount_due_today'] === false) {
 			$this->major_error('Someone tried to send billing even though their billing date was in the past, probably a hacking attempt.', $change_to_send, 'high');
 			$result['code'] = false;

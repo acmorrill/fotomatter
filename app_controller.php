@@ -317,6 +317,10 @@ class AppController extends Controller {
 			}
 		}
 		$this->set('done_welcome_first_login_popup', $this->done_welcome_first_login_popup);
+		
+		
+		$overlord_account_info = $this->FotomatterBilling->get_account_info();
+		$this->set('overlord_account_info', $overlord_account_info);
 	}
 	
 	public function validatePaymentProfile() {

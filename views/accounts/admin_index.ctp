@@ -218,7 +218,7 @@
 				<span class='title'><?php echo __('Current Monthly Bill', true); ?></span>
 				<span class='info'><?php echo $overlord_account_info['total_bill']; ?></span>
 			</div>
-			<div class='detail current_credit'>
+			<div class='detail current_credit <?php if ($overlord_account_info['Account']['promo_credit_balance'] > 0): ?> green <?php endif; ?>'>
 				<span class='title'><?php echo __('Fotomatter Credit', true); ?></span>
 				<span class='info'><?php echo $overlord_account_info['Account']['promo_credit_balance']; ?></span>
 			</div>

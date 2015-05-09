@@ -3035,6 +3035,13 @@ table.list > tfoot td.first p,
 table.list > tfoot td.first a {
   font-size: 18px;
 }
+table.list > tfoot td .table_summary .hr {
+  width: 100%;
+  height: 1px;
+  background: #43484c;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
 table.list > tfoot td .table_summary .payment_item span {
   line-height: 30px;
 }
@@ -4482,6 +4489,15 @@ body {
   font-size: 22px;
   vertical-align: middle;
   margin-right: 10px;
+}
+#extra_buttons > li > a #promo_credit_balance_notice {
+  margin-left: 5px;
+}
+#extra_buttons > li > a #promo_credit_balance_notice > span {
+  color: #2ade59;
+  margin-left: 3px;
+  margin-right: 3px;
+  font-size: 14px;
 }
 #extra_buttons > li > ul {
   position: absolute;
@@ -6262,6 +6278,9 @@ body.no_overflow {
 #account-details .details .detail .info {
   float: right;
 }
+#account-details .details .detail.current_credit.green .info {
+  color: #2ade59;
+}
 #account-details .new_bill {
   display: none;
 }
@@ -6622,13 +6641,13 @@ table.list > tbody > tr.remove_pending td .cost {
   }
   #header .logo {
     bottom: 50px;
-    left: 37px;
+    left: 10px;
   }
   #header #top-navigation {
     left: 2px;
   }
   #header #top-navigation #extra_buttons > li {
-    margin-left: 28px;
+    margin-left: 18px;
   }
   #header #login_tagline {
     left: 102px;

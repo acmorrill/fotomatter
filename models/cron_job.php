@@ -25,9 +25,18 @@ class CronJob extends AppModel {
 			}
 
 			if ($force_run_now || $next_run <= time()) {
+				$current_cron['CronJob']['run_count'] += 1;
+				$curr_start_time = microtime(true);
 				if ($this->run_cron($current_cron) !== true) {
-					$this->major_error("failed to run cron {$current_cron['CronJob']['id']}", compact('current_cron'), 'high');
+					$this->major_error("failed to run cron {$current_cron['CronJob']['method_name']}", compact('current_cron'), 'high');
+					$current_cron['CronJob']['failure_count'] += 1;
+				} else {
+					$current_cron['CronJob']['success_count'] += 1;
 				}
+				$curr_total_time = microtime(true) - $curr_start_time;
+				$current_cron['CronJob']['last_runtime'] = $curr_total_time;
+				$current_cron['CronJob']['average_runtime'] = $current_cron['CronJob']['average_runtime'] + ($curr_total_time - $current_cron['CronJob']['average_runtime']) / $current_cron['CronJob']['run_count'];
+				
 
 				unset($current_cron['CronJob']['modified']);
 				unset($current_cron['CronJob']['created']);
