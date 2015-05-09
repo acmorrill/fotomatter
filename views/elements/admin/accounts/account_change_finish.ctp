@@ -80,7 +80,7 @@
 				<td class="last">
 					<div class='table_summary'>
 						<div class='payment_item current_bill'>
-							<label><?php echo __('Current Monthly Bill', true); ?></label>
+							<label><?php echo __('Previous Monthly Bill', true); ?></label>
 							<span class='value'><?php echo $this->Number->currency($current_bill); ?></span>
 						</div>
 						<div class='payment_item new_bill'>
