@@ -41,7 +41,7 @@
 
 	<div class="input">
 		<p>
-			<?php echo __('Good News! You have enough fotomatter credit to add these premium features without adding a credit card. You may however choose to add a card today so that your new premium features will continue without interruption in the future.', true); ?>
+			<?php echo __('Good News! You have enough fotomatter credit to add these premium features without adding a credit card. You may however choose to add a card today so that your new features will continue without interruption in the future.', true); ?>
 		</p>
 	</div>
 	<div class="input">
