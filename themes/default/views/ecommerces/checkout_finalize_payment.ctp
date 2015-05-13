@@ -15,7 +15,11 @@
 
 
 
-<?php $billing_address = $this->Ecommerce->get_cart_billing_address(); ?>
+<?php 
+	if (empty($billing_address)) {
+		$billing_address = $this->Ecommerce->get_cart_billing_address(); 
+	}
+?>
 
 <form action="/ecommerces/checkout_finalize_payment" method="post">
 	

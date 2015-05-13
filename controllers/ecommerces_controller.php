@@ -860,6 +860,7 @@ class EcommercesController extends AppController {
 			// amount to CIM account
 			// otherwise just charge straight to authorize.net
 			if (!empty($this->data['CreateAccount']['email_address']) || $logged_in === true) {
+				$new_user = array();
 				if ($logged_in === true) {
 					$user_id = $logged_in_user['User']['id'];
 					$authnet_data = $this->AuthnetProfile->find('first', array(
@@ -871,10 +872,22 @@ class EcommercesController extends AppController {
 				} else {
 					$authnet_data = array();
 					$user_id = $this->User->create_user($this->data['CreateAccount']['email_address'], $this->data['CreateAccount']['password'], false); // NOTE - the email address was validated above
+					
+					
+					//////////////////////////////////////////////////////////////////////////////////////////////////
+					// now log the new user in here
+					$new_user = $this->User->find('first', array(
+						'conditions' => array(
+							'User.id' => $user_id,
+						),
+						'contain' => false
+					));
+					$new_user['User']['password'] = $this->data['CreateAccount']['password'];
 				}
 				
 				// try and save the credit card data to authorize.net CIM
 				$billing_address = $this->data['BillingAddress'];
+				$this->set('billing_address', $billing_address);
 				$shipping_address = $this->Cart->get_cart_shipping_address();
 				$authnet_data['AuthnetProfile']['user_id'] = $user_id;
 				$authnet_data['AuthnetProfile']['billing_firstname'] = $billing_address['firstname'];
@@ -900,11 +913,25 @@ class EcommercesController extends AppController {
 				
 
 				$this->AuthnetProfile->create();
-				$authnet_result = $this->AuthnetProfile->save($authnet_data);
+				if (isset($authnet_data['AuthnetProfile']['id'])) {
+					$authnet_result = $this->AuthnetProfile->save_profile($authnet_data);
+				} else {
+					$authnet_result = $this->AuthnetProfile->process_new_profile($authnet_data);
+				}
 
 				if ($authnet_result === false || (is_array($authnet_result) && isset($authnet_result['success']) && $authnet_result['success'] === false) )  {
-					$this->Session->setFlash(__('Failed to save credit card info. Please contact Fotomatter support.', true), 'admin/flashMessage/error');
-					$this->major_error('Failed to save credit card info. Please contact Fotomatter support.', compact('authnet_result'));
+					// failed to create authnet profile so we need to delete the user we created above if it was a new user
+					if (!empty($new_user)) {
+						$this->User->delete($new_user['User']['id']);
+					}
+					
+					
+					if (isset($authnet_result['code']) && $authnet_result['code'] == 'E00027') {
+						$this->Session->setFlash(__('Your credit card was declined.', true), 'admin/flashMessage/error');
+					} else {
+						$this->Session->setFlash(__('Failed to create credit card profile.', true), 'admin/flashMessage/error');
+						$this->major_error('Failed to save credit card info. Please contact Fotomatter support.', compact('authnet_result'), 'low');
+					}
 					$this->ThemeRenderer->render($this);
 					return;
 				}
@@ -913,11 +940,29 @@ class EcommercesController extends AppController {
 
 				// actually charge for the order
 				if (!$this->AuthnetOrder->charge_cart_to_cim($authnet_data['AuthnetProfile']['id'])) {
+					///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+					// failed to create charge authnet profile so we need to delete the user we created above if it was a new user
+					// also we need to delete the authnet profile we created above
+					// this way the user can just adjust the user info on the page again
+					if (!empty($new_user)) {
+						$this->User->delete($new_user['User']['id']);
+					}
+//					if ($this->AuthnetProfile->delete($this->AuthnetProfile->id) === false) {
+//						$this->major_error('failed to delete authnetprofile that was just created but had a payfail');
+//					}
+					
+					
 					$this->Session->setFlash(__('Failed to charge credit card.', true), 'admin/flashMessage/error');
-					$this->major_error('Failed to charge credit card.');
+					$this->major_error('Failed to charge credit card from CIM for frontend cart.', array(), 'low');
 					$this->ThemeRenderer->render($this);
 					return;
 				}
+				
+				
+				////////////////////////////////////////////////////
+				// everything worked so login the new user
+				$this->Auth->login($new_user);
+				
 				
 				// this means that the purchase was a success so we need to empty the cart now
 				$this->Cart->destroy_cart();
@@ -927,6 +972,7 @@ class EcommercesController extends AppController {
 				
 				// try and save the credit card data to authorize.net CIM
 				$billing_address = $this->data['BillingAddress'];
+				$this->set('billing_address', $billing_address);
 				$shipping_address = $this->Cart->get_cart_shipping_address();
 				$authnet_data['AuthnetProfile']['billing_firstname'] = $billing_address['firstname'];
 				$authnet_data['AuthnetProfile']['billing_lastname'] = $billing_address['lastname'];
