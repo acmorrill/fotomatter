@@ -704,7 +704,8 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 
 		$authnet = $this->get_authnet_instance();
 		$authnet->createTransactionRequest($charge_data);
-
+		$one_time_response = $authnet->get_one_time_parsed_response();
+		
 		if ($authnet->isError()) {
 			$return_arr['code'] = $authnet->messages->message->code[0];
 			$error_response = $authnet->get_response();
@@ -720,7 +721,6 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 
 
 		// add the one time order trasaction_id to the order
-		$one_time_response = $authnet->get_one_time_parsed_response();
 		$one_time_response['expiration_date'] = date('mY', strtotime($authnet_data['AuthnetProfile']['payment_expirationDate']));
 //		$this->log($response, 'get_one_time_parsed_response');
 //		[response_code] => 1
@@ -734,6 +734,8 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 //		[account_number] => XXXX3135
 //		[account_type] => Visa
 //		[expiration_date] => Visa
+		
+		
 		///////////////////////////////////
 		// start old create order
 		$this->AuthnetProfile = ClassRegistry::init("AuthnetProfile");
@@ -804,7 +806,23 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			}
 
 
+			if (isset($one_time_response['response_code'])) {
+				$one_time_response['response_code'] = (int) $one_time_response['response_code'];
+				$order_save_db['AuthnetOrder']['one_time_response_code'] = $one_time_response['response_code'];
+			}
 
+			
+			
+			if (isset($one_time_response['response_code']) && $one_time_response['response_code'] != 1) {
+				$return_arr['success'] = false;
+				$return_arr['code'] = '';
+				if ($one_time_response['response_code'] == 2) {
+					$return_arr['declined'] = true;
+				} else {
+					$return_arr['declined'] = false;
+				}
+			}
+			
 
 			$this->create();
 			if ($this->save($order_save_db) == false) {

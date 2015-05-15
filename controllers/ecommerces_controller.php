@@ -792,6 +792,10 @@ class EcommercesController extends AppController {
 		
 		
 		if (!empty($this->data)) {
+			$billing_address = $this->data['BillingAddress'];
+			$this->set('billing_address', $billing_address);
+			
+			
 			// setup the data variable based on the cart
 			$cart_payment_data = $this->Cart->get_cart_credit_card_data();
 			if (!empty($cart_payment_data['last_four'])) {
@@ -886,8 +890,6 @@ class EcommercesController extends AppController {
 				}
 				
 				// try and save the credit card data to authorize.net CIM
-				$billing_address = $this->data['BillingAddress'];
-				$this->set('billing_address', $billing_address);
 				$shipping_address = $this->Cart->get_cart_shipping_address();
 				$authnet_data['AuthnetProfile']['user_id'] = $user_id;
 				$authnet_data['AuthnetProfile']['billing_firstname'] = $billing_address['firstname'];
@@ -970,9 +972,7 @@ class EcommercesController extends AppController {
 			} else {
 				$authnet_data = array();
 				
-				// try and save the credit card data to authorize.net CIM
-				$billing_address = $this->data['BillingAddress'];
-				$this->set('billing_address', $billing_address);
+				// try charge to credit card as a one time charge
 				$shipping_address = $this->Cart->get_cart_shipping_address();
 				$authnet_data['AuthnetProfile']['billing_firstname'] = $billing_address['firstname'];
 				$authnet_data['AuthnetProfile']['billing_lastname'] = $billing_address['lastname'];
@@ -998,8 +998,8 @@ class EcommercesController extends AppController {
 				$result_data = $this->AuthnetOrder->one_time_charge($authnet_data);
 				
 				
-				if ($result_data['success'] !== true) {
-					if ($result_data['declined'] === true) {
+				if (empty($result_data) || (isset($result_data['success']) && $result_data['success'] !== true)) {
+					if (isset($result_data['declined']) && $result_data['declined'] === true) {
 						$this->Session->setFlash(__('Transaction declined.', true), 'admin/flashMessage/error');
 					} else {
 						$this->Session->setFlash(__('An unknown error occured processing the transaction.', true), 'admin/flashMessage/error');

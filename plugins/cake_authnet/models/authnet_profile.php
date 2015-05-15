@@ -4,123 +4,124 @@ class AuthnetProfile extends CakeAuthnetAppModel {
 
 	var $name = 'AuthnetProfile';
 
-	public function one_time_charge($authnet_data) {
-		$change_data = array(
-			'refId' => rand(1000000, 100000000),
-			'transactionRequest' => array(
-				'transactionType' => 'authCaptureTransaction',
-				'amount' => 5,
-				'payment' => array(
-					'creditCard' => array(
-						'cardNumber' => '4111111111111111',
-						'expirationDate' => '122016',
-						'cardCode' => '999',
-					),
-				),
-				'order' => array(
-					'invoiceNumber' => '1324567890',
-					'description' => 'this is a test transaction',
-				),
-				'lineItems' => array(
-					'lineItem' => array(
-						0 => array(
-							'itemId' => '1',
-							'name' => 'vase',
-							'description' => 'Cannes logo',
-							'quantity' => '18',
-							'unitPrice' => '45.00'
-						),
-						1 => array(
-							'itemId' => '2',
-							'name' => 'desk',
-							'description' => 'Big Desk',
-							'quantity' => '10',
-							'unitPrice' => '85.00'
-						)
-					)
-				),
-				'tax' => array(
-					'amount' => '4.26',
-					'name' => 'level2 tax name',
-					'description' => 'level2 tax',
-				),
-				'duty' => array(
-					'amount' => '8.55',
-					'name' => 'duty name',
-					'description' => 'duty description',
-				),
-				'shipping' => array(
-					'amount' => '4.26',
-					'name' => 'level2 tax name',
-					'description' => 'level2 tax',
-				),
-				'poNumber' => '456654',
-				'customer' => array(
-					'id' => '18',
-					'email' => 'someone@blackhole.tv',
-				),
-				'billTo' => array(
-					'firstName' => 'Ellen',
-					'lastName' => 'Johnson',
-					'company' => 'Souveniropolis',
-					'address' => '14 Main Street',
-					'city' => 'Pecan Springs',
-					'state' => 'TX',
-					'zip' => '44628',
-					'country' => 'USA',
-				),
-				'shipTo' => array(
-					'firstName' => 'China',
-					'lastName' => 'Bayles',
-					'company' => 'Thyme for Tea',
-					'address' => '12 Main Street',
-					'city' => 'Pecan Springs',
-					'state' => 'TX',
-					'zip' => '44628',
-					'country' => 'USA',
-				),
-				'customerIP' => '192.168.1.1',
-				'transactionSettings' => array(
-					'setting' => array(
-						0 => array(
-							'settingName' => 'allowPartialAuth',
-							'settingValue' => 'false'
-						),
-						1 => array(
-							'settingName' => 'duplicateWindow',
-							'settingValue' => '0'
-						),
-						2 => array(
-							'settingName' => 'emailCustomer',
-							'settingValue' => 'false'
-						),
-						3 => array(
-							'settingName' => 'recurringBilling',
-							'settingValue' => 'false'
-						),
-						4 => array(
-							'settingName' => 'testRequest',
-							'settingValue' => 'false'
-						)
-					)
-				),
-				'userFields' => array(
-					'userField' => array(
-						'name' => 'MerchantDefinedFieldName1',
-						'value' => 'MerchantDefinedFieldValue1',
-					),
-					'userField' => array(
-						'name' => 'favorite_color',
-						'value' => 'blue',
-					),
-				),
-			),
-		);
-
-
-		$authnet = $this->get_authnet_instance();
-		$authnet->createTransactionRequest($change_data);
-	}
+	// this was moved into authnet_order.php
+//	public function one_time_charge($authnet_data) {
+//		$change_data = array(
+//			'refId' => rand(1000000, 100000000),
+//			'transactionRequest' => array(
+//				'transactionType' => 'authCaptureTransaction',
+//				'amount' => 5,
+//				'payment' => array(
+//					'creditCard' => array(
+//						'cardNumber' => '4111111111111111',
+//						'expirationDate' => '122016',
+//						'cardCode' => '999',
+//					),
+//				),
+//				'order' => array(
+//					'invoiceNumber' => '1324567890',
+//					'description' => 'this is a test transaction',
+//				),
+//				'lineItems' => array(
+//					'lineItem' => array(
+//						0 => array(
+//							'itemId' => '1',
+//							'name' => 'vase',
+//							'description' => 'Cannes logo',
+//							'quantity' => '18',
+//							'unitPrice' => '45.00'
+//						),
+//						1 => array(
+//							'itemId' => '2',
+//							'name' => 'desk',
+//							'description' => 'Big Desk',
+//							'quantity' => '10',
+//							'unitPrice' => '85.00'
+//						)
+//					)
+//				),
+//				'tax' => array(
+//					'amount' => '4.26',
+//					'name' => 'level2 tax name',
+//					'description' => 'level2 tax',
+//				),
+//				'duty' => array(
+//					'amount' => '8.55',
+//					'name' => 'duty name',
+//					'description' => 'duty description',
+//				),
+//				'shipping' => array(
+//					'amount' => '4.26',
+//					'name' => 'level2 tax name',
+//					'description' => 'level2 tax',
+//				),
+//				'poNumber' => '456654',
+//				'customer' => array(
+//					'id' => '18',
+//					'email' => 'someone@blackhole.tv',
+//				),
+//				'billTo' => array(
+//					'firstName' => 'Ellen',
+//					'lastName' => 'Johnson',
+//					'company' => 'Souveniropolis',
+//					'address' => '14 Main Street',
+//					'city' => 'Pecan Springs',
+//					'state' => 'TX',
+//					'zip' => '44628',
+//					'country' => 'USA',
+//				),
+//				'shipTo' => array(
+//					'firstName' => 'China',
+//					'lastName' => 'Bayles',
+//					'company' => 'Thyme for Tea',
+//					'address' => '12 Main Street',
+//					'city' => 'Pecan Springs',
+//					'state' => 'TX',
+//					'zip' => '44628',
+//					'country' => 'USA',
+//				),
+//				'customerIP' => '192.168.1.1',
+//				'transactionSettings' => array(
+//					'setting' => array(
+//						0 => array(
+//							'settingName' => 'allowPartialAuth',
+//							'settingValue' => 'false'
+//						),
+//						1 => array(
+//							'settingName' => 'duplicateWindow',
+//							'settingValue' => '0'
+//						),
+//						2 => array(
+//							'settingName' => 'emailCustomer',
+//							'settingValue' => 'false'
+//						),
+//						3 => array(
+//							'settingName' => 'recurringBilling',
+//							'settingValue' => 'false'
+//						),
+//						4 => array(
+//							'settingName' => 'testRequest',
+//							'settingValue' => 'false'
+//						)
+//					)
+//				),
+//				'userFields' => array(
+//					'userField' => array(
+//						'name' => 'MerchantDefinedFieldName1',
+//						'value' => 'MerchantDefinedFieldValue1',
+//					),
+//					'userField' => array(
+//						'name' => 'favorite_color',
+//						'value' => 'blue',
+//					),
+//				),
+//			),
+//		);
+//
+//
+//		$authnet = $this->get_authnet_instance();
+//		$authnet->createTransactionRequest($change_data);
+//	}
 
 	
 	public function save_profile($authnet_data) {
@@ -158,7 +159,8 @@ class AuthnetProfile extends CakeAuthnetAppModel {
 					)
 				),
 				'customerPaymentProfileId' => $authnet_data['AuthnetProfile']['customerPaymentProfileId'],
-			)
+			),
+			'validationMode' => 'liveMode' // this means that on CIM creation the card is actaully tested as well
 		);
 
 
