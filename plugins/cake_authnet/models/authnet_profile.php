@@ -161,6 +161,7 @@ class AuthnetProfile extends CakeAuthnetAppModel {
 				'customerPaymentProfileId' => $authnet_data['AuthnetProfile']['customerPaymentProfileId'],
 			),
 			'validationMode' => 'liveMode' // this means that on CIM creation the card is actaully tested as well
+//			'validationMode' => 'testMode' // this means that on CIM creation the card is actaully tested as well
 		);
 
 
@@ -239,6 +240,7 @@ class AuthnetProfile extends CakeAuthnetAppModel {
 				),
 			),
 			'validationMode' => 'liveMode' // this means that on CIM creation the card is actually checked as well
+//			'validationMode' => 'testMode' // this means that on CIM creation the card is actually checked as well
 		);
 		$authnet = $this->get_authnet_instance();
 		$returnArr = array();

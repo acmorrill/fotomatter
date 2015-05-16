@@ -46,9 +46,7 @@
 				</tr>
 			<?php endif; ?>
 			
-			<?php $order_total = 0; ?>
 			<?php foreach ($payable_orders as $payable_order): ?>
-				<?php $order_total += $payable_order['AuthnetOrder']['total']; ?>
 				<tr>
 					<td class="first">
 						<div class="rightborder"></div>
@@ -66,42 +64,58 @@
 				</tr>
 			<?php endforeach; ?>
 		</tbody>
-		<?php if (!empty($payable_orders)): ?>
 			<tfoot>
 				<tr>
-					<td colspan="2" style="text-align: left;">
+					<td colspan="2" style="text-align: left;" class="first">
 						<div style="width: 85%;">
 							<p>Orders are payable at 6:00 PM Mountain Time the day after they have been approved by you.</p><br />
 							<p>You will be sent an email to <b stlye="font-weight: bold;"><?php echo $payable_paypal_email_address; ?></b> from paypal. Follow the email instructions to receive payment via paypal..</p>
 						</div>
 					</td>
-					<td style="min-width: 300px;">
-						<div class="total_orders">Orders Count: <?php echo count($payable_orders); ?></div>
-						<div class="can_get_paid_total">Total Payable Amount: $<?php echo $order_total; ?></div>
-						<div class="get_paid_via_paypay_button">
-							<form id="payout_orders_via_paypal_form" METHOD="POST" action="/admin/ecommerces/payout_orders/">
-								<?php foreach ($payable_orders as $payable_order): ?>
-									<input type="hidden" name="data[payout_order_ids][]" value="<?php echo $payable_order['AuthnetOrder']['id']; ?>" />
-								<?php endforeach; ?>
-
-								<script type="text/javascript">
-									jQuery(document).ready(function() {
-										jQuery('#get_paid_button').click(function() {
-											jQuery(this).closest('form').submit();
-										});
-									});
-								</script>
-								<span id="get_paid_button" class="custom_ui">
-									<div class="add_button">
-										<div class="content"><?php echo __('Get Paid Via Paypal', true); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div>
+					<td style="min-width: 300px;" class="last">
+						<?php if (!empty($payable_orders)): ?>
+							<div class='table_summary'>
+								<div class='payment_item total_orders'>
+									<label><?php echo __('Orders Count', true); ?></label>
+									<span class='value'><?php echo count($payable_orders); ?></span>
+								</div>
+								<?php if (round($order_total_data['fee'], 2) >= .01): ?>
+									<div class='payment_item can_get_paid_total'>
+										<label><?php echo __('Transaction Fee', true); ?></label>
+										<span class='value'><?php echo $this->Number->currency($order_total_data['fee']); ?></span>
 									</div>
-								</span>
-							</form>
-						</div>
+								<?php endif; ?>
+								<div class='payment_item can_get_paid_total'>
+									<label><?php echo __('Total Payable', true); ?></label>
+									<span class='value'><?php echo $this->Number->currency($order_total_data['total']); ?></span>
+								</div>
+								
+								<br />
+								<div class="get_paid_via_paypay_button">
+									<form id="payout_orders_via_paypal_form" METHOD="POST" action="/admin/ecommerces/payout_orders/">
+										<?php foreach ($payable_orders as $payable_order): ?>
+											<input type="hidden" name="data[payout_order_ids][]" value="<?php echo $payable_order['AuthnetOrder']['id']; ?>" />
+										<?php endforeach; ?>
+
+										<script type="text/javascript">
+											jQuery(document).ready(function() {
+												jQuery('#get_paid_button').click(function() {
+													jQuery(this).closest('form').submit();
+												});
+											});
+										</script>
+										<span id="get_paid_button" class="custom_ui">
+											<div class="add_button">
+												<div class="content"><?php echo __('Get Paid Via Paypal', true); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div>
+											</div>
+										</span>
+									</form>
+								</div>
+							</div>
+						<?php endif; ?>
 					</td>
 				</tr>
 			</tfoot>
-		<?php endif; ?>
 	</table> 
 </div>
 

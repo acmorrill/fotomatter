@@ -10,7 +10,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 	private $transaction_data;
 	private $order_data;
 
-	public function get_order_totals($order_ids) {
+	public function get_order_totals($order_ids, $fee = .03) { // the 3% is for the transaction fee
 		$ids = implode(',', $order_ids);
 		$query = "SELECT SUM(AuthnetOrder.total) 
 					FROM authnet_orders AS AuthnetOrder
@@ -20,10 +20,17 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		$total_arr = $this->query($query);
 
 
-		$total = $total_arr[0][0]['SUM(AuthnetOrder.total)'];
+		$data = array();
+		$data['total'] = $total_arr[0][0]['SUM(AuthnetOrder.total)'];
+		$data['fee'] = 0;
 
+		if (!empty($fee)) {
+			$data['fee'] = round($data['total'] * $fee, 4);
+			$data['total'] = $data['total'] - $data['fee'];
+		}
+		
 
-		return $total;
+		return $data;
 	}
 
 	private function call_paypal($methodName, $base_call = '') {
@@ -121,8 +128,10 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 	}
 
 	public function send_photographer_payment_via_paypal($amount, $logged_in_user_data, $payable_order_ids) {
+		$amount = round($amount, 2); // need to round or paypall api call could fail
+		
 		$refund_note = "Paying {$logged_in_user_data['User']['email_address']} with user_id {$logged_in_user_data['User']['id']} for recent orders.";
-		$subject = "Fotomatter Payment"; // DREW TODO - make this subject better
+		$subject = "Fotomatter Orders Payment"; // DREW TODO - make this subject better
 		$type = "EmailAddress";
 		$currency = "USD";
 
@@ -261,7 +270,6 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		));
 
 		$response = $authnet->get_response();
-
 
 		if ($authnet->isError() == true) {
 			return false;
@@ -821,6 +829,8 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 				} else {
 					$return_arr['declined'] = false;
 				}
+				
+				return $return_arr;
 			}
 			
 
@@ -1007,15 +1017,20 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			if ($createCIMProfile === true) {
 				$authnet = $this->get_authnet_instance();
 				$authnet->createCustomerProfileTransactionRequest($data_to_send);
-				if ($authnet->isError()) {
+				if ($authnet->isError()) { // this will fire on declined also
 					$parsed_result = $authnet->get_response();
 					$this->authnet_error("Authorize CIM create failed", compact('parsed_result'));
 					return false;
 				}
 				$full_parsed_result = $authnet->get_parsed_response();
 			}
-
-
+			
+			
+			/////////////////////////////////////////////////////////////////////////////
+			// should not go beyond this point if there was 
+			// a decline or error - so no order created in db
+			//-----------------------------------------------------------------
+			
 
 			if (isset($order['foreign_model'])) {
 				$order_save_db['AuthnetOrder']['foreign_model'] = $order['foreign_model'];
@@ -1220,17 +1235,21 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			),
 			'contain' => false,
 		));
+		$this->log($payable_orders, 'transaction_data'); // DREW TODO - need to get this working!
 
+		$found_error = false;
 		foreach ($payable_orders as $payable_order) {
 			if (empty($payable_order['AuthnetOrder']['transaction_id'])) {
 				$this->major_error('cannot check for settled status of authnet_orders transaction', compact('payable_order'), 'high');
+				$found_error = true;
 				continue;
 			}
 
 			$transaction_data = $this->get_authnet_transaction_data_by_trans_id($payable_order['AuthnetOrder']['transaction_id']);
-
+			
 			if ($transaction_data === false) {
 				$this->major_error('cannot check for settled status for authnet_orders transaction because transaction data is false', compact('payable_order'), 'high');
+				$found_error = true;
 				continue;
 			}
 
@@ -1240,9 +1259,16 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 					$payable_order['AuthnetOrder']['order_status'] = 'settled';
 					if (!$this->save($payable_order)) {
 						$this->major_error('failed to set order_status as settled', compact('payable_order'), 'high');
+						$found_error = true;
 					}
 				}
+			} else {
+				$found_error = true;
 			}
+		}
+		
+		if ($found_error) {
+			return false;
 		}
 
 		return true;

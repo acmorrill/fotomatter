@@ -4,7 +4,16 @@ class EcommercesController extends AppController {
 	public $uses = array('PhotoAvailSize', 'PhotoFormat', 'PhotoPrintType', 'PhotoAvailSizesPhotoPrintType', 'Cart', 'Photo', 'User', 'cake_authnet.AuthnetProfile', 'cake_authnet.AuthnetOrder', 'GlobalCountryState', 'GlobalCountry');
 	public $layout = 'admin/ecommerces';
 	public $paginate = array(
-		'limit' => 10,        
+		'conditions' => array(
+			'OR' => array(
+				'AuthnetOrder.one_time_charge' => 0,
+				'AND' => array(
+					'AuthnetOrder.one_time_charge' => 1,
+					'AuthnetOrder.one_time_response_code' => 1,
+				)
+			),
+		),
+		'limit' => 10,
 		'order' => array(            
 			'AuthnetOrder.created' => 'desc',
 		),
@@ -110,11 +119,15 @@ class EcommercesController extends AppController {
 				$this->redirect('/admin/ecommerces/get_paid/');
 			}
 			$user_email_address = $logged_in_user['User']['email_address'];
-			// DREW TODO - need to take out 3% from the order here to pay for processing - also need to take out 3% from display on the recieve payment page
-			$amount = $this->AuthnetOrder->get_order_totals($payable_order_ids);
+			$order_total_data = $this->AuthnetOrder->get_order_totals($payable_order_ids);
 			// mark all the payable orders as being in the process of paying
 			$this->AuthnetOrder->set_orders_pay_out_status($payable_order_ids, 'processing');
-			$send_payment_result = $this->AuthnetOrder->send_photographer_payment_via_paypal($amount, $logged_in_user, $payable_order_ids);
+//			print_r($order_total_data);
+//			print_r($logged_in_user);
+//			print_r($payable_order_ids);
+			$send_payment_result = $this->AuthnetOrder->send_photographer_payment_via_paypal($order_total_data['total'], $logged_in_user, $payable_order_ids);
+			print_r($send_payment_result);
+			die('sucka');
 			if ($send_payment_result === false) {
 				$this->AuthnetOrder->set_orders_pay_out_status($payable_order_ids, 'not_paid'); // DREW TODO - maybe mark as error?
 				$this->major_error('Failed to reimmburse for orders', compact('logged_in_user', 'payable_order_ids', 'amount'), 'high');
@@ -153,7 +166,15 @@ class EcommercesController extends AppController {
 		}
 		
 		
-		$this->set(compact('payable_orders', 'payable_paypal_email_address'));
+		$order_ids = Set::extract($payable_orders, '{n}.AuthnetOrder.id');
+		
+		
+		/////////////////////////////////////////////////////////////////////////
+		// get the payable amount minus the 3%
+		$order_total_data = $this->AuthnetOrder->get_order_totals($order_ids);
+		
+		
+		$this->set(compact('payable_orders', 'payable_paypal_email_address', 'order_total_data'));
 	}
 	
 	public function admin_reset_print_sizes() {
