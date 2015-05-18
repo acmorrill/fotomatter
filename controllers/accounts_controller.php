@@ -1,7 +1,7 @@
 <?php
 class AccountsController extends AppController {
     
-	public $uses = array('GlobalCountry', 'GlobalCountryState', 'Photo', 'SitePage', 'PhotoGallery', 'Account');
+	public $uses = array('GlobalCountry', 'GlobalCountryState', 'Photo', 'SitePage', 'PhotoGallery', 'Account', 'cake_authnet.AuthnetOrder');
 
 	public $layout = 'admin/sidebar_less';
    
@@ -58,6 +58,9 @@ class AccountsController extends AppController {
 //		print("<pre>" . print_r($results, true) . "</pre>");
 //		die();
 //	}
+	
+	
+	
 	
 	public function  beforeFilter() {
 		if ($this->action == 'clear_billing_cache') {

@@ -44,14 +44,26 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 //			'VERSION' => '104',
 //			'SUBJECT' => '',
 //		);
-		$credentials = array(
-			'API_USERNAME' => 'acmorrill_api1.gmail.com',
-			'API_PASSWORD' => '1376003579',
-			'API_SIGNATURE' => 'AzaYvS4XSOUNXi2X-BUTSvLaG.rIA1CgDbTymfWTnnNUtxKsZ-42WqTK',
-			'API_ENDPOINT' => 'https://api-3t.sandbox.paypal.com/nvp',
-			'VERSION' => '104',
-			'SUBJECT' => '',
-		);
+		
+		if (Configure::read('debug') > 0) { 
+			$credentials = array(
+				'API_USERNAME' => 'acmorrill_api1.gmail.com',
+				'API_PASSWORD' => '1376003579',
+				'API_SIGNATURE' => 'AzaYvS4XSOUNXi2X-BUTSvLaG.rIA1CgDbTymfWTnnNUtxKsZ-42WqTK',
+				'API_ENDPOINT' => 'https://api-3t.sandbox.paypal.com/nvp',
+				'VERSION' => '104',
+				'SUBJECT' => '',
+			);
+		} else {
+			$credentials = array(
+				'API_USERNAME' => 'support_api2.fotomatter.net',
+				'API_PASSWORD' => 'VNX5RY7TA2ER9JB8',
+				'API_SIGNATURE' => 'AFcWxV21C7fd0v3bYYYRCpSSRl31ADtjdBtyt2S3TRtKiOfCQTk04A8a',
+				'API_ENDPOINT' => 'https://api-3t.paypal.com/nvp',
+				'VERSION' => '104',
+				'SUBJECT' => '',
+			);
+		}
 
 		$header_call = "&PWD=" . urlencode($credentials['API_PASSWORD']) .
 				"&USER=" . urlencode($credentials['API_USERNAME']) .
@@ -234,7 +246,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		return $authnet_order['AuthnetOrder']['order_status'];
 	}
 
-	private function get_authnet_transaction_data_by_trans_id($transaction_id) {
+	public function get_authnet_transaction_data_by_trans_id($transaction_id) {
 
 		// transaction statuses
 		//		authorizedPendingCapture
@@ -262,7 +274,6 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		//		chargeback
 		//		chargebackReversal
 		//		authorizedPendingRelease
-
 		$authnet = $this->get_authnet_instance();
 
 		$authnet->getTransactionDetailsRequest(array(
