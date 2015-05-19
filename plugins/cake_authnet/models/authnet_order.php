@@ -10,7 +10,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 	private $transaction_data;
 	private $order_data;
 
-	public function get_order_totals($order_ids, $fee = .03) { // the 3% is for the transaction fee
+	public function get_order_totals($order_ids, $fee = .05) { // the 3% is for the transaction fee
 		$ids = implode(',', $order_ids);
 		$query = "SELECT SUM(AuthnetOrder.total) 
 					FROM authnet_orders AS AuthnetOrder
@@ -281,6 +281,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		));
 
 		$response = $authnet->get_response();
+		
 
 		if ($authnet->isError() == true) {
 			return false;
@@ -1246,7 +1247,6 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			),
 			'contain' => false,
 		));
-		$this->log($payable_orders, 'transaction_data'); // DREW TODO - need to get this working!
 
 		$found_error = false;
 		foreach ($payable_orders as $payable_order) {

@@ -7,8 +7,6 @@ class ThemeShell extends Shell {
 	///////////////////////////////////////////////////////////////
 	/// shell start
 	function _welcome() {
-		Configure::write('debug', 1);
-
 		$this->out();
 		$this->out('Welcome to CakePHP v' . Configure::version() . ' Console');
 		$this->hr();

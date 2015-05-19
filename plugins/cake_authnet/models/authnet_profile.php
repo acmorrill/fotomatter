@@ -255,8 +255,6 @@ class AuthnetProfile extends CakeAuthnetAppModel {
 			}
 
 			$response = $authnet->get_response();
-			$this->log($response, 'success_response');
-
 
 			if (!isset($response->customerProfileId) || !isset($response->customerPaymentProfileIdList->numericString)) {
 				$returnArr['success'] = false;
@@ -292,7 +290,6 @@ class AuthnetProfile extends CakeAuthnetAppModel {
 			'customerProfileId' => $this->data['AuthnetProfile']['customerProfileId']
 		));
 		$response = $authnet->get_response();
-		$this->log($response, 'response');
 		
 		
 		if ($authnet->isError()) {
