@@ -496,6 +496,35 @@ class AppController extends Controller {
 			return false;
 		}
 	}
+	
+	
+//	public function admin_test_locking() {
+//		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+//		
+//		if ($this->SiteSetting->get_lock('lock1', 20)) {
+//			echo "got the lock 1<br />";
+//		} else {
+//			echo "no lock 1<br />";
+//		}
+//		$this->SiteSetting->release_lock('lock1');
+//		if ($this->SiteSetting->get_lock('lock1', 20)) {
+//			echo "got the lock 2<br />";
+//		} else {
+//			echo "no lock 2<br />";
+//		}
+//		$this->SiteSetting->release_lock('lock1');
+//		
+//		
+//		die('suckit');
+//	}
+//	
+//	public function admin_test_locking_two() {
+//		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+//		
+//		$this->SiteSetting->release_lock('lock1');
+//		
+//		die('suckit2');
+//	}
 
 	/*********************************************************
 	* HELPER FUNCTIONS

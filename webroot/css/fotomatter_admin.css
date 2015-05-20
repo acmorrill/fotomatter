@@ -5449,6 +5449,10 @@ body {
 #photo_mass_upload_outer_wrapper .template-upload .ui-widget-header {
   background: #2ac0de url("images/ui-bg_gloss-wave_35_f6a828_500x100.png") 50% 50% repeat-x;
 }
+#photo_mass_upload_outer_wrapper .template-upload p.name {
+  max-width: 320px;
+  overflow: hidden;
+}
 #photo_mass_upload_outer_wrapper .files_ready_to_upload_cont .page_content_header {
   border-top: 1px solid transparent;
   min-height: 74px;

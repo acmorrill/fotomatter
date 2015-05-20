@@ -198,11 +198,11 @@ class AppModel extends LazyModel {
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// locking functions
 	//-----------------------------------------------------------------------------------------------------------
-	public function get_lock($lock_name, $wait_time) {
+	public function get_lock($lock_name, $wait_time, $do_sleep = false) {
 		if (php_sapi_name() == 'cli') {
-			return $this->get_file_lock($lock_name, $wait_time);
+			return $this->get_file_lock($lock_name, $wait_time, $do_sleep);
 		} else {
-			return $this->get_apc_lock($lock_name, $wait_time);
+			return $this->get_apc_lock($lock_name, $wait_time, $do_sleep);
 		}
 	}
 	
@@ -214,15 +214,33 @@ class AppModel extends LazyModel {
 		}
 	}
 	
-	private function get_file_lock($lock_name, $wait_time) {
-		$file_name = APP . "locks/" . $this->get_lock_key($lock_name) . ".lock";
-		if ( file_exists($file_name) ) {
-			$file_modified_time = shell_exec("stat -c %Y $file_name");
-			if (!empty($file_modified_time)) {
-				$time_since_touched = time() - $file_modified_time;
-				if ( $time_since_touched < $wait_time ) {
-					return false;
+	private function get_file_lock($lock_name, $wait_time, $do_sleep = false) {
+		$time_left = $wait_time;
+		
+		while ($time_left > 0) {
+			$file_name = APP . "locks/" . $this->get_lock_key($lock_name) . ".lock";
+			if ( file_exists($file_name) ) {
+				$file_modified_time = shell_exec("stat -c %Y $file_name");
+				if (!empty($file_modified_time)) {
+					$time_since_touched = time() - $file_modified_time;
+					if ( $time_since_touched < $wait_time ) {
+						if ($do_sleep === true) {
+							if ($time_left - 1 <= 0) {
+								return false;
+							}
+							$time_left -= 1;
+							sleep(1);
+						} else {
+							return false;
+						}
+					} else {
+						break;
+					}
+				} else {
+					break;
 				}
+			} else {
+				break;
 			}
 		}
 		
@@ -235,11 +253,24 @@ class AppModel extends LazyModel {
 		@unlink($file_name);
 	}
 	
-	private function get_apc_lock($lock_name, $wait_time) {
+	private function get_apc_lock($lock_name, $wait_time, $do_sleep = false) {
+		$time_left = $wait_time;
 		$apc_key = $this->get_lock_key($lock_name);
 		
-		if (apc_exists($apc_key)) {
-			return false;
+		while ($time_left > 0) {
+			if (apc_exists($apc_key)) {
+				if ($do_sleep === true) {
+					if ($time_left - 1 <= 0) {
+						return false;
+					}
+					$time_left -= 1;
+					sleep(1);
+				} else {
+					return false;
+				}
+			} else {
+				break;
+			}
 		}
 		apc_store($apc_key, true, $wait_time);
 		

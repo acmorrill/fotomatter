@@ -195,6 +195,9 @@ class Photo extends AppModel {
 				return false;
 			}
 
+			
+			return "photo must be a blah";
+			
 			/////////////////////////////////////////////////////////////
 			// make sure the image is actually an image
 			$security_path_info = pathinfo($this->data['Photo']['cdn-filename']['name']);
@@ -597,8 +600,9 @@ class Photo extends AppModel {
 		// remove underscores
 		$name = str_replace("_", "", $name);
 
+		
 		// find a name that doesn't already exist
-		$name = $prefix . "_" . substr(md5(String::uuid()), 0, 20) . "_" . $name;
+		$name = $prefix . "_" . substr(md5(String::uuid()), 0, 20) . "_" . substr(basename($name), 0, 45) . ".jpg";
 		return $name;
 	}
 

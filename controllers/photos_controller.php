@@ -161,10 +161,13 @@ class PhotosController extends AppController {
 				$photo_for_db['Tag'] = $this->data['tag_ids'];
 			}
 
-			$this->Photo->create();
-			if ($this->Photo->save($photo_for_db) === false) {
+			$this->Photo->create(); // START HERE TOMORROW
+			if ($save_result = $this->Photo->save($photo_for_db) !== true) {
 				$this->Photo->major_error('Photo failed to save in admin_process_mass_photos');
 				$upload_data['error'] = 'Photo failed to save.';
+				if (!empty($save_result)) {
+					$upload_data['error'] = $save_result;
+				}
 				$this->return_mass_upload_json($upload_data);
 			}
 			if (!empty($this->data['gallery_ids'])) {
@@ -202,6 +205,9 @@ class PhotosController extends AppController {
 	}
 	private function return_mass_upload_json($upload_data) {
 		$files[] = $upload_data;
+		
+		$this->log($files, 'files');
+		
 		echo json_encode(compact('files'));
 		exit();
 	}
@@ -315,7 +321,7 @@ class PhotosController extends AppController {
 
 
 			$this->Photo->create();
-			if ($this->Photo->save($this->data)) {
+			if ($save_result = $this->Photo->save($this->data) === true) {
 				//$this->Photo->replicatePriceCal($this->Photo->id); // this is to calculate the price in the old way for the old website (so when you add you don't have to run priceCal.php)
 				$this->Session->setFlash(__('Photo saved', true), 'admin/flashMessage/success');
 				if ($id == null) { // adding

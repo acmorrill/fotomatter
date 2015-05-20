@@ -18,7 +18,7 @@ class NameComComponent extends Object {
 		$this->Http = new HttpSocket();
 
 		// DREW TODO test real api
-		if (false && Configure::read('debug') == 0) {
+		if (Configure::read('debug') == 0) {
 			$this->_account = 'acmorrill';
 			$this->_api_token = '6fa1adbd6bf414426a84b3eed8fc57aaa69de8a8';
 			$this->_api_url = 'https://api.name.com';
