@@ -161,15 +161,24 @@ class PhotosController extends AppController {
 				$photo_for_db['Tag'] = $this->data['tag_ids'];
 			}
 
-			$this->Photo->create(); // START HERE TOMORROW
-			if ($save_result = $this->Photo->save($photo_for_db) !== true) {
-				$this->Photo->major_error('Photo failed to save in admin_process_mass_photos');
+			$this->Photo->create();
+			$save_photo_result = $this->Photo->before_save_code($photo_for_db);
+			if (is_string($save_photo_result)) {
+				$this->Photo->major_error('Photo failed to save in admin_process_mass_photos 1');
 				$upload_data['error'] = 'Photo failed to save.';
-				if (!empty($save_result)) {
-					$upload_data['error'] = $save_result;
+				if (!empty($save_photo_result)) {
+					$upload_data['error'] = $save_photo_result;
 				}
 				$this->return_mass_upload_json($upload_data);
+			} else {
+				$photo_for_db = $save_photo_result;
 			}
+			if (!$this->Photo->save($photo_for_db)) {
+				$this->Photo->major_error('Photo failed to save in admin_process_mass_photos 2');
+				$upload_data['error'] = 'Photo failed to save.';
+				$this->return_mass_upload_json($upload_data);
+			}
+			
 			if (!empty($this->data['gallery_ids'])) {
 				foreach ($this->data['gallery_ids'] as $gallery_id) {
 					$gallery_photo['PhotoGalleriesPhoto']['photo_id'] = $this->Photo->id;
@@ -203,10 +212,11 @@ class PhotosController extends AppController {
 		
 		$this->return_mass_upload_json($upload_data);
 	}
+	
+	
+	
 	private function return_mass_upload_json($upload_data) {
 		$files[] = $upload_data;
-		
-		$this->log($files, 'files');
 		
 		echo json_encode(compact('files'));
 		exit();
@@ -244,7 +254,6 @@ class PhotosController extends AppController {
 
 
 
-			//$this->log($this->data, 'photo_edit');
 			if ($id == null) { // adding (default data for when your adding)
 				$this->data['Photo']['enabled'] = 1;
 				$this->data['Photo']['photo_format_id'] = 1;
@@ -321,8 +330,12 @@ class PhotosController extends AppController {
 
 
 			$this->Photo->create();
-			if ($save_result = $this->Photo->save($this->data) === true) {
-				//$this->Photo->replicatePriceCal($this->Photo->id); // this is to calculate the price in the old way for the old website (so when you add you don't have to run priceCal.php)
+			$before_save_code = $this->Photo->before_save_code($this->data);
+			if (is_string($before_save_code) || !$this->Photo->save($before_save_code)) {
+				$curr_data = $this->data;
+				$this->Photo->major_error('Failed to save changes to a photo in admin/photos/edit', compact('curr_data', 'before_save_code'));
+				$this->Session->setFlash(__('Error saving photo', true), 'admin/flashMessage/error');
+			} else {
 				$this->Session->setFlash(__('Photo saved', true), 'admin/flashMessage/success');
 				if ($id == null) { // adding
 					$this->redirect('/admin/photos/');
@@ -338,9 +351,6 @@ class PhotosController extends AppController {
 						'Photo.id' => $this->Photo->id
 					)
 				));
-			} else {
-				$this->Photo->major_error('Failed to save changes to a photo in admin/photos/edit', $this->data);
-				$this->Session->setFlash(__('Error saving photo', true), 'admin/flashMessage/error');
 			}
 		}
 
