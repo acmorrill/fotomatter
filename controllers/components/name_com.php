@@ -17,25 +17,52 @@ class NameComComponent extends Object {
 		App::import('Core', 'HttpSocket');
 		$this->Http = new HttpSocket();
 
-		// DREW TODO test real api
+		/////////////////////////////////////////////////////////////////////////////////////////////////
+		// the new name.com account credentials
+//		Test API URL: https://api.dev.name.com
+//		Account: fotomatter-ote
+//		API Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcGl0Ijo1NjEyNzgsImV4cCI6MTc0Nzc2MjQ2NCwianRpIjoxfQ.7cbgIkyIYiTvT7b8JJPhZ4COqFX5h31Vcsgl_-V1ADw
+//
+//		Production API URL: https://api.name.com
+//		Account: fotomatter
+//		API Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcGl0IjoxMjYyOTc3LCJleHAiOjE3NDc3NjI0ODIsImp0aSI6MX0.dwjmp86_daNMyUgK0ypwCMdryBn2Tn9bG36mbKl9y3g
+		
+
+		
 		if (Configure::read('debug') == 0) {
-			$this->_account = 'acmorrill';
-			$this->_api_token = '6fa1adbd6bf414426a84b3eed8fc57aaa69de8a8';
+			$this->_account = 'fotomatter';
+			$this->_api_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcGl0IjoxMjYyOTc3LCJleHAiOjE3NDc3NjI0ODIsImp0aSI6MX0.dwjmp86_daNMyUgK0ypwCMdryBn2Tn9bG36mbKl9y3g';
 			$this->_api_url = 'https://api.name.com';
 			$this->_dns_servers = array(
 				'dns1.stabletransit.com',
 				'dns2.stabletransit.com'
 			);
+			
+//			$this->_account = 'acmorrill';
+//			$this->_api_token = '6fa1adbd6bf414426a84b3eed8fc57aaa69de8a8';
+//			$this->_api_url = 'https://api.name.com';
+//			$this->_dns_servers = array(
+//				'dns1.stabletransit.com',
+//				'dns2.stabletransit.com'
+//			);
 		} else {
-			$this->_account = 'acmorrill-ote';
-			$this->_api_token = '30867e7ace1d5c9194aa176e2a2f416192a3af7f';
+			$this->_account = 'fotomatter-ote';
+			$this->_api_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcGl0Ijo1NjEyNzgsImV4cCI6MTc0Nzc2MjQ2NCwianRpIjoxfQ.7cbgIkyIYiTvT7b8JJPhZ4COqFX5h31Vcsgl_-V1ADw';
 			$this->_api_url = 'https://api.dev.name.com';
 			$this->_dns_servers = array(
 				'ns1.name.com',
 				'ns2.name.com'
 			);
-			// https://dev.name.com
-			// dev1l3den 443
+			
+//			$this->_account = 'acmorrill-ote';
+//			$this->_api_token = '30867e7ace1d5c9194aa176e2a2f416192a3af7f';
+//			$this->_api_url = 'https://api.dev.name.com';
+//			$this->_dns_servers = array(
+//				'ns1.name.com',
+//				'ns2.name.com'
+//			);
+//			// https://dev.name.com
+//			// dev1l3den 443
 		}
 	}
 
@@ -142,8 +169,9 @@ class NameComComponent extends Object {
 		$order = array(
 			'order_type' => 'domain/create',
 			'domain_name' => $domainObj['name'],
+			'period' => 1,
 			'nameservers' => $this->_dns_servers,
-			'contacts' => array(
+			'contact' => array(
 				'type' => array(
 					'registrant', 'administrative', 'billing', 'technical'
 				),
@@ -159,7 +187,6 @@ class NameComComponent extends Object {
 				'fax' => empty($contact_info['fax']) == false ? $contact_info['fax'] : '',
 				'country' => $contact_info['country_id']
 			),
-			'period' => 1,
 		);
 		$api_args['items'][] = $order;
 
@@ -193,7 +220,11 @@ class NameComComponent extends Object {
 			'Api-Token: ' . $this->_api_token
 		));
 		$api_result_json = curl_exec($ch);
-
+		$this->log($api_call, 'send_request');
+		$this->log($request_args, 'send_request');
+		$this->log($api_result_json, 'send_request');
+		
+		
 		if ($api_result_json === false) {
 			$curl_error = curl_error($ch);
 			$this->MajorError = ClassRegistry::init('MajorError');
