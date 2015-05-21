@@ -126,8 +126,7 @@ class EcommercesController extends AppController {
 //			print_r($logged_in_user);
 //			print_r($payable_order_ids);
 			$send_payment_result = $this->AuthnetOrder->send_photographer_payment_via_paypal($order_total_data['total'], $logged_in_user, $payable_order_ids);
-			print_r($send_payment_result);
-			die('sucka');
+//			$this->log($send_payment_result, 'send_payment_result'); // START HERE TOMORROW TO TEST PAYPAY GET PAID
 			if ($send_payment_result === false) {
 				$this->AuthnetOrder->set_orders_pay_out_status($payable_order_ids, 'not_paid'); // DREW TODO - maybe mark as error?
 				$this->major_error('Failed to reimmburse for orders', compact('logged_in_user', 'payable_order_ids', 'amount'), 'high');

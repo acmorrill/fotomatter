@@ -10,7 +10,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 	private $transaction_data;
 	private $order_data;
 
-	public function get_order_totals($order_ids, $fee = .05) { // the 3% is for the transaction fee
+	public function get_order_totals($order_ids, $fee = .05) { // the 5% is for the transaction fee
 		$ids = implode(',', $order_ids);
 		$query = "SELECT SUM(AuthnetOrder.total) 
 					FROM authnet_orders AS AuthnetOrder
@@ -109,6 +109,11 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 
 		//Getting response from server
 		$response = curl_exec($ch);
+//		$this->log('================================', 'paypal_response');
+//		$this->log($methodName, 'paypal_response');
+//		$this->log($call, 'paypal_response');
+//		$this->log($response, 'paypal_response');
+//		$this->log('================================', 'paypal_response');
 
 		//Converting NVPResponse to an Associative Array
 		$nvpResArray = $this->deformatNVP($response);
