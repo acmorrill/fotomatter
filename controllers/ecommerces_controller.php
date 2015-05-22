@@ -142,7 +142,7 @@ class EcommercesController extends AppController {
 		//---------------------------------------------------------------------
 		
 		
-		$this->Session->setFlash(sprintf(__("A payment of $%s was sent to %s via Paypal.", true), $amount, $user_email_address), 'admin/flashMessage/success');
+		$this->Session->setFlash(sprintf(__("A payment of $%s was sent to %s via Paypal.", true), $order_total_data['total'], $user_email_address), 'admin/flashMessage/success');
 		$this->redirect('/admin/ecommerces/order_management/');
 	}
 	
