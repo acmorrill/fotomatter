@@ -317,12 +317,19 @@
 //		'lock' => false, //[optional]  use file locking
 //		'serialize' => true, [optional]
 //	));
-	
+	$engine = 'File';
+	if (extension_loaded('apc') && function_exists('apc_dec') && php_sapi_name() !== 'cli') {
+		$engine = 'Apc';
+	}
+	$duration = 604800;
+	if (Configure::read('debug') >= 1) {
+		$duration = '+10 seconds';
+	}
 	Cache::config('default', array(
- 		'engine' => 'Apc', //[required]
- 		'duration'=> 3600, //[optional]
- 		'probability'=> 100, //[optional]
-  		'prefix' => Inflector::slug(APP_DIR) . '_', //[optional]  prefix every cache file with this string
+ 		'engine' => $engine, //[required]
+ 		'duration'=> $duration, //[optional]
+		'probability' => 0,
+  		'prefix' => 'fm_app_default', //[optional]  prefix every cache file with this string
  	));
 	
 	require('core_ignored.php');
