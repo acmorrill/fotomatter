@@ -7,7 +7,13 @@ class BrowscapComponent extends Object {
 	}
 
 	function is_browser_supported() {
-		$browser_data = get_browser(null, true);
+		$browser_data_apc_key = "browser_data_cache_" . $_SERVER['HTTP_USER_AGENT'];
+		if (apc_exists($browser_data_apc_key)) {
+			$browser_data = apc_fetch($browser_data_apc_key);
+		} else {
+			$browser_data = get_browser(null, true);
+			apc_add($browser_data_apc_key, $browser_data);
+		}
 
 
 		if (empty($browser_data['browser']) || empty($browser_data['version'])) {
