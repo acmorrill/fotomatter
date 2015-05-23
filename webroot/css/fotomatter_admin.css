@@ -2485,6 +2485,19 @@ table {
 #universal_load_popup .content a {
   color: #2ac0de;
 }
+#browser_not_supported {
+  display: none;
+  background: red;
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  z-index: 120;
+  padding: 7px;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: #ffffff;
+  cursor: pointer;
+}
 #login_page #global_frontend_link,
 #welcome_page #global_frontend_link {
   display: none;

@@ -157,11 +157,21 @@
 	};
 })(jQuery);
 
+	function show_browser_not_supported_popup() {
+		alert("<?php echo __('Your web browser is not fully supported for fotomatter.net. You can continue using this browser, but it\'s possible some features will not work correctly. Use the latest version of Firefox, Chrome or IE to remove this message.', true); ?>");
+	}
+
 	jQuery(document).ready(function() {
-		<?php if ($showed_supported_browser_popup === false && $browser_is_supported === false): ?>
-			alert("<?php echo __('Your web browser is not fully supported for fotomatter.net. You can continue using this browser, but it\'s possible some features will not work correctly. Use the latest version of Firefox, Chrome, IE or Safari to remove this message.', true); ?>");
-//			$.foto('alert', "<?php echo __('Your web browser is not fully supported for fotomatter.net. You can continue using this browser, but it\'s possible some features will not work correctly. Use the latest version of Firefox, Chrome, IE or Safari to remove this message.', true); ?>");
+		<?php if ($browser_is_supported === false): ?>
+			<?php if ($showed_supported_browser_popup === false): ?>
+				show_browser_not_supported_popup();
+			<?php endif; ?>
+			jQuery('#browser_not_supported').show();
+			jQuery('#browser_not_supported').click(function() {
+				show_browser_not_supported_popup();
+			});
 		<?php endif; ?>
+		
 			
 		<?php if (empty($done_welcome_first_login_popup)): ?>
 			var first_time_div = $("<div class='gen_alert alert'>\n\

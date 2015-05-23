@@ -20,7 +20,7 @@ class AppController extends Controller {
 		'ThemeRenderer',
 		'LessCss',
 		'PhpClosure',
-		'MobileDetect',
+//		'MobileDetect', // no longer using
 		'Browscap',
 		'Validation',
 		'Postmark',
@@ -179,22 +179,19 @@ class AppController extends Controller {
 		///////////////////////////////////////////////////////
 		// setup mobile settings for mobile theming
 		// and supported browser code
+		$this->browser_is_supported = false; //$this->Browscap->is_browser_supported();
+		$this->set('browser_is_supported', $this->browser_is_supported);
 		$this->is_mobile = false;
-		$this->is_tablet = $this->MobileDetect->isTablet();
+		$this->is_tablet = $this->Browscap->is_tablet();
 //		if (!empty($this->current_on_off_features['mobile_theme']) && $this->MobileDetect->isMobile()) {
 //			$this->is_mobile = true;
 //		}
-		$this->browser_is_supported = true;
-		if ($this->is_mobile === false && $this->is_tablet === false) {
-			$this->browser_is_supported = $this->Browscap->is_browser_supported();
-		}
 		$this->showed_supported_browser_popup = false;
 		if (!$this->Session->check('showed_supported_browser_popup')) {
 			$this->Session->write('showed_supported_browser_popup', true);
 		} else {
 			$this->showed_supported_browser_popup = true;
 		}
-		$this->set('browser_is_supported', $this->browser_is_supported);
 		$this->set('showed_supported_browser_popup', $this->showed_supported_browser_popup);
 		
 		
