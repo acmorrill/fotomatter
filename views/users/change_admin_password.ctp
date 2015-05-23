@@ -4,9 +4,11 @@
 	<?php echo $this->Session->flash('auth'); ?>
 	<?php echo $this->Session->flash(); ?>
 	<?php if ($can_change_password === true): ?>
-		<div id="login_container">
-			<?php echo $this->Session->flash(); ?>
-			<form action="/users/change_admin_password/<?php echo $user_id; ?>/<?php echo $passed_modified_hash; ?>" method="post">
+		<form id="UserLoginForm" action="/users/change_admin_password/<?php echo $user_id; ?>/<?php echo $passed_modified_hash; ?>" method="post">
+			<fieldset>
+				<div style="display:none;">
+					<input type="hidden" name="_method" value="POST">
+				</div>
 				<div class="input">
 					<label><?php echo __('Enter Password', true); ?></label>
 					<input autocorrect="off" autocapitalize="off" class="text" type="password" name="data[User][new_password]" value="" />
@@ -24,8 +26,8 @@
 				<div class="hide_submit">
 					<input type="submit" value="<?php echo __('Save', true); ?>" />
 				</div>
-			</form>
-		</div>
+			</fieldset>
+		</form>
 	<?php endif; ?>
 </div>
 
