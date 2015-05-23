@@ -67,8 +67,12 @@ jQuery(document).ready(function() {
 	
 	
 	
-	jQuery('.javascript_submit').click(function(){ 
-		jQuery(this).closest('form').submit();
+	jQuery('.javascript_submit').click(function(e) { 
+		e.preventDefault();
+		var context = this;
+		setTimeout(function() {
+			jQuery(context).closest('form').submit();
+		}, 100);
 	});
 	
 	jQuery('a.disabled, .disabled a').click(function(e) { 
