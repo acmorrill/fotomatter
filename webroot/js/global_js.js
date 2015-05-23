@@ -69,10 +69,8 @@ jQuery(document).ready(function() {
 	
 	jQuery('.javascript_submit').click(function(e) { 
 		e.preventDefault();
-		var context = this;
-		setTimeout(function() {
-			jQuery(context).closest('form').submit();
-		}, 100);
+		var actual_form = jQuery(this).closest('form')[0];
+		actual_form.submit();
 	});
 	
 	jQuery('a.disabled, .disabled a').click(function(e) { 
