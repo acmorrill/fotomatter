@@ -179,7 +179,7 @@ class AppController extends Controller {
 		///////////////////////////////////////////////////////
 		// setup mobile settings for mobile theming
 		// and supported browser code
-		$this->browser_is_supported = false; //$this->Browscap->is_browser_supported();
+		$this->browser_is_supported = $this->Browscap->is_browser_supported();
 		$this->set('browser_is_supported', $this->browser_is_supported);
 		$this->is_mobile = false;
 		$this->is_tablet = $this->Browscap->is_tablet();
