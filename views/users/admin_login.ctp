@@ -23,7 +23,7 @@
 			</div>
 			<div class="input text">
 				<label for="UserEmailAddress"><?php echo __('Enter Email Address', true); ?></label>
-				<input autocorrect="off" autocapitalize="off" name="data[User][email_address]" type="text" class="text defaultText" maxlength="127" id="UserEmailAddress" title='john@example.com' autocorrect="off" autocapitalize="off" value="<?php if (isset($email)) { echo $email; } ?>">
+				<input name="data[User][email_address]" type="text" class="text defaultText" maxlength="127" id="UserEmailAddress" title='john@example.com' autocorrect="off" autocapitalize="off" value="<?php if (isset($email)) { echo $email; } ?>">
 			</div>
 			<div class="input password">
 				<label for="UserPassword"><?php echo __('Enter Password', true); ?></label>
@@ -46,7 +46,7 @@
 		<fieldset>
 			<div class="input">
 				<label><?php echo __('Enter Account Email', true); ?></label>
-				<input autocorrect="off" autocapitalize="off" title='john@example.com' name="data[User][forgot_password_email]" type="text" class="text defaultText" maxlength="127" autocorrect="off" autocapitalize="off" />
+				<input autocorrect="off" autocapitalize="off" title='john@example.com' name="data[User][forgot_password_email]" type="text" class="text defaultText" maxlength="127" />
 			</div>
 			<div class="submit custom_ui">
 				<div class="add_button javascript_submit">
