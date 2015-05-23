@@ -6130,7 +6130,8 @@ body.no_overflow {
   margin-top: 40px;
 }
 #login_forms_cont .generic_palette_container form > fieldset > div.hide_submit {
-  display: none;
+  visibility: hidden;
+  height: 1px;
 }
 #login_forms_cont .generic_palette_container form > fieldset > div #forgot_password_link {
   font-family: Code-Pro-LC;
