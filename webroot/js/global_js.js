@@ -69,8 +69,7 @@ jQuery(document).ready(function() {
 	
 	jQuery('.javascript_submit').click(function(e) { 
 		e.preventDefault();
-		var actual_form = jQuery(this).closest('form')[0];
-		actual_form.submit();
+		jQuery(this).closest('form').submit();
 	});
 	
 	jQuery('a.disabled, .disabled a').click(function(e) { 

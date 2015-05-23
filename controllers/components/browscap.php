@@ -44,13 +44,6 @@ class BrowscapComponent extends Object {
 					return false;
 				}
 				break;
-			case "Safari":
-				if ($version >= 7) {
-					return true;
-				} else {
-					return false;
-				}
-				break;
 		}
 
 
