@@ -4,8 +4,6 @@ $sqls = array();
 
 $functions = array();
 
-$sqls[] = "UPDATE  `accounts` SET  `last_bill_date` =  '2015-05-12 17:54:09'";
-
 $functions[] = function() {
 	$SiteSetting = ClassRegistry::init('SiteSetting');
 	$User = ClassRegistry::init('User');
