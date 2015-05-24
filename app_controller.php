@@ -181,7 +181,7 @@ class AppController extends Controller {
 		// and supported browser code
 		$this->browser_is_supported = $this->Browscap->is_browser_supported();
 		$this->set('browser_is_supported', $this->browser_is_supported);
-		$this->is_mobile = false;
+		$this->is_mobile = false; // $this->Browscap->is_mobile();
 		$this->is_tablet = $this->Browscap->is_tablet();
 //		if (!empty($this->current_on_off_features['mobile_theme']) && $this->MobileDetect->isMobile()) {
 //			$this->is_mobile = true;
