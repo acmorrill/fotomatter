@@ -67,6 +67,9 @@
 							</form>
 						<?php endif; ?>
 					<?php endif; ?>
+					<div id="privacy_and_tos_notice">
+						<span><span>View the <a href="https://fotomatter.net/pages/privacy_policy" target="privacy_policy">privacy policy</a><br /> and <a href="https://fotomatter.net/pages/terms_and_conditions" target="terms_and_conditions">terms of service</a></span></span>
+					</div>
 				</td>
 			</tr>
 		</tfoot>

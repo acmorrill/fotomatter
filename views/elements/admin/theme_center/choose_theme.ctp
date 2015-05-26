@@ -26,17 +26,18 @@ if (!isset($hide_current)) {
 	</script>
 	
 	<div id="theme_chooser_container">
-		<?php echo $this->Element('/admin/get_help_button'); ?>
 		<div style="clear: both;"></div>
 		<?php $count = 1; foreach ($all_themes as $curr_theme): ?>
 				<?php $is_current_theme = $curr_theme['Theme']['ref_name'] == $current_theme; ?>
 				<?php 
-					$theme_help_code = ''; 		
+					$screenshot_help = ''; 		
+					$select_help = ''; 		
 					if ($count === 1) {
-						$theme_help_code = 'data-step="1" data-intro="'.__("All the themes are awesome and quite different so try lots of them to see what you'd like to use for your stunning site.", true).'" data-position="right"';
+						$screenshot_help = 'data-step="1" data-intro="' . __("Click on the screenshot to view the theme screenshot full-size. This will not change your current theme.", true) . '" data-position="right"';
+						$select_help = 'data-step="2" data-intro="' . __("To select a new theme, click the “select” button beneath your chosen theme. It will change the theme to “current.” To view your current theme live, click “Live Site” (bottom left of page).", true) . '" data-position="top"';
 					}
 				?>
-				<div class="theme_item_container <?php if ($is_current_theme === true) echo 'current'; ?>" <?php echo $theme_help_code; ?>>
+				<div class="theme_item_container <?php if ($is_current_theme === true) echo 'current'; ?>">
 					<div class="theme_item_outer_container">
 						<div class="theme_item_inner_container">
 							<?php 
@@ -73,7 +74,7 @@ if (!isset($hide_current)) {
 									}
 								}
 							?>								
-							<div class="screenshot_container">
+							<div class="screenshot_container" <?php echo $screenshot_help; ?>>
 								<div class="screenshot_inner_container" style="width: <?php echo $image_data['image_width']; ?>px; height: <?php echo $image_data['image_height']; ?>px; max-height: 319px; overflow: hidden;">
 									<a style="width: <?php echo $image_data['image_width']; ?>px; height: <?php echo $image_data['image_height']; ?>px;" target="<?php echo $large_image_web_path; ?>" href="<?php echo $large_image_web_path; ?>" title="<?php echo $curr_theme['Theme']['display_name']; ?>">
 										<img <?php echo $image_data['image_attr']; ?> src="<?php echo $small_image_web_path; ?>" title="<?php echo $curr_theme['Theme']['display_name']; ?>" alt="" />
@@ -95,12 +96,12 @@ if (!isset($hide_current)) {
 														<input type="hidden" name="data[new_theme_id]" value="<?php echo $curr_theme['Theme']['id']; ?>" />
 													</form>
 													<div class="usable_form" action="<?php echo $this->here; ?>" method="post">
-														<div class="button_switch_theme add_button" data-current-theme-id="<?php echo $curr_theme['Theme']['id']; ?>">
+														<div class="button_switch_theme add_button" data-current-theme-id="<?php echo $curr_theme['Theme']['id']; ?>" <?php echo $select_help; ?>>
 															<div class="content"><?php echo __('Select',true); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div>
 														</div>
 													</div>
 												<?php else: ?>
-													<div class="button_current_theme add_button" data-step="2" data-intro="<?php echo __('Under the current theme the button will stay current.', true); ?>" data-position="top">
+													<div class="button_current_theme add_button" <?php echo $select_help; ?>>
 														<div type="submit" value="" ><div class="content"><?php echo __('Current',true); ?></div></div>
 													</div>
 												<?php endif; ?>

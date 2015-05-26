@@ -3,6 +3,6 @@
 		<option value="top_level">Top Level</option>
 	<?php endif; ?>
 	<?php foreach ($all_containers as $all_container): ?>
-		<option value="<?php echo $all_container['SiteTwoLevelMenuContainer']['id']; ?>" site_two_level_menu_id="<?php echo $all_container['SiteTwoLevelMenu']['id']; ?>"><?php echo $all_container['SiteTwoLevelMenuContainer']['display_name']; ?></option>
+		<option value="<?php echo $all_container['SiteTwoLevelMenuContainer']['id']; ?>" site_two_level_menu_id="<?php echo $all_container['SiteTwoLevelMenu']['id']; ?>"><?php echo $all_container['SiteTwoLevelMenuContainer']['display_name']; ?> <?php echo __('Container', true); ?></option>
 	<?php endforeach; ?>
 </select>

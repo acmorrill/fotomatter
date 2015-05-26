@@ -1,7 +1,7 @@
 <?php if (isset($theme_config['admin_config']['main_menu']['levels']) && $theme_config['admin_config']['main_menu']['levels'] != 1): ?>
 	<div class="large_container">
 		<div class="tab_tools_container">
-			<h2><?php echo __('The current theme does not support a one level menu.', true); ?></h2>
+			<h2><?php echo __('The current theme does not support a single level menu.', true); ?></h2>
 		</div>
 	</div>
 <?php else: ?>
@@ -72,7 +72,7 @@
 	</script>
 
 	<div class="large_container">
-		<div class="table_border single_level_menu_items_cont">
+		<div class="table_border single_level_menu_items_cont" data-step="1" data-intro="<?php echo  __("Here are the menu items on your site.", true); ?>" data-position="top">
 			<?php $single_menu_items = $this->ThemeMenu->get_single_menu_items(); ?>
 			<?php //$do_not_sort_items = array($single_menu_items[0]['SiteOneLevelMenu']['id']); ?>
 			<table class="list">
@@ -180,7 +180,7 @@
 
 			<?php $all_pages = $this->Page->get_all_pages(); ?>
 			<div class="custom_ui">
-				<h2><?php echo __('Add Information Page To Main Menu', true); ?></h2>
+				<h2><?php echo __('Add Page To Menu', true); ?></h2>
 				<div class="drop_down_sub_title" >	
 					<?php 
 						$pages_disabled_class = '';
@@ -191,7 +191,7 @@
 					<?php if (!empty($all_pages)): ?>
 						<select id="single_menu_page_add_list" class="<?php echo $pages_disabled_class; ?>">
 							<?php foreach ($all_pages as $curr_page): ?>
-								<option value="<?php echo $curr_page['SitePage']['id']; ?>"><?php echo $curr_page['SitePage']['title']; ?></option>
+								<option value="<?php echo $curr_page['SitePage']['id']; ?>"><?php echo $curr_page['SitePage']['title']; ?> <?php echo __('Page', true); ?></option>
 							<?php endforeach; ?>
 						</select>
 						<div id="single_menu_page_add_button" class="custom_ui tools_button <?php echo $pages_disabled_class; ?>">
@@ -218,6 +218,7 @@
 				</div>
 			</div>
 			<div class="hr_element"></div>
+			<?php /*
 			<?php $all_galleries = $this->Gallery->get_all_galleries(); ?>
 			<div class="custom_ui">
 				<h2><?php echo __('Add Gallery Page To Main Menu', true); ?></h2>
@@ -246,9 +247,9 @@
 					<?php endif; ?>
 				</div>	
 			</div>
+			<div class="hr_element"></div>*/ ?>
 			
 			
-			<div class="hr_element"></div>
 			<div class="custom_ui">
 				<h2><?php echo __('Show "Home" Link in Menu?', true); ?></h2>
 				<div class="drop_down_sub_title">

@@ -16,7 +16,7 @@
 <?php if (isset($theme_config['admin_config']['main_menu']['levels']) && $theme_config['admin_config']['main_menu']['levels'] != 2): ?>
 	<div class="large_container">
 		<div class="tab_tools_container">
-			<h2><?php echo __('The current theme does not support a two level menu.', true); ?></h2>
+			<h2><?php echo __('The current theme does not support a drop down menu.', true); ?></h2>
 		</div>
 	</div>
 <?php else: ?>
@@ -524,34 +524,6 @@
 
 			
 			
-			<div class="custom_ui">
-				<h2><?php echo __('Add Container to Main Menu', true); ?></h2>
-				<div class="drop_down_sub_title">
-					<input class="new_menu_container_name defaultText" title="container name" type="text" />
-					<div id="two_level_menu_container_add_button" class="custom_ui tools_button">
-						<div class="add_button">
-							<div class="content"><?php echo __('Add', true); ?></div>
-							<div class="plus_icon_lines icon-_button-01"><div class="one"></div><div class="two"></div></div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="hr_element"></div>
-
-			
-			<div id="rename_container_cont" class="custom_ui" <?php if (empty($all_containers)): ?>style="display: none;"<?php endif; ?>>
-				<h2><?php echo __('Rename Main Menu Container', true); ?></h2>
-				<?php echo $this->Element('admin/theme_center/main_menu/container_select_box', array('all_containers' => $all_containers, 'hide_top_level' => true)); ?>
-				<input class="rename_menu_container_name defaultText" title="new container name" type="text" />
-				<div id="two_level_menu_container_rename_button" class="custom_ui tools_button">
-					<div class="add_button">
-						<div class="content"><?php echo __('Update', true); ?></div>
-					</div>
-				</div>
-				<div class="hr_element"></div>
-			</div>
-
-
 			
 			<?php $all_pages = $this->Page->get_all_pages(); ?>
 			<?php 
@@ -562,11 +534,11 @@
 			?>
 			<div class="custom_ui">
 				<?php if (!empty($all_pages)): ?>
-					<div class="<?php echo $pages_disabled_class; ?>" style="display: inline-block;">
-						<h2><?php echo __('Add Page to Main Menu', true); ?></h2>
+					<div class="<?php echo $pages_disabled_class; ?>" style="display: inline-block;" data-step="5" data-intro="<?php echo __('Add the pages you’ve created (using the &ldquo;Pages&rdquo; tab above) to either the top level menu or within a drop-down container.', true); ?>" data-position="top">
+						<h2><?php echo __('Add Page to Menu', true); ?></h2>
 						<select id="two_level_menu_page_add_list">
 							<?php foreach ($all_pages as $curr_page): ?>
-								<option value="<?php echo $curr_page['SitePage']['id']; ?>"><?php echo $curr_page['SitePage']['title']; ?></option>
+								<option value="<?php echo $curr_page['SitePage']['id']; ?>"><?php echo $curr_page['SitePage']['title']; ?> <?php echo __('Page', true); ?></option>
 							<?php endforeach; ?>
 						</select>
 						<span class="between_actions"><?php echo __('add to', true); ?></span>
@@ -597,36 +569,24 @@
 			<div class="hr_element"></div>
 
 			
-			<?php /*
-			<div class="custom_ui">
-				<h2><?php echo __('Add Container to Main Menu', true); ?></h2>
-				<div class="drop_down_sub_title">
-					<input class="new_menu_container_name defaultText" title="container name" type="text" />
-					<div id="two_level_menu_container_add_button" class="custom_ui tools_button">
+			
+			<?php $all_galleries = $this->Gallery->get_all_galleries(); ?>
+			<div class="custom_ui" data-step="6" data-intro="<?php echo __('Add the galleries you’ve created (using the &ldquo;Galleries&rdquo; tab above) to either the top level menu or within a drop-down container.', true); ?>" data-position="top">
+				<?php if (!empty($all_galleries)): ?>
+					<h2><?php echo __('Add Gallery to Menu', true); ?></h2>
+					<select id="two_level_menu_gallery_add_list">
+						<?php foreach ($all_galleries as $curr_gallery): ?>
+							<option value="<?php echo $curr_gallery['PhotoGallery']['id']; ?>"><?php echo $curr_gallery['PhotoGallery']['display_name']; ?> <?php echo __('Gallery', true); ?></option>
+						<?php endforeach; ?>
+					</select>
+					<span class="between_actions"><?php echo __('add to', true); ?></span>
+					<?php echo $this->Element('admin/theme_center/main_menu/container_select_box', array('all_containers' => $all_containers)); ?>
+					<div id="two_level_menu_gallery_add_button" class="custom_ui tools_button">
 						<div class="add_button">
 							<div class="content"><?php echo __('Add', true); ?></div>
 							<div class="plus_icon_lines icon-_button-01"><div class="one"></div><div class="two"></div></div>
 						</div>
 					</div>
-				</div>
-			</div>
-			<div class="hr_element"></div>
-			 */ ?>
-			
-			
-			
-			<?php $all_galleries = $this->Gallery->get_all_galleries(); ?>
-			<div class="custom_ui">
-				<?php if (!empty($all_galleries)): ?>
-					<h2><?php echo __('Add Gallery to Main Menu', true); ?></h2>
-					<select id="two_level_menu_gallery_add_list">
-						<?php foreach ($all_galleries as $curr_gallery): ?>
-							<option value="<?php echo $curr_gallery['PhotoGallery']['id']; ?>"><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></option>
-						<?php endforeach; ?>
-					</select>
-					<span class="between_actions"><?php echo __('add to', true); ?></span>
-					<?php echo $this->Element('admin/theme_center/main_menu/container_select_box', array('all_containers' => $all_containers)); ?>
-					<input id="two_level_menu_gallery_add_button" class="add_button" type="submit" value="<?php __('Go'); ?>" />
 				<?php else: ?>
 					<div id="add_some_galleries_button" class="custom_ui tools_button">
 						<a href="/admin/photo_galleries">
@@ -641,7 +601,7 @@
 			
 			
 			<div class="hr_element"></div>
-			<div class="custom_ui">
+			<div class="custom_ui" data-step="7" data-intro="<?php echo __('The default is set to display “Home” as the first item on your menu. If you do not want “Home” to appear, click this button. The Show Home Link letters will turn gray to show it is not selected.', true); ?>" data-position="top">
 				<h2><?php echo __('Show "Home" Link in Menu?', true); ?></h2>
 				<div class="drop_down_sub_title">
 					<?php $show_in_link = $this->Theme->get_theme_global_setting('show_home_link_in_menu', true); ?>
@@ -649,6 +609,36 @@
 					<label class='add_button' for="show_home_link_input" id="show_home_link_label"><div class='content'><?php echo __('Show Home Link', true); ?></div></label>
 				</div>	
 			</div>
+			
+			
+			<div class="hr_element"></div>
+			<div class="custom_ui" data-step="8" data-intro="<?php echo __('If you want to create a new dropdown menu container to add to the top level menu, type the title here and click Add.', true); ?>" data-position="top">
+				<h2><?php echo __('Create Drop Down Container', true); ?></h2>
+				<div class="drop_down_sub_title">
+					<input class="new_menu_container_name defaultText" title="container name" type="text" />
+					<div id="two_level_menu_container_add_button" class="custom_ui tools_button">
+						<div class="add_button">
+							<div class="content"><?php echo __('Add', true); ?></div>
+							<div class="plus_icon_lines icon-_button-01"><div class="one"></div><div class="two"></div></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			
+			<div class="hr_element"></div>
+			<div id="rename_container_cont" class="custom_ui" <?php if (empty($all_containers)): ?>style="display: none;"<?php endif; ?> data-step="8" data-intro="<?php echo __('To rename a drop down menu container, type your preferred title here.', true); ?>" data-position="top">
+				<h2><?php echo __('Rename Drop Down Container Title', true); ?></h2>
+				<?php echo $this->Element('admin/theme_center/main_menu/container_select_box', array('all_containers' => $all_containers, 'hide_top_level' => true)); ?>
+				<span class="between_actions"><?php echo __('to', true); ?></span>
+				<input class="rename_menu_container_name defaultText" title="new container name" type="text" />
+				<div id="two_level_menu_container_rename_button" class="custom_ui tools_button">
+					<div class="add_button">
+						<div class="content"><?php echo __('Update', true); ?></div>
+					</div>
+				</div>
+			</div>
+			
 			
 			
 		</div>

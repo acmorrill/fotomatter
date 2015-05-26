@@ -6,13 +6,17 @@
 ?>
 
 <div  id="configure_main_menu_cont">
-	<?php echo $this->Element('/admin/get_help_button'); ?>
+	<h1><?php echo __('Main Menu', true); ?>
+		<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
+	</h1>
+	<p><?php echo __('Set up your site’s menu by adding galleries and pages. Some themes use a Single Level Menu while others use a Drop Down Menu.', true)?>
+		
 	<div style="clear: both;"></div>
 	<?php
 		echo $this->Element('admin/sub_submenu', array(
 			'tabs' => array(
-				'Tier One Menu' => 'admin/theme_center/main_menu/single_level_menu_listing',
-				'Tier Two Menu' => 'admin/theme_center/main_menu/two_level_menu_listing',
+				'Single Level Menu' => 'admin/theme_center/main_menu/single_level_menu_listing',
+				'Drop Down Menu' => 'admin/theme_center/main_menu/two_level_menu_listing',
 			),
 			'starting_tab' => $starting_tab,
 		));
@@ -26,7 +30,7 @@
 <div class="clear"></div>
 
 
-
+<?php /*
 <?php ob_start(); ?>
 <ol>This page is used to build the menu for the theme.
 	<li>Things to remember
@@ -48,6 +52,6 @@ ob_end_clean();
 echo $this->Element('admin/richard_notes', array(
 	'html' => $html
 ));
-?>
+?> */ ?>
 
 
