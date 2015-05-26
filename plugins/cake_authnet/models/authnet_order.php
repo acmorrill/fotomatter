@@ -11,19 +11,30 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 	private $order_data;
 
 	public function get_order_totals($order_ids, $fee = .05) { // the 5% is for the transaction fee
-		$ids = implode(',', $order_ids);
-		$query = "SELECT SUM(AuthnetOrder.total) 
-					FROM authnet_orders AS AuthnetOrder
-					WHERE AuthnetOrder.id IN ($ids);
-		";
+		if (empty($order_ids)) {
+			$data['total'] = 0;
+			$data['fee'] = 0;
+		} else {
+			$ids = implode(',', $order_ids);
+			$query = "SELECT SUM(AuthnetOrder.total) 
+						FROM authnet_orders AS AuthnetOrder
+						WHERE AuthnetOrder.id IN ($ids);
+			";
 
-		$total_arr = $this->query($query);
+			$total_arr = $this->query($query);
 
 
-		$data = array();
-		$data['total'] = $total_arr[0][0]['SUM(AuthnetOrder.total)'];
-		$data['fee'] = 0;
-
+			$data = array();
+			if (isset($total_arr[0][0]['SUM(AuthnetOrder.total)'])) {
+				$data['total'] = $total_arr[0][0]['SUM(AuthnetOrder.total)'];
+				$data['fee'] = 0;
+			} else {
+				$data['total'] = 0;
+				$data['fee'] = 0;
+			}
+		}
+		
+		
 		if (!empty($fee)) {
 			$data['fee'] = round($data['total'] * $fee, 4);
 			$data['total'] = $data['total'] - $data['fee'];
