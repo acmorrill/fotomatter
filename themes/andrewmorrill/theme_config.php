@@ -105,7 +105,7 @@ $theme_config = array(
 				),
 			),
 			'default_bg_image' => array(
-				'absolute_path' => 	PATH_TO_THEMES.DS.'andrewmorrill/webroot/Passing-Rain.jpg', // max 1600 width and max 1200 height
+				'absolute_path' => 	PATH_TO_THEMES.DS.'andrewmorrill/webroot/Passing-Rain.jpg', // between 2000 and no more than 3000
 				'web_path' => '/Passing-Rain.jpg'
 			),
 			'default_bg_color' => '#e4e8ee',

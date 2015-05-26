@@ -57,18 +57,18 @@ $theme_config = array(
 			'settings' => array(
 				'landing_page_settings_group' => array(
 					'type' => 'group_name',
-					'display_name' => 'Landing Page Settings',
+					'display_name' => 'Home Page Settings',
 				),
 				'landing_page_gallery' => array(
 					'type' => 'gallery_chooser',
 					'display_name' => 'Slider Gallery',
-					'description' => "Choose which gallery to use for the theme landing page.",
+					'description' => "Choose which gallery of yours you want to display on your site’s home page.",
 					'help_message' => 'Drop Down Test',
 				),
 				'max_gallery_images' => array(
 					'type' => 'numeric_dropdown',
 					'display_name' => 'Slideshow Images',
-					'description' => "The maximum number of preloaded images show on the landing page and in galleries. Additional load as you scroll.",
+					'description' => "This is the maximum number of preloaded images that will show on the landing page and in galleries. Additional images will load as you scroll. Note: choosing a larger number will make the page take longer to load the first time.",
 					'help_message' => 'Numeric Dropdown Test',
 					'possible_values' => array(
 						'min' => 1,

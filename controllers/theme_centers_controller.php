@@ -287,6 +287,7 @@ class ThemeCentersController extends AppController {
 			$upload_data['size'] = $this->params['form']['hidden_background_file_chooser']['size'];
 			
 			
+			// no more than 10 megabytes
 			if ($upload_data['size'] > 10485760 || $upload_data['size'] == 0 || empty($_FILES)) {
 				$this->Session->setFlash(__('Exceeded maximum background upload size.', true), 'admin/flashMessage/error');
 				$this->redirect('/admin/theme_centers/configure_background/');

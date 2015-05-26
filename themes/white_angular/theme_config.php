@@ -60,18 +60,18 @@ $theme_config = array(
 			'settings' => array(
 				'landing_page_settings_group' => array(
 					'type' => 'group_name',
-					'display_name' => 'Landing Page Settings',
+					'display_name' => 'Home Page Settings',
 				),
 				'landing_page_gallery' => array(
 					'type' => 'gallery_chooser',
 					'display_name' => 'Slider Gallery',
-					'description' => "Choose which gallery to use for the theme landing page.",
+					'description' => "Choose which of your galleries you want to display on your site’s home page.",
 					'help_message' => 'Drop Down Test',
 				),
 				'landing_page_slideshow_interval_time' => array(
 					'type' => 'dropdown',
 					'display_name' => 'Slideshow Interval Time',
-					'description' => "The amount of time each image is shown.",
+					'description' => "The amount of time the home page images are shown before sliding down.",
 					'help_message' => 'Drop Down Test',
 					'possible_values' => array(
 						'1000' => array( 'display' => '1 second' ),
@@ -88,7 +88,7 @@ $theme_config = array(
 				'landing_page_slideshow_transition_time' => array(
 					'type' => 'dropdown',
 					'display_name' => 'Slideshow Transition Time',
-					'description' => "The amount of time it takes to transition to the next image.",
+					'description' => "The speed of the transition animation.",
 					'help_message' => 'Drop Down Test',
 					'possible_values' => array(
 						'500' => array( 'display' => '1/2 second' ),
@@ -106,7 +106,7 @@ $theme_config = array(
 				'landing_page_slideshow_max_images' => array(
 					'type' => 'numeric_dropdown',
 					'display_name' => 'Slideshow Images',
-					'description' => "The maximum number of images to show on the landing page slideshow.",
+					'description' => "The maximum number of images to show on the home page slideshow.",
 					'help_message' => 'Numeric Dropdown Test',
 					'possible_values' => array(
 						'min' => 1,
@@ -117,7 +117,7 @@ $theme_config = array(
 				'landing_page_into_text' => array(
 					'type' => 'textarea',
 					'display_name' => 'Landing Page Intro Text',
-					'description' => "The text that shows up on the landing page next to the slideshow.",
+					'description' => "The text that shows up on the home page next to the slideshow.",
 					'help_message' => 'Text Area Test',
 					'possible_values' => '.*\\\S+.*', // can be regex
 					'default_value' => 'Welcome to my online gallery. To purchase prints, navigate to an image in the image galleries section. Thank you for visting. Enjoy!',
@@ -129,7 +129,7 @@ $theme_config = array(
 				'max_gallery_images' => array(
 					'type' => 'dropdown',
 					'display_name' => 'Max Gallery Images',
-					'description' => "The maximum amount of images that will be shown in each gallery. If a gallery has more images than the chosen option the other images will simply not load. We recommend no more than 50 so that the gallery load time won't be too high, but we leave it up to you.",
+					'description' => "The maximum number of images that will be shown in each gallery. If a gallery has more images than the selected option the other images will simply not load. We recommend no more than 50 so that the gallery load time won't be too high, but we leave it up to you.",
 					'possible_values' => array(
 						'50' => array( 'display' => '50' ),
 						'75' => array( 'display' => '75' ),

@@ -97,13 +97,11 @@ if (!isset($hide_current)) {
 													</form>
 													<div class="usable_form" action="<?php echo $this->here; ?>" method="post">
 														<div class="button_switch_theme add_button" data-current-theme-id="<?php echo $curr_theme['Theme']['id']; ?>" <?php echo $select_help; ?>>
-															<div class="content"><?php echo __('Select',true); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div>
+															<div class="content"><?php echo __('Switch To Theme', true); ?></div>
 														</div>
 													</div>
 												<?php else: ?>
-													<div class="button_current_theme add_button" <?php echo $select_help; ?>>
-														<div type="submit" value="" ><div class="content"><?php echo __('Current',true); ?></div></div>
-													</div>
+													<div type="submit" value="" ><div class="content icon-Success-01">&nbsp;</div></div>
 												<?php endif; ?>
 											</td>
 										</tr>

@@ -181,7 +181,7 @@
 			<?php $all_pages = $this->Page->get_all_pages(); ?>
 			<div class="custom_ui">
 				<h2><?php echo __('Add Page To Menu', true); ?></h2>
-				<div class="drop_down_sub_title" >	
+				<div class="drop_down_sub_title" data-step="2" data-intro="<?php echo __('Add the pages you’ve created (using the &ldquo;Pages&rdquo; tab above) to the menu.', true); ?>" data-position="top">	
 					<?php 
 						$pages_disabled_class = '';
 						if (empty($current_on_off_features['page_builder'])) {
@@ -250,7 +250,7 @@
 			<div class="hr_element"></div>*/ ?>
 			
 			
-			<div class="custom_ui">
+			<div class="custom_ui" data-step="3" data-intro="<?php echo __('The default is set to display “Home” as the first item on your menu. If you do not want “Home” to appear, click this button. The Show Home Link letters will turn gray to show it is not selected.', true); ?>" data-position="top">
 				<h2><?php echo __('Show "Home" Link in Menu?', true); ?></h2>
 				<div class="drop_down_sub_title">
 					<?php $show_in_link = $this->Theme->get_theme_global_setting('show_home_link_in_menu', true); ?>
