@@ -18,7 +18,7 @@
 		</td>
 		<td class="table_actions last custom_ui">
 			<?php if ($menu_item_data['display_type'] != 'System'): ?>
-				<div class="delete_one_level_menu_item add_button icon icon_close" <?php echo $container_delete_help; ?>><div class="content icon-close-01"></div></div>
+				<div class="delete_one_level_menu_item add_button icon icon_close"><div class="content icon-close-01"></div></div>
 			<?php endif; ?>
 		</td>
 	</tr>

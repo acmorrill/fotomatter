@@ -1,6 +1,7 @@
-<h1><?php echo __('Ecommerce Settings', true); ?>
+<h1><?php echo __('E-commerce Settings', true); ?>
 	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 </h1>
+<p><?php echo __('This is the amount of sales tax (in US dollars) that will be collected from your users if their shipping address matches your home state and country. If this field is empty, no sales tax will be charged. Valid values are decimals between 0 and 1. Tax settings currently only utilized in the U.S.', true); ?></p>
 
 
 <div class="page_content_header generic_basic_settings">
@@ -36,12 +37,12 @@
 				
 				<div class="input text">
 					<label for="EcommercSalesTax"><?php __('Sales Tax Percentage (as a decimal between 0 and 1)'); ?></label>
-					<input name="data[site_sales_tax_percentage]" type="text" maxlength="100" value="<?php if (!empty($this->data['site_sales_tax_percentage'])) { echo $this->data['site_sales_tax_percentage']; } ?>" id="EcommercSalesTax" data-step="3" data-intro="The sales tax in US dollars that will be collected from your users if their shipping address matches your home state and country. If this field is empty no sales tax will be charged. Valid values are decimals between 0 and 1." data-position="right">
+					<input name="data[site_sales_tax_percentage]" type="text" maxlength="100" value="<?php if (!empty($this->data['site_sales_tax_percentage'])) { echo $this->data['site_sales_tax_percentage']; } ?>" id="EcommercSalesTax" data-step="3" data-intro="After selecting your home country and state from the dropdown list, enter the amount of sales tax your state charges. Enter it in decimal form between 0 and 1. For example, Utah’s state sales tax is 4.70%; it would be entered .047. " data-position="right">
 				</div>
 				
 			</div>
 		</div>
-		<div class="submit save_button javascript_submit">
+		<div class="submit save_button javascript_submit" data-step="4" data-intro="Don’t forget to save. " data-position="right">
 			<div class="content"><?php echo __('Save', true); ?></div>
 		</div>
 	</form>

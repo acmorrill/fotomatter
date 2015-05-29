@@ -21,7 +21,7 @@
 				'url' => "/admin/ecommerces",
 			);
 			$subnav['pages'][] = array(
-				'name' => __('Ecommerce Settings', true),
+				'name' => __('E-commerce Settings', true),
 				'url' => "/admin/ecommerces/index/",
 				'icon_css' => 'PageSettings-01',
 			);

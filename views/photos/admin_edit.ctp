@@ -10,6 +10,7 @@
 	<h1><?php echo __('Photo Details', true); ?>
 		<?php echo $this->Element('/admin/get_help_button'); ?>
 	</h1>
+	<p><?php echo __('Add titles, subtitles, descriptions, and other information to appear next to your images on your site. Leave blank and nothing besides the photo will be displayed.', true); ?></p>
 	<div class="actual_image_container">
 		<div class="actual_image_inner_container">
 			<?php $img_path = $this->Photo->get_photo_path($this->data['Photo']['id'], $image_element_cache_image_height, $image_element_cache_image_width, .4, true, false); ?>
@@ -109,7 +110,7 @@
 		echo $this->Element('admin/sub_submenu', array(
 			'tabs' => array(
 				'Image Details' => 'admin/photo/photo_details_image_edit',
-				'Image Pricing' => 'admin/photo/photo_details_ecommerce',
+				'Pricing Override' => 'admin/photo/photo_details_ecommerce',
 			),
 //			'css' => 'margin-top: -26px;',
 //			'starting_tab' => $starting_tab,
@@ -124,6 +125,7 @@
 	
 </div>
 
+<?php /*
 <?php ob_start(); ?>
 <ol>
 	<li>This page is where edit the settings for an individual photo</li>
@@ -145,3 +147,5 @@ ob_end_clean();
 	echo $this->Element('admin/richard_notes', array(
 	'html' => $html
 )); ?>
+ * 
+ */ ?>

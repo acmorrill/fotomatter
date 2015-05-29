@@ -20,7 +20,7 @@
 				
 				// figure the the now position of the dragged element
 				var pageId = jQuery(ui.item).attr('page_id');
-				var newPosition = ui.item.index() + 1;// TODO - this must always be set - fail otherwise -- not sure if it will be from jquery ui
+				var newPosition = position_of_element_among_siblings(jQuery("#pages_list .ui-sortable tr:not(.spacer)"), jQuery(ui.item));
 				
 				jQuery.ajax({
 					type: 'post',

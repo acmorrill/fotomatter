@@ -3546,6 +3546,10 @@ fieldset input[type="checkbox"] {
 .custom_ui .add_button.highlight:hover {
   background: #3f97a6;
 }
+.custom_ui .add_button.minor_highlight {
+  border: 1px solid #656a6e;
+  color: #c1ccd2;
+}
 .custom_ui .add_button.icon {
   min-width: 5px;
 }
