@@ -5646,12 +5646,23 @@ body {
 #image_sellable_prints table.list > tbody > tr:hover.unlocked > td {
   background-color: #3d3f40;
 }
+.disabled_block {
+  width: 100%;
+  height: 100%;
+  z-index: -100;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
 .opacity_50 {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
   filter: alpha(opacity=50);
   -moz-opacity: 0.5;
   -khtml-opacity: 0.5;
   opacity: 0.5;
+}
+.opacity_50 .disabled_block {
+  z-index: 1000000000;
 }
 #pages_list .page_action {
   width: 430px;

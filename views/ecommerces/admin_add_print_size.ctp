@@ -40,7 +40,7 @@
 				</div>
 			</div>
 			<div class="basic_setting_cont">
-				<label><?php __('Photo Formats'); ?></label>
+				<label><?php __('Photo Orientation'); ?></label>
 				<div class="theme_setting_inputs_container">
 					<input type="checkbox" <?php if ($this->Ecommerce->print_size_has_non_pano($this->data)): ?>checked="checked"<?php endif; ?> name="data[PhotoAvailSize][photo_format_ids][]" value="1,2,3" /><span>Landscape /<br />Portrait /<br />Square</span><br/>
 					<input type="checkbox" <?php if ($this->Ecommerce->print_size_has_pano($this->data)): ?>checked="checked"<?php endif; ?> name="data[PhotoAvailSize][photo_format_ids][]" value="4,5" /><span>Panoramic /<br />Vertical Panoramic</span><br/>

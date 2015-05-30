@@ -84,7 +84,7 @@
 						<tr>
 							<th class="first" style="min-width: 190px;">
 								<div class="content">
-									<?php echo __('Make print type available at size and format??', true); ?>
+									<?php echo __('Make print type available at size and orientation?', true); ?>
 								</div>
 							</th>
 							<th style="min-width: 80px;">
@@ -94,7 +94,7 @@
 							</th>
 							<th style="min-width: 130px;">
 								<div class="content">
-									<?php echo __('Print Formats', true); ?>
+									<?php echo __('Print Orientation', true); ?>
 								</div>
 							</th>
 							<th style="min-width: 144px;">

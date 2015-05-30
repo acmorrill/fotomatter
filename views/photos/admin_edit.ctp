@@ -11,7 +11,7 @@
 		<?php echo $this->Element('/admin/get_help_button'); ?>
 	</h1>
 	<p><?php echo __('Add titles, subtitles, descriptions, and other information to appear next to your images on your site. Leave blank and nothing besides the photo will be displayed.', true); ?></p>
-	<div class="actual_image_container">
+	<div class="actual_image_container" data-step="7" data-intro="<?php echo __('You can upload an updated version of the image here.', true); ?>" data-position="right">
 		<div class="actual_image_inner_container">
 			<?php $img_path = $this->Photo->get_photo_path($this->data['Photo']['id'], $image_element_cache_image_height, $image_element_cache_image_width, .4, true, false); ?>
 			<img src="<?php echo $img_path['url']; ?>" <?php echo $img_path['tag_attributes']; ?> alt="" />
@@ -93,15 +93,11 @@
 			<input type="file" accept="image/jpeg" />
 			<div id="upload_replacement_photo_button" class="custom_ui">
 				<div class="add_button">
-					<div class="content"><?php echo __('Upload Photo', true); ?></div>
+					<div class="content"><?php echo __('Replace Photo', true); ?></div>
 					<div class="plus_icon_lines icon-_button-01"><div class="one"></div><div class="two"></div></div>
 				</div>
 			</div>
 		</form>
-		
-		
-		
-		<?php //echo $this->Form->input('Photo.cdn-filename', array('type' => 'file')); ?>
 	</div>
 	
 	<div style="clear: both;"></div>
@@ -112,8 +108,8 @@
 				'Image Details' => 'admin/photo/photo_details_image_edit',
 				'Pricing Override' => 'admin/photo/photo_details_ecommerce',
 			),
+			'starting_tab' => $starting_tab,
 //			'css' => 'margin-top: -26px;',
-//			'starting_tab' => $starting_tab,
 		));
 		echo $this->Form->end('Save');
 	?>

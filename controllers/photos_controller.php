@@ -227,7 +227,7 @@ class PhotosController extends AppController {
 		exit();
 	}
 
-	public function admin_edit($id) {
+	public function admin_edit($id, $starting_tab = 0) {
 		$this->layout = 'admin/photo_details';
 		$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
 		if (!empty($max_photo_id) && $id > $max_photo_id) {
@@ -379,7 +379,18 @@ class PhotosController extends AppController {
 		));
 		$photo_tag_ids = Set::extract('/PhotosTag/tag_id', $photo_tags);
 
-		$this->set(compact('photo_tag_ids'));
+		$this->set(compact('photo_tag_ids', 'starting_tab'));
+	}
+	
+	public function admin_set_override_photo_pricing($photo_id) {
+		$photo_data = array();
+		$photo_data['Photo']['id'] = $photo_id;
+		$photo_data['Photo']['override_pricing'] = 1;
+		$this->Photo->create();
+		$this->Photo->save($photo_data);
+		
+		// DREW TODO - this goes to the first tab because going to the second tab breaks the tags js plugin for now - it would be nice to fix this and go the second tab (already coded)
+		$this->redirect("/admin/photos/edit/$photo_id/0"); 
 	}
 
 	/* if (!empty($thumbFile['tmp_name'])) {

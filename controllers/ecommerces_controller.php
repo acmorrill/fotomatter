@@ -202,7 +202,7 @@ class EcommercesController extends AppController {
 		
 		if (!empty($this->data)) {
 			if ( !isset($this->data['PhotoAvailSize']['photo_format_ids']) ) {
-				$this->Session->setFlash(__('Please choose photo formats to apply the print size to.', true), 'admin/flashMessage/error');
+				$this->Session->setFlash(__('Please choose photo orientations to apply the print size to.', true), 'admin/flashMessage/error');
 			} else if ( !isset($this->data['PhotoAvailSize']['short_side_length']) ) {
 				$this->Session->setFlash(__('Please choose a short side length.', true), 'admin/flashMessage/error');
 			} else {

@@ -8,8 +8,6 @@
 
 <script type="text/javascript">
 	jQuery(document).ready(function() {
-		jQuery('#<?php echo $uuid; ?> .sub_submenu_tab_cont:nth-child(<?php echo $starting_tab + 1; ?>)').show();
-		
 		jQuery('#<?php echo $uuid; ?> .sub_submenu_left_cont .sub_submenu_tab').click(function() {
 			jQuery('#<?php echo $uuid; ?> .sub_submenu_tab').removeClass('selected');
 			jQuery(this).addClass('selected');
@@ -19,10 +17,9 @@
 			jQuery('#<?php echo $uuid; ?> .sub_submenu_tab_cont:nth-child('+position+')').show();
 		});
 	});
-	
-	
 </script>
-<?php // KENT TODO - make sure this works for two tier menu as well ?>
+
+
 <div id="<?php echo $uuid; ?>" class="sub_submenu_cont" style="<?php echo isset($css) ? $css : ''; ?>">
 	<div class="sub_submenu_left_cont">
 		<div class="sub_menu_bottom_border"></div>
@@ -35,14 +32,20 @@
 		<?php $count++; endforeach; ?>
 	</div>
 	<div class="sub_submenu_right_cont">
-		<?php $count = 0; foreach ($tabs as $tab_name => $tab_element_path): ?>
-			<div id="sub_submenu_tab_<?php echo $count; ?>" class="sub_submenu_tab_cont">
+		<?php $count_2 = 0; foreach ($tabs as $tab_name => $tab_element_path): ?>
+			<?php 
+				$style_str = 'display: none;';
+				if ($count_2 == $starting_tab) {
+					$style_str = 'display: block;';
+				}
+			?>
+			<div id="sub_submenu_tab_<?php echo $count; ?>" class="sub_submenu_tab_cont" style="<?php echo $style_str; ?>">
 				<div class="content-background <?php if (isset($lighter)): ?>lighter-content-background<?php endif; ?> block_element_base">
 					<div class="fade_background_top"></div>
 					<?php echo $this->Element($tab_element_path); ?>
 				</div>
 			</div>
-		<?php $count++; endforeach; ?>
+		<?php $count_2++; endforeach; ?>
 	</div>
 	<?php if (isset($right_side_content)): ?>
 		<div class="sub_submenu_far_right_cont">

@@ -125,12 +125,17 @@ class PhotoGalleriesController extends AppController {
 		// add in photo format using best performance
 		$this->Photo->add_photo_format($photos);
 		
-		// make sure all photos have at least untitled as a title
-//		foreach ($photos as &$photo) {
+		foreach ($photos as &$photo) {
+			// make sure all photos have at least untitled as a title
 //			if (empty($photo['Photo']['display_title'])) {
 //				$photo['Photo']['display_title'] = 'Untitled';
 //			}
-//		}
+			
+			// unset date taken if use_data_taken empty
+			if (empty($photo['Photo']['use_date_taken'])) {
+				unset($photo['Photo']['date_taken']);
+			}
+		}
 		$this->set(compact('curr_gallery', 'photos', 'gallery_id', 'smart_settings'));
 		
 		$this->ThemeRenderer->render($this);
