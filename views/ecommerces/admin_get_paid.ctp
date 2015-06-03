@@ -1,11 +1,9 @@
  <?php //debug($payable_orders); ?>
 
-<h1><?php __('Payable Orders'); ?>
-	<?php echo $this->Element('/admin/get_help_button'); ?>
+<h1><?php __('Receive Payment'); ?>
+	<?php //echo $this->Element('/admin/get_help_button'); ?>
 </h1>
-<p>
-	<?php echo __('All payable orders appear below. Clap your hands and jump for joy. ', true); ?>
-</p>
+<p><?php echo __('After you have clicked &ldquo;fulfill&rdquo; on the &ldquo;Manage Orders&rdquo; page, the order will be displayed here until you have requested payment.', true); ?></p>
 <div style="clear: both;"></div> 
 
 <div class="table_container" data-step="1" data-intro="<?php echo __('This pages displays all the orders that have been place to your account.', true); ?>" data-position="top">
@@ -68,8 +66,8 @@
 				<tr>
 					<td colspan="2" style="text-align: left;" class="first">
 						<div style="width: 85%;">
-							<p>Orders are payable at 6:00 PM Mountain Time the day after they have been approved by you.</p><br />
-							<p>You will be sent an email to <b stlye="font-weight: bold;"><?php echo $payable_paypal_email_address; ?></b> from paypal. Follow the email instructions to receive payment via paypal..</p>
+							<p><?php echo __('Orders are payable at 6:00 PM Mountain Time the day after you have approved them. Fotomatter retains 5% of all orders for processing fees.', true); ?></p><br />
+							<p><?php echo sprintf(__('An email will be sent to <b stlye="font-weight: bold;">%s</b> from PayPal. Follow the email instructions to receive payment via PayPal.', true), $payable_paypal_email_address); ?></p>
 						</div>
 					</td>
 					<td style="min-width: 300px;" class="last">

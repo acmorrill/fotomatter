@@ -8,7 +8,7 @@
 </script>
 
 <h1><?php echo __('Account Details', true); ?>
-	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
+	<div id="help_tour_button" class="custom_ui"><?php //echo $this->Element('/admin/get_help_button'); ?></div>
 </h1>
 
 <div id="account_details_landing" data-step="1" data-intro="<?php echo __ ('Here you can change your password, check billing details, and payment history.',true); ?>" data-position="top">

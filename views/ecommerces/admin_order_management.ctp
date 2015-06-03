@@ -1,9 +1,7 @@
-<h1><?php echo __('Order Management', true); ?>
-	<?php echo $this->Element('/admin/get_help_button'); ?>
+<h1><?php echo __('Manage Orders', true); ?>
+	<?php //echo $this->Element('/admin/get_help_button'); ?>
 </h1>
-<p> 
-	<?php echo __('Here is where you will see all your orders. You will still need to approve the order by using the fulfill button. Once it has been approved it will be 18 to 44 hours until you receive your reimbursement.', true); ?>
-</p>
+<p><?php echo __('Listed below are all orders you have received. For new orders, you need to approve the order by clicking the &ldquo;fulfill&rdquo; button. Once an order has been approved, it will be 18 to 44 hours until you are eligible to receive funds for approved orders.', true); ?></p>
 
 <?php $sort_dir = $this->Paginator->sortDir('AuthnetOrder'); ?>
 <div class="table_container" data-step="1" data-intro="<?php echo __('Here you will see all the orders that have been approved or are waiting approval.', true); ?>" data-position="top">
@@ -87,7 +85,7 @@
 					</td> 
 					<td class="order_total <?php if ($this->Paginator->sortKey('AuthnetOrder') == 'AuthnetOrder.total'): ?> curr<?php endif; ?>">
 						<div class="rightborder"></div>
-						<span>$<?php echo $authnet_order['AuthnetOrder']['total']; ?></span> <?php // DREW TODO - do money formatting here ?>
+						<span><?php echo $this->Number->currency($authnet_order['AuthnetOrder']['total']); ?></span>
 					</td> 
 					<?php $created_date = $this->Util->get_formatted_created_date($authnet_order['AuthnetOrder']['created']); ?>
 					<td class="order_created_date <?php if ($this->Paginator->sortKey('AuthnetOrder') == 'AuthnetOrder.created'): ?> curr<?php endif; ?>">
@@ -124,6 +122,7 @@
 </div>
 
 
+<?php /*
 <?php ob_start(); ?>
 <ol>
 	<li>This page just lists your orders and their current status - you can fullfill orders from this page</li>
@@ -152,3 +151,5 @@ ob_end_clean();
 	echo $this->Element('admin/richard_notes', array(
 	'html' => $html
 )); ?>
+ * 
+ */ ?>

@@ -1,15 +1,11 @@
 <script type="text/javascript" src="/js/jquery_price_format/jquery.price_format.min.js"></script>
 
 <?php echo $this->Session->flash(); ?>
-<h1>
-	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
+<h1><?php echo __('Add/Edit Print Type', true); ?>
+	<div id="help_tour_button" class="custom_ui"><?php //echo $this->Element('/admin/get_help_button'); ?></div>
 	<div style="clear: both;"></div>
 </h1>
-<p>
-	<?php echo __('Print Types are the kind of print you offer. Such as canvas wrap, framed, poster, wood mount, framed textured and so on.
-	This pages will allow you to add and create new print types that you would like to offer. 
-	There can be multiple print types for one image. Now get going on your awesome sauce.', true); ?>
-</p>
+<p><?php echo __('Create print types, add sizes available to those print types, and set default pricing and shipping. To change pricing from the default structure on one specific photo, go to &ldquo;Pricing Override&rdquo; under the Photos tab.', true); ?></p>
 <div class="page_content_header">
 	<?php echo $this->Element('admin/back_button'); ?>
 	<h2><?php echo __('Create Available Print Type', true); ?></h2>
@@ -21,22 +17,22 @@
 		<div class="generic_palette_container">
 			<div class="fade_background_top"></div>
 			<div class="basic_setting_cont no_border">
-				<label><?php echo __('Enter Name of Print Type', true); ?></label>
+				<label><?php echo __('Name of Print Type', true); ?></label>
 				<div class="theme_setting_inputs_container">
 					<input type="text" name="data[PhotoPrintType][print_name]" value="<?php if (!empty($photo_print_type['PhotoPrintType']['print_name'])) echo $photo_print_type['PhotoPrintType']['print_name']; ?>" />
 				</div>
 				<div class="theme_setting_description">
-					<?php echo __('The name of the complete package you are selling. Example: canvas wrap, framed, poster, wood mount, and so on.', true); ?> 
+					<?php echo __('The name of the type of print you are selling. Examples: canvas wrap, wood mount, aluminum, framed, poster, Fuji Crystal Archive paper, etc.', true); ?> 
 				</div>
 			</div>
 			<div class="basic_setting_cont no_border">
-				<label><?php echo __('Enter Estimated Turnaround Time', true); ?></label>
+				<label><?php echo __('Estimated Turnaround Time', true); ?></label>
 				<div class="theme_setting_inputs_container">
 					<?php $print_type_turnaround_time = (!empty($photo_print_type['PhotoPrintType']['turnaround_time'])) ? $photo_print_type['PhotoPrintType']['turnaround_time'] : ''; ?>
 					<input id="print_type_turnaround_time" type="text" name="data[PhotoPrintType][turnaround_time]" prev_value="<?php echo $print_type_turnaround_time; ?>" value="<?php echo $print_type_turnaround_time; ?>" />
 				</div>
 				<div class="theme_setting_description">
-					<?php echo __('The time it takes for you to receive the funds to order the print and send it off. Example: 2 weeks, 4 days and so on.', true); ?>
+					<?php echo __('The amount of time it takes you to fulfill an order (to receive the funds, order the print, and to ship.) Example: 3 weeks, 5 days, etc. Note: some themes currently don\'t list this anywhere. ', true); ?>
 				</div>
 			</div>
 		</div>

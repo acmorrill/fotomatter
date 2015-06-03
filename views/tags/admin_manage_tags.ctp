@@ -20,11 +20,9 @@
 		'message' => '{{tag_manager_error}}'
 	)); ?>
 	<h1><?php echo __('Tags', true); ?>
-		<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
+		<div id="help_tour_button" class="custom_ui"><?php //echo $this->Element('/admin/get_help_button'); ?></div>
 	</h1>
-	<p style>
-		<?php echo __('This is the tags page',true); ?>
-	</p>
+	<p><?php echo __('Create and manage tags connected with your photos to easily upload new photos by tag, using the &ldquo;smart galleries&rdquo; feature (under Galleries tab).', true); ?></p>
 	
 	<div style="clear: both;"></div>
 	<div id="tag_tools_cont">
