@@ -9,12 +9,10 @@
 		}
 	}
 ?>
-<h1>
-	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
+<h1><?php echo __('Add/Edit Print Sizes', true); ?>
+	<div id="help_tour_button" class="custom_ui"><?php //echo $this->Element('/admin/get_help_button'); ?></div>
 </h1>
-<p>
-	<?php echo __('This mind-blowing page allows for the set up of print sizes. '); ?>
-</p>
+<p><?php echo __('Add new dimensions to your available print sizes and select the format you want the size applied to.'); ?></p>
 <div class="page_content_header">
 	<?php echo $this->Element('admin/back_button'); ?>
 	<h2>Select a Dimension and Format</h2>
@@ -40,13 +38,13 @@
 				</div>
 			</div>
 			<div class="basic_setting_cont">
-				<label><?php __('Photo Formats'); ?></label>
+				<label><?php __('Photo Orientation'); ?></label>
 				<div class="theme_setting_inputs_container">
 					<input type="checkbox" <?php if ($this->Ecommerce->print_size_has_non_pano($this->data)): ?>checked="checked"<?php endif; ?> name="data[PhotoAvailSize][photo_format_ids][]" value="1,2,3" /><span>Landscape /<br />Portrait /<br />Square</span><br/>
 					<input type="checkbox" <?php if ($this->Ecommerce->print_size_has_pano($this->data)): ?>checked="checked"<?php endif; ?> name="data[PhotoAvailSize][photo_format_ids][]" value="4,5" /><span>Panoramic /<br />Vertical Panoramic</span><br/>
 				</div>
 				<div class="theme_setting_description">
-					<?php __('Required. Choose the formats that this dimension will be available to. For example, choosing short side dimension with formats "Landscape / Portrait / Square" will make those sizes available as options when you are creating prices for different print types.'); ?>
+					<?php __('Required. Choose the orientations that this dimension will be available on. For example, choosing a short side dimension with orientations "Landscape / Portrait / Square" will make those sizes available as options when you are creating prices for different print types.'); ?>
 				</div>
 			</div>
 			<div style="clear: both"></div>

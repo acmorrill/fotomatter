@@ -67,7 +67,8 @@ jQuery(document).ready(function() {
 	
 	
 	
-	jQuery('.javascript_submit').click(function(){ 
+	jQuery('.javascript_submit').click(function(e) { 
+		e.preventDefault();
 		jQuery(this).closest('form').submit();
 	});
 	

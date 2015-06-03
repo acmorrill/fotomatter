@@ -298,14 +298,12 @@
 <h1><?php echo __('Configure Page', true); ?>
 	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 </h1>
-<p>
-	<?php echo __('This page produces the elements which create a custom page. Modify the content below to get the desired appearance.', true); ?>
-</p>
+<p><?php echo __('Add images, text, and headings to create your custom page.', true); ?></p>
 <div style="clear: both;"></div> 
 
 
 <div id="configure_page_cont" class="clear">
-	<div class="avail_page_elements_cont" data-step="1" data-intro="<?php echo __ ('Choose the type of page look you would prefer.',true); ?>" data-position="right">
+	<div class="avail_page_elements_cont" data-step="1" data-intro="<?php echo __ ('Choose from two page elements. The first has a heading, image, and text, and the second is a large image. Mix and match the two elements to create the desired result. To add it to your page, simply click to select the element. Add as many page elements as you want.', true); ?>" data-position="right">
 		<div class="page_content_header">
 			<h2><?php echo __('Page Elements', true); ?></h2>
 		</div>
@@ -321,7 +319,7 @@
 		</div>
 	</div>
 	<div class="page_content_header">
-		<h2 data-step="2" data-intro="<?php echo __ ('Once you have chosen a page element this area will allow you to customize the page to your liking. By adding a title, a photo and text.',true); ?>" data-position="top">modify page content below</h2>
+		<h2 data-step="2" data-intro="<?php echo __ ('Once you have added more than one page element, you can arrange them by clicking and dragging the arrows to move the section up or down. ',true); ?>" data-position="top">modify page content below</h2>
 	</div>
 	<div class="page_content_cont generic_palette_container">
 		<div class="fade_background_top"></div>
@@ -340,7 +338,7 @@
 	<div class="clear"></div>
 </div>
 
-
+<?php /*
 <?php ob_start(); ?>
 <ol>
 	<li>This page where you can add page content</li>
@@ -356,3 +354,4 @@ ob_end_clean();
 	echo $this->Element('admin/richard_notes', array(
 	'html' => $html
 )); ?>
+ */ ?>

@@ -4,7 +4,7 @@
 	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 </h1>
 <p>
-	<?php echo __('This is the astonishing galleries page. It displays all created galleries across the site. Here the galleries can be rearranged, edited and deleted.'); ?>
+	<?php echo __('Add/delete galleries and manage the photos inside your galleries.', true); ?>
 </p>
 <div style="clear: both;"></div>
 <script type="text/javascript">
@@ -18,8 +18,7 @@
 				
 				// figure the the now position of the dragged element
 				var photoGalleryId = jQuery(ui.item).attr('gallery_id');
-				var newPosition = ui.item.index() + 1;// TODO - this must always be set - fail otherwise -- not sure if it will be from jquery ui
-				// DREW TODO - change the above to use - var newPosition = position_of_element_among_siblings(jQuery('.page_element_cont', this), jQuery(ui.item));
+				var newPosition = position_of_element_among_siblings(jQuery("#photo_gallery_list .ui-sortable tr:not(.spacer)"), jQuery(ui.item));
 				
 				jQuery.ajax({
 					type: 'post',
@@ -40,7 +39,7 @@
 	});
 </script>
 
-<div class="right" data-step="2" data-intro="<?php echo __ ('Choose the type of gallery to be created. Whether it be a standard gallery or a smart gallery.',true); ?>" data-position="bottom">
+<div class="right" data-step="2" data-intro="<?php echo __('To create a new gallery, choose from two options: standard or smart.', true); ?>" data-position="left">
 	<?php echo $this->Element('admin/gallery/add_gallery'); ?>
 </div>
 <div class="clear"></div>
@@ -48,23 +47,26 @@
 <div id="photo_gallery_list" class="table_container">
 	<div class="fade_background_top"></div>
 	<div class="table_top"></div>
-	<table class="list">
+	<table class="list" data-step="1" data-intro="<?php echo __ ('Here you can view all of the galleries currently created. Edit the titles, manage the photos, or delete the gallery completely.', true); ?>" data-position="top">
 		<thead>
 			<tr> 
 				<?php /* <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?> */ ?>
 				<?php /* <?php echo $this->Paginator->sort(__('Photo ID', true), 'Photo.id'); ?> */ ?>
 				<th class="first">
 				</th> 
-				<th class="" data-step="1" data-intro="<?php echo __ ('Display name, shows names below of all the current galleries that have been created. Edit them, manage the photos or delete the gallery completely. ',true); ?>" data-position="right">
+				<th class="">
 					<div class="content one_line">
 						<?php echo __('Display Name', true); ?>
 					</div>
 				</th> 
+				<?php /*
 				<th class="mobile_hide">
 					<div class="content one_line">
 						<?php echo __('Description', true); ?>
 					</div>
 				</th> 
+				 * 
+				 */ ?>
 				<th class="mobile_hide">
 					<div class="content one_line">
 						<?php echo __('Gallery Type', true); ?>
@@ -89,7 +91,26 @@
 				</tr>
 			<?php endif; ?>
 
-			<?php $count = 0; foreach($galleries as $curr_gallery): ?> 
+			<?php $count = 1; $smart_count = 1; $step_count = 4; foreach($galleries as $curr_gallery): ?> 
+				<?php 
+					$edit_button_help = "";
+					$manage_button_help = "";
+					$configure_button_help = "";
+					$x_button_help = "";
+					if ($curr_gallery['PhotoGallery']['type'] == 'smart') {
+						if ($smart_count === 1) {
+							$configure_button_help = 'data-step="' . $step_count++ . '" data-intro="' . __("Configure the settings for a “Smart” gallery.", true) . '" data-position="left"';
+						}
+						$smart_count++;
+					} else {
+						if ($count === 1) {
+							$edit_button_help = 'data-step="' . $step_count++ . '" data-intro="' . __("Select “Edit” to modify basic gallery settings.", true) . '" data-position="left"';
+							$manage_button_help = 'data-step="' . $step_count++ . '" data-intro="' . __("Manage gallery photos to add/remove photos from a “Standard” gallery.", true) . '" data-position="left"';
+							$x_button_help = 'data-step="' . $step_count++ . '" data-intro="' . __("Click on the X to permanently delete a gallery.", true) . '" data-position="left"';
+						}
+						$count++;
+					}
+				?>
 				<tr gallery_id="<?php echo $curr_gallery['PhotoGallery']['id']; ?>">
 					<td class="gallery_id first">
 						<div class="rightborder"></div>
@@ -99,36 +120,36 @@
 						<div class="rightborder"></div>
 						<span><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></span>
 					</td> 
-					<td class="gallery_description mobile_hide">
+					<?php /*<td class="gallery_description mobile_hide">
 						<div class="rightborder"></div>
 						<?php if (empty($curr_gallery['PhotoGallery']['description'])): ?>
 							<span>no description yet</span>
 						<?php else: ?>
 							<span><?php echo $curr_gallery['PhotoGallery']['description']; ?></span>
 						<?php endif; ?>
-					</td> 
+					</td> */ ?>
 					<td class="gallery_description mobile_hide">
 						<div class="rightborder"></div>
 						<span><?php echo ucwords($curr_gallery['PhotoGallery']['type']); ?></span>
 					</td>
 					<td class="gallery_action last table_actions">
 						<span class="custom_ui">
+							<a href="/admin/photo_galleries/edit_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/">
+								<div class="add_button" <?php echo $edit_button_help; ?>>
+									<div class="content"><?php echo __('Edit', true); ?></div>
+									<div class="right_arrow_lines icon-arrow-01"><div></div></div>
+								</div>
+							</a>
 							<?php if ($curr_gallery['PhotoGallery']['type'] == 'smart'): ?>
 								<a href="/admin/photo_galleries/edit_smart_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/">
-									<div class="add_button">
-										<div class="content"><?php echo __('Edit', true); ?></div>
+									<div class="add_button" <?php echo $configure_button_help; ?>>
+										<div class="content"><?php echo __('Configure', true); ?></div>
 										<div class="right_arrow_lines icon-arrow-01"><div></div></div>
 									</div>
 								</a>
 							<?php else: ?>
-								<a href="/admin/photo_galleries/edit_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/">
-									<div class="add_button">
-										<div class="content"><?php echo __('Edit', true); ?></div>
-										<div class="right_arrow_lines icon-arrow-01"><div></div></div>
-									</div>
-								</a>
 								<a href="/admin/photo_galleries/edit_gallery_connect_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/">
-									<div class="add_button">
+									<div class="add_button" <?php echo $manage_button_help; ?>>
 										<div class="content"><?php echo __('Manage Photos', true); ?></div>
 										<div class="right_arrow_lines icon-arrow-01"><div></div></div>
 									</div>
@@ -140,17 +161,17 @@
 									</div>
 								</a>*/ ?>
 							<?php endif; ?>
-							<a class="delete_link" href="/admin/photo_galleries/delete_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><div class="add_button icon icon_close"><div class="content icon-close-01"></div></div></a>
+							<a class="delete_link" href="/admin/photo_galleries/delete_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><div class="add_button icon icon_close" <?php echo $x_button_help; ?>><div class="content icon-close-01"></div></div></a>
 						</span>
 					</td>
 				</tr>
-			<?php $count ++; endforeach; ?> 
+			<?php endforeach; ?> 
 		</tbody>
 	</table>
 </div>
 
 
-
+<?php /*
 <?php ob_start(); ?>
 <ol>
 	<li>This page lists all the galleries you currently have - and also lets you reorder them.</li>
@@ -173,3 +194,6 @@ ob_end_clean();
 	echo $this->Element('admin/richard_notes', array(
 	'html' => $html
 )); ?>
+*/ ?>
+
+						

@@ -7,7 +7,7 @@ h1 {
 	.Code-Pro-LC;
 	font-size: 30px;
 	margin-bottom: 35px;
-	color: @gray_text;
+	color: (@gray_text + #222222);
 }
 h2 {
 	.Code-Pro-LC;
@@ -165,6 +165,10 @@ img {
 	border-top-left-radius: 0px; /* CSS3 */
 	z-index: @content;
 	margin-bottom: 250px;
+	p { 
+		max-width: 850px; 
+		margin-bottom: 20px;
+	}
 }
 .message_div {
 	.Code-Pro-LC;
@@ -315,6 +319,10 @@ img {
 			&:hover {
 				background: @button_highlight + @button_bg_increase;
 			}
+		}
+		&.minor_highlight {
+			border: 1px solid @button_border + #333333;
+			color: @gray_text + #333333;
 		}
 		&.icon { min-width: 5px; }
 		&:hover, &.selected, &.ui-state-active {

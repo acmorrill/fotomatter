@@ -12,14 +12,14 @@
 		<?php //echo $this->Element('/admin/get_help_button'); ?>
 	</h1>
 	<p>
-		<?php echo __('This page enables settings of the chosen theme to be changed.',true)?>
+		<?php echo __('Each theme has unique features. Easily update your theme’s settings to achieve your desired result.', true)?>
 	</p>
-	<div data-step="1" data-intro="<?php echo __('This area empowers the theme, and allows for settings to be changed. Go ahead and change something.', true); ?>" data-position="top">
+	<div>
 		<?php echo $this->Element('admin/theme_center/theme_settings/theme_settings_list', compact('avail_settings_list', 'theme_id')); ?>
-	</div>	
+	</div>
 <?php endif; ?>
 
-	
+<?php /*
 <?php ob_start(); ?>
 <ol>This page is used to select settings specific to your current theme. <br/>Every theme can any settings it wants (as long as it uses the available setting types)
 	<li>Here are all the theme setting options (this page has examples of each - make sure you are on the andrewmorrill theme to see settings)
@@ -44,4 +44,4 @@ $html = ob_get_contents();
 ob_end_clean();
 	echo $this->Element('admin/richard_notes', array(
 	'html' => $html
-)); ?>
+)); ?> */ ?>

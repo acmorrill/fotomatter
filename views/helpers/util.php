@@ -101,6 +101,10 @@ class UtilHelper extends AppHelper {
 		return $default;
 	}
 	
+	public function on_url($curr_url) {
+		return $this->startsWith(trim($curr_url, '/'), trim($this->here, '/')) || $this->startsWith(trim($this->here, '/'), trim($curr_url, '/'));
+	}
+	
 	public function startsWith($haystack, $needle) {
 		$this->Photo = ClassRegistry::init('Photo');
 		

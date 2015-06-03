@@ -3,11 +3,9 @@
 //debug($is_refundable);
 ?>
 <h1><?php echo __('Manage Order', true); ?>
-	<?php echo $this->Element('/admin/get_help_button'); ?>
+	<?php //echo $this->Element('/admin/get_help_button'); ?>
 </h1>
-<p>
-	Some awesome text about managing this. Kent needs serious help.
-</p>
+<p><?php echo __('Approve the order details below.', true); ?></p>
 <div style="clear: both;"></div> 
 <?php //debug($authnet_order['AuthnetLineItem']); ?>
 <div id="fulfill_order_container">
@@ -96,7 +94,7 @@
 							</td>
 							<td>
 								<div class="rightborder"></div>
-								<span>$<?php echo $order_item_data['unit_cost']; ?></span> <?php // DREW TODO - make the money format better ?>
+								<span><?php echo $this->Number->currency($order_item_data['unit_cost']); ?></span>
 							</td>
 							<?php /*<td>
 								$<?php echo $order_item_data['shipping_price']; ?> <?php // DREW TODO - make the money format better ?>
@@ -115,7 +113,7 @@
 							</td>
 							<td class="last">
 								<div class="rightborder"></div>
-								<span>$<?php echo $this->Cart->get_cart_line_total($order_item_data['quantity'], $order_item_data['unit_cost']); ?></span><?php // DREW TODO - make the money format better ?>
+								<span><?php echo $this->Number->currency($this->Cart->get_cart_line_total($order_item_data['quantity'], $order_item_data['unit_cost'])); ?></span>
 							</td>
 						</tr>
 					<?php endforeach; ?>
@@ -167,15 +165,15 @@
 							<div class="table_summary">
 								<div class="payment_item current_bill">
 									<label><?php echo __('Shipping', true); ?></label>
-									<span class="value">$<?php echo $authnet_order['AuthnetOrder']['shipping']; ?></span>
+									<span class="value"><?php echo $this->Number->currency($authnet_order['AuthnetOrder']['shipping']); ?></span>
 								</div>
 								<div class="payment_item new_bill">
 									<label><?php echo __('Sub Total', true); ?></label>
-									<span class="value">$<?php echo $authnet_order['AuthnetOrder']['total'] - $authnet_order['AuthnetOrder']['shipping']; ?></span>
+									<span class="value"><?php echo $this->Number->currency($authnet_order['AuthnetOrder']['total'] - $authnet_order['AuthnetOrder']['shipping']); ?></span>
 								</div>
 								<div class="payment_item due_today">
 									<label><?php echo __('Total', true); ?></label>
-									<span class="value">$<?php echo $authnet_order['AuthnetOrder']['total']; ?></span>
+									<span class="value"><?php echo $this->Number->currency($authnet_order['AuthnetOrder']['total']); ?></span>
 								</div>
 							</div>
 						</td>

@@ -28,6 +28,10 @@
 				'name' => __('Current Theme Settings', true),
 				'url' => "/admin/theme_centers/theme_settings/",
 				'icon_css' => 'settings',
+				'help_step' => array(
+					'url' => "/admin/theme_centers/choose_theme/",
+					'step_code' => 'data-step="3" data-intro="' . __("After you’ve selected your theme, click “Current Theme Settings” to begin your customizations, or select from the top menu to add galleries, photos, and pages.", true) . '" data-position="right"',
+				),
 			);
 			$subnav['pages'][] = array(
 				'name' => __('Main Menu', true),

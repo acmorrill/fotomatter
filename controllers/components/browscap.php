@@ -6,9 +6,8 @@ class BrowscapComponent extends Object {
 		$this->controller = $controller;
 	}
 
-	function is_browser_supported() {
-		$browser_data = get_browser(null, true);
-
+	public function is_browser_supported() {
+		$browser_data = $this->get_browser_data();
 
 		if (empty($browser_data['browser']) || empty($browser_data['version'])) {
 			return false;
@@ -38,17 +37,43 @@ class BrowscapComponent extends Object {
 					return false;
 				}
 				break;
-			case "Safari":
-				if ($version >= 7) {
-					return true;
-				} else {
-					return false;
-				}
-				break;
 		}
 
 
 		return false;
+	}
+	
+	public function is_mobile() {
+		$browser_data = $this->get_browser_data();
+		
+		if (!empty($browser_data['ismobiledevice'])) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public function is_tablet() {
+		$browser_data = $this->get_browser_data();
+		
+		if (!empty($browser_data['istablet'])) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	private function get_browser_data() {
+		// DREW TODO - also make this cache into a file so the cache can be restored after apc is cleared
+		$browser_data_apc_key = "browser_data_cache_" . $_SERVER['HTTP_USER_AGENT'];
+		if (apc_exists($browser_data_apc_key)) {
+			$browser_data = apc_fetch($browser_data_apc_key);
+		} else {
+			$browser_data = get_browser(null, true);
+			apc_add($browser_data_apc_key, $browser_data);
+		}
+		
+		return $browser_data;
 	}
 
 }

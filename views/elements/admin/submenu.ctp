@@ -20,7 +20,20 @@
 //	});
 </script>
 
-<div id="sub-nav" class=" <?php if (isset($curr_page)) { echo $curr_page; } ?>" >
+<?php $help_step = ''; ?>
+<?php $count = 1; foreach ($subnav['pages'] as $subnav_page) {
+	if (!is_array($subnav_page['url'])) {
+		if (!empty($subnav_page['help_step'])) {
+			if ( $this->Util->on_url($subnav_page['help_step']['url']) ) {
+				$help_step = $subnav_page['help_step']['step_code'];
+			}
+		}
+	}
+	$count++;
+} ?>
+
+
+<div id="sub-nav" class=" <?php if (isset($curr_page)) { echo $curr_page; } ?>" <?php echo $help_step; ?> >
 	<ul>
 		<?php /*
 		<li class="title" id="title-description">
@@ -28,20 +41,26 @@
 		</li>
 		<li class="spacer">&nbsp;</li> */ ?>
 		<?php $count = 1; foreach ($subnav['pages'] as $subnav_page): ?>
-			<?php 
+			<?php
+				$help_step = '';
 				$selected = '';
 				if (is_array($subnav_page['url'])) {
 					foreach ($subnav_page['url'] as $curr_url) {
-						if ($this->Util->startsWith(trim($curr_url, '/'), trim($this->here, '/')) || $this->Util->startsWith(trim($this->here, '/'), trim($curr_url, '/'))) {
+						if ( $this->Util->on_url($curr_url) ) {
 							$selected = 'selected';
 						}
 					}
 				} else {
-					if ($this->Util->startsWith(trim($subnav_page['url'], '/'), trim($this->here, '/')) || $this->Util->startsWith(trim($this->here, '/'), trim($subnav_page['url'], '/'))) {
+					if ( $this->Util->on_url($subnav_page['url']) ) {
 						$selected = 'selected';
 					}
+					if (!empty($subnav_page['help_step'])) {
+						if ( $this->Util->on_url($subnav_page['help_step']['url']) ) {
+							$help_step = $subnav_page['help_step']['step_code'];
+						}
+					}
 				}
-			?>	
+			?>
 			<li class="<?php if (!empty($subnav_page['hide_on_mobile'])): ?> hide_on_mobile <?php endif; ?> <?php if ($count === 1): ?> first<?php endif; ?> <?php echo $selected; ?>">
 				<div class="subnav_bg"></div>
 				<table>

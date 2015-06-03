@@ -53,10 +53,14 @@
 							}
 						}
 						.choose_theme_button {
-							width: 172px;
+							width: 220px;
 							> * {
 								margin-right: 15px;
 								float: right;
+							}
+							.icon-Success-01 {
+								color: @tab2_on_color;
+								font-size: 22px;
 							}
 						}
 					}
@@ -68,11 +72,15 @@
 				.el_opacity(1, 100);
 				border: 3px solid @top_white;
 			}
-			
 			.theme_item_outer_container .theme_item_inner_container .container_rectangular_box .choose_theme_text h2  {
 				.el_opacity(1, 100);
 			}
-			
+		}
+		&.current {
+			.theme_item_outer_container .theme_item_inner_container .screenshot_container {
+				.el_opacity(1, 100);
+				border: 2px solid @tab2_on_color;
+			}
 		}
 	}
 }

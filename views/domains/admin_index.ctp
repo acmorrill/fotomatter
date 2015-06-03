@@ -12,11 +12,9 @@
 	<?php endif; ?>
 	<h1>
 		<?php echo __('Manage Domains', true); ?>
-		<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
+		<div id="help_tour_button" class="custom_ui"><?php //echo $this->Element('/admin/get_help_button'); ?></div>
 	</h1>
-	<p>
-		<?php echo __('Give your site its own identity. Only fotomatter doesn\'t charge you anything extra to have a custom domain, just pay the cost of registration, and then its yours for a year. Use the search field below to get started.', true); ?>
-	</p>
+	<p><?php echo __('Personalize your site by buying a personalized domain. Just pay the cost of registration, and it’s yours for a year. Use the search field below to get started. You can also use domains you already own &mdash; see below for more details.', true); ?></p>
 	<div class="purchased_domains">
 		<?php if (empty($domains) === false): ?>
 			<form method='POST'>

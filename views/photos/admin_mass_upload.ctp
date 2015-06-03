@@ -1,9 +1,7 @@
 <h1><?php echo __('Add Photos', true); ?>
 	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 </h1>
-<p>
-	<?php echo __('This is where you can add photos to your site.', true); ?>
-</p>
+<p><?php echo __('Timesaver Tip: Before uploading new photos, first select the gallery (on the left) you want the photos to go in. If you haven’t created the gallery yet, select the Galleries tab above to get started. Or, you may begin uploading photos and organize into galleries after. The recommended .jpg size is 4000px or less on the long side.', true); ?></p>
 
 <script>
 	$(document).ready(function() {
@@ -55,9 +53,9 @@
 		<input type="hidden" name="height" value="110" />
 		<input type="hidden" name="width" value="110" />
 		
-		<div class="generic_photo_gallery_cont">
+		<div class="generic_photo_gallery_cont" data-step="1" data-intro="<?php echo __ ('Before uploading your photos, optionally first select the gallery you would like your photos to go in. You can also add tags that you’ve created in your site settings above.', true) ?>" data-position="bottom">
 			<div class="page_content_header">
-				<h2 data-step="1" data-intro="<?php echo __ ('These settings allow you to choose what gallery or tags that will be associate to the photos before they are uploaded.', true) ?>" data-position="top"><?php echo __('Photo Upload Settings', true); ?></h2>
+				<h2><?php echo __('Photo Upload Settings', true); ?></h2>
 			</div>
 			<div class="generic_palette_container">
 				<div class="upload_setting_container first">
@@ -82,7 +80,7 @@
 			</div>
 		</div>
 		
-		<div class="files_ready_to_upload_cont" data-step="2" data-intro="<?php echo __("Upload your photos by drag and dropping or using the 'Choose Photos' button. Once have selected the photos click 'Start Upload'", true) ?>" data-position="top">
+		<div class="files_ready_to_upload_cont" data-step="2" data-intro="<?php echo __("Upload your photos by dragging and dropping or use the &ldquo;Choose Photos&rdquo; button. Once you have selected the photos you wish to upload, click &ldquo;Start Upload&rdquo;. The recommended .jpg size is 4000px or less on the long side. Add up to 50 photos for free. When you’re done, you can view all of your photos by clicking the &ldquo;Photos&rdquo; tab above.", true) ?>" data-position="top">
 			<div class='files_ready_to_upload_inner_cont custom_ui_radio'>
 				<div class="page_content_header">
 					<!-- Redirect browsers with JavaScript disabled to the origin page -->

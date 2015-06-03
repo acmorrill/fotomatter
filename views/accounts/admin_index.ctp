@@ -7,7 +7,7 @@
 	}
 	
 	function format_numbers() {
-		$(".line_item .cost").each(function() {
+		$(".line_item .cost > span").each(function() {
 			$(this).html(accounting.formatMoney($(this).html()));
 		});
 		
@@ -195,10 +195,12 @@
 <h1><?php echo __('Manage Features', true); ?>
 	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 </h1>
-
+<p><?php echo __('All of fotomatter.net’s features are offered a la carte. Choose the features you need now. You can add or delete features whenever you want. Many more features are currently underway.', true); ?></p>
+<p><?php echo __('When you check out, you will be charged a prorated amount based on your new features.', true); ?></p>
+<p><?php echo __('While we are in Beta, we will give you $10 in fotomatter credit each month so you can try all of our paid features for free! (You will get an email every time credit is added.)', true); ?></p>
 
 <?php //debug($overlord_account_info['Account']['next_bill_date']); ?>
-<div id="account-details" class="<?php if (!empty($add_feature_ref_name)): ?> finish-shown <?php endif; ?> generic_photo_gallery_cont">
+<div id="account-details" class="<?php if (!empty($add_feature_ref_name)): ?> finish-shown <?php endif; ?> generic_photo_gallery_cont" data-step="5" data-intro="<?php echo __('After you’ve added features, your projected monthly bill will be displayed here. When you check out, you will be charged a prorated amount based on your new features.', true); ?>" data-position="bottom">
 	<div class="page_content_header">
 		<h2><?php echo __('Billing Status', true); ?></h2>
 	</div>
@@ -247,7 +249,7 @@
 				<div class="right_arrow_lines icon-arrow-01"><div></div></div>
 			</div>
 		</div>
-		<p data-step="2" data-intro="<?php echo __ ("Add all our awesome features. Go ahead try one out. If you don't like it you can always remove it.",true); ?>" data-position="bottom"><?php echo __('add/remove features below', true); ?></p>
+		<p><?php echo __('add/remove features below', true); ?></p>
 		<div style="clear: both;"></div>
 	</div>
 	<div class="generic_palette_container">
@@ -256,23 +258,28 @@
 			<table class="list">
 				<tbody>
 					<?php $items_length = count($overlord_account_info['items']); ?>
-					<?php $count = 1; foreach ($overlord_account_info['items'] as $line_item): ?>
+					<?php $count = 1; $step_count = 1; foreach ($overlord_account_info['items'] as $line_item): ?>
 						<?php 
 							$icon_css = '';
+							$help_text = '';
 							switch ($line_item['AccountLineItem']['ref_name']) {
 								case 'unlimited_photos':
+									$help_text = 'data-step="' . $step_count++ . '" data-intro="' . sprintf(__("Every fotomatter.net customer gets %s photos free. If you need more than that, add unlimited photos here.", true), LIMIT_MAX_FREE_PHOTOS) . '" data-position="top"';
 									$icon_css = 'icon-unlimitedPhotos-01';
 									break;
 								case 'basic_shopping_cart':
+									$help_text = 'data-step="' . $step_count++ . '" data-intro="' . __("To easily sell your photos, add e-commerce to your site.", true) . '" data-position="top"';
 									$icon_css = 'icon-shoppingCart-01';
 									break;
 								case 'page_builder':
+									$help_text = 'data-step="' . $step_count++ . '" data-intro="' . __("To add pages such as About, Contact, Pricing, etc. add our Page Builder.", true) . '" data-position="top"';
 									$icon_css = 'icon-pageBuilder_2-01';
 									break;
 								case 'mobile_theme':
 									$icon_css = 'icon-mobileThemes-01';
 									break;
 								case 'remove_fotomatter_branding':
+									$help_text = 'data-step="' . $step_count++ . '" data-intro="' . __("Our logo automatically appears at the bottom of the sites we host unless you choose to remove it.", true) . '" data-position="top"';
 									$icon_css = 'icon-noBranding-01';
 									break;
 								case 'email_support':
@@ -301,11 +308,11 @@
 							</td> */ ?>
 							<td class="first">
 								<div class="rightborder"></div>
-								<span><i class="<?php echo $icon_css; ?>"></i><?php echo $line_item['AccountLineItem']['name']; ?></span>
+								<span <?php echo $help_text; ?>><i class="<?php echo $icon_css; ?>"></i><?php echo $line_item['AccountLineItem']['name']; ?></span>
 							</td>
 							<td>
 								<div class="rightborder"></div>
-								<div class="cost"><?php echo $line_item['AccountLineItem']['current_cost']; ?></div>
+								<div class="cost"><?php echo sprintf(__('<span>%s</span> / month', true), $line_item['AccountLineItem']['current_cost']); ?></div>
 								<div class="feature_on"><?php echo __('Active', true); ?></div>
 								<div class="cancel_pending"><?php echo __('Cancel Pending', true); ?></div>
 							</td>

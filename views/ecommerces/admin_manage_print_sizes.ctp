@@ -17,12 +17,11 @@
 	});
 </script>
 
-<h1><?php echo __('Choose available formats for retail', true); ?>
-	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
+<h1><?php echo __('Manage Print Sizes', true); ?>
+	<div id="help_tour_button" class="custom_ui"><?php //echo $this->Element('/admin/get_help_button'); ?></div>
 </h1>
-<p>
-	<?php echo __('Presented are the sizes available to you and it is a complete list of the print size that you sell. You will need to make a Print Type to go along with the Print Size to match the available sizes. That is done in the “Manage Print Types and Default Pricing” tab on the left hand side of the page.', true); ?>
-</p>
+<p><?php echo __('Most often you won\'t need to use this page as the defaults work for most people. You only need to make changes to available prints if you sell sizes that are not listed by default.', true); ?></p>
+<p><?php echo __('Below is a complete list of the print sizes that you sell. You will need to link the sizes to a Print Type (canvas, metal, paper, etc.) in the &ldquo;Manage Print Types and Default Pricing&rdquo; tab on the left hand side of the page before they can be sold.', true); ?></p>
 
 <div class="right">
 	<div class="add_gallery_element custom_ui" style="margin: 5px; margin-bottom: 15px;">

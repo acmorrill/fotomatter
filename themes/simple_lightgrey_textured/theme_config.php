@@ -76,14 +76,14 @@ $theme_config = array(
 				),
 				'landing_page_gallery' => array(
 					'type' => 'gallery_chooser',
-					'display_name' => 'Slideshow Gallery',
-					'description' => "Choose which gallery to use for the theme landing page.",
+					'display_name' => 'Landing Page Image',
+					'description' => "Choose which gallery to use for the theme's landing page. The first image in the gallery will be used.",
 					'help_message' => 'Drop Down Test',
 				),
 				'site_repeated_background' => array(
 					'type' => 'small_image_radio',
 					'display_name' => 'Theme Background Texture',
-					'description' => "Choose the texture that will be used for the background on your website.",
+					'description' => "Choose the texture that will be used for the background on your website. Click on the grey boxes to view larger.",
 					'help_message' => 'Small Image Radio Test',
 					'possible_values' => array(
 						'/img/gray_bg/grey_wash_wall_1.png', // NOTE: there is a leading /
@@ -105,7 +105,7 @@ $theme_config = array(
 				'show_white_border' => array(
 					'type' => 'on_off',
 					'display_name' => 'White Border',
-					'description' => "If set to on the images displayed in the theme will have a white border.",
+					'description' => "If set to “ON” the photos displayed will have a white border.",
 					'possible_values' => array(
 						'on' => array( 'display' => 'On' ),
 						'off' => array( 'display' => 'Off' ),

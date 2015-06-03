@@ -8,7 +8,7 @@
 </script>
 
 <h1><?php echo __('Account Details', true); ?>
-	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
+	<div id="help_tour_button" class="custom_ui"><?php //echo $this->Element('/admin/get_help_button'); ?></div>
 </h1>
 
 <div id="account_details_landing" data-step="1" data-intro="<?php echo __ ('Here you can change your password, check billing details, and payment history.',true); ?>" data-position="top">
@@ -82,51 +82,53 @@
 		<?php endif; ?>
 	</div>
 
-	<h1 style="margin-top: 50px;"><?php echo __('Payment History', true); ?></h1>
-	<div id="photo_gallery_list" class="table_container">
-		<div class="fade_background_top"></div>
-		<div class="table_top"></div>
-		<table class='list'>
-			<thead>
-				<tr>
-					<th class="first">
-						<div class="content one_line">
-							<?php echo __('Payment Amount', true); ?>
-						</div>
-					</th>
-					<th>
-						<div class="content one_line">
-							<?php echo __('Promo Amount', true); ?>
-						</div>
-					</th>
-					<th>
-						<div class="content one_line">
-							<?php echo __('Date Processed', true); ?>
-						</div>
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr class="spacer"><td colspan="6"></td></tr>
-				<?php foreach ($accountDetails['orderHistory'] as $order): ?>
+	<?php if (!empty($accountDetails['orderHistory'])): ?>
+		<h1 style="margin-top: 50px;"><?php echo __('Payment History', true); ?></h1>
+		<div id="photo_gallery_list" class="table_container">
+			<div class="fade_background_top"></div>
+			<div class="table_top"></div>
+			<table class='list'>
+				<thead>
 					<tr>
-						<td class="first">
-							<div class="rightborder"></div>
-							<span><?php echo $this->Number->currency($order['AuthnetOrder']['total']); ?></span>
-						</td>
-						<td>
-							<div class="rightborder"></div>
-							<span><?php echo $this->Number->currency($order['AuthnetOrder']['promo_total']); ?></span>
-						</td>
-						<td class="last">
-							<div class="rightborder"></div>
-							<span><?php echo date('M d, Y', strtotime($order['AuthnetOrder']['created'])); ?></span>
-						</td>
+						<th class="first">
+							<div class="content one_line">
+								<?php echo __('Payment Amount', true); ?>
+							</div>
+						</th>
+						<th>
+							<div class="content one_line">
+								<?php echo __('Promo Amount', true); ?>
+							</div>
+						</th>
+						<th>
+							<div class="content one_line">
+								<?php echo __('Date Processed', true); ?>
+							</div>
+						</th>
 					</tr>
-				<?php endforeach; ?>
-			</tbody>
-		</table>
-	</div>	
+				</thead>
+				<tbody>
+					<tr class="spacer"><td colspan="6"></td></tr>
+					<?php foreach ($accountDetails['orderHistory'] as $order): ?>
+						<tr>
+							<td class="first">
+								<div class="rightborder"></div>
+								<span><?php echo $this->Number->currency($order['AuthnetOrder']['total']); ?></span>
+							</td>
+							<td>
+								<div class="rightborder"></div>
+								<span><?php echo $this->Number->currency($order['AuthnetOrder']['promo_total']); ?></span>
+							</td>
+							<td class="last">
+								<div class="rightborder"></div>
+								<span><?php echo date('M d, Y', strtotime($order['AuthnetOrder']['created'])); ?></span>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		</div>	
+	<?php endif; ?>
 </div>
 
 

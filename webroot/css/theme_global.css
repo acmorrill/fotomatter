@@ -529,6 +529,14 @@
 #cart_table tfoot td .cart_total {
   font-weight: bold;
 }
+#cart_table tfoot td #privacy_and_tos_notice {
+  font-size: 12px;
+  margin-top: 16px;
+  line-height: 18px;
+}
+#cart_table tfoot td #privacy_and_tos_notice a {
+  text-decoration: underline;
+}
 #forgot_your_password_container {
   margin-top: 10px;
 }

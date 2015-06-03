@@ -10,20 +10,31 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 	private $transaction_data;
 	private $order_data;
 
-	public function get_order_totals($order_ids, $fee = .03) { // the 3% is for the transaction fee
-		$ids = implode(',', $order_ids);
-		$query = "SELECT SUM(AuthnetOrder.total) 
-					FROM authnet_orders AS AuthnetOrder
-					WHERE AuthnetOrder.id IN ($ids);
-		";
+	public function get_order_totals($order_ids, $fee = .05) { // the 5% is for the transaction fee
+		if (empty($order_ids)) {
+			$data['total'] = 0;
+			$data['fee'] = 0;
+		} else {
+			$ids = implode(',', $order_ids);
+			$query = "SELECT SUM(AuthnetOrder.total) 
+						FROM authnet_orders AS AuthnetOrder
+						WHERE AuthnetOrder.id IN ($ids);
+			";
 
-		$total_arr = $this->query($query);
+			$total_arr = $this->query($query);
 
 
-		$data = array();
-		$data['total'] = $total_arr[0][0]['SUM(AuthnetOrder.total)'];
-		$data['fee'] = 0;
-
+			$data = array();
+			if (isset($total_arr[0][0]['SUM(AuthnetOrder.total)'])) {
+				$data['total'] = $total_arr[0][0]['SUM(AuthnetOrder.total)'];
+				$data['fee'] = 0;
+			} else {
+				$data['total'] = 0;
+				$data['fee'] = 0;
+			}
+		}
+		
+		
 		if (!empty($fee)) {
 			$data['fee'] = round($data['total'] * $fee, 4);
 			$data['total'] = $data['total'] - $data['fee'];
@@ -109,6 +120,11 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 
 		//Getting response from server
 		$response = curl_exec($ch);
+//		$this->log('================================', 'paypal_response');
+//		$this->log($methodName, 'paypal_response');
+//		$this->log($call, 'paypal_response');
+//		$this->log($response, 'paypal_response');
+//		$this->log('================================', 'paypal_response');
 
 		//Converting NVPResponse to an Associative Array
 		$nvpResArray = $this->deformatNVP($response);
@@ -281,6 +297,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		));
 
 		$response = $authnet->get_response();
+		
 
 		if ($authnet->isError() == true) {
 			return false;
@@ -1246,7 +1263,6 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			),
 			'contain' => false,
 		));
-		$this->log($payable_orders, 'transaction_data'); // DREW TODO - need to get this working!
 
 		$found_error = false;
 		foreach ($payable_orders as $payable_order) {

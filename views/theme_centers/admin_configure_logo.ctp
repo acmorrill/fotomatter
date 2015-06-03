@@ -1,19 +1,17 @@
-<div class='hide_on_mobile' data-step="1" data-intro="<?php echo __("Each theme comes with it's own default logo but you can use your own logo if you would like to make it more impressive.", true); ?>" data-position="bottom" ><?php // DREW TODO move the css to content_only_page  for this page and admin_configure_background.ctp ?>
-	<?php // class="content-background" ?>
-	<?php // echo $this->Element('admin/theme_center/main_menu/list_main_menu_items'); ?>
-	
+<div class='hide_on_mobile'  >
 	<script type="text/javascript">
 		jQuery(document).ready(function() {
 			jQuery('#change_logo_dialog').dialog({
 				autoOpen: false,
 				dialogClass: "wide_dialog",
-				title: "<?php echo __('Choose Logo', true); ?>",
+				title: "<?php echo __('Choose Logo  -  logo must be a .png', true); ?>",
 				buttons: [
 					{
 						text: "<?php echo __('Use Selected', true); ?>",
 						click: function() {
 							jQuery('#choose_logo_form').submit();
 							jQuery(this).dialog('close');
+							show_universal_save(true);
 						}
 					},
 					{
@@ -32,6 +30,7 @@
 			jQuery('#hidden_logo_file_chooser').change(function() {
 				//console.log (jQuery('#hidden_logo_file_chooser').val());
 				jQuery('#upload_logo_file_form').submit();
+				show_universal_save(true);
 			});
 			
 			jQuery('#change_logo_button').click(function() {
@@ -41,6 +40,10 @@
 	</script>
 	
 	<?php $use_theme_logo = $this->Theme->get_theme_setting('use_theme_logo', true); ?>
+	
+	<h1><?php echo __('Configure Logo', true); ?></h1>
+	<p>Upload a new png logo below. Move the logo around to place it where you want on the current theme. Resize the logo in context by dragging the bottom right corner of the logo box.</p>
+	
 	
 	<div id="change_logo_dialog">
 		<?php $theme_logo_cache_path = $this->ThemeLogo->get_logo_cache_size_path(80, 150, $theme_config['theme_name']); ?>
@@ -61,8 +64,7 @@
 	</div>
 	
 	<div class="custom_ui" style="margin: 5px; margin-bottom: 15px;">
-		<?php echo $this->Element('/admin/get_help_button'); ?>
-		<div data-step="2" data-intro="<?php echo __('Simply upload your breathtaking logo.', true); ?>" data-position="bottom" id="change_logo_button" class="add_button" type="submit"><div class="content"><?php __('Choose Different Logo'); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div></div>
+		<div id="change_logo_button" class="add_button" type="submit"><div class="content"><?php __('Choose Different Logo'); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div></div>
 	</div>
 	<?php echo $this->Element('admin/theme_center/configure_logo/theme_logo_size'); ?>
 	
@@ -76,6 +78,7 @@
 	</p>
 </div>
 
+<?php /*
 <?php ob_start(); ?>
 <ol>This page is used to both upload a custom logo and to resize and place the logo on the theme
 	<li>Things to remember
@@ -94,3 +97,5 @@ ob_end_clean();
 	echo $this->Element('admin/richard_notes', array(
 	'html' => $html
 )); ?>
+ * 
+ */ ?>

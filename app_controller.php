@@ -20,7 +20,7 @@ class AppController extends Controller {
 		'ThemeRenderer',
 		'LessCss',
 		'PhpClosure',
-		'MobileDetect',
+//		'MobileDetect', // no longer using
 		'Browscap',
 		'Validation',
 		'Postmark',
@@ -179,22 +179,19 @@ class AppController extends Controller {
 		///////////////////////////////////////////////////////
 		// setup mobile settings for mobile theming
 		// and supported browser code
-		$this->is_mobile = false;
-		$this->is_tablet = $this->MobileDetect->isTablet();
+		$this->browser_is_supported = $this->Browscap->is_browser_supported();
+		$this->set('browser_is_supported', $this->browser_is_supported);
+		$this->is_mobile = false; // $this->Browscap->is_mobile();
+		$this->is_tablet = $this->Browscap->is_tablet();
 //		if (!empty($this->current_on_off_features['mobile_theme']) && $this->MobileDetect->isMobile()) {
 //			$this->is_mobile = true;
 //		}
-		$this->browser_is_supported = true;
-		if ($this->is_mobile === false && $this->is_tablet === false) {
-			$this->browser_is_supported = $this->Browscap->is_browser_supported();
-		}
 		$this->showed_supported_browser_popup = false;
 		if (!$this->Session->check('showed_supported_browser_popup')) {
 			$this->Session->write('showed_supported_browser_popup', true);
 		} else {
 			$this->showed_supported_browser_popup = true;
 		}
-		$this->set('browser_is_supported', $this->browser_is_supported);
 		$this->set('showed_supported_browser_popup', $this->showed_supported_browser_popup);
 		
 		
@@ -496,6 +493,35 @@ class AppController extends Controller {
 			return false;
 		}
 	}
+	
+	
+//	public function admin_test_locking() {
+//		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+//		
+//		if ($this->SiteSetting->get_lock('lock1', 20)) {
+//			echo "got the lock 1<br />";
+//		} else {
+//			echo "no lock 1<br />";
+//		}
+//		$this->SiteSetting->release_lock('lock1');
+//		if ($this->SiteSetting->get_lock('lock1', 20)) {
+//			echo "got the lock 2<br />";
+//		} else {
+//			echo "no lock 2<br />";
+//		}
+//		$this->SiteSetting->release_lock('lock1');
+//		
+//		
+//		die('suckit');
+//	}
+//	
+//	public function admin_test_locking_two() {
+//		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+//		
+//		$this->SiteSetting->release_lock('lock1');
+//		
+//		die('suckit2');
+//	}
 
 	/*********************************************************
 	* HELPER FUNCTIONS

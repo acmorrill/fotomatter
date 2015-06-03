@@ -158,6 +158,8 @@ if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'd
 	$no_redirect_urls = array(
 		'/ecommerces/check_frontend_cart' => true,
 		'/site_pages/ping' => true,
+		'/users/request_admin_password_change' => true,
+		'/users/change_admin_password' => true,
 	);
 	foreach ($no_redirect_urls as $url => $foo) {
 		if (startsWith($_SERVER['REQUEST_URI'], $url)) {
@@ -244,7 +246,7 @@ define("GLOBAL_FOTOMATTER_CONTAINER_URL", 'http://d032ca0eed6846c31fe8-4af0fb97e
 define("GLOBAL_FOTOMATTER_CONTAINER_SECURE_URL", 'https://d4f9baf5b96f3eeed9c9-4af0fb97e675ed71f0af4b096cd907ac.ssl.cf2.rackcdn.com/');
 
 // limit functions
-define("LIMIT_MAX_FREE_PHOTOS", 10); // DREW TODO - change this back to 100
+define("LIMIT_MAX_FREE_PHOTOS", 50);
 
 // domain variables
 define('DOMAIN_MARKUP_DOLLAR', '2');

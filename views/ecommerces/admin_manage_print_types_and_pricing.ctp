@@ -33,12 +33,10 @@
 	});
 </script>
 
-<h1><?php echo __('Available Print Sizes', true); ?>
-	<?php echo $this->Element('/admin/get_help_button'); ?>
+<h1><?php echo __('Available Print Types', true); ?>
+	<?php //echo $this->Element('/admin/get_help_button'); ?>
 </h1>
-<p>
-	<?php echo __('The print types are the name of the complete package you are selling. Such as canvas wrap, framed, poster, wood mount, and so on. Here you may input the time frame it takes to print/create each image. You may have multiple print types for one image if you have different ways of printing the same image.', true); ?>
-</p>
+<p><?php echo __('The print types are the names of the kinds of prints you offer (e.g. canvas wrap, wood mount, aluminum, framed, poster, Fuji Crystal Archive paper, etc). You can have multiple print types per image if you offer more than one option.', true); ?></p>
 <div class="right">
 	<div class="add_gallery_element custom_ui" style="margin: 5px; margin-bottom: 15px;">
 		<script type="text/javascript">

@@ -51,9 +51,9 @@ class PhotosController extends AppController {
 
 	public function view_photo($photo_id = null) {
 		$total_photos = $this->Photo->count_total_photos(true);
-		if ($total_photos <= 100) { // only do photo view caching on sites with less than 100 photos // DREW TODO - maybe make this based on the free limit
+//		if ($total_photos <= 100) { // only do photo view caching on sites with less than 100 photos // DREW TODO - maybe make this based on the free limit
 			$this->setup_front_end_view_cache($this);
-		}
+//		}
 
 
 		$conditions = array();
@@ -79,11 +79,9 @@ class PhotosController extends AppController {
 		));
 		$photo_id = $curr_photo['Photo']['id'];
 
-		if (empty($curr_photo)) {
+		if (empty($curr_photo) || empty($curr_photo['Photo']['enabled'])) {
 			$this->redirect('/');
 		}
-
-
 		
 		// what gallery are we currently in
 		$gallery_id = isset($this->params['named']['gid']) ? $this->params['named']['gid'] : '';
@@ -96,19 +94,26 @@ class PhotosController extends AppController {
 			'contain' => false
 		));
 
-		if (empty($curr_photo['Photo']['display_title'])) {
-			$curr_photo['Photo']['display_title'] = "Untitled";
+		if (empty($curr_photo['Photo']['use_date_taken'])) {
+			unset($curr_photo['Photo']['date_taken']);
 		}
+		
+//		if (empty($curr_photo['Photo']['display_title'])) {
+//			$curr_photo['Photo']['display_title'] = "Untitled";
+//		}
+		
 		$this->set(compact('curr_photo', 'curr_gallery', 'photo_sellable_prints', 'photo_id', 'dynamic_photo_size'));
 		$this->ThemeRenderer->render($this);
 	}
 
 	public function admin_index() {
 		$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
+		$total_photos = $this->Photo->count_total_photos();
+		
 
 		$data = $this->paginate('Photo');
 		$imageContainerUrl = $this->SiteSetting->getImageContainerUrl();
-		$this->set(compact('data', 'imageContainerUrl', 'max_photo_id'));
+		$this->set(compact('data', 'imageContainerUrl', 'max_photo_id', 'total_photos'));
 	}
 
 	public function admin_mass_upload() {
@@ -156,17 +161,29 @@ class PhotosController extends AppController {
 
 			$photo_for_db['Photo']['id'] = $photo_id;
 			$photo_for_db['Photo']['cdn-filename'] = $upload_data;
-			$photo_for_db['Photo']['display_title'] = $upload_data['pathinfo']['filename'];
+//			$photo_for_db['Photo']['display_title'] = $upload_data['pathinfo']['filename']; // don't save this by default any more
 			if (empty($this->data['tag_ids']) === false) {
 				$photo_for_db['Tag'] = $this->data['tag_ids'];
 			}
 
 			$this->Photo->create();
-			if ($this->Photo->save($photo_for_db) === false) {
-				$this->Photo->major_error('Photo failed to save in admin_process_mass_photos');
+			$save_photo_result = $this->Photo->before_save_code($photo_for_db);
+			if (is_string($save_photo_result)) {
+				$this->Photo->major_error('Photo failed to save in admin_process_mass_photos 1');
+				$upload_data['error'] = 'Photo failed to save.';
+				if (!empty($save_photo_result)) {
+					$upload_data['error'] = $save_photo_result;
+				}
+				$this->return_mass_upload_json($upload_data);
+			} else {
+				$photo_for_db = $save_photo_result;
+			}
+			if (!$this->Photo->save($photo_for_db)) {
+				$this->Photo->major_error('Photo failed to save in admin_process_mass_photos 2');
 				$upload_data['error'] = 'Photo failed to save.';
 				$this->return_mass_upload_json($upload_data);
 			}
+			
 			if (!empty($this->data['gallery_ids'])) {
 				foreach ($this->data['gallery_ids'] as $gallery_id) {
 					$gallery_photo['PhotoGalleriesPhoto']['photo_id'] = $this->Photo->id;
@@ -200,13 +217,17 @@ class PhotosController extends AppController {
 		
 		$this->return_mass_upload_json($upload_data);
 	}
+	
+	
+	
 	private function return_mass_upload_json($upload_data) {
 		$files[] = $upload_data;
+		
 		echo json_encode(compact('files'));
 		exit();
 	}
 
-	public function admin_edit($id) {
+	public function admin_edit($id, $starting_tab = 0) {
 		$this->layout = 'admin/photo_details';
 		$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
 		if (!empty($max_photo_id) && $id > $max_photo_id) {
@@ -238,7 +259,6 @@ class PhotosController extends AppController {
 
 
 
-			//$this->log($this->data, 'photo_edit');
 			if ($id == null) { // adding (default data for when your adding)
 				$this->data['Photo']['enabled'] = 1;
 				$this->data['Photo']['photo_format_id'] = 1;
@@ -315,8 +335,12 @@ class PhotosController extends AppController {
 
 
 			$this->Photo->create();
-			if ($this->Photo->save($this->data)) {
-				//$this->Photo->replicatePriceCal($this->Photo->id); // this is to calculate the price in the old way for the old website (so when you add you don't have to run priceCal.php)
+			$before_save_code = $this->Photo->before_save_code($this->data);
+			if (is_string($before_save_code) || !$this->Photo->save($before_save_code)) {
+				$curr_data = $this->data;
+				$this->Photo->major_error('Failed to save changes to a photo in admin/photos/edit', compact('curr_data', 'before_save_code'));
+				$this->Session->setFlash(__('Error saving photo', true), 'admin/flashMessage/error');
+			} else {
 				$this->Session->setFlash(__('Photo saved', true), 'admin/flashMessage/success');
 				if ($id == null) { // adding
 					$this->redirect('/admin/photos/');
@@ -332,9 +356,6 @@ class PhotosController extends AppController {
 						'Photo.id' => $this->Photo->id
 					)
 				));
-			} else {
-				$this->Photo->major_error('Failed to save changes to a photo in admin/photos/edit', $this->data);
-				$this->Session->setFlash(__('Error saving photo', true), 'admin/flashMessage/error');
 			}
 		}
 
@@ -358,7 +379,18 @@ class PhotosController extends AppController {
 		));
 		$photo_tag_ids = Set::extract('/PhotosTag/tag_id', $photo_tags);
 
-		$this->set(compact('photo_tag_ids'));
+		$this->set(compact('photo_tag_ids', 'starting_tab'));
+	}
+	
+	public function admin_set_override_photo_pricing($photo_id) {
+		$photo_data = array();
+		$photo_data['Photo']['id'] = $photo_id;
+		$photo_data['Photo']['override_pricing'] = 1;
+		$this->Photo->create();
+		$this->Photo->save($photo_data);
+		
+		// DREW TODO - this goes to the first tab because going to the second tab breaks the tags js plugin for now - it would be nice to fix this and go the second tab (already coded)
+		$this->redirect("/admin/photos/edit/$photo_id/0"); 
 	}
 
 	/* if (!empty($thumbFile['tmp_name'])) {

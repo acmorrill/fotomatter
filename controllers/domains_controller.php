@@ -422,7 +422,6 @@ class DomainsController extends Appcontroller {
 
 	public function admin_search() {
 		$this->params['form'] = $this->get_json_from_input();
-		$this->log($this->params['form'], 'admin_search');
 		if (isset($this->params['form']['domain']) && isset($this->params['form']['tld'])) {
 			// sanitize the search
 			$domain_name = strtolower(preg_replace('/[^a-zA-Z-]/', '', $this->params['form']['domain']));

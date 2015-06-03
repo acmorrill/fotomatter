@@ -44,7 +44,6 @@
 		}
 	?>
 	
-	<?php // DREW TODO - put the below into admin.css ?>
 	<script type="text/javascript">
 		function reload_size_change_logo() {
 			var current_logo_height = jQuery('#logo_size_change_palette').height();
@@ -52,6 +51,8 @@
 			var current_logo_position = jQuery('#logo_size_change_palette').position();
 			var current_logo_top = current_logo_position.top;
 			var current_logo_left = current_logo_position.left;
+			show_universal_save(false);
+			
 			
 			jQuery.ajax({
 				type: 'post',
@@ -66,7 +67,7 @@
 					}
 				},
 				complete: function() {
-					
+					hide_universal_save();
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
 					
@@ -98,37 +99,23 @@
 	</script>
 	
 	<div id="logo_palette_cont">
+		<?php /*
 		<div class="palette_top_legend">
 			<?php echo __('Theme Max Width', true); ?>
 		</div>
 		<div class="palette_right_legend">
 			<?php echo __('Theme Max Height', true); ?>
-		</div>
+		</div> */ ?>
 		<div class="logo_context_image_cont" style="<?php if (!empty($avail_space_screenshot_web_path)): ?> background: url('<?php echo $avail_space_screenshot_web_path; ?>') top left no-repeat; <?php endif; ?> width: <?php echo $logo_context_width; ?>px; height: <?php echo $logo_context_height; ?>px;">
 			<div class="logo_context_bg_darken" style="width: <?php echo $logo_context_width; ?>px; height: <?php echo $logo_context_height; ?>px;"></div>
-			<div data-step="3" data-intro="<?php echo __('Your breathtaking logo appears here. Grab and drag it to the desired location in the space provided. The changes are saved automagically.', true); ?>" data-position="bottom" class="logo_size_change_palette" style="left: <?php echo $padding['left']; ?>px; top: <?php echo $padding['top']; ?>px; width: <?php echo $logo_max_width; ?>px; height: <?php echo $logo_max_height; ?>px; <?php if (!empty($avail_space_screenshot_web_path)): ?> background: url('<?php echo $avail_space_screenshot_web_path; ?>') -<?php echo $padding['left']; ?>px -<?php echo $padding['top']; ?>px no-repeat; <?php endif; ?>">
-				<div data-step="4" data-intro="<?php echo __("Click and drag lower right corner to set size of logo. That's it, give yourself a high-five.", true); ?>" data-position="right" id="logo_size_change_palette" style="width: <?php echo $use_logo_width; ?>px; height: <?php echo $use_logo_height; ?>px; top: <?php echo $logo_current_top; ?>px; left: <?php echo $logo_current_left; ?>px; outline: 1px solid #333; display: inline-block; cursor: move;">
+			<div class="logo_size_change_palette" style="left: <?php echo $padding['left']; ?>px; top: <?php echo $padding['top']; ?>px; width: <?php echo $logo_max_width; ?>px; height: <?php echo $logo_max_height; ?>px; <?php if (!empty($avail_space_screenshot_web_path)): ?> background: url('<?php echo $avail_space_screenshot_web_path; ?>') -<?php echo $padding['left']; ?>px -<?php echo $padding['top']; ?>px no-repeat; <?php endif; ?>">
+				<div id="logo_size_change_palette" style="width: <?php echo $use_logo_width; ?>px; height: <?php echo $use_logo_height; ?>px; top: <?php echo $logo_current_top; ?>px; left: <?php echo $logo_current_left; ?>px; outline: 1px solid #333; display: inline-block; cursor: move;">
 					<img class="logo_size_image" src="<?php echo $start_logo_web_path; ?>" alt="" />
 				</div>
 			</div>
 		</div>
 	</div>
 	
-	<?php /*
-	<label for="current_logo_width"><?php __('Max Logo Width'); ?></label>
-	<select id="current_logo_width">
-		<?php for($i = 20; $i <= $logo_max_width; $i++): ?>
-			<option <?php if($use_logo_width == $i): ?>selected="selected"<?php endif; ?>  value="<?php echo $i; ?>"><?php echo $i; ?></option>
-		<?php endfor; ?>
-	</select><br/>
-	<label for="current_logo_height"><?php __('Max Logo Height'); ?></label>
-	<select id="current_logo_height">
-		<?php for($i = 20; $i <= $logo_max_height; $i++): ?>
-			<option <?php if($use_logo_height == $i): ?>selected="selected"<?php endif; ?>  value="<?php echo $i; ?>"><?php echo $i; ?></option>
-		<?php endfor; ?>
-	</select>
-	 * 
-	 */ ?>
 </div>
 
 

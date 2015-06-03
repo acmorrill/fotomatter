@@ -105,7 +105,7 @@ $theme_config = array(
 				),
 			),
 			'default_bg_image' => array(
-				'absolute_path' => 	PATH_TO_THEMES.DS.'andrewmorrill/webroot/Passing-Rain.jpg', // max 1600 width and max 1200 height
+				'absolute_path' => 	PATH_TO_THEMES.DS.'andrewmorrill/webroot/Passing-Rain.jpg', // between 2000 and no more than 3000
 				'web_path' => '/Passing-Rain.jpg'
 			),
 			'default_bg_color' => '#e4e8ee',
@@ -114,18 +114,18 @@ $theme_config = array(
 			'settings' => array(
 				'landing_page_settings_group' => array(
 					'type' => 'group_name',
-					'display_name' => 'Landing Page Settings',
+					'display_name' => 'Home Page Settings',
 				),
 				'landing_page_gallery' => array(
 					'type' => 'gallery_chooser',
 					'display_name' => 'Slideshow Gallery',
-					'description' => "Choose which gallery to use for the theme landing page.",
+					'description' => "This theme includes a slideshow of your chosen images on the homepage. Choose which gallery of photos you want to display. To create a gallery (such as weddings, seascapes, architecture, etc.) select “Galleries” from the top menu.",
 					'help_message' => 'Drop Down Test',
 				),
 				'landing_page_slideshow_interval_time' => array(
 					'type' => 'dropdown',
 					'display_name' => 'Slideshow Interval Time',
-					'description' => "The amount of time each image is shown.",
+					'description' => "This is the amount of time each image is displayed in the slideshow. Choose a time and click on “Live Site” to see the result.",
 					'help_message' => 'Drop Down Test',
 					'possible_values' => array(
 						'1000' => array( 'display' => '1 second' ),
@@ -141,7 +141,7 @@ $theme_config = array(
 				'landing_page_slideshow_transition_time' => array(
 					'type' => 'dropdown',
 					'display_name' => 'Slideshow Transition Time',
-					'description' => "The amount of time it takes to transition to the next image.",
+					'description' => "Choose how long you want it to take to transition to the next image in the slideshow. ",
 					'help_message' => 'Drop Down Test',
 					'possible_values' => array(
 						'333' => array( 'display' => '1/3 second' ),
@@ -168,7 +168,7 @@ $theme_config = array(
 				'landing_page_into_text' => array(
 					'type' => 'textarea',
 					'display_name' => 'Landing Page Intro Text',
-					'description' => "The text that shows up on the landing page next to the slideshow.",
+					'description' => "This is the text that appears on the landing page next to the slideshow. Change the text to make it your own.",
 					'help_message' => 'Text Area Test',
 					'possible_values' => '.*\\\S+.*', // can be regex
 					'default_value' => 'Welcome to my online gallery. To purchase prints, navigate to an image in the image galleries section. Thank you for visting. Enjoy!',
