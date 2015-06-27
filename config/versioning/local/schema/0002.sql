@@ -886,9 +886,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `email_address`, `password`, `active`, `created`, `modified`) VALUES
-('4dc38294-d3cc-4db8-a3ef-13d4044492e4', 'acmorrill@gmail.com', '9d3c620291d8c235446ea52876ebbacaee49bca7', 1, '2011-05-06 05:09:40', '2011-05-06 05:09:40'),
-('4f49e1c5-5980-43cd-9b3e-1f81044492e4', 'adamdude828@gmail.com', '01ec50cd73fcbe40a3204d54783d490af696e749', 1, '2012-02-26 00:39:49', '2012-02-26 00:39:49');
+INSERT INTO `users` (`id`, `admin`, `email_address`, `password`, `active`, `created`, `modified`) VALUES
+('558e1d10-ffd0-4d06-9b03-6609044492e4', 1, 'support@fotomatter.net', '623d8488bb38cd7d0264d17d5d45d69db44e6bd6', 1, '2015-06-26 21:48:32', '2015-06-26 21:48:32');
 
 -- --------------------------------------------------------
 
