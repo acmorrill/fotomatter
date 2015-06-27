@@ -6,7 +6,7 @@ App::import('Lib', 'LazyModel.LazyModel');
  *
  * @package Precious
  */
-class AppModel extends LazyModel {
+class AppModel extends LazyModel { // a change
 	public $actsAs = array(
 		'Containable'
 	);
