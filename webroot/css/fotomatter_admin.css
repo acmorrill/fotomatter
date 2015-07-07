@@ -3063,6 +3063,9 @@ table.list > tfoot td .table_summary .payment_item .value {
   min-width: 100px;
   text-align: right;
 }
+table.list > tfoot td .table_summary .payment_item.strike .value {
+  text-decoration: line-through;
+}
 .configure_table_list {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -6326,8 +6329,11 @@ body.no_overflow {
 #account-details .details .detail .info {
   float: right;
 }
-#account-details .details .detail.current_credit.green .info {
+#account-details .details .detail.green .info {
   color: #2ade59;
+}
+#account-details .details .detail.strike .info {
+  text-decoration: line-through;
 }
 #account-details .new_bill {
   display: none;
@@ -6415,6 +6421,9 @@ table.list > tbody > tr > td .cancel_pending {
 }
 table.list > tbody > tr > td .cost {
   display: block;
+}
+table.list > tbody > tr > td .cost.strike {
+  text-decoration: line-through;
 }
 table.list > tbody > tr > td.table_actions {
   width: 300px;

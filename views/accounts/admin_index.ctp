@@ -206,17 +206,23 @@
 	</div>
 	<div class="generic_palette_container">
 		<div class='details'>
-			<?php if (!empty($overlord_account_info['total_bill'] > 0)): ?>
+			<?php if (!empty($overlord_account_info['total_bill'] > 0) && empty($overlord_account_info['is_free_account'])): ?>
 				<div class='detail next_bill_date'>
 					<span class='title'><?php echo __('Next Bill Date', true); ?></span>
 					<span class='info'><?php echo date("M j", strtotime($overlord_account_info['Account']['next_bill_date'])); ?></span>
 				</div>
 			<?php endif; ?>
-			<div class='detail new_bill'>
+			<?php if (!empty($overlord_account_info['is_free_account'])): ?>
+				<div class='detail next_bill_date green'>
+					<span class='title'><?php echo __('Free Until', true); ?></span>
+					<span class='info'><?php echo date("M j", strtotime($overlord_account_info['Account']['free_until'])); ?></span>
+				</div>
+			<?php endif; ?>
+			<div class='detail new_bill <?php if (!empty($overlord_account_info['is_free_account'])): ?> strike <?php endif; ?>'>
 				<span class='title'><?php echo __('Projected Monthly Bill', true); ?></span>
 				<span class='info pending_total'></span>
 			</div>
-			<div class='detail current_bill'>
+			<div class='detail current_bill <?php if (!empty($overlord_account_info['is_free_account'])): ?> strike <?php endif; ?>'>
 				<span class='title'><?php echo __('Current Monthly Bill', true); ?></span>
 				<span class='info'><?php echo $overlord_account_info['total_bill']; ?></span>
 			</div>
@@ -312,7 +318,7 @@
 							</td>
 							<td>
 								<div class="rightborder"></div>
-								<div class="cost"><?php echo sprintf(__('<span>%s</span> / month', true), $line_item['AccountLineItem']['current_cost']); ?></div>
+								<div class="cost <?php if (!empty($overlord_account_info['is_free_account'])): ?> strike <?php endif; ?> "><?php echo sprintf(__('<span>%s</span> / month', true), $line_item['AccountLineItem']['current_cost']); ?></div>
 								<div class="feature_on"><?php echo __('Active', true); ?></div>
 								<div class="cancel_pending"><?php echo __('Cancel Pending', true); ?></div>
 							</td>

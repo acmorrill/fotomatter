@@ -41,16 +41,12 @@
 
 	<div class="input">
 		<p>
-			<?php echo __('Good News! You have enough fotomatter credit to add these premium features without adding a credit card. You may, however, choose to add a card today so that your new features will continue without interruption in the future.', true); ?>
+			<?php echo __('Good News! You have a free account! You may, however, choose to add a credit card today so that your new features will continue without interruption in the future.', true); ?>
 		</p>
 	</div>
 	<div class="input">
-		<label><?php echo __('Fotomatter Credit', true); ?></label>
-		<span><?php echo $this->Number->currency($account_info['Account']['promo_credit_balance']); ?></span>
-	</div>
-	<div class="input">
-		<label><?php echo __('Due Today', true); ?></label>
-		<span><?php echo $this->Number->currency($bill_today); ?></span>
+		<label><?php echo __('Free Until', true); ?></label>
+		<span><?php echo date("M j", strtotime($account_info['Account']['free_until'])); ?></span>
 	</div>
 </div>
 

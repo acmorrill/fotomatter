@@ -446,7 +446,11 @@ class Photo extends AppModel {
 		/////////////////////////////////////////////////////////////
 		// make sure the image is actually an image
 		$security_path_info = pathinfo($path);
-		if ($security_path_info['extension'] !== 'jpeg' && $security_path_info['extension'] !== 'jpg') {
+		if (empty($security_path_info['extension'])) {
+			return false;
+		}
+		$lowercase_extension = strtolower($security_path_info['extension']);
+		if ($lowercase_extension !== 'jpeg' && $lowercase_extension !== 'jpg') {
 			return false;
 		}
 		

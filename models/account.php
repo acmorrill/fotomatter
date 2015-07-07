@@ -37,6 +37,7 @@ class Account extends AppModel {
 		// -- this is set in account.php - set_item_checked
 		// -- this is basically the items that are pending add (deletes happen on reload)
 		$account_info = $this->Session->read('account_info');
+		$this->log($account_info, 'new_account_info');
 		$account_changes = $this->Session->read('account_line_items');
 		
 
@@ -95,13 +96,20 @@ class Account extends AppModel {
 		///////////////////////////////////////////////////////////////////////////////////////////
 		// if a cc card is needed then either collect the cc
 		// -- OR give a choice to collect depending on if enough credit is available
+		// -- OR is free account
 		if ($noCCPromoConfirm === false && empty($account_info['Account']['authnet_profile_id'])) {
+			// if have free account then give free notice
+			if (!empty($account_info['is_free_account'])) {
+				return $controller->element('admin/accounts/free_notification_form', compact(array('account_info', 'current_bill', 'account_changes')));
+			}
+			
+			// if have enough promo money then give promo notice
 			if (empty($bill_today_data['total'])) {
 				$bill_today = $bill_today_data['amount'];
 				return $controller->element('admin/accounts/promo_notification_form', compact(array('account_info', 'bill_today', 'current_bill', 'account_changes')));
-			} else {
-				return $this->get_add_profile_form($controller, $payment_profile['data']);
 			}
+			
+			return $this->get_add_profile_form($controller, $payment_profile['data']);
 		}
 
 
@@ -115,8 +123,8 @@ class Account extends AppModel {
 			'bill_today' => $bill_today_data['amount'], // the amount you would pay without promo
 			'bill_today_promo' => $bill_today_data['promo_total'], // the amount of promo being used
 			'total' => $bill_today_data['total'], // the actual total you have to pay
-			'payment_profile' => $payment_profile)
-		);
+			'payment_profile' => $payment_profile,
+		));
 		return $return_data;
 	}
 
@@ -139,11 +147,11 @@ class Account extends AppModel {
 
 	public function rekey_account_info($account_info) {
 		//rekey the original array
-		$tmp_array = array();
+		$tmp_array = $account_info;
+		unset($tmp_array['items']);
 		foreach ($account_info['items'] as $line_item) {
 			$tmp_array['items'][$line_item['AccountLineItem']['id']] = $line_item;
 		}
-		$tmp_array['Account'] = $account_info['Account'];
 		return $tmp_array;
 	}
 

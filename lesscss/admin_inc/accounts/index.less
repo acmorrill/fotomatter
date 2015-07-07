@@ -53,9 +53,14 @@
 			.info {
 				float: right;
 			}
-			&.current_credit.green {
+			&.green {
 				.info {
 					color: @money_color;
+				}
+			}
+			&.strike {
+				.info {
+					text-decoration: line-through;
 				}
 			}
 		}
@@ -170,7 +175,10 @@ table.list {
 				.feature_on { display: none; }
 				.feature_pending { display: block; }
 				.cancel_pending { display: none; }
-				.cost { display: block; }
+				.cost { 
+					display: block; 
+					&.strike { text-decoration: line-through; }
+				}
 				&.table_actions {
 					width: 300px;
 				}
