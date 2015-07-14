@@ -10,7 +10,7 @@
 	<script type="text/javascript">
 		jQuery(document).ready(function() {
 			jQuery('#account_change_finish').dialog({
-				title: '<?php echo __('Promotional Balance', true); ?>',
+				title: '<?php echo __('Free Account', true); ?>',
 				dialogClass: "highlight_buttons wide_dialog",
 				buttons: [ 
 					{

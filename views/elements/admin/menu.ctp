@@ -105,9 +105,10 @@
 		<li class="<?php if ($curr_page == 'add_features'): ?> active<?php endif; ?>">
 			<a href="/admin/accounts/index">
 				<i class="icon-manageFeatures-01"></i><?php echo __ ('Manage Features', true); ?>
-				<?php //debug($overlord_account_info); ?>
-				<?php if ($overlord_account_info['Account']['promo_credit_balance'] > 0): ?>
-				<span id="promo_credit_balance_notice">(<span><?php echo $this->Number->currency($overlord_account_info['Account']['promo_credit_balance']); ?></span>)</span>
+				<?php if (!empty($overlord_account_info['is_free_account'])): ?>
+					<span id="promo_credit_balance_notice">(<span>FREE</span>)</span>
+				<?php elseif ($overlord_account_info['Account']['promo_credit_balance'] > 0): ?>
+					<span id="promo_credit_balance_notice">(<span><?php echo $this->Number->currency($overlord_account_info['Account']['promo_credit_balance']); ?></span>)</span>
 				<?php endif; ?>
 			</a>
 		</li>
