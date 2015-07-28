@@ -186,7 +186,7 @@ class Photo extends AppModel {
 		////////////////////////////////////////////////////////////////////////////////////////////
 		// if a file was uploaded then upload it to cloud files and then delete any previous file
 		//	$data_from_array 
-		if (is_array($data['Photo']['cdn-filename']) && !empty($data['Photo']['cdn-filename']['tmp_name'])) {
+		if (isset($data['Photo']['cdn-filename']) && is_array($data['Photo']['cdn-filename']) && !empty($data['Photo']['cdn-filename']['tmp_name'])) {
 
 			// fail if the file is greater than max upload size
 			if (!isset($data['Photo']['cdn-filename']['size']) || $this->check_image_filesize($data['Photo']['cdn-filename']['size']) === false) {
@@ -251,13 +251,16 @@ class Photo extends AppModel {
 					$this->create_smaller_master_cache_file($file_name, $tmp_location, $data);
 				} else {
 					$this->major_error("the temp image path is not writable for photo before save for smaller master cache file");
+					return __("Failed to upload photo", true);
 				}
 			} else {
 				$this->major_error("failed to put an object to cloud files on photo save", array($data['Photo']['cdn-filename'], $file_name, $tmp_location, $mime_type));
-				unset($data['Photo']['cdn-filename']);
+				return __("Failed to upload photo - please try again", true);
+//				unset($data['Photo']['cdn-filename']);
 			}
 		} else {
-			unset($data['Photo']['cdn-filename']);
+			return __("Failed to upload photo", true);
+//			unset($data['Photo']['cdn-filename']);
 		}
 
 		return $data;

@@ -287,6 +287,9 @@ class PhotoCache extends AppModel {
 
 		$this->invalidate_and_clear_view_cache();
 		
+		
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// if the photo cache is already done then just return it here
 		if ($direct_output && $photoCache['PhotoCache']['status'] == 'ready') {
 			$cache_full_path = $this->get_full_path($photoCache['PhotoCache']['id'], false, 'nonssl');
 			
@@ -339,6 +342,10 @@ class PhotoCache extends AppModel {
 		$releaseLock = $this->release_lock("finish_create_cache_".$photo_cache_id . "_" . $_SERVER['local']['database']);
 		
 		
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// after this point need to reset the photo cache status on fail of anything
+		
+		
 		// TODO - these may not be necessary anymore (cus height and width are both requered to be set)
 		$max_height_set = isset($photoCache['PhotoCache']['max_height']);
 		$max_width_set = isset($photoCache['PhotoCache']['max_width']);
@@ -354,6 +361,7 @@ class PhotoCache extends AppModel {
 		
 		
 		if (empty($photoCache['Photo']['cdn-filename-forcache']) || empty($photoCache['Photo']['cdn-filename'])) {
+			// DREW TODO - need to delete the photo in this case
 			$this->major_error('Tried to create a cache file for a photo with no image attached', $photoCache);
 			if ( !empty($photoCache['PhotoCache']['max_height']) || !empty($photoCache['PhotoCache']['max_width']) ) {
 				$photoCache['PhotoCache']['status'] = 'failed';
@@ -448,6 +456,7 @@ class PhotoCache extends AppModel {
 
 			if (!$this->CloudFiles->put_object($cache_image_name, $new_cache_image_path, $newcache_mime)) {
 				// DREW TODO - this happened once - maybe we should add a mechanism to simply retry again next time (cus it seems to happen randomly)
+				// DREW TODO - START HERE TOMORROW - recover from this error
 				$this->major_error("failed to finish creating cache file", compact('photoCache', 'cache_image_name', 'new_cache_image_path', 'newcache_mime'));
 				$photoCache['PhotoCache']['status'] = 'failed';
 				unset($photoCache['PhotoCache']['pixel_width']);

@@ -183,6 +183,12 @@ class PhotosController extends AppController {
 				$upload_data['error'] = 'Photo failed to save.';
 				$this->return_mass_upload_json($upload_data);
 			}
+			$this->last_photo_id = $this->Photo->id;
+			
+			
+			///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			// after this point need to delete photo if anything fails
+			
 			
 			if (!empty($this->data['gallery_ids'])) {
 				foreach ($this->data['gallery_ids'] as $gallery_id) {
@@ -190,6 +196,7 @@ class PhotosController extends AppController {
 					$gallery_photo['PhotoGalleriesPhoto']['photo_gallery_id'] = $gallery_id;
 					$this->PhotoGalleriesPhoto->create();
 					if ($this->PhotoGalleriesPhoto->save($gallery_photo) === false) {
+						$this->photo_after_save_fail_recover(); // DREW TODO - test this
 						$this->PhotoGalleriesPhoto->major_error('PhotoGalleriesphoto failed to save on photo upload.');
 						$upload_data['error'] = 'Failed to add photo to selected galleries.';
 						$this->return_mass_upload_json($upload_data);
@@ -216,6 +223,12 @@ class PhotosController extends AppController {
 		
 		
 		$this->return_mass_upload_json($upload_data);
+	}
+	
+	public function photo_after_save_fail_recover() { // DREW TODO - test this
+		if (!empty($this->last_photo_id)) {
+			$this->Photo->delete($this->last_photo_id);
+		}
 	}
 	
 	
@@ -303,32 +316,34 @@ class PhotosController extends AppController {
 			///////////////////////////////////////////////////////
 			// save the sellable print data
 			if (!empty($this->current_on_off_features['basic_shopping_cart'])) {
-				foreach ($this->data['PhotoSellablePrint'] as $curr_photo_sellable_data) {
-					if ($curr_photo_sellable_data['override_for_photo'] === '1') {
-						if (isset($curr_photo_sellable_data['available'])) {
-							$curr_photo_sellable_data['available'] = '1';
-						} else {
-							$curr_photo_sellable_data['available'] = '0';
-						}
-
-						//////////////////////////////////////////////////////////////////////////////////////////////////////////
-						// if the value is the same as the default then save as null it so it will use a changed default
-						// this currently doesn't effect 'availability' right now (as its not passed in the default array)
-						foreach ($curr_photo_sellable_data['defaults'] as $default_name => $default_value) {
-							if ($curr_photo_sellable_data[$default_name] == $default_value) {
-								$curr_photo_sellable_data[$default_name] = null;
+				if (isset($this->data['PhotoSellablePrint'])) {
+					foreach ($this->data['PhotoSellablePrint'] as $curr_photo_sellable_data) {
+						if ($curr_photo_sellable_data['override_for_photo'] === '1') {
+							if (isset($curr_photo_sellable_data['available'])) {
+								$curr_photo_sellable_data['available'] = '1';
+							} else {
+								$curr_photo_sellable_data['available'] = '0';
 							}
-						}
 
-						$this->PhotoSellablePrint->create();
-						if (!$this->PhotoSellablePrint->save(array('PhotoSellablePrint' => $curr_photo_sellable_data))) {
-							$this->PhotoSellablePrint->major_error('failed to save photo sellable print on photo save', compact('curr_photo_sellable_data'));
+							//////////////////////////////////////////////////////////////////////////////////////////////////////////
+							// if the value is the same as the default then save as null it so it will use a changed default
+							// this currently doesn't effect 'availability' right now (as its not passed in the default array)
+							foreach ($curr_photo_sellable_data['defaults'] as $default_name => $default_value) {
+								if ($curr_photo_sellable_data[$default_name] == $default_value) {
+									$curr_photo_sellable_data[$default_name] = null;
+								}
+							}
+
+							$this->PhotoSellablePrint->create();
+							if (!$this->PhotoSellablePrint->save(array('PhotoSellablePrint' => $curr_photo_sellable_data))) {
+								$this->PhotoSellablePrint->major_error('failed to save photo sellable print on photo save', compact('curr_photo_sellable_data'));
+							}
+						} else {
+							$this->PhotoSellablePrint->deleteAll(array(
+								'PhotoSellablePrint.photo_avail_sizes_photo_print_type_id' => $curr_photo_sellable_data['photo_avail_sizes_photo_print_type_id'],
+								'PhotoSellablePrint.photo_id' => $this->data['Photo']['id'],
+							));
 						}
-					} else {
-						$this->PhotoSellablePrint->deleteAll(array(
-							'PhotoSellablePrint.photo_avail_sizes_photo_print_type_id' => $curr_photo_sellable_data['photo_avail_sizes_photo_print_type_id'],
-							'PhotoSellablePrint.photo_id' => $this->data['Photo']['id'],
-						));
 					}
 				}
 			}

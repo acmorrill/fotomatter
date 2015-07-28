@@ -65,7 +65,11 @@ class BrowscapComponent extends Object {
 	
 	private function get_browser_data() {
 		// DREW TODO - also make this cache into a file so the cache can be restored after apc is cleared
-		$browser_data_apc_key = "browser_data_cache_" . $_SERVER['HTTP_USER_AGENT'];
+		$user_agent = 'undefined';
+		if (isset($_SERVER['HTTP_USER_AGENT'])) {
+			$user_agent = $_SERVER['HTTP_USER_AGENT'];
+		}
+		$browser_data_apc_key = "browser_data_cache_" . $user_agent;
 		if (apc_exists($browser_data_apc_key)) {
 			$browser_data = apc_fetch($browser_data_apc_key);
 		} else {
