@@ -222,6 +222,7 @@ class Photo extends AppModel {
 			$tmp_location = $data['Photo']['cdn-filename']['tmp_name'];
 			$mime_type = $data['Photo']['cdn-filename']['type'];
 
+			
 			if ($this->CloudFiles->put_object($file_name, $tmp_location, $mime_type)) {
 				// file successfully uploaded - so now automatically set the photo format
 				$data['Photo']['photo_format_id'] = $this->PhotoFormat->get_photo_format_id($height, $width);

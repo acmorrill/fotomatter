@@ -378,43 +378,55 @@ class PhotoCache extends AppModel {
 		}
 		
 		if (is_writable(TEMP_IMAGE_PATH)) {
-			if ($photoCache['PhotoCache']['max_height'] <= SMALL_MASTER_CACHE_SIZE && $photoCache['PhotoCache']['max_width'] <= SMALL_MASTER_CACHE_SIZE) {
-				if (!file_exists(LOCAL_SMALLER_MASTER_CACHE.DS.$photoCache['Photo']['cdn-filename-smaller-forcache'])) {
+			
+			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			// get the path to the local cached version of the image
+			//------------------------------------------------------------------------------------------------------------
+			$use_smaller_master_cache = $photoCache['PhotoCache']['max_height'] <= SMALL_MASTER_CACHE_SIZE && $photoCache['PhotoCache']['max_width'] <= SMALL_MASTER_CACHE_SIZE;
+			if ($use_smaller_master_cache) {
+				$local_smaller_master_path = LOCAL_SMALLER_MASTER_CACHE.DS.$photoCache['Photo']['cdn-filename-smaller-forcache'];
+				if (!file_exists($local_smaller_master_path)) {
 					$cdn_filename_smaller_forcache = $container_url.$photoCache['Photo']['cdn-filename-smaller-forcache'];
 					
-					copy( // from cloud files to local (only happens if not used for a while)
+					if (copy( // from cloud files to local (only happens if not used for a while)
 						$cdn_filename_smaller_forcache, 
-						LOCAL_SMALLER_MASTER_CACHE.DS.$photoCache['Photo']['cdn-filename-smaller-forcache']
-					);
-				} 
+						$local_smaller_master_path
+					) !== true) {
+						$this->major_error('failed to copy smaller cdn forcache into local smaller master cache', compact('cdn_filename_smaller_forcache',  'local_smaller_master_path', 'new_cache_image_path', 'max_width', 'max_height'));
+					}
+				}
 				
-				$large_image_url = LOCAL_SMALLER_MASTER_CACHE.DS.$photoCache['Photo']['cdn-filename-smaller-forcache'];
+				$large_image_url = $local_smaller_master_path;
 			} else {
-				if (!file_exists(LOCAL_MASTER_CACHE.DS.$photoCache['Photo']['cdn-filename-forcache'])) {
+				$local_larger_master_cache_path = LOCAL_MASTER_CACHE.DS.$photoCache['Photo']['cdn-filename-forcache'];
+				if (!file_exists($local_larger_master_cache_path)) {
 					$cdn_filename_forcache = $container_url.$photoCache['Photo']['cdn-filename-forcache'];
 					
-					copy( // from cloud files to local (only happens if not used for a while)
+					if (copy( // from cloud files to local (only happens if not used for a while)
 						$cdn_filename_forcache, 
-						LOCAL_MASTER_CACHE.DS.$photoCache['Photo']['cdn-filename-forcache']
-					);
+						$local_larger_master_cache_path
+					) !== true) {
+						$this->major_error('failed to copy larger cdn forcache into local larger master cache', compact('cdn_filename_forcache',  'local_larger_master_cache_path', 'new_cache_image_path', 'max_width', 'max_height'));
+					}
 				} 
 				
-				$large_image_url = LOCAL_MASTER_CACHE.DS.$photoCache['Photo']['cdn-filename-forcache'];
+				$large_image_url = $local_larger_master_cache_path;
 			}
+			// end - get the path to the local cached version of the image
+			//------------------------------------------------------------------------------------
 			
 			
+			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			// grab the crop to put into cdn-filename
+			// - resize the larger cached image into the actual size actual version
+			//----------------------------------------------------------------------------------------------
 			$crop_str = ($photoCache['PhotoCache']['crop'] == '1') ? 'crop' : 'nocrop';
-			
 			$cache_image_name = $cache_prefix.$max_height_display.'x'.$max_width_display."_".$crop_str."_".$photoCache['Photo']['cdn-filename'];
 			$new_cache_image_path = TEMP_IMAGE_PATH.DS.$cache_image_name;
-                        
 			$unsharp_amount = null;
 			if (isset($photoCache['PhotoCache']['unsharp_amount'])) {
 				$unsharp_amount = $photoCache['PhotoCache']['unsharp_amount'];
 			}
-			
-			
 			if ($this->convert($large_image_url, $new_cache_image_path, $max_width, $max_height, true, $unsharp_amount, $photoCache['PhotoCache']['crop']) == false) {
 				$this->major_error('failed to create new cache file in finish_create_cache', compact('large_image_url', 'new_cache_image_path', 'max_width', 'max_height'));
 				$photoCache['PhotoCache']['status'] = 'failed';
@@ -425,10 +437,19 @@ class PhotoCache extends AppModel {
 				
 				return;
 			}
-
+			// end - resize the larger cached image into the actual size actual version
+			//----------------------------------------------------------------------------------------------
+			
+			
+			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			// get info on the newly created file
+			//----------------------------------------------------------------------------------------------
 			$newcache_size = getimagesize($new_cache_image_path);
 			list($newcache_width, $newcache_height, $newcache_type, $newcache_attr) = $newcache_size;
 			$newcache_mime = $newcache_size['mime'];
+			// end - get info on the newly created file
+			//----------------------------------------------------------------------------------------------
+			
 			
 			if ($direct_output) {
 				//header('Content-Description: File Transfer');
@@ -454,15 +475,27 @@ class PhotoCache extends AppModel {
 			unset($photoCache['PhotoCache']['modified']);
 			unset($photoCache['Photo']);
 
+			
+			///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			// actually upload the newly created file to cloud files
+			//------------------------------------------------------------------------------------------
 			if (!$this->CloudFiles->put_object($cache_image_name, $new_cache_image_path, $newcache_mime)) {
-				// DREW TODO - this happened once - maybe we should add a mechanism to simply retry again next time (cus it seems to happen randomly)
-				// DREW TODO - START HERE TOMORROW - recover from this error
-				$this->major_error("failed to finish creating cache file", compact('photoCache', 'cache_image_name', 'new_cache_image_path', 'newcache_mime'));
-				$photoCache['PhotoCache']['status'] = 'failed';
+				$this->major_error("failed to finish creating cache file", compact('photoCache', 'cache_image_name', 'new_cache_image_path', 'newcache_mime'), 'low');
 				unset($photoCache['PhotoCache']['pixel_width']);
 				unset($photoCache['PhotoCache']['pixel_height']);
 				unset($photoCache['PhotoCache']['cdn-filename']);
+				$photoCache['PhotoCache']['status'] = 'queued'; // just going to try again next time - hopefully it will work!
+				
+				
+				// the old stuff
+//				$this->major_error("failed to finish creating cache file", compact('photoCache', 'cache_image_name', 'new_cache_image_path', 'newcache_mime'));
+//				$photoCache['PhotoCache']['status'] = 'failed';
+//				unset($photoCache['PhotoCache']['pixel_width']);
+//				unset($photoCache['PhotoCache']['pixel_height']);
+//				unset($photoCache['PhotoCache']['cdn-filename']);
 			}
+			// end - actually upload the newly created file to cloud files
+			//------------------------------------------------------------------------------------------
 			$this->save($photoCache);
 			
 			unlink($new_cache_image_path);
