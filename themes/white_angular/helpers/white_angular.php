@@ -58,7 +58,7 @@ class WhiteAngularHelper extends AppHelper {
 			}
 			$photo['classes'][] = $photo['Photo']['PhotoFormat']['ref_name'];
 			$img_src = $this->Photo->get_photo_path($photo['Photo']['id'], $height, $width, .4, true); 
-			if (isset($alt_width) && isset($alt_height)) {
+			if (isset($alt_width) && isset($alt_height)) { // alt image src is used for when the image is not full size (so it takes up all the width)
 				$alt_img_src = $this->Photo->get_photo_path($photo['Photo']['id'], $alt_height, $alt_width, .4, true); 
 			}
 		}

@@ -427,6 +427,8 @@ class PhotoCache extends AppModel {
 			if (isset($photoCache['PhotoCache']['unsharp_amount'])) {
 				$unsharp_amount = $photoCache['PhotoCache']['unsharp_amount'];
 			}
+			$this->ThemePrebuildCacheSize = Classregistry::init('ThemePrebuildCacheSize');
+			$this->ThemePrebuildCacheSize->increment_used_in_theme($max_width, $max_height, $photoCache['PhotoCache']['crop'], $unsharp_amount);
 			if ($this->convert($large_image_url, $new_cache_image_path, $max_width, $max_height, true, $unsharp_amount, $photoCache['PhotoCache']['crop']) == false) {
 				$this->major_error('failed to create new cache file in finish_create_cache', compact('large_image_url', 'new_cache_image_path', 'max_width', 'max_height'));
 				$photoCache['PhotoCache']['status'] = 'failed';

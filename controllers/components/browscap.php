@@ -37,10 +37,12 @@ class BrowscapComponent extends Object {
 					return false;
 				}
 				break;
+			case "Safari":
+				return false;
 		}
 
 
-		return false;
+		return true; // DREW TODO - change this back to false whene browscap is updated on a cron
 	}
 	
 	public function is_mobile() {
