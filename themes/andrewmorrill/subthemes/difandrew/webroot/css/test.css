@@ -20,5 +20,5 @@ document .section h3 {
 }
 document input[type=text],
 document textarea {
-  width:  !important;
+  width:  60px !important;
 }
