@@ -167,7 +167,7 @@ class PhotosController extends AppController {
 			}
 
 			$this->Photo->create();
-			$save_photo_result = $this->Photo->before_save_code($photo_for_db);
+			$save_photo_result = $this->Photo->before_save_code($photo_for_db); // some meaningless changes
 			if (is_string($save_photo_result)) {
 				$this->Photo->major_error('Photo failed to save in admin_process_mass_photos 1');
 				$upload_data['error'] = 'Photo failed to save.';
