@@ -549,7 +549,7 @@ class Photo extends AppModel {
 
 		if (isset($photos[0])) {
 			foreach ($photos as &$photo) {
-				if (isset($photo['Photo'])) {
+				if (isset($photo['Photo']['photo_format_id'])) {
 					$photo['Photo']['PhotoFormat'] = $formats[$photo['Photo']['photo_format_id']];
 				}
 			}
@@ -619,6 +619,7 @@ class Photo extends AppModel {
 		));
 		$return_url = '';
 		if (!empty($photoCache)) {
+			
 			if ($photoCache['PhotoCache']['status'] == 'ready') {
 				$return_url = $this->PhotoCache->get_full_path($photoCache['PhotoCache']['id'], $return_tag_attributes);
 			} else if ($photoCache['PhotoCache']['status'] == 'processing') {

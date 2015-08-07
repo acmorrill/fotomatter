@@ -13,7 +13,13 @@ class BrowscapComponent extends Object {
 			return false;
 		}
 
-		$version = intval($browser_data['version']);
+		$version = 30000;
+		if (!empty($browser_data['version'])) {
+			$version = intval($browser_data['version']);
+		}
+		if ($version == 0) {
+			$version = 30000;
+		}
 		
 		switch ($browser_data['browser']) {
 			case "Firefox":
