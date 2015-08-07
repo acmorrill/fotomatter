@@ -115,7 +115,7 @@
 			var to_delete = jQuery(this).closest('.connect_photo_container');
 			var photo_id = to_delete.attr('photo_id');
 			var img_src = jQuery('.image_content_cont img', to_delete).attr('src');
-
+			
 
 			var new_div = add_new_in_gallery_image(photo_id, img_src);
 			var move_to_cont = jQuery('#connect_gallery_photos_cont .in_gallery_photos_cont');
@@ -125,7 +125,7 @@
 			
 			// hide the help message for in gallery photos
 			jQuery('#connect_gallery_photos_cont .in_gallery_main_cont .empty_help_content').hide();
-			
+
 			
 			jQuery.ajax({
 				type: 'post',
@@ -162,6 +162,8 @@
 					gallery_add_limit--;
 					hide_universal_save();
 					when_finished_timeout.run_now();
+				},
+				error: function () {
 				},
 				dataType: 'json'
 			});

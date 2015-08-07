@@ -28,6 +28,8 @@ $class = $icon_sizes['class'];
 						<?php else: ?>
 							<img src="<?php echo $this->Photo->get_photo_path(0, $height, $width); ?>" alt="" />
 						<?php endif; ?>
+					<?php else: ?>
+						<img src="<?php echo $this->Photo->get_photo_path(0, $height, $width); ?>" alt="" />
 					<?php endif; ?>
 				</div>
 			</div>
