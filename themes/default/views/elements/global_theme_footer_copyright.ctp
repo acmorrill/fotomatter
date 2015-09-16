@@ -19,7 +19,7 @@
 			<div class="br" style="clear: both;"></div>
 			<?php /*<div class="mdash" <?php if ($hide_fotomatter_link): ?>style="display: none;"<?php endif; ?>>&mdash; </div>*/ ?>
 			<div class="powered_by" <?php if ($hide_fotomatter_link): ?>style="display: none;"<?php endif; ?> >
-				<a href="https://fotomatter.net/partners/recieve_generic/frontend_site" target="_blank">
+				<a href="https://fotomatter.net/partners/generic_receive/frontend_site" target="_blank">
 					<span>Powered by </span>
 					<span class="text_replacement">fotomatter.net</span>
 					<?php if ($inverse): ?>

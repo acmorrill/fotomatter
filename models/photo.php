@@ -44,6 +44,7 @@ class Photo extends AppModel {
 
 		$this->limit_last_photo_apc_key = 'limit_last_photo_' . $_SERVER['local']['database'];
 		$this->photos_count_apc_key = 'photos_count_' . $_SERVER['local']['database'];
+		$this->photos_space_apc_key = 'photos_space_' . $_SERVER['local']['database'];
 	}
 
 	public function delete_all_photos() {
@@ -188,10 +189,23 @@ class Photo extends AppModel {
 		//	$data_from_array 
 		if (isset($data['Photo']['cdn-filename']) && is_array($data['Photo']['cdn-filename']) && !empty($data['Photo']['cdn-filename']['tmp_name'])) {
 
-			// fail if the file is greater than max upload size
-			if (!isset($data['Photo']['cdn-filename']['size']) || $this->check_image_filesize($data['Photo']['cdn-filename']['size']) === false) {
-				return sprintf(__("Image is bigger than the max size of %d megabytes", true), MAX_UPLOAD_SIZE_MEGS);
+			if (isset($data['Photo']['cdn-filename']['size'])) {
+				$data['Photo']['file_size'] = $data['Photo']['cdn-filename']['size'] / 1000 / 1000; // file size is in megabytes
+			} else {
+				$data['Photo']['file_size'] = 0;
 			}
+			
+			
+			
+			// fail if the file is greater than max upload size
+			if (!isset($data['Photo']['file_size']) || $this->check_image_filesize($data['Photo']['file_size']) === false) {
+				if (empty($GLOBALS['current_on_off_features']['auto_fulfillment'])) { // they don't have auto fufillment
+					return sprintf(__("Image is bigger than the max size of %d megabytes", true), MAX_UPLOAD_SIZE_MEGS);
+				} else {
+					return sprintf(__("Image is bigger than the max size of %d megabytes", true), MAX_PAID_UPLOAD_SIZE_MEGS);
+				}
+			}
+			
 
 			
 			/////////////////////////////////////////////////////////////
@@ -204,8 +218,17 @@ class Photo extends AppModel {
 
 			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			// make sure image is not bigger than is allowed to upload - dimension wise
-			$data['Photo']['cdn-filename']['tmp_name'] = $this->check_and_resize_image_dimensions($data['Photo']['cdn-filename']['tmp_name']);
+			$tmp_name = $this->check_and_resize_image_dimensions($data['Photo']['cdn-filename']['tmp_name']);
+			if ($tmp_name === false) { 
+				if (empty($GLOBALS['current_on_off_features']['auto_fulfillment'])) { // they don't have auto fufillment
+					return sprintf(__("An unknown error occured", true), MAX_PAID_MEGAPIXELS);
+				} else {
+					return sprintf(__("Image is bigger than the max size of %d megapixels", true), MAX_PAID_MEGAPIXELS);
+				}
+			}
+			$data['Photo']['cdn-filename']['tmp_name'] = $tmp_name;
 			list($width, $height, $type, $attr) = getimagesize($data['Photo']['cdn-filename']['tmp_name']);
+			$data['Photo']['megapixels'] = $width * $height / 1000000;
 
 			
 
@@ -414,24 +437,32 @@ class Photo extends AppModel {
 	 */
 	public function check_and_resize_image_dimensions($path) {
 		list($width, $height, $type, $attr) = getimagesize($path);
-		if ($width > FREE_MAX_RES || $height > FREE_MAX_RES) {
-			if (is_writable(TEMP_IMAGE_PATH) == false) {
-				$this->major_error("the temp image path is not writable for photo before save for smaller master cache file");
-			}
+		
+		if (empty($GLOBALS['current_on_off_features']['auto_fulfillment'])) { // they don't have auto fufillment
+			if ($width > FREE_MAX_RES || $height > FREE_MAX_RES) {
+				if (is_writable(TEMP_IMAGE_PATH) == false) {
+					$this->major_error("the temp image path is not writable for photo before save for smaller master cache file");
+				}
 
-			// the command line image magick way
-			$image_file_name = $this->random_num();
-			$new_image_temp_path = TEMP_IMAGE_PATH . DS . $image_file_name;
-			if ($this->PhotoCache->convert($path, $new_image_temp_path, FREE_MAX_RES, FREE_MAX_RES, false) == false) {
-				$this->major_error('failed to create mastercache file in photo beforeSave', array($new_image_temp_path, FREE_MAX_RES, FREE_MAX_RES));
-			}
-			
+				// the command line image magick way
+				$image_file_name = $this->random_num();
+				$new_image_temp_path = TEMP_IMAGE_PATH . DS . $image_file_name;
+				if ($this->PhotoCache->convert($path, $new_image_temp_path, FREE_MAX_RES, FREE_MAX_RES, false) == false) {
+					$this->major_error('failed to create mastercache file in photo beforeSave', array($new_image_temp_path, FREE_MAX_RES, FREE_MAX_RES));
+				}
 
-			if (!file_exists($new_image_temp_path)) {
-				//so if the master cache file would be bigger than the image, then the image itself is used for the master cache file
-				copy($path, $new_image_temp_path);
+
+				if (!file_exists($new_image_temp_path)) {
+					//so if the master cache file would be bigger than the image, then the image itself is used for the master cache file
+					copy($path, $new_image_temp_path);
+				}
+				$path = $new_image_temp_path;
 			}
-			$path = $new_image_temp_path;
+		} else {
+			$megapixels = $width * $height / 1000000;
+			if ($megapixels > MAX_PAID_MEGAPIXELS) {
+				 return false;
+			}
 		}
 		
 		return $path;
@@ -439,10 +470,16 @@ class Photo extends AppModel {
 	
 	
 	public function check_image_filesize($filesize) {
-		$maxmegabytes = MAX_UPLOAD_SIZE_MEGS * 1024 * 1024;
-		if ($filesize > $maxmegabytes) {
-			return false;
+		if (empty($GLOBALS['current_on_off_features']['auto_fulfillment'])) { // they don't have auto fufillment
+			if ($filesize > MAX_UPLOAD_SIZE_MEGS) {
+				return false;
+			}
+		} else {
+			if ($filesize > MAX_PAID_UPLOAD_SIZE_MEGS) {
+				return false;
+			}
 		}
+		
 		return true;
 	}
 	
@@ -985,6 +1022,37 @@ class Photo extends AppModel {
 		}
 
 		return $total;
+	}
+	
+	
+	public function get_total_photo_used_space($cache = false) {
+		if ($cache === true) {
+			if (apc_exists($this->photos_space_apc_key)) {
+				return apc_fetch($this->photos_space_apc_key);
+			}
+		}
+
+
+		$sum_query = "SELECT SUM(`file_size`) as used_space_megabytes FROM photos;";
+		$sum_result = $this->query($sum_query);
+		$used_space_megabytes = 0;
+		if (isset($sum_result[0][0]['used_space_megabytes'])) {
+			$used_space_megabytes = $sum_result[0][0]['used_space_megabytes'];
+		}
+		
+		if ($cache === true) {
+			apc_store($this->photos_space_apc_key, $used_space_megabytes, 10800); // 3 hours
+		}
+
+		return $used_space_megabytes;
+	}
+	
+	public function get_max_photo_space() {
+		if (empty($GLOBALS['current_on_off_features']['unlimited_storage'])) {
+			return MAX_MEGEBYTES_SPACE;
+		} else {
+			return MAX_UPPER_LIMIT_MEGEBYTES_SPACE;
+		}
 	}
 
 }

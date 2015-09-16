@@ -303,7 +303,11 @@ define("SMALLER_MASTER_CACHE_PREFIX", 'mastercache_smaller_');
 define("LARGE_MASTER_CACHE_SIZE", 1500);
 define("SMALL_MASTER_CACHE_SIZE", 250);
 define('MAX_UPLOAD_SIZE_MEGS', 50);
+define('MAX_PAID_UPLOAD_SIZE_MEGS', 100);
+define('MAX_MEGEBYTES_SPACE', 50000); // 50 gigs limit
+define('MAX_UPPER_LIMIT_MEGEBYTES_SPACE', 250000); // 250 gigabyte limit
 define('FREE_MAX_RES', 4000);
+define('MAX_PAID_MEGAPIXELS', 150);
 define("USE_CACHE_SPEED", true);
 
 

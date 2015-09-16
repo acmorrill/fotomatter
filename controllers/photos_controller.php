@@ -109,11 +109,16 @@ class PhotosController extends AppController {
 	public function admin_index() {
 		$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
 		$total_photos = $this->Photo->count_total_photos();
+		$max_used_space_megabytes = $this->Photo->get_max_photo_space();
+		$total_used_space_megabytes = $this->Photo->get_total_photo_used_space(true);
+		
+//		print_r($total_used_space_megabytes);
+//		die();
 		
 
 		$data = $this->paginate('Photo');
 		$imageContainerUrl = $this->SiteSetting->getImageContainerUrl();
-		$this->set(compact('data', 'imageContainerUrl', 'max_photo_id', 'total_photos'));
+		$this->set(compact('data', 'imageContainerUrl', 'max_photo_id', 'total_photos', 'total_used_space_megabytes', 'max_used_space_megabytes'));
 	}
 
 	public function admin_mass_upload() {
@@ -151,7 +156,7 @@ class PhotosController extends AppController {
 			$upload_data['type'] = $this->params['form']['files']['type'][0];
 			$upload_data['size'] = $this->params['form']['files']['size'][0];
 			$upload_data['pathinfo'] = pathinfo($upload_data['name']);
-
+			
 			
 			if ($this->params['form']['files']['error'][0]) {
 				$upload_data['error'] = $this->params['form']['files']['error'][0];

@@ -17,7 +17,11 @@
 			previewMaxWidth: 100,
 			previewMaxHeight: 100,
 			acceptFileTypes: /(\.|\/)(jpe?g)$/i,
-			maxFileSize: <?php echo MAX_UPLOAD_SIZE_MEGS * 1000000; ?>,
+			<?php if (empty($current_on_off_features['auto_fulfillment'])): ?>
+				maxFileSize: <?php echo MAX_UPLOAD_SIZE_MEGS * 1000000; ?>,
+			<?php else: ?>
+				maxFileSize: <?php echo MAX_PAID_UPLOAD_SIZE_MEGS * 1000000; ?>,
+			<?php endif; ?>
 			process: function (e, data) {
 				var file_tr = jQuery('.files_ready_to_upload_inner_cont table.list tbody:nth-child(' + (1 + data.index) + ')');
 				jQuery('.custom_progress', file_tr).progressbar({ value: 0 });
