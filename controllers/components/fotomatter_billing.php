@@ -78,6 +78,7 @@ class FotomatterBillingComponent extends FotomatterOverlordApi {
 			return apc_fetch($this->account_info_apc_key);
 		}
 		
+		
 		$result_of_find = $this->send_api_request('api_billing/get_account_info', $params);
 		if($result_of_find['code']) {
 			apc_store($this->account_info_apc_key, $result_of_find['payload'], 10800); // 3 hours

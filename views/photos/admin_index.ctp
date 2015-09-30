@@ -9,12 +9,6 @@
 	<?php endif; ?>
 	, <?php echo round($total_used_space_megabytes, 2) . " MB of " . number_format($max_used_space_megabytes) . " MB"; ?>
 </p>
-
-<?php 
-//	print_r($max_used_space_megabytes . "<br />");
-//	print_r($total_used_space_megabytes);
-//	die();
-?>
 <p>
 	<?php echo sprintf(__('Easily upload, view, or delete your photos. You may also edit the description and pricing information for your images. The recommended .jpg size is 4000px or less on the long side. Add up to %s photos for free. To add unlimited photos go to Manage Features at the top.', true), LIMIT_MAX_FREE_PHOTOS); ?>
 </p>

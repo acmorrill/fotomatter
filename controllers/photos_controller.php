@@ -112,9 +112,6 @@ class PhotosController extends AppController {
 		$max_used_space_megabytes = $this->Photo->get_max_photo_space();
 		$total_used_space_megabytes = $this->Photo->get_total_photo_used_space(true);
 		
-//		print_r($total_used_space_megabytes);
-//		die();
-		
 
 		$data = $this->paginate('Photo');
 		$imageContainerUrl = $this->SiteSetting->getImageContainerUrl();
@@ -122,17 +119,29 @@ class PhotosController extends AppController {
 	}
 
 	public function admin_mass_upload() {
+		$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
+		$total_photos = $this->Photo->count_total_photos();
+		$max_used_space_megabytes = $this->Photo->get_max_photo_space();
+		$total_used_space_megabytes = $this->Photo->get_total_photo_used_space(true);
+		
+		
 		$this->layout = 'admin/mass_upload';
 		$curr_page = 'mass_upload';
 		
 		$total_photos = $this->Photo->count_total_photos();
 		$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
 		$photos_left_to_add = LIMIT_MAX_FREE_PHOTOS - $total_photos;
-		$this->set(compact('photos_left_to_add', 'curr_page'));
+		$this->set(compact('photos_left_to_add', 'curr_page', 'max_photo_id', 'total_photos', 'total_used_space_megabytes', 'max_used_space_megabytes'));
 		if (!empty($max_photo_id) && $photos_left_to_add <= 0) {
 			$this->FeatureLimiter->limit_view_go($this, 'unlimited_photos');
 		}
 
+		
+		$max_used_space_megabytes = $this->Photo->get_max_photo_space();
+		$total_used_space_megabytes = $this->Photo->get_total_photo_used_space();
+		if ($total_used_space_megabytes >= $max_used_space_megabytes) {
+			$this->FeatureLimiter->limit_view_go($this, 'unlimited_storage');
+		}
 	}
 
 	public function admin_process_mass_photos($return_new_image_data = false) {
@@ -145,9 +154,22 @@ class PhotosController extends AppController {
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// fail if trying to add more than the max num photos if not paying for unlimited_photos
 		// don't limit the photo upload if we are just editing an existing photo
+		// need to just fail here because it they should have gotten an upsell in mass_upload
 		if (empty($photo_id) && empty($this->current_on_off_features['unlimited_photos']) && $this->Photo->count_total_photos() >= LIMIT_MAX_FREE_PHOTOS) {
 			$this->FeatureLimiter->limit_function_403();
 		}
+		
+		
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// fail if trying to upload more than the max total amount of data
+		// just need to 403 because it should have gotten an upsell in mass_upload
+		$max_used_space_megabytes = $this->Photo->get_max_photo_space();
+		$total_used_space_megabytes = $this->Photo->get_total_photo_used_space();
+		if ($total_used_space_megabytes >= $max_used_space_megabytes) {
+			$this->FeatureLimiter->limit_function_403();
+		}
+		
+		
 
 		$upload_data = array();
 		if (isset($this->params['form']['files'])) {

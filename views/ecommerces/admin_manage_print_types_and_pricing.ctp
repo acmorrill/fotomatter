@@ -37,8 +37,36 @@
 	<?php //echo $this->Element('/admin/get_help_button'); ?>
 </h1>
 <p><?php echo __('The print types are the names of the kinds of prints you offer (e.g. canvas wrap, wood mount, aluminum, framed, poster, Fuji Crystal Archive paper, etc). You can have multiple print types per image if you offer more than one option.', true); ?></p>
+<?php 
+//	print_r($overlord_account_info['print_fulfillers']);
+//	die();
+?>
 <div class="right">
 	<div class="add_gallery_element custom_ui" style="margin: 5px; margin-bottom: 15px;">
+		<select id="choose_print_fulfiller">
+			<option value="">Choose a Printer</option>
+			<option value="self">Self Fulfillment</option>
+			<?php foreach ($overlord_account_info['print_fulfillers'] as $section => $print_fulfiller): ?>
+				<?php if ($section == 'preferred'): ?>
+					<?php foreach($print_fulfiller as $printer_data): ?>
+						<option value="<?php echo $printer_data['id']; ?>"><?php echo $printer_data['lab_name']; ?> (<?php if (!empty($printer_data['state_code'])) { echo trim($printer_data['state_code'] . ", "); } ?><?php echo trim($printer_data['country_code']); ?>)</option>
+					<?php endforeach; ?>
+				<?php else: ?>
+						<?php foreach($print_fulfiller as $state => $state_printers): ?>
+							<?php $state_string = $state == 'no_state' ? '' : $state; ?>
+							<optgroup label="<?php echo $section; ?> <?php echo $state_string; ?>">
+								<?php foreach($state_printers as $printer_data): ?>
+									<option value="<?php echo $printer_data['id']; ?>"><?php echo $printer_data['lab_name']; ?> (<?php if (!empty($printer_data['state_code'])) { echo trim($printer_data['state_code'] . ", "); } ?><?php echo trim($printer_data['country_code']); ?>)</option>
+								<?php endforeach; ?>
+							</optgroup>
+						<?php endforeach; ?>
+				<?php endif; ?>
+			<?php endforeach; ?>
+			
+		</select>
+		<?php
+			
+		?>
 		<script type="text/javascript">
 			jQuery(document).ready(function() {
 				jQuery('#add_new_print_type_button').click(function() {
@@ -47,7 +75,8 @@
 			});
 		</script>
 		<form action="/admin/ecommerces/add_print_type_and_pricing/" method="get" style="float: right;">
-			<div id="add_new_print_type_button" class="add_button" data-step="2" data-intro="<?php echo __('This button will enable you to create a print type.', true); ?>" data-position="bottom"><div class="content"><?php echo __('Add New Print Type', true); ?></div>
+			<div id="add_new_print_type_button" class="add_button" data-step="2" data-intro="<?php echo __('This button will enable you to create a print type.', true); ?>" data-position="bottom">
+				<div class="content"><?php echo __('Add New Print Type', true); ?></div>
 				<div class="plus_icon_lines icon-_button-01"><div class="one"></div><div class="two"></div></div>
 			</div>
 		</form>
@@ -61,7 +90,7 @@
 
 <div class="table_container" data-step="1" data-intro="<?php echo __('This area shows all the print types that have been created.', true); ?>" data-position="top">
 	<div class="fade_background_top"></div>
-	<div class="table_top"></div>
+		<div class="table_top"></div>
 	<table id="print_types_list" class="list">
 		<thead>
 			<tr> 
