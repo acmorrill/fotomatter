@@ -30,6 +30,13 @@
 				});
 			}
 		}).disableSelection();
+		
+		jQuery('#choose_print_fulfiller').change(function() {
+			var selected_printer_id = jQuery(this).val();
+			console.log(selected_printer_id);
+			jQuery('select.printer_print_type').hide();
+			jQuery('select.printer_print_type[data-print_fulfiller_id=' + selected_printer_id + ']' ).show();
+		});
 	});
 </script>
 
@@ -49,24 +56,40 @@
 			<?php foreach ($overlord_account_info['print_fulfillers'] as $section => $print_fulfiller): ?>
 				<?php if ($section == 'preferred'): ?>
 					<?php foreach($print_fulfiller as $printer_data): ?>
-						<option value="<?php echo $printer_data['id']; ?>"><?php echo $printer_data['lab_name']; ?> (<?php if (!empty($printer_data['state_code'])) { echo trim($printer_data['state_code'] . ", "); } ?><?php echo trim($printer_data['country_code']); ?>)</option>
+						<option value="<?php echo $printer_data['PrintFulfiller']['id']; ?>"><?php echo $printer_data['PrintFulfiller']['lab_name']; ?> (<?php if (!empty($printer_data['PrintFulfiller']['state_code'])) { echo trim($printer_data['PrintFulfiller']['state_code'] . ", "); } ?><?php echo trim($printer_data['PrintFulfiller']['country_code']); ?>)</option>
 					<?php endforeach; ?>
 				<?php else: ?>
 						<?php foreach($print_fulfiller as $state => $state_printers): ?>
 							<?php $state_string = $state == 'no_state' ? '' : $state; ?>
 							<optgroup label="<?php echo $section; ?> <?php echo $state_string; ?>">
 								<?php foreach($state_printers as $printer_data): ?>
-									<option value="<?php echo $printer_data['id']; ?>"><?php echo $printer_data['lab_name']; ?> (<?php if (!empty($printer_data['state_code'])) { echo trim($printer_data['state_code'] . ", "); } ?><?php echo trim($printer_data['country_code']); ?>)</option>
+									<option value="<?php echo $printer_data['PrintFulfiller']['id']; ?>"><?php echo $printer_data['PrintFulfiller']['lab_name']; ?> (<?php if (!empty($printer_data['PrintFulfiller']['state_code'])) { echo trim($printer_data['PrintFulfiller']['state_code'] . ", "); } ?><?php echo trim($printer_data['PrintFulfiller']['country_code']); ?>)</option>
 								<?php endforeach; ?>
 							</optgroup>
 						<?php endforeach; ?>
 				<?php endif; ?>
+							
 			<?php endforeach; ?>
 			
 		</select>
-		<?php
-			
-		?>
+		
+		<?php foreach ($overlord_account_info['print_fulfillers'] as $type_section => $type_print_fulfiller): ?>
+			<?php foreach($type_print_fulfiller as $type_printer_data): ?>
+				<?php foreach ($type_printer_data as $printer_data): ?>
+					<?php if (!empty($printer_data['PrintFulfillerPrintType'])): ?>
+						<select class="printer_print_type" data-print_fulfiller_id="<?php echo $printer_data['PrintFulfiller']['id']; ?>" style="display: none;">
+							<option value=""><?php echo __('Choose a Print Type', true); ?></option>
+							<?php foreach($printer_data['PrintFulfillerPrintType'] as $printer_print_type): ?>
+								<option value="<?php echo $printer_print_type['id']; ?>"><?php echo $printer_print_type['name']; ?></option>
+							<?php endforeach; ?>
+						</select>
+					<?php endif; ?>
+				<?php endforeach; ?>
+			<?php endforeach; ?>
+		<?php endforeach; ?>
+		
+		
+		
 		<script type="text/javascript">
 			jQuery(document).ready(function() {
 				jQuery('#add_new_print_type_button').click(function() {
