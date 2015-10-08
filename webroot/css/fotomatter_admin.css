@@ -3652,6 +3652,12 @@ fieldset input[type="checkbox"] {
   margin-bottom: 8px;
   margin-right: 10px;
 }
+.add_element .printer_print_type {
+  display: none;
+}
+.add_element .printer_print_type.current {
+  display: inline;
+}
 .table {
   display: table;
   width: 100%;

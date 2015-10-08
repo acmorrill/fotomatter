@@ -396,6 +396,10 @@ class EcommercesController extends AppController {
 	}
 		
 	
+	public function admin_add_automatic_print_type_and_pricing($photo_print_type_id = 0) {
+		
+	}
+	
 	public function admin_add_print_type_and_pricing($photo_print_type_id = 0) {
 		$this->HashUtil->set_new_hash('ecommerce');
 		
