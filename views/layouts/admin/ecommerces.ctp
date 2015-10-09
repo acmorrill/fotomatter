@@ -25,19 +25,21 @@
 				'url' => "/admin/ecommerces/index/",
 				'icon_css' => 'PageSettings-01',
 			);
-			$subnav['pages'][] = array(
-				'name' => __('Manage Print Sizes', true),
-				'url' => array(
-					"/admin/ecommerces/manage_print_sizes/",
-					"/admin/ecommerces/add_print_size/",
-				),
-				'icon_css' => 'ManagePrintSize-01-01',
-			);
+//			$subnav['pages'][] = array(
+//				'name' => __('Manage Print Sizes', true),
+//				'url' => array(
+//					"/admin/ecommerces/manage_print_sizes/",
+//					"/admin/ecommerces/add_print_size/",
+//				),
+//				'icon_css' => 'ManagePrintSize-01-01',
+//			);
 			$subnav['pages'][] = array(
 				'name' => __('Manage Print Types & Default Pricing', true),
 				'url' => array(
 					"/admin/ecommerces/manage_print_types_and_pricing",
 					"/admin/ecommerces/add_print_type_and_pricing",
+					"/admin/ecommerces/manage_print_sizes/",
+					"/admin/ecommerces/add_print_size/",
 				),
 				'icon_css' => 'ManagePrintMaterial-01-01',
 			);

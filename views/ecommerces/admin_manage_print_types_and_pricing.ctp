@@ -33,11 +33,16 @@
 		
 		jQuery('#choose_print_fulfiller').change(function() {
 			var selected_printer_id = jQuery(this).val();
+			console.log('=================================');
+			console.log(selected_printer_id);
+			console.log('=================================');
 			if (selected_printer_id != '') {
 				var print_type_selector = jQuery('select.printer_print_type[data-print_fulfiller_id=' + selected_printer_id + ']' );
 				jQuery('select.printer_print_type').removeClass('current');
 				if (print_type_selector.length > 0) {
 					print_type_selector.addClass('current');
+				} else {
+					console.log('failed!');
 				}
 			}
 		});
@@ -65,40 +70,28 @@
 			}
 			
 
-
+			///////////////////////////////////////////////////////////////////////////////
+			// actually go to the add print type page
 			if (selected_printer_id == 'self') {
 				window.location = '/admin/ecommerces/add_print_type_and_pricing/';
 			} else {
-				
+				window.location = '/admin/ecommerces/add_automatic_print_type_and_pricing/' + selected_printer_id + '/' + selected_print_type_id + '/'
 			}
-
 			
-			console.log('============================');
-			console.log(selected_printer_id);
-			console.log(selected_print_type_id);
-			console.log('============================');
-
-
 			
-			////////////////////////////////////////////////////////////////////////////////////////////////////
-			// actually create the print type
-//			switch (select_box.val()) {
-//				case 'standard':
-//					window.location = '/admin/photo_galleries/add_standard_gallery';
-//					break;
-//				case 'smart':
-//					window.location = '/admin/photo_galleries/add_smart_gallery';
-//					break;
-//				default:
-//					break;
-//			}
-			
+			return true;
 		});
 	});
 </script>
 
 <h1><?php echo __('Available Print Types', true); ?>
-	<?php //echo $this->Element('/admin/get_help_button'); ?>
+	<div class="custom_ui right">
+		<a href="/admin/ecommerces/manage_print_sizes">
+			<div class="add_button">
+				<div class="content"><?php echo __('Manage Default Print Sizes', true); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div>
+			</div>
+		</a>
+	</div>
 </h1>
 <p><?php echo __('The print types are the names of the kinds of prints you offer (e.g. canvas wrap, wood mount, aluminum, framed, poster, Fuji Crystal Archive paper, etc). You can have multiple print types per image if you offer more than one option.', true); ?></p>
 <?php 
@@ -112,50 +105,71 @@
 <div class="right">
 	<div class="add_gallery_element add_element custom_ui" style="margin: 5px; margin-bottom: 15px;">
 		<select id="choose_print_fulfiller">
-			<option value="">Choose a Printer</option>
-			<option value="self">Manually Process</option>
+			<optgroup label="Manual Printing">
+				<option value="self" style="margin-bottom: 20px !important;"><?php echo __('Process Orders Manually', true); ?></option>
+			</optgroup>
+			<optgroup label="Automatic Printing Labs"></optgroup>
 			<?php foreach ($overlord_account_info['print_fulfillers'] as $section => $print_fulfiller): ?>
 				<?php if ($section == 'preferred'): ?>
-					<?php foreach($print_fulfiller as $printer_data): ?>
-						<option value="<?php echo $printer_data['PrintFulfiller']['id']; ?>"><?php echo $printer_data['PrintFulfiller']['lab_name']; ?> (<?php if (!empty($printer_data['PrintFulfiller']['state_code'])) { echo trim($printer_data['PrintFulfiller']['state_code'] . ", "); } ?><?php echo trim($printer_data['PrintFulfiller']['country_code']); ?>)</option>
-					<?php endforeach; ?>
+					<?php if (!empty($print_fulfiller)): ?>
+						<optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;<?php echo __('Preferred', true); ?>">
+					<?php endif; ?>
+						<?php $count = 0; foreach($print_fulfiller as $printer_data): ?>
+							<?php echo $this->Element('admin/ecommerce/print_fulfiller_option',  array(
+								'printer_data' => $printer_data,
+								'prefix' => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+								'selected' => ($count == 0)
+							)); ?>
+						<?php $count++; endforeach; ?>
+					<?php if (!empty($print_fulfiller)): ?>
+						</optgroup>
+					<?php endif; ?>
 				<?php else: ?>
 						<?php foreach($print_fulfiller as $state => $state_printers): ?>
 							<?php $state_string = $state == 'no_state' ? '' : $state; ?>
-							<optgroup label="<?php echo $section; ?> <?php echo $state_string; ?>">
+							<optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $section; ?> <?php echo $state_string; ?>">
 								<?php foreach($state_printers as $printer_data): ?>
-									<option value="<?php echo $printer_data['PrintFulfiller']['id']; ?>"><?php echo $printer_data['PrintFulfiller']['lab_name']; ?> (<?php if (!empty($printer_data['PrintFulfiller']['state_code'])) { echo trim($printer_data['PrintFulfiller']['state_code'] . ", "); } ?><?php echo trim($printer_data['PrintFulfiller']['country_code']); ?>)</option>
+									<?php echo $this->Element('admin/ecommerce/print_fulfiller_option',  array(
+										'printer_data' => $printer_data,
+										'prefix' => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+									)); ?>
 								<?php endforeach; ?>
 							</optgroup>
 						<?php endforeach; ?>
 				<?php endif; ?>
-							
 			<?php endforeach; ?>
-			
 		</select>
 		
 		<?php foreach ($overlord_account_info['print_fulfillers'] as $type_section => $type_print_fulfiller): ?>
-			<?php foreach($type_print_fulfiller as $type_printer_data): ?>
-				<?php foreach ($type_printer_data as $printer_data): ?>
+			<?php if ($type_section == 'preferred'): ?>
+				<?php //print_r($type_print_fulfiller);  die('suckit'); ?>
+				<?php foreach ($type_print_fulfiller as $printer_data): ?>
 					<?php if (!empty($printer_data['PrintFulfillerPrintType'])): ?>
 						<select class="printer_print_type" data-print_fulfiller_id="<?php echo $printer_data['PrintFulfiller']['id']; ?>">
-							<option value=""><?php echo __('Choose a Print Type', true); ?></option>
 							<?php foreach($printer_data['PrintFulfillerPrintType'] as $printer_print_type): ?>
-								<option value="<?php echo $printer_print_type['id']; ?>"><?php echo $printer_print_type['name']; ?></option>
+								<option value="<?php echo $printer_print_type['id']; ?>"><?php echo $printer_print_type['name']; ?> Print</option>
 							<?php endforeach; ?>
 						</select>
 					<?php endif; ?>
 				<?php endforeach; ?>
-			<?php endforeach; ?>
+			<?php else: ?>
+				<?php foreach($type_print_fulfiller as $type_printer_data): ?>
+					<?php foreach ($type_printer_data as $printer_data): ?>
+						<?php if (!empty($printer_data['PrintFulfillerPrintType'])): ?>
+							<select class="printer_print_type" data-print_fulfiller_id="<?php echo $printer_data['PrintFulfiller']['id']; ?>">
+								<?php foreach($printer_data['PrintFulfillerPrintType'] as $printer_print_type): ?>
+									<option value="<?php echo $printer_print_type['id']; ?>"><?php echo $printer_print_type['name']; ?> Print</option>
+								<?php endforeach; ?>
+							</select>
+						<?php endif; ?>
+					<?php endforeach; ?>
+				<?php endforeach; ?>
+			<?php endif; ?>
 		<?php endforeach; ?>
 		
-		
-		<input id="add_print_type_button" class="add_button" type="submit" value="<?php echo __('Go', true); ?>" />
-		
-		
-<!--		<form id="reset_printsize_form" action="/admin/ecommerces/reset_print_sizes/" method="get" style="float: right;">
-			<input id="reset_printsize_button" class="add_button ui-button ui-widget ui-state-default ui-corner-all" type="submit" value="Restore Defaults" role="button" aria-disabled="false" />
-		</form>-->
+		<div id="add_print_type_button" class="add_button">
+			<div class="content"><?php echo __('Go', true); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div>
+		</div>
 		<div style="clear: both;"></div>
 	</div>
 </div>

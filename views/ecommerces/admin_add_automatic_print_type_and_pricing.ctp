@@ -1,7 +1,7 @@
 <script type="text/javascript" src="/js/jquery_price_format/jquery.price_format.min.js"></script>
 
 <?php echo $this->Session->flash(); ?>
-<h1><?php echo __('Add/Edit Print Type', true); ?>
+<h1><?php echo __('Add/Edit (Automatic) Print Type', true); ?>
 	<div class="custom_ui right">
 		<a href="/admin/ecommerces/manage_print_sizes">
 			<div class="add_button">
@@ -85,9 +85,9 @@
 				<table id="print_type_price_list" class="list">
 					<thead>
 						<tr>
-							<th class="first" style="min-width: 100px; max-width: 162px;">
+							<th class="first" style="min-width: 190px;">
 								<div class="content">
-									<?php echo __('Make print type available for size?', true); ?>
+									<?php echo __('Make print type available at size and orientation?', true); ?>
 								</div>
 							</th>
 							<th style="min-width: 80px;">
@@ -97,29 +97,34 @@
 							</th>
 							<th style="min-width: 130px;">
 								<div class="content">
-									<?php echo __('Panoramic Size?', true); ?>
+									<?php echo __('Print Orientation', true); ?>
 								</div>
 							</th>
-<!--							<th style="min-width: 144px;">
+							<th style="min-width: 144px;">
 								<div class="content">
 									<?php echo __('Available on Photo by Default?', true); ?>
 								</div>
-							</th>-->
+							</th>
 							<th>
 								<div class="content">
-									<?php echo __('Default Pricing & Turnaround Time', true); ?>
+									<?php echo __('Default Price', true); ?>
+								</div>
+							</th>
+							<th>
+								<div class="content">
+									<?php echo __('Default Shipping Price', true); ?>
+								</div>
+							</th>
+							<th>
+								<div class="content">
+									<?php echo __('Default Turnaround Time', true); ?>
 								</div>
 							</th>
 							<th class="last">
 								<div class="content">
-									<?php echo __('Options', true); ?>
-								</div>
-							</th>
-<!--							<th class="last">
-								<div class="content">
 									<?php echo __('Force as default on photo?', true); ?>
 								</div>
-							</th>-->
+							</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -166,43 +171,26 @@
 									</td>
 									<td <?php echo $size_help_code; ?>><?php echo $photo_avail_size['PhotoAvailSize']['short_side_length'];  ?> x -- </td>
 									<td style="width: 100px;" <?php echo $pano_help_code; ?>>
-										<?php echo __('No', true); ?>
+										<?php __('Landscape |<br />Portrait |<br />Square'); ?>
 										<?php if (!empty($photo_avail_size['PhotoAvailSizesPhotoPrintType']['id'])): ?>
 											<input <?php /*class="disablable"*/ ?> type="hidden" value="<?php echo $photo_avail_size['PhotoAvailSizesPhotoPrintType']['id']; ?>" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][id]" />
 										<?php endif; ?>
 										<input class="disablable" type="hidden" value="<?php echo $photo_avail_size['PhotoAvailSize']['id']; ?>" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][photo_avail_size_id]" />
 									</td>
-									<?php /*<td <?php echo $default_help_code; ?>>
+									<td <?php echo $default_help_code; ?>>
 										<input class="disablable" type="checkbox" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][non_pano_global_default]" <?php if ($photo_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_global_default'] == 1): ?>checked="checked"<?php endif; ?> /><br />
-									</td> */ ?>
-									<td class="price_width" <?php echo $price_help_code; ?>>
-										<span class="subitem_container">
-											<label><?php echo __('Price', true); ?></label><br />
-											<span><span>$</span><input class="disablable money_format" type="text" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][non_pano_price]" value="<?php if (!empty($photo_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_price']) && $photo_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_price'] != '0.00') echo $photo_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_price']; ?>" /></span>
-										</span>
-										<span class="subitem_container">
-											<label><?php echo __('Shipping Price', true); ?></label><br />
-											<span><span>$</span><input class="disablable money_format" type="text" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][non_pano_shipping_price]"value="<?php if (!empty($photo_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_shipping_price']) && $photo_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_shipping_price'] != '0.00') echo $photo_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_shipping_price']; ?>" /></span>
-										</span>
-										<span class="subitem_container">
-											<label><?php echo __('Turnaround Time', true); ?></label><br />
-											&nbsp;&nbsp;<input class="default_turnaround_time disablable" type="text" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][non_pano_custom_turnaround]" value="<?php if (!empty($photo_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_custom_turnaround'])) { echo $photo_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_custom_turnaround']; } else { echo $print_type_turnaround_time; }; ?>" /><br />
-										</span>
 									</td>
-									<?php /*<td class="price_width" <?php echo $shipping_price_help_code; ?>>
+									<td class="price_width" <?php echo $price_help_code; ?>>
+										<span><span>$</span><input class="disablable money_format" type="text" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][non_pano_price]" value="<?php if (!empty($photo_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_price']) && $photo_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_price'] != '0.00') echo $photo_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_price']; ?>" /></span>
+									</td>
+									<td class="price_width" <?php echo $shipping_price_help_code; ?>>
+										<span><span>$</span><input class="disablable money_format" type="text" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][non_pano_shipping_price]"value="<?php if (!empty($photo_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_shipping_price']) && $photo_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_shipping_price'] != '0.00') echo $photo_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_shipping_price']; ?>" /></span>
 									</td>
 									<td class="text_width" <?php echo $turnaround_help_code; ?>>
-									</td>*/ ?>
-									<td class="last" <?php echo $force_help_code; ?>>
-										<?php // DREW TODO - START HERE TOMORROW - make use by default on to start ?>
-										<span class="subitem_container">
-											<input class="disablable" type="checkbox" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][non_pano_global_default]" <?php if ($photo_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_global_default'] == 1): ?>checked="checked"<?php endif; ?> />
-											<label><?php echo __('Use by Default?', true); ?></label>
-										</span>
-										<span class="subitem_container">
-											<input class="disablable" type="checkbox" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][non_pano_force_settings]" <?php if ($photo_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_force_settings'] == 1): ?>checked="checked"<?php endif; ?> />
-											<label><?php echo __('Force Settings?', true); ?></label>
-										</span>
+										<input class="default_turnaround_time disablable" type="input" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][non_pano_custom_turnaround]" value="<?php if (!empty($photo_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_custom_turnaround'])) { echo $photo_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_custom_turnaround']; } else { echo $print_type_turnaround_time; }; ?>" /><br />
+									</td>
+									<td class="last"<?php echo $force_help_code; ?>>
+										<input class="disablable" type="checkbox" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][non_pano_force_settings]" <?php if ($photo_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_force_settings'] == 1): ?>checked="checked"<?php endif; ?> /><br />
 									</td>
 								</tr>
 							<?php endif; ?>
@@ -213,40 +201,22 @@
 									</td>
 									<td><?php echo $photo_avail_size['PhotoAvailSize']['short_side_length']; ?> x --</td>
 									<td style="width: 100px;">
-										<?php __('Yes'); ?>
+										<?php __('Panoramic |<br />Vertical Panoramic'); ?>
 									</td>
-									<?php /*<td>
+									<td>
 										<input class="disablable" type="checkbox" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][pano_global_default]" <?php if ($photo_avail_size['PhotoAvailSizesPhotoPrintType']['pano_global_default'] == 1): ?>checked="checked"<?php endif; ?> />
-									</td>*/ ?>
-									<td class="price_width">
-										<span class="subitem_container">
-											<label><?php echo __('Price', true); ?></label><br />
-											<span><span>$</span><input class="disablable money_format" type="text" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][pano_price]"value="<?php if (!empty($photo_avail_size['PhotoAvailSizesPhotoPrintType']['pano_price']) && $photo_avail_size['PhotoAvailSizesPhotoPrintType']['pano_price'] != '0.00') echo $photo_avail_size['PhotoAvailSizesPhotoPrintType']['pano_price']; ?>" /></span>
-										</span>
-										<span class="subitem_container">
-											<label><?php echo __('Shipping Price', true); ?></label><br />
-											<span><span>$</span><input class="disablable money_format" type="text" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][pano_shipping_price]"value="<?php if (!empty($photo_avail_size['PhotoAvailSizesPhotoPrintType']['pano_shipping_price']) && $photo_avail_size['PhotoAvailSizesPhotoPrintType']['pano_shipping_price'] != '0.00') echo $photo_avail_size['PhotoAvailSizesPhotoPrintType']['pano_shipping_price']; ?>" /></span>
-										</span>
-										<span class="subitem_container">
-											<label><?php echo __('Turnaround Time', true); ?></label><br />
-											&nbsp;&nbsp;<input class="disablable" type="text" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][pano_custom_turnaround]" value="<?php if (!empty($photo_avail_size['PhotoAvailSizesPhotoPrintType']['pano_custom_turnaround'])) { echo $photo_avail_size['PhotoAvailSizesPhotoPrintType']['pano_custom_turnaround']; } else { echo $print_type_turnaround_time; } ?>" />
-										</span>
 									</td>
-									<?php /*<td class="price_width">
+									<td class="price_width">
+										<span><span>$</span><input class="disablable money_format" type="text" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][pano_price]"value="<?php if (!empty($photo_avail_size['PhotoAvailSizesPhotoPrintType']['pano_price']) && $photo_avail_size['PhotoAvailSizesPhotoPrintType']['pano_price'] != '0.00') echo $photo_avail_size['PhotoAvailSizesPhotoPrintType']['pano_price']; ?>" /></span>
+									</td>
+									<td class="price_width">
 										<span><span>$</span><input class="disablable money_format" type="text" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][pano_shipping_price]"value="<?php if (!empty($photo_avail_size['PhotoAvailSizesPhotoPrintType']['pano_shipping_price']) && $photo_avail_size['PhotoAvailSizesPhotoPrintType']['pano_shipping_price'] != '0.00') echo $photo_avail_size['PhotoAvailSizesPhotoPrintType']['pano_shipping_price']; ?>" /></span>
 									</td>
 									<td class="text_width">
 										<input class="disablable" type="input" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][pano_custom_turnaround]" value="<?php if (!empty($photo_avail_size['PhotoAvailSizesPhotoPrintType']['pano_custom_turnaround'])) { echo $photo_avail_size['PhotoAvailSizesPhotoPrintType']['pano_custom_turnaround']; } else { echo $print_type_turnaround_time; } ?>" />
-									</td>*/ ?>
-									<td class="last" <?php echo $force_help_code; ?>>
-										<span class="subitem_container">
-											<input class="disablable" type="checkbox" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][pano_global_default]" <?php if ($photo_avail_size['PhotoAvailSizesPhotoPrintType']['pano_global_default'] == 1): ?>checked="checked"<?php endif; ?> />
-											<label><?php echo __('Use by Default?', true); ?></label>
-										</span>
-										<span class="subitem_container">
-											<input class="disablable" type="checkbox" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][pano_force_settings]" <?php if ($photo_avail_size['PhotoAvailSizesPhotoPrintType']['pano_force_settings'] == 1): ?>checked="checked"<?php endif; ?> />
-											<label><?php echo __('Force Settings?', true); ?></label>
-										</span>
+									</td>
+									<td class="last">
+										<input class="disablable" type="checkbox" name="data[PhotoAvailSizesPhotoPrintType][<?php echo $count; ?>][pano_force_settings]" <?php if ($photo_avail_size['PhotoAvailSizesPhotoPrintType']['pano_force_settings'] == 1): ?>checked="checked"<?php endif; ?> />
 									</td>
 								</tr>
 							<?php endif; ?>

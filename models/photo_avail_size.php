@@ -8,6 +8,21 @@ class PhotoAvailSize extends AppModel {
 	);
 	
 	
+	public function get_photo_avail_sizes($photo_print_type_id) {
+		$photo_avail_sizes_query = "
+			SELECT * FROM photo_avail_sizes AS PhotoAvailSize
+				LEFT JOIN photo_avail_sizes_photo_print_types AS PhotoAvailSizesPhotoPrintType
+					ON (PhotoAvailSizesPhotoPrintType.photo_avail_size_id = PhotoAvailSize.id AND PhotoAvailSizesPhotoPrintType.photo_print_type_id = :photo_print_type_id )
+			ORDER BY PhotoAvailSize.short_side_length ASC
+		";
+		$photo_avail_sizes = $this->query($photo_avail_sizes_query, array(
+			'photo_print_type_id' => $photo_print_type_id
+		));
+		
+		return $photo_avail_sizes;
+	}
+	
+	
 	public function restore_avail_photo_size_defaults() {
 		$defaults = array(
 			array('short_size' => 2.5,),

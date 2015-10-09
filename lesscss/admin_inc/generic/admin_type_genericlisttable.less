@@ -139,6 +139,15 @@ table.list {
 					display: block;
 					margin-left: 0px;
 					border-left: 20px solid transparent;
+					&.subitem_container {
+						margin-bottom: 10px;
+						margin-top: 10px;
+						> span, > input[type="text"] {
+							display: inline-block;
+							margin-top: 4px;
+							margin-left: 15px;
+						}
+					}
 				}
 				position: relative;
 				border-top: 1px solid @table_and_button_outline;
@@ -207,9 +216,6 @@ table.list {
 					> * { margin-left: 0px; }
 				}
 				&.price_width {
-					input {
-						width: 40px;
-					}
 					> * { margin-left: 0px; }
 				}
 			}

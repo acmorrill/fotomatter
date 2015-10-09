@@ -2892,6 +2892,16 @@ table.list > tbody > tr > td > span {
   margin-left: 0px;
   border-left: 20px solid transparent;
 }
+table.list > tbody > tr > td > span.subitem_container {
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+table.list > tbody > tr > td > span.subitem_container > span,
+table.list > tbody > tr > td > span.subitem_container > input[type="text"] {
+  display: inline-block;
+  margin-top: 4px;
+  margin-left: 15px;
+}
 table.list > tbody > tr > td.highlight,
 table.list > tbody > tr > td.highlight a {
   color: #2ac0de;
@@ -2964,9 +2974,6 @@ table.list > tbody > tr > td.text_width input {
 }
 table.list > tbody > tr > td.text_width > * {
   margin-left: 0px;
-}
-table.list > tbody > tr > td.price_width input {
-  width: 40px;
 }
 table.list > tbody > tr > td.price_width > * {
   margin-left: 0px;
