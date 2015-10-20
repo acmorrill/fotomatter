@@ -19,8 +19,49 @@ class PhotoAvailSize extends AppModel {
 			'photo_print_type_id' => $photo_print_type_id
 		));
 		
+		
+		foreach($photo_avail_sizes as &$photo_avail_size) {
+			$photo_avail_size['PhotoAvailSize']['has_pano'] = false;
+			if ($this->print_size_has_pano($photo_avail_size)) {
+				$photo_avail_size['PhotoAvailSize']['has_pano'] = true;
+			}
+			$photo_avail_size['PhotoAvailSize']['has_non_pano'] = false;
+			if ($this->print_size_has_non_pano($photo_avail_size)) {
+				$photo_avail_size['PhotoAvailSize']['has_non_pano'] = true;
+			}
+			
+			if ($photo_avail_size['PhotoAvailSize']['has_pano'] === true) {
+				if ($photo_avail_size['PhotoAvailSizesPhotoPrintType']['pano_global_default'] == '') {
+					$photo_avail_size['PhotoAvailSizesPhotoPrintType']['pano_global_default'] = 1;
+				}
+				if ($photo_avail_size['PhotoAvailSizesPhotoPrintType']['pano_force_settings'] == '') {
+					$photo_avail_size['PhotoAvailSizesPhotoPrintType']['pano_force_settings'] = 1;
+				}
+			} 
+			
+			if ($photo_avail_size['PhotoAvailSize']['has_non_pano'] === true) {
+				if ($photo_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_global_default'] == '') {
+					$photo_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_global_default'] = 1;
+				}
+				if ($photo_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_force_settings'] == '') {
+					$photo_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_force_settings'] = 1;
+				}
+			}
+		}
+		
+		
 		return $photo_avail_sizes;
 	}
+	
+	
+	public function print_size_has_non_pano($print_type) {
+		return (isset($print_type['PhotoAvailSize']['photo_format_ids']) && strpos($print_type['PhotoAvailSize']['photo_format_ids'], '1,2,3') !== false);
+	}
+	
+	public function print_size_has_pano($print_type) {
+		return (isset($print_type['PhotoAvailSize']['photo_format_ids']) && strpos($print_type['PhotoAvailSize']['photo_format_ids'], '4,5') !== false);
+	}
+	
 	
 	
 	public function restore_avail_photo_size_defaults() {

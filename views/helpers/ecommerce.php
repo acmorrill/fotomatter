@@ -2,11 +2,13 @@
 class EcommerceHelper extends AppHelper {
 	
 	public function print_size_has_non_pano($print_type) {
-		return (isset($print_type['PhotoAvailSize']['photo_format_ids']) && strpos($print_type['PhotoAvailSize']['photo_format_ids'], '1,2,3') !== false);
+		$this->PhotoAvailSize = ClassRegistry::init('PhotoAvailSize');
+		return $this->PhotoAvailSize->print_size_has_non_pano($print_type);
 	}
 	
 	public function print_size_has_pano($print_type) {
-		return (isset($print_type['PhotoAvailSize']['photo_format_ids']) && strpos($print_type['PhotoAvailSize']['photo_format_ids'], '4,5') !== false);
+		$this->PhotoAvailSize = ClassRegistry::init('PhotoAvailSize');
+		return $this->PhotoAvailSize->print_size_has_pano($print_type);
 	}
 	
 	public function get_available_countries() {

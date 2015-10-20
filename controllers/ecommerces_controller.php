@@ -441,14 +441,21 @@ class EcommercesController extends AppController {
 		$this->HashUtil->set_new_hash('ecommerce');
 		
 		
-		if (!empty($this->data)) {
-			$result = $this->PhotoPrintType->validate_and_save_print_type($this->data);
-			if ($result === true) {
-				$this->redirect('/admin/ecommerces/manage_print_types_and_pricing/');
-			} else {
-				$this->Session->setFlash($result, 'admin/flashMessage/error');
-			}
+		if (empty($photo_print_type_id)) {
+			$new_id = $this->PhotoPrintType->create_new_photo_print_type('self');
+			$this->redirect("/admin/ecommerces/add_print_type_and_pricing/$new_id/");
 		}
+		
+		
+		
+//		if (!empty($this->data)) {
+//			$result = $this->PhotoPrintType->validate_and_save_print_type($this->data);
+//			if ($result === true) {
+//				$this->redirect('/admin/ecommerces/manage_print_types_and_pricing/');
+//			} else {
+//				$this->Session->setFlash($result, 'admin/flashMessage/error');
+//			}
+//		}
 
 		
 		$photo_avail_sizes = $this->PhotoAvailSize->get_photo_avail_sizes($photo_print_type_id);
@@ -462,6 +469,23 @@ class EcommercesController extends AppController {
 		
 		
 		$this->set(compact('photo_avail_sizes', 'photo_print_type'));
+	}
+	
+	public function admin_ajax_save_print_type_and_pricing($photo_print_type_id = 0) {
+		$return_data = array();
+		$return_data['success'] = true;
+		
+		if (!empty($this->data)) {
+			$result = $this->PhotoPrintType->validate_and_save_print_type($this->data);
+			if (!is_array($result)) {
+				$return_data['success'] = false;
+				$return_data['message'] = $result;
+			} else {
+				$return_data['data'] = $result;
+			}
+		}
+		
+		$this->return_json($return_data);
 	}
 	
 	public function add_to_cart() {
