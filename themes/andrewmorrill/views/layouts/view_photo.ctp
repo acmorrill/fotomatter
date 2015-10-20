@@ -37,7 +37,7 @@
 								<img onmouseover="this.src='/images/misc/arrowRightRed.png';" onmouseout="this.src='/images/misc/arrowRight.png';" src="/images/misc/arrowRightRed.png" alt="" />
 							</a>
 							<div id="mainImage">
-								<img src="<?php echo $img_src['url']; ?>" <?php echo $img_src['tag_attributes']; ?> alt="" title="<?php echo $curr_photo['Photo']['alt_text']; ?>" />
+								<img src="<?php echo $img_src['url']; ?>" <?php echo $img_src['tag_attributes']; ?>  <?php echo $img_src['alt_title_str']; ?> />
 								<div id='photo_bread_crumbs'>
 									<span class='cart_link' style='display: none;'>
 										<a href="/ecommerces/view_cart">

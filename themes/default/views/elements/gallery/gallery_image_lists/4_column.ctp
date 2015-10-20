@@ -18,7 +18,7 @@
 					?>
 					<span class="gallery_image_outer_cont" style="<?php echo $imgSrc['style_attributes']; ?>">
 						<a class="gallery_image_a_link" href="<?php echo $photoUrl; ?>" style="<?php echo $imgSrc['style_attributes']; ?>">
-							<img class="gallery_image_actual_image" src="<?php echo $imgSrc['url']; ?>" <?php echo $imgSrc['tag_attributes']; ?> alt = "" title="<?php echo $curr_photo['Photo']['alt_text']; ?>" style="<?php echo $imgSrc['style_attributes']; ?>">
+							<img class="gallery_image_actual_image" src="<?php echo $imgSrc['url']; ?>" <?php echo $imgSrc['tag_attributes']; ?> <?php echo $imgSrc['alt_title_str']; ?> style="<?php echo $imgSrc['style_attributes']; ?>">
 						</a>
 					</span>
 					<div class="galleriesLink">

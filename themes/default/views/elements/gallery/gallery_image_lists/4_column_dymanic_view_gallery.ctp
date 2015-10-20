@@ -14,7 +14,7 @@
                 <table>
                     <tr>
                         <td>
-                            <img src="<?php echo $imgSrc['url']; ?>" <?php echo $imgSrc['tag_attributes']; ?> alt="" title="<?php echo $curr_photo['Photo']['alt_text']; ?>" />
+                            <img src="<?php echo $imgSrc['url']; ?>" <?php echo $imgSrc['tag_attributes']; ?> <?php echo $imgSrc['alt_title_str']; ?> />
                         </td>
                     </tr> 
                 </table>

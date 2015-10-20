@@ -42,7 +42,7 @@
 				</div>
 				<div style="clear: both;"></div>
 				<div id="mainImage">
-					<img src="<?php echo $img_src['url']; ?>" <?php echo $img_src['tag_attributes']; ?> alt="" title="<?php echo $curr_photo['Photo']['alt_text']; ?>" />
+					<img src="<?php echo $img_src['url']; ?>" <?php echo $img_src['tag_attributes']; ?> <?php echo $img_src['alt_title_str']; ?> />
 				</div>
 
 				<div id='image_data_container'>

@@ -667,7 +667,17 @@ class Photo extends AppModel {
 			$releaseLock = $this->release_lock("start_create_cache_" . $photo_id . "_" . $_SERVER['local']['database']);
 		}
 
-		return preg_replace('/\s+/', '', $return_url);
+		$return_url = preg_replace('/\s+/', '', $return_url);
+
+		if ($return_tag_attributes == true) {
+			if (!empty($the_photo['Photo']['alt_text'])) {
+				$return_url['alt_title_str'] = "alt='{$the_photo['Photo']['alt_text']}' title='{$the_photo['Photo']['alt_text']}'";
+			} else {
+				$return_url['alt_title_str'] = "";
+			}
+		}
+
+		return $return_url;
 	}
 
 	public function get_full_path($id) {
