@@ -52,6 +52,10 @@ if (!isset($hide_current)) {
 				//$this->log($this->current_on_off_features, 'current_on_off_features');
 				//jQuery("#choose_theme_"+switch_to_theme_id+"_form").submit();
 			});
+			
+			jQuery('.custom_progress .progress').progressbar({
+				value: false
+			});
 		});
 	</script>
 	
@@ -131,7 +135,9 @@ if (!isset($hide_current)) {
 															<div class="content"><?php echo __('Switch To Theme', true); ?></div>
 														</div>
 													</div>
-													<div class="custom_progress_<?php echo $curr_theme['Theme']['id']; ?>"></div>
+													<div class="custom_progress custom_progress_<?php echo $curr_theme['Theme']['id']; ?>">
+														<div style="width: 150px;" class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+													</div>
 												<?php //else: ?>
 													<!-- <div type="submit" value="" ><div class="content icon-Success-01">&nbsp;</div></div> -->
 												<?php //endif; ?>
