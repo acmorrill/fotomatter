@@ -72,8 +72,11 @@
 			url: '/admin/ecommerces/ajax_save_print_type_and_pricing',
 			data: data_to_save,
 			success: function(data) {
-				if (typeof data.data.photo_avail_sizes_photo_print_type_id == 'string') {
-					jQuery(parent_tr).attr('data-avail_sizes_photo_print_type_id', data.data.photo_avail_sizes_photo_print_type_id);
+				if (typeof parent_tr != 'undefined') {
+					jQuery(parent_tr).removeAttr('data-avail_sizes_photo_print_type_id');
+					if (typeof data.data.photo_avail_sizes_photo_print_type_id == 'string') {
+						jQuery(parent_tr).attr('data-avail_sizes_photo_print_type_id', data.data.photo_avail_sizes_photo_print_type_id);
+					}
 				}
 			},
 			complete: function() {
@@ -89,9 +92,7 @@
 	
 
 	jQuery(document).ready(function() {
-		jQuery('.available_checkbox').change(function() {
-			setup_available_checkbox(this);
-		}).each(function(){ 
+		jQuery('.available_checkbox').each(function(){ 
 			setup_available_checkbox(this);
 		});
 
@@ -114,46 +115,56 @@
 
 		var saving_input_value;
 		var in_ajax = false;
-		jQuery('#print_type_settings input').keyup(function() {
+		var save_timeout = 1000;
+		jQuery('#print_type_settings input').keydown(function(e) {
+			if (e.which == 9) { return; }
 			if (in_ajax === true) {
-				return;
+				e.preventDefault();
+				return false;
 			}
-			in_ajax = true;
 			clearTimeout(saving_input_value);
-
 			saving_input_value = setTimeout(function() {
+				in_ajax = true;
 				ajax_save_print_type_price_list_item(function() {
 					in_ajax = false;
 				});
-			}, 700);
+			}, save_timeout);
 		});
-		jQuery('#print_type_price_list input').keyup(function() {
+		jQuery('#print_type_price_list input').keydown(function(e) {
+			if (e.which == 9) { return; }
 			if (in_ajax === true) {
-				return;
+				e.preventDefault();
+				return false;
 			}
-			in_ajax = true;
-			var parent_tr = jQuery(this).closest('tr');
 			clearTimeout(saving_input_value);
-
+			var parent_tr = jQuery(this).closest('tr');
 			saving_input_value = setTimeout(function() {
+				in_ajax = true;
 				ajax_save_print_type_price_list_item(function() {
 					in_ajax = false;
 				}, parent_tr);
-			}, 700);
+			}, save_timeout);
 		});
-		jQuery('#print_type_price_list input:checkbox').change(function() {
+		jQuery('#print_type_price_list input:checkbox').change(function(e) {
+			if (e.which == 9) { return; }
 			if (in_ajax === true) {
-				return;
+				e.preventDefault();
+				if (jQuery(this).is(':checked')) {
+					jQuery(this).prop('checked', false);
+				} else {
+					jQuery(this).prop('checked', true);
+				}
+				return false;
 			}
-			in_ajax = true;
-			var parent_tr = jQuery(this).closest('tr');
 			clearTimeout(saving_input_value);
-
-			saving_input_value = setTimeout(function() {
-				ajax_save_print_type_price_list_item(function() {
-					in_ajax = false;
-				}, parent_tr);
-			}, 700);
+			if (jQuery(this).hasClass('available_checkbox')) {
+				setup_available_checkbox(this);
+			}
+			var parent_tr = jQuery(this).closest('tr');
+			in_ajax = true;
+			ajax_save_print_type_price_list_item(function() {
+				in_ajax = false;
+			}, parent_tr);
 		});
 	});
 </script>
@@ -243,10 +254,6 @@
 							</td>
 						</tr>
 					<?php endif; ?>
-					<?php
-//							print_r($photo_avail_sizes);
-//							die();
-					?>
 					<?php $count = 0; foreach ($photo_avail_sizes as $photo_avail_size): ?>
 						<?php 
 							$has_non_pano = $this->Ecommerce->print_size_has_non_pano($photo_avail_size);
@@ -255,6 +262,7 @@
 						<?php if ($has_non_pano): ?>
 
 							<?php 
+								// DREW TODO - finish doing these helps below
 								$td_help_code = ''; 
 								$size_help_code = ''; 
 								$pano_help_code = ''; 
