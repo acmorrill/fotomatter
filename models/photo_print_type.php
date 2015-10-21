@@ -70,10 +70,31 @@ class PhotoPrintType extends AppModel {
 			if (!empty($data['PhotoAvailSizesPhotoPrintType'])) {
 				// DREW TODO - START HERE TOMORROW
 				$curr_join_data = $data['PhotoAvailSizesPhotoPrintType'];
-				if (!isset($curr_join_data['photo_avail_size_id'])) { // means we need to remove the join table entry instead
+				////////////////////////////////////////
+				// validate data
+				if (isset($curr_join_data['non_pano_price']) && !is_numeric($curr_join_data['non_pano_price'])) {
+					unset($curr_join_data['non_pano_price']);
+				}
+				if (isset($curr_join_data['non_pano_shipping_price']) && !is_numeric($curr_join_data['non_pano_shipping_price'])) {
+					unset($curr_join_data['non_pano_shipping_price']);
+				}
+				if (isset($curr_join_data['pano_price']) && !is_numeric($curr_join_data['pano_price'])) {
+					unset($curr_join_data['pano_price']);
+				}
+				if (isset($curr_join_data['pano_shipping_price']) && !is_numeric($curr_join_data['pano_shipping_price'])) {
+					unset($curr_join_data['pano_shipping_price']);
+				}
+				
+				$this->log("=====================", 'curr_join_data');
+				$this->log($curr_join_data, 'curr_join_data');
+				$this->log("=====================", 'curr_join_data');
+				
+				
+				if (!isset($curr_join_data['photo_avail_size_id']) || (empty($new_join_table_data['non_pano_available']) && empty($new_join_table_data['pano_available'])) ) { // means we need to remove the join table entry instead
 					$this->PhotoAvailSizesPhotoPrintType->deleteAll(array(
 						'PhotoAvailSizesPhotoPrintType.id' => $curr_join_data['id']
 					), true, true);
+					$return_data['row_deleted'] = true;
 				} else { // save the join table entry
 					$new_join_table_data = array();
 					if (empty($curr_join_data['id'])) {
