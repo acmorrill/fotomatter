@@ -15,12 +15,42 @@ if (!isset($hide_current)) {
 
 ?>
 
-
+<style>
+	.current .usable_form {
+		display:none;
+	}
+	.progress .usable_form {
+		display:none;
+	}
+	.current .icon-Success-01 {
+		display:block;
+	}
+	.icon-Success-01 {
+		display:none;
+	}
+</style>
 	<script type="text/javascript">
 		jQuery(document).ready(function() {
 			jQuery('.button_switch_theme').click(function() {
-				var switch_to_theme_id = jQuery(this).attr('data-current-theme-id');
-				jQuery("#choose_theme_"+switch_to_theme_id+"_form").submit();
+				var $this = jQuery(this);
+				var switch_to_theme_id = $this.attr('data-current-theme-id');
+				$this.closest('.theme_item_container').addClass('progress');
+				jQuery('.custom_progress_'+switch_to_theme_id).progressbar({ value: false });
+				jQuery.ajax({
+					type : 'post',
+					url : '<?php echo $change_theme_action; ?>',
+					data : {'data[new_theme_id]':switch_to_theme_id},
+					success : function () {
+						jQuery('.current').removeClass('current');
+						$this.closest('.theme_item_container').addClass('current');
+					},
+					complete : function () {
+						jQuery('.progress').removeClass('progress');
+						jQuery('.custom_progress_'+switch_to_theme_id).progressbar("destroy");
+					}
+				});
+				//$this->log($this->current_on_off_features, 'current_on_off_features');
+				//jQuery("#choose_theme_"+switch_to_theme_id+"_form").submit();
 			});
 		});
 	</script>
@@ -91,7 +121,8 @@ if (!isset($hide_current)) {
 												<h2><?php echo $curr_theme['Theme']['display_name']; ?></h2>
 											</td>	
 											<td class="choose_theme_button">
-												<?php if (!$is_current_theme || $hide_current === true): ?>
+												<?php //if (!$is_current_theme || $hide_current === true): ?>
+													<div type="submit" value="" ><div class="content icon-Success-01">&nbsp;</div></div>
 													<form id="choose_theme_<?php echo $curr_theme['Theme']['id']; ?>_form" action="<?php echo $change_theme_action; ?>" method="POST">
 														<input type="hidden" name="data[new_theme_id]" value="<?php echo $curr_theme['Theme']['id']; ?>" />
 													</form>
@@ -100,9 +131,10 @@ if (!isset($hide_current)) {
 															<div class="content"><?php echo __('Switch To Theme', true); ?></div>
 														</div>
 													</div>
-												<?php else: ?>
-													<div type="submit" value="" ><div class="content icon-Success-01">&nbsp;</div></div>
-												<?php endif; ?>
+													<div class="custom_progress_<?php echo $curr_theme['Theme']['id']; ?>"></div>
+												<?php //else: ?>
+													<!-- <div type="submit" value="" ><div class="content icon-Success-01">&nbsp;</div></div> -->
+												<?php //endif; ?>
 											</td>
 										</tr>
 									</tbody>
