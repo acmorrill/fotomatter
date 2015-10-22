@@ -70,7 +70,9 @@ class RackspaceObj extends Object {
 			$this->_access_token = $matches[1];
 
 			preg_match("/X-Server-Management-Url: (.*)/", $response, $matches);
-			$this->_apiEndPoint['server'] = $matches[1];
+			if (!empty($matches[1])) {
+				$this->_apiEndPoint['server'] = $matches[1];
+			}
 
 			preg_match("/X-Storage-Url: (.*)/", $response, $matches);
 			$this->_apiEndPoint['storage'] = $matches[1];
