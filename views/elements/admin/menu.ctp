@@ -123,6 +123,45 @@
 			<?php /*<div class="tab_left_cover"></div>
 			<div class="angle_white"></div> */ ?>
 			<div class="tab_bottom"><div class="tab_bottom_triangle"></div><div class="active_color"><div class="active_color_triangle"></div></div></div>
+			<?php
+				$subnav = array();
+
+				$subnav['title'] = array(
+					'name' => __('Theme Center', true),
+					'url' => "/admin/theme_centers",
+				);
+				$subnav['pages'][] = array(
+					'name' => __('Choose Theme', true),
+					'url' => "/admin/theme_centers/choose_theme/",
+					'icon_css' => 'ChooseTheme_icon',
+				);
+				$subnav['pages'][] = array(
+					'name' => __('Current Theme Settings', true),
+					'url' => "/admin/theme_centers/theme_settings/",
+					'icon_css' => 'settings',
+					'help_step' => array(
+						'url' => "/admin/theme_centers/choose_theme/",
+						'step_code' => 'data-step="3" data-intro="' . __("After you’ve selected your theme, click “Current Theme Settings” to begin your customizations, or select from the top menu to add galleries, photos, and pages.", true) . '" data-position="right"',
+					),
+				);
+				$subnav['pages'][] = array(
+					'name' => __('Main Menu', true),
+					'url' => "/admin/theme_centers/main_menu/",
+					'icon_css' => 'menu',
+				);
+				$subnav['pages'][] = array(
+					'name' => __('Configure Logo', true),
+					'url' => "/admin/theme_centers/configure_logo/",
+					'icon_css' => 'ConfigureLogo-01',
+				);
+				$subnav['pages'][] = array(
+					'name' => __('Configure Theme Background', true),
+					'url' => "/admin/theme_centers/configure_background/",
+					'icon_css' => 'picture',
+				);
+
+				echo $this->Element('/admin/submenu', array( 'subnav' => $subnav ));
+			?>
 		</li><!--
 		--><li class='e-commerce <?php if ($curr_page == 'sell'): ?> active<?php endif; ?>'>
 			<a href='/admin/ecommerces/index'><span><?php __("E-commerce"); ?></span></a>
