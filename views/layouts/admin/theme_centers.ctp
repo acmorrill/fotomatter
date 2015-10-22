@@ -13,43 +13,43 @@
 	</div>
 	<div id="middle" class="rounded-corners">
 		<?php 
-			$subnav = array();
-
-			$subnav['title'] = array(
-				'name' => __('Theme Center', true),
-				'url' => "/admin/theme_centers",
-			);
-			$subnav['pages'][] = array(
-				'name' => __('Choose Theme', true),
-				'url' => "/admin/theme_centers/choose_theme/",
-				'icon_css' => 'ChooseTheme_icon',
-			);
-			$subnav['pages'][] = array(
-				'name' => __('Current Theme Settings', true),
-				'url' => "/admin/theme_centers/theme_settings/",
-				'icon_css' => 'settings',
-				'help_step' => array(
-					'url' => "/admin/theme_centers/choose_theme/",
-					'step_code' => 'data-step="3" data-intro="' . __("After you’ve selected your theme, click “Current Theme Settings” to begin your customizations, or select from the top menu to add galleries, photos, and pages.", true) . '" data-position="right"',
-				),
-			);
-			$subnav['pages'][] = array(
-				'name' => __('Main Menu', true),
-				'url' => "/admin/theme_centers/main_menu/",
-				'icon_css' => 'menu',
-			);
-			$subnav['pages'][] = array(
-				'name' => __('Configure Logo', true),
-				'url' => "/admin/theme_centers/configure_logo/",
-				'icon_css' => 'ConfigureLogo-01',
-			);
-			$subnav['pages'][] = array(
-				'name' => __('Configure Theme Background', true),
-				'url' => "/admin/theme_centers/configure_background/",
-				'icon_css' => 'picture',
-			);
-
-			echo $this->Element('/admin/submenu', array( 'subnav' => $subnav ));
+//			$subnav = array();
+//
+//			$subnav['title'] = array(
+//				'name' => __('Theme Center', true),
+//				'url' => "/admin/theme_centers",
+//			);
+//			$subnav['pages'][] = array(
+//				'name' => __('Choose Theme', true),
+//				'url' => "/admin/theme_centers/choose_theme/",
+//				'icon_css' => 'ChooseTheme_icon',
+//			);
+//			$subnav['pages'][] = array(
+//				'name' => __('Current Theme Settings', true),
+//				'url' => "/admin/theme_centers/theme_settings/",
+//				'icon_css' => 'settings',
+//				'help_step' => array(
+//					'url' => "/admin/theme_centers/choose_theme/",
+//					'step_code' => 'data-step="3" data-intro="' . __("After you’ve selected your theme, click “Current Theme Settings” to begin your customizations, or select from the top menu to add galleries, photos, and pages.", true) . '" data-position="right"',
+//				),
+//			);
+//			$subnav['pages'][] = array(
+//				'name' => __('Main Menu', true),
+//				'url' => "/admin/theme_centers/main_menu/",
+//				'icon_css' => 'menu',
+//			);
+//			$subnav['pages'][] = array(
+//				'name' => __('Configure Logo', true),
+//				'url' => "/admin/theme_centers/configure_logo/",
+//				'icon_css' => 'ConfigureLogo-01',
+//			);
+//			$subnav['pages'][] = array(
+//				'name' => __('Configure Theme Background', true),
+//				'url' => "/admin/theme_centers/configure_background/",
+//				'icon_css' => 'picture',
+//			);
+//
+//			echo $this->Element('/admin/submenu', array( 'subnav' => $subnav ));
 		?>
 		<?php echo $this->Session->flash(); ?>
 		<?php echo $content_for_layout; ?>

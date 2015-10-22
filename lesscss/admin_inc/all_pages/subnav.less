@@ -1,8 +1,10 @@
-#sub-nav {
+#sub-nav, #header #top-navigation #sub-nav {
 	.sub_nav_generic();
 	ul {
-		li {
-			.sub_nav_li_reusable();
+		&, &.menu {
+			li {
+				.sub_nav_li_reusable();
+			}
 		}
 	}
 
