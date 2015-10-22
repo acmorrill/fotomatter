@@ -77,10 +77,40 @@
 			}
 		}
 		&.current {
+			.icon-Success-01 {
+				display:block;
+			}
 			.theme_item_outer_container .theme_item_inner_container .screenshot_container {
 				.el_opacity(1, 100);
 				border: 2px solid @tab2_on_color;
 			}
+			.usable_form {
+				display:none;
+			}
+		}
+		&.switching {
+			.custom_progress {
+				display:block;
+			}
+			.usable_form {
+				display:none;
+			}
+		}
+		.custom_progress {
+			display:none;
+		}
+		.icon-Success-01 {
+			display:none;
+		}
+		.progress {
+			width:196px;
 		}
 	}
+	
+}
+body .ui-widget-header {
+	background-color: @tab2_on_color;
+}
+body .ui-widget-content {
+	border: 0px none;
 }

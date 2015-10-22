@@ -27,7 +27,8 @@
 				$cart_item_data['name'] = "";
 				$cart_item_data['name_html'] = "<span class='icon-cart'></span>";
 				$cart_item_data['url'] = '/ecommerces/view_cart';
-				$cart_item_data['basic_url'] = '/ecommerces/view_cart';
+				$cart_item_data['basic_url'] = '/ecommerces/';
+				$cart_item_data['force_clickable'] = 1;
 				$cart_item_data['display_type'] = 'System';
 				echo $this->Element('menu/menu_item', array('menu_item_data' => $cart_item_data, 'li_class' => 'main_menu_item|cart_link')); 
 			}

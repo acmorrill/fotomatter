@@ -5041,12 +5041,39 @@ body {
   -khtml-opacity: 1;
   opacity: 1;
 }
+#theme_chooser_container .theme_item_container.current .icon-Success-01 {
+  display: block;
+}
 #theme_chooser_container .theme_item_container.current .theme_item_outer_container .theme_item_inner_container .screenshot_container {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
   -moz-opacity: 1;
   -khtml-opacity: 1;
   opacity: 1;
   border: 2px solid #2ac0de;
+}
+#theme_chooser_container .theme_item_container.current .usable_form {
+  display: none;
+}
+#theme_chooser_container .theme_item_container.switching .custom_progress {
+  display: block;
+}
+#theme_chooser_container .theme_item_container.switching .usable_form {
+  display: none;
+}
+#theme_chooser_container .theme_item_container .custom_progress {
+  display: none;
+}
+#theme_chooser_container .theme_item_container .icon-Success-01 {
+  display: none;
+}
+#theme_chooser_container .theme_item_container .progress {
+  width: 196px;
+}
+body .ui-widget-header {
+  background-color: #2ac0de;
+}
+body .ui-widget-content {
+  border: 0px none;
 }
 #theme_centers_list_container {
   position: relative;

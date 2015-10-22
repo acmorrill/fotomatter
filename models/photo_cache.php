@@ -59,6 +59,7 @@ class PhotoCache extends AppModel {
 						'url' => $dummy_image_url_path,
 						'tag_attributes' => $tag_attributes,
 						'style_attributes' => "width: {$width}px; height: {$height}px;",
+						'alt_title_str' => "",
 						'width' => $width,
 						'height' => $height,
 					);
@@ -119,6 +120,7 @@ class PhotoCache extends AppModel {
 					'url' => $url_image_path,
 					'tag_attributes' => $tag_attributes,
 					'style_attributes' => "width: {$width}px; height: {$height}px;",
+					'alt_title_str' => "",
 					'width' => $width,
 					'height' => $height,
 				);
