@@ -19,11 +19,13 @@ class PhotoPrintType extends AppModel {
 	}
 	
 	
-	public function create_new_photo_print_type($type) {
+	public function create_new_photo_print_type($type, $print_fulfiller_id = null, $print_fulfiller_print_type_id = null) {
 		$data = array();
 		$data['PhotoPrintType']['print_name'] = 'New Print';
 		$data['PhotoPrintType']['turnaround_time'] = '3 Weeks';
 		$data['PhotoPrintType']['print_fulfillment_type'] = $type;
+		$data['PhotoPrintType']['print_fulfiller_id'] = $print_fulfiller_id;
+		$data['PhotoPrintType']['print_fulfiller_print_type_id'] = $print_fulfiller_print_type_id;
 		
 		$this->create();
 		$this->save($data);

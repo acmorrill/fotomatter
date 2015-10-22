@@ -38,6 +38,7 @@
 				'url' => array(
 					"/admin/ecommerces/manage_print_types_and_pricing",
 					"/admin/ecommerces/add_print_type_and_pricing",
+					"/admin/ecommerces/add_automatic_print_type_and_pricing",
 					"/admin/ecommerces/manage_print_sizes/",
 					"/admin/ecommerces/add_print_size/",
 				),

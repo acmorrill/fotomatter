@@ -512,7 +512,6 @@ class Photo extends AppModel {
 			$theme_cache_sizes = $this->ThemePrebuildCacheSize->get_prebuild_cache_sizes_current_theme();
 			$combined_cache_sizes = array_merge($all_cache_sizes, $theme_cache_sizes);
 			
-			// DREW TODO -  START HERE TOMORROW
 			$this->create_default_photo_caches($combined_cache_sizes, $this->id);
 		}
 

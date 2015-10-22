@@ -210,7 +210,11 @@
 					</td>
 					<td class="table_actions last">
 						<span class="custom_ui">
+							<?php if ($photo_print_type['PhotoPrintType']['print_fulfillment_type'] == 'self'): ?>
 								<a href="/admin/ecommerces/add_print_type_and_pricing/<?php echo $photo_print_type['PhotoPrintType']['id']; ?>/"><div class="add_button"><div class="content"><?php echo __('Edit', true); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div></div></a>
+							<?php else: ?>
+								<a href="/admin/ecommerces/add_automatic_print_type_and_pricing/<?php echo $photo_print_type['PhotoPrintType']['print_fulfiller_id']; ?>/<?php echo $photo_print_type['PhotoPrintType']['print_fulfiller_print_type_id']; ?>/<?php echo $photo_print_type['PhotoPrintType']['id']; ?>/"><div class="add_button"><div class="content"><?php echo __('Edit', true); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div></div></a>
+							<?php endif; ?>
 							<a class="delete_link" href="/admin/ecommerces/delete_print_type/<?php echo $photo_print_type['PhotoPrintType']['id']; ?>/"><div class="add_button icon icon_close"><div class="content icon-close-01"></div></div></a>
 						</span>
 					</td>

@@ -75,9 +75,9 @@ class FotomatterBillingComponent extends FotomatterOverlordApi {
 		}
 		
 		
-//		if (apc_exists($this->account_info_apc_key)) {
-//			return apc_fetch($this->account_info_apc_key);
-//		}
+		if (apc_exists($this->account_info_apc_key)) {
+			return apc_fetch($this->account_info_apc_key);
+		}
 		
 		
 		$result_of_find = $this->send_api_request('api_billing/get_account_info', $params);

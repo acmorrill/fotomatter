@@ -398,29 +398,24 @@ class EcommercesController extends AppController {
 	
 	public function admin_add_automatic_print_type_and_pricing($print_fulfiller_id, $print_fulfiller_print_type_id, $photo_print_type_id = 0) {
 		$this->HashUtil->set_new_hash('ecommerce');
-
+		
 		
 		////////////////////////////////////////////////////////////////////////////////////////
 		// validate for auto fulfillment
 		$is_autofulfillment_print_type = !empty($print_fulfiller_id) && !empty($print_fulfiller_print_type_id);
-		if ($is_autofulfillment_print_type !== true) {
-			$this->Session->setFlash("Trying to add automatic print type incorrectly.", 'admin/flashMessage/error');
+		$print_type_ids_vaild = !empty($this->overlord_account_info['print_fulfillers_indexed'][$print_fulfiller_id]['PrintFulfillerPrintType'][$print_fulfiller_print_type_id]['type']);
+		if ($is_autofulfillment_print_type !== true || $print_type_ids_vaild !== true) {
+			$this->Session->setFlash("Trying to add automatic print type incorrectly. $print_fulfiller_id - $print_fulfiller_print_type_id", 'admin/flashMessage/error');
 			$this->redirect('/admin/ecommerces/manage_print_types_and_pricing/');
 		}
 		
 		
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		// DREW TODO - also validate that the print type id's are valid ids
-		
-		
-		
-		if (!empty($this->data)) {
-			$result = $this->PhotoPrintType->validate_and_save_print_type($this->data, true);
-			if ($result === true) {
-				$this->redirect('/admin/ecommerces/manage_print_types_and_pricing/');
-			} else {
-				$this->Session->setFlash($result, 'admin/flashMessage/error');
-			}
+		// actually create the print type if not done yet
+		$print_fulfiller_print_type = $this->overlord_account_info['print_fulfillers_indexed'][$print_fulfiller_id]['PrintFulfillerPrintType'][$print_fulfiller_print_type_id];
+		$print_fulfiller_print_type_type = $print_fulfiller_print_type['type'];
+		if (empty($photo_print_type_id)) {
+			$new_id = $this->PhotoPrintType->create_new_photo_print_type("auto$print_fulfiller_print_type_type", $print_fulfiller_id, $print_fulfiller_print_type_id);
+			$this->redirect("/admin/ecommerces/add_automatic_print_type_and_pricing/$print_fulfiller_id/$print_fulfiller_print_type_id/$new_id/");
 		}
 		
 		
@@ -435,6 +430,7 @@ class EcommercesController extends AppController {
 		
 		
 		$this->set(compact('photo_avail_sizes', 'photo_print_type'));
+		$this->render("admin_add_auto{$print_fulfiller_print_type_type}_print_type_and_pricing");
 	}
 	
 	public function admin_add_print_type_and_pricing($photo_print_type_id = 0) {
@@ -446,17 +442,6 @@ class EcommercesController extends AppController {
 			$this->redirect("/admin/ecommerces/add_print_type_and_pricing/$new_id/");
 		}
 		
-		
-		
-//		if (!empty($this->data)) {
-//			$result = $this->PhotoPrintType->validate_and_save_print_type($this->data);
-//			if ($result === true) {
-//				$this->redirect('/admin/ecommerces/manage_print_types_and_pricing/');
-//			} else {
-//				$this->Session->setFlash($result, 'admin/flashMessage/error');
-//			}
-//		}
-
 		
 		$photo_avail_sizes = $this->PhotoAvailSize->get_photo_avail_sizes($photo_print_type_id);
 		
