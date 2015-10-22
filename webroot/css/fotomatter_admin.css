@@ -5043,14 +5043,19 @@ body {
 }
 #theme_chooser_container .theme_item_container.switching .custom_progress {
   display: block;
+  height: 44px;
 }
 #theme_chooser_container .theme_item_container.switching .usable_form {
   display: none;
+}
+#theme_chooser_container .theme_item_container .usable_form {
+  height: 44px;
 }
 #theme_chooser_container .theme_item_container .custom_progress {
   display: none;
 }
 #theme_chooser_container .theme_item_container .icon-Success-01 {
+  height: 44px;
   display: none;
 }
 #theme_chooser_container .theme_item_container .progress {
