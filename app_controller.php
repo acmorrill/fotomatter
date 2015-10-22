@@ -552,13 +552,15 @@ class AppController extends Controller {
 	
 	public function after_change_theme_todo() {
 		$this->Theme = ClassRegistry::init('Theme');
-		
+		$this->Photo = ClassRegistry::init('Photo');
+
 		////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// stuff to do after theme changed
 		$new_theme_config = $this->ThemeRenderer->_process_theme_config_with_user_settings(true);
 		$this->Theme->get_theme_background_config_values($new_theme_config, true);
+		$this->Photo->create_theme_photo_caches();
 
-		
+
 		// this is no longer needed as the logo code was refactered
 		// important!  --   this makes sure that paths to helpers etc are correct after the symlinks change in change theme above
 //		apc_add('clear_cake_core_apc_cache_on_next_request', true);

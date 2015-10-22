@@ -538,6 +538,18 @@ class Photo extends AppModel {
 		}
 	}
 
+	public function create_theme_photo_caches() {
+		$query = "SELECT DISTINCT `photo_id` FROM `photo_galleries_photos` WHERE `photo_order` < 30 LIMIT 500";
+		$photos = $this->query($query);
+
+		$this->ThemePrebuildCacheSize = Classregistry::init('ThemePrebuildCacheSize');
+		$theme_cache_sizes = $this->ThemePrebuildCacheSize->get_prebuild_cache_sizes_current_theme();
+
+		foreach ($photos as $photo) {
+			$this->create_default_photo_caches($theme_cache_sizes, $photo['photo_galleries_photos']['photo_id']);
+		}
+	}
+
 	// a function to efficiently add photo format to a list of photos (without a bunch of extra queries)
 	public function add_photo_format(&$photos) {
 		$format_apc_key = 'format_apc_key';
