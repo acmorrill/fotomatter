@@ -10,9 +10,76 @@ var verticle_sortable_defaults = {
 
 
 /****
+ * main menu javascript
+ ****/
+var ul_menu;
+var ul_menu_li;
+var extra_buttons;
+var extra_buttons_li;
+var extra_submenu;
+var extra_submenu_parent;
+function close_main_menu() {
+	ul_menu_li.removeClass('active open');
+	ul_menu_li.filter('.current').addClass('active');
+}
+jQuery(document).ready(function() {
+	ul_menu = jQuery('ul.menu');
+	ul_menu_li = jQuery('> li', ul_menu);
+	extra_buttons = jQuery("#extra_buttons");
+	extra_buttons_li = jQuery("> li", extra_buttons);
+	extra_submenu = jQuery('.submenu', extra_buttons);
+	extra_submenu_parent = extra_submenu.parent();
+	extra_submenu.click(function(e) {
+		e.preventDefault();
+		if (extra_submenu_parent.hasClass('open')) {
+			extra_submenu_parent.removeClass('open');
+			close_main_menu();
+		} else {
+			extra_submenu_parent.addClass('open');
+			ul_menu_li.removeClass('active open');
+		}
+	});
+	extra_buttons_li.click(function(e) {
+		e.stopPropagation();
+	});
+	jQuery(document).click(function() {
+		extra_buttons_li.removeClass('open');
+		close_main_menu();
+	});
+	ul_menu_li.filter('.link').click(function(e) {
+		e.stopPropagation();
+	});
+	ul_menu_li.filter('.dropdown').click(function(e) {
+		e.stopPropagation();
+		if (jQuery(this).hasClass('open')) {
+			close_main_menu();
+		} else {
+			ul_menu_li.removeClass('active open');
+			jQuery(this).addClass('active open');
+		}
+		extra_submenu_parent.removeClass('open');
+	});
+	jQuery('.sub-nav').click(function(e) {
+		e.stopPropagation();
+	});
+});
+
+
+
+
+
+
+/****
  *Global start up behavior
  ****/
+var dynamic_table_container;
 jQuery(document).ready(function() {
+	dynamic_table_container = jQuery('.dynamic_list .table_container');
+	dynamic_table_container.height(jQuery(window).height() - 104);
+	jQuery(window).resize(function() {
+		dynamic_table_container.height(jQuery(this).height() - 104);
+	});
+	
 	///////////////////////////////////////////////////////
 	// address page javascript
 	function country_select_reset(context, country_id, first_load) {

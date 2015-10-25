@@ -142,7 +142,58 @@ class PhotoGalleriesController extends AppController {
 	}
 
 	public function admin_index() {
-		$this->layout = 'admin/sidebar_less';
+		// DREW TODO - make sure this query is indexed
+		$gallery_query = "
+			SELECT Gallery.id, Gallery.weight, Gallery.type, Gallery.display_name, Gallery.description, Gallery.created, (SELECT count(*) FROM photo_galleries_photos WHERE photo_gallery_id = Gallery.id) as photos_count
+			FROM photo_galleries AS Gallery
+		";
+		$galleries = $this->PhotoGallery->query($gallery_query);
+
+		// convert tag ids to int so json will be int and sort correct in angular
+		foreach ($galleries as &$gallery) {
+			$gallery['Gallery']['id'] = (int) $gallery['Gallery']['id'];
+			$gallery['Gallery']['photos_count'] = (int) $gallery[0]['photos_count'];
+		}
+
+		$this->return_json($galleries);
+	}
+	
+	public function admin_view($id) {
+		$gallery_query = "
+			SELECT Gallery.id, Gallery.weight, Gallery.type, Gallery.display_name, Gallery.description, Gallery.created, (SELECT count(*) FROM photo_galleries_photos WHERE photo_gallery_id = Gallery.id) as photos_count
+			FROM photo_galleries AS Gallery
+			WHERE Gallery.id = :id
+		";
+		$galleries = $this->PhotoGallery->query($gallery_query, array(
+			'id' => $id
+		));
+
+		// convert tag ids to int so json will be int and sort correct in angular
+		foreach ($galleries as &$gallery) {
+			$gallery['Gallery']['id'] = (int) $gallery['Gallery']['id'];
+			$gallery['Gallery']['photos_count'] = (int) $gallery[0]['photos_count'];
+		}
+
+		$this->return_json($galleries);
+	}
+	
+	
+	// DREW TODO - get this working
+//	public function admin_mobile_index() {
+////		$this->layout = 'admin/sidebar_less';
+//		$curr_page = 'galleries';
+//		
+//		$galleries = $this->PhotoGallery->find('all', array(
+//			'limit' => 100,
+//			'contain' => false
+//		));
+//		
+//		$this->set(compact('galleries', 'curr_page'));
+//		$this->render('admin_index'); // the new angular page
+//	}
+	
+	public function admin_manage() {
+//		$this->layout = 'admin/sidebar_less';
 		$curr_page = 'galleries';
 		
 		$galleries = $this->PhotoGallery->find('all', array(

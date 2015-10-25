@@ -102,3 +102,44 @@ fotomatterControllers.controller('TagListCtrl', ['$scope', '$q', 'Tags', functio
 	};
 }]);
 
+
+fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'Galleries', function($scope, $q, Galleries) {
+	$scope.loading = true;
+	$scope.open_gallery = new Array();	
+	
+	Galleries.index().$promise.then(function(galleries) {
+		$scope.loading = false;
+		$scope.galleries = galleries;
+		$scope.open_gallery = galleries[0];
+//		console.log('========================');
+//		console.log(galleries[0]);
+//		console.log('========================');
+	});
+	
+
+	$scope.view_gallery = function(gallery_id) {
+		var view_gallery = {
+			id: gallery_id
+		};
+		var d = $q.defer();
+		Galleries.view(view_gallery, 
+			function(result) {
+				// DREW TODO - START HERE TOMORROW
+				if (typeof result[0]['Gallery'].id == 'number') {
+					$scope.open_gallery = result[0];
+					d.resolve();
+				} else {
+					d.resolve("Error");
+				}
+			},
+			function(error) {
+				d.resolve("Server Error");
+			}
+		);
+		
+		return d.promise;
+	};
+	
+	
+}]);
+

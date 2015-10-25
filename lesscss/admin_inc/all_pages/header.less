@@ -61,21 +61,39 @@ body {
 		ul.menu {
 			width: 991px;
 		}
-		ul.menu li {
+		ul.menu > li {
+			.no_select;
+			.sub-nav {
+				.sub_nav_generic();
+				display: none;
+				left: -43px;
+				> ul {
+					&, &.menu {
+						> li {
+							.sub_nav_li_reusable();
+						}
+					}
+				}
+				&.sell {
+					ul li table td .circle { background-color: @tab3_on_color; }
+				}
+			}
+			
 			position: relative;
 			width: @menu_width;
 			height: @tab_height;
 			display: inline-block;
 			vertical-align: top;
 			//cursor: pointer;
-			> a {
+			> a, > span {
 				height: @menu_height;
 				display: block;
 				position: relative;
 				color: @top_gray;
 				text-decoration: none;
 				font-size: .8em;
-				span {
+				cursor: pointer;
+				> span {
 					.Code-Pro-LC;
 					font-size: 1.04em;
 					display: inline-block;
@@ -84,7 +102,7 @@ body {
 				}
 			}
 			&:hover {
-				> a { color: @top_white; }
+				> a, >span { color: @top_white; }
 			}
 			.tab_bottom {
 				position: absolute;
@@ -120,12 +138,12 @@ body {
 				width: @menu_height + 4px;
 				background: url(/img/admin/main_menu/menu_angle_white_end_tab.svg) no-repeat top left;
 			}
-			&.dashboard {
+/*			&.dashboard {
 				background: @dashboard_off;
 				&:hover {
 					background: @dashboard_off_hover;
 				}
-				&.active {
+				&.active, &.current {
 					.tab_bottom {
 						width: @menu_width;
 						left: 0;
@@ -138,10 +156,11 @@ body {
 						}
 					}
 				}
-				> a span { margin-left: 24px; }
-			}
+				> a span, > span span { margin-left: 24px; }
+			}*/
 			@theme_center_tab_width: 203px;
 			&.theme_center {
+				.sub-nav { left: 0px; }
 				.vertical_gradient(@tab2_top, @tab2_bottom);
 				//.tab_left_cover {
 					//background-position: 0px 0px;
@@ -156,7 +175,7 @@ body {
 					.tab_left_cover { background-position: -50px 0px; }
 					width: @theme_center_tab_width;
 				}
-				&.active {
+				&.active, &.current {
 					&, &:hover {
 						width: @theme_center_tab_width;
 					}
@@ -172,7 +191,7 @@ body {
 						}
 					}
 				}
-				> a span { margin-left: 30px; }
+				> a span, > span span { margin-left: 30px; }
 			}
 			&.e-commerce {
 				.vertical_gradient(@tab3_top, @tab3_bottom);
@@ -184,7 +203,7 @@ body {
 					.vertical_gradient(@tab3_top_hover, @tab3_bottom_hover);
 					.tab_left_cover { background-position: -50px -46px; }
 				}
-				&.active {
+				&.active, &.current {
 					.tab_bottom .active_color {
 						background-color: @tab3_on_color;
 						.active_color_triangle {
@@ -192,7 +211,7 @@ body {
 						}
 					}
 				}
-				> a span { margin-left: 3px; }
+				> a span, > span span { margin-left: 3px; }
 			}
 			&.galleries {
 				.vertical_gradient(@tab4_top, @tab4_bottom);
@@ -204,7 +223,7 @@ body {
 					.vertical_gradient(@tab4_top_hover, @tab4_bottom_hover);
 					.tab_left_cover { background-position: -50px -93px; }
 				}
-				&.active {
+				&.active, &.current {
 					.tab_bottom .active_color {
 						background-color: @tab4_on_color;
 						.active_color_triangle {
@@ -212,7 +231,7 @@ body {
 						}
 					}
 				}
-				> a span { margin-left: 18px; }
+				> a span, > span span { margin-left: 18px; }
 			}
 			&.photos {
 				.vertical_gradient(@tab5_top, @tab5_bottom);
@@ -224,7 +243,7 @@ body {
 					.vertical_gradient(@tab5_top_hover, @tab5_bottom_hover);
 					.tab_left_cover { background-position: -50px -139px; }
 				}
-				&.active {
+				&.active, &.current {
 					.tab_bottom .active_color {
 						background-color: @tab5_on_color;
 						.active_color_triangle {
@@ -232,7 +251,7 @@ body {
 						}
 					}
 				}
-				> a span { margin-left: 23px; }
+				> a span, > span span { margin-left: 23px; }
 			}
 			&.pages {
 				.vertical_gradient(@tab6_top, @tab6_bottom);
@@ -244,7 +263,7 @@ body {
 					.vertical_gradient(@tab6_top_hover, @tab6_bottom_hover);
 					.tab_left_cover { background-position: -50px -183px; }
 				}
-				&.active {
+				&.active, &.current {
 					.tab_bottom .active_color {
 						background-color: @tab6_on_color;
 						.active_color_triangle {
@@ -252,14 +271,16 @@ body {
 						}
 					}
 				}
-				> a span { margin-left: 26px; }
+				> a span, > span span { margin-left: 26px; }
+			}
+			&.active, &.current {
+				> a, > span { color: @top_white; }
 			}
 			&.active {
 				&, &:hover { 
 					background: url(/img/admin/main_menu/main_menu_active_bg.jpg) top left repeat-x;
 					background-size: 4px 55px;
 					width: @menu_active_width;
-					a { color: @top_white; }
 					.tab_left_cover {
 						position: absolute;
 						top: 0px;
@@ -301,6 +322,9 @@ body {
 						}
 					}
 				}
+			}
+			&.open {
+				.sub-nav { display: block; }
 			}
 		}
 	}

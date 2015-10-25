@@ -5,20 +5,6 @@
 ?>
 <div class="menu_below_bar"></div>
 <div id="top-navigation">
-	<script type="text/javascript">
-		jQuery(document).ready(function() {
-			jQuery('#extra_buttons .submenu').click(function(e) {
-				e.preventDefault();
-				jQuery(this).parent().toggleClass('open');
-			});
-			jQuery('#extra_buttons > li').click(function(e) {
-				e.stopPropagation();
-			});
-			jQuery(document).click(function() {
-				jQuery('#extra_buttons > li').removeClass('open');
-			});
-		});
-	</script>
 	<ul id="extra_buttons">
 		<li>
 			<a href="/admin/users/logout"><i class="icon-power"></i>Log Out</a>
@@ -118,10 +104,12 @@
 			<a href='/admin/dashboards'><span><?php __("Dashboard"); ?></span></a>
 			<div class="tab_bottom"><div class="tab_bottom_triangle"></div><div class="active_color"><div class="active_color_triangle"></div></div></div>
 		</li> */ ?><!--
-		--><li class='theme_center <?php if ($curr_page == 'theme_center'): ?> active<?php endif; ?>'>
-			<a href='/admin/theme_centers/choose_theme'><span><?php __("Theme Center"); ?></span></a>
-			<?php /*<div class="tab_left_cover"></div>
-			<div class="angle_white"></div> */ ?>
+		--><li class='theme_center <?php if ($curr_page == 'theme_center'): ?> current active<?php endif; ?> dropdown'>
+			
+			<!--<a href='/admin/theme_centers/choose_theme'><span><?php __("Theme Center"); ?></span></a>-->
+			
+			<span><span><?php __("Theme Center"); ?></span></span>
+			
 			<div class="tab_bottom"><div class="tab_bottom_triangle"></div><div class="active_color"><div class="active_color_triangle"></div></div></div>
 			<?php
 				$subnav = array();
@@ -163,25 +151,74 @@
 				echo $this->Element('/admin/submenu', array( 'subnav' => $subnav ));
 			?>
 		</li><!--
-		--><li class='e-commerce <?php if ($curr_page == 'sell'): ?> active<?php endif; ?>'>
-			<a href='/admin/ecommerces/index'><span><?php __("E-commerce"); ?></span></a>
+		--><li class='e-commerce <?php if ($curr_page == 'sell'): ?> current active<?php endif; ?> dropdown'>
+			
+			<!--<a href='/admin/ecommerces/index'><span><?php __("E-commerce"); ?></span></a>-->
+			
+			<span><span><?php __("E-commerce"); ?></span></span>
+			
+			<div class="tab_left_cover"></div>
+			<div class="angle_white"></div>
+			<div class="tab_bottom"><div class="tab_bottom_triangle"></div><div class="active_color"><div class="active_color_triangle"></div></div></div>
+			
+			<?php
+				$subnav = array(); 
+
+				$subnav['title'] = array(
+					'name' => 'Sell',
+					'url' => "/admin/ecommerces",
+				);
+				$subnav['pages'][] = array(
+					'name' => __('E-commerce Settings', true),
+					'url' => "/admin/ecommerces/index/",
+					'icon_css' => 'PageSettings-01',
+				);
+				$subnav['pages'][] = array(
+					'name' => __('Manage Print Sizes', true),
+					'url' => array(
+						"/admin/ecommerces/manage_print_sizes/",
+						"/admin/ecommerces/add_print_size/",
+					),
+					'icon_css' => 'ManagePrintSize-01-01',
+				);
+				$subnav['pages'][] = array(
+					'name' => __('Manage Print Types & Default Pricing', true),
+					'url' => array(
+						"/admin/ecommerces/manage_print_types_and_pricing",
+						"/admin/ecommerces/add_print_type_and_pricing",
+					),
+					'icon_css' => 'ManagePrintMaterial-01-01',
+				);
+				$subnav['pages'][] = array(
+					'name' => __('Manage Orders', true),
+					'url' => array(
+						"/admin/ecommerces/order_management",
+						"/admin/ecommerces/fulfill_order",
+					),
+					'icon_css' => 'Clipboard-01-01',
+				);
+				$subnav['pages'][] = array(
+					'name' => __('Receive Payment', true),
+					'url' => "/admin/ecommerces/get_paid/",
+					'icon_css' => 'receiveMoney-01',
+				);
+
+				echo $this->Element('/admin/submenu', array( 'subnav' => $subnav, 'curr_page' => $curr_page ));
+			?>
+		</li><!--
+		--><li class='galleries <?php if ($curr_page == 'galleries'): ?> current active<?php endif; ?> link'>
+			<a href='/admin/photo_galleries/manage'><span><?php __("Galleries"); ?></span></a>
 			<div class="tab_left_cover"></div>
 			<div class="angle_white"></div>
 			<div class="tab_bottom"><div class="tab_bottom_triangle"></div><div class="active_color"><div class="active_color_triangle"></div></div></div>
 		</li><!--
-		--><li class='galleries <?php if ($curr_page == 'galleries'): ?> active<?php endif; ?>'>
-			<a href='/admin/photo_galleries'><span><?php __("Galleries"); ?></span></a>
-			<div class="tab_left_cover"></div>
-			<div class="angle_white"></div>
-			<div class="tab_bottom"><div class="tab_bottom_triangle"></div><div class="active_color"><div class="active_color_triangle"></div></div></div>
-		</li><!--
-		--><li class='photos <?php if ($curr_page == 'photos'): ?> active<?php endif; ?>'>
+		--><li class='photos <?php if ($curr_page == 'photos'): ?> current active<?php endif; ?> link'>
 			<a href='/admin/photos'><span><?php __("Photos"); ?></span></a>
 			<div class="tab_left_cover"></div>
 			<div class="angle_white"></div>
 			<div class="tab_bottom"><div class="tab_bottom_triangle"></div><div class="active_color"><div class="active_color_triangle"></div></div></div>
 		</li><!--
-		--><li class='pages <?php if ($curr_page == 'pages'): ?> active<?php endif; ?>'>
+		--><li class='pages <?php if ($curr_page == 'pages'): ?> current active<?php endif; ?> link'>
 			<a href='/admin/site_pages'><span><?php __("Pages"); ?></span></a>
 			<div class="tab_left_cover"></div>
 			<div class="angle_white"></div>
@@ -189,11 +226,5 @@
 			<div class="last_tab">&nbsp;</div>
 		</li><!--
 		-->
-	<!--	<li class='site_settings <?php if ($curr_page == 'site_settings'): ?> active<?php endif; ?>'>
-			<a href='/admin/accounts'><?php __("Site Settings"); ?></a>
-			<div class="tab_left_cover"></div>
-			<div class="angle_white"></div>
-			<div class="tab_bottom"><div class="tab_bottom_triangle"></div><div class="active_color"><div class="active_color_triangle"></div></div></div>
-		</li>-->
 	</ul>
 </div>

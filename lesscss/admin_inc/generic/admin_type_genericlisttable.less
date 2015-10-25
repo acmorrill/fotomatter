@@ -314,6 +314,27 @@ table.list {
 	}
 }
 
+.dynamic_list {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	height: 100%;
+	width: 402px;
+	padding: 0px;
+	.table_container {
+		margin-top: @header_height + 10px;
+		margin-bottom: 50px;
+		overflow-y: scroll;
+		height: 1000px;
+		table.list {
+			width: 150px;
+			margin-left: 0px;
+			padding-left: 0px;
+			clear: both;
+		}
+	}
+}
+
 ////////////////////////////////////////////////////
 .configure_table_list {
 	table.list > tbody > tr > td > * { margin-left: 0px; }
