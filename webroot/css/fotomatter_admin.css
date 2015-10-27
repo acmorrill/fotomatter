@@ -2265,6 +2265,124 @@ body .ui-tooltip {
   filter: Alpha(Opacity=20);
   border-radius: 5px;
 }
+.ps-container {
+  -ms-touch-action: none;
+  overflow: hidden !important;
+}
+.ps-container.ps-active-x>.ps-scrollbar-x-rail,
+.ps-container.ps-active-y>.ps-scrollbar-y-rail {
+  display: block;
+}
+.ps-container.ps-in-scrolling {
+  pointer-events: none;
+}
+.ps-container.ps-in-scrolling.ps-x>.ps-scrollbar-x-rail {
+  background-color: #eee;
+  opacity: 0.9;
+}
+.ps-container.ps-in-scrolling.ps-x>.ps-scrollbar-x-rail>.ps-scrollbar-x {
+  background-color: #999;
+}
+.ps-container.ps-in-scrolling.ps-y>.ps-scrollbar-y-rail {
+  background-color: #eee;
+  opacity: 0.9;
+}
+.ps-container.ps-in-scrolling.ps-y>.ps-scrollbar-y-rail>.ps-scrollbar-y {
+  background-color: #999;
+}
+.ps-container>.ps-scrollbar-x-rail {
+  display: none;
+  position: absolute;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  border-radius: 4px;
+  opacity: 0;
+  -webkit-transition: background-color 0.2s linear, opacity 0.2s linear;
+  -moz-transition: background-color 0.2s linear, opacity 0.2s linear;
+  -o-transition: background-color 0.2s linear, opacity 0.2s linear;
+  transition: background-color 0.2s linear, opacity 0.2s linear;
+  bottom: 3px;
+  height: 8px;
+}
+.ps-container>.ps-scrollbar-x-rail>.ps-scrollbar-x {
+  position: absolute;
+  background-color: #aaa;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-transition: background-color 0.2s linear;
+  -moz-transition: background-color 0.2s linear;
+  -o-transition: background-color 0.2s linear;
+  transition: background-color 0.2s linear;
+  bottom: 0;
+  height: 8px;
+}
+.ps-container>.ps-scrollbar-y-rail {
+  display: none;
+  position: absolute;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  border-radius: 4px;
+  opacity: 0;
+  -webkit-transition: background-color 0.2s linear, opacity 0.2s linear;
+  -moz-transition: background-color 0.2s linear, opacity 0.2s linear;
+  -o-transition: background-color 0.2s linear, opacity 0.2s linear;
+  transition: background-color 0.2s linear, opacity 0.2s linear;
+  right: 3px;
+  width: 8px;
+}
+.ps-container>.ps-scrollbar-y-rail>.ps-scrollbar-y {
+  position: absolute;
+  background-color: #aaa;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-transition: background-color 0.2s linear;
+  -moz-transition: background-color 0.2s linear;
+  -o-transition: background-color 0.2s linear;
+  transition: background-color 0.2s linear;
+  right: 0;
+  width: 8px;
+}
+.ps-container:hover.ps-in-scrolling {
+  pointer-events: none;
+}
+.ps-container:hover.ps-in-scrolling.ps-x>.ps-scrollbar-x-rail {
+  background-color: #eee;
+  opacity: 0.9;
+}
+.ps-container:hover.ps-in-scrolling.ps-x>.ps-scrollbar-x-rail>.ps-scrollbar-x {
+  background-color: #999;
+}
+.ps-container:hover.ps-in-scrolling.ps-y>.ps-scrollbar-y-rail {
+  background-color: #eee;
+  opacity: 0.9;
+}
+.ps-container:hover.ps-in-scrolling.ps-y>.ps-scrollbar-y-rail>.ps-scrollbar-y {
+  background-color: #999;
+}
+.ps-container:hover>.ps-scrollbar-x-rail,
+.ps-container:hover>.ps-scrollbar-y-rail {
+  opacity: 0.6;
+}
+.ps-container:hover>.ps-scrollbar-x-rail:hover {
+  background-color: #eee;
+  opacity: 0.9;
+}
+.ps-container:hover>.ps-scrollbar-x-rail:hover>.ps-scrollbar-x {
+  background-color: #999;
+}
+.ps-container:hover>.ps-scrollbar-y-rail:hover {
+  background-color: #eee;
+  opacity: 0.9;
+}
+.ps-container:hover>.ps-scrollbar-y-rail:hover>.ps-scrollbar-y {
+  background-color: #999;
+}
 @font-face {
   font-family: 'Code-Pro-Bold-LC';
   src: url('/fonts/myfonts/code_pro/2A4617_3_0.eot');
@@ -3071,20 +3189,57 @@ table.list > tfoot td .table_summary .payment_item.strike .value {
   left: 0px;
   top: 0px;
   height: 100%;
-  width: 402px;
+  width: 320px;
   padding: 0px;
 }
 .dynamic_list .table_container {
+  background: none;
+  background-color: rgba(180,180,180,0.06);
+  padding: 0px;
   margin-top: 104px;
   margin-bottom: 50px;
   overflow-y: scroll;
   height: 1000px;
 }
+.dynamic_list .table_container .table_top,
+.dynamic_list .table_container .fade_background_top,
+.dynamic_list .table_container thead {
+  display: none;
+}
 .dynamic_list .table_container table.list {
-  width: 150px;
+  width: 320px;
   margin-left: 0px;
   padding-left: 0px;
+  margin-top: 30px;
   clear: both;
+}
+.dynamic_list .table_container table.list tbody > tr.spacer {
+  display: none;
+}
+.dynamic_list .table_container table.list tbody > tr > td.first {
+  border-left: 0px !important;
+}
+.dynamic_list .table_container table.list tbody > tr > td.last {
+  border-right: 0px !important;
+}
+.dynamic_list .table_container table.list tbody > tr > td .rightborder {
+  margin-top: -7px;
+  top: 50%;
+}
+.dynamic_list .table_container table.list tbody > tr > td > table {
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.dynamic_list .table_container table.list tbody > tr > td > table > tbody > tr > td {
+  vertical-align: center;
+}
+.dynamic_list .table_container table.list tbody > tr > td > table > tbody > tr > td > span {
+  display: inline-block;
+  margin: 8px;
+}
+.dynamic_list .table_container table.list tbody > tr > td > table > tbody > tr > td > span .add_button {
+  margin: 0px;
 }
 .configure_table_list {
   -webkit-touch-callout: none;

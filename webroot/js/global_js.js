@@ -79,6 +79,9 @@ jQuery(document).ready(function() {
 	jQuery(window).resize(function() {
 		dynamic_table_container.height(jQuery(this).height() - 104);
 	});
+	dynamic_table_container.perfectScrollbar({
+		'suppressScrollX': true
+	});
 	
 	///////////////////////////////////////////////////////
 	// address page javascript

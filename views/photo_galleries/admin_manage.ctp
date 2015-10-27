@@ -55,11 +55,11 @@
 	<div class="clear"></div>
 
 	
-	<div class="gallery_view" ng-hide="open_gallery.length == 0" style="margin-left: 100px;">
+	<div class="gallery_view" ng-hide="open_gallery.length == 0">
 		<p>{{open_gallery.Gallery.id}}</p>
 		<p>{{open_gallery.Gallery.display_name}}</p>
 		
-		<h2>THis is the gallery that is open</h2>
+		<?php echo $this->Element('admin/gallery/edit_gallery_connect_photos'); ?>
 	</div>
 	
 	
@@ -74,7 +74,7 @@
 						<?php /* <?php echo $this->Paginator->sort(__('Photo ID', true), 'Photo.id'); ?> */ ?>
 						<th class="first">
 						</th> 
-						<th class="">
+						<th class="last">
 							<div class="content one_line">
 								<?php echo __('Display Name', true); ?>
 							</div>
@@ -92,11 +92,11 @@
 								<?php echo __('Gallery Type', true); ?>
 							</div>
 						</th> -->
-						<th class="last">
+						<?php /*<th class="last">
 							<div class="content one_line">
 								<?php echo __('Actions', true); ?>
 							</div>
-						</th>
+						</th> */ ?>
 					</tr> 
 				</thead>
 				<tbody>
@@ -122,11 +122,29 @@
 							<div class="rightborder"></div>
 							<div class="reorder_gallery_grabber reorder_grabber icon-position-01" />
 						</td> 
-						<td class="gallery_name ">
-							<div class="rightborder"></div>
-							<span>{{gallery.Gallery.display_name}}</span>
+						<td class="gallery_name last">
+							<table>
+								<tbody>
+									<tr>
+										<td>
+											<span>{{gallery.Gallery.display_name}}</span>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<span class="custom_ui">
+												<div class="add_button" ng-click="view_gallery(gallery.Gallery.id)">
+													<div class="content"><?php echo __('Edit', true); ?></div>
+													<div class="right_arrow_lines icon-arrow-01"><div></div></div>
+												</div>
+												<a class="delete_link" href="/admin/photo_galleries/delete_gallery//"><div class="add_button icon icon_close"><div class="content icon-close-01"></div></div></a>
+											</span>
+										</td>
+									</tr>
+								</tbody>
+							</table>
 						</td> 
-						<td class="gallery_action last table_actions">
+						<?php /*<td class="gallery_action last table_actions">
 							<span class="custom_ui">
 								<div class="add_button" ng-click="view_gallery(gallery.Gallery.id)">
 									<div class="content"><?php echo __('Edit', true); ?></div>
@@ -134,7 +152,7 @@
 								</div>
 								<a class="delete_link" href="/admin/photo_galleries/delete_gallery//"><div class="add_button icon icon_close"><div class="content icon-close-01"></div></div></a>
 							</span>
-						</td>
+						</td> */ ?>
 					</tr>
 					
 					<?php /*

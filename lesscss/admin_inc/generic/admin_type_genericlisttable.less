@@ -319,18 +319,46 @@ table.list {
 	left: 0px;
 	top: 0px;
 	height: 100%;
-	width: 402px;
+	width: 320px;
 	padding: 0px;
 	.table_container {
+		.table_top, .fade_background_top, thead { display: none; }
+		background: none;
+		background-color: rgba(180,180,180, .06);
+		padding: 0px;
 		margin-top: @header_height + 10px;
 		margin-bottom: 50px;
 		overflow-y: scroll;
 		height: 1000px;
+		border-right: 2px solid @body_content_top_bg - 8;
 		table.list {
-			width: 150px;
+			width: 320px;
 			margin-left: 0px;
 			padding-left: 0px;
+			margin-top: 30px;
 			clear: both;
+			tbody > tr.spacer { display: none; }
+			tbody > tr > td {
+				&.first { border-left: 0px !important; }
+				&.last { border-right: 0px !important; }
+				.rightborder {
+					margin-top: -7px;
+					top: 50%;
+				}
+				> table {
+					width: 100%;
+					margin-top: 10px;
+					margin-bottom: 10px;
+					> tbody > tr > td {
+						vertical-align: center;
+						> span {
+							display: inline-block;
+							margin: 8px;
+							.add_button { margin: 0px; }
+						}
+					}
+				}
+			}
 		}
 	}
 }
