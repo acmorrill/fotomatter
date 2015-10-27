@@ -56,13 +56,8 @@
 
 	
 	<div class="gallery_view" ng-hide="open_gallery.length == 0">
-		<p>{{open_gallery.Gallery.id}}</p>
-		<p>{{open_gallery.Gallery.display_name}}</p>
-		
 		<?php echo $this->Element('admin/gallery/edit_gallery_connect_photos'); ?>
 	</div>
-	
-	
 	<div class="dynamic_list">
 		<div id="photo_gallery_list" class="table_container">
 			<div class="fade_background_top"></div>
@@ -117,7 +112,7 @@
 					</tr>
 					
 					
-					<tr ng-repeat="gallery in galleries">
+					<tr ng-repeat="gallery in galleries" ng-class="{ 'current': open_gallery.Gallery.id == gallery.Gallery.id}">
 						<td class="gallery_id first">
 							<div class="rightborder"></div>
 							<div class="reorder_gallery_grabber reorder_grabber icon-position-01" />

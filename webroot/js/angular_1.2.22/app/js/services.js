@@ -16,9 +16,10 @@ fotomatterServices.factory('Tags', ['$resource', function($resource) {
 fotomatterServices.factory('Galleries', ['$resource', function($resource) {
 	return $resource('/galleries/:id.json', {}, {
 		'index': { url: '/admin/photo_galleries/index', method: 'GET', isArray: true },
-		'add': { url: '/admin/photo_galleries/add', method: 'POST', params: { name: '@name' } },
-		'view': { url: '/admin/photo_galleries/view/:id', method: 'GET', isArray: true, params: { id: '@id' } },
-		'edit': { url: '/admin/photo_galleries/edit/:id', method: 'PUT', params: { id: '@id', name: '@name' } },
-		'delete': { url: '/admin/photo_galleries/delete/:id', method: 'DELETE', params: { id: '@id' } }
+		'view': { url: '/admin/photo_galleries/view/:id', method: 'GET', isArray: true, params: { id: '@id' } }
+//		'gallery_photos': { url: '/admin/photo_galleries/view/:id', method: 'GET', isArray: true, params: { id: '@id' } }
+//		'add': { url: '/admin/photo_galleries/add', method: 'POST', params: { name: '@name' } },
+//		'edit': { url: '/admin/photo_galleries/edit/:id', method: 'PUT', params: { id: '@id', name: '@name' } },
+//		'delete': { url: '/admin/photo_galleries/delete/:id', method: 'DELETE', params: { id: '@id' } }
 	});
 }]);

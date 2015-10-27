@@ -469,11 +469,12 @@ $(function() {
 
 <div id="connect_gallery_photos_cont">
 	<?php // $this->data['PhotoGallery']['display_name'] ?>
-	<h1><?php echo sprintf(__('Manage &ldquo;%s&rdquo; Gallery Photos', true), 'display_name'); ?>
+	<h1>{{open_gallery.Gallery.display_name}}
 		<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 	</h1>
+	<?php /*
 	<p><?php echo __('Easily manage your photos by adding and deleting uploaded photos to this gallery below.', true); ?></p>
-	<br />
+	<br />*/ ?>
 	<div style="clear: both;"></div>	
 	
 	<div class="page_content_header custom_ui">
@@ -499,13 +500,13 @@ $(function() {
 			*/ ?></div><?php /*
 		*/ ?></div><?php /*
 		*/ ?><div id="not_in_gallery_icon_size" class="box_icon_size custom_ui" data-step="5" data-intro="<?php echo __('Change the viewing size of your photos below to easily arrange.', true); ?>" data-position="bottom"><?php /*
-			*/ ?><div id="small_icon" size="small" class="add_button selected"><?php /*
+			*/ ?><div id="small_icon" size="small" ng-class="{ 'add_button': true, 'selected': open_gallery_image_size == 'small'}" ng-click="change_image_size('small')"><?php /*
 					*/ ?><div class="content">S</div><?php /*
 				*/ ?></div><?php /*
-				*/ ?><div id="medium_icon" size="medium" class="add_button"><?php /*
+				*/ ?><div id="medium_icon" size="medium" ng-class="{ 'add_button': true, 'selected': open_gallery_image_size == 'medium'}" ng-click="change_image_size('medium')"><?php /*
 					*/ ?><div class="content">M</div><?php /*
 				*/ ?></div><?php /*
-				*/ ?><div id="large_icon" size="large" class="add_button"><?php /*
+				*/ ?><div id="large_icon" size="large" ng-class="{ 'add_button': true, 'selected': open_gallery_image_size == 'large'}" ng-click="change_image_size('large')"><?php /*
 					*/ ?><div class="content">L</div><?php /*
 				*/ ?></div><?php /*
 			*/ ?>

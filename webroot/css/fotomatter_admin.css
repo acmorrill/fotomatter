@@ -3200,6 +3200,7 @@ table.list > tfoot td .table_summary .payment_item.strike .value {
   margin-bottom: 50px;
   overflow-y: scroll;
   height: 1000px;
+  border-right: 1px solid #1e2021;
 }
 .dynamic_list .table_container .table_top,
 .dynamic_list .table_container .fade_background_top,
@@ -3210,11 +3211,14 @@ table.list > tfoot td .table_summary .payment_item.strike .value {
   width: 320px;
   margin-left: 0px;
   padding-left: 0px;
-  margin-top: 30px;
   clear: both;
 }
 .dynamic_list .table_container table.list tbody > tr.spacer {
   display: none;
+}
+.dynamic_list .table_container table.list tbody > tr > td {
+  background-color: #262829;
+  background-color: rgba(38,40,41,0.7);
 }
 .dynamic_list .table_container table.list tbody > tr > td.first {
   border-left: 0px !important;
@@ -3232,6 +3236,7 @@ table.list > tfoot td .table_summary .payment_item.strike .value {
   margin-bottom: 10px;
 }
 .dynamic_list .table_container table.list tbody > tr > td > table > tbody > tr > td {
+  background: none;
   vertical-align: center;
 }
 .dynamic_list .table_container table.list tbody > tr > td > table > tbody > tr > td > span {
@@ -3240,6 +3245,13 @@ table.list > tfoot td .table_summary .payment_item.strike .value {
 }
 .dynamic_list .table_container table.list tbody > tr > td > table > tbody > tr > td > span .add_button {
   margin: 0px;
+}
+.dynamic_list .table_container table.list tbody > tr.current > td {
+  background-color: #3d3e3f;
+  background-color: rgba(61,62,63,0.7);
+}
+.dynamic_list .table_container table.list tbody > tr:hover > td {
+  background-color: #3d3e3f;
 }
 .configure_table_list {
   -webkit-touch-callout: none;

@@ -106,15 +106,29 @@ fotomatterControllers.controller('TagListCtrl', ['$scope', '$q', 'Tags', functio
 fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'Galleries', function($scope, $q, Galleries) {
 	$scope.loading = true;
 	$scope.open_gallery = new Array();	
+	$scope.open_gallery_image_size = 'small';	
+	
+
+	$scope.initGallery = function() {
+		jQuery(function() {
+			// wait till load event fires so all resources are available
+			jQuery("#filter_photo_by_format, #sort_photo_radio").buttonset();
+			jQuery("#photos_not_in_a_gallery").button();
+		});
+	};
+	
 	
 	Galleries.index().$promise.then(function(galleries) {
 		$scope.loading = false;
 		$scope.galleries = galleries;
 		$scope.open_gallery = galleries[0];
-//		console.log('========================');
-//		console.log(galleries[0]);
-//		console.log('========================');
+		$scope.initGallery();
 	});
+	
+	
+	$scope.change_image_size = function(new_size_str) {
+		$scope.open_gallery_image_size = new_size_str;
+	};
 	
 
 	$scope.view_gallery = function(gallery_id) {
@@ -124,7 +138,6 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'Galleries', 
 		var d = $q.defer();
 		Galleries.view(view_gallery, 
 			function(result) {
-				// DREW TODO - START HERE TOMORROW
 				if (typeof result[0]['Gallery'].id == 'number') {
 					$scope.open_gallery = result[0];
 					d.resolve();
