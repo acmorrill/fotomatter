@@ -639,10 +639,7 @@ class Photo extends AppModel {
 				}
 
 				// grab again after lock - to make sure we are not conflicting
-				$photoCache = $this->PhotoCache->find('first', array(
-					'conditions' => $conditions,
-					'contain' => false
-				));
+				$photoCache = $this->PhotoCache->cache_size_exists($photo_id, $width, $height, $crop);
 
 				if ($photoCache['PhotoCache']['status'] == 'queued') {
 					// TODO - maybe return the prepare path if the status is queued and some time has passed
