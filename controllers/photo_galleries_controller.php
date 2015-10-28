@@ -154,14 +154,14 @@ class PhotoGalleriesController extends AppController {
 		foreach ($photo_galleries as &$photo_gallery) {
 			$photo_gallery['PhotoGallery']['id'] = (int) $photo_gallery['PhotoGallery']['id'];
 			$photo_gallery['PhotoGallery']['photos_count'] = (int) $photo_gallery[0]['photos_count'];
-			$photo_galleries_photo_query = "
-				SELECT * FROM photo_galleries_photos AS PhotoGalleriesPhoto
-				WHERE PhotoGalleriesPhoto.photo_gallery_id = :photo_gallery_id
-				ORDER BY PhotoGalleriesPhoto.photo_order ASC
-			";
-			$photo_gallery['PhotoGalleriesPhoto'] = $this->PhotoGalleriesPhoto->query($photo_galleries_photo_query, array(
-				'photo_gallery_id' => $photo_gallery['PhotoGallery']['id']
-			));
+//			$photo_galleries_photo_query = "
+//				SELECT * FROM photo_galleries_photos AS PhotoGalleriesPhoto
+//				WHERE PhotoGalleriesPhoto.photo_gallery_id = :photo_gallery_id
+//				ORDER BY PhotoGalleriesPhoto.photo_order ASC
+//			";
+//			$photo_gallery['PhotoGalleriesPhoto'] = $this->PhotoGalleriesPhoto->query($photo_galleries_photo_query, array(
+//				'photo_gallery_id' => $photo_gallery['PhotoGallery']['id']
+//			));
 			unset($photo_gallery[0]);
 		}
 		
