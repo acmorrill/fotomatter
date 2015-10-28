@@ -3,6 +3,7 @@
 <script src="/js/angular_1.2.22/bower_components/angular-route/angular-route.js"></script>
 <script src="/js/angular_1.2.22/bower_components/angular-resource/angular-resource.js"></script>
 <script src="/js/angular_1.2.22/bower_components/angular-xeditable/dist/js/xeditable.min.js"></script>
+<script src="/js/angular_1.2.22/bower_components/angular-cookies/angular-cookies.min.js"></script>
 
 <script src="/js/angular_1.2.22/app/js/app.js"></script>
 <script src="/js/angular_1.2.22/app/js/controllers.js"></script>

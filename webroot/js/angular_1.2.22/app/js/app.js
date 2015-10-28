@@ -5,7 +5,8 @@
 var fotomatterApp = angular.module('fotomatterApp', [
 	'fotomatterControllers',
 	'fotomatterServices',
-	'xeditable'
+	'xeditable',
+	'ngCookies'
 //  'ngRoute',
 //  'phonecatAnimations',
 //  'phonecatFilters',

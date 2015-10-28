@@ -103,10 +103,10 @@ fotomatterControllers.controller('TagListCtrl', ['$scope', '$q', 'Tags', functio
 }]);
 
 
-fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleries', function($scope, $q, PhotoGalleries) {
-//	console.log('==============================');
-//	console.log($cookies);
-//	console.log('==============================');
+fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleries', '$cookies', function($scope, $q, PhotoGalleries, $cookies) {
+	console.log('==============================');
+	console.log($cookies.getAll());
+	console.log('==============================');
 		
 		
 	$scope.loading = true;
@@ -122,7 +122,7 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 			jQuery("#photos_not_in_a_gallery").button();
 		});
 		
-		$scope.open_gallery = photo_galleries[0];
+//		$scope.open_gallery = photo_galleries[0];
 	};
 	
 	
