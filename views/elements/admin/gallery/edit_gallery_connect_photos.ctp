@@ -469,7 +469,7 @@ $(function() {
 
 <div id="connect_gallery_photos_cont">
 	<?php // $this->data['PhotoGallery']['display_name'] ?>
-	<h1>{{open_gallery.Gallery.display_name}}
+	<h1>{{open_gallery.PhotoGallery.display_name}}
 		<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 	</h1>
 	<?php /*

@@ -104,7 +104,7 @@
 						</td>
 					</tr>
 
-					<tr class="first last" ng-show="galleries.length == 0">
+					<tr class="first last" ng-show="photo_galleries.length == 0 && loading == false">
 						<td class="first last" colspan="3">
 							<div class="rightborder"></div>
 							<span>You don't have any galleries</span>
@@ -112,7 +112,7 @@
 					</tr>
 					
 					
-					<tr ng-repeat="gallery in galleries" ng-class="{ 'current': open_gallery.Gallery.id == gallery.Gallery.id}">
+					<tr ng-repeat="photo_gallery in photo_galleries" ng-class="{ 'current': open_gallery.PhotoGallery.id == photo_gallery.PhotoGallery.id}">
 						<td class="gallery_id first">
 							<div class="rightborder"></div>
 							<div class="reorder_gallery_grabber reorder_grabber icon-position-01" />
@@ -122,13 +122,13 @@
 								<tbody>
 									<tr>
 										<td>
-											<span>{{gallery.Gallery.display_name}}</span>
+											<span>{{photo_gallery.PhotoGallery.display_name}}</span>
 										</td>
 									</tr>
 									<tr>
 										<td>
 											<span class="custom_ui">
-												<div class="add_button" ng-click="view_gallery(gallery.Gallery.id)">
+												<div class="add_button" ng-click="view_gallery(photo_gallery.PhotoGallery.id)">
 													<div class="content"><?php echo __('Edit', true); ?></div>
 													<div class="right_arrow_lines icon-arrow-01"><div></div></div>
 												</div>
@@ -141,7 +141,7 @@
 						</td> 
 						<?php /*<td class="gallery_action last table_actions">
 							<span class="custom_ui">
-								<div class="add_button" ng-click="view_gallery(gallery.Gallery.id)">
+								<div class="add_button" ng-click="view_gallery(photo_gallery.PhotoGallery.id)">
 									<div class="content"><?php echo __('Edit', true); ?></div>
 									<div class="right_arrow_lines icon-arrow-01"><div></div></div>
 								</div>
@@ -198,29 +198,5 @@
 </div>
 
 
-<?php /*
-<?php ob_start(); ?>
-<ol>
-	<li>This page lists all the galleries you currently have - and also lets you reorder them.</li>
-	<li>Things to remember
-		<ol>
-			<li>This page needs a flash message</li>
-			<li>design for currently sorting column</li>
-			<li>design for sorting direction</li>
-			<li>design add standard and smart gallery button</li>
-			<li>Don't forget the edit, connect, arrange, and smart gallery settings pages</li>
-			<li>Smart galleries don't have the "connect" and "arrange" links - just a Smart Gallery Settings link</li>
-			<li>We probobly want to add a gallery type to the table (smart or standard) - also, maybe smart gallery should be styled a little different in the list?</li>
-			<li>We don't necessarily need modified, created etc</li>
-		</ol>
-	</li>
-</ol>
-<?php
-$html = ob_get_contents();
-ob_end_clean();
-	echo $this->Element('admin/richard_notes', array(
-	'html' => $html
-)); ?>
-*/ ?>
 
 						

@@ -103,8 +103,9 @@ fotomatterControllers.controller('TagListCtrl', ['$scope', '$q', 'Tags', functio
 }]);
 
 
-fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'Galleries', function($scope, $q, Galleries) {
+fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleries', function($scope, $q, PhotoGalleries) {
 	$scope.loading = true;
+	$scope.photo_galleries = new Array();
 	$scope.open_gallery = new Array();	
 	$scope.open_gallery_image_size = 'small';	
 	
@@ -118,10 +119,10 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'Galleries', 
 	};
 	
 	
-	Galleries.index().$promise.then(function(galleries) {
+	PhotoGalleries.index().$promise.then(function(photo_galleries) {
 		$scope.loading = false;
-		$scope.galleries = galleries;
-		$scope.open_gallery = galleries[0];
+		$scope.photo_galleries = photo_galleries;
+		$scope.open_gallery = photo_galleries[0];
 		$scope.initGallery();
 	});
 	
@@ -131,14 +132,14 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'Galleries', 
 	};
 	
 
-	$scope.view_gallery = function(gallery_id) {
+	$scope.view_gallery = function(photo_gallery_id) {
 		var view_gallery = {
-			id: gallery_id
+			id: photo_gallery_id
 		};
 		var d = $q.defer();
 		Galleries.view(view_gallery, 
 			function(result) {
-				if (typeof result[0]['Gallery'].id == 'number') {
+				if (typeof result[0]['PhotoGallery'].id == 'number') {
 					$scope.open_gallery = result[0];
 					d.resolve();
 				} else {

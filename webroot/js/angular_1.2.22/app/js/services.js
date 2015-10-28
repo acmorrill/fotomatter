@@ -13,8 +13,8 @@ fotomatterServices.factory('Tags', ['$resource', function($resource) {
 	});
 }]);
 
-fotomatterServices.factory('Galleries', ['$resource', function($resource) {
-	return $resource('/galleries/:id.json', {}, {
+fotomatterServices.factory('PhotoGalleries', ['$resource', function($resource) {
+	return $resource('/photo_galleries/:id.json', {}, {
 		'index': { url: '/admin/photo_galleries/index', method: 'GET', isArray: true },
 		'view': { url: '/admin/photo_galleries/view/:id', method: 'GET', isArray: true, params: { id: '@id' } }
 //		'gallery_photos': { url: '/admin/photo_galleries/view/:id', method: 'GET', isArray: true, params: { id: '@id' } }

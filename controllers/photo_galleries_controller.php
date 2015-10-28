@@ -144,37 +144,51 @@ class PhotoGalleriesController extends AppController {
 	public function admin_index() {
 		// DREW TODO - make sure this query is indexed
 		$gallery_query = "
-			SELECT Gallery.id, Gallery.weight, Gallery.type, Gallery.display_name, Gallery.description, Gallery.created, (SELECT count(*) FROM photo_galleries_photos WHERE photo_gallery_id = Gallery.id) as photos_count
-			FROM photo_galleries AS Gallery
+			SELECT PhotoGallery.id, PhotoGallery.weight, PhotoGallery.type, PhotoGallery.display_name, PhotoGallery.description, PhotoGallery.created, (SELECT count(*) FROM photo_galleries_photos WHERE photo_gallery_id = PhotoGallery.id) as photos_count
+				FROM photo_galleries AS PhotoGallery
+				ORDER BY PhotoGallery.weight ASC
 		";
-		$galleries = $this->PhotoGallery->query($gallery_query);
+		$photo_galleries = $this->PhotoGallery->query($gallery_query);
 
 		// convert tag ids to int so json will be int and sort correct in angular
-		foreach ($galleries as &$gallery) {
-			$gallery['Gallery']['id'] = (int) $gallery['Gallery']['id'];
-			$gallery['Gallery']['photos_count'] = (int) $gallery[0]['photos_count'];
+		foreach ($photo_galleries as &$photo_gallery) {
+			$photo_gallery['PhotoGallery']['id'] = (int) $photo_gallery['PhotoGallery']['id'];
+			$photo_gallery['PhotoGallery']['photos_count'] = (int) $photo_gallery[0]['photos_count'];
+			$photo_galleries_photo_query = "
+				SELECT * FROM photo_galleries_photos AS PhotoGalleriesPhoto
+				WHERE PhotoGalleriesPhoto.photo_gallery_id = :photo_gallery_id
+				ORDER BY PhotoGalleriesPhoto.photo_order ASC
+			";
+			$photo_gallery['PhotoGalleriesPhoto'] = $this->PhotoGalleriesPhoto->query($photo_galleries_photo_query, array(
+				'photo_gallery_id' => $photo_gallery['PhotoGallery']['id']
+			));
+			unset($photo_gallery[0]);
 		}
+		
+		$this->log($photo_galleries, 'photo_galleries');
+		
 
-		$this->return_json($galleries);
+		$this->return_json($photo_galleries);
 	}
 	
 	public function admin_view($id) {
 		$gallery_query = "
-			SELECT Gallery.id, Gallery.weight, Gallery.type, Gallery.display_name, Gallery.description, Gallery.created, (SELECT count(*) FROM photo_galleries_photos WHERE photo_gallery_id = Gallery.id) as photos_count
-			FROM photo_galleries AS Gallery
-			WHERE Gallery.id = :id
+			SELECT 
+				PhotoGallery.id, PhotoGallery.weight, PhotoGallery.type, PhotoGallery.display_name, PhotoGallery.description, PhotoGallery.created, (SELECT count(*) FROM photo_galleries_photos WHERE photo_gallery_id = PhotoGallery.id) as photos_count
+					FROM photo_galleries AS PhotoGallery
+				WHERE PhotoGallery.id = :id
 		";
-		$galleries = $this->PhotoGallery->query($gallery_query, array(
+		$photo_galleries = $this->PhotoGallery->query($gallery_query, array(
 			'id' => $id
 		));
-
-		// convert tag ids to int so json will be int and sort correct in angular
-		foreach ($galleries as &$gallery) {
-			$gallery['Gallery']['id'] = (int) $gallery['Gallery']['id'];
-			$gallery['Gallery']['photos_count'] = (int) $gallery[0]['photos_count'];
+		
+		foreach ($photo_galleries as &$photo_gallery) {
+			$photo_gallery['PhotoGallery']['id'] = (int) $photo_gallery['PhotoGallery']['id'];
+			$photo_gallery['PhotoGallery']['photos_count'] = (int) $photo_gallery[0]['photos_count'];
+			unset($photo_gallery[0]);
 		}
 
-		$this->return_json($galleries);
+		$this->return_json($photo_galleries);
 	}
 	
 	
