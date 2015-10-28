@@ -26,6 +26,8 @@ if (!isset($hide_current)) {
 				var $this = jQuery(this);
 				var switch_to_theme_id = $this.attr('data-current-theme-id');
 				show_universal_save();
+				jQuery('#modal_progressbar').progressbar("option", "value", 0 );
+				jQuery('#progress_dialog').dialog('open');
 				$this.closest('.theme_item_container').addClass('switching');
 				jQuery.ajax({
 					type : 'post',
@@ -35,16 +37,62 @@ if (!isset($hide_current)) {
 						jQuery('.current').removeClass('current');
 						$this.closest('.theme_item_container').addClass('current');
 					},
+					error : function (jqXHR, textStatus, errorThrown) {
+						if (textStatus === 'timeout') {
+							jQuery('.current').removeClass('current');
+							$this.closest('.theme_item_container').addClass('current');
+						}
+					},
 					complete : function () {
 						jQuery('.switching').removeClass('switching');
+						jQuery('#progress_dialog').dialog('close');
 						hide_universal_save();
 						in_callback = false;
-					}
+					},
+					timeout: 1000 * 60 * 3
 				});
+				setTimeout(progress, 1000);
 			});
+
+			function progress() {
+				if (in_callback) {
+					jQuery('#modal_progressbar').progressbar("option", "value", Math.random()*100 );
+					setTimeout(progress, 1000);
+					/*
+					jQuery.ajax({
+						type : 'post',
+						url : '',
+						// include date : theme_id??
+						success : function (data) {
+							// update the progress bar value
+							jQuery('#modal_progressbar').progressbar("option", "value", Math.random()*100 );
+						},
+						complete : function () {
+							// recall self after 1 second delay
+							setTimeout(progress, 1000);
+						},
+						timeout: 1000
+					});
+					*/
+				}
+			}
 
 			jQuery('.custom_progress').progressbar({
 				value: false
+			});
+
+			jQuery('#progress_dialog').dialog({
+				autoOpen: false,
+				closeOnEscape: false,
+				draggable: false,
+				dialogClass: "wide_dialog",
+				title: "<?php echo __('Switching Theme', true); ?>",
+				modal: true,
+				resizable: false,
+				minHeight: 200,
+				create: function(event, ui) {
+					$(".ui-dialog-titlebar-close", ui.dialog).hide();
+				}
 			});
 		});
 	</script>
@@ -136,6 +184,12 @@ if (!isset($hide_current)) {
 					</div>	
 				</div>
 		<?php $count++; endforeach; ?>
+		<div id="progress_dialog">
+			Preparing image caches for the new theme. This may take a long time if you haven't used a theme recently.
+			<div id = "modal_progressbar" class="custom_progress">
+				<div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+			</div>
+		</div>
 	</div>
 	
 	
