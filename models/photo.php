@@ -475,62 +475,79 @@ class Photo extends AppModel {
 			$theme_cache_sizes = $this->ThemePrebuildCacheSize->get_prebuild_cache_sizes_current_theme();
 			$combined_cache_sizes = array_merge($all_cache_sizes, $theme_cache_sizes);
 			
-			foreach ($combined_cache_sizes as $all_cache_size) {
-				if (isset($all_cache_size['PhotoPrebuildCacheSize'])) {
-					$curr_data = $all_cache_size['PhotoPrebuildCacheSize'];
-				} else if (isset($all_cache_size['ThemePrebuildCacheSize'])) {
-					$curr_data = $all_cache_size['ThemePrebuildCacheSize'];
-				}
-				
-				$lock_name = "start_create_cache_" . $this->id . "_" . $_SERVER['local']['database'];
-				$initLocked = $this->get_lock($lock_name, 8);
-				if ($initLocked === false) {
-					continue;
-				}
-
-				$conditions = array(
-					'PhotoCache.photo_id' => $this->id,
-					'PhotoCache.max_height' => $curr_data['max_height'],
-					'PhotoCache.max_width' => $curr_data['max_width'],
-					'PhotoCache.crop' => $curr_data['crop'],
-				);
-				if (!empty($curr_data['unsharp'])) {
-					$conditions['PhotoCache.unsharp_amount'] = $curr_data['unsharp'];
-				}
-
-				$photoCache = $this->PhotoCache->find('first', array(
-					'conditions' => $conditions,
-					'contain' => false
-				));
-				if (!$photoCache) {
-					$unsharp_amount = null;
-					if (!empty($curr_data['unsharp'])) {
-						$unsharp_amount = $curr_data['unsharp'];
-					}
-					if (isset($curr_data['used_on_upload'])) { // means was a theme cache size to be built
-						$this->ThemePrebuildCacheSize->increment_used_on_upload($curr_data['id']);
-					}
-					if ($curr_data['crop'] == false) {
-						$curr_data['crop'] = false;
-					} else {
-						$curr_data['crop'] = true;
-					}
-					$photo_cache_id = $this->PhotoCache->prepare_new_cachesize($this->id, $curr_data['max_height'], $curr_data['max_width'], true, $unsharp_amount, false, $curr_data['crop']);
-					//prepare_new_cachesize($photo_id, $height, $width, $raw_id = false, $unsharp_amount = null, $return_tag_attributes = false, $crop = false)
-				} else {
-					$releaseLock = $this->release_lock($lock_name);
-					continue;
-				}
-
-				$releaseLock = $this->release_lock($lock_name);
-
-				ignore_user_abort(true);
-				set_time_limit(0);
-				$this->PhotoCache->finish_create_cache($photo_cache_id, false);
-			}
+			// DREW TODO -  START HERE TOMORROW
+			$this->create_default_photo_caches($combined_cache_sizes, $this->id);
 		}
 
 		return true;
+	}
+	
+	public function create_default_photo_caches($combined_cache_sizes, $photo_id) {
+		foreach ($combined_cache_sizes as $all_cache_size) {
+			if (isset($all_cache_size['PhotoPrebuildCacheSize'])) {
+				$curr_data = $all_cache_size['PhotoPrebuildCacheSize'];
+			} else if (isset($all_cache_size['ThemePrebuildCacheSize'])) {
+				$curr_data = $all_cache_size['ThemePrebuildCacheSize'];
+			}
+
+			$lock_name = "start_create_cache_" . $photo_id . "_" . $_SERVER['local']['database'];
+			$initLocked = $this->get_lock($lock_name, 8);
+			if ($initLocked === false) {
+				continue;
+			}
+
+			$conditions = array(
+				'PhotoCache.photo_id' => $photo_id,
+				'PhotoCache.max_height' => $curr_data['max_height'],
+				'PhotoCache.max_width' => $curr_data['max_width'],
+				'PhotoCache.crop' => $curr_data['crop'],
+			);
+			if (!empty($curr_data['unsharp'])) {
+				$conditions['PhotoCache.unsharp_amount'] = $curr_data['unsharp'];
+			}
+
+			$photoCache = $this->PhotoCache->find('first', array(
+				'conditions' => $conditions,
+				'contain' => false
+			));
+			if (!$photoCache) {
+				$unsharp_amount = null;
+				if (!empty($curr_data['unsharp'])) {
+					$unsharp_amount = $curr_data['unsharp'];
+				}
+				if (isset($curr_data['used_on_upload'])) { // means was a theme cache size to be built
+					$this->ThemePrebuildCacheSize->increment_used_on_upload($curr_data['id']);
+				}
+				if ($curr_data['crop'] == false) {
+					$curr_data['crop'] = false;
+				} else {
+					$curr_data['crop'] = true;
+				}
+				$photo_cache_id = $this->PhotoCache->prepare_new_cachesize($photo_id, $curr_data['max_height'], $curr_data['max_width'], true, $unsharp_amount, false, $curr_data['crop']);
+				//prepare_new_cachesize($photo_id, $height, $width, $raw_id = false, $unsharp_amount = null, $return_tag_attributes = false, $crop = false)
+			} else {
+				$releaseLock = $this->release_lock($lock_name);
+				continue;
+			}
+
+			$releaseLock = $this->release_lock($lock_name);
+
+			ignore_user_abort(true);
+			set_time_limit(0);
+			$this->PhotoCache->finish_create_cache($photo_cache_id, false);
+		}
+	}
+
+	public function create_theme_photo_caches() {
+		$query = "SELECT DISTINCT `photo_id` FROM `photo_galleries_photos` WHERE `photo_order` < 30 LIMIT 500";
+		$photos = $this->query($query);
+
+		$this->ThemePrebuildCacheSize = Classregistry::init('ThemePrebuildCacheSize');
+		$theme_cache_sizes = $this->ThemePrebuildCacheSize->get_prebuild_cache_sizes_current_theme();
+
+		foreach ($photos as $photo) {
+			$this->create_default_photo_caches($theme_cache_sizes, $photo['photo_galleries_photos']['photo_id']);
+		}
 	}
 
 	// a function to efficiently add photo format to a list of photos (without a bunch of extra queries)
@@ -605,18 +622,7 @@ class Photo extends AppModel {
 		}
 
 
-		$conditions = array(
-			'PhotoCache.photo_id' => $photo_id,
-			'PhotoCache.max_height' => $height,
-			'PhotoCache.max_width' => $width,
-			'PhotoCache.crop' => ($crop === true) ? 1 : 0,
-		);
-
-
-		$photoCache = $this->PhotoCache->find('first', array(
-			'conditions' => $conditions,
-			'contain' => false
-		));
+		$photoCache = $this->PhotoCache->cache_size_exists($photo_id, $width, $height, $crop);
 		$return_url = '';
 		if (!empty($photoCache)) {
 			
@@ -654,10 +660,7 @@ class Photo extends AppModel {
 				return $this->PhotoCache->get_dummy_processing_image_path($height, $width, false, $return_tag_attributes, $crop);
 			}
 			// grab again after lock - to make sure we are not conflicting
-			$photoCache = $this->PhotoCache->find('first', array(
-				'conditions' => $conditions,
-				'contain' => false
-			));
+			$photoCache = $this->PhotoCache->cache_size_exists($photo_id, $width, $height, $crop);
 			if (empty($photoCache)) {
 				$return_url = $this->PhotoCache->prepare_new_cachesize($photo_id, $height, $width, false, $unsharp_amount, $return_tag_attributes, $crop);
 			} else {
@@ -667,7 +670,17 @@ class Photo extends AppModel {
 			$releaseLock = $this->release_lock("start_create_cache_" . $photo_id . "_" . $_SERVER['local']['database']);
 		}
 
-		return preg_replace('/\s+/', '', $return_url);
+		$return_url = preg_replace('/\s+/', '', $return_url);
+
+		if ($return_tag_attributes == true) {
+			if (!empty($the_photo['Photo']['alt_text'])) {
+				$return_url['alt_title_str'] = "alt='{$the_photo['Photo']['alt_text']}' title='{$the_photo['Photo']['alt_text']}'";
+			} else {
+				$return_url['alt_title_str'] = "";
+			}
+		}
+
+		return $return_url;
 	}
 
 	public function get_full_path($id) {

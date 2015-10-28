@@ -12,7 +12,7 @@
 						<a class="gallery_image_a_link" href="<?php echo $photoUrl; ?>">
 							<?php // DREW TODO (DONE) - make the below icons look better - ie tweek the convert function for these icons to look better ?>
 							<?php $imgSrc = $this->Photo->get_photo_path($curr_photo['Photo']['id'], $image_max_size, $image_max_size, .5, true); ?>
-							<img class="gallery_image_actual_image" src="<?php echo $imgSrc['url']; ?>" <?php echo $imgSrc['tag_attributes']; ?> alt="<?php echo $curr_photo['Photo']['alt_text']; ?>">
+							<img class="gallery_image_actual_image" src="<?php echo $imgSrc['url']; ?>" <?php echo $imgSrc['tag_attributes']; ?> <?php echo $imgSrc['alt_title_str']; ?> >
 						</a>
 					</span>
 					<div class="galleriesLink">

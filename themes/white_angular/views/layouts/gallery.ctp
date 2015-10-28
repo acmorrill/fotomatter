@@ -122,7 +122,7 @@
 							</div>
 							<div class="img_cont" style="width: <?php echo $total_width; ?>px; height: <?php echo $total_height; ?>px; margin-left: <?php echo -floor($total_width/2); ?>px; margin-top: <?php echo -floor($total_height/2); ?>px;">
 								<div class="img_inner_wrap">
-									<img class="preload_for_progress" src="<?php echo $img_src['url']; ?>" style="display: block; width: <?php echo $img_src['width']; ?>px; height: <?php echo $img_src['height']; ?>px;" <?php echo $img_src['tag_attributes']; ?> alt="" />
+									<img class="preload_for_progress" src="<?php echo $img_src['url']; ?>" style="display: block; width: <?php echo $img_src['width']; ?>px; height: <?php echo $img_src['height']; ?>px;" <?php echo $img_src['tag_attributes']; ?> <?php echo $img_src['alt_title_str']; ?> />
 								</div>
 							</div>
 						</div>

@@ -59,6 +59,7 @@ class PhotoCache extends AppModel {
 						'url' => $dummy_image_url_path,
 						'tag_attributes' => $tag_attributes,
 						'style_attributes' => "width: {$width}px; height: {$height}px;",
+						'alt_title_str' => "",
 						'width' => $width,
 						'height' => $height,
 					);
@@ -119,6 +120,7 @@ class PhotoCache extends AppModel {
 					'url' => $url_image_path,
 					'tag_attributes' => $tag_attributes,
 					'style_attributes' => "width: {$width}px; height: {$height}px;",
+					'alt_title_str' => "",
 					'width' => $width,
 					'height' => $height,
 				);
@@ -505,6 +507,22 @@ class PhotoCache extends AppModel {
 			$this->major_error("the temp image path is not writable for image cache");
 			return $this->get_dummy_error_image_path($photoCache['PhotoCache']['max_height'], $photoCache['PhotoCache']['max_width'], true, false, $photoCache['PhotoCache']['crop']);
 		}
+	}
+	
+	public function cache_size_exists($photo_id, $width, $height, $crop) {
+		$conditions = array(
+			'PhotoCache.photo_id' => $photo_id,
+			'PhotoCache.max_height' => $height,
+			'PhotoCache.max_width' => $width,
+			'PhotoCache.crop' => ($crop === true) ? 1 : 0,
+		);
+
+		$photoCache = $this->find('first', array(
+			'conditions' => $conditions,
+			'contain' => false
+		));
+		
+		return $photoCache;
 	}
 	
 	private function get_cloud_file() {

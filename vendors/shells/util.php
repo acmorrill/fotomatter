@@ -33,6 +33,9 @@ class UtilShell extends Shell {
 	- create or edit a user with email_address
 	- will perform edit if email address exists
 	
+---- $str delete_all_photo_cache {delete_local_masters:true/false}
+	- delete all photo caches!
+	
 ---- sudo $str fix_all_permissions
 	- script to fix all permissions for app
 	- must be run as sudo
@@ -57,7 +60,41 @@ class UtilShell extends Shell {
 ");
 		}
 	}
+	
 
+	public function delete_all_photo_cache() {
+		$delete_local_masters = false;
+		if (!empty($this->args[0]) && $this->args[0] == 'true') {
+			$delete_local_masters = true;
+		}
+		
+		$this->hr();
+		$this->hr();
+		$this->out('Deleting Photo Caches');
+		if ($delete_local_masters) {
+			$this->out("\tDeleting Local Master Caches");
+			$local_master_cache_path = LOCAL_MASTER_CACHE . "/";
+			$local_smaller_master_cache_path = LOCAL_SMALLER_MASTER_CACHE . "/";
+			array_map('unlink', glob( "$local_master_cache_path*.jpg"));
+			array_map('unlink', glob( "$local_smaller_master_cache_path*.jpg"));
+		}
+		
+		
+		$all_photo_caches = $this->PhotoCache->find('all', array(
+			'contain' => false
+		));
+		
+		
+		foreach ($all_photo_caches as $all_photo_cache) {
+			$this->out("\tDeleting photo_cache_id {$all_photo_cache['PhotoCache']['id']}");
+			if ($this->PhotoCache->delete($all_photo_cache['PhotoCache']['id']) === false) {
+				$this->out("\t\tFailed to delete photo_cache_id {$all_photo_cache['PhotoCache']['id']}");
+			}
+		}
+		
+		$this->hr();
+		$this->out('All caches deleted successfully?');
+	}
 	
 	public function add_user() {
 		if (count($this->args) != 2) {

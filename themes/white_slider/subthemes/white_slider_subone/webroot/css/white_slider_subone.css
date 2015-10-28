@@ -606,32 +606,32 @@ table {
   padding-top: 6px;
   border-top: 2px solid transparent;
 }
-#nav_location #main_nav ul.top_level li.main_menu_item.last_hover,
+#nav_location #main_nav ul.top_level li.main_menu_item.highlight,
 #nav_location #main_nav ul.top_level li.main_menu_item.hover {
   border-top: 2px solid #fff;
 }
-#nav_location #main_nav ul.top_level li.main_menu_item.last_hover .second_level,
+#nav_location #main_nav ul.top_level li.main_menu_item.highlight .second_level,
 #nav_location #main_nav ul.top_level li.main_menu_item.hover .second_level {
   background-color: #fff;
 }
-#nav_location #main_nav ul.top_level li.main_menu_item.last_hover .second_level,
-#nav_location #main_nav ul.top_level li.main_menu_item.last_hover .second_level a,
+#nav_location #main_nav ul.top_level li.main_menu_item.highlight .second_level,
+#nav_location #main_nav ul.top_level li.main_menu_item.highlight .second_level a,
 #nav_location #main_nav ul.top_level li.main_menu_item.hover .second_level,
 #nav_location #main_nav ul.top_level li.main_menu_item.hover .second_level a {
   color: #4d4d4f;
 }
-#nav_location #main_nav ul.top_level li.main_menu_item.last_hover .second_level .second_level_inner .sub_menu_item,
+#nav_location #main_nav ul.top_level li.main_menu_item.highlight .second_level .second_level_inner .sub_menu_item,
 #nav_location #main_nav ul.top_level li.main_menu_item.hover .second_level .second_level_inner .sub_menu_item {
   margin: 4px;
   margin-top: 0px;
 }
-#nav_location #main_nav ul.top_level li.main_menu_item.last_hover .second_level .second_level_inner .sub_menu_item:hover,
+#nav_location #main_nav ul.top_level li.main_menu_item.highlight .second_level .second_level_inner .sub_menu_item:hover,
 #nav_location #main_nav ul.top_level li.main_menu_item.hover .second_level .second_level_inner .sub_menu_item:hover {
   background: #dcdcdc;
 }
-#nav_location #main_nav ul.top_level li.main_menu_item.last_hover .second_level .second_level_inner .sub_menu_item:hover,
-#nav_location #main_nav ul.top_level li.main_menu_item.last_hover .second_level .second_level_inner .sub_menu_item:hover span,
-#nav_location #main_nav ul.top_level li.main_menu_item.last_hover .second_level .second_level_inner .sub_menu_item:hover a,
+#nav_location #main_nav ul.top_level li.main_menu_item.highlight .second_level .second_level_inner .sub_menu_item:hover,
+#nav_location #main_nav ul.top_level li.main_menu_item.highlight .second_level .second_level_inner .sub_menu_item:hover span,
+#nav_location #main_nav ul.top_level li.main_menu_item.highlight .second_level .second_level_inner .sub_menu_item:hover a,
 #nav_location #main_nav ul.top_level li.main_menu_item.hover .second_level .second_level_inner .sub_menu_item:hover,
 #nav_location #main_nav ul.top_level li.main_menu_item.hover .second_level .second_level_inner .sub_menu_item:hover span,
 #nav_location #main_nav ul.top_level li.main_menu_item.hover .second_level .second_level_inner .sub_menu_item:hover a {
@@ -755,7 +755,7 @@ table {
   font-family: Museo-300;
   font-weight: normal;
   font-style: normal;
-  font-size: 12px;
+  font-size: 14px;
 }
 #white_slider_ecommerce_container .image_data_container .left_and_right_container .right_cart_data {
   float: right;
