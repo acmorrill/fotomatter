@@ -1,6 +1,5 @@
 'use strict';
 
-/* Controllers */
 
 var fotomatterControllers = angular.module('fotomatterControllers', []);
 
@@ -104,34 +103,46 @@ fotomatterControllers.controller('TagListCtrl', ['$scope', '$q', 'Tags', functio
 
 
 fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleries', '$cookies', function($scope, $q, PhotoGalleries, $cookies) {
-	console.log('==============================');
-	console.log($cookies.getAll());
-	console.log('==============================');
-		
-		
 	$scope.loading = true;
 	$scope.photo_galleries = new Array();
-	$scope.open_gallery = new Array();	
-	$scope.open_gallery_image_size = 'small';	
-	
+	$scope.open_gallery = null;	
+	$scope.open_gallery_connected_photos = null;	
 
+		
 	$scope.initGallery = function() {
 		jQuery(function() {
-			// wait till load event fires so all resources are available
 			jQuery("#filter_photo_by_format, #sort_photo_radio").buttonset();
 			jQuery("#photos_not_in_a_gallery").button();
 		});
 		
-//		$scope.open_gallery = photo_galleries[0];
+		var icon_size = $cookies.get('gallery_icon_size');
+		if (typeof icon_size == 'undefined') {
+			icon_size = 'small';
+		}
+		$scope.open_gallery_image_size = icon_size;
+		
+		$scope.$watch("last_open_gallery_id", function(){
+			$scope.view_gallery($scope.last_open_gallery_id);
+		});
 	};
+	$scope.initGallery();
 	
 	
 	$scope.change_image_size = function(new_size_str) {
 		$scope.open_gallery_image_size = new_size_str;
+		$cookies.put('gallery_icon_size', new_size_str);
+		$scope.open_gallery_connected_photos = null;
+		$scope.view_gallery($scope.last_open_gallery_id);
 	};
 	
 
 	$scope.view_gallery = function(photo_gallery_id) {
+		$cookies.put('last_open_gallery_id', photo_gallery_id);
+		$scope.last_open_gallery_id = photo_gallery_id;
+		if ($scope.open_gallery != null && $scope.open_gallery.PhotoGallery.id != photo_gallery_id) {
+			$scope.open_gallery = null;
+		}
+		
 		var view_gallery = {
 			id: photo_gallery_id,
 			gallery_icon_size: $scope.open_gallery_image_size
@@ -140,7 +151,10 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 		PhotoGalleries.view(view_gallery, 
 			function(result) {
 				if (typeof result[0]['PhotoGallery'].id == 'number') {
-					$scope.open_gallery = result[0];
+					if ($scope.open_gallery == null) {
+						$scope.open_gallery = result[0];
+					}
+					$scope.open_gallery_connected_photos = result[0].PhotoGalleriesPhoto;
 					d.resolve();
 				} else {
 					d.resolve("Error");
@@ -157,8 +171,6 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 	PhotoGalleries.index().$promise.then(function(photo_galleries) {
 		$scope.loading = false;
 		$scope.photo_galleries = photo_galleries;
-		$scope.view_gallery(photo_galleries[0].PhotoGallery.id);
-		$scope.initGallery();
 	});
 }]);
 

@@ -1,16 +1,21 @@
-<script src="/js/angular_1.2.22/bower_components/angular/angular.js"></script>
-<script src="/js/angular_1.2.22/bower_components/angular-animate/angular-animate.js"></script>
-<script src="/js/angular_1.2.22/bower_components/angular-route/angular-route.js"></script>
-<script src="/js/angular_1.2.22/bower_components/angular-resource/angular-resource.js"></script>
-<script src="/js/angular_1.2.22/bower_components/angular-xeditable/dist/js/xeditable.min.js"></script>
-<script src="/js/angular_1.2.22/bower_components/angular-cookies/angular-cookies.min.js"></script>
-
 <script src="/js/angular_1.2.22/app/js/app.js"></script>
 <script src="/js/angular_1.2.22/app/js/controllers.js"></script>
 <script src="/js/angular_1.2.22/app/js/services.js"></script>
 
+<?php
+	$last_open_gallery_id_str = '';
+	if (!empty($_COOKIE['last_open_gallery_id'])) {
+		$last_open_gallery_id_str = "ng-init='last_open_gallery_id={$_COOKIE['last_open_gallery_id']}'";
+	} else {
+		$first_gallery = $this->Gallery->get_first_gallery_by_weight();
+		if (!empty($first_gallery['PhotoGallery']['id'])) {
+			$last_open_gallery_id_str = "ng-init='last_open_gallery_id={$first_gallery['PhotoGallery']['id']}'";
+		}
+	}
+?>
 
-<div ng-app="fotomatterApp" ng-controller="GalleriesCtrl">
+
+<div ng-app="fotomatterApp" ng-controller="GalleriesCtrl" <?php echo $last_open_gallery_id_str; ?>>
 	<?php /*<h1><?php echo __('Galleries', true); ?>
 		<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 	</h1>
@@ -18,46 +23,18 @@
 		<?php echo __('Add/delete galleries and manage the photos inside your galleries.', true); ?>
 	</p>*/ ?>
 	<div style="clear: both;"></div>
-	<script type="text/javascript">
-		jQuery(document).ready(function() {
-			jQuery('.list tbody').sortable(jQuery.extend(verticle_sortable_defaults, {
-				items : 'tr',
-				handle : '.reorder_gallery_grabber',
-				update : function(event, ui) {
-					var context = this;
-					jQuery(context).sortable('disable');
-
-					// figure the the now position of the dragged element
-					var photoGalleryId = jQuery(ui.item).attr('gallery_id');
-					var newPosition = position_of_element_among_siblings(jQuery("#photo_gallery_list .ui-sortable tr:not(.spacer)"), jQuery(ui.item));
-
-					jQuery.ajax({
-						type: 'post',
-						url: '/admin/photo_galleries/ajax_set_photogallery_order/'+photoGalleryId+'/'+newPosition+'/',
-						data: {},
-						success: function(data) {
-							if (data.code != 1) {
-								// TODO - maybe revert the draggable back to its start position here
-							}
-						}, 
-						complete: function() {
-							jQuery(context).sortable('enable');
-						},
-						dataType: 'json'
-					});
-				}
-			})).disableSelection();
-		});
-	</script>
 
 	<div class="right" data-step="2" data-intro="<?php echo __('To create a new gallery, choose from two options: standard or smart.', true); ?>" data-position="left">
 		<?php echo $this->Element('admin/gallery/add_gallery'); ?>
 	</div>
 	<div class="clear"></div>
 
-	
-	<div class="gallery_view" ng-hide="open_gallery.length == 0">
+
+	<div class="gallery_view" ng-hide="open_gallery == null">
 		<?php echo $this->Element('admin/gallery/edit_gallery_connect_photos'); ?>
+	</div>
+	<div class="gallery_view" ng-show="open_gallery == null">
+		<h1>Gallery Loading</h1>
 	</div>
 	<div class="dynamic_list">
 		<div id="photo_gallery_list" class="table_container">
@@ -111,8 +88,8 @@
 							<span>You don't have any galleries</span>
 						</td>
 					</tr>
-					
-					
+
+
 					<tr ng-repeat="photo_gallery in photo_galleries" ng-class="{ 'current': open_gallery.PhotoGallery.id == photo_gallery.PhotoGallery.id}">
 						<td class="gallery_id first">
 							<div class="rightborder"></div>
@@ -150,7 +127,7 @@
 							</span>
 						</td> */ ?>
 					</tr>
-					
+
 					<?php /*
 					<?php foreach($galleries as $curr_gallery): ?> 
 						<tr gallery_id="<?php echo $curr_gallery['PhotoGallery']['id']; ?>">

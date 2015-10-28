@@ -1,8 +1,9 @@
 'use strict';
 
-/* Services */
 
 var fotomatterServices = angular.module('fotomatterServices', ['ngResource']);
+
+
 
 fotomatterServices.factory('Tags', ['$resource', function($resource) {
 	return $resource('/tags/:id.json', {}, {
@@ -17,9 +18,7 @@ fotomatterServices.factory('PhotoGalleries', ['$resource', function($resource) {
 	return $resource('/photo_galleries/:id.json', {}, {
 		'index': { url: '/admin/photo_galleries/index', method: 'GET', isArray: true },
 		'view': { url: '/admin/photo_galleries/view/:id/:gallery_icon_size', method: 'GET', isArray: true, params: { id: '@id', gallery_icon_size: '@gallery_icon_size' } }
-//		'gallery_photos': { url: '/admin/photo_galleries/view/:id', method: 'GET', isArray: true, params: { id: '@id' } }
-//		'add': { url: '/admin/photo_galleries/add', method: 'POST', params: { name: '@name' } },
-//		'edit': { url: '/admin/photo_galleries/edit/:id', method: 'PUT', params: { id: '@id', name: '@name' } },
-//		'delete': { url: '/admin/photo_galleries/delete/:id', method: 'DELETE', params: { id: '@id' } }
 	});
 }]);
+
+// need to make this rego

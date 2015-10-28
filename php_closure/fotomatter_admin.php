@@ -11,3 +11,13 @@ $php_closure[] = 'js/money_format/accounting.min.js';
 $php_closure[] = 'js/chosen_v1.1.0/chosen.jquery.min.js';
 $php_closure[] = 'js/perfect-scrollbar/js/min/perfect-scrollbar.jquery.min.js';
 $php_closure[] = 'js/global_js.js';
+$php_closure[] = 'js/angular_1.2.22/bower_components/angular/angular.js';
+$php_closure[] = 'js/angular_1.2.22/bower_components/angular-animate/angular-animate.js';
+$php_closure[] = 'js/angular_1.2.22/bower_components/angular-route/angular-route.js';
+$php_closure[] = 'js/angular_1.2.22/bower_components/angular-resource/angular-resource.js';
+$php_closure[] = 'js/angular_1.2.22/bower_components/angular-xeditable/dist/js/xeditable.min.js';
+$php_closure[] = 'js/angular_1.2.22/bower_components/angular-cookies/angular-cookies.min.js';
+//$php_closure[] = 'js/angular_1.2.22/app/js/app.js';
+//$php_closure[] = 'js/angular_1.2.22/app/js/controllers.js';
+//$php_closure[] = 'js/angular_1.2.22/app/js/services.js';
+

@@ -522,9 +522,12 @@ $(function() {
 				<div style="clear: both;"></div>
 			</div>
 
-			<?php // ng-show the below ?>
-			<?php /*<div class="empty_help_content" style="<?php if (empty($this->data['PhotoGalleriesPhoto'])): ?>display: block;<?php endif; ?>"><?php echo __('Add images to this gallery using the box at right', true); ?>&nbsp;►</div>*/ ?>
-			
+			<div class="empty_help_content" ng-hide="open_gallery_connected_photos != null" style="display: block;">
+				<?php echo __('Loading', true); ?>
+			</div>
+			<div class="empty_help_content" ng-show="open_gallery_connected_photos.length == 0" style="display: block;">
+				<?php echo __('Add images to this gallery using the box at right', true); ?>&nbsp;►
+			</div>
 			
 			<div id="in_gallery_photos_cont" class="in_gallery_photos_cont">
 				<?php echo $this->Element('/admin/photo/angular_photo_connect_in_gallery_photo_cont'); ?>
