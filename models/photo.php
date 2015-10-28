@@ -622,18 +622,7 @@ class Photo extends AppModel {
 		}
 
 
-		$conditions = array(
-			'PhotoCache.photo_id' => $photo_id,
-			'PhotoCache.max_height' => $height,
-			'PhotoCache.max_width' => $width,
-			'PhotoCache.crop' => ($crop === true) ? 1 : 0,
-		);
-
-
-		$photoCache = $this->PhotoCache->find('first', array(
-			'conditions' => $conditions,
-			'contain' => false
-		));
+		$photoCache = $this->PhotoCache->cache_size_exists($photo_id, $width, $height, $crop);
 		$return_url = '';
 		if (!empty($photoCache)) {
 			
@@ -671,10 +660,7 @@ class Photo extends AppModel {
 				return $this->PhotoCache->get_dummy_processing_image_path($height, $width, false, $return_tag_attributes, $crop);
 			}
 			// grab again after lock - to make sure we are not conflicting
-			$photoCache = $this->PhotoCache->find('first', array(
-				'conditions' => $conditions,
-				'contain' => false
-			));
+			$photoCache = $this->PhotoCache->cache_size_exists($photo_id, $width, $height, $crop);
 			if (empty($photoCache)) {
 				$return_url = $this->PhotoCache->prepare_new_cachesize($photo_id, $height, $width, false, $unsharp_amount, $return_tag_attributes, $crop);
 			} else {
