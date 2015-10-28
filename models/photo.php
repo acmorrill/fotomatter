@@ -682,6 +682,32 @@ class Photo extends AppModel {
 
 		return $return_url;
 	}
+	
+	public function get_admin_photo_icon_size($not_in_gallery_icon_size) {
+		// figure out icon sizes
+		$height = 110;
+		$width = 110;
+		$class = 'medium_icon_size';
+		if ($not_in_gallery_icon_size == 'small') {
+			$height = 60;
+			$width = 60;
+			$class = 'small_icon_size';
+		} else if ($not_in_gallery_icon_size == 'medium') {
+			$height = 110;
+			$width = 110;
+			$class = 'medium_icon_size';
+		} else if ($not_in_gallery_icon_size == 'large') {
+			$height = 155;
+			$width = 155;
+			$class = 'large_icon_size';
+		}
+
+		return array(
+			'height' => $height,
+			'width' => $width,
+			'class' => $class,
+		);
+	}
 
 	public function get_full_path($id) {
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');

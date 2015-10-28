@@ -142,7 +142,6 @@ class PhotoGalleriesController extends AppController {
 	}
 
 	public function admin_index() {
-		// DREW TODO - make sure this query is indexed
 		$gallery_query = "
 			SELECT PhotoGallery.id, PhotoGallery.weight, PhotoGallery.type, PhotoGallery.display_name, PhotoGallery.description, PhotoGallery.created, (SELECT count(*) FROM photo_galleries_photos WHERE photo_gallery_id = PhotoGallery.id) as photos_count
 				FROM photo_galleries AS PhotoGallery
@@ -165,26 +164,46 @@ class PhotoGalleriesController extends AppController {
 			unset($photo_gallery[0]);
 		}
 		
-		$this->log($photo_galleries, 'photo_galleries');
-		
 
 		$this->return_json($photo_galleries);
 	}
 	
-	public function admin_view($id) {
+	public function admin_view($id, $gallery_icon_size) {
 		$gallery_query = "
 			SELECT 
 				PhotoGallery.id, PhotoGallery.weight, PhotoGallery.type, PhotoGallery.display_name, PhotoGallery.description, PhotoGallery.created, (SELECT count(*) FROM photo_galleries_photos WHERE photo_gallery_id = PhotoGallery.id) as photos_count
 					FROM photo_galleries AS PhotoGallery
 				WHERE PhotoGallery.id = :id
+				ORDER BY PhotoGallery.weight ASC
 		";
 		$photo_galleries = $this->PhotoGallery->query($gallery_query, array(
 			'id' => $id
 		));
 		
+		
+		$icon_sizes = $this->Photo->get_admin_photo_icon_size($gallery_icon_size);
+		$height = $icon_sizes['height'];
+		$width = $icon_sizes['width'];
+		$class = $icon_sizes['class'];
+		
 		foreach ($photo_galleries as &$photo_gallery) {
 			$photo_gallery['PhotoGallery']['id'] = (int) $photo_gallery['PhotoGallery']['id'];
 			$photo_gallery['PhotoGallery']['photos_count'] = (int) $photo_gallery[0]['photos_count'];
+			$photo_galleries_photo_query = "
+				SELECT * FROM photo_galleries_photos AS PhotoGalleriesPhoto
+				WHERE PhotoGalleriesPhoto.photo_gallery_id = :photo_gallery_id
+				ORDER BY PhotoGalleriesPhoto.photo_order ASC
+			";
+			$photo_gallery['PhotoGalleriesPhoto'] = $this->PhotoGalleriesPhoto->query($photo_galleries_photo_query, array(
+				'photo_gallery_id' => $photo_gallery['PhotoGallery']['id']
+			));
+			
+			foreach ($photo_gallery['PhotoGalleriesPhoto'] as &$photo_galleries_photo) {
+				if (!empty($photo_galleries_photo['PhotoGalleriesPhoto']['photo_id'])) {
+					$photo_galleries_photo['PhotoGalleriesPhoto']['photo_cache_url'] = $this->Photo->get_photo_path($photo_galleries_photo['PhotoGalleriesPhoto']['photo_id'], $height, $width);
+					$photo_galleries_photo['PhotoGalleriesPhoto']['photo_cache_class'] = $class;
+				}
+			}
 			unset($photo_gallery[0]);
 		}
 

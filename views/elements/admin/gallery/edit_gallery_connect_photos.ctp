@@ -468,7 +468,6 @@ $(function() {
 
 
 <div id="connect_gallery_photos_cont">
-	<?php // $this->data['PhotoGallery']['display_name'] ?>
 	<h1>{{open_gallery.PhotoGallery.display_name}}
 		<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 	</h1>
@@ -518,18 +517,17 @@ $(function() {
 		<div class="fade_background_top"></div>
 		<div class="in_gallery_main_cont" data-step="6" data-intro="<?php echo __('Change the order you’d like your images to appear on your site by dragging the arrows on the image and moving the photo. To remove the photo from the gallery (but not from uploaded photos), simply click the X on the photo.', true); ?>" data-position="top">
 			<div class="image_container_header">
-				<?php // $this->data['PhotoGallery']['display_name'] ?>
-				<h2><?php echo sprintf(__('Photos in &ldquo;%s&rdquo; Gallery', true), 'display name'); ?></h2>
+				<h2>{{open_gallery.PhotoGallery.display_name}}</h2>
 				<div class="actions" data-step="7" data-intro="<?php echo __('To remove all photos in the gallery (but not from uploaded photos), click the trash.', true); ?>" data-position="bottom"><img id="remove_all_gallery_photos" src="/img/admin/icons/grey_delete_all_icon.png" alt="" /></div>
 				<div style="clear: both;"></div>
 			</div>
 
 			<?php // ng-show the below ?>
 			<?php /*<div class="empty_help_content" style="<?php if (empty($this->data['PhotoGalleriesPhoto'])): ?>display: block;<?php endif; ?>"><?php echo __('Add images to this gallery using the box at right', true); ?>&nbsp;►</div>*/ ?>
-			<?php /*
-				<?php echo $this->Element('/admin/photo/photo_connect_in_gallery_photo_cont', array( 'connected_photos' => $this->data['PhotoGalleriesPhoto'], 'not_in_gallery_icon_size' => $not_in_gallery_icon_size )); ?>
-			 */ ?>
+			
+			
 			<div id="in_gallery_photos_cont" class="in_gallery_photos_cont">
+				<?php echo $this->Element('/admin/photo/angular_photo_connect_in_gallery_photo_cont'); ?>
 			</div>
 		</div>
 		<div class="not_in_gallery_main_cont" data-step="1" data-intro="<?php echo __('Here are all of your uploaded photos. To add them to the current gallery, simply click the plus symbol (on the bottom right of each image).', true); ?>" data-position="top">

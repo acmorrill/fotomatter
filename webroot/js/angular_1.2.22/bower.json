@@ -10,6 +10,6 @@
 		"angular-route": "~1.2.x",
 		"angular-resource": "~1.2.x",
 		"angular-animate": "~1.2.x",
-		"angular-xeditable': '~0.1.8"
+		"angular-xeditable": "~0.1.8"
 	}
 }

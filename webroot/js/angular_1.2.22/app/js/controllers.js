@@ -104,6 +104,11 @@ fotomatterControllers.controller('TagListCtrl', ['$scope', '$q', 'Tags', functio
 
 
 fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleries', function($scope, $q, PhotoGalleries) {
+//	console.log('==============================');
+//	console.log($cookies);
+//	console.log('==============================');
+		
+		
 	$scope.loading = true;
 	$scope.photo_galleries = new Array();
 	$scope.open_gallery = new Array();	
@@ -116,15 +121,9 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 			jQuery("#filter_photo_by_format, #sort_photo_radio").buttonset();
 			jQuery("#photos_not_in_a_gallery").button();
 		});
-	};
-	
-	
-	PhotoGalleries.index().$promise.then(function(photo_galleries) {
-		$scope.loading = false;
-		$scope.photo_galleries = photo_galleries;
+		
 		$scope.open_gallery = photo_galleries[0];
-		$scope.initGallery();
-	});
+	};
 	
 	
 	$scope.change_image_size = function(new_size_str) {
@@ -134,10 +133,11 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 
 	$scope.view_gallery = function(photo_gallery_id) {
 		var view_gallery = {
-			id: photo_gallery_id
+			id: photo_gallery_id,
+			gallery_icon_size: $scope.open_gallery_image_size
 		};
 		var d = $q.defer();
-		Galleries.view(view_gallery, 
+		PhotoGalleries.view(view_gallery, 
 			function(result) {
 				if (typeof result[0]['PhotoGallery'].id == 'number') {
 					$scope.open_gallery = result[0];
@@ -154,6 +154,11 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 		return d.promise;
 	};
 	
-	
+	PhotoGalleries.index().$promise.then(function(photo_galleries) {
+		$scope.loading = false;
+		$scope.photo_galleries = photo_galleries;
+		$scope.view_gallery(photo_galleries[0].PhotoGallery.id);
+		$scope.initGallery();
+	});
 }]);
 
