@@ -4,7 +4,8 @@ var fotomatterApp = angular.module('fotomatterApp', [
 	'fotomatterControllers',
 	'fotomatterServices',
 	'xeditable',
-	'ngCookies'
+	'ngCookies',
+	'ui.sortable'
 ]);
 
 

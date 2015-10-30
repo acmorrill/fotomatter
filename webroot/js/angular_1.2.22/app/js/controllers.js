@@ -104,7 +104,7 @@ fotomatterControllers.controller('TagListCtrl', ['$scope', '$q', 'Tags', functio
 
 fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleries', '$cookies', function($scope, $q, PhotoGalleries, $cookies) {
 	$scope.loading = true;
-	$scope.photo_galleries = new Array();
+	$scope.photo_galleries = [];
 	$scope.open_gallery = null;	
 	$scope.open_gallery_connected_photos = null;	
 
@@ -167,10 +167,46 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 		
 		return d.promise;
 	};
+
+
+	$scope.sortableOptions = {
+		items : '> tbody > tr.sortable',
+		handle : '.reorder_gallery_grabber',
+		update : function(event, ui) {
+			var context = this;
+			jQuery(context).sortable('disable');
+
+			// figure the the now position of the dragged element
+			var photoGalleryId = jQuery(ui.item).attr('gallery_id');
+			var newPosition = position_of_element_among_siblings(jQuery("#photo_gallery_list table.list > tbody > tr.sortable"), jQuery(ui.item));
+
+			jQuery.ajax({
+				type: 'post',
+				url: '/admin/photo_galleries/ajax_set_photogallery_order/'+photoGalleryId+'/'+newPosition+'/',
+				data: {},
+				success: function(data) {
+					console.log($scope.photo_galleries);
+					if (data.code != 1) {
+						// TODO - maybe revert the draggable back to its start position here
+						
+					}
+				}, 
+				complete: function() {
+					jQuery(context).sortable('enable');
+				},
+				dataType: 'json'
+			});
+		}
+	};
 	
 	PhotoGalleries.index().$promise.then(function(photo_galleries) {
 		$scope.loading = false;
 		$scope.photo_galleries = photo_galleries;
+//		$scope.$watch("photo_galleries", function(){
+//			console.log('============================');
+//			console.log($scope.photo_galleries);
+//			console.log('============================');
+//		});
 	});
 }]);
 

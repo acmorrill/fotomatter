@@ -40,7 +40,7 @@
 		<div id="photo_gallery_list" class="table_container">
 			<div class="fade_background_top"></div>
 			<div class="table_top"></div>
-			<table class="list" data-step="1" data-intro="<?php echo __ ('Here you can view all of the galleries currently created. Edit the titles, manage the photos, or delete the gallery completely.', true); ?>" data-position="top">
+			<table class="list" ui-sortable="sortableOptions" data-step="1" data-intro="<?php echo __ ('Here you can view all of the galleries currently created. Edit the titles, manage the photos, or delete the gallery completely.', true); ?>" data-position="top">
 				<thead>
 					<tr> 
 						<?php /* <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?> */ ?>
@@ -90,7 +90,7 @@
 					</tr>
 
 
-					<tr ng-repeat="photo_gallery in photo_galleries" ng-class="{ 'current': open_gallery.PhotoGallery.id == photo_gallery.PhotoGallery.id}">
+					<tr ng-repeat="photo_gallery in photo_galleries" ng-class="{'sortable': true, 'current': open_gallery.PhotoGallery.id == photo_gallery.PhotoGallery.id}" gallery_id="{{photo_gallery.PhotoGallery.id}}">
 						<td class="gallery_id first">
 							<div class="rightborder"></div>
 							<div class="reorder_gallery_grabber reorder_grabber icon-position-01" />
