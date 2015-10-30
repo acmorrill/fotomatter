@@ -97,7 +97,15 @@
 	}
 	if (isset($_GET['url']) && $_GET['url'] === 'favicon.ico') {
 		return;
-	} else {
+	} else { ?>
+		<?php $apc_site_disabled_key = "disabled_site_{$_SERVER['local']['database']}"; ?>
+		<?php if (apc_exists($apc_site_disabled_key)): ?>
+			<?php if (!startsWith(trim($_SERVER['REQUEST_URI'], '/'), "admin")): ?>
+				<h1>Website down for maintenance</h1>
+				<?php die(); ?>
+			<?php endif; ?>
+		<?php endif; ?>
+	<?php
 		$Dispatcher = new Dispatcher();
 		$Dispatcher->dispatch();
 	}
