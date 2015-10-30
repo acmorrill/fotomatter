@@ -286,4 +286,18 @@ class AppModel extends LazyModel { // a change - even more change
 		return "fmapp_lock_$lock_name";
 	}
 	
+	public function get_website_disabled_key() {
+		return "disabled_site_{$_SERVER['local']['database']}";
+	}
+	
+	public function disable_website() {
+		$apc_key = $this->get_website_disabled_key();
+		apc_store($apc_key, true, 600);
+	}
+	
+	public function enable_website() {
+		$apc_key = $this->get_website_disabled_key();
+		apc_delete($apc_key);
+	}
+	
 }
