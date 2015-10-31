@@ -309,9 +309,17 @@ class AppModel extends LazyModel { // a change - even more change
 		return apc_exists($apc_key);
 	}
 	
-	public function disable_photo_cache() {
+	public function get_disabled_photo_cache_percent() {
 		$apc_key = $this->get_photo_cache_disabled_key();
-		apc_store($apc_key, true, 600);
+		if (apc_exists($apc_key) === false) {
+			return false;
+		}
+		return apc_fetch($apc_key);
+	}
+	
+	public function disable_photo_cache($percent_done) {
+		$apc_key = $this->get_photo_cache_disabled_key();
+		apc_store($apc_key, $percent_done, 600);
 	}
 	
 	public function enable_photo_cache() {
