@@ -479,21 +479,21 @@ $(function() {
 	<div class="page_content_header custom_ui">
 		<div id='add_gallery_filters_cont' data-step="3" data-intro="<?php echo __('Filter the uploaded images by viewing only photos that have not been added to a gallery yet.', true); ?>" data-position="left">
 			<div id="photos_not_in_a_gallery_cont" class="custom_ui_radio">
-				<input type="checkbox" id="photos_not_in_a_gallery" />
+				<input ng-model="open_gallery_photos_not_in_gallery" name="open_gallery_photos_not_in_gallery" ng-change="change_filters_sort()" type="checkbox" id="photos_not_in_a_gallery" />
 				<label class='add_button' for="photos_not_in_a_gallery"><div class='content'><?php echo __('Photos Not In A Gallery', true); ?></div></label>
 			</div>
 		</div><?php /*
 		*/ ?><div class="generic_sort_and_filters" data-step="4" data-intro="<?php echo __('Filter by the photo orientation you’ve assigned your image in Photo Details.', true); ?>" data-position="bottom"><?php /*
 			*/ ?><div id="filter_photo_by_format"><?php /*
-				*/ ?><input type="checkbox" value="vertical_panoramic" id="check5" /><?php /*
+				*/ ?><input type="checkbox" ng-model="open_gallery_photo_formats.vertical_panoramic" name="open_gallery_photo_formats" ng-change="change_filters_sort()" value="vertical_panoramic" id="check5" /><?php /*
 				*/ ?><label class='add_button' for="check5"><div class='content'><?php echo __('Vertical Panoramic', true); ?></div></label><?php /*
-				*/ ?><input type="checkbox" value="panoramic" id="check4" /><?php /*
+				*/ ?><input type="checkbox" ng-model="open_gallery_photo_formats.panoramic" name="open_gallery_photo_formats" ng-change="change_filters_sort()" value="panoramic" id="check4" /><?php /*
 				*/ ?><label class='add_button' for="check4"><div class='content'><?php echo __('Panoramic', true); ?></div></label><?php /*
-				*/ ?><input type="checkbox" value="square" id="check3" /><?php /*
+				*/ ?><input type="checkbox" ng-model="open_gallery_photo_formats.square" name="open_gallery_photo_formats" ng-change="change_filters_sort()" value="square" id="check3" /><?php /*
 				*/ ?><label class='add_button' for="check3"><div class='content'><?php echo __('Square', true); ?></div></label><?php /*
-				*/ ?><input type="checkbox" value="portrait" id="check2" /><?php /*
+				*/ ?><input type="checkbox" ng-model="open_gallery_photo_formats.portrait" name="open_gallery_photo_formats" ng-change="change_filters_sort()" value="portrait" id="check2" /><?php /*
 				*/ ?><label class='add_button' for="check2"><div class='content'><?php echo __('Portrait', true); ?></div></label><?php /*
-				*/ ?><input type="checkbox" value="landscape" id="check1" /><?php /*
+				*/ ?><input type="checkbox" ng-model="open_gallery_photo_formats.landscape" name="open_gallery_photo_formats"  ng-change="change_filters_sort()" value="landscape" id="check1" /><?php /*
 				*/ ?><label class='add_button' for="check1"><div class='content'><?php echo __('Landscape', true); ?></div></label><?php /*
 				*/ ?><div style="clear: both;"></div><?php /*
 			*/ ?></div><?php /*
@@ -538,9 +538,9 @@ $(function() {
 				<h2 data-step="8" data-intro="<?php echo __('Now that you’ve created a gallery, upload more photos directly to the gallery by selecting the gallery name on the upload photos page before uploading.', true); ?>" data-position="top"><?php echo __('Uploaded Photos', true); ?></h2>
 				<div class="actions" style="float: right;"><img id="refresh_not_in_gallery_photos_button" src="/img/admin/icons/grey_refresh.png" alt="" /></div>
 				<div id="sort_photo_radio" data-step="2" data-intro="<?php echo __('You may sort your uploaded photos by most (or least) recently added.', true); ?>" data-position="left"><?php /*
-					*/ ?><input type="radio" id="radio1" name="sort_photo_radio" order="modified" sort_dir="desc" checked="checked" /><?php /*
+					*/ ?><input type="radio" id="radio1" ng-model="open_gallery_not_connected_sort_dir" name="sort_photo_radio"  value="desc" ng-change="change_filters_sort()" /><?php /*
 					*/ ?><label class='add_button' for="radio1"><div class='content'><?php echo __('Newest', true); ?></div></label><?php /*
-					*/ ?><input type="radio" id="radio2" name="sort_photo_radio" order="modified" sort_dir="asc" /><?php /*
+					*/ ?><input type="radio" id="radio2" ng-model="open_gallery_not_connected_sort_dir" name="sort_photo_radio" value="asc" ng-change="change_filters_sort()" /><?php /*
 					*/ ?><label class='add_button' for="radio2"><div class='content'><?php echo __('Oldest', true); ?></div></label><?php /*
 				*/ ?></div>
 				<div style="clear: both;"></div>

@@ -31,7 +31,7 @@
 
 
 	<div class="gallery_view" ng-hide="open_gallery == null">
-		<?php echo $this->Element('admin/gallery/edit_gallery_connect_photos'); ?>
+		<?php echo $this->Element('admin/gallery/angular_edit_gallery_connect_photos'); ?>
 	</div>
 	<div class="gallery_view" ng-show="open_gallery == null">
 		<h1>Gallery Loading</h1>

@@ -30,4 +30,9 @@ class PhotoFormat extends AppModel {
 			return false;
 		}
 	}
+	
+	
+	public function get_photo_formats() {
+		// DREW TODO - finish this
+	}
 }

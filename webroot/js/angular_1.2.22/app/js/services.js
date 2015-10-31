@@ -18,12 +18,12 @@ fotomatterServices.factory('PhotoGalleries', ['$resource', function($resource) {
 	return $resource('/photo_galleries/:id.json', {}, {
 		'index': { url: '/admin/photo_galleries/index', method: 'GET', isArray: true },
 		'view': { 
-			url: '/admin/photo_galleries/view/:id/:gallery_icon_size/:order/:sort_dir/:photo_formats/:photos_not_in_a_gallery',
+			url: '/admin/photo_galleries/view/:id/:gallery_icon_size/:order_by/:sort_dir/:photo_formats/:photos_not_in_a_gallery',
 			method: 'GET', 
 			params: { 
 				id: '@id', 
 				gallery_icon_size: '@gallery_icon_size',
-				order: '@order', 
+				order_by: '@order_by', 
 				sort_dir: '@sort_dir', 
 				photo_formats: '@photo_formats', 
 				photos_not_in_a_gallery: '@photos_not_in_a_gallery'

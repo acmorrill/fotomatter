@@ -160,7 +160,7 @@ class PhotoGalleriesController extends AppController {
 		$this->return_json($photo_galleries);
 	}
 	
-	public function admin_view($gallery_id, $gallery_icon_size = 'medium', $order = 'modified', $sort_dir = 'desc', $photo_formats = null, $photos_not_in_a_gallery = false, $last_photo_id = 0) {
+	public function admin_view($gallery_id, $gallery_icon_size = 'medium', $order_by = 'modified', $sort_dir = 'desc', $photo_formats = null, $photos_not_in_a_gallery = false, $last_photo_id = 0) {
 		$gallery_query = "
 			SELECT 
 				PhotoGallery.id, PhotoGallery.weight, PhotoGallery.type, PhotoGallery.display_name, PhotoGallery.description, PhotoGallery.created, (SELECT count(*) FROM photo_galleries_photos WHERE photo_gallery_id = PhotoGallery.id) as photos_count
@@ -234,6 +234,8 @@ class PhotoGalleriesController extends AppController {
 		 * figure out filter conditions
 		 */
 		if (!empty($photo_formats)) {
+			// DREW TODO - change the way this works
+//			$photo_formats = $this->PhotoFormat->get_photo_formats();
 			$conditions['PhotoFormat.id'] = explode('|', $photo_formats);
 		}
 		if ($photos_not_in_a_gallery === 'true') {
@@ -263,7 +265,7 @@ class PhotoGalleriesController extends AppController {
 			} else {
 				$comp = '<';
 			}
-			$conditions['Photo.'.$order.' '.$comp] = $last_photo['Photo'][$order];
+			$conditions['Photo.'.$order_by.' '.$comp] = $last_photo['Photo'][$order_by];
 		}
 		// end sort find conditions
 		
@@ -271,7 +273,7 @@ class PhotoGalleriesController extends AppController {
 		$not_connected_photos = $this->Photo->find('all', array(
 			'conditions' => $conditions,
 			'order' => array(
-				$order => $sort_dir
+				$order_by => $sort_dir
 			),
 			'contain' => array(
 				'PhotoFormat'
@@ -282,13 +284,11 @@ class PhotoGalleriesController extends AppController {
 		foreach ($not_connected_photos as &$not_connected_photo) {
 			if (!empty($not_connected_photo['Photo']['id'])) {
 				$not_connected_photo['Photo']['photo_cache_url'] = $this->Photo->get_photo_path($not_connected_photo['Photo']['id'], $height, $width);
-				$photo_galleries_photo['Photo']['photo_cache_class'] = $class;
+				$not_connected_photo['Photo']['photo_cache_class'] = $class;
 			}
 		}
 		
 		
-//		$returnData = compact('photo_galleries', 'not_connected_photos', 'gallery_id', 'last_photo_id', 'order', 'sort_dir', 'not_in_gallery_icon_size');
-//		$this->return_json($returnData);
 		$this->return_json(array(
 			'photo_gallery' => $photo_galleries[0],
 			'not_connected_photos' => $not_connected_photos,
