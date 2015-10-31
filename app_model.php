@@ -300,4 +300,23 @@ class AppModel extends LazyModel { // a change - even more change
 		apc_delete($apc_key);
 	}
 	
+	public function get_photo_cache_disabled_key() {
+		return "disabled_photo_cache_{$_SERVER['local']['database']}";
+	}
+	
+	public function is_photo_cache_disabled() {
+		$apc_key = $this->get_photo_cache_disabled_key();
+		return apc_exists($apc_key);
+	}
+	
+	public function disable_photo_cache() {
+		$apc_key = $this->get_photo_cache_disabled_key();
+		apc_store($apc_key, true, 600);
+	}
+	
+	public function enable_photo_cache() {
+		$apc_key = $this->get_photo_cache_disabled_key();
+		apc_delete($apc_key);
+	}
+	
 }

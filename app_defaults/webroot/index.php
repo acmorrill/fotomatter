@@ -102,6 +102,7 @@
 		<?php if (apc_exists($apc_site_disabled_key)): ?>
 			<?php if (!startsWith(trim($_SERVER['REQUEST_URI'], '/'), "admin")): ?>
 				<h1>Website down for maintenance</h1>
+				<h2>We are performing awesomeness on <?php echo $_SERVER['']; ?></h2>
 				<?php die(); ?>
 			<?php endif; ?>
 		<?php endif; ?>
