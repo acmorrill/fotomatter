@@ -619,7 +619,6 @@ class Photo extends AppModel {
 		));
 		$return_url = '';
 		if (!empty($photoCache)) {
-			
 			if ($photoCache['PhotoCache']['status'] == 'ready') {
 				$return_url = $this->PhotoCache->get_full_path($photoCache['PhotoCache']['id'], $return_tag_attributes);
 			} else if ($photoCache['PhotoCache']['status'] == 'processing') {
@@ -639,9 +638,13 @@ class Photo extends AppModel {
 				));
 
 				if ($photoCache['PhotoCache']['status'] == 'queued') {
-					// TODO - maybe return the prepare path if the status is queued and some time has passed
-					// I don't think I need to do the TODO now that I've added locking to the finish create cache and this helper
-					$return_url = $this->PhotoCache->get_existing_cache_create_url($photoCache['PhotoCache']['id'], $return_tag_attributes);
+					if ($this->PhotoCache->is_photo_cache_disabled() === true) {
+						$return_url = $this->PhotoCache->get_dummy_processing_image_path($height, $width, false, $return_tag_attributes, $crop);
+					} else {
+						// TODO - maybe return the prepare path if the status is queued and some time has passed
+						// I don't think I need to do the TODO now that I've added locking to the finish create cache and this helper
+						$return_url = $this->PhotoCache->get_existing_cache_create_url($photoCache['PhotoCache']['id'], $return_tag_attributes);
+					}
 				} else {
 					$return_url = $this->PhotoCache->get_dummy_error_image_path($height, $width, false, $return_tag_attributes, $crop);
 				}
@@ -649,22 +652,26 @@ class Photo extends AppModel {
 				$releaseLock = $this->release_lock("finish_create_cache_" . $photoCache['PhotoCache']['id'] . "_" . $_SERVER['local']['database']);
 			}
 		} else {
-			$initLocked = $this->get_lock("start_create_cache_" . $photo_id . "_" . $_SERVER['local']['database'], 8);
-			if ($initLocked === false) {
-				return $this->PhotoCache->get_dummy_processing_image_path($height, $width, false, $return_tag_attributes, $crop);
-			}
-			// grab again after lock - to make sure we are not conflicting
-			$photoCache = $this->PhotoCache->find('first', array(
-				'conditions' => $conditions,
-				'contain' => false
-			));
-			if (empty($photoCache)) {
-				$return_url = $this->PhotoCache->prepare_new_cachesize($photo_id, $height, $width, false, $unsharp_amount, $return_tag_attributes, $crop);
+			if ($this->PhotoCache->is_photo_cache_disabled() === true) {
+				$return_url = $this->PhotoCache->get_dummy_processing_image_path($height, $width, false, $return_tag_attributes, $crop);
 			} else {
-				$return_url = $this->PhotoCache->get_dummy_error_image_path($height, $width, false, $return_tag_attributes, $crop);
-			}
+				$initLocked = $this->get_lock("start_create_cache_" . $photo_id . "_" . $_SERVER['local']['database'], 8);
+				if ($initLocked === false) {
+					return $this->PhotoCache->get_dummy_processing_image_path($height, $width, false, $return_tag_attributes, $crop);
+				}
+				// grab again after lock - to make sure we are not conflicting
+				$photoCache = $this->PhotoCache->find('first', array(
+					'conditions' => $conditions,
+					'contain' => false
+				));
+				if (empty($photoCache)) {
+					$return_url = $this->PhotoCache->prepare_new_cachesize($photo_id, $height, $width, false, $unsharp_amount, $return_tag_attributes, $crop);
+				} else {
+					$return_url = $this->PhotoCache->get_dummy_error_image_path($height, $width, false, $return_tag_attributes, $crop);
+				}
 
-			$releaseLock = $this->release_lock("start_create_cache_" . $photo_id . "_" . $_SERVER['local']['database']);
+				$releaseLock = $this->release_lock("start_create_cache_" . $photo_id . "_" . $_SERVER['local']['database']);
+			}
 		}
 
 		return preg_replace('/\s+/', '', $return_url);
