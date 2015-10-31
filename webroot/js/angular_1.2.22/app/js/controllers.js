@@ -150,11 +150,16 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 		var d = $q.defer();
 		PhotoGalleries.view(view_gallery, 
 			function(result) {
-				if (typeof result[0]['PhotoGallery'].id == 'number') {
+				console.log('============================');
+				console.log(result.not_connected_photos);
+				console.log('============================');
+				
+				if (typeof result.photo_gallery.PhotoGallery.id == 'number') {
 					if ($scope.open_gallery == null) {
-						$scope.open_gallery = result[0];
+						$scope.open_gallery = result.photo_gallery;
 					}
-					$scope.open_gallery_connected_photos = result[0].PhotoGalleriesPhoto;
+					$scope.open_gallery_connected_photos = result.photo_gallery.PhotoGalleriesPhoto;
+					$scope.open_gallery_not_connected_photos = result.not_connected_photos;
 					d.resolve();
 				} else {
 					d.resolve("Error");
@@ -185,7 +190,28 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 				url: '/admin/photo_galleries/ajax_set_photogallery_order/'+photoGalleryId+'/'+newPosition+'/',
 				data: {},
 				success: function(data) {
-					console.log($scope.photo_galleries);
+					// remove the element from the old scope position
+					var element_to_move;
+					for (var x in $scope.photo_galleries) {
+						if (typeof $scope.photo_galleries[x].PhotoGallery == 'object') {
+							if ($scope.photo_galleries[x].PhotoGallery.id == photoGalleryId) {
+								element_to_move = $scope.photo_galleries.splice(x, 1);
+								break;
+							}
+						}
+					}
+					
+					// add element to the new scope position
+					var count = 1;
+					for (var x in $scope.photo_galleries) {
+						if (count == newPosition) {
+							$scope.photo_galleries.splice(count - 1, 0, element_to_move[0]);
+							break;
+						}
+						count++;
+					}
+					
+					
 					if (data.code != 1) {
 						// TODO - maybe revert the draggable back to its start position here
 						
@@ -199,14 +225,10 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 		}
 	};
 	
+	// load the galleries list for left column
 	PhotoGalleries.index().$promise.then(function(photo_galleries) {
 		$scope.loading = false;
 		$scope.photo_galleries = photo_galleries;
-//		$scope.$watch("photo_galleries", function(){
-//			console.log('============================');
-//			console.log($scope.photo_galleries);
-//			console.log('============================');
-//		});
 	});
 }]);
 

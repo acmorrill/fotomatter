@@ -17,7 +17,18 @@ fotomatterServices.factory('Tags', ['$resource', function($resource) {
 fotomatterServices.factory('PhotoGalleries', ['$resource', function($resource) {
 	return $resource('/photo_galleries/:id.json', {}, {
 		'index': { url: '/admin/photo_galleries/index', method: 'GET', isArray: true },
-		'view': { url: '/admin/photo_galleries/view/:id/:gallery_icon_size', method: 'GET', isArray: true, params: { id: '@id', gallery_icon_size: '@gallery_icon_size' } }
+		'view': { 
+			url: '/admin/photo_galleries/view/:id/:gallery_icon_size/:order/:sort_dir/:photo_formats/:photos_not_in_a_gallery',
+			method: 'GET', 
+			params: { 
+				id: '@id', 
+				gallery_icon_size: '@gallery_icon_size',
+				order: '@order', 
+				sort_dir: '@sort_dir', 
+				photo_formats: '@photo_formats', 
+				photos_not_in_a_gallery: '@photos_not_in_a_gallery'
+			} 
+		}
 	});
 }]);
 
