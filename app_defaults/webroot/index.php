@@ -97,16 +97,81 @@
 	}
 	if (isset($_GET['url']) && $_GET['url'] === 'favicon.ico') {
 		return;
-	} else { ?>
-		<?php $apc_site_disabled_key = "disabled_site_{$_SERVER['local']['database']}"; ?>
-		<?php if (apc_exists($apc_site_disabled_key)): ?>
-			<?php if (!startsWith(trim($_SERVER['REQUEST_URI'], '/'), "admin")): ?>
-				<h1>Website down for maintenance</h1>
-				<h2>We are performing awesomeness on <?php echo $_SERVER['']; ?></h2>
-				<?php die(); ?>
-			<?php endif; ?>
-		<?php endif; ?>
-	<?php
+	} else { 
+		$apc_site_disabled_key = "disabled_site_{$_SERVER['local']['database']}";
+//		apc_delete($apc_site_disabled_key);
+//		apc_store($apc_site_disabled_key, true, 600);
+	?><?php if (apc_exists($apc_site_disabled_key) && !startsWith(trim($_SERVER['REQUEST_URI'], '/'), "admin")): ?>
+		<!DOCTYPE html>
+		<html>
+		<head>
+			<title>Updating Website</title>
+			<style type="text/css">
+				#content_container, body, html{
+					position: relative;
+					height: 100%;
+					width: 100%;
+					margin: 0px;
+				}
+				#main_content {
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					margin-top: -135px;
+					margin-left: -300px;
+					width: 600px;
+					height: 300px;
+				}
+				#main_content img {
+					float: right;
+					margin-left: 20px;
+				}
+				#main_content h1, h2 {
+					color: white;
+				}
+				#admin_background {
+					position: fixed;
+					left: -20%;
+					height: 100%;
+					width: 140%;
+					background-image: url(/img/admin/general/admin_background.jpg);
+					background-color: #0d0d0e;
+					background-size: 100% auto;
+					background-repeat: no-repeat;
+					background-position: -50px -50px;
+					z-index: -1;
+				}
+				#main_container {
+					position: absolute;
+					background-color: #282828;
+					width: 100%;
+					height: 380px;
+					top: 50%;
+					margin-top: -190px;
+					border: 1px solid #000;
+					-moz-box-shadow: 0px 0px 1px 1px #232527;
+					-webkit-box-shadow: 0px 0px 1px 1px #232527;
+					box-shadow: 0px 0px 1px 1px #232527;
+				}
+			</style>
+		</head>
+		<body>
+			<div id="content_container">
+				<div id="main_container">
+					<div id="main_content">
+						<img src="/img/repeatingsmiley.gif" width="256" height="256" />
+						<h1>Currently performing awesomeness on <?php echo $_SERVER['SERVER_NAME']; ?>!</h1>
+						<h2>(Actually we are doing some updates and things will be back shortly)</h2>
+						<div style="clear: both;"></div>
+					</div>
+				</div>
+				<div id="admin_background"></div>
+				<div
+			</div>
+		</body>
+		</html>
+		<?php die(); ?>
+	<?php endif; ?><?php
 		$Dispatcher = new Dispatcher();
 		$Dispatcher->dispatch();
 	}
