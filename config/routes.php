@@ -27,7 +27,8 @@
  * its action called 'display', and we pass a param to select the view file
  * to use (in this case, /app/views/pages/home.ctp)...
  */
-Router::mapResources("tags");
+Router::mapResources("tags"); // not sure what this is for
+Router::mapResources("galleries"); // not sure what this is for
 Router::parseExtensions();
 
 

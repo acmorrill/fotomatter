@@ -1,6 +1,5 @@
 'use strict';
 
-/* Controllers */
 
 var fotomatterControllers = angular.module('fotomatterControllers', []);
 
@@ -100,5 +99,187 @@ fotomatterControllers.controller('TagListCtrl', ['$scope', '$q', 'Tags', functio
 			}
 		);
 	};
+}]);
+
+
+fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleries', '$cookies', function($scope, $q, PhotoGalleries, $cookies) {
+	$scope.loading = true;
+	$scope.photo_galleries = [];
+	$scope.open_gallery = null;	
+	$scope.open_gallery_connected_photos = null;	
+	$scope.open_gallery_not_connected_photos = null;
+
+
+	$scope.initGallery = function() {
+		$scope.open_gallery_not_connected_order_by = 'modified';
+		$scope.open_gallery_not_connected_sort_dir = $cookies.get('open_gallery_not_connected_sort_dir');
+		if (typeof $scope.open_gallery_not_connected_sort_dir == 'undefined') { 
+			$scope.open_gallery_not_connected_sort_dir = 'asc'; 
+		}
+		
+		$scope.open_gallery_photos_not_in_gallery = $cookies.get('open_gallery_photos_not_in_gallery');
+		if (typeof $scope.open_gallery_photos_not_in_gallery == 'undefined' || $scope.open_gallery_photos_not_in_gallery != 'true') { 
+			$scope.open_gallery_photos_not_in_gallery = false; 
+		} else {
+			$scope.open_gallery_photos_not_in_gallery = true; 
+		}
+		
+		$scope.flat_formats_str = $cookies.get('flat_formats_str');
+		$scope.open_gallery_photo_formats = {
+			'landscape': false,
+			'portrait': false,
+			'square': false,
+			'panoramic': false,
+			'vertical_panoramic': false
+		}; 
+		if (typeof $scope.flat_formats_str == 'undefined' || $scope.flat_formats_str == "") { 
+			$scope.flat_formats_str = "";
+		} else {
+			var file_formats_arr = $scope.flat_formats_str.split('|');
+			for(var for_index in file_formats_arr) {
+				$scope.open_gallery_photo_formats[file_formats_arr[for_index]] = true;
+			}
+		}
+		
+		jQuery(function() {
+			jQuery("#filter_photo_by_format, #sort_photo_radio").buttonset();
+			jQuery("#photos_not_in_a_gallery").button();
+		});
+		
+		var icon_size = $cookies.get('gallery_icon_size');
+		if (typeof icon_size == 'undefined') {
+			icon_size = 'small';
+		}
+		$scope.open_gallery_image_size = icon_size;
+		
+		$scope.$watch("last_open_gallery_id", function(){
+			$scope.view_gallery($scope.last_open_gallery_id);
+		});
+	};
+	$scope.initGallery();
+	
+	$scope.change_filters_sort = function() {
+		var flat_formats_arr = [];
+		for(var format_index in $scope.open_gallery_photo_formats) {
+			if ($scope.open_gallery_photo_formats[format_index] == true) {
+				flat_formats_arr.push(format_index);
+			}
+		}
+		$scope.flat_formats_str = flat_formats_arr.join("|");
+		$cookies.put('open_gallery_not_connected_sort_dir', $scope.open_gallery_not_connected_sort_dir);
+		$cookies.put('open_gallery_photos_not_in_gallery', $scope.open_gallery_photos_not_in_gallery);
+		$cookies.put('flat_formats_str', $scope.flat_formats_str);
+		
+		$scope.open_gallery_not_connected_photos = null;
+		$scope.view_gallery($scope.last_open_gallery_id);
+	};
+	
+	$scope.change_image_size = function(new_size_str) {
+		$scope.open_gallery_image_size = new_size_str;
+		$cookies.put('gallery_icon_size', new_size_str);
+		$scope.open_gallery_connected_photos = null;
+		$scope.view_gallery($scope.last_open_gallery_id);
+	};
+	
+
+	$scope.view_gallery = function(photo_gallery_id) {
+		$cookies.put('last_open_gallery_id', photo_gallery_id);
+		$scope.last_open_gallery_id = photo_gallery_id;
+		if ($scope.open_gallery != null && $scope.open_gallery.PhotoGallery.id != photo_gallery_id) {
+			$scope.open_gallery = null;
+		}
+		
+		var view_gallery = {
+			id: photo_gallery_id,
+			gallery_icon_size: $scope.open_gallery_image_size,
+			order_by: $scope.open_gallery_not_connected_order_by,
+			sort_dir: $scope.open_gallery_not_connected_sort_dir,
+			photos_not_in_a_gallery: $scope.open_gallery_photos_not_in_gallery,
+			last_photo_id: 0,
+			photo_formats: $scope.flat_formats_str
+		};
+		var d = $q.defer();
+		PhotoGalleries.view(view_gallery, 
+			function(result) {
+//				console.log('============================');
+//				console.log(result.not_connected_photos);
+//				console.log('============================');
+				
+				if (typeof result.photo_gallery.PhotoGallery.id == 'number') {
+					if ($scope.open_gallery == null) {
+						$scope.open_gallery = result.photo_gallery;
+					}
+					$scope.open_gallery_connected_photos = result.photo_gallery.PhotoGalleriesPhoto;
+					$scope.open_gallery_not_connected_photos = result.not_connected_photos;
+					d.resolve();
+				} else {
+					d.resolve("Error");
+				}
+			},
+			function(error) {
+				d.resolve("Server Error");
+			}
+		);
+		
+		return d.promise;
+	};
+
+
+	$scope.sortableOptions = {
+		items : '> tbody > tr.sortable',
+		handle : '.reorder_gallery_grabber',
+		update : function(event, ui) {
+			var context = this;
+			jQuery(context).sortable('disable');
+
+			// figure the the now position of the dragged element
+			var photoGalleryId = jQuery(ui.item).attr('gallery_id');
+			var newPosition = position_of_element_among_siblings(jQuery("#photo_gallery_list table.list > tbody > tr.sortable"), jQuery(ui.item));
+
+			jQuery.ajax({
+				type: 'post',
+				url: '/admin/photo_galleries/ajax_set_photogallery_order/'+photoGalleryId+'/'+newPosition+'/',
+				data: {},
+				success: function(data) {
+					// remove the element from the old scope position
+					var element_to_move;
+					for (var x in $scope.photo_galleries) {
+						if (typeof $scope.photo_galleries[x].PhotoGallery == 'object') {
+							if ($scope.photo_galleries[x].PhotoGallery.id == photoGalleryId) {
+								element_to_move = $scope.photo_galleries.splice(x, 1);
+								break;
+							}
+						}
+					}
+					
+					// add element to the new scope position
+					var count = 1;
+					for (var x in $scope.photo_galleries) {
+						if (count == newPosition) {
+							$scope.photo_galleries.splice(count - 1, 0, element_to_move[0]);
+							break;
+						}
+						count++;
+					}
+					
+					
+					if (data.code != 1) {
+						// TODO - maybe revert the draggable back to its start position here
+						
+					}
+				}, 
+				complete: function() {
+					jQuery(context).sortable('enable');
+				},
+				dataType: 'json'
+			});
+		}
+	};
+	
+	// load the galleries list for left column
+	PhotoGalleries.index().$promise.then(function(photo_galleries) {
+		$scope.loading = false;
+		$scope.photo_galleries = photo_galleries;
+	});
 }]);
 

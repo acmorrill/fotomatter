@@ -1,14 +1,11 @@
 'use strict';
 
-/* App Module */
-
 var fotomatterApp = angular.module('fotomatterApp', [
 	'fotomatterControllers',
 	'fotomatterServices',
-	'xeditable'
-//  'ngRoute',
-//  'phonecatAnimations',
-//  'phonecatFilters',
+	'xeditable',
+	'ngCookies',
+	'ui.sortable'
 ]);
 
 
@@ -21,36 +18,23 @@ fotomatterApp.run(function(editableOptions, editableThemes) {
 });
 
 fotomatterApp.directive("confirmDelete", ["$interval", function($interval) {
-    return {
-        restrict: "A",
+	return {
+		restrict: "A",
 		priority: 1,
 		terminal: true,
-        link: function(scope, element, attr) {
+		link: function(scope, element, attr) {
 			var clickAction = attr.ngClick;
-			element.bind('click', function () {
+			element.bind('click', function() {
 				jQuery.foto('confirm', {
 					message: 'Do you really want to delete the tag?',
 					onConfirm: function() {
 						scope.$eval(clickAction);
 					},
-					'title' : 'Really delete tag?',
-					'button_title' : 'Delete'
+					'title': 'Really delete tag?',
+					'button_title': 'Delete'
 				});
 			});
-        }
-    };
+		}
+	};
 }]);
 
-
-//fotomatterApp.config(['$routeProvider',
-//function($routeProvider) {
-//	$routeProvider.when('/phones', {
-//		templateUrl: 'partials/phone-list.html',
-//		controller: 'PhoneListCtrl'
-//	}).when('/phones/:phoneId', {
-//		templateUrl: 'partials/phone-detail.html',
-//		controller: 'PhoneDetailCtrl'
-//	}).otherwise({
-//		redirectTo: '/phones'
-//	});
-//}]);

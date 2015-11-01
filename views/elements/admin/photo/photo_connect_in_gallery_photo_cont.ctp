@@ -8,6 +8,14 @@ $class = $icon_sizes['class'];
 	REMEMBER IF YOU CHANGE THIS YOU ALSO HAVE TO
 	TAKE INTO ACCOUNT HOW THIS IS USED IN JAVASCRIPT
 *******************************************************/
+
+
+// need connect photos list
+//photo url based on the current icon size (pass in)
+
+
+
+
 ?>
 <?php foreach ($connected_photos as $the_photo): ?>
 <div class="<?php echo $class; ?> connect_photo_container" photo_id="<?php if (!isset($hide_data) && isset($the_photo['Photo']['id'])) echo $the_photo['Photo']['id']; ?>">
