@@ -6,7 +6,7 @@
 
 <div ng-repeat="photo in open_gallery_not_connected_photos" class="{{photo.Photo.photo_cache_class}} connect_photo_container" photo_id="{{photo.Photo.id}}">
 	<div class="image_cover"></div>
-	<div class="add_to_gallery_button gallery_image_circle_button bottom_right" ng-click="add_photo_to_gallery(photo.Photo.id)">
+	<div class="add_to_gallery_button gallery_image_circle_button bottom_right" ng-click="add_photo_to_gallery(photo)">
 		<div class="icon-_button-01"></div>
 	</div>
 	<div class="table">

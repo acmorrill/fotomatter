@@ -170,8 +170,7 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 		$cookies.put('open_gallery_photos_not_in_gallery', $scope.open_gallery_photos_not_in_gallery);
 		$cookies.put('flat_formats_str', $scope.flat_formats_str);
 		
-		$scope.open_gallery_not_connected_photos = null;
-		$scope.view_gallery($scope.last_open_gallery_id);
+		$scope.refresh_not_in_gallery_photos();
 	};
 	
 	$scope.change_image_size = function(new_size_str) {
@@ -181,80 +180,51 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 		$scope.view_gallery($scope.last_open_gallery_id);
 	};
 	
-	$scope.add_photo_to_gallery = function(photo_id) {
-		delete $scope.open_gallery_not_connected_photos[photo_id];
-//		$scope.open_gallery_connected_photos.push();
-		
-		
-//		if (disable_gallery_add == true || gallery_add_limit >= sync_ajax_out) {
-//			return;
-//		}
-
-
-//		show_universal_save();
-//		gallery_add_limit++;
-//		disable_gallery_add = true;
-//		var when_finished_timeout = new Timeout(function() {
-//			disable_gallery_add = false;
-//		}, 100);
-
-
-		/*
-		var to_delete = jQuery(this).closest('.connect_photo_container');
-		var photo_id = to_delete.attr('photo_id');
-		var img_src = jQuery('.image_content_cont img', to_delete).attr('src');
-
-
-		var new_div = add_new_in_gallery_image(photo_id, img_src);
-		var move_to_cont = jQuery('#connect_gallery_photos_cont .in_gallery_photos_cont');
-		move_to_cont.append(new_div).scrollTop(move_to_cont.prop("scrollHeight"));
-		to_delete.remove();
-
-
-		// hide the help message for in gallery photos
-		jQuery('#connect_gallery_photos_cont .in_gallery_main_cont .empty_help_content').hide();
-
-
-		jQuery.ajax({
-			type: 'post',
-			url: '/admin/photo_galleries/ajax_movephoto_into_gallery/'+photo_id+'/<?php //echo $gallery_id; ?>/',
-			data: {},
-			success: function(data) {
-				if (data.code == 1) {
-					// its all good
-					setup_remove_from_gallery_buttons(jQuery('.remove_from_gallery_button', new_div));
-
-					// check to see if the website photos needs a help message
-					if (element_is_empty('endless_scroll_div')) {
-						jQuery('#connect_gallery_photos_cont .not_in_gallery_main_cont .empty_help_content').show();
-					}
-
-					// check to see if need an endless scroll fire because of lack of images
-					var in_gallery_photos_cont = jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont');
-					var scrollHeight = in_gallery_photos_cont.prop("scrollHeight");
-					var height = in_gallery_photos_cont.height();
-					if (cease_fire == false && scrollHeight <= height) {
-						do_endless_scroll_callback();
-					}
-				} else {
-					new_div.remove();
-					jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont').prepend(to_delete);
-					// check to see if the help message should now be shown
-					if (element_is_empty('in_gallery_photos_cont')) {
-						jQuery('#connect_gallery_photos_cont .in_gallery_main_cont .empty_help_content').show();
-					}
-					major_error_recover(data.message);
+	$scope.add_photo_to_gallery = function(photo) {
+		$scope.helpers.removeItem($scope.open_gallery_not_connected_photos, photo);
+		var add_photo_data = {
+			photo_id: photo.Photo.id,
+			gallery_id: $scope.last_open_gallery_id,
+			gallery_icon_size: $scope.open_gallery_image_size
+		};
+		PhotoGalleries.add_photo(add_photo_data, 
+			function(result) {
+				if (result.code > 0) {
+					$scope.open_gallery_connected_photos.push(result.data);
 				}
-			},
-			complete: function() {
-				gallery_add_limit--;
-				hide_universal_save();
-				when_finished_timeout.run_now();
-			},
-			error: function () {
-			},
-			dataType: 'json'
-		});*/
+			}
+		);
+	};
+	
+	$scope.remove_all_photos_from_gallery = function() {
+		$scope.open_gallery_connected_photos = [];
+		var remove_photo_data = {
+			gallery_id: $scope.last_open_gallery_id
+		};
+		PhotoGalleries.remove_photo(remove_photo_data, 
+			function(result) {
+				if (result.code > 0) { /* delete worked */ }
+			}
+		);
+	};
+	
+	$scope.refresh_not_in_gallery_photos = function() {
+		$scope.open_gallery_not_connected_photos = null;
+		$scope.view_gallery($scope.last_open_gallery_id);
+	};
+	
+	$scope.remove_photo_from_gallery = function(photo_galleries_photo) {
+		$scope.helpers.removeItem($scope.open_gallery_connected_photos, photo_galleries_photo);
+		
+		var remove_photo_data = {
+			photo_id: photo_galleries_photo.PhotoGalleriesPhoto.photo_id,
+			gallery_id: $scope.last_open_gallery_id
+		};
+		PhotoGalleries.remove_photo(remove_photo_data, 
+			function(result) {
+				if (result.code > 0) { /* delete worked */ }
+			}
+		);
 	};
 	
 
@@ -297,7 +267,7 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 	};
 
 
-	$scope.sortableOptions = {
+	$scope.gallerySortableOptions = {
 		items : '> tbody > tr.sortable',
 		handle : '.reorder_gallery_grabber',
 		update : function(event, ui) {
@@ -308,45 +278,44 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 			var photoGalleryId = jQuery(ui.item).attr('gallery_id');
 			var newPosition = position_of_element_among_siblings(jQuery("#photo_gallery_list table.list > tbody > tr.sortable"), jQuery(ui.item));
 
-			jQuery.ajax({
-				type: 'post',
-				url: '/admin/photo_galleries/ajax_set_photogallery_order/'+photoGalleryId+'/'+newPosition+'/',
-				data: {},
-				success: function(data) {
-					// remove the element from the old scope position
-					var element_to_move;
-					for (var x in $scope.photo_galleries) {
-						if (typeof $scope.photo_galleries[x].PhotoGallery == 'object') {
-							if ($scope.photo_galleries[x].PhotoGallery.id == photoGalleryId) {
-								element_to_move = $scope.photo_galleries.splice(x, 1);
-								break;
-							}
-						}
-					}
-					
-					// add element to the new scope position
-					var count = 1;
-					for (var x in $scope.photo_galleries) {
-						if (count == newPosition) {
-							$scope.photo_galleries.splice(count - 1, 0, element_to_move[0]);
-							break;
-						}
-						count++;
-					}
-					
-					
-					if (data.code != 1) {
-						// TODO - maybe revert the draggable back to its start position here
-						
-					}
-				}, 
-				complete: function() {
+			var reorder_gallery_data = {
+				gallery_id: photoGalleryId,
+				new_order: newPosition
+			};
+			PhotoGalleries.reorder_gallery(reorder_gallery_data, 
+				function(result) {
+					$scope.helpers.refreshScopeAfterReorder($scope.photo_galleries, 'PhotoGallery', photoGalleryId, newPosition);
 					jQuery(context).sortable('enable');
-				},
-				dataType: 'json'
-			});
+				}
+			);
 		}
 	};
+	
+	
+	$scope.inGalleryPhotosSortableOptions = {
+		items : '.connect_photo_container',
+		handle : '.order_in_gallery_button',
+		tolerance: 'pointer',
+		containment: 'parent',
+		scrollSensitivity: 60,
+		stop : function(event, ui) {
+			show_universal_save();
+			var context = this;
+			jQuery(context).sortable('disable');
+//			var new_index = position_of_element_among_siblings(jQuery('#in_gallery_photos_cont .connect_photo_container'), jQuery(ui.item));
+			PhotoGalleries.reorder_photo({
+					gallery_id: $scope.last_open_gallery_id,
+					photo_id: jQuery(ui.item).attr('photo_id'),
+					new_order: (ui.item.index() + 1)
+				}, 
+				function(result) {
+					jQuery(context).sortable('enable');
+					hide_universal_save();
+				}
+			);
+		}
+	};
+	
 	
 	// load the galleries list for left column
 	PhotoGalleries.index().$promise.then(function(photo_galleries) {
