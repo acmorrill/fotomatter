@@ -543,7 +543,7 @@ class Photo extends AppModel {
 		session_write_close();
 
 		// disable cache saying we are at 0 percent
-		// $this->disable_photo_cache(0);
+		$this->disable_photo_cache(0);
 
 		// If using a 2 level menu, ONLY get galleries that are in the menu
 		$where = 'WHERE';
@@ -565,10 +565,10 @@ class Photo extends AppModel {
 		foreach ($photos as $i=>$photo) {
 			$this->create_default_photo_caches($theme_cache_sizes, $photo['photo_galleries_photos']['photo_id']);
 			// update apc entry to show current percent
-			// $this->disable_photo_cache(intval(($i+1)/count($photos)*100));
+			$this->disable_photo_cache(intval(($i+1)/count($photos)*100));
 		}
 		$this->invalidate_and_clear_view_cache();
-		//$this->enable_photo_cache();
+		$this->enable_photo_cache();
 	}
 
 	// a function to efficiently add photo format to a list of photos (without a bunch of extra queries)
