@@ -32,7 +32,7 @@ if (!isset($hide_current)) {
 				jQuery.ajax({
 					type : 'post',
 					url : '<?php echo $change_theme_action; ?>',
-					data : {'data[new_theme_id]':switch_to_theme_id},
+					data : {data:{'new_theme_id':switch_to_theme_id}},
 					success : function () {
 						jQuery('.current').removeClass('current');
 						$this.closest('.theme_item_container').addClass('current');
@@ -51,29 +51,28 @@ if (!isset($hide_current)) {
 					},
 					timeout: 1000 * 60 * 3
 				});
-				setTimeout(progress, 1000);
+				setTimeout(progress, 1000, switch_to_theme_id);
 			});
 
-			function progress() {
+			function progress(switch_to_theme_id) {
 				if (in_callback) {
-					jQuery('#modal_progressbar').progressbar("option", "value", Math.random()*100 );
-					setTimeout(progress, 1000);
-					/*
 					jQuery.ajax({
-						type : 'post',
-						url : '',
-						// include date : theme_id??
+						type : 'get',
+						dataType: "json",
+						url : '/admin/theme_centers/ajax_get_choose_theme_progress',
+						data : {data:{'new_theme_id]':switch_to_theme_id}},
 						success : function (data) {
 							// update the progress bar value
-							jQuery('#modal_progressbar').progressbar("option", "value", Math.random()*100 );
+							if (typeof data['progress'] !== 'undefined') {
+								jQuery('#modal_progressbar').progressbar("option", "value", data['progress']);
+							}
 						},
 						complete : function () {
 							// recall self after 1 second delay
-							setTimeout(progress, 1000);
+							setTimeout(progress, 1000, switch_to_theme_id);
 						},
-						timeout: 1000
+						timeout: 10000
 					});
-					*/
 				}
 			}
 
@@ -164,13 +163,8 @@ if (!isset($hide_current)) {
 											</td>	
 											<td class="choose_theme_button">
 												<div type="submit" value="" ><div class="content icon-Success-01">&nbsp;</div></div>
-												<form id="choose_theme_<?php echo $curr_theme['Theme']['id']; ?>_form" action="<?php echo $change_theme_action; ?>" method="POST">
-													<input type="hidden" name="data[new_theme_id]" value="<?php echo $curr_theme['Theme']['id']; ?>" />
-												</form>
-												<div class="usable_form" action="<?php echo $this->here; ?>" method="post">
-													<div class="button_switch_theme add_button" data-current-theme-id="<?php echo $curr_theme['Theme']['id']; ?>" <?php echo $select_help; ?>>
-														<div class="content"><?php echo __('Switch To Theme', true); ?></div>
-													</div>
+												<div class="button_switch_theme add_button" data-current-theme-id="<?php echo $curr_theme['Theme']['id']; ?>" <?php echo $select_help; ?>>
+													<div class="content"><?php echo __('Switch To Theme', true); ?></div>
 												</div>
 												<div class="custom_progress">
 													<div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
