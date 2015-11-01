@@ -538,16 +538,37 @@ class Photo extends AppModel {
 		}
 	}
 
-	public function create_theme_photo_caches() {
-		$query = "SELECT DISTINCT `photo_id` FROM `photo_galleries_photos` WHERE `photo_order` < 30 LIMIT 500";
+	public function create_theme_photo_caches($theme_config) {
+		// keeps the test environment from waiting to finish this before starting other calls
+		session_write_close();
+
+		// disable cache saying we are at 0 percent
+		$this->disable_photo_cache(0);
+
+		// If using a 2 level menu, ONLY get galleries that are in the menu
+		$where = 'WHERE';
+		if (!empty($theme_config[admin_config][main_menu][levels]) && $theme_config[admin_config][main_menu][levels] == 2) {
+			$galleries = "SELECT DISTINCT `external_id` FROM (SELECT `external_id` FROM `site_two_level_menu_container_items` WHERE `external_model` = 'PhotoGallery' UNION SELECT `external_id` FROM `site_two_level_menus` WHERE `external_model` = 'PhotoGallery') AS temp";
+			$where .= " `photo_gallery_id` IN ($galleries) AND";
+		}
+
+		//get photos that need to be cached
+		$gallery_limit = 30;
+		$limit = 500;
+		$query = "SELECT `photo_id`, min(`photo_order`) as `photo_order` FROM `photo_galleries_photos` $where `photo_order` <= $gallery_limit GROUP BY `photo_id` ORDER BY `photo_order` LIMIT $limit";
 		$photos = $this->query($query);
 
+		// get theme cache sizes
 		$this->ThemePrebuildCacheSize = Classregistry::init('ThemePrebuildCacheSize');
 		$theme_cache_sizes = $this->ThemePrebuildCacheSize->get_prebuild_cache_sizes_current_theme();
 
-		foreach ($photos as $photo) {
+		foreach ($photos as $i=>$photo) {
 			$this->create_default_photo_caches($theme_cache_sizes, $photo['photo_galleries_photos']['photo_id']);
+			// update apc entry to show current percent
+			$this->disable_photo_cache(intval(($i+1)/count($photos)*100));
 		}
+		$this->invalidate_and_clear_view_cache();
+		$this->enable_photo_cache();
 	}
 
 	// a function to efficiently add photo format to a list of photos (without a bunch of extra queries)

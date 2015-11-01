@@ -319,7 +319,15 @@ class AppModel extends LazyModel { // a change - even more change
 	
 	public function disable_photo_cache($percent_done) {
 		$apc_key = $this->get_photo_cache_disabled_key();
-		apc_store($apc_key, $percent_done, 600);
+		if ($percent_done < 0) {
+			apc_store($apc_key, 0, 600);
+			$this->major_error("photo_cache percent $percent_done out of range", $percent_done);
+		} else if ($percent_done > 100) {
+			apc_store($apc_key, 100, 600);
+			$this->major_error("photo_cache percent $percent_done out of range", $percent_done);
+		} else {
+			apc_store($apc_key, $percent_done, 600);
+		}
 	}
 	
 	public function enable_photo_cache() {

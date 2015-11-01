@@ -5038,17 +5038,17 @@ body {
   opacity: 1;
   border: 2px solid #2ac0de;
 }
-#theme_chooser_container .theme_item_container.current .usable_form {
+#theme_chooser_container .theme_item_container.current .button_switch_theme {
   display: none;
 }
 #theme_chooser_container .theme_item_container.switching .custom_progress {
   display: block;
   height: 44px;
 }
-#theme_chooser_container .theme_item_container.switching .usable_form {
+#theme_chooser_container .theme_item_container.switching .button_switch_theme {
   display: none;
 }
-#theme_chooser_container .theme_item_container .usable_form {
+#theme_chooser_container .theme_item_container .button_switch_theme {
   height: 44px;
 }
 #theme_chooser_container .theme_item_container .custom_progress {
