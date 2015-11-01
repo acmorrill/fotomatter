@@ -499,7 +499,7 @@ class Photo extends AppModel {
 
 			$photoCache = $this->PhotoCache->cache_size_exists($photo_id, $curr_data['max_width'], $curr_data['max_height'], $curr_data['crop'], $curr_data['unsharp']);
 			if (!$photoCache) {
-				$unsharp_amount = null;
+				$unsharp_amount = 0;
 				if (!empty($curr_data['unsharp'])) {
 					$unsharp_amount = $curr_data['unsharp'];
 				}
@@ -512,7 +512,6 @@ class Photo extends AppModel {
 					$curr_data['crop'] = true;
 				}
 				$photo_cache_id = $this->PhotoCache->prepare_new_cachesize($photo_id, $curr_data['max_height'], $curr_data['max_width'], true, $unsharp_amount, false, $curr_data['crop']);
-				//prepare_new_cachesize($photo_id, $height, $width, $raw_id = false, $unsharp_amount = null, $return_tag_attributes = false, $crop = false)
 			} else {
 				$releaseLock = $this->release_lock($lock_name);
 				continue;
@@ -592,7 +591,7 @@ class Photo extends AppModel {
 		return $this->PhotoCache->get_dummy_error_image_path($height, $width, $direct_output, $return_tag_attributes, $crop);
 	}
 
-	public function get_photo_path($photo_id, $height, $width, $unsharp_amount = null, $return_tag_attributes = false, $crop = false) {
+	public function get_photo_path($photo_id, $height, $width, $unsharp_amount = 0, $return_tag_attributes = false, $crop = false) {
 		if ($height <= 0 || $width <= 0) {
 			$this->major_error('Called get photo path like a moron', compact('width', 'height'));
 			return $this->PhotoCache->get_dummy_error_image_path($height, $width, false, $return_tag_attributes, $crop);
@@ -631,7 +630,7 @@ class Photo extends AppModel {
 		}
 
 
-		$photoCache = $this->PhotoCache->cache_size_exists($photo_id, $width, $height, $crop);
+		$photoCache = $this->PhotoCache->cache_size_exists($photo_id, $width, $height, $crop, $unsharp_amount);
 		$return_url = '';
 		if (!empty($photoCache)) {
 			if ($photoCache['PhotoCache']['status'] == 'ready') {
@@ -647,7 +646,7 @@ class Photo extends AppModel {
 				}
 
 				// grab again after lock - to make sure we are not conflicting
-				$photoCache = $this->PhotoCache->cache_size_exists($photo_id, $width, $height, $crop);
+				$photoCache = $this->PhotoCache->cache_size_exists($photo_id, $width, $height, $crop, $unsharp_amount);
 
 				if ($photoCache['PhotoCache']['status'] == 'queued') {
 					if ($this->PhotoCache->is_photo_cache_disabled() === true) {
@@ -672,7 +671,7 @@ class Photo extends AppModel {
 					return $this->PhotoCache->get_dummy_processing_image_path($height, $width, false, $return_tag_attributes, $crop);
 				}
 				// grab again after lock - to make sure we are not conflicting
-				$photoCache = $this->PhotoCache->cache_size_exists($photo_id, $width, $height, $crop);
+				$photoCache = $this->PhotoCache->cache_size_exists($photo_id, $width, $height, $crop, $unsharp_amount);
 				if (empty($photoCache)) {
 					$return_url = $this->PhotoCache->prepare_new_cachesize($photo_id, $height, $width, false, $unsharp_amount, $return_tag_attributes, $crop);
 				} else {

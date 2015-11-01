@@ -167,7 +167,7 @@ class PhotoCache extends AppModel {
 		}
 	}
 	
-	public function prepare_new_cachesize($photo_id, $height, $width, $raw_id = false, $unsharp_amount = null, $return_tag_attributes = false, $crop = false) {
+	public function prepare_new_cachesize($photo_id, $height, $width, $raw_id = false, $unsharp_amount = 0, $return_tag_attributes = false, $crop = false) {
 		$data['PhotoCache']['photo_id'] = $photo_id;
 		$data['PhotoCache']['max_height'] = $height;
 		$data['PhotoCache']['max_width'] = $width;
@@ -425,7 +425,7 @@ class PhotoCache extends AppModel {
 			$crop_str = ($photoCache['PhotoCache']['crop'] == '1') ? 'crop' : 'nocrop';
 			$cache_image_name = $cache_prefix.$max_height_display.'x'.$max_width_display."_".$crop_str."_".$photoCache['Photo']['cdn-filename'];
 			$new_cache_image_path = TEMP_IMAGE_PATH.DS.$cache_image_name;
-			$unsharp_amount = null;
+			$unsharp_amount = 0;
 			if (isset($photoCache['PhotoCache']['unsharp_amount'])) {
 				$unsharp_amount = $photoCache['PhotoCache']['unsharp_amount'];
 			}
