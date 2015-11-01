@@ -33,7 +33,7 @@
 } ?>
 
 
-<div id="sub-nav" class=" <?php if (isset($curr_page)) { echo $curr_page; } ?>" <?php echo $help_step; ?> >
+<div class="sub-nav <?php if (isset($curr_page)) { echo $curr_page; } ?>" <?php echo $help_step; ?> >
 	<ul>
 		<?php /*
 		<li class="title" id="title-description">

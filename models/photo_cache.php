@@ -509,6 +509,23 @@ class PhotoCache extends AppModel {
 		}
 	}
 	
+	public function cache_size_exists($photo_id, $width, $height, $crop, $unsharp = '.4') {
+		$conditions = array(
+			'PhotoCache.photo_id' => $photo_id,
+			'PhotoCache.max_height' => $height,
+			'PhotoCache.max_width' => $width,
+			'PhotoCache.crop' => ($crop === true) ? 1 : 0,
+			'PhotoCache.unsharp_amount' => $unsharp
+		);
+
+		$photoCache = $this->find('first', array(
+			'conditions' => $conditions,
+			'contain' => false
+		));
+		
+		return $photoCache;
+	}
+	
 	private function get_cloud_file() {
 		if (!isset($this->CloudFiles)) {
 			App::import('Component','CloudFiles');

@@ -574,6 +574,18 @@ class Photo extends AppModel {
 		}
 	}
 
+	public function create_theme_photo_caches() {
+		$query = "SELECT DISTINCT `photo_id` FROM `photo_galleries_photos` WHERE `photo_order` < 30 LIMIT 500";
+		$photos = $this->query($query);
+
+		$this->ThemePrebuildCacheSize = Classregistry::init('ThemePrebuildCacheSize');
+		$theme_cache_sizes = $this->ThemePrebuildCacheSize->get_prebuild_cache_sizes_current_theme();
+
+		foreach ($photos as $photo) {
+			$this->create_default_photo_caches($theme_cache_sizes, $photo['photo_galleries_photos']['photo_id']);
+		}
+	}
+
 	// a function to efficiently add photo format to a list of photos (without a bunch of extra queries)
 	public function add_photo_format(&$photos) {
 		$format_apc_key = 'format_apc_key';
@@ -646,21 +658,9 @@ class Photo extends AppModel {
 		}
 
 
-		$conditions = array(
-			'PhotoCache.photo_id' => $photo_id,
-			'PhotoCache.max_height' => $height,
-			'PhotoCache.max_width' => $width,
-			'PhotoCache.crop' => ($crop === true) ? 1 : 0,
-		);
-
-
-		$photoCache = $this->PhotoCache->find('first', array(
-			'conditions' => $conditions,
-			'contain' => false
-		));
+		$photoCache = $this->PhotoCache->cache_size_exists($photo_id, $width, $height, $crop);
 		$return_url = '';
 		if (!empty($photoCache)) {
-			
 			if ($photoCache['PhotoCache']['status'] == 'ready') {
 				$return_url = $this->PhotoCache->get_full_path($photoCache['PhotoCache']['id'], $return_tag_attributes);
 			} else if ($photoCache['PhotoCache']['status'] == 'processing') {
@@ -674,15 +674,16 @@ class Photo extends AppModel {
 				}
 
 				// grab again after lock - to make sure we are not conflicting
-				$photoCache = $this->PhotoCache->find('first', array(
-					'conditions' => $conditions,
-					'contain' => false
-				));
+				$photoCache = $this->PhotoCache->cache_size_exists($photo_id, $width, $height, $crop);
 
 				if ($photoCache['PhotoCache']['status'] == 'queued') {
-					// TODO - maybe return the prepare path if the status is queued and some time has passed
-					// I don't think I need to do the TODO now that I've added locking to the finish create cache and this helper
-					$return_url = $this->PhotoCache->get_existing_cache_create_url($photoCache['PhotoCache']['id'], $return_tag_attributes);
+					if ($this->PhotoCache->is_photo_cache_disabled() === true) {
+						$return_url = $this->PhotoCache->get_dummy_processing_image_path($height, $width, false, $return_tag_attributes, $crop);
+					} else {
+						// TODO - maybe return the prepare path if the status is queued and some time has passed
+						// I don't think I need to do the TODO now that I've added locking to the finish create cache and this helper
+						$return_url = $this->PhotoCache->get_existing_cache_create_url($photoCache['PhotoCache']['id'], $return_tag_attributes);
+					}
 				} else {
 					$return_url = $this->PhotoCache->get_dummy_error_image_path($height, $width, false, $return_tag_attributes, $crop);
 				}
@@ -690,22 +691,23 @@ class Photo extends AppModel {
 				$releaseLock = $this->release_lock("finish_create_cache_" . $photoCache['PhotoCache']['id'] . "_" . $_SERVER['local']['database']);
 			}
 		} else {
-			$initLocked = $this->get_lock("start_create_cache_" . $photo_id . "_" . $_SERVER['local']['database'], 8);
-			if ($initLocked === false) {
-				return $this->PhotoCache->get_dummy_processing_image_path($height, $width, false, $return_tag_attributes, $crop);
-			}
-			// grab again after lock - to make sure we are not conflicting
-			$photoCache = $this->PhotoCache->find('first', array(
-				'conditions' => $conditions,
-				'contain' => false
-			));
-			if (empty($photoCache)) {
-				$return_url = $this->PhotoCache->prepare_new_cachesize($photo_id, $height, $width, false, $unsharp_amount, $return_tag_attributes, $crop);
+			if ($this->PhotoCache->is_photo_cache_disabled() === true) {
+				$return_url = $this->PhotoCache->get_dummy_processing_image_path($height, $width, false, $return_tag_attributes, $crop);
 			} else {
-				$return_url = $this->PhotoCache->get_dummy_error_image_path($height, $width, false, $return_tag_attributes, $crop);
-			}
+				$initLocked = $this->get_lock("start_create_cache_" . $photo_id . "_" . $_SERVER['local']['database'], 8);
+				if ($initLocked === false) {
+					return $this->PhotoCache->get_dummy_processing_image_path($height, $width, false, $return_tag_attributes, $crop);
+				}
+				// grab again after lock - to make sure we are not conflicting
+				$photoCache = $this->PhotoCache->cache_size_exists($photo_id, $width, $height, $crop);
+				if (empty($photoCache)) {
+					$return_url = $this->PhotoCache->prepare_new_cachesize($photo_id, $height, $width, false, $unsharp_amount, $return_tag_attributes, $crop);
+				} else {
+					$return_url = $this->PhotoCache->get_dummy_error_image_path($height, $width, false, $return_tag_attributes, $crop);
+				}
 
-			$releaseLock = $this->release_lock("start_create_cache_" . $photo_id . "_" . $_SERVER['local']['database']);
+				$releaseLock = $this->release_lock("start_create_cache_" . $photo_id . "_" . $_SERVER['local']['database']);
+			}
 		}
 
 		$return_url = preg_replace('/\s+/', '', $return_url);
@@ -719,6 +721,32 @@ class Photo extends AppModel {
 		}
 
 		return $return_url;
+	}
+	
+	public function get_admin_photo_icon_size($not_in_gallery_icon_size) {
+		// figure out icon sizes
+		$height = 110;
+		$width = 110;
+		$class = 'medium_icon_size';
+		if ($not_in_gallery_icon_size == 'small') {
+			$height = 60;
+			$width = 60;
+			$class = 'small_icon_size';
+		} else if ($not_in_gallery_icon_size == 'medium') {
+			$height = 110;
+			$width = 110;
+			$class = 'medium_icon_size';
+		} else if ($not_in_gallery_icon_size == 'large') {
+			$height = 155;
+			$width = 155;
+			$class = 'large_icon_size';
+		}
+
+		return array(
+			'height' => $height,
+			'width' => $width,
+			'class' => $class,
+		);
 	}
 
 	public function get_full_path($id) {

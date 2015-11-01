@@ -1,7 +1,7 @@
 <script type="text/javascript">
 	jQuery(document).ready(function() {
 		jQuery('#mobile_navigation_open').click(function() {
-			jQuery('#sub-nav, #extra_buttons, #top-navigation ul.menu').toggle();
+//			jQuery('#sub-nav, #extra_buttons, #top-navigation ul.menu').toggle(); // DREW TODO - change this on mobile
 		});
 	});
 </script>
