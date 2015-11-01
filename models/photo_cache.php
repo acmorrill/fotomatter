@@ -509,7 +509,7 @@ class PhotoCache extends AppModel {
 		}
 	}
 	
-	public function cache_size_exists($photo_id, $width, $height, $crop, $unsharp = '.4') {
+	public function cache_size_exists($photo_id, $width, $height, $crop, $unsharp) {
 		$conditions = array(
 			'PhotoCache.photo_id' => $photo_id,
 			'PhotoCache.max_height' => $height,
@@ -535,7 +535,7 @@ class PhotoCache extends AppModel {
 		return $this->CloudFiles;
 	}
 	
-	public function convert($old_image_url, $new_image_path, $max_width, $max_height, $enlarge = true, $unsharp_amount = null, $crop = false) {
+	public function convert($old_image_url, $new_image_path, $max_width, $max_height, $enlarge = true, $unsharp_amount = 0, $crop = false) {
 		/*App::import('Component', 'ImageVersion');
 		$email = new ImageVersionComponent();
 		$email->startup($controller);
@@ -591,7 +591,7 @@ class PhotoCache extends AppModel {
 		}
 		
 		$unsharp = '';
-		if (isset($unsharp_amount)) {
+		if (!empty($unsharp_amount)) {
 			$unsharp = "-unsharp 0x$unsharp_amount";
 		}
 		
