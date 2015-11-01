@@ -496,20 +496,8 @@ class Photo extends AppModel {
 				continue;
 			}
 
-			$conditions = array(
-				'PhotoCache.photo_id' => $photo_id,
-				'PhotoCache.max_height' => $curr_data['max_height'],
-				'PhotoCache.max_width' => $curr_data['max_width'],
-				'PhotoCache.crop' => $curr_data['crop'],
-			);
-			if (!empty($curr_data['unsharp'])) {
-				$conditions['PhotoCache.unsharp_amount'] = $curr_data['unsharp'];
-			}
 
-			$photoCache = $this->PhotoCache->find('first', array(
-				'conditions' => $conditions,
-				'contain' => false
-			));
+			$photoCache = $this->PhotoCache->cache_size_exists($photo_id, $curr_data['max_width'], $curr_data['max_height'], $curr_data['crop'], $curr_data['unsharp']);
 			if (!$photoCache) {
 				$unsharp_amount = null;
 				if (!empty($curr_data['unsharp'])) {
