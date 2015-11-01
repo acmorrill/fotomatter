@@ -160,7 +160,7 @@ class PhotoGalleriesController extends AppController {
 		$this->return_json($photo_galleries);
 	}
 	
-	public function admin_view($gallery_id, $gallery_icon_size = 'medium', $order_by = 'modified', $sort_dir = 'desc', $photo_formats = null, $photos_not_in_a_gallery = false, $last_photo_id = 0) {
+	public function admin_view($gallery_id, $gallery_icon_size = 'medium', $order_by = 'modified', $sort_dir = 'desc', $photos_not_in_a_gallery = false, $last_photo_id = 0, $photo_formats = null) {
 		$gallery_query = "
 			SELECT 
 				PhotoGallery.id, PhotoGallery.weight, PhotoGallery.type, PhotoGallery.display_name, PhotoGallery.description, PhotoGallery.created, (SELECT count(*) FROM photo_galleries_photos WHERE photo_gallery_id = PhotoGallery.id) as photos_count
@@ -234,9 +234,7 @@ class PhotoGalleriesController extends AppController {
 		 * figure out filter conditions
 		 */
 		if (!empty($photo_formats)) {
-			// DREW TODO - change the way this works
-//			$photo_formats = $this->PhotoFormat->get_photo_formats();
-			$conditions['PhotoFormat.id'] = explode('|', $photo_formats);
+			$conditions['PhotoFormat.id'] = $this->PhotoFormat->get_photo_format_ids_by_ref_names(explode('|', $photo_formats));
 		}
 		if ($photos_not_in_a_gallery === 'true') {
 			$query = 'SELECT photos.id FROM photos

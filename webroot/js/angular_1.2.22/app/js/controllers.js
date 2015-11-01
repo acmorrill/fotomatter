@@ -107,11 +107,10 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 	$scope.photo_galleries = [];
 	$scope.open_gallery = null;	
 	$scope.open_gallery_connected_photos = null;	
+	$scope.open_gallery_not_connected_photos = null;
 
 
 	$scope.initGallery = function() {
-		console.log($cookies.getAll());
-		
 		$scope.open_gallery_not_connected_order_by = 'modified';
 		$scope.open_gallery_not_connected_sort_dir = $cookies.get('open_gallery_not_connected_sort_dir');
 		if (typeof $scope.open_gallery_not_connected_sort_dir == 'undefined') { 
@@ -126,15 +125,20 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 		}
 		
 		$scope.flat_formats_str = $cookies.get('flat_formats_str');
+		$scope.open_gallery_photo_formats = {
+			'landscape': false,
+			'portrait': false,
+			'square': false,
+			'panoramic': false,
+			'vertical_panoramic': false
+		}; 
 		if (typeof $scope.flat_formats_str == 'undefined' || $scope.flat_formats_str == "") { 
-			$scope.open_gallery_photo_formats = {
-				'landscape': false,
-				'portrait': false,
-				'square': false,
-				'panoramic': false,
-				'vertical_panoramic': false
-			}; 
 			$scope.flat_formats_str = "";
+		} else {
+			var file_formats_arr = $scope.flat_formats_str.split('|');
+			for(var for_index in file_formats_arr) {
+				$scope.open_gallery_photo_formats[file_formats_arr[for_index]] = true;
+			}
 		}
 		
 		jQuery(function() {
@@ -166,9 +170,8 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 		$cookies.put('open_gallery_photos_not_in_gallery', $scope.open_gallery_photos_not_in_gallery);
 		$cookies.put('flat_formats_str', $scope.flat_formats_str);
 		
-			
-			
-			
+		$scope.open_gallery_not_connected_photos = null;
+		$scope.view_gallery($scope.last_open_gallery_id);
 	};
 	
 	$scope.change_image_size = function(new_size_str) {
@@ -188,7 +191,12 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 		
 		var view_gallery = {
 			id: photo_gallery_id,
-			gallery_icon_size: $scope.open_gallery_image_size
+			gallery_icon_size: $scope.open_gallery_image_size,
+			order_by: $scope.open_gallery_not_connected_order_by,
+			sort_dir: $scope.open_gallery_not_connected_sort_dir,
+			photos_not_in_a_gallery: $scope.open_gallery_photos_not_in_gallery,
+			last_photo_id: 0,
+			photo_formats: $scope.flat_formats_str
 		};
 		var d = $q.defer();
 		PhotoGalleries.view(view_gallery, 
