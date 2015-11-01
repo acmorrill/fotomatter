@@ -286,4 +286,45 @@ class AppModel extends LazyModel { // a change - even more change
 		return "fmapp_lock_$lock_name";
 	}
 	
+	public function get_website_disabled_key() {
+		return "disabled_site_{$_SERVER['local']['database']}";
+	}
+	
+	public function disable_website() {
+		$apc_key = $this->get_website_disabled_key();
+		apc_store($apc_key, true, 600);
+	}
+	
+	public function enable_website() {
+		$apc_key = $this->get_website_disabled_key();
+		apc_delete($apc_key);
+	}
+	
+	public function get_photo_cache_disabled_key() {
+		return "disabled_photo_cache_{$_SERVER['local']['database']}";
+	}
+	
+	public function is_photo_cache_disabled() {
+		$apc_key = $this->get_photo_cache_disabled_key();
+		return apc_exists($apc_key);
+	}
+	
+	public function get_disabled_photo_cache_percent() {
+		$apc_key = $this->get_photo_cache_disabled_key();
+		if (apc_exists($apc_key) === false) {
+			return false;
+		}
+		return apc_fetch($apc_key);
+	}
+	
+	public function disable_photo_cache($percent_done) {
+		$apc_key = $this->get_photo_cache_disabled_key();
+		apc_store($apc_key, $percent_done, 600);
+	}
+	
+	public function enable_photo_cache() {
+		$apc_key = $this->get_photo_cache_disabled_key();
+		apc_delete($apc_key);
+	}
+	
 }
