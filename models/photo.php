@@ -528,6 +528,8 @@ class Photo extends AppModel {
 	public function create_theme_photo_caches($theme_config) {
 		// keeps the test environment from waiting to finish this before starting other calls
 		session_write_close();
+		ignore_user_abort(true);
+		set_time_limit(0);
 
 		// disable cache saying we are at 0 percent
 		$this->disable_photo_cache(0);
@@ -549,10 +551,16 @@ class Photo extends AppModel {
 		$this->ThemePrebuildCacheSize = Classregistry::init('ThemePrebuildCacheSize');
 		$theme_cache_sizes = $this->ThemePrebuildCacheSize->get_prebuild_cache_sizes_current_theme();
 
+		$minute_limit = 15;
+		$time_start = new DateTime();
 		foreach ($photos as $i=>$photo) {
 			$this->create_default_photo_caches($theme_cache_sizes, $photo['photo_galleries_photos']['photo_id']);
 			// update apc entry to show current percent
 			$this->disable_photo_cache(intval(($i+1)/count($photos)*100));
+			$time_since = $time_start->diff(new DateTime());
+			if ($time_since->i >= $minute_limit) {
+				break;
+			}
 		}
 		$this->invalidate_and_clear_view_cache();
 		$this->enable_photo_cache();
