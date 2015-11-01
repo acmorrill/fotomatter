@@ -285,6 +285,7 @@ class PhotoGalleriesController extends AppController {
 				$not_connected_photo['Photo']['photo_cache_class'] = $class;
 			}
 		}
+		$not_connected_photos = Set::combine($not_connected_photos, '{n}.Photo.id', '{n}');
 		
 		
 		$this->return_json(array(
