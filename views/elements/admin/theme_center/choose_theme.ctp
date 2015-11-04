@@ -18,6 +18,21 @@ if (!isset($hide_current)) {
 	<script type="text/javascript">
 		var in_callback = false;
 		jQuery(document).ready(function() {
+			jQuery('#progress_dialog').dialog({
+				autoOpen: false,
+				closeOnEscape: false,
+				draggable: false,
+				dialogClass: "wide_dialog",
+				title: "<?php echo __('Switching Theme', true); ?>",
+				modal: true,
+				resizable: false,
+				minHeight: 200,
+				create: function(event, ui) {
+					$(".ui-dialog-titlebar-close", ui.dialog).hide();
+				}
+			});
+			jQuery('.ui-dialog').append("<div class='ui-dialog-progresspane'><div id='modal_progressbar' class='custom_progress'><div class='progress' role='progressbar' aria-valuemin='0' aria-valuemax='100'></div></div></div>");
+
 			jQuery('.button_switch_theme').click(function() {
 				if (in_callback === true) {
 					return;
@@ -51,7 +66,7 @@ if (!isset($hide_current)) {
 					},
 					timeout: 1000 * 60 * 3
 				});
-				setTimeout(progress, 1000, switch_to_theme_id);
+				setTimeout(progress, 2000, switch_to_theme_id);
 			});
 
 			function progress(switch_to_theme_id) {
@@ -78,20 +93,6 @@ if (!isset($hide_current)) {
 
 			jQuery('.custom_progress').progressbar({
 				value: false
-			});
-
-			jQuery('#progress_dialog').dialog({
-				autoOpen: false,
-				closeOnEscape: false,
-				draggable: false,
-				dialogClass: "wide_dialog",
-				title: "<?php echo __('Switching Theme', true); ?>",
-				modal: true,
-				resizable: false,
-				minHeight: 200,
-				create: function(event, ui) {
-					$(".ui-dialog-titlebar-close", ui.dialog).hide();
-				}
 			});
 		});
 	</script>
@@ -180,11 +181,8 @@ if (!isset($hide_current)) {
 		<?php $count++; endforeach; ?>
 		<div id="progress_dialog">
 			Preparing image caches for the new theme. This may take a long time if you haven't used a theme recently.
-			<div id = "modal_progressbar" class="custom_progress">
-				<div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
-			</div>
 		</div>
 	</div>
-	
+
 	
 
