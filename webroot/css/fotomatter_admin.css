@@ -6299,6 +6299,10 @@ a.editable-empty :focus {
   position: relative;
   display: inline-block;
 }
+#connect_gallery_photos_cont .in_gallery_main_cont .connect_photo_container .tr .image_content_cont > img,
+#connect_gallery_photos_cont .not_in_gallery_main_cont .connect_photo_container .tr .image_content_cont > img {
+  background-color: #3d3e3f;
+}
 #connect_gallery_photos_cont .in_gallery_main_cont .image_container_header,
 #connect_gallery_photos_cont .not_in_gallery_main_cont .image_container_header {
   background: #2e3031;
