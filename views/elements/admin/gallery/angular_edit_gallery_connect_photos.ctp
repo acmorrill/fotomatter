@@ -518,7 +518,7 @@ $(function() {
 		<div class="in_gallery_main_cont" data-step="6" data-intro="<?php echo __('Change the order you’d like your images to appear on your site by dragging the arrows on the image and moving the photo. To remove the photo from the gallery (but not from uploaded photos), simply click the X on the photo.', true); ?>" data-position="top">
 			<div class="image_container_header">
 				<h2>{{open_gallery.PhotoGallery.display_name}}</h2>
-				<div class="actions" data-step="7" data-intro="<?php echo __('To remove all photos in the gallery (but not from uploaded photos), click the trash.', true); ?>" data-position="bottom"><img id="remove_all_gallery_photos" src="/img/admin/icons/grey_delete_all_icon.png" alt="" /></div>
+				<div class="actions" data-step="7" data-intro="<?php echo __('To remove all photos in the gallery (but not from uploaded photos), click the trash.', true); ?>" data-position="bottom"><img id="remove_all_gallery_photos" src="/img/admin/icons/grey_delete_all_icon.png" alt="" ng-click="remove_all_photos_from_gallery()" /></div>
 				<div style="clear: both;"></div>
 			</div>
 
@@ -529,14 +529,14 @@ $(function() {
 				<?php echo __('Add images to this gallery using the box at right', true); ?>&nbsp;►
 			</div>
 			
-			<div id="in_gallery_photos_cont" class="in_gallery_photos_cont">
+			<div id="in_gallery_photos_cont" class="in_gallery_photos_cont" ui-sortable="inGalleryPhotosSortableOptions" ng-model="open_gallery_connected_photos">
 				<?php echo $this->Element('/admin/photo/angular_photo_connect_in_gallery_photo_cont'); ?>
 			</div>
 		</div>
 		<div class="not_in_gallery_main_cont" data-step="1" data-intro="<?php echo __('Here are all of your uploaded photos. To add them to the current gallery, simply click the plus symbol (on the bottom right of each image).', true); ?>" data-position="top">
 			<div class="image_container_header">
 				<h2 data-step="8" data-intro="<?php echo __('Now that you’ve created a gallery, upload more photos directly to the gallery by selecting the gallery name on the upload photos page before uploading.', true); ?>" data-position="top"><?php echo __('Uploaded Photos', true); ?></h2>
-				<div class="actions" style="float: right;"><img id="refresh_not_in_gallery_photos_button" src="/img/admin/icons/grey_refresh.png" alt="" /></div>
+				<div class="actions" style="float: right;"><img id="refresh_not_in_gallery_photos_button" src="/img/admin/icons/grey_refresh.png" alt="" ng-click="refresh_not_in_gallery_photos()" /></div>
 				<div id="sort_photo_radio" data-step="2" data-intro="<?php echo __('You may sort your uploaded photos by most (or least) recently added.', true); ?>" data-position="left"><?php /*
 					*/ ?><input type="radio" id="radio1" ng-model="open_gallery_not_connected_sort_dir" name="sort_photo_radio"  value="desc" ng-change="change_filters_sort()" /><?php /*
 					*/ ?><label class='add_button' for="radio1"><div class='content'><?php echo __('Newest', true); ?></div></label><?php /*

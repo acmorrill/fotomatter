@@ -105,7 +105,7 @@
 					<?php 
 						$img_path_data = null;
 						if ($image_element_image_photo_id != -1) {
-							$img_path_data = $this->Photo->get_photo_path($image_element_image_photo_id, $image_element_cache_image_height, $image_element_cache_image_width, null, true);
+							$img_path_data = $this->Photo->get_photo_path($image_element_image_photo_id, $image_element_cache_image_height, $image_element_cache_image_width, 0, true);
 						} else {
 							$img_path_data = $this->Photo->get_dummy_error_image_path($image_element_cache_image_height, $image_element_cache_image_width, false, true);
 						}

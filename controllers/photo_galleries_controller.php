@@ -156,6 +156,7 @@ class PhotoGalleriesController extends AppController {
 //			$photo_gallery['PhotoGallery']['photos_count'] = (int) $photo_gallery[0]['photos_count'];
 			unset($photo_gallery[0]);
 		}
+//		$photo_galleries = Set::combine($photo_galleries, '{n}.PhotoGallery.id', '{n}');
 
 		$this->return_json($photo_galleries);
 	}
@@ -198,6 +199,7 @@ class PhotoGalleriesController extends AppController {
 			}
 			unset($photo_gallery[0]);
 		}
+//		$photo_gallery['PhotoGalleriesPhoto'] = Set::combine($photo_gallery['PhotoGalleriesPhoto'], '{n}.PhotoGalleriesPhoto.photo_id', '{n}');
 		
 		
 		
@@ -214,7 +216,7 @@ class PhotoGalleriesController extends AppController {
 		$limit = 30;
 		
 		// get the photo ids of the current gallery
-		$photo_ids = Set::extract('/PhotoGalleriesPhoto/photo_id', $photo_galleries[0]);
+		$photo_ids = Set::extract('PhotoGalleriesPhoto.{n}.PhotoGalleriesPhoto.photo_id', $photo_galleries[0]);
 		
 		
 		if ($gallery_icon_size == 'small') {
@@ -285,6 +287,7 @@ class PhotoGalleriesController extends AppController {
 				$not_connected_photo['Photo']['photo_cache_class'] = $class;
 			}
 		}
+//		$not_connected_photos = Set::combine($not_connected_photos, '{n}.Photo.id', '{n}');
 		
 		
 		$this->return_json(array(
@@ -811,7 +814,12 @@ class PhotoGalleriesController extends AppController {
 		$this->return_json($returnArr);
 	}
 	
-	public function admin_ajax_movephoto_into_gallery($photo_id, $gallery_id) {
+	public function admin_ajax_movephoto_into_gallery($photo_id, $photo_gallery_id, $gallery_icon_size = 'medium') {
+		$icon_sizes = $this->Photo->get_admin_photo_icon_size($gallery_icon_size);
+		$height = $icon_sizes['height'];
+		$width = $icon_sizes['width'];
+		$class = $icon_sizes['class'];
+		
 		$returnArr = array();
 		
 		$the_photo = $this->Photo->find('first', array(
@@ -829,13 +837,25 @@ class PhotoGalleriesController extends AppController {
 			$this->return_json($returnArr);
 		}
 		
-		if (!$this->PhotoGallery->add_photo_to_gallery($photo_id, $gallery_id)) {
+		if (!$this->PhotoGallery->add_photo_to_gallery($photo_id, $photo_gallery_id)) {
 			$this->Photo->major_error('failed to add a photo to a gallery in admin_ajax_movephoto_into_gallery');
 		}
+		
+		// now find the photo url
+		$photo_gallery_photo = $this->PhotoGalleriesPhoto->find('first', array(
+			'conditions' => array(
+				'PhotoGalleriesPhoto.photo_id' => $photo_id,
+				'PhotoGalleriesPhoto.photo_gallery_id' => $photo_gallery_id
+			),
+			'contain' => false
+		));
+		$photo_gallery_photo['PhotoGalleriesPhoto']['photo_cache_class'] = $class;
+		$photo_gallery_photo['PhotoGalleriesPhoto']['photo_cache_url'] = $this->Photo->get_photo_path($photo_id, $height, $width);
 		
 		
 		$returnArr['code'] = 1;
 		$returnArr['message'] = 'successfully moved photo into gallery';
+		$returnArr['data'] = $photo_gallery_photo;
 		$this->return_json($returnArr);
 	}
 	
@@ -879,6 +899,9 @@ class PhotoGalleriesController extends AppController {
 	}
 	
 	public function admin_ajax_set_photo_order_in_gallery($photo_gallery_id, $photo_id, $new_order) {
+		$this->log($photo_gallery_id, 'admin_ajax_set_photo_order_in_gallery');
+		$this->log($photo_id, 'admin_ajax_set_photo_order_in_gallery');
+		$this->log($new_order, 'admin_ajax_set_photo_order_in_gallery');
 		$returnArr = array();
 		
 		$PhotoGalleriesPhoto_to_move = $this->PhotoGalleriesPhoto->find('first', array(
