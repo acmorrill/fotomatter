@@ -166,7 +166,7 @@
 								<?php 
 									$img_path_data = null;
 									if ($para_header_image_photo_id != -1) {
-										$img_path_data = $this->Photo->get_photo_path($para_header_image_photo_id, $cache_image_height, $cache_image_width, null, true);
+										$img_path_data = $this->Photo->get_photo_path($para_header_image_photo_id, $cache_image_height, $cache_image_width, 0, true);
 									} else {
 										$img_path_data = $this->Photo->get_dummy_error_image_path($cache_image_height, $cache_image_width, false, true);
 									}

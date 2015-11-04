@@ -850,7 +850,7 @@ class PhotoGalleriesController extends AppController {
 			'contain' => false
 		));
 		$photo_gallery_photo['PhotoGalleriesPhoto']['photo_cache_class'] = $class;
-		$photo_gallery_photo['PhotoGalleriesPhoto']['photo_cache_url'] = $this->Photo->get_photo_path($photo_id, $height, $width);;
+		$photo_gallery_photo['PhotoGalleriesPhoto']['photo_cache_url'] = $this->Photo->get_photo_path($photo_id, $height, $width);
 		
 		
 		$returnArr['code'] = 1;
