@@ -319,7 +319,7 @@ table.list {
 	left: 0px;
 	top: 0px;
 	height: 100%;
-	width: 320px;
+	width: 230px;
 	padding: 0px;
 	.table_container {
 		.table_top, .fade_background_top, thead { display: none; }
@@ -332,7 +332,7 @@ table.list {
 		height: 1000px;
 		border-right: 1px solid @body_content_top_bg - 8;
 		table.list {
-			width: 320px;
+			width: 230px;
 			margin-left: 0px;
 			padding-left: 0px;
 			/*margin-top: 30px;*/
@@ -344,6 +344,7 @@ table.list {
 				> td {
 					background-color: rgb(38,40,41);
 					background-color: rgba(38,40,41, .7);
+					padding: 0px !important;
 					&.first { border-left: 0px !important; }
 					&.last { border-right: 0px !important; }
 					.rightborder {
@@ -351,15 +352,23 @@ table.list {
 						top: 50%;
 					}
 					> table {
-						width: 100%;
+						
+						width: 211px;
 						margin-top: 10px;
 						margin-bottom: 10px;
+						margin-left: 10px; margin-right: 0px;
 						> tbody > tr > td {
+							> .reorder_gallery_grabber  { margin-left: 20px; }
 							background: none;
-							vertical-align: center;
+							&.first { width: 54px; }
+							&.last { 
+								vertical-align: middle; 
+								> span { margin-bottom: 3px; }
+							}
 							> span {
 								display: inline-block;
 								margin: 8px;
+								margin-left: 10px;
 								.add_button { margin: 0px; }
 							}
 						}

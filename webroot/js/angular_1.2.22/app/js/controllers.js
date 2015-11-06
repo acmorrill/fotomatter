@@ -103,6 +103,11 @@ fotomatterControllers.controller('TagListCtrl', ['$scope', '$q', 'Tags', functio
 
 
 fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleries', '$cookies', function($scope, $q, PhotoGalleries, $cookies) {
+	var in_view_gallery = false;
+	var cease_fire = false;
+	var disable_gallery_add = false;
+	var gallery_add_limit = 0;
+	var sync_ajax_out = 1;
 	$scope.loading = true;
 	$scope.photo_galleries = [];
 	$scope.open_gallery = null;	
@@ -142,19 +147,42 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 		}
 		
 		jQuery(function() {
+			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			// setup jquery ui buttons
 			jQuery("#filter_photo_by_format, #sort_photo_radio").buttonset();
 			jQuery("#photos_not_in_a_gallery").button();
+			
+			/////////////////////////////////////////////////////////////////////////////////
+			// setup the endless scroll
+			$scope.endlessScrollCallback = function() {
+				if (cease_fire == true) { return; }
+				var last_photo_id = 0;
+				if ($scope.open_gallery_not_connected_photos != null) {
+					var last_photo = $scope.open_gallery_not_connected_photos[$scope.open_gallery_not_connected_photos.length - 1];
+					last_photo_id = last_photo.Photo.id;
+					$scope.view_gallery($scope.last_open_gallery_id, last_photo_id);
+				}
+			};
+			$scope.$endlessScroll = jQuery('#connect_gallery_photos_cont .not_in_gallery_photos_cont').endlessScroll({
+				bottomPixels: 300,
+				loader: '',
+				callback: $scope.endlessScrollCallback
+			});
+			// end endless scroll
+			
+			
+			var icon_size = $cookies.get('gallery_icon_size');
+			if (typeof icon_size == 'undefined') {
+				icon_size = 'small';
+			}
+			$scope.open_gallery_image_size = icon_size;
+
+			$scope.$watch("last_open_gallery_id", function(){
+				$scope.view_gallery($scope.last_open_gallery_id);
+			});
 		});
 		
-		var icon_size = $cookies.get('gallery_icon_size');
-		if (typeof icon_size == 'undefined') {
-			icon_size = 'small';
-		}
-		$scope.open_gallery_image_size = icon_size;
 		
-		$scope.$watch("last_open_gallery_id", function(){
-			$scope.view_gallery($scope.last_open_gallery_id);
-		});
 	};
 	$scope.initGallery();
 	
@@ -177,10 +205,22 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 		$scope.open_gallery_image_size = new_size_str;
 		$cookies.put('gallery_icon_size', new_size_str);
 		$scope.open_gallery_connected_photos = null;
+		$scope.open_gallery_not_connected_photos = null;
 		$scope.view_gallery($scope.last_open_gallery_id);
 	};
 	
 	$scope.add_photo_to_gallery = function(photo) {
+		if (disable_gallery_add == true || gallery_add_limit >= sync_ajax_out) {
+			return;
+		}
+
+		show_universal_save();
+		gallery_add_limit++;
+		disable_gallery_add = true;
+		var when_finished_timeout = new Timeout(function() {
+			disable_gallery_add = false;
+		}, 100);
+		
 		$scope.helpers.removeItem($scope.open_gallery_not_connected_photos, photo);
 		var add_photo_data = {
 			photo_id: photo.Photo.id,
@@ -192,6 +232,9 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 				if (result.code > 0) {
 					$scope.open_gallery_connected_photos.push(result.data);
 				}
+				gallery_add_limit--;
+				hide_universal_save();
+				when_finished_timeout.run_now();
 			}
 		);
 	};
@@ -227,21 +270,34 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 		);
 	};
 	
-
-	$scope.view_gallery = function(photo_gallery_id) {
+	$scope.view_gallery = function(photo_gallery_id, last_photo_id) {
+		if (in_view_gallery == true) {
+			return;
+		}
+		in_view_gallery = true;
+		jQuery("#filter_photo_by_format, #sort_photo_radio").buttonset('disable');
+		jQuery("#photos_not_in_a_gallery").button('disable');
+		show_universal_load();
+		
+		
+		
 		$cookies.put('last_open_gallery_id', photo_gallery_id);
 		$scope.last_open_gallery_id = photo_gallery_id;
 		if ($scope.open_gallery != null && $scope.open_gallery.PhotoGallery.id != photo_gallery_id) {
 			$scope.open_gallery = null;
 		}
 		
+		
+		if (typeof last_photo_id == 'undefined') {
+			last_photo_id = 0;
+		}
 		var view_gallery = {
 			id: photo_gallery_id,
 			gallery_icon_size: $scope.open_gallery_image_size,
 			order_by: $scope.open_gallery_not_connected_order_by,
 			sort_dir: $scope.open_gallery_not_connected_sort_dir,
 			photos_not_in_a_gallery: $scope.open_gallery_photos_not_in_gallery,
-			last_photo_id: 0,
+			last_photo_id: last_photo_id,
 			photo_formats: $scope.flat_formats_str
 		};
 		var d = $q.defer();
@@ -252,14 +308,32 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 						$scope.open_gallery = result.photo_gallery;
 					}
 					$scope.open_gallery_connected_photos = result.photo_gallery.PhotoGalleriesPhoto;
-					$scope.open_gallery_not_connected_photos = result.not_connected_photos;
+					if (result.not_connected_photos.length == 0) {
+						cease_fire = true;
+					} else {
+						cease_fire = false;
+					}
+					
+					if (last_photo_id != 0) {
+						$scope.open_gallery_not_connected_photos = $scope.open_gallery_not_connected_photos.concat(result.not_connected_photos);
+					} else {
+						$scope.open_gallery_not_connected_photos = result.not_connected_photos;
+					}
 					d.resolve();
 				} else {
 					d.resolve("Error");
 				}
+				in_view_gallery = false;
+				jQuery("#filter_photo_by_format, #sort_photo_radio").buttonset('enable');
+				jQuery("#photos_not_in_a_gallery").button('enable');
+				hide_universal_load();
 			},
 			function(error) {
 				d.resolve("Server Error");
+				in_view_gallery = false;
+				jQuery("#filter_photo_by_format, #sort_photo_radio").buttonset('enable');
+				jQuery("#photos_not_in_a_gallery").button('enable');
+				hide_universal_load();
 			}
 		);
 		

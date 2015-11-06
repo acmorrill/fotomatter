@@ -522,9 +522,9 @@ $(function() {
 				<div style="clear: both;"></div>
 			</div>
 
-			<div class="empty_help_content" ng-hide="open_gallery_connected_photos != null" style="display: block;">
+			<?php /*<div class="empty_help_content" ng-hide="open_gallery_connected_photos != null" style="display: block;">
 				<?php echo __('Loading', true); ?>
-			</div>
+			</div>*/ ?>
 			<div class="empty_help_content" ng-show="open_gallery_connected_photos.length == 0" style="display: block;">
 				<?php echo __('Add images to this gallery using the box at right', true); ?>&nbsp;►
 			</div>

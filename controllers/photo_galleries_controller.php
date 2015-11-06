@@ -226,6 +226,7 @@ class PhotoGalleriesController extends AppController {
 		} else if ($gallery_icon_size == 'large') {
 			$limit = 25;
 		}
+		$limit = 20; // DREW TODO - get rid of this
 		
 		$conditions = array(
 			'NOT' => array(
@@ -290,9 +291,13 @@ class PhotoGalleriesController extends AppController {
 //		$not_connected_photos = Set::combine($not_connected_photos, '{n}.Photo.id', '{n}');
 		
 		
+		$last_photo = end($not_connected_photos);
+		$last_photo_id = $last_photo['Photo']['id'];
+		
 		$this->return_json(array(
 			'photo_gallery' => $photo_galleries[0],
 			'not_connected_photos' => $not_connected_photos,
+			'last_photo_id' => $last_photo_id
 		));
 	}
 	
