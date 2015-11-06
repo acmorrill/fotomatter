@@ -3189,7 +3189,7 @@ table.list > tfoot td .table_summary .payment_item.strike .value {
   left: 0px;
   top: 0px;
   height: 100%;
-  width: 320px;
+  width: 230px;
   padding: 0px;
 }
 .dynamic_list .table_container {
@@ -3208,7 +3208,7 @@ table.list > tfoot td .table_summary .payment_item.strike .value {
   display: none;
 }
 .dynamic_list .table_container table.list {
-  width: 320px;
+  width: 230px;
   margin-left: 0px;
   padding-left: 0px;
   clear: both;
@@ -3219,6 +3219,7 @@ table.list > tfoot td .table_summary .payment_item.strike .value {
 .dynamic_list .table_container table.list tbody > tr > td {
   background-color: #262829;
   background-color: rgba(38,40,41,0.7);
+  padding: 0px !important;
 }
 .dynamic_list .table_container table.list tbody > tr > td.first {
   border-left: 0px !important;
@@ -3231,17 +3232,31 @@ table.list > tfoot td .table_summary .payment_item.strike .value {
   top: 50%;
 }
 .dynamic_list .table_container table.list tbody > tr > td > table {
-  width: 100%;
+  width: 211px;
   margin-top: 10px;
   margin-bottom: 10px;
+  margin-left: 10px;
+  margin-right: 0px;
 }
 .dynamic_list .table_container table.list tbody > tr > td > table > tbody > tr > td {
   background: none;
-  vertical-align: center;
+}
+.dynamic_list .table_container table.list tbody > tr > td > table > tbody > tr > td > .reorder_gallery_grabber {
+  margin-left: 20px;
+}
+.dynamic_list .table_container table.list tbody > tr > td > table > tbody > tr > td.first {
+  width: 54px;
+}
+.dynamic_list .table_container table.list tbody > tr > td > table > tbody > tr > td.last {
+  vertical-align: middle;
+}
+.dynamic_list .table_container table.list tbody > tr > td > table > tbody > tr > td.last > span {
+  margin-bottom: 3px;
 }
 .dynamic_list .table_container table.list tbody > tr > td > table > tbody > tr > td > span {
   display: inline-block;
   margin: 8px;
+  margin-left: 10px;
 }
 .dynamic_list .table_container table.list tbody > tr > td > table > tbody > tr > td > span .add_button {
   margin: 0px;

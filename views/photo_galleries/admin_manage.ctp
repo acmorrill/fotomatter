@@ -33,9 +33,9 @@
 	<div class="gallery_view" ng-hide="open_gallery == null">
 		<?php echo $this->Element('admin/gallery/angular_edit_gallery_connect_photos'); ?>
 	</div>
-	<div class="gallery_view" ng-show="open_gallery == null">
+	<?php /*<div class="gallery_view" ng-show="open_gallery == null">
 		<h1>Gallery Loading</h1>
-	</div>
+	</div>*/ ?>
 	<div class="dynamic_list">
 		<div id="photo_gallery_list" class="table_container">
 			<div class="fade_background_top"></div>
@@ -73,42 +73,49 @@
 					</tr> 
 				</thead>
 				<tbody>
-					<tr class="spacer"><td colspan="3"></td></tr>
+					<tr class="spacer"><td colspan="1"></td></tr>
 
 					<tr class="first last" ng-show="loading == true">
-						<td class="first last" colspan="3" style="text-align: center;">
-							<div class="rightborder"></div>
+						<td class="first last" colspan="1" style="text-align: center;">
 							<span>LOADING</span>
 						</td>
 					</tr>
 
 					<tr class="first last" ng-show="photo_galleries.length == 0 && loading == false">
-						<td class="first last" colspan="3">
-							<div class="rightborder"></div>
+						<td class="first last" colspan="1">
 							<span>You don't have any galleries</span>
 						</td>
 					</tr>
 
 
 					<tr ng-repeat="photo_gallery in photo_galleries" ng-class="{'sortable': true, 'current': open_gallery.PhotoGallery.id == photo_gallery.PhotoGallery.id}" gallery_id="{{photo_gallery.PhotoGallery.id}}">
-						<td class="gallery_id first">
+						<?php /*<td class="gallery_id first">
 							<div class="rightborder"></div>
 							<div class="reorder_gallery_grabber reorder_grabber icon-position-01" />
-						</td> 
-						<td class="gallery_name last">
+						</td> */ ?>
+						<td class="gallery_name gallery_id first last">
 							<table>
 								<tbody>
 									<tr>
-										<td>
+										<td class="first">
+											<div class="reorder_gallery_grabber reorder_grabber icon-position-01" />
+										</td>
+										<td class="last">
 											<span>{{photo_gallery.PhotoGallery.display_name}}</span>
 										</td>
 									</tr>
 									<tr>
-										<td>
+										<td colspan="2">
 											<span class="custom_ui">
-												<div class="add_button" ng-click="view_gallery(photo_gallery.PhotoGallery.id)">
+												<?php /*<div class="add_button" ng-click="view_gallery(photo_gallery.PhotoGallery.id)">
 													<div class="content"><?php echo __('Edit', true); ?></div>
 													<div class="right_arrow_lines icon-arrow-01"><div></div></div>
+												</div>*/ ?>
+												<div class="add_button icon" ng-click="view_gallery(photo_gallery.PhotoGallery.id)">
+													<div class="content icon-gallerySettings-01"></div>
+												</div>
+												<div class="add_button icon" ng-click="upload_to_gallery()">
+													<div class="content icon-pictureUpload-01"></div>
 												</div>
 												<a class="delete_link" href="/admin/photo_galleries/delete_gallery//"><div class="add_button icon icon_close"><div class="content icon-close-01"></div></div></a>
 											</span>

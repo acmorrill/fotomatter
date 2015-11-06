@@ -13,7 +13,7 @@
 		<div class="tr">
 			<div class="td">
 				<div class="image_content_cont">
-					<img src="{{photo.Photo.photo_cache_url}}" alt="" />
+					<img ng-src="{{photo.Photo.photo_cache_url}}" alt="" />
 				</div>
 			</div>
 		</div>

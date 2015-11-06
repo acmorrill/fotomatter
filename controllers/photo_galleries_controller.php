@@ -267,7 +267,6 @@ class PhotoGalleriesController extends AppController {
 				$comp = '<';
 			}
 			$conditions['Photo.'.$order_by.' '.$comp] = $last_photo['Photo'][$order_by];
-			$this->log($conditions, 'last_photo_id');
 		}
 		// end sort find conditions
 		

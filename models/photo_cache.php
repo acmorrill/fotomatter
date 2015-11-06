@@ -422,13 +422,14 @@ class PhotoCache extends AppModel {
 			// grab the crop to put into cdn-filename
 			// - resize the larger cached image into the actual size actual version
 			//----------------------------------------------------------------------------------------------
-			$crop_str = ($photoCache['PhotoCache']['crop'] == '1') ? 'crop' : 'nocrop';
-			$cache_image_name = $cache_prefix.$max_height_display.'x'.$max_width_display."_".$crop_str."_".$photoCache['Photo']['cdn-filename'];
-			$new_cache_image_path = TEMP_IMAGE_PATH.DS.$cache_image_name;
 			$unsharp_amount = 0;
 			if (isset($photoCache['PhotoCache']['unsharp_amount'])) {
 				$unsharp_amount = $photoCache['PhotoCache']['unsharp_amount'];
 			}
+			$crop_str = ($photoCache['PhotoCache']['crop'] == '1') ? 'crop' : 'nocrop';
+			$unsharp_str = "unsh$unsharp_amount";
+			$cache_image_name = $cache_prefix.$max_height_display.'x'.$max_width_display."_".$crop_str."_".$unsharp_str."_".$photoCache['Photo']['cdn-filename'];
+			$new_cache_image_path = TEMP_IMAGE_PATH.DS.$cache_image_name;
 			$this->ThemePrebuildCacheSize = Classregistry::init('ThemePrebuildCacheSize');
 			$this->ThemePrebuildCacheSize->increment_used_in_theme($max_width, $max_height, $photoCache['PhotoCache']['crop'], $unsharp_amount);
 			if ($this->convert($large_image_url, $new_cache_image_path, $max_width, $max_height, true, $unsharp_amount, $photoCache['PhotoCache']['crop']) == false) {
