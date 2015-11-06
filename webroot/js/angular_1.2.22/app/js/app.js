@@ -36,6 +36,19 @@ var fotomatterApp = angular.module('fotomatterApp', [
 				}
 				count++;
 			}
+		},
+		updateArrItem: function (items, model_name, field_name, id, new_data) {
+			for (var x in items) {
+				console.log('came into here 0');
+				if (typeof items[x][model_name] == 'object') {
+					console.log('came into here 1');
+					if (items[x][model_name].id == id) {
+						console.log('came into here 2');
+						items[x][model_name][field_name] = new_data;
+						break;
+					}
+				}
+			}
 		}
 	};
 });

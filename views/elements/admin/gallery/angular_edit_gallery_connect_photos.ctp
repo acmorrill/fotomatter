@@ -468,9 +468,16 @@ $(function() {
 
 
 <div id="connect_gallery_photos_cont">
-	<h1>{{open_gallery.PhotoGallery.display_name}}
+	<h1><span onbeforesave="edit_gallery_name($data, open_gallery.PhotoGallery.id)" editable-text="open_gallery.PhotoGallery.display_name">{{open_gallery.PhotoGallery.display_name}}</span>
 		<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 	</h1>
+	<p onbeforesave="edit_gallery_description($data, open_gallery.PhotoGallery.id)" editable-text="open_gallery.PhotoGallery.description">{{open_gallery.PhotoGallery.description || "Gallery Description Empty" }}</p>
+	
+	<?php /*
+	 * 
+	 * <a onbeforesave="edit_tag($data, tag.Tag.id)" href="#" editable-text="tag.Tag.name">{{ tag.Tag.name || "empty" }}</a>
+	 * 
+	 */ ?>
 	<?php /*
 	<p><?php echo __('Easily manage your photos by adding and deleting uploaded photos to this gallery below.', true); ?></p>
 	<br />*/ ?>

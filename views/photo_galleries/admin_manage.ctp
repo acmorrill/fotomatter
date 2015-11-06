@@ -88,7 +88,7 @@
 					</tr>
 
 
-					<tr ng-repeat="photo_gallery in photo_galleries" ng-class="{'sortable': true, 'current': open_gallery.PhotoGallery.id == photo_gallery.PhotoGallery.id}" gallery_id="{{photo_gallery.PhotoGallery.id}}">
+					<tr ng-repeat="photo_gallery in photo_galleries" ng-class="{'sortable': true, 'current': last_open_gallery_id == photo_gallery.PhotoGallery.id}" gallery_id="{{photo_gallery.PhotoGallery.id}}">
 						<?php /*<td class="gallery_id first">
 							<div class="rightborder"></div>
 							<div class="reorder_gallery_grabber reorder_grabber icon-position-01" />
@@ -111,8 +111,8 @@
 													<div class="content"><?php echo __('Edit', true); ?></div>
 													<div class="right_arrow_lines icon-arrow-01"><div></div></div>
 												</div>*/ ?>
-												<div class="add_button icon" ng-click="view_gallery(photo_gallery.PhotoGallery.id)">
-													<div class="content icon-gallerySettings-01"></div>
+												<div ng-class="{'selected': last_open_gallery_id == photo_gallery.PhotoGallery.id}" class="add_button icon" ng-click="view_gallery(photo_gallery.PhotoGallery.id)">
+													<div class="content icon-picture"></div>
 												</div>
 												<div class="add_button icon" ng-click="upload_to_gallery()">
 													<div class="content icon-pictureUpload-01"></div>

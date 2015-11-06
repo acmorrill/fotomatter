@@ -6,7 +6,7 @@
 	<?php echo $this->Element('admin/global_js'); ?>
 </head>
 <body>
-<div id="main">
+<div id="main" class="shorter">
 	<div id="header">
 		<?php echo $this->Element('admin/logo'); ?>
 		<?php echo $this->Element('admin/menu', array( 'curr_page' => 'galleries' )); ?>

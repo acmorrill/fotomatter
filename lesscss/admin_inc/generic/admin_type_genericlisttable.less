@@ -376,12 +376,24 @@ table.list {
 				}
 				&.current {
 					> td {
-						background-color: rgb(61,62,63);
-						background-color: rgb(61,62,63, .7);
+						border-top: 1px solid @top_white;
+						border-bottom: 1px solid @top_white;
 					}
 				}
-				&:hover {
-					> td { background-color: @table_hover; }
+				@hover {
+					> td {
+						border-top: 1px solid @white;
+						border-bottom: 1px solid @white;
+					}
+				}
+				&.current, &:hover {
+					> td { 
+						color: @top_white;
+						background-color: @table_hover;
+						> table > tbody > tr > td { 
+							color: @top_white;
+						}
+					}
 				}
 			}
 		}
