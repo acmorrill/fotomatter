@@ -3608,6 +3608,9 @@ fieldset input[type="checkbox"] {
   color: #b0bbc1;
   cursor: pointer;
 }
+#middle.shorter {
+  margin-bottom: 0px;
+}
 .message_div {
   font-family: Code-Pro-LC;
   font-weight: normal;

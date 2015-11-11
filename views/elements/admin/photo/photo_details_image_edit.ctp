@@ -7,9 +7,7 @@
 			<input class="defaultText <?php if (empty($display_subtitle)): ?> defaultTextActive<?php endif; ?>" title="Photo Subtitle" name="data[Photo][display_subtitle]" type="text" maxlength="128" value="<?php echo $display_subtitle; ?>" id="PhotoDisplaySubtitle">
 		</div>
 		
-		<?php
-			echo $this->Form->input('description');
-		?>
+		<?php echo $this->Form->input('description'); ?>
 		<div class="input text" data-step="2" data-intro="<?php echo __('This is the text that will appear when someone hovers over your image with their cursor.', true); ?>" data-position="top">
 			<?php
 				echo $this->Form->input('alt_text', array(

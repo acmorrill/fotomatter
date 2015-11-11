@@ -11,7 +11,7 @@
 		<?php echo $this->Element('admin/logo'); ?>
 		<?php echo $this->Element('admin/menu', array( 'curr_page' => 'galleries' )); ?>
 	</div>
-	<div id="middle" class="rounded-corners">
+	<div id="middle" class="rounded-corners shorter">
 		<?php 
 			if (isset($this->data['PhotoGallery']['id'])) {
 				$subnav = array(); 

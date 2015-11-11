@@ -193,6 +193,23 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 		console.log(new_name);
 		console.log(photo_gallery_id);
 		console.log('===================');
+		
+		var edit_gallery_data = {
+			'data': {
+				'PhotoGallery': {
+					'id': photo_gallery_id,
+					'display_name': new_name
+				}
+			}
+		};
+		PhotoGalleries.edit_gallery(edit_gallery_data, 
+			function(result) {
+				console.log('++++++++++++++++++++++++++++++++++');
+				console.log(result);
+				console.log('++++++++++++++++++++++++++++++++++');
+			}
+		);
+		
 	};
 	$scope.edit_gallery_description = function(new_description, photo_gallery_id) {
 		console.log('===================');

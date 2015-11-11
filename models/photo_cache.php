@@ -515,7 +515,7 @@ class PhotoCache extends AppModel {
 			'PhotoCache.photo_id' => $photo_id,
 			'PhotoCache.max_height' => $height,
 			'PhotoCache.max_width' => $width,
-			'PhotoCache.crop' => ($crop === true) ? 1 : 0,
+			'PhotoCache.crop' => ($crop == true) ? 1 : 0,
 			'PhotoCache.unsharp_amount' => $unsharp
 		);
 

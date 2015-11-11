@@ -259,9 +259,6 @@ class Photo extends AppModel {
 				return __("Failed to upload photo - please try again", true);
 //				unset($data['Photo']['cdn-filename']);
 			}
-		} else {
-			return __("Failed to upload photo", true);
-//			unset($data['Photo']['cdn-filename']);
 		}
 
 		return $data;

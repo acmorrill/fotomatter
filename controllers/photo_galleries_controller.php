@@ -226,7 +226,6 @@ class PhotoGalleriesController extends AppController {
 		} else if ($gallery_icon_size == 'large') {
 			$limit = 25;
 		}
-		$limit = 20; // DREW TODO - get rid of this
 		
 		$conditions = array(
 			'NOT' => array(
@@ -370,11 +369,14 @@ class PhotoGalleriesController extends AppController {
 		$this->set(compact('tags', 'id'));
 	}
 	
-	public function admin_edit_gallery($id) {
+	public function admin_edit_gallery() {
+		$this->log($_REQUEST, 'edit_gallery');
 		
 		if ( !empty($this->data) ) {
 			// set or unset the id (depending on if its an edit or add)
 			$this->data['PhotoGallery']['id'] = $id;
+			$this->log($this->data, 'edit_gallery');
+			
 			
 			if (!$this->PhotoGallery->save($this->data)) {
 				$this->PhotoGallery->major_error('failed to save photo gallery in edit gallery', $this->data);
@@ -383,18 +385,23 @@ class PhotoGalleriesController extends AppController {
 				$this->Session->setFlash(__('Photo gallery saved', true), 'admin/flashMessage/success');
 			}
  		} 
+		$this->log('came here 1', 'edit_gallery');
 		
+		$returnArr = array(
+			'awesome' => true,
+		);
+		$this->return_json($returnArr);
 		
-		$this->data = $this->PhotoGallery->find('first', array(
-			'conditions' => array(
-				'PhotoGallery.id' => $id
-			),
-			'contain' => array(
-				'PhotoGalleriesPhoto' => array(
-					'Photo'
-				)
-			)
-		));
+//		$this->data = $this->PhotoGallery->find('first', array(
+//			'conditions' => array(
+//				'PhotoGallery.id' => $id
+//			),
+//			'contain' => array(
+//				'PhotoGalleriesPhoto' => array(
+//					'Photo'
+//				)
+//			)
+//		));
 	}
 	
 	public function admin_ajax_get_photos_in_gallery($gallery_id) {
