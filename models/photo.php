@@ -533,7 +533,7 @@ class Photo extends AppModel {
 
 		// If using a 2 level menu, ONLY get galleries that are in the menu
 		$where = 'WHERE';
-		if (!empty($theme_config[admin_config][main_menu][levels]) && $theme_config[admin_config][main_menu][levels] == 2) {
+		if (!empty($theme_config['admin_config']['main_menu']['levels']) && $theme_config['admin_config']['main_menu']['levels'] == 2) {
 			$galleries = "SELECT DISTINCT `external_id` FROM (SELECT `external_id` FROM `site_two_level_menu_container_items` WHERE `external_model` = 'PhotoGallery' UNION SELECT `external_id` FROM `site_two_level_menus` WHERE `external_model` = 'PhotoGallery') AS temp";
 			$where .= " `photo_gallery_id` IN ($galleries) AND";
 		}
