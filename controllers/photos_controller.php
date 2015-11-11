@@ -257,9 +257,9 @@ class PhotosController extends AppController {
 		}
 
 
+		$photo_formats = $this->Photo->PhotoFormat->find('list');
+		$this->set('photoFormats', $photo_formats);
 		if (empty($this->data)) {
-			$photo_formats = $this->Photo->PhotoFormat->find('list');
-			$this->set('photoFormats', $photo_formats);
 
 			$this->data = $this->Photo->find('first', array(
 				'conditions' => array(
@@ -362,16 +362,14 @@ class PhotosController extends AppController {
 				}
 
 
-				$photo_formats = $this->Photo->PhotoFormat->find('list');
-				$this->set('photoFormats', $photo_formats);
-
-				// have to reset data because it could have change in a photo beforeSave
-				$this->data = $this->Photo->find('first', array(
-					'conditions' => array(
-						'Photo.id' => $this->Photo->id
-					)
-				));
 			}
+			
+			// have to reset data because it could have change in a photo beforeSave
+			$this->data = $this->Photo->find('first', array(
+				'conditions' => array(
+					'Photo.id' => $this->data['Photo']['id']
+				)
+			));
 		}
 
 

@@ -186,6 +186,64 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 	};
 	$scope.initGallery();
 	
+	$scope.edit_gallery_name = function(new_name, photo_gallery_id) {
+		$scope.helpers.updateArrItem($scope.photo_galleries, 'PhotoGallery', 'display_name', photo_gallery_id, new_name);
+//		$scope.helpers.refreshScopeAfterReorder($scope.photo_galleries, 'PhotoGallery', photoGalleryId, newPosition);
+		console.log('===================');
+		console.log(new_name);
+		console.log(photo_gallery_id);
+		console.log('===================');
+		
+		var edit_gallery_data = {
+			'data': {
+				'PhotoGallery': {
+					'id': photo_gallery_id,
+					'display_name': new_name
+				}
+			}
+		};
+		PhotoGalleries.edit_gallery(edit_gallery_data, 
+			function(result) {
+				console.log('++++++++++++++++++++++++++++++++++');
+				console.log(result);
+				console.log('++++++++++++++++++++++++++++++++++');
+			}
+		);
+		
+	};
+	$scope.edit_gallery_description = function(new_description, photo_gallery_id) {
+		console.log('===================');
+		console.log(new_description);
+		console.log(photo_gallery_id);
+		console.log('trying to edit gallery');
+		console.log('===================');
+//		if (new_name.length === 0) {
+//			return "Tag cannot be empty.";
+//		}
+//		if (new_name.length > 80) {
+//			return "Tag > 80 characters.";
+//		}
+//		var edit_tag = {
+//			id: tag_id,
+//			name: new_name
+//		};
+//		var d = $q.defer();
+//		Tags.edit(edit_tag, 
+//			function(result) {
+//				if (result.type === 'success') {
+//					d.resolve();
+//				} else {
+//					d.resolve(result.text);
+//				}
+//			},
+//			function(error) {
+//				d.resolve("Server Error");
+//			}
+//		);
+//
+//		return d.promise;
+	};
+	
 	$scope.change_filters_sort = function() {
 		var flat_formats_arr = [];
 		for(var format_index in $scope.open_gallery_photo_formats) {

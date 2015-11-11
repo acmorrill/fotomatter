@@ -3262,11 +3262,17 @@ table.list > tfoot td .table_summary .payment_item.strike .value {
   margin: 0px;
 }
 .dynamic_list .table_container table.list tbody > tr.current > td {
-  background-color: #3d3e3f;
-  background-color: rgba(61,62,63,0.7);
+  border-top: 1px solid #f4f9f5;
+  border-bottom: 1px solid #f4f9f5;
 }
+.dynamic_list .table_container table.list tbody > tr.current > td,
 .dynamic_list .table_container table.list tbody > tr:hover > td {
+  color: #f4f9f5;
   background-color: #3d3e3f;
+}
+.dynamic_list .table_container table.list tbody > tr.current > td > table > tbody > tr > td,
+.dynamic_list .table_container table.list tbody > tr:hover > td > table > tbody > tr > td {
+  color: #f4f9f5;
 }
 .configure_table_list {
   -webkit-touch-callout: none;
@@ -3591,6 +3597,19 @@ fieldset input[type="checkbox"] {
 #middle p {
   max-width: 850px;
   margin-bottom: 20px;
+}
+#middle p.editable {
+  display: inline-block;
+  color: #b0bbc1;
+  font-style: normal;
+  cursor: pointer;
+}
+#middle h1 > span.editable {
+  color: #b0bbc1;
+  cursor: pointer;
+}
+#middle.shorter {
+  margin-bottom: 0px;
 }
 .message_div {
   font-family: Code-Pro-LC;
@@ -5052,6 +5071,9 @@ body {
 }
 #main.no_subnav {
   margin-left: 0px;
+}
+#main.shorter {
+  margin-left: 230px;
 }
 #admin_background {
   position: fixed;
