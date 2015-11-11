@@ -102,7 +102,7 @@ fotomatterControllers.controller('TagListCtrl', ['$scope', '$q', 'Tags', functio
 }]);
 
 
-fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleries', '$cookies', function($scope, $q, PhotoGalleries, $cookies) {
+fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleries', '$cookies', '$http', function($scope, $q, PhotoGalleries, $cookies, $http) {
 	var in_view_gallery = false;
 	var cease_fire = false;
 	var disable_gallery_add = false;
@@ -111,6 +111,7 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 	$scope.loading = true;
 	$scope.photo_galleries = [];
 	$scope.open_gallery = null;	
+	$scope.open_smart_gallery = null;	
 	$scope.open_gallery_connected_photos = null;	
 	$scope.open_gallery_not_connected_photos = null;
 
@@ -188,60 +189,34 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 	
 	$scope.edit_gallery_name = function(new_name, photo_gallery_id) {
 		$scope.helpers.updateArrItem($scope.photo_galleries, 'PhotoGallery', 'display_name', photo_gallery_id, new_name);
-//		$scope.helpers.refreshScopeAfterReorder($scope.photo_galleries, 'PhotoGallery', photoGalleryId, newPosition);
-		console.log('===================');
-		console.log(new_name);
-		console.log(photo_gallery_id);
-		console.log('===================');
-		
+		show_universal_save();
 		var edit_gallery_data = {
-			'data': {
-				'PhotoGallery': {
-					'id': photo_gallery_id,
-					'display_name': new_name
-				}
+			'PhotoGallery': {
+				'id': photo_gallery_id,
+				'display_name': new_name
 			}
 		};
-		PhotoGalleries.edit_gallery(edit_gallery_data, 
+		PhotoGalleries.edit_gallery({}, edit_gallery_data, 
 			function(result) {
-				console.log('++++++++++++++++++++++++++++++++++');
-				console.log(result);
-				console.log('++++++++++++++++++++++++++++++++++');
+				hide_universal_save();
+				// success
 			}
 		);
-		
 	};
 	$scope.edit_gallery_description = function(new_description, photo_gallery_id) {
-		console.log('===================');
-		console.log(new_description);
-		console.log(photo_gallery_id);
-		console.log('trying to edit gallery');
-		console.log('===================');
-//		if (new_name.length === 0) {
-//			return "Tag cannot be empty.";
-//		}
-//		if (new_name.length > 80) {
-//			return "Tag > 80 characters.";
-//		}
-//		var edit_tag = {
-//			id: tag_id,
-//			name: new_name
-//		};
-//		var d = $q.defer();
-//		Tags.edit(edit_tag, 
-//			function(result) {
-//				if (result.type === 'success') {
-//					d.resolve();
-//				} else {
-//					d.resolve(result.text);
-//				}
-//			},
-//			function(error) {
-//				d.resolve("Server Error");
-//			}
-//		);
-//
-//		return d.promise;
+		show_universal_save();
+		var edit_gallery_data = {
+			'PhotoGallery': {
+				'id': photo_gallery_id,
+				'description': new_description
+			}
+		};
+		PhotoGalleries.edit_gallery({}, edit_gallery_data, 
+			function(result) {
+				hide_universal_save();
+				// success
+			}
+		);
 	};
 	
 	$scope.change_filters_sort = function() {
@@ -329,6 +304,7 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 	};
 	
 	$scope.view_gallery = function(photo_gallery_id, last_photo_id) {
+		// DREW TODO - START HERE TOMORROW - make it so can open the smart gallery
 		if (in_view_gallery == true) {
 			return;
 		}
@@ -397,8 +373,8 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 		
 		return d.promise;
 	};
-
-
+	
+	
 	$scope.gallerySortableOptions = {
 		items : '> tbody > tr.sortable',
 		handle : '.reorder_gallery_grabber',

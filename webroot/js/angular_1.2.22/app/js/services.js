@@ -30,9 +30,13 @@ fotomatterServices.factory('PhotoGalleries', ['$resource', function($resource) {
 				photo_formats: '@photo_formats'
 			}
 		},
+		'view_smart': { 
+			url: '/admin/photo_galleries/edit_smart_gallery/:id',
+			method: 'GET', 
+		},
 		'edit_gallery': {
-			url: '/admin/photo_galleries/edit_gallery',
-			method: 'POST'
+			method: 'POST',
+			url: '/admin/photo_galleries/edit_gallery'
 		},
 		'add_photo': {
 			url: '/admin/photo_galleries/ajax_movephoto_into_gallery/:photo_id/:gallery_id/:gallery_icon_size',

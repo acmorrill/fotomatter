@@ -367,41 +367,31 @@ class PhotoGalleriesController extends AppController {
 		));
 		
 		$this->set(compact('tags', 'id'));
+		
+		$this->return_angular_json(true, '', array(
+			'tags' => $tags,
+			'photo_gallery' => $this->data
+		));
+		
+//		$this->return_json(array(
+//			'photo_gallery' => $photo_galleries[0],
+//			'not_connected_photos' => $not_connected_photos,
+//			'last_photo_id' => $last_photo_id
+//		));
 	}
 	
 	public function admin_edit_gallery() {
-		$this->log($_REQUEST, 'edit_gallery');
+		$this->parse_angular_json($this);
 		
 		if ( !empty($this->data) ) {
 			// set or unset the id (depending on if its an edit or add)
-			$this->data['PhotoGallery']['id'] = $id;
-			$this->log($this->data, 'edit_gallery');
-			
-			
 			if (!$this->PhotoGallery->save($this->data)) {
 				$this->PhotoGallery->major_error('failed to save photo gallery in edit gallery', $this->data);
-				$this->Session->setFlash(__('Failed to save photo gallery', true), 'admin/flashMessage/error');
-			} else {
-				$this->Session->setFlash(__('Photo gallery saved', true), 'admin/flashMessage/success');
+				$this->return_json_angular(false, "Failed to save photo gallery", $this->data);
 			}
  		} 
-		$this->log('came here 1', 'edit_gallery');
 		
-		$returnArr = array(
-			'awesome' => true,
-		);
-		$this->return_json($returnArr);
-		
-//		$this->data = $this->PhotoGallery->find('first', array(
-//			'conditions' => array(
-//				'PhotoGallery.id' => $id
-//			),
-//			'contain' => array(
-//				'PhotoGalleriesPhoto' => array(
-//					'Photo'
-//				)
-//			)
-//		));
+		$this->return_angular_json(true, "Photo gallery saved", $this->data);
 	}
 	
 	public function admin_ajax_get_photos_in_gallery($gallery_id) {
