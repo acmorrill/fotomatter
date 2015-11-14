@@ -32,7 +32,10 @@ fotomatterServices.factory('PhotoGalleries', ['$resource', function($resource) {
 		},
 		'view_smart': { 
 			url: '/admin/photo_galleries/edit_smart_gallery/:id',
-			method: 'GET', 
+			method: 'GET',
+			params: { 
+				id: '@id'
+			}
 		},
 		'edit_gallery': {
 			method: 'POST',

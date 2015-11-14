@@ -20,22 +20,22 @@
 ?>
 
 
-<h1><?php echo __('Edit Smart Gallery', true); ?>
+<h1><span onbeforesave="edit_gallery_name($data, open_smart_gallery.PhotoGallery.id)" editable-text="open_smart_gallery.PhotoGallery.display_name">{{open_smart_gallery.PhotoGallery.display_name}}</span>
 	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 </h1>
-<!--	<p>A smart gallery lets you find photos automatically based on a number of optional factors. The advantage over a standard gallery is that you can set the parameters for the smart gallery and new photos will automatically be added to the smart gallery.</p>-->
+<p onbeforesave="edit_gallery_description($data, open_smart_gallery.PhotoGallery.id)" editable-text="open_smart_gallery.PhotoGallery.description">{{open_smart_gallery.PhotoGallery.description || "Gallery Description Empty" }}</p>
 
 
 <script type="text/javascript">
-	jQuery(document).ready(function() {
-		jQuery('#date_added_from, #date_added_to, #date_taken_from, #date_taken_to').datepicker({
-			onSelect: function(dateText, inst) {
-				jQuery(this).removeClass('defaultTextActive');
-			}
-		});
-		
-		jQuery("#filter_photo_by_format").buttonset();
-	});
+//	jQuery(document).ready(function() {
+//		jQuery('#date_added_from, #date_added_to, #date_taken_from, #date_taken_to').datepicker({
+//			onSelect: function(dateText, inst) {
+//				jQuery(this).removeClass('defaultTextActive');
+//			}
+//		});
+//		
+//		jQuery("#filter_photo_by_format").buttonset();
+//	});
 </script>
 
 
@@ -58,16 +58,12 @@
 		$start_settings['order_direction'] = isset($this->data['PhotoGallery']['smart_settings']['order_direction']) ? $this->data['PhotoGallery']['smart_settings']['order_direction'] : '';
 	?>
 	
-	<form action="/admin/photo_galleries/edit_smart_gallery/<?php echo $id; ?>/" method="post" >
+	<!--<form action="/admin/photo_galleries/edit_smart_gallery//" method="post" >-->
 		<div class="generic_inner_container">
 			<div class="generic_dark_cont fotomatter_form">
 				<div class="input text">
 					<label><?php echo __('Photo has tag', true); ?></label>
-					<select name="data[smart_settings][tags][]" multiple="multiple" class="chzn-select" data-placeholder="Find Tags ...">
-						<?php foreach ($tags as $tag): ?>
-							<option value="<?php echo $tag['Tag']['id']; ?>" <?php if (in_array($tag['Tag']['id'], $start_settings['tags'])): ?>selected="selected"<?php endif; ?> ><?php echo $tag['Tag']['name']; ?></option>
-						<?php endforeach; ?>
-					</select>
+					<select ng-model="open_smart_gallery.tags" ng-options="tag as tag.Tag.name for tag in tags track by tag.Tag.name" class="gallery_tags" style="width: 300px;" name="data[smart_settings][tags][]" multiple="multiple" data-placeholder="Find Tags ..."></select>
 				</div>
 				<div class="input text" data-step="2" data-intro="<?php echo __('Add photos to the gallery that were uploaded from selected date to selected date.', true); ?>" data-position="top">
 					<label><?php echo __('Photo Added to Site', true); ?></label>
@@ -77,9 +73,9 @@
 					<input type="hidden" name="data[smart_settings][date_added_from_default]" value="<?php echo $date_added_from_default; ?>" />
 					<input type="hidden" name="data[smart_settings][date_added_to_default]" value="<?php echo $date_added_to_default; ?>" />
 					<span><?php echo __('From', true); ?></span>
-					<input id="date_added_from" class="defaultText" title="<?php echo $date_added_from_default; ?>" name="data[smart_settings][date_added_from]" type="text" value="<?php echo $start_settings['date_added_from']; ?>" />
+					<input id="date_added_from" class="defaultText" title="<?php echo $date_added_from_default; ?>" name="data[smart_settings][date_added_from]" type="text" ng-model="open_smart_gallery.PhotoGallery.smart_settings.date_added_from" value="open_smart_gallery.PhotoGallery.smart_settings.date_added_from" />
 					<span><?php echo __('To', true); ?></span>
-					<input id="date_added_to" class="defaultText" title="<?php echo $date_added_to_default; ?>" name="data[smart_settings][date_added_to]" type="text" value="<?php echo $start_settings['date_added_to']; ?>" />
+					<input id="date_added_to" class="defaultText" title="<?php echo $date_added_to_default; ?>" name="data[smart_settings][date_added_to]" type="text" ng-model="open_smart_gallery.PhotoGallery.smart_settings.date_added_to" value="open_smart_gallery.PhotoGallery.smart_settings.date_added_from" />
 				</div>
 				<div class="input text" data-step="3" data-intro="<?php echo __('Add photos to the gallery that were taken by you on selected dates.', true); ?>" data-position="top">
 					<label><?php echo __('Photo Taken', true); ?></label>
@@ -89,9 +85,9 @@
 					<input type="hidden" name="data[smart_settings][date_taken_from_default]" value="<?php echo $date_taken_from_default; ?>" />
 					<input type="hidden" name="data[smart_settings][date_taken_to_default]" value="<?php echo $date_taken_to_default; ?>" />
 					<span><?php echo __('From', true); ?></span>
-					<input id="date_taken_from" class="defaultText" title="<?php echo $date_taken_from_default; ?>" name="data[smart_settings][date_taken_from]" type="text" value="<?php echo $start_settings['date_taken_from']; ?>" />
+					<input id="date_taken_from" class="defaultText" title="<?php echo $date_taken_from_default; ?>" name="data[smart_settings][date_taken_from]" type="text" ng-model="open_smart_gallery.PhotoGallery.smart_settings.date_taken_from" value="{{open_smart_gallery.PhotoGallery.smart_settings.date_taken_from}}" />
 					<span><?php echo __('To', true); ?></span>
-					<input id="date_taken_to" class="defaultText" title="<?php echo $date_taken_to_default; ?>" name="data[smart_settings][date_taken_to]" type="text" value="<?php echo $start_settings['date_taken_to']; ?>" />
+					<input id="date_taken_to" class="defaultText" title="<?php echo $date_taken_to_default; ?>" name="data[smart_settings][date_taken_to]" type="text" ng-model="open_smart_gallery.PhotoGallery.smart_settings.date_taken_to" value="{{open_smart_gallery.PhotoGallery.smart_settings.date_taken_to}}" />
 				</div>
 				<div class="input custom_ui" data-step="4" data-intro="<?php echo __('Format all the photos by choosing one or more of the following.', true); ?>" data-position="top">
 					<label><?php echo __('Format of Photo', true); ?></label>
@@ -111,17 +107,17 @@
 				<div style="clear: both"></div>
 				<div class="input text">
 					<label><?php echo __('Order/Sort By', true); ?></label>
-					<select name="data[smart_settings][order_by]">
-						<option value="created" <?php if ($start_settings['order_by'] == 'created'): ?>selected="selected"<?php endif; ?> >Date Added</option>
-						<option value="date_taken" <?php if ($start_settings['order_by'] == 'date_taken'): ?>selected="selected"<?php endif; ?> >Date Taken</option>
-						<option value="display_title" <?php if ($start_settings['order_by'] == 'display_title'): ?>selected="selected"<?php endif; ?> >Photo Name</option>
+					<select name="data[smart_settings][order_by]" ng-model="open_smart_gallery.PhotoGallery.smart_settings.order_by">
+						<option value="created">Date Added</option>
+						<option value="date_taken">Date Taken</option>
+						<option value="display_title">Photo Name</option>
 					</select>
 				</div>
 				<div class="input text">
 					<label><?php echo __('Order Direction', true); ?></label>
-					<select name="data[smart_settings][order_direction]">
-						<option value="desc" <?php if ($start_settings['order_direction'] == 'desc'): ?>selected="selected"<?php endif; ?> >Descending</option>
-						<option value="asc" <?php if ($start_settings['order_direction'] == 'asc'): ?>selected="selected"<?php endif; ?> >Ascending</option>
+					<select name="data[smart_settings][order_direction]"  ng-model="open_smart_gallery.PhotoGallery.smart_settings.order_direction">
+						<option value="desc">Descending</option>
+						<option value="asc">Ascending</option>
 					</select>
 				</div>
 			</div>
@@ -129,5 +125,5 @@
 		<div class="submit save_button javascript_submit"data-step="5" data-intro="<?php echo __("Don't fotget to save." , true); ?>" data-position="top">
 			<div class="content"><?php echo __('Save', true); ?></div>
 		</div>
-	</form>
+	<!--</form>-->
 </div>

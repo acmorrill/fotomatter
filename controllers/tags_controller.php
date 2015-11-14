@@ -16,17 +16,7 @@ class TagsController extends AppController {
 	}
 
 	public function admin_index() {
-		$tag_query = "
-			SELECT Tag.id, Tag.weight, Tag.name, Tag.created, (SELECT count(*) FROM photos_tags WHERE tag_id = Tag.id) as photos_count
-			FROM tags AS Tag
-		";
-		$tags = $this->Tag->query($tag_query);
-
-		// convert tag ids to int so json will be int and sort correct in angular
-		foreach ($tags as &$tag) {
-			$tag['Tag']['id'] = (int) $tag['Tag']['id'];
-			$tag['Tag']['photos_count'] = (int) $tag[0]['photos_count'];
-		}
+		$tags = $this->Tag->get_tags();
 
 		$this->return_json($tags);
 	}

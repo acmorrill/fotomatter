@@ -328,6 +328,8 @@ class PhotoGalleriesController extends AppController {
 	}
 	
 	public function admin_edit_smart_gallery($id) {
+		$this->parse_angular_json($this);
+		
 		if ( !empty($this->data) ) {
 			// get settings to save
 			$smart_settings = $this->data['smart_settings'];
@@ -344,10 +346,8 @@ class PhotoGalleriesController extends AppController {
 			$smart_gallery['PhotoGallery']['id'] = $id;
 			$smart_gallery['PhotoGallery']['smart_settings'] = serialize($save_settings);
 			if (!$this->PhotoGallery->save($smart_gallery)) {
-				$this->Session->setFlash(__('Failed to save smart settings.', true), 'admin/flashMessage/error');
 				$this->PhotoGallery->major_error('Failed to save smart settings.', compact('smart_gallery'));
-			} else {
-				$this->Session->setFlash(__('Smart Gallery settings saved', true), 'admin/flashMessage/success');
+				$this->return_angular_json(false, 'Failed to save smart settings.', array());
 			}
 		}
 		
@@ -357,27 +357,25 @@ class PhotoGalleriesController extends AppController {
 			),
 			'contain' => false
 		));
-		
-		
-		$tags = $this->Tag->find('all', array(
-			'order' => array(
-				'Tag.name'
-			),
-			'contain' => false
-		));
-		
-		$this->set(compact('tags', 'id'));
+		$smart_gallery_tags = array();
+		foreach ($this->data['PhotoGallery']['smart_settings']['tags'] as $smart_gallery_tag) {
+			$smart_gallery_tags[] = array(
+				'Tag' => array(
+					'name' => $smart_gallery_tag
+				)
+			);
+		}
+//		$smart_gallery_tags[] = array(
+//			'Tag' => array(
+//				'name' => 'Kids'
+//			)
+//		);
 		
 		$this->return_angular_json(true, '', array(
-			'tags' => $tags,
-			'photo_gallery' => $this->data
+			'data' => $this->data,
+			'id' => $id,
+			'selected_tags' => $smart_gallery_tags
 		));
-		
-//		$this->return_json(array(
-//			'photo_gallery' => $photo_galleries[0],
-//			'not_connected_photos' => $not_connected_photos,
-//			'last_photo_id' => $last_photo_id
-//		));
 	}
 	
 	public function admin_edit_gallery() {

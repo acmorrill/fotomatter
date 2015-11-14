@@ -383,6 +383,7 @@
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
+  min-width: 300px;
 }
 .chosen-container .chosen-drop {
   position: absolute;

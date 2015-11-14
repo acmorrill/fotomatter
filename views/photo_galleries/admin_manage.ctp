@@ -1,15 +1,16 @@
 <script src="/js/angular_1.2.22/app/js/app.js"></script>
 <script src="/js/angular_1.2.22/app/js/controllers.js"></script>
 <script src="/js/angular_1.2.22/app/js/services.js"></script>
+<script src="/js/angular_1.2.22/app/js/directives.js"></script>
 
 <?php
 	$last_open_gallery_id_str = '';
-	if (!empty($_COOKIE['last_open_gallery_id'])) {
-		$last_open_gallery_id_str = "ng-init='last_open_gallery_id={$_COOKIE['last_open_gallery_id']}'";
+	if (!empty($_COOKIE['last_open_gallery_id']) && !empty($_COOKIE['last_open_gallery_type'])) {
+		$last_open_gallery_id_str = "ng-init='last_open_gallery_id={$_COOKIE['last_open_gallery_id']};last_open_gallery_type=\"{$_COOKIE['last_open_gallery_type']}\"'";
 	} else {
 		$first_gallery = $this->Gallery->get_first_gallery_by_weight();
 		if (!empty($first_gallery['PhotoGallery']['id'])) {
-			$last_open_gallery_id_str = "ng-init='last_open_gallery_id={$first_gallery['PhotoGallery']['id']}'";
+			$last_open_gallery_id_str = "ng-init='last_open_gallery_id={$first_gallery['PhotoGallery']['id']};last_open_gallery_type=\"{$first_gallery['PhotoGallery']['type']}\"'";
 		}
 	}
 ?>
@@ -30,10 +31,10 @@
 	<div class="clear"></div>
 
 
-	<div class="gallery_view" ng-hide="open_gallery == null">
+	<div class="gallery_view" ng-show="open_gallery != null">
 		<?php echo $this->Element('admin/gallery/angular_edit_gallery_connect_photos'); ?>
 	</div>
-	<div class="gallery_view" ng-hide="open_smart_gallery == null">
+	<div class="gallery_view" ng-show="open_smart_gallery != null">
 		<?php echo $this->Element('admin/gallery/angular_edit_smart_gallery'); ?>
 	</div>
 	<?php /*<div class="gallery_view" ng-show="open_gallery == null">
@@ -78,13 +79,13 @@
 				<tbody>
 					<tr class="spacer"><td colspan="1"></td></tr>
 
-					<tr class="first last" ng-show="loading == true">
+					<tr class="first last ng-hide" ng-show="loading == true">
 						<td class="first last" colspan="1" style="text-align: center;">
 							<span>LOADING</span>
 						</td>
 					</tr>
 
-					<tr class="first last" ng-show="photo_galleries.length == 0 && loading == false">
+					<tr class="first last ng-hide" ng-show="photo_galleries.length == 0 && loading == false">
 						<td class="first last" colspan="1">
 							<span>You don't have any galleries</span>
 						</td>
@@ -104,7 +105,7 @@
 											<div class="reorder_gallery_grabber reorder_grabber icon-position-01" />
 										</td>
 										<td class="last">
-											<span>{{photo_gallery.PhotoGallery.display_name}}</span>
+											<span>{{photo_gallery.PhotoGallery.display_name}} - {{photo_gallery.PhotoGallery.type}}</span>
 										</td>
 									</tr>
 									<tr>
@@ -114,7 +115,7 @@
 													<div class="content"><?php echo __('Edit', true); ?></div>
 													<div class="right_arrow_lines icon-arrow-01"><div></div></div>
 												</div>*/ ?>
-												<div ng-class="{'selected': last_open_gallery_id == photo_gallery.PhotoGallery.id}" class="add_button icon" ng-click="view_gallery(photo_gallery.PhotoGallery.id)">
+												<div ng-class="{'selected': last_open_gallery_id == photo_gallery.PhotoGallery.id}" class="add_button icon" ng-click="view_gallery(photo_gallery.PhotoGallery.id, 0, photo_gallery.PhotoGallery.type)">
 													<div class="content icon-picture"></div>
 												</div>
 												<div class="add_button icon" ng-click="upload_to_gallery()">
