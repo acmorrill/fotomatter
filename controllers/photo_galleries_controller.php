@@ -327,8 +327,34 @@ class PhotoGalleriesController extends AppController {
 		$this->set(compact('galleries', 'curr_page'));
 	}
 	
-	public function admin_edit_smart_gallery($id) {
+	public function admin_view_smart_gallery($id) {
+		$this->data = $this->PhotoGallery->find('first', array(
+			'conditions' => array(
+				'PhotoGallery.id' => $id
+			),
+			'contain' => false
+		));
+		$smart_gallery_tags = array();
+		foreach ($this->data['PhotoGallery']['smart_settings']['tags'] as $smart_gallery_tag) {
+			$smart_gallery_tags[] = array(
+				'Tag' => array(
+					'name' => $smart_gallery_tag
+				)
+			);
+		}
+		
+		$this->return_angular_json(true, '', array(
+			'data' => $this->data,
+			'id' => $id,
+			'selected_tags' => $smart_gallery_tags
+		));
+	}
+	
+	public function admin_edit_smart_gallery() {
 		$this->parse_angular_json($this);
+		$this->log($this->data, 'edit_smart_gallery');
+		$id = $this->data['id'];
+		
 		
 		if ( !empty($this->data) ) {
 			// get settings to save
@@ -351,30 +377,10 @@ class PhotoGalleriesController extends AppController {
 			}
 		}
 		
-		$this->data = $this->PhotoGallery->find('first', array(
-			'conditions' => array(
-				'PhotoGallery.id' => $id
-			),
-			'contain' => false
-		));
-		$smart_gallery_tags = array();
-		foreach ($this->data['PhotoGallery']['smart_settings']['tags'] as $smart_gallery_tag) {
-			$smart_gallery_tags[] = array(
-				'Tag' => array(
-					'name' => $smart_gallery_tag
-				)
-			);
-		}
-//		$smart_gallery_tags[] = array(
-//			'Tag' => array(
-//				'name' => 'Kids'
-//			)
-//		);
-		
 		$this->return_angular_json(true, '', array(
 			'data' => $this->data,
-			'id' => $id,
-			'selected_tags' => $smart_gallery_tags
+//			'id' => $id,
+//			'selected_tags' => $smart_gallery_tags
 		));
 	}
 	

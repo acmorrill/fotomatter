@@ -63,51 +63,47 @@
 			<div class="generic_dark_cont fotomatter_form">
 				<div class="input text">
 					<label><?php echo __('Photo has tag', true); ?></label>
-					<select ng-model="open_smart_gallery.tags" ng-options="tag as tag.Tag.name for tag in tags track by tag.Tag.name" class="gallery_tags" style="width: 300px;" name="data[smart_settings][tags][]" multiple="multiple" data-placeholder="Find Tags ..."></select>
+					<select ng-model="open_smart_gallery.PhotoGallery.smart_settings.tags" ng-options="tag as tag.Tag.name for tag in tags track by tag.Tag.name" class="gallery_tags" style="width: 300px;" name="data[smart_settings][tags][]" multiple="multiple" data-placeholder="Find Tags ..." ng-change="change_smart_gallery_setting()"></select>
 				</div>
 				<div class="input text" data-step="2" data-intro="<?php echo __('Add photos to the gallery that were uploaded from selected date to selected date.', true); ?>" data-position="top">
 					<label><?php echo __('Photo Added to Site', true); ?></label>
 
 					<?php $date_added_from_default = 'Beginning of Time'; ?>
 					<?php $date_added_to_default = 'End of Time'; ?>
-					<input type="hidden" name="data[smart_settings][date_added_from_default]" value="<?php echo $date_added_from_default; ?>" />
-					<input type="hidden" name="data[smart_settings][date_added_to_default]" value="<?php echo $date_added_to_default; ?>" />
 					<span><?php echo __('From', true); ?></span>
-					<input id="date_added_from" class="defaultText" title="<?php echo $date_added_from_default; ?>" name="data[smart_settings][date_added_from]" type="text" ng-model="open_smart_gallery.PhotoGallery.smart_settings.date_added_from" value="open_smart_gallery.PhotoGallery.smart_settings.date_added_from" />
+					<input id="date_added_from" class="defaultText" title="<?php echo $date_added_from_default; ?>" name="data[smart_settings][date_added_from]" type="text" ng-model="open_smart_gallery.PhotoGallery.smart_settings.date_added_from" value="open_smart_gallery.PhotoGallery.smart_settings.date_added_from" ng-change="change_smart_gallery_setting()" />
 					<span><?php echo __('To', true); ?></span>
-					<input id="date_added_to" class="defaultText" title="<?php echo $date_added_to_default; ?>" name="data[smart_settings][date_added_to]" type="text" ng-model="open_smart_gallery.PhotoGallery.smart_settings.date_added_to" value="open_smart_gallery.PhotoGallery.smart_settings.date_added_from" />
+					<input id="date_added_to" class="defaultText" title="<?php echo $date_added_to_default; ?>" name="data[smart_settings][date_added_to]" type="text" ng-model="open_smart_gallery.PhotoGallery.smart_settings.date_added_to" value="open_smart_gallery.PhotoGallery.smart_settings.date_added_from" ng-change="change_smart_gallery_setting()" />
 				</div>
 				<div class="input text" data-step="3" data-intro="<?php echo __('Add photos to the gallery that were taken by you on selected dates.', true); ?>" data-position="top">
 					<label><?php echo __('Photo Taken', true); ?></label>
 
 					<?php $date_taken_from_default = 'Beginning of Time'; ?>
 					<?php $date_taken_to_default = 'End of Time'; ?>
-					<input type="hidden" name="data[smart_settings][date_taken_from_default]" value="<?php echo $date_taken_from_default; ?>" />
-					<input type="hidden" name="data[smart_settings][date_taken_to_default]" value="<?php echo $date_taken_to_default; ?>" />
 					<span><?php echo __('From', true); ?></span>
-					<input id="date_taken_from" class="defaultText" title="<?php echo $date_taken_from_default; ?>" name="data[smart_settings][date_taken_from]" type="text" ng-model="open_smart_gallery.PhotoGallery.smart_settings.date_taken_from" value="{{open_smart_gallery.PhotoGallery.smart_settings.date_taken_from}}" />
+					<input id="date_taken_from" class="defaultText" title="<?php echo $date_taken_from_default; ?>" name="data[smart_settings][date_taken_from]" type="text" ng-model="open_smart_gallery.PhotoGallery.smart_settings.date_taken_from" value="{{open_smart_gallery.PhotoGallery.smart_settings.date_taken_from}}" ng-change="change_smart_gallery_setting()" />
 					<span><?php echo __('To', true); ?></span>
-					<input id="date_taken_to" class="defaultText" title="<?php echo $date_taken_to_default; ?>" name="data[smart_settings][date_taken_to]" type="text" ng-model="open_smart_gallery.PhotoGallery.smart_settings.date_taken_to" value="{{open_smart_gallery.PhotoGallery.smart_settings.date_taken_to}}" />
+					<input id="date_taken_to" class="defaultText" title="<?php echo $date_taken_to_default; ?>" name="data[smart_settings][date_taken_to]" type="text" ng-model="open_smart_gallery.PhotoGallery.smart_settings.date_taken_to" value="{{open_smart_gallery.PhotoGallery.smart_settings.date_taken_to}}" ng-change="change_smart_gallery_setting()" />
 				</div>
 				<div class="input custom_ui" data-step="4" data-intro="<?php echo __('Format all the photos by choosing one or more of the following.', true); ?>" data-position="top">
 					<label><?php echo __('Format of Photo', true); ?></label>
-					<div id="filter_photo_by_format">
-						<input type="checkbox" name="data[smart_settings][photo_format][]" value="landscape" <?php if (in_array('landscape', $start_settings['photo_format'])): ?>checked="checked"<?php endif; ?> id="check1" />
-						<label class="add_button" for="check1"><div class="content"><?php echo __('Landscape', true); ?></div></label>
-						<input type="checkbox" name="data[smart_settings][photo_format][]" value="portrait" <?php if (in_array('portrait', $start_settings['photo_format'])): ?>checked="checked"<?php endif; ?> id="check2" />
-						<label class="add_button" for="check2"><div class="content"><?php echo __('Portrait', true); ?></div></label>
-						<input type="checkbox" name="data[smart_settings][photo_format][]" value="square" <?php if (in_array('square', $start_settings['photo_format'])): ?>checked="checked"<?php endif; ?> id="check3" />
-						<label class="add_button" for="check3"><div class="content"><?php echo __('Square', true); ?></div></label>
-						<input type="checkbox" name="data[smart_settings][photo_format][]" value="panoramic" <?php if (in_array('panoramic', $start_settings['photo_format'])): ?>checked="checked"<?php endif; ?> id="check4" />
-						<label class="add_button" for="check4"><div class="content"><?php echo __('Panoramic', true); ?></div></label>
-						<input type="checkbox" name="data[smart_settings][photo_format][]" value="vertical_panoramic" <?php if (in_array('vertical_panoramic', $start_settings['photo_format'])): ?>checked="checked"<?php endif; ?> id="check5" />
-						<label class="add_button" for="check5"><div class="content"><?php echo __('Vertical Panoramic', true); ?></div></label>
+					<div id="smart_filter_photo_by_format">
+						<input type="checkbox" ng-model="open_smart_gallery_photo_formats.landscape" ng-change="change_smart_gallery_setting()" value="landscape" id="check6" />
+						<label class="add_button" for="check6"><div class="content"><?php echo __('Landscape', true); ?></div></label>
+						<input type="checkbox" ng-model="open_smart_gallery_photo_formats.portrait" ng-change="change_smart_gallery_setting()" value="portrait" id="check7" />
+						<label class="add_button" for="check7"><div class="content"><?php echo __('Portrait', true); ?></div></label>
+						<input type="checkbox" ng-model="open_smart_gallery_photo_formats.square" ng-change="change_smart_gallery_setting()" value="square" id="check8" />
+						<label class="add_button" for="check8"><div class="content"><?php echo __('Square', true); ?></div></label>
+						<input type="checkbox" ng-model="open_smart_gallery_photo_formats.panoramic" ng-change="change_smart_gallery_setting()" value="panoramic" id="check9" />
+						<label class="add_button" for="check9"><div class="content"><?php echo __('Panoramic', true); ?></div></label>
+						<input type="checkbox" ng-model="open_smart_gallery_photo_formats.vertical_panoramic" ng-change="change_smart_gallery_setting()" value="vertical_panoramic" id="check10" />
+						<label class="add_button" for="check10"><div class="content"><?php echo __('Vertical Panoramic', true); ?></div></label>
 					</div>
 				</div>
 				<div style="clear: both"></div>
 				<div class="input text">
 					<label><?php echo __('Order/Sort By', true); ?></label>
-					<select name="data[smart_settings][order_by]" ng-model="open_smart_gallery.PhotoGallery.smart_settings.order_by">
+					<select name="data[smart_settings][order_by]" ng-model="open_smart_gallery.PhotoGallery.smart_settings.order_by" ng-change="change_smart_gallery_setting()">
 						<option value="created">Date Added</option>
 						<option value="date_taken">Date Taken</option>
 						<option value="display_title">Photo Name</option>
@@ -115,15 +111,12 @@
 				</div>
 				<div class="input text">
 					<label><?php echo __('Order Direction', true); ?></label>
-					<select name="data[smart_settings][order_direction]"  ng-model="open_smart_gallery.PhotoGallery.smart_settings.order_direction">
+					<select name="data[smart_settings][order_direction]"  ng-model="open_smart_gallery.PhotoGallery.smart_settings.order_direction" ng-change="change_smart_gallery_setting()">
 						<option value="desc">Descending</option>
 						<option value="asc">Ascending</option>
 					</select>
 				</div>
 			</div>
-		</div>
-		<div class="submit save_button javascript_submit"data-step="5" data-intro="<?php echo __("Don't fotget to save." , true); ?>" data-position="top">
-			<div class="content"><?php echo __('Save', true); ?></div>
 		</div>
 	<!--</form>-->
 </div>

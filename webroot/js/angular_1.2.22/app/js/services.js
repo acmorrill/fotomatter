@@ -8,6 +8,7 @@ var fotomatterServices = angular.module('fotomatterServices', ['ngResource']);
 fotomatterServices.factory('Tags', ['$resource', function($resource) {
 	return $resource('/tags/:id.json', {}, {
 		'index': { url: '/admin/tags/index', method: 'GET', isArray: true },
+		'index_no_count': { url: '/admin/tags/index/false', method: 'GET', isArray: true },
 		'add': { url: '/admin/tags/add', method: 'POST', params: { name: '@name' } },
 		'edit': { url: '/admin/tags/edit/:id', method: 'PUT', params: { id: '@id', name: '@name' } },
 		'delete': { url: '/admin/tags/delete/:id', method: 'DELETE', params: { id: '@id' } }
@@ -31,7 +32,7 @@ fotomatterServices.factory('PhotoGalleries', ['$resource', function($resource) {
 			}
 		},
 		'view_smart': { 
-			url: '/admin/photo_galleries/edit_smart_gallery/:id',
+			url: '/admin/photo_galleries/view_smart_gallery/:id',
 			method: 'GET',
 			params: { 
 				id: '@id'
@@ -40,6 +41,10 @@ fotomatterServices.factory('PhotoGalleries', ['$resource', function($resource) {
 		'edit_gallery': {
 			method: 'POST',
 			url: '/admin/photo_galleries/edit_gallery'
+		},
+		'edit_smart_gallery': {
+			method: 'POST',
+			url: '/admin/photo_galleries/edit_smart_gallery'
 		},
 		'add_photo': {
 			url: '/admin/photo_galleries/ajax_movephoto_into_gallery/:photo_id/:gallery_id/:gallery_icon_size',

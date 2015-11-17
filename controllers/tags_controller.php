@@ -15,11 +15,12 @@ class TagsController extends AppController {
 		$this->set(compact('curr_page', 'curr_sub_page'));
 	}
 
-	public function admin_index() {
-		$tags = $this->Tag->get_tags();
+	public function admin_index($photo_count = true) {
+		$tags = $this->Tag->get_tags($photo_count);
 
 		$this->return_json($tags);
 	}
+	
 
 //    public function view($id) {
 //        $tag = $this->Tag->findById($id);
