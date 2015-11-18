@@ -102,7 +102,7 @@ fotomatterControllers.controller('TagListCtrl', ['$scope', '$q', 'Tags', functio
 }]);
 
 
-fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleries', '$cookies', 'Tags', function($scope, $q, PhotoGalleries, $cookies, Tags) {
+fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleries', '$cookies', 'Tags', '$timeout', function($scope, $q, PhotoGalleries, $cookies, Tags, $timeout) {
 	var in_view_gallery = false;
 	var cease_fire = false;
 	var disable_gallery_add = false;
@@ -159,7 +159,9 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 			// setup jquery ui buttons
 			jQuery("#smart_filter_photo_by_format, #filter_photo_by_format, #sort_photo_radio").buttonset();
 			jQuery("#photos_not_in_a_gallery").button();
-			jQuery('.gallery_tags').chosen();
+			jQuery('.gallery_tags').chosen({
+				'placeholder_text_multiple': 'Find Tags ...'
+			});
 			$scope.$watch("tags", function(val){
 				if (typeof val != 'undefined' && val != null) {
 					jQuery('.gallery_tags').trigger("chosen:updated");
@@ -168,6 +170,7 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 			$scope.$watch("open_smart_gallery", function(val){
 				if (typeof val != 'undefined' && val != null) {
 					jQuery('.gallery_tags').trigger("chosen:updated");
+					jQuery('.gallery_tags, .defaultText').blur();
 				}
 			});
 			$scope.$watch("open_smart_gallery_photo_formats", function(val){
@@ -176,6 +179,10 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 			Tags.index_no_count().$promise.then(function(tags) {
 				$scope.tags = tags;
 			});
+//			$timeout(function() {
+//				jQuery('.gallery_tags, .defaultText').blur();
+//				console.log('came into here');
+//			});
 //			jQuery(document).ready(function() {
 //				jQuery('.gallery_tags').trigger("chosen:updated");
 //			});
@@ -454,9 +461,6 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 			}
 		}
 		$scope.open_smart_gallery.PhotoGallery.smart_settings.photo_format = photo_formats;
-		console.log('+++++++++++++++++++++++++++');
-		console.log($scope.open_smart_gallery.PhotoGallery.smart_settings);
-		console.log('+++++++++++++++++++++++++++');
 		PhotoGalleries.edit_smart_gallery({}, $scope.open_smart_gallery.PhotoGallery, 
 			function(result) {
 				hide_universal_save();

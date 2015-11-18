@@ -23,21 +23,7 @@
 <h1><span onbeforesave="edit_gallery_name($data, open_smart_gallery.PhotoGallery.id)" editable-text="open_smart_gallery.PhotoGallery.display_name">{{open_smart_gallery.PhotoGallery.display_name}}</span>
 	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 </h1>
-<p onbeforesave="edit_gallery_description($data, open_smart_gallery.PhotoGallery.id)" editable-text="open_smart_gallery.PhotoGallery.description">{{open_smart_gallery.PhotoGallery.description || "Gallery Description Empty" }}</p>
-
-
-<script type="text/javascript">
-//	jQuery(document).ready(function() {
-//		jQuery('#date_added_from, #date_added_to, #date_taken_from, #date_taken_to').datepicker({
-//			onSelect: function(dateText, inst) {
-//				jQuery(this).removeClass('defaultTextActive');
-//			}
-//		});
-//		
-//		jQuery("#filter_photo_by_format").buttonset();
-//	});
-</script>
-
+<p onbeforesave="edit_gallery_description($data, open_smart_gallery.PhotoGallery.id)" editable-textarea="open_smart_gallery.PhotoGallery.description" e-rows="7">{{open_smart_gallery.PhotoGallery.description || "Gallery Description Empty" }}</p>
 
 
 <div class="page_content_header generic_basic_settings">
@@ -63,7 +49,7 @@
 			<div class="generic_dark_cont fotomatter_form">
 				<div class="input text">
 					<label><?php echo __('Photo has tag', true); ?></label>
-					<select ng-model="open_smart_gallery.PhotoGallery.smart_settings.tags" ng-options="tag as tag.Tag.name for tag in tags track by tag.Tag.name" class="gallery_tags" style="width: 300px;" name="data[smart_settings][tags][]" multiple="multiple" data-placeholder="Find Tags ..." ng-change="change_smart_gallery_setting()"></select>
+					<select ng-model="open_smart_gallery.PhotoGallery.smart_settings.tags" ng-options="tag as tag.Tag.name for tag in tags track by tag.Tag.name" class="gallery_tags" style="width: 300px;" name="data[smart_settings][tags][]" multiple="multiple" ng-change="change_smart_gallery_setting()"></select>
 				</div>
 				<div class="input text" data-step="2" data-intro="<?php echo __('Add photos to the gallery that were uploaded from selected date to selected date.', true); ?>" data-position="top">
 					<label><?php echo __('Photo Added to Site', true); ?></label>

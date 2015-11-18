@@ -2,7 +2,7 @@
 	<h1><span onbeforesave="edit_gallery_name($data, open_gallery.PhotoGallery.id)" editable-text="open_gallery.PhotoGallery.display_name">{{open_gallery.PhotoGallery.display_name}}</span>
 		<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 	</h1>
-	<p onbeforesave="edit_gallery_description($data, open_gallery.PhotoGallery.id)" editable-text="open_gallery.PhotoGallery.description">{{open_gallery.PhotoGallery.description || "Gallery Description Empty" }}</p>
+	<p onbeforesave="edit_gallery_description($data, open_gallery.PhotoGallery.id)" editable-textarea="open_gallery.PhotoGallery.description" e-rows="7">{{open_gallery.PhotoGallery.description || "Gallery Description Empty" }}</p>
 	
 	<?php /*
 	 * 
