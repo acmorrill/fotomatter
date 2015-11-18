@@ -4227,6 +4227,17 @@ body .ui-dialog .ui-dialog-buttonpane button:hover {
   background: #292929;
   color: #f4f9f5;
 }
+body .ui-dialog .ui-dialog-progresspane {
+  margin: 30px;
+}
+body .ui-dialog .ui-dialog-progresspane .custom_progress {
+  border: 0px none;
+  background-color: #8e999f;
+}
+body .ui-dialog .ui-dialog-progresspane .ui-progressbar-value {
+  margin: 0px;
+  background-color: #2ac0de;
+}
 body .ui-dialog:hover .ui-widget-header {
   color: #f4f9f5;
 }
@@ -5326,11 +5337,8 @@ body {
 #theme_chooser_container .theme_item_container .progress {
   width: 196px;
 }
-body .ui-widget-header {
+body .ui-progressbar-value {
   background-color: #2ac0de;
-}
-body .ui-widget-content {
-  border: 0px none;
 }
 #theme_centers_list_container {
   position: relative;

@@ -24,7 +24,7 @@ class SiteSetting extends AppModel {
 			$imageContainerUrl = $this->getVal('image-container-url', '');
 		}
 		
-		return trim($imageContainerUrl, '/').'/';
+		return rtrim(preg_replace(array('/\s/','/\n/'), '', $imageContainerUrl), '/').'/';
 	}
 	
 	public function get_site_default_container_url() {
@@ -34,7 +34,7 @@ class SiteSetting extends AppModel {
 			$imageContainerUrl = SITE_DEFAULT_CONTAINER_SECURE_URL;
 		}
 		
-		return trim($imageContainerUrl, '/').'/';
+		return rtrim(preg_replace(array('/\s/','/\n/'), '', $imageContainerUrl), '/').'/';
 	}
 	
 	public function clearVal($name) {
