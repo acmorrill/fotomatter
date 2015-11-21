@@ -315,6 +315,34 @@ table.list {
 }
 
 .dynamic_list {
+	#gallery_list_tools {
+		width: 100%;
+		height: 42px;
+		position: absolute;
+		top: @header_height + 10px;
+		left: 0px;
+		z-index: @header;
+		border-top: 1px solid @table_and_button_outline;
+		border-bottom: 1px solid @table_and_button_outline;
+		#gallery_list_tools_inner {
+			height: 40px;
+			background-color: @body_content_top_bg;
+			color: @gray_text;
+			border-top: 1px solid black;
+			border-bottom: 1px solid black;
+			border-right: 1px solid black;
+			span { 
+				font-size: 50px; 
+				margin-top: -4px;
+				display: inline-block;
+				cursor: pointer;
+				&:hover {
+					color: @top_white;
+					cursor: pointer;
+				}
+			}
+		}
+	}
 	position: fixed;
 	left: 0px;
 	top: 0px;
@@ -326,7 +354,7 @@ table.list {
 		background: none;
 		background-color: rgba(180,180,180, .06);
 		padding: 0px;
-		margin-top: @header_height + 10px;
+		margin-top: @header_height + 52px;
 		margin-bottom: 50px;
 		overflow-y: scroll;
 		height: 1000px;

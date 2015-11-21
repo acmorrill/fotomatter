@@ -327,81 +327,76 @@ class PhotoGalleriesController extends AppController {
 		$this->set(compact('galleries', 'curr_page'));
 	}
 	
-	public function admin_edit_smart_gallery($id) {
-		if ( !empty($this->data) ) {
-			// get settings to save
-			$smart_settings = $this->data['smart_settings'];
-			$save_settings['tags'] = isset($smart_settings['tags']) ? $smart_settings['tags'] : array();
-			$save_settings['date_added_from'] = (isset($smart_settings['date_added_from']) && $smart_settings['date_added_from'] != $smart_settings['date_added_from_default']) ? date( 'm/d/Y', strtotime($smart_settings['date_added_from'])) : null;
-			$save_settings['date_added_to'] = (isset($smart_settings['date_added_to']) && $smart_settings['date_added_to'] != $smart_settings['date_added_to_default']) ? date( 'm/d/Y', strtotime($smart_settings['date_added_to'])) : null;
-			$save_settings['date_taken_from'] = (isset($smart_settings['date_taken_from']) && $smart_settings['date_taken_from'] != $smart_settings['date_taken_from_default']) ? date( 'm/d/Y', strtotime($smart_settings['date_taken_from'])) : null;
-			$save_settings['date_taken_to'] = (isset($smart_settings['date_taken_to']) && $smart_settings['date_taken_to'] != $smart_settings['date_taken_to_default']) ? date( 'm/d/Y', strtotime($smart_settings['date_taken_to'])) : null;
-			$save_settings['photo_format'] = isset($smart_settings['photo_format']) ? $smart_settings['photo_format'] : array();
-			$save_settings['order_by'] = isset($smart_settings['order_by']) ? $smart_settings['order_by'] : 'created';
-			$save_settings['order_direction'] = isset($smart_settings['order_direction']) ? $smart_settings['order_direction'] : 'desc';
-			
-			
-			$smart_gallery['PhotoGallery']['id'] = $id;
-			$smart_gallery['PhotoGallery']['smart_settings'] = serialize($save_settings);
-			if (!$this->PhotoGallery->save($smart_gallery)) {
-				$this->Session->setFlash(__('Failed to save smart settings.', true), 'admin/flashMessage/error');
-				$this->PhotoGallery->major_error('Failed to save smart settings.', compact('smart_gallery'));
-			} else {
-				$this->Session->setFlash(__('Smart Gallery settings saved', true), 'admin/flashMessage/success');
-			}
-		}
-		
+	public function admin_view_smart_gallery($id) {
 		$this->data = $this->PhotoGallery->find('first', array(
 			'conditions' => array(
 				'PhotoGallery.id' => $id
 			),
 			'contain' => false
 		));
+		$smart_gallery_tags = array();
+		foreach ($this->data['PhotoGallery']['smart_settings']['tags'] as $smart_gallery_tag) {
+			$smart_gallery_tags[] = array(
+				'Tag' => array(
+					'name' => $smart_gallery_tag
+				)
+			);
+		}
 		
-		
-		$tags = $this->Tag->find('all', array(
-			'order' => array(
-				'Tag.name'
-			),
-			'contain' => false
+		$this->return_angular_json(true, '', array(
+			'data' => $this->data,
+			'id' => $id,
+			'selected_tags' => $smart_gallery_tags
 		));
+	}
+	
+	public function admin_edit_smart_gallery() {
+		$this->parse_angular_json($this);
+		$this->log($this->data, 'edit_smart_gallery');
+		$id = $this->data['id'];
 		
-		$this->set(compact('tags', 'id'));
+		
+		if ( !empty($this->data) ) {
+			// get settings to save
+			$smart_settings = $this->data['smart_settings'];
+			$save_settings['tags'] = isset($smart_settings['tags']) ? $smart_settings['tags'] : array();
+			$save_settings['date_added_from'] = (!empty($smart_settings['date_added_from']) && $smart_settings['date_added_from'] != $smart_settings['date_added_from_default']) ? date( 'm/d/Y', strtotime($smart_settings['date_added_from'])) : null;
+			$save_settings['date_added_to'] = (!empty($smart_settings['date_added_to']) && $smart_settings['date_added_to'] != $smart_settings['date_added_to_default']) ? date( 'm/d/Y', strtotime($smart_settings['date_added_to'])) : null;
+			$save_settings['date_taken_from'] = (!empty($smart_settings['date_taken_from']) && $smart_settings['date_taken_from'] != $smart_settings['date_taken_from_default']) ? date( 'm/d/Y', strtotime($smart_settings['date_taken_from'])) : null;
+			$save_settings['date_taken_to'] = (!empty($smart_settings['date_taken_to']) && $smart_settings['date_taken_to'] != $smart_settings['date_taken_to_default']) ? date( 'm/d/Y', strtotime($smart_settings['date_taken_to'])) : null;
+			$save_settings['photo_format'] = isset($smart_settings['photo_format']) ? $smart_settings['photo_format'] : array();
+			$save_settings['order_by'] = isset($smart_settings['order_by']) ? $smart_settings['order_by'] : 'created';
+			$save_settings['order_direction'] = isset($smart_settings['order_direction']) ? $smart_settings['order_direction'] : 'desc';
+			
+			
+			$smart_gallery = array();
+			$smart_gallery['PhotoGallery']['id'] = $id;
+			$smart_gallery['PhotoGallery']['smart_settings'] = serialize($save_settings);
+			if (!$this->PhotoGallery->save($smart_gallery)) {
+				$this->PhotoGallery->major_error('Failed to save smart settings.', compact('smart_gallery'));
+				$this->return_angular_json(false, 'Failed to save smart settings.', array());
+			}
+		}
+		
+		$this->return_angular_json(true, '', array(
+			'data' => $this->data,
+//			'id' => $id,
+//			'selected_tags' => $smart_gallery_tags
+		));
 	}
 	
 	public function admin_edit_gallery() {
-		$this->log($_REQUEST, 'edit_gallery');
+		$this->parse_angular_json($this);
 		
 		if ( !empty($this->data) ) {
 			// set or unset the id (depending on if its an edit or add)
-			$this->data['PhotoGallery']['id'] = $id;
-			$this->log($this->data, 'edit_gallery');
-			
-			
 			if (!$this->PhotoGallery->save($this->data)) {
 				$this->PhotoGallery->major_error('failed to save photo gallery in edit gallery', $this->data);
-				$this->Session->setFlash(__('Failed to save photo gallery', true), 'admin/flashMessage/error');
-			} else {
-				$this->Session->setFlash(__('Photo gallery saved', true), 'admin/flashMessage/success');
+				$this->return_json_angular(false, "Failed to save photo gallery", $this->data);
 			}
  		} 
-		$this->log('came here 1', 'edit_gallery');
 		
-		$returnArr = array(
-			'awesome' => true,
-		);
-		$this->return_json($returnArr);
-		
-//		$this->data = $this->PhotoGallery->find('first', array(
-//			'conditions' => array(
-//				'PhotoGallery.id' => $id
-//			),
-//			'contain' => array(
-//				'PhotoGalleriesPhoto' => array(
-//					'Photo'
-//				)
-//			)
-//		));
+		$this->return_angular_json(true, "Photo gallery saved", $this->data);
 	}
 	
 	public function admin_ajax_get_photos_in_gallery($gallery_id) {

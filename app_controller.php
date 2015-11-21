@@ -478,6 +478,22 @@ class AppController extends Controller {
 		echo json_encode($data);
 		exit();
 	}
+	public function return_angular_json($success = true, $message = '', $data = array()) {
+		$returnArr = array(
+			'success' => ($success === true) ? 'true' : 'false',
+			'message' => $message,
+			'data' => $data
+		);
+		
+		echo json_encode($data);
+		exit();
+	}
+	
+	public function parse_angular_json($controller) {
+		$data = json_decode(file_get_contents('php://input'), true);
+		$controller->data = $data;
+		return $data;
+	}
 
 	public function major_error($description, $extra_data = null, $severity = 'normal') {
 		$this->MajorError = ClassRegistry::init("MajorError");
