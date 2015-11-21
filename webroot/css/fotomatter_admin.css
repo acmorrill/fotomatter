@@ -3195,37 +3195,30 @@ table.list > tfoot td .table_summary .payment_item.strike .value {
 }
 .dynamic_list #gallery_list_tools {
   width: 100%;
-  height: 42px;
+  height: 51px;
   position: absolute;
-  top: 104px;
+  top: 105px;
   left: 0px;
   z-index: 100;
-  border-top: 1px solid #43484c;
   border-bottom: 1px solid #43484c;
 }
-.dynamic_list #gallery_list_tools #gallery_list_tools_inner {
+.dynamic_list #gallery_list_tools #gallery_list_tools_inner select {
+  padding-left: 5px;
+  width: 169px;
+  margin-left: 7px;
+}
+.dynamic_list #gallery_list_tools #gallery_list_tools_inner.custom_ui .add_button {
+  float: right;
+  font-size: 43px;
   height: 40px;
-  background-color: #262829;
-  color: #8e999f;
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
-  border-right: 1px solid black;
-}
-.dynamic_list #gallery_list_tools #gallery_list_tools_inner span {
-  font-size: 50px;
-  margin-top: -4px;
-  display: inline-block;
-  cursor: pointer;
-}
-.dynamic_list #gallery_list_tools #gallery_list_tools_inner span:hover {
-  color: #f4f9f5;
-  cursor: pointer;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 .dynamic_list .table_container {
   background: none;
   background-color: rgba(180,180,180,0.06);
   padding: 0px;
-  margin-top: 146px;
+  margin-top: 156px;
   margin-bottom: 50px;
   overflow-y: scroll;
   height: 1000px;

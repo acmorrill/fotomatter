@@ -14,37 +14,30 @@ class PhotoGalleriesController extends AppController {
 
 	
 	
-	public function admin_add_standard_gallery() {
+	public function admin_add_gallery($type) {
 		$new_gallery = array();
-		$new_gallery['PhotoGallery']['type'] = 'standard';
-		$new_gallery['PhotoGallery']['display_name'] = 'Gallery Name';
+		$new_gallery['PhotoGallery']['type'] = $type;
+		$upper_case_type = ucfirst($type);
+		$new_gallery['PhotoGallery']['display_name'] = "New $upper_case_type Gallery";
 		
 		$this->PhotoGallery->create();
 		if (!$this->PhotoGallery->save($new_gallery)) {
-			$this->Session->setFlash(__('Failed to create new standard gallery', true), 'admin/flashMessage/error');
 			$this->PhotoGallery->major_error('Failed to create new standard gallery in (add_standard_gallery) in photo_galleries_controller.php', compact('new_gallery'));
-			$this->redirect('/admin/photo_galleries');
-		} else {
-			//$this->Session->setFlash(__('New page created', true), 'admin/flashMessage/success');
-			$this->redirect('/admin/photo_galleries/edit_gallery/'.$this->PhotoGallery->id);
+			$this->return_angular_json(false, 'failed to create standard gallery', array());
 		}
+		
+		$the_new_gallery = $this->PhotoGallery->find('first', array(
+			'conditions' => array(
+				'PhotoGallery.id' => $this->PhotoGallery->id
+			),
+			'contain' => false
+		));
+		
+		$this->return_angular_json(true, 'New Standard Gallery Created', array(
+			'data' => $the_new_gallery
+		));
 	}
 	
-	public function admin_add_smart_gallery() {
-		$new_gallery = array();
-		$new_gallery['PhotoGallery']['type'] = 'smart';
-		$new_gallery['PhotoGallery']['display_name'] = 'Gallery Name';
-		
-		$this->PhotoGallery->create();
-		if (!$this->PhotoGallery->save($new_gallery)) {
-			$this->Session->setFlash(__('Failed to create new smart gallery', true), 'admin/flashMessage/error');
-			$this->PhotoGallery->major_error('Failed to create new smart gallery in (add_smart_gallery) in photo_galleries_controller.php', compact('new_gallery'));
-			$this->redirect('/admin/photo_galleries');
-		} else {
-			//$this->Session->setFlash(__('New page created', true), 'admin/flashMessage/success');
-			$this->redirect('/admin/photo_galleries/edit_gallery/'.$this->PhotoGallery->id);
-		}
-	}
 	
 	public function choose_gallery() {
 		$this->setup_front_end_view_cache($this);
@@ -352,7 +345,6 @@ class PhotoGalleriesController extends AppController {
 	
 	public function admin_edit_smart_gallery() {
 		$this->parse_angular_json($this);
-		$this->log($this->data, 'edit_smart_gallery');
 		$id = $this->data['id'];
 		
 		
@@ -906,9 +898,6 @@ class PhotoGalleriesController extends AppController {
 	}
 	
 	public function admin_ajax_set_photo_order_in_gallery($photo_gallery_id, $photo_id, $new_order) {
-		$this->log($photo_gallery_id, 'admin_ajax_set_photo_order_in_gallery');
-		$this->log($photo_id, 'admin_ajax_set_photo_order_in_gallery');
-		$this->log($new_order, 'admin_ajax_set_photo_order_in_gallery');
 		$returnArr = array();
 		
 		$PhotoGalleriesPhoto_to_move = $this->PhotoGalleriesPhoto->find('first', array(

@@ -1,3 +1,5 @@
+<?php // DREW TODO - remove this file  - no longer used ?>
+
 <script type="text/javascript">
 	jQuery(document).ready(function() { 
 		jQuery('#add_new_gallery_button').click(function() { 

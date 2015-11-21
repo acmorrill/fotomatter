@@ -26,9 +26,6 @@
 	</p>*/ ?>
 	<div style="clear: both;"></div>
 
-	<div class="right" data-step="2" data-intro="<?php echo __('To create a new gallery, choose from two options: standard or smart.', true); ?>" data-position="left">
-		<?php echo $this->Element('admin/gallery/add_gallery'); ?>
-	</div>
 	<div class="clear"></div>
 
 
@@ -43,8 +40,14 @@
 	</div>*/ ?>
 	<div class="dynamic_list">
 		<div id="gallery_list_tools">
-			<div id="gallery_list_tools_inner">
-				<span class="icon-_button-01"></span>
+			<div id="gallery_list_tools_inner" class="custom_ui">
+				<div class="add_button icon" ng-click="create_gallery()">
+					<div class="icon-_button-01"></div>
+				</div>
+				<select id="add_gallery_type">
+					<option value="standard"><?php echo __('Standard', true); ?></option>
+					<option value="smart"><?php echo __('Smart', true); ?></option>
+				</select>
 			</div>
 		</div>
 		<div id="photo_gallery_list" class="table_container">
@@ -109,7 +112,7 @@
 											<div class="reorder_gallery_grabber reorder_grabber icon-position-01" />
 										</td>
 										<td class="last">
-											<span>{{photo_gallery.PhotoGallery.display_name}} - {{photo_gallery.PhotoGallery.type}}</span>
+											<span>{{photo_gallery.PhotoGallery.display_name}}</span>
 										</td>
 									</tr>
 									<tr>
@@ -120,9 +123,10 @@
 													<div class="right_arrow_lines icon-arrow-01"><div></div></div>
 												</div>*/ ?>
 												<div ng-class="{'selected': last_open_gallery_id == photo_gallery.PhotoGallery.id}" class="add_button icon" ng-click="view_gallery(photo_gallery.PhotoGallery.id, 0, photo_gallery.PhotoGallery.type)">
-													<div class="content icon-picture"></div>
+													<div class="content icon-managePhotos-01 ng-hide" ng-show="photo_gallery.PhotoGallery.type == 'standard'"></div>
+													<div class="content icon-gallerySettings-01 ng-hide" ng-show="photo_gallery.PhotoGallery.type == 'smart'"></div>
 												</div>
-												<div class="add_button icon" ng-click="upload_to_gallery()">
+												<div class="add_button icon ng-hide" ng-click="upload_to_gallery()" ng-show="photo_gallery.PhotoGallery.type == 'standard'">
 													<div class="content icon-pictureUpload-01"></div>
 												</div>
 												<a class="delete_link" href="/admin/photo_galleries/delete_gallery//"><div class="add_button icon icon_close"><div class="content icon-close-01"></div></div></a>

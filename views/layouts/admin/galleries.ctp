@@ -46,7 +46,7 @@
 				echo $this->Element('/admin/submenu', array( 'subnav' => $subnav ));
 			}
 		?>
-		<?php echo $this->Session->flash(); ?>
+		<?php //echo $this->Session->flash(); - angular pages don't show flash messages ?>
 		<?php echo $content_for_layout; ?>
 	</div>
 	<?php echo $this->Element('admin/global_footer'); ?>
