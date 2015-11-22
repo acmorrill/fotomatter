@@ -2909,7 +2909,7 @@ table.list {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0px;
-  margin-bottom: 50px;
+  margin-bottom: 200px;
 }
 table.list,
 table.list div,
@@ -3186,6 +3186,7 @@ table.list > tfoot td .table_summary .payment_item.strike .value {
   text-decoration: line-through;
 }
 .dynamic_list {
+  z-index: 100;
   position: fixed;
   left: 0px;
   top: 0px;
@@ -3194,31 +3195,41 @@ table.list > tfoot td .table_summary .payment_item.strike .value {
   padding: 0px;
 }
 .dynamic_list #gallery_list_tools {
-  width: 100%;
-  height: 51px;
+  width: 229px;
+  height: 62px;
   position: absolute;
-  top: 105px;
+  top: 103px;
   left: 0px;
   z-index: 100;
+  background-color: rgba(180,180,180,0.1);
   border-bottom: 1px solid #43484c;
+  border-top: 1px solid #43484c;
+  border-right: 1px solid #1e2021;
+}
+.dynamic_list #gallery_list_tools #gallery_list_tools_inner {
+  margin-top: 11px;
 }
 .dynamic_list #gallery_list_tools #gallery_list_tools_inner select {
   padding-left: 5px;
-  width: 169px;
+  width: 158px;
   margin-left: 7px;
+  margin-right: 6px;
 }
 .dynamic_list #gallery_list_tools #gallery_list_tools_inner.custom_ui .add_button {
-  float: right;
   font-size: 43px;
   height: 40px;
   padding-left: 0px;
   padding-right: 0px;
+  margin-bottom: 0px;
+}
+.dynamic_list #gallery_list_tools #gallery_list_tools_inner.custom_ui .add_button > div {
+  margin-top: -1px;
 }
 .dynamic_list .table_container {
   background: none;
   background-color: rgba(180,180,180,0.06);
   padding: 0px;
-  margin-top: 156px;
+  margin-top: 166px;
   margin-bottom: 50px;
   overflow-y: scroll;
   height: 1000px;

@@ -8,11 +8,6 @@
 	$last_open_gallery_id_str = '';
 	if (!empty($_COOKIE['last_open_gallery_id']) && !empty($_COOKIE['last_open_gallery_type'])) {
 		$last_open_gallery_id_str = "ng-init='last_open_gallery_id={$_COOKIE['last_open_gallery_id']};last_open_gallery_type=\"{$_COOKIE['last_open_gallery_type']}\"'";
-	} else {
-		$first_gallery = $this->Gallery->get_first_gallery_by_weight();
-		if (!empty($first_gallery['PhotoGallery']['id'])) {
-			$last_open_gallery_id_str = "ng-init='last_open_gallery_id={$first_gallery['PhotoGallery']['id']};last_open_gallery_type=\"{$first_gallery['PhotoGallery']['type']}\"'";
-		}
 	}
 ?>
 
@@ -28,11 +23,16 @@
 
 	<div class="clear"></div>
 
+	<div class="gallery_view ng-hide" ng-show="open_gallery == 'empty' && open_smart_gallery == 'empty'" style="position: relative; min-height: 500px;">
+		<div class="empty_help_content" style="display: block;">
+			&#9668;&nbsp;<?php echo __('Choose a Gallery at Left', true); ?>
+		</div>
+	</div>
 
-	<div class="gallery_view" ng-show="open_gallery != null">
+	<div class="gallery_view" ng-show="open_gallery != null && open_gallery != 'empty'">
 		<?php echo $this->Element('admin/gallery/angular_edit_gallery_connect_photos'); ?>
 	</div>
-	<div class="gallery_view" ng-show="open_smart_gallery != null">
+	<div class="gallery_view" ng-show="open_smart_gallery != null && open_smart_gallery != 'empty'">
 		<?php echo $this->Element('admin/gallery/angular_edit_smart_gallery'); ?>
 	</div>
 	<?php /*<div class="gallery_view" ng-show="open_gallery == null">
@@ -41,13 +41,13 @@
 	<div class="dynamic_list">
 		<div id="gallery_list_tools">
 			<div id="gallery_list_tools_inner" class="custom_ui">
-				<div class="add_button icon" ng-click="create_gallery()">
-					<div class="icon-_button-01"></div>
-				</div>
 				<select id="add_gallery_type">
 					<option value="standard"><?php echo __('Standard', true); ?></option>
 					<option value="smart"><?php echo __('Smart', true); ?></option>
 				</select>
+				<div class="add_button icon" ng-click="create_gallery()">
+					<div class="icon-_button-01"></div>
+				</div>
 			</div>
 		</div>
 		<div id="photo_gallery_list" class="table_container">
@@ -118,10 +118,6 @@
 									<tr>
 										<td colspan="2">
 											<span class="custom_ui">
-												<?php /*<div class="add_button" ng-click="view_gallery(photo_gallery.PhotoGallery.id)">
-													<div class="content"><?php echo __('Edit', true); ?></div>
-													<div class="right_arrow_lines icon-arrow-01"><div></div></div>
-												</div>*/ ?>
 												<div ng-class="{'selected': last_open_gallery_id == photo_gallery.PhotoGallery.id}" class="add_button icon" ng-click="view_gallery(photo_gallery.PhotoGallery.id, 0, photo_gallery.PhotoGallery.type)">
 													<div class="content icon-managePhotos-01 ng-hide" ng-show="photo_gallery.PhotoGallery.type == 'standard'"></div>
 													<div class="content icon-gallerySettings-01 ng-hide" ng-show="photo_gallery.PhotoGallery.type == 'smart'"></div>
@@ -129,65 +125,16 @@
 												<div class="add_button icon ng-hide" ng-click="upload_to_gallery()" ng-show="photo_gallery.PhotoGallery.type == 'standard'">
 													<div class="content icon-pictureUpload-01"></div>
 												</div>
-												<a class="delete_link" href="/admin/photo_galleries/delete_gallery//"><div class="add_button icon icon_close"><div class="content icon-close-01"></div></div></a>
+												<span ng-click="delete_gallery(photo_gallery)" confirm-delete >
+													<div class="add_button icon icon_close"><div class="content icon-close-01"></div></div>
+												</span>
 											</span>
 										</td>
 									</tr>
 								</tbody>
 							</table>
 						</td> 
-						<?php /*<td class="gallery_action last table_actions">
-							<span class="custom_ui">
-								<div class="add_button" ng-click="view_gallery(photo_gallery.PhotoGallery.id)">
-									<div class="content"><?php echo __('Edit', true); ?></div>
-									<div class="right_arrow_lines icon-arrow-01"><div></div></div>
-								</div>
-								<a class="delete_link" href="/admin/photo_galleries/delete_gallery//"><div class="add_button icon icon_close"><div class="content icon-close-01"></div></div></a>
-							</span>
-						</td> */ ?>
 					</tr>
-
-					<?php /*
-					<?php foreach($galleries as $curr_gallery): ?> 
-						<tr gallery_id="<?php echo $curr_gallery['PhotoGallery']['id']; ?>">
-							<td class="gallery_id first">
-								<div class="rightborder"></div>
-								<div class="reorder_gallery_grabber reorder_grabber icon-position-01" />
-							</td> 
-							<td class="gallery_name ">
-								<div class="rightborder"></div>
-								<span><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></span>
-							</td> 
-							<td class="gallery_action last table_actions">
-								<span class="custom_ui">
-									<a href="/admin/photo_galleries/edit_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/">
-										<div class="add_button" <?php echo $edit_button_help; ?>>
-											<div class="content"><?php echo __('Edit', true); ?></div>
-											<div class="right_arrow_lines icon-arrow-01"><div></div></div>
-										</div>
-									</a>
-									<?php if ($curr_gallery['PhotoGallery']['type'] == 'smart'): ?>
-										<a href="/admin/photo_galleries/edit_smart_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/">
-											<div class="add_button" <?php echo $configure_button_help; ?>>
-												<div class="content"><?php echo __('Configure', true); ?></div>
-												<div class="right_arrow_lines icon-arrow-01"><div></div></div>
-											</div>
-										</a>
-									<?php else: ?>
-										<a href="/admin/photo_galleries/edit_gallery_connect_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/">
-											<div class="add_button" <?php echo $manage_button_help; ?>>
-												<div class="content"><?php echo __('Manage Photos', true); ?></div>
-												<div class="right_arrow_lines icon-arrow-01"><div></div></div>
-											</div>
-										</a>
-									<?php endif; ?>
-									<a class="delete_link" href="/admin/photo_galleries/delete_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><div class="add_button icon icon_close" <?php echo $x_button_help; ?>><div class="content icon-close-01"></div></div></a>
-								</span>
-							</td>
-						</tr>
-					<?php endforeach; ?> 
-					 * 
-					 */ ?>
 				</tbody>
 			</table>
 		</div>

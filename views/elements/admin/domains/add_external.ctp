@@ -18,7 +18,7 @@
 				<li>Change the dns nameservers for {{external_domain}} to:
 					<ul>
 						<li>dns1.stabletransit.com</li>
-						<li>dns1.stabletransit.com</li>
+						<li>dns2.stabletransit.com</li>
 					</ul>
 					This is usually done through the registar's domain settings (ie godaddy.com, name.com etc).
 				</li>

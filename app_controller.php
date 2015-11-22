@@ -485,7 +485,7 @@ class AppController extends Controller {
 			'data' => $data
 		);
 		
-		echo json_encode($data);
+		echo json_encode($returnArr);
 		exit();
 	}
 	

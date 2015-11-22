@@ -53,9 +53,12 @@ fotomatterServices.factory('PhotoGalleries', ['$resource', function($resource) {
 				type: '@type'
 			}
 		},
-		'add_smart_gallery': {
+		'delete_gallery': {
 			method: 'GET',
-			url: '/admin/photo_galleries/add_smart_gallery'
+			url: '/admin/photo_galleries/delete_gallery/:id',
+			params: { 
+				id: '@id'
+			}
 		},
 		'add_photo': {
 			url: '/admin/photo_galleries/ajax_movephoto_into_gallery/:photo_id/:gallery_id/:gallery_icon_size',

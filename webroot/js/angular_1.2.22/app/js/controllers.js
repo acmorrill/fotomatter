@@ -110,8 +110,8 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 	var sync_ajax_out = 1;
 	$scope.loading = true;
 	$scope.photo_galleries = [];
-	$scope.open_gallery = null;	
-	$scope.open_smart_gallery = null;	
+	$scope.open_gallery = 'empty';	
+	$scope.open_smart_gallery = 'empty';	
 	$scope.open_gallery_connected_photos = null;	
 	$scope.open_gallery_not_connected_photos = null;
 	$scope.open_smart_gallery_photo_formats = {
@@ -218,8 +218,10 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 			}
 			$scope.open_gallery_image_size = icon_size;
 
-			$scope.$watch("last_open_gallery_id", function(){
-				$scope.view_gallery($scope.last_open_gallery_id, 0, $scope.last_open_gallery_type);
+			$timeout(function() {
+				if (typeof $scope.last_open_gallery_id == 'number') {
+					$scope.view_gallery($scope.last_open_gallery_id, 0, $scope.last_open_gallery_type);
+				}
 			});
 		});
 		
@@ -363,7 +365,7 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 		if (photo_gallery_type == 'standard') {
 			jQuery("#filter_photo_by_format, #sort_photo_radio").buttonset('disable');
 			jQuery("#photos_not_in_a_gallery").button('disable');
-			if ($scope.open_gallery != null && $scope.open_gallery.PhotoGallery.id != photo_gallery_id) {
+			if ($scope.open_gallery != null && $scope.open_gallery != 'empty' && $scope.open_gallery.PhotoGallery.id != photo_gallery_id) {
 				$scope.open_gallery = null;
 			}
 			$scope.open_smart_gallery = null;
@@ -383,22 +385,27 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 			};
 			PhotoGalleries.view(view_gallery, 
 				function(result) {
-					if (typeof result.photo_gallery.PhotoGallery.id == 'number') {
-						if ($scope.open_gallery == null) {
-							$scope.open_gallery = result.photo_gallery;
-						}
-						$scope.open_gallery_connected_photos = result.photo_gallery.PhotoGalleriesPhoto;
-						if (result.not_connected_photos.length == 0) {
-							cease_fire = true;
-						} else {
-							cease_fire = false;
-						}
+					if (result.success == 'true') {
+						if (typeof result.data.photo_gallery.PhotoGallery.id == 'number') {
+							if ($scope.open_gallery == null || $scope.open_gallery == 'empty') {
+								$scope.open_gallery = result.data.photo_gallery;
+							}
+							$scope.open_gallery_connected_photos = result.data.photo_gallery.PhotoGalleriesPhoto;
+							if (result.data.not_connected_photos.length == 0) {
+								cease_fire = true;
+							} else {
+								cease_fire = false;
+							}
 
-						if (last_photo_id != 0) {
-							$scope.open_gallery_not_connected_photos = $scope.open_gallery_not_connected_photos.concat(result.not_connected_photos);
-						} else {
-							$scope.open_gallery_not_connected_photos = result.not_connected_photos;
+							if (last_photo_id != 0) {
+								$scope.open_gallery_not_connected_photos = $scope.open_gallery_not_connected_photos.concat(result.data.not_connected_photos);
+							} else {
+								$scope.open_gallery_not_connected_photos = result.data.not_connected_photos;
+							}
 						}
+					} else {
+						$scope.open_gallery = 'empty';
+						$scope.open_smart_gallery = 'empty';
 					}
 					in_view_gallery = false;
 					jQuery("#filter_photo_by_format, #sort_photo_radio").buttonset('enable');
@@ -412,8 +419,7 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 					hide_universal_load();
 				}
 			);
-		} 
-		else {
+		} else {
 			$scope.open_gallery = null;
 			$scope.open_smart_gallery = null;
 			
@@ -422,15 +428,20 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 			};
 			PhotoGalleries.view_smart(view_gallery, 
 				function(result) {
-					$scope.open_smart_gallery = result.data;
-					if (result.selected_tags.length > 0) {
-						$scope.open_smart_gallery.tags = result.selected_tags;
+					if (result.success == 'true') {
+						$scope.open_smart_gallery = result.data.data;
+						if (result.data.selected_tags.length > 0) {
+							$scope.open_smart_gallery.tags = result.data.selected_tags;
+						}
+						var changed_formats = [];
+						for (var q in result.data.data.PhotoGallery.smart_settings.photo_format) {
+							changed_formats[result.data.data.PhotoGallery.smart_settings.photo_format[q]] = true;
+						}
+						$scope.open_smart_gallery_photo_formats = changed_formats;
+					} else {
+						$scope.open_gallery = 'empty';
+						$scope.open_smart_gallery = 'empty';
 					}
-					var changed_formats = [];
-					for (var q in result.data.PhotoGallery.smart_settings.photo_format) {
-						changed_formats[result.data.PhotoGallery.smart_settings.photo_format[q]] = true;
-					}
-					$scope.open_smart_gallery_photo_formats = changed_formats;
 					
 					
 					in_view_gallery = false;
@@ -537,9 +548,9 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 			};
 			PhotoGalleries.add_gallery(new_gallery_data, 
 				function(result) {
-					if (typeof result.data == 'object') {
-						$scope.photo_galleries.push(result.data);
-						$scope.view_gallery(result.data.PhotoGallery.id, 0, gallery_type);
+					if (typeof result.data.data == 'object') {
+						$scope.photo_galleries.push(result.data.data);
+						$scope.view_gallery(result.data.data.PhotoGallery.id, 0, gallery_type);
 						$timeout(function() {
 							$scope.scroll_to_selected_theme();
 						});
@@ -547,6 +558,31 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 				}
 			);
 		});
+	};
+	
+	$scope.delete_gallery = function(photo_gallery) {
+		show_universal_save();
+		var delete_gallery_data = {
+			id: photo_gallery.PhotoGallery.id
+		};
+		if (photo_gallery.PhotoGallery.id == $scope.last_open_gallery_id) { 
+			$cookies.remove('last_open_gallery_id');
+			$cookies.remove('last_open_gallery_type');
+			$scope.last_open_gallery_id = null;
+			$scope.last_open_gallery_type = null;
+			$scope.open_gallery = 'empty';
+			$scope.open_smart_gallery = 'empty';
+		}
+			
+		PhotoGalleries.delete_gallery(delete_gallery_data, 
+			function(result) {
+				$scope.helpers.removeItem($scope.photo_galleries, photo_gallery);
+				hide_universal_save();
+			},
+			function() {
+				hide_universal_save();
+			}
+		);
 	};
 	
 	// load the galleries list for left column

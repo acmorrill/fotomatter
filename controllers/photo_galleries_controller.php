@@ -166,6 +166,10 @@ class PhotoGalleriesController extends AppController {
 			'id' => $gallery_id
 		));
 		
+		if (empty($photo_galleries[0])) {
+			$this->return_angular_json(false, 'failed to load gallery', array());
+		}
+		
 		
 		$icon_sizes = $this->Photo->get_admin_photo_icon_size($gallery_icon_size);
 		$height = $icon_sizes['height'];
@@ -286,27 +290,13 @@ class PhotoGalleriesController extends AppController {
 		$last_photo = end($not_connected_photos);
 		$last_photo_id = $last_photo['Photo']['id'];
 		
-		$this->return_json(array(
+		$this->return_angular_json(true, '', array(
 			'photo_gallery' => $photo_galleries[0],
 			'not_connected_photos' => $not_connected_photos,
 			'last_photo_id' => $last_photo_id
 		));
 	}
 	
-	
-	// DREW TODO - get this working
-//	public function admin_mobile_index() {
-////		$this->layout = 'admin/sidebar_less';
-//		$curr_page = 'galleries';
-//		
-//		$galleries = $this->PhotoGallery->find('all', array(
-//			'limit' => 100,
-//			'contain' => false
-//		));
-//		
-//		$this->set(compact('galleries', 'curr_page'));
-//		$this->render('admin_index'); // the new angular page
-//	}
 	
 	public function admin_manage() {
 //		$this->layout = 'admin/sidebar_less';
@@ -327,6 +317,11 @@ class PhotoGalleriesController extends AppController {
 			),
 			'contain' => false
 		));
+		
+		if (empty($this->data)) {
+			$this->return_angular_json(false, 'could find gallery', array());
+		}
+		
 		$smart_gallery_tags = array();
 		foreach ($this->data['PhotoGallery']['smart_settings']['tags'] as $smart_gallery_tag) {
 			$smart_gallery_tags[] = array(
@@ -924,19 +919,16 @@ class PhotoGalleriesController extends AppController {
 	
 	public function admin_delete_gallery($gallery_id = null) {
 		if ($gallery_id == null) {
-			 $this->redirect('/admin/photo_galleries');
+			 $this->return_angular_json(false, 'failed to delete gallery', array());
 		}
 		
 		
-		if ($this->PhotoGallery->delete($gallery_id)) {
-			$this->Session->setFlash(__('Gallery deleted successfully.', true), 'admin/flashMessage/success');
-		} else {
-			$this->Session->setFlash(__('Failed to delete gallery.', true), 'admin/flashMessage/error');
-			$this->Photo->major_error('Failed to delete photo gallery in admin_delete_gallery', compact('gallery_id'));
+		if (!$this->PhotoGallery->delete($gallery_id)) {
+			$this->Photo->major_error('Failed to delete photo gallery in admin_delete_gallery');
+			$this->return_angular_json(false, 'failed to delete gallery', compact('gallery_id'));
 		}
 		
-		
-		$this->redirect('/admin/photo_galleries');
+		$this->return_angular_json(true, 'Photo Gallery Deleted', compact('gallery_id'));
 	}
 	 
 }
