@@ -574,7 +574,6 @@ class AppController extends Controller {
 		// stuff to do after theme changed
 		$new_theme_config = $this->ThemeRenderer->_process_theme_config_with_user_settings(true);
 		$this->Theme->get_theme_background_config_values($new_theme_config, true);
-		$this->Photo->create_theme_photo_caches($new_theme_config);
 
 
 		// this is no longer needed as the logo code was refactered

@@ -34,6 +34,10 @@ if (!isset($hide_current)) {
 			jQuery('.ui-dialog').append("<div class='ui-dialog-progresspane'><div id='modal_progressbar' class='custom_progress'><div class='progress' role='progressbar' aria-valuemin='0' aria-valuemax='100'></div></div></div>");
 
 			jQuery('.button_switch_theme').click(function() {
+				<?php if ($this->params['controller'] === 'welcome'): ?>
+				var switch_to_theme_id = jQuery(this).attr('data-current-theme-id');
+				jQuery("#choose_theme_"+switch_to_theme_id+"_form").submit();
+				<?php else: ?>
 				if (in_callback === true) {
 					return;
 				}
@@ -67,6 +71,7 @@ if (!isset($hide_current)) {
 					timeout: 1000 * 60 * 3
 				});
 				setTimeout(progress, 2000, switch_to_theme_id);
+				<?php endif; ?>
 			});
 
 			function progress(switch_to_theme_id) {
@@ -163,6 +168,11 @@ if (!isset($hide_current)) {
 												<h2><?php echo $curr_theme['Theme']['display_name']; ?></h2>
 											</td>	
 											<td class="choose_theme_button">
+												<?php if ($this->params['controller'] === 'welcome'): ?>
+												<form id="choose_theme_<?php echo $curr_theme['Theme']['id']; ?>_form" action="<?php echo $change_theme_action; ?>" method="POST">
+													<input type="hidden" name="data[new_theme_id]" value="<?php echo $curr_theme['Theme']['id']; ?>" />
+												</form>
+												<?php endif; ?>
 												<div type="submit" value="" ><div class="content icon-Success-01">&nbsp;</div></div>
 												<div class="button_switch_theme add_button" data-current-theme-id="<?php echo $curr_theme['Theme']['id']; ?>" <?php echo $select_help; ?>>
 													<div class="content"><?php echo __('Switch To Theme', true); ?></div>
