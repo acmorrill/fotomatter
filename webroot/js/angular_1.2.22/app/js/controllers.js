@@ -110,6 +110,8 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 	var sync_ajax_out = 1;
 	$scope.loading = true;
 	$scope.photo_galleries = [];
+	$scope.last_on_photo_upload = null;
+	$scope.upload_to_gallery = 'empty';
 	$scope.open_gallery = 'empty';	
 	$scope.open_smart_gallery = 'empty';	
 	$scope.open_gallery_connected_photos = null;	
@@ -121,6 +123,17 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 		'panoramic': false,
 		'vertical_panoramic': false
 	};
+
+	
+	// load the galleries list for left column
+	var photo_galleries_promise = PhotoGalleries.index().$promise;
+	photo_galleries_promise.then(function(photo_galleries) {
+		$scope.loading = false;
+		$scope.photo_galleries = photo_galleries;
+		$timeout(function() {
+			$scope.scroll_to_selected_theme();
+		});
+	});
 
 
 	$scope.initGallery = function() {
@@ -217,10 +230,58 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 				icon_size = 'small';
 			}
 			$scope.open_gallery_image_size = icon_size;
+			
+			
+			/////////////////////////////////////////////////////////////////////////////
+			// setup the photo upload code
+			jQuery('#fileupload').fileupload({
+//				<?php if (empty($current_on_off_features['unlimited_photos'])): ?>
+//					maxNumberOfFiles: <?php echo $photos_left_to_add; ?>,
+//				<?php endif; ?>
+				disableImageResize: /Android(?!.*Chrome)|Opera/.test(window.navigator && navigator.userAgent),
+//				imageMaxWidth: <?php echo FREE_MAX_RES; ?>,
+//				imageMaxHeight: <?php echo FREE_MAX_RES; ?>,
+				dataType: 'json',
+				sequentialUploads: true,
+				previewMaxWidth: 100,
+				previewMaxHeight: 100,
+				acceptFileTypes: /(\.|\/)(jpe?g)$/i,
+//				maxFileSize: <?php echo MAX_UPLOAD_SIZE_MEGS * 1000000; ?>,
+				process: function (e, data) {
+					var file_tr = jQuery('.files_ready_to_upload_inner_cont table.list tbody:nth-child(' + (1 + data.index) + ')');
+					jQuery('.custom_progress', file_tr).progressbar({ value: 0 });
+				},
+				submit: function (e, data) {
+					jQuery('.cancel_photo_upload', data.context).remove();
+					jQuery('.progress_td .rightborder', data.context).remove();
+				},
+				send: function (e, data) {
+					jQuery('.custom_progress', data.context).progressbar({ value: false });
+				}
+			});
+			jQuery('#fileupload').bind('fileuploadadd', function (e, data) {
+				jQuery('.not_added_yet').remove();
+			});
+			jQuery("#upload_photos_button").click(function(e) {
+				jQuery('#upload_photos_file_button').click();
+			});
+			jQuery("#start_upload_button").click(function(e) {
+				jQuery('#start_upload_button_old').click();
+			});
+			jQuery(document).on('click', '.cancel_photo_upload', function(e) {
+				jQuery(this).parent().find('.cancel').click();
+			});
+			// end photo upload code
+			
 
 			$timeout(function() {
-				if (typeof $scope.last_open_gallery_id == 'number') {
+				if (typeof $scope.last_open_gallery_id == 'number' && $scope.last_on_photo_upload == null) {
 					$scope.view_gallery($scope.last_open_gallery_id, 0, $scope.last_open_gallery_type);
+				} else if (typeof $scope.last_open_gallery_id == 'number' && $scope.last_on_photo_upload != null) {
+					photo_galleries_promise.then(function(photo_galleries) {
+						var photo_gallery = $scope.helpers.getArrItem(photo_galleries, 'PhotoGallery', $scope.last_open_gallery_id);
+						$scope.upload_photos_to_gallery(photo_gallery);
+					});
 				}
 			});
 		});
@@ -362,6 +423,9 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 		$cookies.put('last_open_gallery_type', photo_gallery_type);
 		$scope.last_open_gallery_id = photo_gallery_id;
 		$scope.last_open_gallery_type = photo_gallery_type;
+		$scope.upload_to_gallery = null;
+		$cookies.remove('last_on_photo_upload');
+		$scope.last_on_photo_upload = null;
 		if (photo_gallery_type == 'standard') {
 			jQuery("#filter_photo_by_format, #sort_photo_radio").buttonset('disable');
 			jQuery("#photos_not_in_a_gallery").button('disable');
@@ -492,6 +556,7 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 		items : '> tbody > tr.sortable',
 		handle : '.reorder_gallery_grabber',
 		update : function(event, ui) {
+			show_universal_save();
 			var context = this;
 			jQuery(context).sortable('disable');
 
@@ -507,6 +572,10 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 				function(result) {
 					$scope.helpers.refreshScopeAfterReorder($scope.photo_galleries, 'PhotoGallery', photoGalleryId, newPosition);
 					jQuery(context).sortable('enable');
+					hide_universal_save();
+				},
+				function() {
+					hide_universal_save();
 				}
 			);
 		}
@@ -568,6 +637,7 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 		if (photo_gallery.PhotoGallery.id == $scope.last_open_gallery_id) { 
 			$cookies.remove('last_open_gallery_id');
 			$cookies.remove('last_open_gallery_type');
+			$cookies.remove('last_on_photo_upload', true);
 			$scope.last_open_gallery_id = null;
 			$scope.last_open_gallery_type = null;
 			$scope.open_gallery = 'empty';
@@ -585,13 +655,15 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 		);
 	};
 	
-	// load the galleries list for left column
-	PhotoGalleries.index().$promise.then(function(photo_galleries) {
-		$scope.loading = false;
-		$scope.photo_galleries = photo_galleries;
-		$timeout(function() {
-			$scope.scroll_to_selected_theme();
-		});
-	});
+	$scope.upload_photos_to_gallery = function(photo_gallery) {
+		$scope.open_gallery = null;
+		$scope.open_smart_gallery = null;
+		$scope.upload_to_gallery = photo_gallery;
+		$scope.last_open_gallery_id = $scope.upload_to_gallery.PhotoGallery.id;
+		$scope.last_open_gallery_type = $scope.upload_to_gallery.PhotoGallery.type;
+		$cookies.put('last_open_gallery_id', $scope.last_open_gallery_id);
+		$cookies.put('last_open_gallery_type', $scope.last_open_gallery_type);
+		$cookies.put('last_on_photo_upload', true);
+		$scope.last_on_photo_upload = true;
+	};
 }]);
-

@@ -46,7 +46,17 @@ var fotomatterApp = angular.module('fotomatterApp', [
 					}
 				}
 			}
+		},
+		getArrItem: function (items, model_name, id) {
+			for (var x in items) {
+				if (typeof items[x][model_name] == 'object') {
+					if (items[x][model_name].id == id) {
+						return items[x];
+					}
+				}
+			}
 		}
+		
 	};
 });
 

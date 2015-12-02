@@ -7,8 +7,12 @@
 <?php
 	$last_open_gallery_id_str = '';
 	if (!empty($_COOKIE['last_open_gallery_id']) && !empty($_COOKIE['last_open_gallery_type'])) {
-		$last_open_gallery_id_str = "ng-init='last_open_gallery_id={$_COOKIE['last_open_gallery_id']};last_open_gallery_type=\"{$_COOKIE['last_open_gallery_type']}\"'";
+		$last_open_gallery_id_str = "last_open_gallery_id={$_COOKIE['last_open_gallery_id']};last_open_gallery_type=\"{$_COOKIE['last_open_gallery_type']}\";";
 	}
+	if (!empty($_COOKIE['last_on_photo_upload'])) {
+		$last_open_gallery_id_str .= "last_on_photo_upload=\"true\";";
+	}
+	$last_open_gallery_id_str  = "ng-init='$last_open_gallery_id_str'";
 ?>
 
 
@@ -35,9 +39,9 @@
 	<div class="gallery_view" ng-show="open_smart_gallery != null && open_smart_gallery != 'empty'">
 		<?php echo $this->Element('admin/gallery/angular_edit_smart_gallery'); ?>
 	</div>
-	<?php /*<div class="gallery_view" ng-show="open_gallery == null">
-		<h1>Gallery Loading</h1>
-	</div>*/ ?>
+	<div class="gallery_view" ng-show="upload_to_gallery != null && upload_to_gallery != 'empty'">
+		<?php echo $this->Element('admin/gallery/angular_upload_to_gallery'); ?>
+	</div>
 	<div class="dynamic_list">
 		<div id="gallery_list_tools">
 			<div id="gallery_list_tools_inner" class="custom_ui">
@@ -118,11 +122,11 @@
 									<tr>
 										<td colspan="2">
 											<span class="custom_ui">
-												<div ng-class="{'selected': last_open_gallery_id == photo_gallery.PhotoGallery.id}" class="add_button icon" ng-click="view_gallery(photo_gallery.PhotoGallery.id, 0, photo_gallery.PhotoGallery.type)">
+												<div ng-class="{'selected': last_open_gallery_id == photo_gallery.PhotoGallery.id && (upload_to_gallery == null || upload_to_gallery == 'empty')}" class="add_button icon" ng-click="view_gallery(photo_gallery.PhotoGallery.id, 0, photo_gallery.PhotoGallery.type)">
 													<div class="content icon-managePhotos-01 ng-hide" ng-show="photo_gallery.PhotoGallery.type == 'standard'"></div>
 													<div class="content icon-gallerySettings-01 ng-hide" ng-show="photo_gallery.PhotoGallery.type == 'smart'"></div>
 												</div>
-												<div class="add_button icon ng-hide" ng-click="upload_to_gallery()" ng-show="photo_gallery.PhotoGallery.type == 'standard'">
+												<div ng-class="{'selected': last_open_gallery_id == photo_gallery.PhotoGallery.id && upload_to_gallery != null && upload_to_gallery != 'empty'}" class="add_button icon ng-hide" ng-click="upload_photos_to_gallery(photo_gallery)" ng-show="photo_gallery.PhotoGallery.type == 'standard'">
 													<div class="content icon-pictureUpload-01"></div>
 												</div>
 												<span ng-click="delete_gallery(photo_gallery)" confirm-delete >
