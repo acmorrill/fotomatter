@@ -49,7 +49,7 @@
 					<option value="standard"><?php echo __('Standard', true); ?></option>
 					<option value="smart"><?php echo __('Smart', true); ?></option>
 				</select>
-				<div class="add_button icon" ng-click="create_gallery()">
+				<div ng-class="{'disabled': uploading_photos == true}" class="add_button icon" ng-click="create_gallery()">
 					<div class="icon-_button-01"></div>
 				</div>
 			</div>
@@ -122,14 +122,14 @@
 									<tr>
 										<td colspan="2">
 											<span class="custom_ui">
-												<div ng-class="{'selected': last_open_gallery_id == photo_gallery.PhotoGallery.id && (upload_to_gallery == null || upload_to_gallery == 'empty')}" class="add_button icon" ng-click="view_gallery(photo_gallery.PhotoGallery.id, 0, photo_gallery.PhotoGallery.type)">
+												<div ng-class="{'selected': last_open_gallery_id == photo_gallery.PhotoGallery.id && (upload_to_gallery == null || upload_to_gallery == 'empty'), 'disabled': uploading_photos == true}" class="add_button icon" ng-click="view_gallery(photo_gallery.PhotoGallery.id, 0, photo_gallery.PhotoGallery.type)">
 													<div class="content icon-managePhotos-01 ng-hide" ng-show="photo_gallery.PhotoGallery.type == 'standard'"></div>
 													<div class="content icon-gallerySettings-01 ng-hide" ng-show="photo_gallery.PhotoGallery.type == 'smart'"></div>
 												</div>
-												<div ng-class="{'selected': last_open_gallery_id == photo_gallery.PhotoGallery.id && upload_to_gallery != null && upload_to_gallery != 'empty'}" class="add_button icon ng-hide" ng-click="upload_photos_to_gallery(photo_gallery)" ng-show="photo_gallery.PhotoGallery.type == 'standard'">
+												<div ng-class="{'selected': last_open_gallery_id == photo_gallery.PhotoGallery.id && upload_to_gallery != null && upload_to_gallery != 'empty', 'disabled': uploading_photos == true}" class="add_button icon ng-hide" ng-click="upload_photos_to_gallery(photo_gallery)" ng-show="photo_gallery.PhotoGallery.type == 'standard'">
 													<div class="content icon-pictureUpload-01"></div>
 												</div>
-												<span ng-click="delete_gallery(photo_gallery)" confirm-delete >
+												<span ng-class="{'disabled': uploading_photos == true}" ng-click="delete_gallery(photo_gallery)" confirm-delete >
 													<div class="add_button icon icon_close"><div class="content icon-close-01"></div></div>
 												</span>
 											</span>
