@@ -124,6 +124,13 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 		'vertical_panoramic': false
 	};
 	$scope.uploading_photos = false;
+	$scope.photos_left_to_add = false;
+	var photos_limited_promise = PhotoGalleries.get_photos_limited().$promise;
+	photos_limited_promise.then(function(data) {
+		$timeout(function() {
+			$scope.photos_left_to_add = data.data.photos_left_to_add;
+		});
+	});
 
 	
 	// load the galleries list for left column
@@ -235,75 +242,71 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 			
 			/////////////////////////////////////////////////////////////////////////////
 			// setup the photo upload code
-			jQuery('#fileupload').fileupload({
-//				<?php if (empty($current_on_off_features['unlimited_photos'])): ?>
-//					maxNumberOfFiles: <?php echo $photos_left_to_add; ?>,
-//				<?php endif; ?>
-				disableImageResize: /Android(?!.*Chrome)|Opera/.test(window.navigator && navigator.userAgent),
-//				imageMaxWidth: <?php echo FREE_MAX_RES; ?>,
-//				imageMaxHeight: <?php echo FREE_MAX_RES; ?>,
-				dataType: 'json',
-				sequentialUploads: true,
-				previewMaxWidth: 100,
-				previewMaxHeight: 100,
-				acceptFileTypes: /(\.|\/)(jpe?g)$/i,
-//				maxFileSize: <?php echo MAX_UPLOAD_SIZE_MEGS * 1000000; ?>,
-				process: function (e, data) {
-					var file_tr = jQuery('.files_ready_to_upload_inner_cont table.list tbody:nth-child(' + (1 + data.index) + ')');
-					jQuery('.custom_progress', file_tr).progressbar({ value: 0 });
-				},
-				submit: function (e, data) {
-					$scope.$apply(function() { 
-						$scope.uploading_photos = true;
-					});
-					jQuery('.cancel_photo_upload', data.context).remove();
-					jQuery('.progress_td .rightborder', data.context).remove();
-//					var jqXHR = data.submit()
-//					.success(function (result, textStatus, jqXHR) {/* ... */})
-//					.error(function (jqXHR, textStatus, errorThrown) {/* ... */})
-//					.complete(function (result, textStatus, jqXHR) {
-//						$scope.uploading_photos = false;
-//						console.log('done');
-//					});
-				},
-				send: function (e, data) {
-					jQuery('.custom_progress', data.context).progressbar({ value: false });
-				},
-				stop: function (e, data) {
-					$scope.$apply(function() { 
-						$scope.uploading_photos = false;
-					});
-					jQuery('#fileupload .fileupload-progress').hide();
-				}
+			photos_limited_promise.then(function(data) {
+				jQuery('#fileupload').fileupload({
+					maxNumberOfFiles: data.data.photos_left_to_add,
+					disableImageResize: /Android(?!.*Chrome)|Opera/.test(window.navigator && navigator.userAgent),
+					imageMaxWidth: 4000, // DREW TODO - fix this for auto fulfillment
+					imageMaxHeight: 4000, // DREW TODO - fix this for auto fulfillment
+					dataType: 'json',
+					sequentialUploads: true,
+					previewMaxWidth: 100,
+					previewMaxHeight: 100,
+					acceptFileTypes: /(\.|\/)(jpe?g)$/i,
+					maxFileSize: 50 * 1000000, // DREW TODO - fix this for auto fulfillment
+					process: function (e, data) {
+						var file_tr = jQuery('.files_ready_to_upload_inner_cont table.list tbody:nth-child(' + (1 + data.index) + ')');
+						jQuery('.custom_progress', file_tr).progressbar({ value: 0 });
+					},
+					submit: function (e, data) {
+						$scope.$apply(function() { 
+							$scope.uploading_photos = true;
+						});
+						jQuery('.cancel_photo_upload', data.context).remove();
+						jQuery('.progress_td .rightborder', data.context).remove();
+					},
+					send: function (e, data) {
+						jQuery('.custom_progress', data.context).progressbar({ value: false });
+					},
+					stop: function (e, data) {
+						$scope.$apply(function() { 
+							$scope.uploading_photos = false;
+						});
+						jQuery('#fileupload .fileupload-progress').hide();
+					}
+				});
+	//			jQuery('#fileupload').bind('fileuploadsubmit', function (e, data) {
+	//				 $scope.uploading_photos = true;
+	//			});
+				jQuery('#fileupload').bind('fileuploadadd', function (e, data) {
+					jQuery('.not_added_yet').remove();
+				});
+				jQuery("#upload_photos_button").click(function(e) {
+					jQuery('#upload_photos_file_button').click();
+				});
+				jQuery("#start_upload_button").click(function(e) {
+					jQuery('#start_upload_button_old').click();
+				});
+				jQuery(document).on('click', '.cancel_photo_upload', function(e) {
+					jQuery(this).parent().find('.cancel').click();
+				});
+				// end photo upload code
+				
+				
+				$timeout(function() {
+					if (typeof $scope.last_open_gallery_id == 'number' && $scope.last_on_photo_upload == null) {
+						$scope.view_gallery($scope.last_open_gallery_id, 0, $scope.last_open_gallery_type);
+					} else if (typeof $scope.last_open_gallery_id == 'number' && $scope.last_on_photo_upload != null) {
+						photo_galleries_promise.then(function(photo_galleries) {
+							var photo_gallery = $scope.helpers.getArrItem(photo_galleries, 'PhotoGallery', $scope.last_open_gallery_id);
+							$scope.upload_photos_to_gallery(photo_gallery);
+						});
+					}
+				});
 			});
-//			jQuery('#fileupload').bind('fileuploadsubmit', function (e, data) {
-//				 $scope.uploading_photos = true;
-//			});
-			jQuery('#fileupload').bind('fileuploadadd', function (e, data) {
-				jQuery('.not_added_yet').remove();
-			});
-			jQuery("#upload_photos_button").click(function(e) {
-				jQuery('#upload_photos_file_button').click();
-			});
-			jQuery("#start_upload_button").click(function(e) {
-				jQuery('#start_upload_button_old').click();
-			});
-			jQuery(document).on('click', '.cancel_photo_upload', function(e) {
-				jQuery(this).parent().find('.cancel').click();
-			});
-			// end photo upload code
+			
 			
 
-			$timeout(function() {
-				if (typeof $scope.last_open_gallery_id == 'number' && $scope.last_on_photo_upload == null) {
-					$scope.view_gallery($scope.last_open_gallery_id, 0, $scope.last_open_gallery_type);
-				} else if (typeof $scope.last_open_gallery_id == 'number' && $scope.last_on_photo_upload != null) {
-					photo_galleries_promise.then(function(photo_galleries) {
-						var photo_gallery = $scope.helpers.getArrItem(photo_galleries, 'PhotoGallery', $scope.last_open_gallery_id);
-						$scope.upload_photos_to_gallery(photo_gallery);
-					});
-				}
-			});
 		});
 		
 		
@@ -670,6 +673,9 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 			$scope.last_open_gallery_type = null;
 			$scope.open_gallery = 'empty';
 			$scope.open_smart_gallery = 'empty';
+			$scope.upload_to_gallery = 'empty';
+			$cookies.remove('last_on_photo_upload');
+			$scope.last_on_photo_upload = null;
 		}
 			
 		PhotoGalleries.delete_gallery(delete_gallery_data, 

@@ -93,6 +93,10 @@ fotomatterServices.factory('PhotoGalleries', ['$resource', function($resource) {
 				gallery_id: '@gallery_id',
 				new_order: '@new_order'
 			} 
+		},
+		'get_photos_limited': {
+			url: '/admin/photo_galleries/get_photo_limits',
+			method: 'GET'
 		}
 	});
 }]);

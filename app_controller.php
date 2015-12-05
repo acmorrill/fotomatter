@@ -149,7 +149,8 @@ class AppController extends Controller {
 				'SiteSetting',
 				'Number',
 				'Cache',
-				'Page'
+				'Page',
+				'Tag'
 			);
 		}
 		

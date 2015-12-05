@@ -1,7 +1,7 @@
 <script src="/js/angular_1.2.22/app/js/app.js"></script>
 <script src="/js/angular_1.2.22/app/js/controllers.js"></script>
 <script src="/js/angular_1.2.22/app/js/services.js"></script>
-<!--<script src="/js/angular_1.2.22/app/js/directives.js"></script>-->
+<script src="/js/angular_1.2.22/app/js/directives.js"></script>
 <!--<script src="/js/angular_1.2.22/bower_components/checklist-model/checklist-model.js"></script>-->
 
 <?php
@@ -15,8 +15,13 @@
 	$last_open_gallery_id_str  = "ng-init='$last_open_gallery_id_str'";
 ?>
 
+<div class="show_on_mobile">
+	<h1><?php echo __('Galleries feature not available on smaller screens yet.'); ?></h1>
+	<p></p>
+</div>
 
-<div ng-app="fotomatterApp" ng-controller="GalleriesCtrl" <?php echo $last_open_gallery_id_str; ?>>
+
+<div ng-app="fotomatterApp" ng-controller="GalleriesCtrl" <?php echo $last_open_gallery_id_str; ?> class="hide_on_mobile">
 	<?php /*<h1><?php echo __('Galleries', true); ?>
 		<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 	</h1>
@@ -33,14 +38,17 @@
 		</div>
 	</div>
 
-	<div class="gallery_view" ng-show="open_gallery != null && open_gallery != 'empty'">
+	<div class="gallery_view" ng-show="open_gallery != null && open_gallery != 'empty' && (photos_left_to_add === false || photos_left_to_add >= 0)">
 		<?php echo $this->Element('admin/gallery/angular_edit_gallery_connect_photos'); ?>
 	</div>
-	<div class="gallery_view" ng-show="open_smart_gallery != null && open_smart_gallery != 'empty'">
+	<div class="gallery_view" ng-show="open_smart_gallery != null && open_smart_gallery != 'empty' && (photos_left_to_add === false || photos_left_to_add >= 0)">
 		<?php echo $this->Element('admin/gallery/angular_edit_smart_gallery'); ?>
 	</div>
-	<div class="gallery_view" ng-show="upload_to_gallery != null && upload_to_gallery != 'empty'">
+	<div class="gallery_view" ng-show="upload_to_gallery != null && upload_to_gallery != 'empty' && (photos_left_to_add === false || photos_left_to_add >= 0)">
 		<?php echo $this->Element('admin/gallery/angular_upload_to_gallery'); ?>
+	</div>
+	<div ng-show="photos_left_to_add < 0">
+		<?php echo $this->Element('admin/limit_views/unlimited_photos'); ?>
 	</div>
 	<div class="dynamic_list">
 		<div id="gallery_list_tools">
@@ -129,8 +137,10 @@
 												<div ng-class="{'selected': last_open_gallery_id == photo_gallery.PhotoGallery.id && upload_to_gallery != null && upload_to_gallery != 'empty', 'disabled': uploading_photos == true}" class="add_button icon ng-hide" ng-click="upload_photos_to_gallery(photo_gallery)" ng-show="photo_gallery.PhotoGallery.type == 'standard'">
 													<div class="content icon-pictureUpload-01"></div>
 												</div>
-												<span ng-class="{'disabled': uploading_photos == true}" ng-click="delete_gallery(photo_gallery)" confirm-delete >
-													<div class="add_button icon icon_close"><div class="content icon-close-01"></div></div>
+												<span ng-class="{'disabled': uploading_photos == true}">
+													<span ng-click="delete_gallery(photo_gallery)" confirm-delete>
+														<div class="add_button icon icon_close"><div class="content icon-close-01"></div></div>
+													</span>
 												</span>
 											</span>
 										</td>

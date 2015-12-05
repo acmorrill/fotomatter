@@ -1,9 +1,19 @@
 	<h1><?php echo __('Upload Photos to {{upload_to_gallery.PhotoGallery.display_name}}', true); ?>
-		<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
+		<!--<div id="help_tour_button" class="custom_ui"><?php //echo $this->Element('/admin/get_help_button'); ?></div>-->
 	</h1>
 
+
 	<div id="photo_mass_upload_outer_wrapper">
-		<form id="fileupload" action="/admin/photos/process_mass_photos" method="POST" enctype="multipart/form-data">
+		<form id="fileupload" class="fotomatter_form" action="/admin/photos/process_mass_photos" method="POST" enctype="multipart/form-data">
+			<div class="input text">
+				<label><?php echo __('Auto Tag Photos', true); ?></label>
+				<?php $tags = $this->Tag->get_tags(); ?>
+				<select name="data[tag_ids][]" multiple="multiple" class="chzn-select" data-placeholder="Find Tags ..." style="width: 300px;">
+					<?php foreach ($tags as $tag): ?>
+						<option value="<?php echo $tag['Tag']['id']; ?>"><?php echo $tag['Tag']['name']; ?></option>
+					<?php endforeach; ?>
+				</select>
+			</div>
 			<input type="hidden" name="data[gallery_ids][]" value="{{upload_to_gallery.PhotoGallery.id}}" />
 			<input type="hidden" name="height" value="110" />
 			<input type="hidden" name="width" value="110" />
