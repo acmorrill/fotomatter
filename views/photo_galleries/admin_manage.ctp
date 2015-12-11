@@ -138,7 +138,7 @@
 													<div class="content icon-pictureUpload-01"></div>
 												</div>
 												<span ng-class="{'disabled': uploading_photos == true}">
-													<span ng-click="delete_gallery(photo_gallery)" confirm-delete>
+													<span ng-click="delete_gallery(photo_gallery)" confirm-delete confirm-message="Do you really want to delete the gallery?" confirm-title="Really delete gallery?" confirm-button-title="Delete">
 														<div class="add_button icon icon_close"><div class="content icon-close-01"></div></div>
 													</span>
 												</span>

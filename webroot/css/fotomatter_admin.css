@@ -5922,9 +5922,6 @@ body .ui-progressbar-value {
 #configure_page_cont .page_content_cont .page_content_inner_cont .para_image_cont .photo_details_image_upload_form {
   margin-bottom: 10px;
 }
-#main.mass_upload {
-  margin-left: 437px;
-}
 #main.photo_details {
   margin-left: 437px;
 }
@@ -7112,8 +7109,7 @@ table.list > tbody > tr.remove_pending td .cost {
   #main {
     margin-left: 38px;
   }
-  #main.photo_details,
-  #main.mass_upload {
+  #main.photo_details {
     margin-left: 0px;
   }
   #header .logo {
