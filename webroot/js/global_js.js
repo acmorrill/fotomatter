@@ -78,9 +78,9 @@ jQuery(document).ready(function() {
 var dynamic_table_container;
 jQuery(document).ready(function() {
 	dynamic_table_container = jQuery('.dynamic_list .table_container');
-	dynamic_table_container.height(jQuery(window).height() - 104);
+	dynamic_table_container.height(jQuery(window).height() - 166);
 	jQuery(window).resize(function() {
-		dynamic_table_container.height(jQuery(this).height() - 104);
+		dynamic_table_container.height(jQuery(this).height() - 166);
 	});
 	dynamic_table_container.perfectScrollbar({
 		'suppressScrollX': true

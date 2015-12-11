@@ -167,7 +167,7 @@ class PhotoCache extends AppModel {
 		}
 	}
 	
-	public function prepare_new_cachesize($photo_id, $height, $width, $raw_id = false, $unsharp_amount = null, $return_tag_attributes = false, $crop = false) {
+	public function prepare_new_cachesize($photo_id, $height, $width, $raw_id = false, $unsharp_amount = 0, $return_tag_attributes = false, $crop = false) {
 		$data['PhotoCache']['photo_id'] = $photo_id;
 		$data['PhotoCache']['max_height'] = $height;
 		$data['PhotoCache']['max_width'] = $width;
@@ -422,13 +422,14 @@ class PhotoCache extends AppModel {
 			// grab the crop to put into cdn-filename
 			// - resize the larger cached image into the actual size actual version
 			//----------------------------------------------------------------------------------------------
-			$crop_str = ($photoCache['PhotoCache']['crop'] == '1') ? 'crop' : 'nocrop';
-			$cache_image_name = $cache_prefix.$max_height_display.'x'.$max_width_display."_".$crop_str."_".$photoCache['Photo']['cdn-filename'];
-			$new_cache_image_path = TEMP_IMAGE_PATH.DS.$cache_image_name;
-			$unsharp_amount = null;
+			$unsharp_amount = 0;
 			if (isset($photoCache['PhotoCache']['unsharp_amount'])) {
 				$unsharp_amount = $photoCache['PhotoCache']['unsharp_amount'];
 			}
+			$crop_str = ($photoCache['PhotoCache']['crop'] == '1') ? 'crop' : 'nocrop';
+			$unsharp_str = "unsh$unsharp_amount";
+			$cache_image_name = $cache_prefix.$max_height_display.'x'.$max_width_display."_".$crop_str."_".$unsharp_str."_".$photoCache['Photo']['cdn-filename'];
+			$new_cache_image_path = TEMP_IMAGE_PATH.DS.$cache_image_name;
 			$this->ThemePrebuildCacheSize = Classregistry::init('ThemePrebuildCacheSize');
 			$this->ThemePrebuildCacheSize->increment_used_in_theme($max_width, $max_height, $photoCache['PhotoCache']['crop'], $unsharp_amount);
 			if ($this->convert($large_image_url, $new_cache_image_path, $max_width, $max_height, true, $unsharp_amount, $photoCache['PhotoCache']['crop']) == false) {
@@ -509,12 +510,12 @@ class PhotoCache extends AppModel {
 		}
 	}
 	
-	public function cache_size_exists($photo_id, $width, $height, $crop, $unsharp = '.4') {
+	public function cache_size_exists($photo_id, $width, $height, $crop, $unsharp) {
 		$conditions = array(
 			'PhotoCache.photo_id' => $photo_id,
 			'PhotoCache.max_height' => $height,
 			'PhotoCache.max_width' => $width,
-			'PhotoCache.crop' => ($crop === true) ? 1 : 0,
+			'PhotoCache.crop' => ($crop == true) ? 1 : 0,
 			'PhotoCache.unsharp_amount' => $unsharp
 		);
 
@@ -535,7 +536,7 @@ class PhotoCache extends AppModel {
 		return $this->CloudFiles;
 	}
 	
-	public function convert($old_image_url, $new_image_path, $max_width, $max_height, $enlarge = true, $unsharp_amount = null, $crop = false) {
+	public function convert($old_image_url, $new_image_path, $max_width, $max_height, $enlarge = true, $unsharp_amount = 0, $crop = false) {
 		/*App::import('Component', 'ImageVersion');
 		$email = new ImageVersionComponent();
 		$email->startup($controller);
@@ -591,7 +592,7 @@ class PhotoCache extends AppModel {
 		}
 		
 		$unsharp = '';
-		if (isset($unsharp_amount)) {
+		if (!empty($unsharp_amount)) {
 			$unsharp = "-unsharp 0x$unsharp_amount";
 		}
 		

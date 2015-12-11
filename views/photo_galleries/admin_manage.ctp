@@ -1,21 +1,27 @@
 <script src="/js/angular_1.2.22/app/js/app.js"></script>
 <script src="/js/angular_1.2.22/app/js/controllers.js"></script>
 <script src="/js/angular_1.2.22/app/js/services.js"></script>
+<script src="/js/angular_1.2.22/app/js/directives.js"></script>
+<!--<script src="/js/angular_1.2.22/bower_components/checklist-model/checklist-model.js"></script>-->
 
 <?php
 	$last_open_gallery_id_str = '';
-	if (!empty($_COOKIE['last_open_gallery_id'])) {
-		$last_open_gallery_id_str = "ng-init='last_open_gallery_id={$_COOKIE['last_open_gallery_id']}'";
-	} else {
-		$first_gallery = $this->Gallery->get_first_gallery_by_weight();
-		if (!empty($first_gallery['PhotoGallery']['id'])) {
-			$last_open_gallery_id_str = "ng-init='last_open_gallery_id={$first_gallery['PhotoGallery']['id']}'";
-		}
+	if (!empty($_COOKIE['last_open_gallery_id']) && !empty($_COOKIE['last_open_gallery_type'])) {
+		$last_open_gallery_id_str = "last_open_gallery_id={$_COOKIE['last_open_gallery_id']};last_open_gallery_type=\"{$_COOKIE['last_open_gallery_type']}\";";
 	}
+	if (!empty($_COOKIE['last_on_photo_upload'])) {
+		$last_open_gallery_id_str .= "last_on_photo_upload=\"true\";";
+	}
+	$last_open_gallery_id_str  = "ng-init='$last_open_gallery_id_str'";
 ?>
 
+<div class="show_on_mobile">
+	<h1><?php echo __('Galleries feature not available on smaller screens yet.'); ?></h1>
+	<p></p>
+</div>
 
-<div ng-app="fotomatterApp" ng-controller="GalleriesCtrl" <?php echo $last_open_gallery_id_str; ?>>
+
+<div ng-app="fotomatterApp" ng-controller="GalleriesCtrl" <?php echo $last_open_gallery_id_str; ?> class="hide_on_mobile">
 	<?php /*<h1><?php echo __('Galleries', true); ?>
 		<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 	</h1>
@@ -24,23 +30,40 @@
 	</p>*/ ?>
 	<div style="clear: both;"></div>
 
-	<div class="right" data-step="2" data-intro="<?php echo __('To create a new gallery, choose from two options: standard or smart.', true); ?>" data-position="left">
-		<?php echo $this->Element('admin/gallery/add_gallery'); ?>
-	</div>
 	<div class="clear"></div>
 
+	<div class="gallery_view ng-hide" ng-show="open_gallery == 'empty' && open_smart_gallery == 'empty'" style="position: relative; min-height: 500px;">
+		<div class="empty_help_content" style="display: block;">
+			&#9668;&nbsp;<?php echo __('Choose a Gallery at Left', true); ?>
+		</div>
+	</div>
 
-	<div class="gallery_view" ng-hide="open_gallery == null">
+	<div class="gallery_view" ng-show="open_gallery != null && open_gallery != 'empty' && (photos_left_to_add === false || photos_left_to_add >= 0)">
 		<?php echo $this->Element('admin/gallery/angular_edit_gallery_connect_photos'); ?>
 	</div>
-	<div class="gallery_view" ng-show="open_gallery == null">
-		<h1>Gallery Loading</h1>
+	<div class="gallery_view" ng-show="open_smart_gallery != null && open_smart_gallery != 'empty' && (photos_left_to_add === false || photos_left_to_add >= 0)">
+		<?php echo $this->Element('admin/gallery/angular_edit_smart_gallery'); ?>
+	</div>
+	<div class="gallery_view" ng-show="upload_to_gallery != null && upload_to_gallery != 'empty' && (photos_left_to_add === false || photos_left_to_add >= 0)">
+		<?php echo $this->Element('admin/gallery/angular_upload_to_gallery'); ?>
+	</div>
+	<div ng-show="photos_left_to_add < 0">
+		<?php echo $this->Element('admin/limit_views/unlimited_photos'); ?>
 	</div>
 	<div class="dynamic_list">
+		<div id="gallery_list_tools">
+			<div id="gallery_list_tools_inner" class="custom_ui">
+				<select id="add_gallery_type">
+					<option value="standard"><?php echo __('Standard', true); ?></option>
+					<option value="smart"><?php echo __('Smart', true); ?></option>
+				</select>
+				<div ng-class="{'disabled': uploading_photos == true}" class="add_button icon" ng-click="create_gallery()">
+					<div class="icon-_button-01"></div>
+				</div>
+			</div>
+		</div>
 		<div id="photo_gallery_list" class="table_container">
-			<div class="fade_background_top"></div>
-			<div class="table_top"></div>
-			<table class="list" ui-sortable="sortableOptions" data-step="1" data-intro="<?php echo __ ('Here you can view all of the galleries currently created. Edit the titles, manage the photos, or delete the gallery completely.', true); ?>" data-position="top">
+			<table class="list" ui-sortable="gallerySortableOptions" data-step="1" data-intro="<?php echo __ ('Here you can view all of the galleries currently created. Edit the titles, manage the photos, or delete the gallery completely.', true); ?>" data-position="top">
 				<thead>
 					<tr> 
 						<?php /* <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?> */ ?>
@@ -73,102 +96,59 @@
 					</tr> 
 				</thead>
 				<tbody>
-					<tr class="spacer"><td colspan="3"></td></tr>
+					<tr class="spacer"><td colspan="1"></td></tr>
 
-					<tr class="first last" ng-show="loading == true">
-						<td class="first last" colspan="3" style="text-align: center;">
-							<div class="rightborder"></div>
+					<tr class="first last ng-hide" ng-show="loading == true">
+						<td class="first last" colspan="1" style="text-align: center;">
 							<span>LOADING</span>
 						</td>
 					</tr>
 
-					<tr class="first last" ng-show="photo_galleries.length == 0 && loading == false">
-						<td class="first last" colspan="3">
-							<div class="rightborder"></div>
+					<tr class="first last ng-hide" ng-show="photo_galleries.length == 0 && loading == false">
+						<td class="first last" colspan="1">
 							<span>You don't have any galleries</span>
 						</td>
 					</tr>
 
 
-					<tr ng-repeat="photo_gallery in photo_galleries" ng-class="{'sortable': true, 'current': open_gallery.PhotoGallery.id == photo_gallery.PhotoGallery.id}" gallery_id="{{photo_gallery.PhotoGallery.id}}">
-						<td class="gallery_id first">
+					<tr ng-repeat="photo_gallery in photo_galleries" ng-class="{'sortable': true, 'current': last_open_gallery_id == photo_gallery.PhotoGallery.id}" gallery_id="{{photo_gallery.PhotoGallery.id}}">
+						<?php /*<td class="gallery_id first">
 							<div class="rightborder"></div>
 							<div class="reorder_gallery_grabber reorder_grabber icon-position-01" />
-						</td> 
-						<td class="gallery_name last">
+						</td> */ ?>
+						<td class="gallery_name gallery_id first last">
 							<table>
 								<tbody>
 									<tr>
-										<td>
+										<td class="first">
+											<div class="reorder_gallery_grabber reorder_grabber icon-position-01" />
+										</td>
+										<td class="last">
 											<span>{{photo_gallery.PhotoGallery.display_name}}</span>
 										</td>
 									</tr>
 									<tr>
-										<td>
+										<td colspan="2">
 											<span class="custom_ui">
-												<div class="add_button" ng-click="view_gallery(photo_gallery.PhotoGallery.id)">
-													<div class="content"><?php echo __('Edit', true); ?></div>
-													<div class="right_arrow_lines icon-arrow-01"><div></div></div>
+												<div ng-class="{'selected': last_open_gallery_id == photo_gallery.PhotoGallery.id && (upload_to_gallery == null || upload_to_gallery == 'empty'), 'disabled': uploading_photos == true}" class="add_button icon" ng-click="view_gallery(photo_gallery.PhotoGallery.id, 0, photo_gallery.PhotoGallery.type)">
+													<div class="content icon-managePhotos-01 ng-hide" ng-show="photo_gallery.PhotoGallery.type == 'standard'"></div>
+													<div class="content icon-gallerySettings-01 ng-hide" ng-show="photo_gallery.PhotoGallery.type == 'smart'"></div>
 												</div>
-												<a class="delete_link" href="/admin/photo_galleries/delete_gallery//"><div class="add_button icon icon_close"><div class="content icon-close-01"></div></div></a>
+												<div ng-class="{'selected': last_open_gallery_id == photo_gallery.PhotoGallery.id && upload_to_gallery != null && upload_to_gallery != 'empty', 'disabled': uploading_photos == true}" class="add_button icon ng-hide" ng-click="upload_photos_to_gallery(photo_gallery)" ng-show="photo_gallery.PhotoGallery.type == 'standard'">
+													<div class="content icon-pictureUpload-01"></div>
+												</div>
+												<span ng-class="{'disabled': uploading_photos == true}">
+													<span ng-click="delete_gallery(photo_gallery)" confirm-delete confirm-message="Do you really want to delete the gallery?" confirm-title="Really delete gallery?" confirm-button-title="Delete">
+														<div class="add_button icon icon_close"><div class="content icon-close-01"></div></div>
+													</span>
+												</span>
 											</span>
 										</td>
 									</tr>
 								</tbody>
 							</table>
 						</td> 
-						<?php /*<td class="gallery_action last table_actions">
-							<span class="custom_ui">
-								<div class="add_button" ng-click="view_gallery(photo_gallery.PhotoGallery.id)">
-									<div class="content"><?php echo __('Edit', true); ?></div>
-									<div class="right_arrow_lines icon-arrow-01"><div></div></div>
-								</div>
-								<a class="delete_link" href="/admin/photo_galleries/delete_gallery//"><div class="add_button icon icon_close"><div class="content icon-close-01"></div></div></a>
-							</span>
-						</td> */ ?>
 					</tr>
-
-					<?php /*
-					<?php foreach($galleries as $curr_gallery): ?> 
-						<tr gallery_id="<?php echo $curr_gallery['PhotoGallery']['id']; ?>">
-							<td class="gallery_id first">
-								<div class="rightborder"></div>
-								<div class="reorder_gallery_grabber reorder_grabber icon-position-01" />
-							</td> 
-							<td class="gallery_name ">
-								<div class="rightborder"></div>
-								<span><?php echo $curr_gallery['PhotoGallery']['display_name']; ?></span>
-							</td> 
-							<td class="gallery_action last table_actions">
-								<span class="custom_ui">
-									<a href="/admin/photo_galleries/edit_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/">
-										<div class="add_button" <?php echo $edit_button_help; ?>>
-											<div class="content"><?php echo __('Edit', true); ?></div>
-											<div class="right_arrow_lines icon-arrow-01"><div></div></div>
-										</div>
-									</a>
-									<?php if ($curr_gallery['PhotoGallery']['type'] == 'smart'): ?>
-										<a href="/admin/photo_galleries/edit_smart_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/">
-											<div class="add_button" <?php echo $configure_button_help; ?>>
-												<div class="content"><?php echo __('Configure', true); ?></div>
-												<div class="right_arrow_lines icon-arrow-01"><div></div></div>
-											</div>
-										</a>
-									<?php else: ?>
-										<a href="/admin/photo_galleries/edit_gallery_connect_photos/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/">
-											<div class="add_button" <?php echo $manage_button_help; ?>>
-												<div class="content"><?php echo __('Manage Photos', true); ?></div>
-												<div class="right_arrow_lines icon-arrow-01"><div></div></div>
-											</div>
-										</a>
-									<?php endif; ?>
-									<a class="delete_link" href="/admin/photo_galleries/delete_gallery/<?php echo $curr_gallery['PhotoGallery']['id']; ?>/"><div class="add_button icon icon_close" <?php echo $x_button_help; ?>><div class="content icon-close-01"></div></div></a>
-								</span>
-							</td>
-						</tr>
-					<?php endforeach; ?> 
-					 * 
-					 */ ?>
 				</tbody>
 			</table>
 		</div>

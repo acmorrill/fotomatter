@@ -103,6 +103,12 @@ class ThemeCentersController extends AppController {
 		}
 	}
 	
+	public function admin_ajax_get_choose_theme_progress() {
+		header('Content-Type: application/json');
+		$percent = $this->Theme->get_disabled_photo_cache_percent();
+		die(json_encode(array('progress' => (!$percent ? 0 : $percent))));
+	}
+	
 	public function admin_ajax_get_logo_webpath_and_save_dimension($height, $width, $top, $left, $theme_name) {
 		App::import('Helper', 'ThemeLogo'); 
 		$ThemeLogo = new ThemeLogoHelper();

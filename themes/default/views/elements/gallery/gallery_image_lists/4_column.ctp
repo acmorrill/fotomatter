@@ -22,7 +22,9 @@
 						</a>
 					</span>
 					<div class="galleriesLink">
-						<a href="<?php echo $photoUrl; ?>">"<?php echo $curr_photo['Photo']['display_title']; ?>"</a><br/>
+						<div <?php if (empty($curr_photo['Photo']['display_title'])) echo 'style="visibility:hidden"'; ?> >
+							<a href="<?php echo $photoUrl; ?>">"<?php echo $curr_photo['Photo']['display_title']; ?>"</a><br/>
+						</div>
 						<?php echo $curr_photo['Photo']['display_subtitle']; ?>
 					</div>
 				</div>

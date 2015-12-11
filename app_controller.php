@@ -149,7 +149,8 @@ class AppController extends Controller {
 				'SiteSetting',
 				'Number',
 				'Cache',
-				'Page'
+				'Page',
+				'Tag'
 			);
 		}
 		
@@ -479,6 +480,22 @@ class AppController extends Controller {
 		echo json_encode($data);
 		exit();
 	}
+	public function return_angular_json($success = true, $message = '', $data = array()) {
+		$returnArr = array(
+			'success' => ($success === true) ? 'true' : 'false',
+			'message' => $message,
+			'data' => $data
+		);
+		
+		echo json_encode($returnArr);
+		exit();
+	}
+	
+	public function parse_angular_json($controller) {
+		$data = json_decode(file_get_contents('php://input'), true);
+		$controller->data = $data;
+		return $data;
+	}
 
 	public function major_error($description, $extra_data = null, $severity = 'normal') {
 		$this->MajorError = ClassRegistry::init("MajorError");
@@ -559,7 +576,7 @@ class AppController extends Controller {
 		// stuff to do after theme changed
 		$new_theme_config = $this->ThemeRenderer->_process_theme_config_with_user_settings(true);
 		$this->Theme->get_theme_background_config_values($new_theme_config, true);
-		$this->Photo->create_theme_photo_caches();
+		$this->Photo->create_theme_photo_caches($new_theme_config);
 
 
 		// this is no longer needed as the logo code was refactered

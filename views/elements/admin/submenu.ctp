@@ -1,23 +1,20 @@
 <script type="text/javascript">
-//	var subnav = jQuery('#sub-nav');
-//	var window = jQuery(window);
-//	jQuery(document).ready(function() {
-//		console.log ("came freaking here");
-//		subnav.hover(
-//			function() {
-//				console.log ("came into hover 1");
-//				if (window.width <= 1280) {
-//					subnav.css('width', 'auto');
-//				}
-//			}, 
-//			function() {
-//				console.log ("came into hover 2");
-//				if (window.width <= 1280) {
-//					subnav.css('width', '');
-//				}
-//			}
-//		);
-//	});
+	var subnav = jQuery('#middle .sub-nav');
+	var window = jQuery(window);
+	jQuery(document).ready(function() {
+		subnav.hover(
+			function() {
+				if (window.width <= 1280) {
+					subnav.css('width', 'auto');
+				}
+			}, 
+			function() {
+				if (window.width <= 1280) {
+					subnav.css('width', '');
+				}
+			}
+		);
+	});
 </script>
 
 <?php $help_step = ''; ?>

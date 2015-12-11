@@ -63,7 +63,7 @@ table.list {
 	width: 100%;
 	border-collapse: separate;
 	border-spacing: 0px;
-	margin-bottom: 50px;
+	margin-bottom: 200px;
 	> thead {
 		> tr {
 			height: 106px;
@@ -321,24 +321,57 @@ table.list {
 }
 
 .dynamic_list {
+	#gallery_list_tools {
+		width: 229px;
+		height: 62px;
+		position: absolute;
+		top: @header_height + 9;
+		left: 0px;
+		z-index: @header;
+		background-color: rgba(180,180,180, .1);
+		border-bottom: 1px solid @table_and_button_outline;
+		border-top: 1px solid @table_and_button_outline;
+		border-right: 1px solid @body_content_top_bg - 8;
+		#gallery_list_tools_inner {
+			margin-top: 11px;
+			select {
+				padding-left: 5px;
+				width: 158px;
+				margin-left: 7px;
+				margin-right: 6px;
+			}
+			&.custom_ui .add_button {
+				font-size: 43px;
+				height: 40px;
+				padding-left: 0px;
+				padding-right: 0px;
+				margin-bottom: 0px;
+				> div {
+					margin-top: -1px;
+				}
+			}
+		}
+	}
+	z-index: @header;
 	position: fixed;
 	left: 0px;
 	top: 0px;
 	height: 100%;
-	width: 320px;
+	width: 230px;
 	padding: 0px;
 	.table_container {
 		.table_top, .fade_background_top, thead { display: none; }
 		background: none;
 		background-color: rgba(180,180,180, .06);
 		padding: 0px;
-		margin-top: @header_height + 10px;
+		margin-top: @header_height + 72px;
+		/*margin-top: @header_height + 10px;*/
 		margin-bottom: 50px;
 		overflow-y: scroll;
 		height: 1000px;
 		border-right: 1px solid @body_content_top_bg - 8;
 		table.list {
-			width: 320px;
+			width: 230px;
 			margin-left: 0px;
 			padding-left: 0px;
 			/*margin-top: 30px;*/
@@ -350,6 +383,7 @@ table.list {
 				> td {
 					background-color: rgb(38,40,41);
 					background-color: rgba(38,40,41, .7);
+					padding: 0px !important;
 					&.first { border-left: 0px !important; }
 					&.last { border-right: 0px !important; }
 					.rightborder {
@@ -357,15 +391,23 @@ table.list {
 						top: 50%;
 					}
 					> table {
-						width: 100%;
+						
+						width: 211px;
 						margin-top: 10px;
 						margin-bottom: 10px;
+						margin-left: 10px; margin-right: 0px;
 						> tbody > tr > td {
+							> .reorder_gallery_grabber  { margin-left: 20px; }
 							background: none;
-							vertical-align: center;
+							&.first { width: 54px; }
+							&.last { 
+								vertical-align: middle; 
+								> span { margin-bottom: 3px; }
+							}
 							> span {
 								display: inline-block;
 								margin: 8px;
+								margin-left: 10px;
 								.add_button { margin: 0px; }
 							}
 						}
@@ -373,12 +415,24 @@ table.list {
 				}
 				&.current {
 					> td {
-						background-color: rgb(61,62,63);
-						background-color: rgb(61,62,63, .7);
+						border-top: 1px solid @top_white;
+						border-bottom: 1px solid @top_white;
 					}
 				}
-				&:hover {
-					> td { background-color: @table_hover; }
+				@hover {
+					> td {
+						border-top: 1px solid @white;
+						border-bottom: 1px solid @white;
+					}
+				}
+				&.current, &:hover {
+					> td { 
+						color: @top_white;
+						background-color: @table_hover;
+						> table > tbody > tr > td { 
+							color: @top_white;
+						}
+					}
 				}
 			}
 		}

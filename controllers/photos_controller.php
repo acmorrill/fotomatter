@@ -237,7 +237,7 @@ class PhotosController extends AppController {
 			$cache_file_height = isset($this->params['form']['height']) ? $this->params['form']['height'] : null;
 			$cache_file_width = isset($this->params['form']['width']) ? $this->params['form']['width'] : null;
 			if (isset($cache_file_width) && isset($cache_file_height)) {
-				$new_photo_path_data = $this->Photo->get_photo_path($this->Photo->id, $cache_file_height, $cache_file_width, null, true);
+				$new_photo_path_data = $this->Photo->get_photo_path($this->Photo->id, $cache_file_height, $cache_file_width, 0, true);
 				$upload_data['new_photo_path'] = $new_photo_path_data['url'];
 				$upload_data['new_width'] = $new_photo_path_data['width'];
 				$upload_data['new_height'] = $new_photo_path_data['height'];
@@ -284,9 +284,9 @@ class PhotosController extends AppController {
 		}
 
 
+		$photo_formats = $this->Photo->PhotoFormat->find('list');
+		$this->set('photoFormats', $photo_formats);
 		if (empty($this->data)) {
-			$photo_formats = $this->Photo->PhotoFormat->find('list');
-			$this->set('photoFormats', $photo_formats);
 
 			$this->data = $this->Photo->find('first', array(
 				'conditions' => array(
@@ -389,16 +389,14 @@ class PhotosController extends AppController {
 				}
 
 
-				$photo_formats = $this->Photo->PhotoFormat->find('list');
-				$this->set('photoFormats', $photo_formats);
-
-				// have to reset data because it could have change in a photo beforeSave
-				$this->data = $this->Photo->find('first', array(
-					'conditions' => array(
-						'Photo.id' => $this->Photo->id
-					)
-				));
 			}
+			
+			// have to reset data because it could have change in a photo beforeSave
+			$this->data = $this->Photo->find('first', array(
+				'conditions' => array(
+					'Photo.id' => $this->data['Photo']['id']
+				)
+			));
 		}
 
 

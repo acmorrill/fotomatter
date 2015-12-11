@@ -2,7 +2,7 @@
 class PhotoGalleriesController extends AppController {
 	public $name = 'PhotoGalleries';
 	public $uses = array('PhotoGallery', 'Photo', 'PhotoGalleriesPhoto', 'PhotoFormat', 'Tag', 'PhotosTag');
-	public $helpers = array('Photo', 'Gallery', 'Paginator');
+	public $helpers = array('Photo', 'Gallery', 'Paginator', 'Tag');
 
 	public function  beforeFilter() {
 		parent::beforeFilter();
@@ -14,37 +14,30 @@ class PhotoGalleriesController extends AppController {
 
 	
 	
-	public function admin_add_standard_gallery() {
+	public function admin_add_gallery($type) {
 		$new_gallery = array();
-		$new_gallery['PhotoGallery']['type'] = 'standard';
-		$new_gallery['PhotoGallery']['display_name'] = 'Gallery Name';
+		$new_gallery['PhotoGallery']['type'] = $type;
+		$upper_case_type = ucfirst($type);
+		$new_gallery['PhotoGallery']['display_name'] = "New $upper_case_type Gallery";
 		
 		$this->PhotoGallery->create();
 		if (!$this->PhotoGallery->save($new_gallery)) {
-			$this->Session->setFlash(__('Failed to create new standard gallery', true), 'admin/flashMessage/error');
 			$this->PhotoGallery->major_error('Failed to create new standard gallery in (add_standard_gallery) in photo_galleries_controller.php', compact('new_gallery'));
-			$this->redirect('/admin/photo_galleries');
-		} else {
-			//$this->Session->setFlash(__('New page created', true), 'admin/flashMessage/success');
-			$this->redirect('/admin/photo_galleries/edit_gallery/'.$this->PhotoGallery->id);
+			$this->return_angular_json(false, 'failed to create standard gallery', array());
 		}
+		
+		$the_new_gallery = $this->PhotoGallery->find('first', array(
+			'conditions' => array(
+				'PhotoGallery.id' => $this->PhotoGallery->id
+			),
+			'contain' => false
+		));
+		
+		$this->return_angular_json(true, 'New Standard Gallery Created', array(
+			'data' => $the_new_gallery
+		));
 	}
 	
-	public function admin_add_smart_gallery() {
-		$new_gallery = array();
-		$new_gallery['PhotoGallery']['type'] = 'smart';
-		$new_gallery['PhotoGallery']['display_name'] = 'Gallery Name';
-		
-		$this->PhotoGallery->create();
-		if (!$this->PhotoGallery->save($new_gallery)) {
-			$this->Session->setFlash(__('Failed to create new smart gallery', true), 'admin/flashMessage/error');
-			$this->PhotoGallery->major_error('Failed to create new smart gallery in (add_smart_gallery) in photo_galleries_controller.php', compact('new_gallery'));
-			$this->redirect('/admin/photo_galleries');
-		} else {
-			//$this->Session->setFlash(__('New page created', true), 'admin/flashMessage/success');
-			$this->redirect('/admin/photo_galleries/edit_gallery/'.$this->PhotoGallery->id);
-		}
-	}
 	
 	public function choose_gallery() {
 		$this->setup_front_end_view_cache($this);
@@ -52,94 +45,94 @@ class PhotoGalleriesController extends AppController {
 		$this->ThemeRenderer->render($this);
 	}
 	
-	public function view_gallery($gallery_id = null) {
-		$this->setup_front_end_view_cache($this);
-		
-		$custom_settings = $this->viewVars['theme_config']['admin_config']['theme_avail_custom_settings']['settings'];
-		$gallery_listing_config = $this->viewVars['theme_config']['admin_config']['theme_gallery_listing_config'];
-		
-		$conditions = array();
-		if (isset($gallery_id)) {
-			$conditions = array(
-				'PhotoGallery.id' => $gallery_id
-			);
-		}
-		
-		// find the gallery
-		$curr_gallery = $this->PhotoGallery->find('first', array(
-			'conditions' => $conditions,
-			'limit' => 1,
-			'contain' => false
-		));
-
-		$photos = array();
-		$limit = $gallery_listing_config['default_images_per_page'];
-		if (!empty($gallery_listing_config['based_on_theme_option']) && !empty($custom_settings[$gallery_listing_config['based_on_theme_option']]['current_value'])) {
-			$limit = $custom_settings[$gallery_listing_config['based_on_theme_option']]['current_value'];
-		}
-		if ($this->is_mobile === true) {
-			$limit = 1000; // DREW TODO - maybe we need to change this
-		}
-		if ($curr_gallery['PhotoGallery']['type'] == 'smart') {
-			$smart_settings = $curr_gallery['PhotoGallery']['smart_settings'];
-			
-			$found_photo_ids = $this->PhotoGallery->get_smart_gallery_photo_ids($smart_settings);
-			
-			// do the final find with pagination
-			$this->paginate = array(
-				'Photo' => array(
-					'conditions' => array(
-						'Photo.id' => $found_photo_ids
-					),
-					'limit' => $limit,
-					'contain' => false,
-					'order' => "Photo.{$smart_settings['order_by']} {$smart_settings['order_direction']}"
-				)
-			);
-			$photos = $this->paginate('Photo');      
-			
-		} else {
-			$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
-			$max_photo_extra_condition = '';
-			if (!empty($max_photo_id)) {
-				$max_photo_extra_condition = "PhotoGalleriesPhoto.photo_id <= $max_photo_id";
-			}
-			
-			$this->paginate = array(
-				'PhotoGalleriesPhoto' => array(
-					'conditions' => array(
-						'PhotoGalleriesPhoto.photo_gallery_id' => $gallery_id,
-						$max_photo_extra_condition,
-					),
-					'limit' => $limit,
-					'contain' => array(
-						'Photo'
-					),
-					'order' => 'PhotoGalleriesPhoto.photo_order'
-				)
-			);
-			$photos = $this->paginate('PhotoGalleriesPhoto');    
-		}
-		
-		
-		// add in photo format using best performance
-		$this->Photo->add_photo_format($photos);
-		
-		foreach ($photos as &$photo) {
-			// make sure all photos have at least untitled as a title
-//			if (empty($photo['Photo']['display_title'])) {
-//				$photo['Photo']['display_title'] = 'Untitled';
+//	public function view_gallery($gallery_id = null) {
+//		$this->setup_front_end_view_cache($this);
+//		
+//		$custom_settings = $this->viewVars['theme_config']['admin_config']['theme_avail_custom_settings']['settings'];
+//		$gallery_listing_config = $this->viewVars['theme_config']['admin_config']['theme_gallery_listing_config'];
+//		
+//		$conditions = array();
+//		if (isset($gallery_id)) {
+//			$conditions = array(
+//				'PhotoGallery.id' => $gallery_id
+//			);
+//		}
+//		
+//		// find the gallery
+//		$curr_gallery = $this->PhotoGallery->find('first', array(
+//			'conditions' => $conditions,
+//			'limit' => 1,
+//			'contain' => false
+//		));
+//
+//		$photos = array();
+//		$limit = $gallery_listing_config['default_images_per_page'];
+//		if (!empty($gallery_listing_config['based_on_theme_option']) && !empty($custom_settings[$gallery_listing_config['based_on_theme_option']]['current_value'])) {
+//			$limit = $custom_settings[$gallery_listing_config['based_on_theme_option']]['current_value'];
+//		}
+//		if ($this->is_mobile === true) {
+//			$limit = 1000; // DREW TODO - maybe we need to change this
+//		}
+//		if ($curr_gallery['PhotoGallery']['type'] == 'smart') {
+//			$smart_settings = $curr_gallery['PhotoGallery']['smart_settings'];
+//			
+//			$found_photo_ids = $this->PhotoGallery->get_smart_gallery_photo_ids($smart_settings);
+//			
+//			// do the final find with pagination
+//			$this->paginate = array(
+//				'Photo' => array(
+//					'conditions' => array(
+//						'Photo.id' => $found_photo_ids
+//					),
+//					'limit' => $limit,
+//					'contain' => false,
+//					'order' => "Photo.{$smart_settings['order_by']} {$smart_settings['order_direction']}"
+//				)
+//			);
+//			$photos = $this->paginate('Photo');      
+//			
+//		} else {
+//			$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
+//			$max_photo_extra_condition = '';
+//			if (!empty($max_photo_id)) {
+//				$max_photo_extra_condition = "PhotoGalleriesPhoto.photo_id <= $max_photo_id";
 //			}
-			
-			// unset date taken if use_data_taken empty
-			if (empty($photo['Photo']['use_date_taken'])) {
-				unset($photo['Photo']['date_taken']);
-			}
-		}
-		$this->set(compact('curr_gallery', 'photos', 'gallery_id', 'smart_settings'));
-		
-		$this->ThemeRenderer->render($this);
-	}
+//			
+//			$this->paginate = array(
+//				'PhotoGalleriesPhoto' => array(
+//					'conditions' => array(
+//						'PhotoGalleriesPhoto.photo_gallery_id' => $gallery_id,
+//						$max_photo_extra_condition,
+//					),
+//					'limit' => $limit,
+//					'contain' => array(
+//						'Photo'
+//					),
+//					'order' => 'PhotoGalleriesPhoto.photo_order'
+//				)
+//			);
+//			$photos = $this->paginate('PhotoGalleriesPhoto');    
+//		}
+//		
+//		
+//		// add in photo format using best performance
+//		$this->Photo->add_photo_format($photos);
+//		
+//		foreach ($photos as &$photo) {
+//			// make sure all photos have at least untitled as a title
+////			if (empty($photo['Photo']['display_title'])) {
+////				$photo['Photo']['display_title'] = 'Untitled';
+////			}
+//			
+//			// unset date taken if use_data_taken empty
+//			if (empty($photo['Photo']['use_date_taken'])) {
+//				unset($photo['Photo']['date_taken']);
+//			}
+//		}
+//		$this->set(compact('curr_gallery', 'photos', 'gallery_id', 'smart_settings'));
+//		
+//		$this->ThemeRenderer->render($this);
+//	}
 
 	public function admin_index() {
 //		, (SELECT count(*) FROM photo_galleries_photos WHERE photo_gallery_id = PhotoGallery.id) as photos_count
@@ -156,6 +149,7 @@ class PhotoGalleriesController extends AppController {
 //			$photo_gallery['PhotoGallery']['photos_count'] = (int) $photo_gallery[0]['photos_count'];
 			unset($photo_gallery[0]);
 		}
+//		$photo_galleries = Set::combine($photo_galleries, '{n}.PhotoGallery.id', '{n}');
 
 		$this->return_json($photo_galleries);
 	}
@@ -171,6 +165,10 @@ class PhotoGalleriesController extends AppController {
 		$photo_galleries = $this->PhotoGallery->query($gallery_query, array(
 			'id' => $gallery_id
 		));
+		
+		if (empty($photo_galleries[0])) {
+			$this->return_angular_json(false, 'failed to load gallery', array());
+		}
 		
 		
 		$icon_sizes = $this->Photo->get_admin_photo_icon_size($gallery_icon_size);
@@ -198,23 +196,27 @@ class PhotoGalleriesController extends AppController {
 			}
 			unset($photo_gallery[0]);
 		}
+//		$photo_gallery['PhotoGalleriesPhoto'] = Set::combine($photo_gallery['PhotoGalleriesPhoto'], '{n}.PhotoGalleriesPhoto.photo_id', '{n}');
 		
 		
 		
-		/*$total_photos = $this->Photo->count_total_photos();
-		$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
-		$photos_left_to_add = LIMIT_MAX_FREE_PHOTOS - $total_photos;
-		if (!empty($max_photo_id) && $photos_left_to_add < 0) {
-//			$this->FeatureLimiter->limit_view_go($this, 'unlimited_photos');
-			$this->FeatureLimiter->limit_function_403();
-			return;
-		}*/
+//		$total_photos = $this->Photo->count_total_photos();
+//		$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
+//		$photos_left_to_add = LIMIT_MAX_FREE_PHOTOS - $total_photos;
+//		if (!empty($max_photo_id) && $photos_left_to_add < 0) {
+////			$this->FeatureLimiter->limit_view_go($this, 'unlimited_photos');
+////			$this->FeatureLimiter->limit_function_403();
+////			return;
+//			$this->return_angular_json(true, '', array(
+//				'photo_gallery' => $photo_galleries[0]
+//			));
+//		}
 		
 		
 		$limit = 30;
 		
 		// get the photo ids of the current gallery
-		$photo_ids = Set::extract('/PhotoGalleriesPhoto/photo_id', $photo_galleries[0]);
+		$photo_ids = Set::extract('PhotoGalleriesPhoto.{n}.PhotoGalleriesPhoto.photo_id', $photo_galleries[0]);
 		
 		
 		if ($gallery_icon_size == 'small') {
@@ -285,28 +287,34 @@ class PhotoGalleriesController extends AppController {
 				$not_connected_photo['Photo']['photo_cache_class'] = $class;
 			}
 		}
+//		$not_connected_photos = Set::combine($not_connected_photos, '{n}.Photo.id', '{n}');
 		
 		
-		$this->return_json(array(
+		$last_photo = end($not_connected_photos);
+		$last_photo_id = $last_photo['Photo']['id'];
+		
+		$this->return_angular_json(true, '', array(
 			'photo_gallery' => $photo_galleries[0],
 			'not_connected_photos' => $not_connected_photos,
+			'last_photo_id' => $last_photo_id
 		));
 	}
 	
+	public function admin_get_photo_limits() {
+		$total_photos = $this->Photo->count_total_photos();
+		$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
+		$photos_left_to_add = LIMIT_MAX_FREE_PHOTOS - $total_photos;
+		if (!empty($max_photo_id)) {
+			$this->return_angular_json(true, '', array(
+				'photos_left_to_add' => $photos_left_to_add
+			));
+		}
+		
+		$this->return_angular_json(true, '', array(
+			'photos_left_to_add' => false
+		));
+	}
 	
-	// DREW TODO - get this working
-//	public function admin_mobile_index() {
-////		$this->layout = 'admin/sidebar_less';
-//		$curr_page = 'galleries';
-//		
-//		$galleries = $this->PhotoGallery->find('all', array(
-//			'limit' => 100,
-//			'contain' => false
-//		));
-//		
-//		$this->set(compact('galleries', 'curr_page'));
-//		$this->render('admin_index'); // the new angular page
-//	}
 	
 	public function admin_manage() {
 //		$this->layout = 'admin/sidebar_less';
@@ -320,73 +328,80 @@ class PhotoGalleriesController extends AppController {
 		$this->set(compact('galleries', 'curr_page'));
 	}
 	
-	public function admin_edit_smart_gallery($id) {
+	public function admin_view_smart_gallery($id) {
+		$this->data = $this->PhotoGallery->find('first', array(
+			'conditions' => array(
+				'PhotoGallery.id' => $id
+			),
+			'contain' => false
+		));
+		
+		if (empty($this->data)) {
+			$this->return_angular_json(false, 'could find gallery', array());
+		}
+		
+		$smart_gallery_tags = array();
+		foreach ($this->data['PhotoGallery']['smart_settings']['tags'] as $smart_gallery_tag) {
+			$smart_gallery_tags[] = array(
+				'Tag' => array(
+					'name' => $smart_gallery_tag
+				)
+			);
+		}
+		
+		$this->return_angular_json(true, '', array(
+			'data' => $this->data,
+			'id' => $id,
+			'selected_tags' => $smart_gallery_tags
+		));
+	}
+	
+	public function admin_edit_smart_gallery() {
+		$this->parse_angular_json($this);
+		$id = $this->data['id'];
+		
+		
 		if ( !empty($this->data) ) {
 			// get settings to save
 			$smart_settings = $this->data['smart_settings'];
 			$save_settings['tags'] = isset($smart_settings['tags']) ? $smart_settings['tags'] : array();
-			$save_settings['date_added_from'] = (isset($smart_settings['date_added_from']) && $smart_settings['date_added_from'] != $smart_settings['date_added_from_default']) ? date( 'm/d/Y', strtotime($smart_settings['date_added_from'])) : null;
-			$save_settings['date_added_to'] = (isset($smart_settings['date_added_to']) && $smart_settings['date_added_to'] != $smart_settings['date_added_to_default']) ? date( 'm/d/Y', strtotime($smart_settings['date_added_to'])) : null;
-			$save_settings['date_taken_from'] = (isset($smart_settings['date_taken_from']) && $smart_settings['date_taken_from'] != $smart_settings['date_taken_from_default']) ? date( 'm/d/Y', strtotime($smart_settings['date_taken_from'])) : null;
-			$save_settings['date_taken_to'] = (isset($smart_settings['date_taken_to']) && $smart_settings['date_taken_to'] != $smart_settings['date_taken_to_default']) ? date( 'm/d/Y', strtotime($smart_settings['date_taken_to'])) : null;
+			$save_settings['date_added_from'] = (!empty($smart_settings['date_added_from']) && $smart_settings['date_added_from'] != $smart_settings['date_added_from_default']) ? date( 'm/d/Y', strtotime($smart_settings['date_added_from'])) : null;
+			$save_settings['date_added_to'] = (!empty($smart_settings['date_added_to']) && $smart_settings['date_added_to'] != $smart_settings['date_added_to_default']) ? date( 'm/d/Y', strtotime($smart_settings['date_added_to'])) : null;
+			$save_settings['date_taken_from'] = (!empty($smart_settings['date_taken_from']) && $smart_settings['date_taken_from'] != $smart_settings['date_taken_from_default']) ? date( 'm/d/Y', strtotime($smart_settings['date_taken_from'])) : null;
+			$save_settings['date_taken_to'] = (!empty($smart_settings['date_taken_to']) && $smart_settings['date_taken_to'] != $smart_settings['date_taken_to_default']) ? date( 'm/d/Y', strtotime($smart_settings['date_taken_to'])) : null;
 			$save_settings['photo_format'] = isset($smart_settings['photo_format']) ? $smart_settings['photo_format'] : array();
 			$save_settings['order_by'] = isset($smart_settings['order_by']) ? $smart_settings['order_by'] : 'created';
 			$save_settings['order_direction'] = isset($smart_settings['order_direction']) ? $smart_settings['order_direction'] : 'desc';
 			
 			
+			$smart_gallery = array();
 			$smart_gallery['PhotoGallery']['id'] = $id;
 			$smart_gallery['PhotoGallery']['smart_settings'] = serialize($save_settings);
 			if (!$this->PhotoGallery->save($smart_gallery)) {
-				$this->Session->setFlash(__('Failed to save smart settings.', true), 'admin/flashMessage/error');
 				$this->PhotoGallery->major_error('Failed to save smart settings.', compact('smart_gallery'));
-			} else {
-				$this->Session->setFlash(__('Smart Gallery settings saved', true), 'admin/flashMessage/success');
+				$this->return_angular_json(false, 'Failed to save smart settings.', array());
 			}
 		}
 		
-		$this->data = $this->PhotoGallery->find('first', array(
-			'conditions' => array(
-				'PhotoGallery.id' => $id
-			),
-			'contain' => false
+		$this->return_angular_json(true, '', array(
+			'data' => $this->data,
+//			'id' => $id,
+//			'selected_tags' => $smart_gallery_tags
 		));
-		
-		
-		$tags = $this->Tag->find('all', array(
-			'order' => array(
-				'Tag.name'
-			),
-			'contain' => false
-		));
-		
-		$this->set(compact('tags', 'id'));
 	}
 	
-	public function admin_edit_gallery($id) {
+	public function admin_edit_gallery() {
+		$this->parse_angular_json($this);
 		
 		if ( !empty($this->data) ) {
 			// set or unset the id (depending on if its an edit or add)
-			$this->data['PhotoGallery']['id'] = $id;
-			
 			if (!$this->PhotoGallery->save($this->data)) {
 				$this->PhotoGallery->major_error('failed to save photo gallery in edit gallery', $this->data);
-				$this->Session->setFlash(__('Failed to save photo gallery', true), 'admin/flashMessage/error');
-			} else {
-				$this->Session->setFlash(__('Photo gallery saved', true), 'admin/flashMessage/success');
+				$this->return_json_angular(false, "Failed to save photo gallery", $this->data);
 			}
  		} 
 		
-		
-		$this->data = $this->PhotoGallery->find('first', array(
-			'conditions' => array(
-				'PhotoGallery.id' => $id
-			),
-			'contain' => array(
-				'PhotoGalleriesPhoto' => array(
-					'Photo'
-				)
-			)
-		));
+		$this->return_angular_json(true, "Photo gallery saved", $this->data);
 	}
 	
 	public function admin_ajax_get_photos_in_gallery($gallery_id) {
@@ -658,130 +673,130 @@ class PhotoGalleriesController extends AppController {
 	}*/
 	
 	
-	public function admin_edit_gallery_connect_photos($gallery_id, $last_photo_id = 0) {
-		$total_photos = $this->Photo->count_total_photos();
-		$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
-		$photos_left_to_add = LIMIT_MAX_FREE_PHOTOS - $total_photos;
-		if (!empty($max_photo_id) && $photos_left_to_add < 0) {
-			$this->FeatureLimiter->limit_view_go($this, 'unlimited_photos');
-			return;
-		}
-		
-		
-		$limit = 30;
-		
-		$this->data = $this->PhotoGallery->find('first', array(
-			'conditions' => array('PhotoGallery.id' => $gallery_id),
-			'contain' => array(
-				'PhotoGalleriesPhoto' => array(
-					'Photo'
-				)
-			)
-		));
-		
-		$photo_ids = Set::extract('/PhotoGalleriesPhoto/Photo/id', $this->data);
-		
-		// get named params for sorting
-		$order = isset($this->params['named']['order']) ? $this->params['named']['order']: 'modified';
-		$sort_dir = isset($this->params['named']['sort_dir']) ? $this->params['named']['sort_dir']: 'desc';
-		
-		// get params for filters
-		$photo_formats = isset($this->params['form']['photo_formats']) ? $this->params['form']['photo_formats']: null;
-		$photos_not_in_a_gallery = isset($this->params['form']['photos_not_in_a_gallery']) ? $this->params['form']['photos_not_in_a_gallery']: false;
-		
-		if (isset($this->params['form']['not_in_gallery_icon_size'])) {
-			$this->Session->write('not_in_gallery_icon_size', $this->params['form']['not_in_gallery_icon_size']);
-		}
-		if ($this->Session->check('not_in_gallery_icon_size')) {
-			$not_in_gallery_icon_size = $this->Session->read('not_in_gallery_icon_size');
-		} else {
-			$not_in_gallery_icon_size = 'medium';
-		}
-		
-		if ($not_in_gallery_icon_size == 'small') {
-			$limit = 85;
-		} else if ($not_in_gallery_icon_size == 'medium') {
-			$limit = 35;
-		} else if ($not_in_gallery_icon_size == 'large') {
-			$limit = 25;
-		}
-		
-		$conditions = array(
-			'NOT' => array(
-				'Photo.id' => $photo_ids
-			)
-		);
-		/*******************************************
-		 * figure out filter conditions
-		 */
-		if (!empty($photo_formats)) {
-			$format_ids = array();
-			foreach ($photo_formats as $photo_format) {
-				$format = $this->PhotoFormat->find('first', array(
-					'conditions' => array(
-						'PhotoFormat.ref_name' => $photo_format
-					),
-					'contain' => false
-				));
-				$format_ids[] = $format['PhotoFormat']['id'];
-			}
-			$conditions['PhotoFormat.id'] = $format_ids;
-		}
-		if ($photos_not_in_a_gallery === 'true') {
-			$query = 'SELECT photos.id FROM photos
-					  LEFT JOIN photo_galleries_photos ON photos.id = photo_galleries_photos.photo_id
-					  WHERE photo_galleries_photos.photo_id IS NULL;';
-			$photo_ids = $this->Photo->query($query);
-			$photo_ids = Set::extract('/photos/id', $photo_ids);
-			
-			$conditions['Photo.id'] = $photo_ids;
-		}
-		// end filter find conditions
-		
-		
-		/*******************************************
-		 * figure out sort conditions
-		 */
-		if ($last_photo_id > 0) {
-			$last_photo = $this->Photo->find('first', array(
-				'conditions' => array(
-					'Photo.id' => $last_photo_id
-				),
-				'contain' => false
-			));
-			if ($sort_dir == 'asc') {
-				$comp = '>';
-			} else {
-				$comp = '<';
-			}
-			$conditions['Photo.'.$order.' '.$comp] = $last_photo['Photo'][$order];
-		}
-		// end sort find conditions
-		
-		
-		$not_connected_photos = $this->Photo->find('all', array(
-			'conditions' => $conditions,
-			'order' => array(
-				$order => $sort_dir
-			),
-			'contain' => array(
-				'PhotoFormat'
-			),
-			'limit' => $limit
-			
-		));
-		
-		$set_vars = compact('not_connected_photos', 'gallery_id', 'last_photo_id', 'order', 'sort_dir', 'not_in_gallery_icon_size');
-		if ($this->RequestHandler->isAjax()) {
-			$returnArr['count'] = count($not_connected_photos);
-			$returnArr['html'] = $this->element('admin/photo/photo_connect_not_in_gallery_photo_cont', $set_vars);
-			$returnArr['params'] = $set_vars;
-
-			$this->return_json($returnArr);
-		} else {
-			$this->set($set_vars);
-		}
-	}
+//	public function admin_edit_gallery_connect_photos($gallery_id, $last_photo_id = 0) {
+//		$total_photos = $this->Photo->count_total_photos();
+//		$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
+//		$photos_left_to_add = LIMIT_MAX_FREE_PHOTOS - $total_photos;
+//		if (!empty($max_photo_id) && $photos_left_to_add < 0) {
+//			$this->FeatureLimiter->limit_view_go($this, 'unlimited_photos');
+//			return;
+//		}
+//		
+//		
+//		$limit = 30;
+//		
+//		$this->data = $this->PhotoGallery->find('first', array(
+//			'conditions' => array('PhotoGallery.id' => $gallery_id),
+//			'contain' => array(
+//				'PhotoGalleriesPhoto' => array(
+//					'Photo'
+//				)
+//			)
+//		));
+//		
+//		$photo_ids = Set::extract('/PhotoGalleriesPhoto/Photo/id', $this->data);
+//		
+//		// get named params for sorting
+//		$order = isset($this->params['named']['order']) ? $this->params['named']['order']: 'modified';
+//		$sort_dir = isset($this->params['named']['sort_dir']) ? $this->params['named']['sort_dir']: 'desc';
+//		
+//		// get params for filters
+//		$photo_formats = isset($this->params['form']['photo_formats']) ? $this->params['form']['photo_formats']: null;
+//		$photos_not_in_a_gallery = isset($this->params['form']['photos_not_in_a_gallery']) ? $this->params['form']['photos_not_in_a_gallery']: false;
+//		
+//		if (isset($this->params['form']['not_in_gallery_icon_size'])) {
+//			$this->Session->write('not_in_gallery_icon_size', $this->params['form']['not_in_gallery_icon_size']);
+//		}
+//		if ($this->Session->check('not_in_gallery_icon_size')) {
+//			$not_in_gallery_icon_size = $this->Session->read('not_in_gallery_icon_size');
+//		} else {
+//			$not_in_gallery_icon_size = 'medium';
+//		}
+//		
+//		if ($not_in_gallery_icon_size == 'small') {
+//			$limit = 85;
+//		} else if ($not_in_gallery_icon_size == 'medium') {
+//			$limit = 35;
+//		} else if ($not_in_gallery_icon_size == 'large') {
+//			$limit = 25;
+//		}
+//		
+//		$conditions = array(
+//			'NOT' => array(
+//				'Photo.id' => $photo_ids
+//			)
+//		);
+//		/*******************************************
+//		 * figure out filter conditions
+//		 */
+//		if (!empty($photo_formats)) {
+//			$format_ids = array();
+//			foreach ($photo_formats as $photo_format) {
+//				$format = $this->PhotoFormat->find('first', array(
+//					'conditions' => array(
+//						'PhotoFormat.ref_name' => $photo_format
+//					),
+//					'contain' => false
+//				));
+//				$format_ids[] = $format['PhotoFormat']['id'];
+//			}
+//			$conditions['PhotoFormat.id'] = $format_ids;
+//		}
+//		if ($photos_not_in_a_gallery === 'true') {
+//			$query = 'SELECT photos.id FROM photos
+//					  LEFT JOIN photo_galleries_photos ON photos.id = photo_galleries_photos.photo_id
+//					  WHERE photo_galleries_photos.photo_id IS NULL;';
+//			$photo_ids = $this->Photo->query($query);
+//			$photo_ids = Set::extract('/photos/id', $photo_ids);
+//			
+//			$conditions['Photo.id'] = $photo_ids;
+//		}
+//		// end filter find conditions
+//		
+//		
+//		/*******************************************
+//		 * figure out sort conditions
+//		 */
+//		if ($last_photo_id > 0) {
+//			$last_photo = $this->Photo->find('first', array(
+//				'conditions' => array(
+//					'Photo.id' => $last_photo_id
+//				),
+//				'contain' => false
+//			));
+//			if ($sort_dir == 'asc') {
+//				$comp = '>';
+//			} else {
+//				$comp = '<';
+//			}
+//			$conditions['Photo.'.$order.' '.$comp] = $last_photo['Photo'][$order];
+//		}
+//		// end sort find conditions
+//		
+//		
+//		$not_connected_photos = $this->Photo->find('all', array(
+//			'conditions' => $conditions,
+//			'order' => array(
+//				$order => $sort_dir
+//			),
+//			'contain' => array(
+//				'PhotoFormat'
+//			),
+//			'limit' => $limit
+//			
+//		));
+//		
+//		$set_vars = compact('not_connected_photos', 'gallery_id', 'last_photo_id', 'order', 'sort_dir', 'not_in_gallery_icon_size');
+//		if ($this->RequestHandler->isAjax()) {
+//			$returnArr['count'] = count($not_connected_photos);
+//			$returnArr['html'] = $this->element('admin/photo/photo_connect_not_in_gallery_photo_cont', $set_vars);
+//			$returnArr['params'] = $set_vars;
+//
+//			$this->return_json($returnArr);
+//		} else {
+//			$this->set($set_vars);
+//		}
+//	}
 	
 	
 	/**
@@ -811,7 +826,12 @@ class PhotoGalleriesController extends AppController {
 		$this->return_json($returnArr);
 	}
 	
-	public function admin_ajax_movephoto_into_gallery($photo_id, $gallery_id) {
+	public function admin_ajax_movephoto_into_gallery($photo_id, $photo_gallery_id, $gallery_icon_size = 'medium') {
+		$icon_sizes = $this->Photo->get_admin_photo_icon_size($gallery_icon_size);
+		$height = $icon_sizes['height'];
+		$width = $icon_sizes['width'];
+		$class = $icon_sizes['class'];
+		
 		$returnArr = array();
 		
 		$the_photo = $this->Photo->find('first', array(
@@ -829,13 +849,25 @@ class PhotoGalleriesController extends AppController {
 			$this->return_json($returnArr);
 		}
 		
-		if (!$this->PhotoGallery->add_photo_to_gallery($photo_id, $gallery_id)) {
+		if (!$this->PhotoGallery->add_photo_to_gallery($photo_id, $photo_gallery_id)) {
 			$this->Photo->major_error('failed to add a photo to a gallery in admin_ajax_movephoto_into_gallery');
 		}
+		
+		// now find the photo url
+		$photo_gallery_photo = $this->PhotoGalleriesPhoto->find('first', array(
+			'conditions' => array(
+				'PhotoGalleriesPhoto.photo_id' => $photo_id,
+				'PhotoGalleriesPhoto.photo_gallery_id' => $photo_gallery_id
+			),
+			'contain' => false
+		));
+		$photo_gallery_photo['PhotoGalleriesPhoto']['photo_cache_class'] = $class;
+		$photo_gallery_photo['PhotoGalleriesPhoto']['photo_cache_url'] = $this->Photo->get_photo_path($photo_id, $height, $width);
 		
 		
 		$returnArr['code'] = 1;
 		$returnArr['message'] = 'successfully moved photo into gallery';
+		$returnArr['data'] = $photo_gallery_photo;
 		$this->return_json($returnArr);
 	}
 	
@@ -905,19 +937,16 @@ class PhotoGalleriesController extends AppController {
 	
 	public function admin_delete_gallery($gallery_id = null) {
 		if ($gallery_id == null) {
-			 $this->redirect('/admin/photo_galleries');
+			 $this->return_angular_json(false, 'failed to delete gallery', array());
 		}
 		
 		
-		if ($this->PhotoGallery->delete($gallery_id)) {
-			$this->Session->setFlash(__('Gallery deleted successfully.', true), 'admin/flashMessage/success');
-		} else {
-			$this->Session->setFlash(__('Failed to delete gallery.', true), 'admin/flashMessage/error');
-			$this->Photo->major_error('Failed to delete photo gallery in admin_delete_gallery', compact('gallery_id'));
+		if (!$this->PhotoGallery->delete($gallery_id)) {
+			$this->Photo->major_error('Failed to delete photo gallery in admin_delete_gallery');
+			$this->return_angular_json(false, 'failed to delete gallery', compact('gallery_id'));
 		}
 		
-		
-		$this->redirect('/admin/photo_galleries');
+		$this->return_angular_json(true, 'Photo Gallery Deleted', compact('gallery_id'));
 	}
 	 
 }
