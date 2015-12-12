@@ -297,6 +297,8 @@ fotomatterControllers.controller('GalleriesCtrl', ['$scope', '$q', 'PhotoGalleri
 					if (typeof $scope.last_open_gallery_id == 'number' && $scope.last_on_photo_upload == null) {
 						$scope.view_gallery($scope.last_open_gallery_id, 0, $scope.last_open_gallery_type);
 					} else if (typeof $scope.last_open_gallery_id == 'number' && $scope.last_on_photo_upload != null) {
+						$scope.open_gallery = null;
+						$scope.open_smart_gallery = null;
 						photo_galleries_promise.then(function(photo_galleries) {
 							var photo_gallery = $scope.helpers.getArrItem(photo_galleries, 'PhotoGallery', $scope.last_open_gallery_id);
 							$scope.upload_photos_to_gallery(photo_gallery);
