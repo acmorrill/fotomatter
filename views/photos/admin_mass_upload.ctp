@@ -1,7 +1,6 @@
 <h1><?php echo __('Add Photos', true); ?>
 	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 </h1>
-<<<<<<< HEAD
 <p><b style="font-weight: bold;"><?php echo __('Usage', true); ?></b> &nbsp;&mdash;&nbsp;
 	<?php if (!empty($current_on_off_features['unlimited_photos'])): ?>
 		<?php echo $total_photos; ?> total <?php echo __('photos', true); ?>
@@ -10,10 +9,7 @@
 	<?php endif; ?>
 	, <?php echo round($total_used_space_megabytes, 2) . " MB of " . number_format($max_used_space_megabytes) . " MB"; ?>
 </p>
-<p><?php echo __('Timesaver Tip: Before uploading new photos, first select the gallery (on the left) you want the photos to go in. If you haven’t created the gallery yet, select the Galleries tab above to get started. Or, you may begin uploading photos and organize into galleries after. The recommended .jpg size is 4000px or less on the long side.', true); ?></p>
-=======
 <p><?php echo __('Timesaver Tip: Before uploading new photos, first select the gallery you want the photos to go in. If you haven’t created the gallery yet, select the Galleries tab above to get started. Or, you may begin uploading photos and organize into galleries after. The recommended .jpg size is 4000px or less on the long side.', true); ?></p>
->>>>>>> develop
 
 <script>
 	$(document).ready(function() {
