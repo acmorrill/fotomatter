@@ -522,7 +522,8 @@ class Photo extends AppModel {
 		}
 	}
 
-	public function create_theme_photo_caches($theme_config) {
+	public function create_theme_photo_caches() {
+		$theme_config = $this->ThemeRenderer->_process_theme_config_with_user_settings(true);
 		// keeps the test environment from waiting to finish this before starting other calls
 		session_write_close();
 		ignore_user_abort(true);

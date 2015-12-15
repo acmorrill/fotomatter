@@ -1,6 +1,7 @@
 <script src="/js/angular_1.2.22/app/js/app.js"></script>
 <script src="/js/angular_1.2.22/app/js/controllers/tags.js"></script>
 <script src="/js/angular_1.2.22/app/js/services.js"></script>
+<script src="/js/angular_1.2.22/app/js/directives.js"></script>
 
 <div class='show_on_mobile'>
 	<h1><?php echo __('Tags', true); ?></h1>
@@ -93,7 +94,7 @@
 						<span>{{tag.Tag.photos_count}}</span>
 					</td> 
 					<td class='last table_actions'>
-						<span class="custom_ui" ng-click="delete_tag(tag.Tag.id)" confirm-delete >
+						<span class="custom_ui" ng-click="delete_tag(tag.Tag.id)" confirm-delete confirm-message="Do you really want to delete the tag?" confirm-title="Really delete tag?" confirm-button-title="Delete" >
 							<div class="add_button icon icon_close"><div class="content icon-close-01"></div></div>
 						</span>
 					</td>

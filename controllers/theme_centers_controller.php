@@ -100,6 +100,7 @@ class ThemeCentersController extends AppController {
 			// defined in app_controller
 			// also used in welcome controller
 			$this->after_change_theme_todo();
+			$this->Photo->create_theme_photo_caches();
 		}
 	}
 	

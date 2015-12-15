@@ -130,7 +130,7 @@ class AccountsController extends AppController {
 		$curr_page = 'add_features';
 		$this->set(compact(array('overlord_account_info', 'add_feature_ref_name', 'add_feature_ref_name_popup_html', 'curr_page')));
 		
-		$this->layout = 'admin/mass_upload';
+		$this->layout = 'admin/manage_features';
 		$this->render('/accounts/admin_index'); // required to overcome the element calls in finish_line_changes
 	}
    

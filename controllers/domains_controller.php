@@ -301,7 +301,7 @@ class DomainsController extends Appcontroller {
 		
 		// return a successfull result
 		$return['result'] = true;
-		$this->Session->setFlash(__('Your external domain has been connected. If you changed the domain dns nameservers to ns1.fotomatter.net and ns2.fotomatter.net then the domain should point to your fotomatter.net website in 1 to 48 hours.', true), 'admin/flashMessage/success');
+		$this->Session->setFlash(__('Your external domain has been connected. If you changed the domain dns nameservers to dns1.stabletransit.com and dns2.stabletransit.com then the domain should point to your fotomatter.net website in 1 to 48 hours.', true), 'admin/flashMessage/success');
 		$this->return_json($return);
 		exit();
 	}

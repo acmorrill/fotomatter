@@ -9,11 +9,9 @@
 	<!--[if IE]>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<![endif]-->
-	
-	<?php echo $this->Element('admin/photo/jquery_fileupload_includes'); ?>
 </head>
 <body>
-<div id="main" class="no_subnav">
+<div id="main" class="manage_features">
 	<div id="header">
 		<?php echo $this->Element('admin/logo'); ?>
 		<?php echo $this->Element('admin/menu', array( 'curr_page' => $curr_page )); ?>

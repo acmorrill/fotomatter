@@ -46,6 +46,20 @@ fotomatterServices.factory('PhotoGalleries', ['$resource', function($resource) {
 			method: 'POST',
 			url: '/admin/photo_galleries/edit_smart_gallery'
 		},
+		'add_gallery': {
+			method: 'GET',
+			url: '/admin/photo_galleries/add_gallery/:type',
+			params: { 
+				type: '@type'
+			}
+		},
+		'delete_gallery': {
+			method: 'GET',
+			url: '/admin/photo_galleries/delete_gallery/:id',
+			params: { 
+				id: '@id'
+			}
+		},
 		'add_photo': {
 			url: '/admin/photo_galleries/ajax_movephoto_into_gallery/:photo_id/:gallery_id/:gallery_icon_size',
 			method: 'GET', 
@@ -79,6 +93,10 @@ fotomatterServices.factory('PhotoGalleries', ['$resource', function($resource) {
 				gallery_id: '@gallery_id',
 				new_order: '@new_order'
 			} 
+		},
+		'get_photos_limited': {
+			url: '/admin/photo_galleries/get_photo_limits',
+			method: 'GET'
 		}
 	});
 }]);
