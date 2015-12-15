@@ -99,6 +99,20 @@
 		return;
 	} else { 
 		$apc_site_disabled_key = "disabled_site_{$_SERVER['local']['database']}";
+		if (isset($_POST['disable_website_key']) && $_POST['disable_website_key'] == 'zgxzx4fIFxaMwJeLnQjUjf4hjaDkftYpbS6pKhYieIcnf1tSvEZskSqJ3oSo') {
+			$ttl = 600;
+			if (isset($_POST['disable_website_ttl'])) {
+				$ttl = $_POST['disable_website_ttl'];
+			}
+			apc_store($apc_site_disabled_key, true, 600);
+			http_response_code(200);
+			die();
+		}
+		if (isset($_POST['enable_website_key']) && $_POST['enable_website_key'] == 'zgxzx4fIFxaMwJeLnQjUjf4hjaDkftYpbS6pKhYieIcnf1tSvEZskSqJ3oSo') {
+			apc_delete($apc_site_disabled_key);
+			http_response_code(200);
+			die();
+		}
 //		apc_delete($apc_site_disabled_key);
 //		apc_store($apc_site_disabled_key, true, 600);
 	?><?php if (apc_exists($apc_site_disabled_key) && !startsWith(trim($_SERVER['REQUEST_URI'], '/'), "admin")): ?>
