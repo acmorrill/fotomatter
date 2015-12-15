@@ -3285,6 +3285,7 @@ table.list > tfoot td .table_summary .payment_item.strike .value {
 }
 .dynamic_list .table_container table.list tbody > tr > td > table > tbody > tr > td.last > span {
   margin-bottom: 3px;
+  cursor: pointer;
 }
 .dynamic_list .table_container table.list tbody > tr > td > table > tbody > tr > td > span {
   display: inline-block;
