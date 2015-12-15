@@ -3186,11 +3186,7 @@ table.list > tfoot td .table_summary .payment_item.strike .value {
   text-decoration: line-through;
 }
 .dynamic_list {
-<<<<<<< HEAD
   z-index: 99;
-=======
-  z-index: 100;
->>>>>>> develop
   position: fixed;
   left: 0px;
   top: 0px;
