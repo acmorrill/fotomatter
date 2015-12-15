@@ -3186,6 +3186,10 @@ table.list > tfoot td .table_summary .payment_item.strike .value {
   text-decoration: line-through;
 }
 .dynamic_list {
+<<<<<<< Updated upstream
+=======
+  z-index: 99;
+>>>>>>> Stashed changes
   position: fixed;
   left: 0px;
   top: 0px;

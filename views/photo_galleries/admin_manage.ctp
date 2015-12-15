@@ -1,5 +1,5 @@
 <script src="/js/angular_1.2.22/app/js/app.js"></script>
-<script src="/js/angular_1.2.22/app/js/controllers.js"></script>
+<script src="/js/angular_1.2.22/app/js/controllers/galleries.js"></script>
 <script src="/js/angular_1.2.22/app/js/services.js"></script>
 <!--<script src="/js/angular_1.2.22/app/js/directives.js"></script>-->
 <!--<script src="/js/angular_1.2.22/bower_components/checklist-model/checklist-model.js"></script>-->
@@ -49,37 +49,6 @@
 		</div>
 		<div id="photo_gallery_list" class="table_container">
 			<table class="list" ui-sortable="gallerySortableOptions" data-step="1" data-intro="<?php echo __ ('Here you can view all of the galleries currently created. Edit the titles, manage the photos, or delete the gallery completely.', true); ?>" data-position="top">
-				<thead>
-					<tr> 
-						<?php /* <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?> */ ?>
-						<?php /* <?php echo $this->Paginator->sort(__('Photo ID', true), 'Photo.id'); ?> */ ?>
-						<th class="first">
-						</th> 
-						<th class="last">
-							<div class="content one_line">
-								<?php echo __('Display Name', true); ?>
-							</div>
-						</th> 
-						<?php /*
-						<th class="mobile_hide">
-							<div class="content one_line">
-								<?php echo __('Description', true); ?>
-							</div>
-						</th> 
-						 * 
-						 */ ?>
-	<!--					<th class="mobile_hide">
-							<div class="content one_line">
-								<?php echo __('Gallery Type', true); ?>
-							</div>
-						</th> -->
-						<?php /*<th class="last">
-							<div class="content one_line">
-								<?php echo __('Actions', true); ?>
-							</div>
-						</th> */ ?>
-					</tr> 
-				</thead>
 				<tbody>
 					<tr class="spacer"><td colspan="1"></td></tr>
 
@@ -97,10 +66,6 @@
 
 
 					<tr ng-repeat="photo_gallery in photo_galleries" ng-class="{'sortable': true, 'current': last_open_gallery_id == photo_gallery.PhotoGallery.id}" gallery_id="{{photo_gallery.PhotoGallery.id}}">
-						<?php /*<td class="gallery_id first">
-							<div class="rightborder"></div>
-							<div class="reorder_gallery_grabber reorder_grabber icon-position-01" />
-						</td> */ ?>
 						<td class="gallery_name gallery_id first last">
 							<table>
 								<tbody>
