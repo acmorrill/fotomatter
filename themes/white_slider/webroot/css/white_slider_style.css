@@ -196,6 +196,7 @@ table {
   position: relative;
   color: black;
   width: 599px;
+  z-index: 1001;
 }
 #main_nav a {
   color: black;
@@ -297,7 +298,7 @@ table {
 }
 #entire_slider_hider {
   width: 100%;
-  height: 600px;
+  height: 900px;
   position: absolute;
   top: 100px;
   z-index: 1000;
