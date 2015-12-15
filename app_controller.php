@@ -54,6 +54,18 @@ class AppController extends Controller {
 		$this->set('system_url', $system_url);
 		
 		
+		/////////////////////////////////////////////////////
+		// get the app enviroment
+		$app_realpath = realpath(APP);
+		$app_env = array();
+		$app_env['current'] = $this->startsWith($app_realpath, '/var/www/current') ? true : false;
+		$app_env['upgrade'] = $this->startsWith($app_realpath, '/var/www/upgrade') ? true : false;
+		$app_env['staging'] = $this->startsWith($app_realpath, '/var/www/staging') ? true : false;
+		$app_env['dev'] = $this->startsWith($app_realpath, '/var/www/dev') ? true : false;
+		$this->app_env = $app_env;
+		$this->set('app_env', $app_env);
+		
+		
 		//////////////////////////////////////////////////////
 		// stuff todo just in the admin
 		if ($in_admin) {
@@ -203,7 +215,7 @@ class AppController extends Controller {
 
 
 		// recompile less css if a get param is set or debug is set to 2
-		if (Configure::read('debug') > 0 || isset($this->params['url']['lesscss']) || $this->Session->check('recompile_css') ) {
+		if ((Configure::read('debug') > 0 && $this->app_env['dev'] === true) || isset($this->params['url']['lesscss']) || $this->Session->check('recompile_css') ) {
 			if (isset($this->params['url']['lesscss'])) {
 				$this->Session->write('recompile_css', true);
 			}
@@ -211,7 +223,7 @@ class AppController extends Controller {
 		}
 		
 		// recompile php_closure js if a get param is set or debug is set to 2
-		if (Configure::read('debug') > 0 || isset($this->params['url']['php_closure']) || $this->Session->check('php_closure')) {
+		if ((Configure::read('debug') > 0 && $this->app_env['dev'] === true) || isset($this->params['url']['php_closure']) || $this->Session->check('php_closure')) {
 			if (isset($this->params['url']['php_closure'])) {
 				$this->Session->write('php_closure', true);
 			}
