@@ -103,9 +103,9 @@ class PhotoCache extends AppModel {
 		$url_image_path = $url_cache_path.DS.$folder.DS.$image_name;
 		
 		if (!file_exists($image_path)) {
-			if (!is_dir($cache_path.DS.$folder)) {
-				mkdir($cache_path.DS.$folder, 0775);
-			}
+//			if (!is_dir($cache_path.DS.$folder)) {
+//				mkdir($cache_path.DS.$folder, 0775);
+//			}
 			
 			if ($this->convert($dummy_image_path, $image_path, $width, $height, true, null, $crop) == false) {
 				$this->major_error('failed to create dummy image cache in get_dummy_image_path', array($dummy_image_path, $image_path, $width, $height));

@@ -5444,10 +5444,12 @@ body {
 }
 #theme_chooser_container .theme_item_container .theme_item_outer_container .theme_item_inner_container .container_rectangular_box table .choose_theme_button {
   width: 220px;
+  height: 44px;
 }
 #theme_chooser_container .theme_item_container .theme_item_outer_container .theme_item_inner_container .container_rectangular_box table .choose_theme_button > * {
   margin-right: 15px;
   float: right;
+  margin-bottom: 0px;
 }
 #theme_chooser_container .theme_item_container .theme_item_outer_container .theme_item_inner_container .container_rectangular_box table .choose_theme_button .icon-Success-01 {
   color: #2ac0de;
@@ -5495,7 +5497,6 @@ body {
   display: none;
 }
 #theme_chooser_container .theme_item_container .icon-Success-01 {
-  height: 44px;
   display: none;
 }
 #theme_chooser_container .theme_item_container .progress {

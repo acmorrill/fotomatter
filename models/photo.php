@@ -543,6 +543,9 @@ class Photo extends AppModel {
 		$limit = 500;
 		$query = "SELECT `photo_id`, min(`photo_order`) as `photo_order` FROM `photo_galleries_photos` $where `photo_order` <= $gallery_limit GROUP BY `photo_id` ORDER BY `photo_order` LIMIT $limit";
 		$photos = $this->query($query);
+//		$this->log($photos, 'photos');
+//		
+//		return;
 
 		// get theme cache sizes
 		$this->ThemePrebuildCacheSize = Classregistry::init('ThemePrebuildCacheSize');
