@@ -22,6 +22,29 @@ class PhotoCache extends AppModel {
 		return true;
 	}
 	
+	public function delete_all_photo_caches() {
+		$all_photo_caches = $this->find('all', array(
+			'contain' => false,
+		));
+		
+		foreach($all_photo_caches as $all_photo_cache) {
+			$this->delete($all_photo_cache['PhotoCache']['id']);
+		}
+	}
+	
+	public function unlink_local_master_caches() {
+		$local_smaller_master_cache_files = scandir(LOCAL_SMALLER_MASTER_CACHE);
+		foreach ($local_smaller_master_cache_files as $local_smaller_master_cache_file) {
+			if ($local_smaller_master_cache_file == '.' || $local_smaller_master_cache_file == '..' || $local_smaller_master_cache_file == 'empty') { continue; }
+			unlink(LOCAL_SMALLER_MASTER_CACHE . DS . $local_smaller_master_cache_file);
+		}
+		$local_master_cache_files = scandir(LOCAL_MASTER_CACHE);
+		foreach ($local_master_cache_files as $local_master_cache_file) {
+			if ($local_master_cache_file == '.' || $local_master_cache_file == '..' || $local_master_cache_file == 'empty') { continue; }
+			unlink(LOCAL_MASTER_CACHE . DS . $local_master_cache_file);
+		}
+	}
+	
 	
 	public function get_dummy_error_image_path($height, $width, $direct_output = false, $return_tag_attributes = false, $crop = false) {
 		$image_name = 'photo_404.jpg';

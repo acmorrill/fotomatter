@@ -245,6 +245,7 @@ class AppController extends Controller {
 		//Pass auth component data over to view files
 		$user_data = $this->Auth->user();
 		$this->set('Auth', $user_data);
+		$this->set('user_data', $user_data);
 		
 		
 		//////////////////////////////////////////////////////////////
@@ -322,6 +323,13 @@ class AppController extends Controller {
 		
 		$overlord_account_info = $this->FotomatterBilling->get_account_info();
 		$this->set('overlord_account_info', $overlord_account_info);
+	}
+	
+	public function validate_superadmin() {
+		if (empty($this->Auth->user()['User']['superadmin'])) {
+			http_response_code(404);
+			die('suckit hacker');
+		}
 	}
 	
 	public function validatePaymentProfile() {

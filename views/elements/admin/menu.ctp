@@ -83,6 +83,30 @@
 						</tbody>
 					</table>
 				</li>
+				<?php if (!empty($user_data['User']['superadmin'])): ?>
+					<li class="<?php if ($curr_sub_page == 'superadmin'): ?> selected<?php endif; ?>">
+						<div class="subnav_bg"></div>
+						<table>
+							<tbody>
+								<tr>
+									<td class="first" onclick="">
+										<i class="icon-priceLock-01-01"></i>
+									</td>
+									<td class="second">
+										<a href="/admin/superadmins">
+											<div>
+												<p><?php echo __('Super Admin Tools', true); ?></p>
+											</div>
+										</a>	
+									</td>
+									<td class="third">
+										<span class="circle"></span>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</li>
+				<?php endif; ?>
 			</ul>
 		</li>
 		<li class="<?php if ($curr_page == 'mass_upload'): ?> active<?php endif; ?>">

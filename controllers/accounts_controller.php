@@ -72,6 +72,7 @@ class AccountsController extends AppController {
 		}
 	}
 	
+	
 	public function clear_billing_cache() {
 		$this->FotomatterBilling->clear_billing_apc();
 		print_r('cache cleared');
