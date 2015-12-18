@@ -214,7 +214,8 @@ if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'd
 		// 3) primary is not expired (if is purchased type domain)
 		// 4) if don't need to redirect to ssl
 		$redirect_to_ssl = $GLOBALS['in_admin'] || $GLOBALS['in_checkout'];
-		if (!$GLOBALS['in_no_redirect_url'] && !$GLOBALS['on_welcome_site'] && (Configure::read('debug') == 0 || empty($GLOBALS['app_env']['dev'])) && !$redirect_to_ssl && ($GLOBALS['http_host'] != $GLOBALS['current_primary_domain'] || !empty($_SERVER['HTTPS'])) ) {
+		$redirect_to_primary_domain = !$GLOBALS['in_no_redirect_url'] && !$GLOBALS['on_welcome_site'] && (Configure::read('debug') == 0 || empty($GLOBALS['app_env']['dev'])) && !$redirect_to_ssl && ($GLOBALS['http_host'] != $GLOBALS['current_primary_domain'] || !empty($_SERVER['HTTPS']));
+		if ($redirect_to_primary_domain) {
 			header("Location: http://{$GLOBALS['current_primary_domain']}{$_SERVER['REQUEST_URI']}");
 			die();
 		}
