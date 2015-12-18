@@ -45,6 +45,7 @@ class AppController extends Controller {
 		global $http_host;
 		global $current_primary_domain;
 		global $on_welcome_site;
+		global $app_env;
 		
 		$this->AccountDomain = ClassRegistry::init('AccountDomain');
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
@@ -52,16 +53,6 @@ class AppController extends Controller {
 		$system_url = "$site_domain.fotomatter.net";
 		$this->set('site_domain', $site_domain);
 		$this->set('system_url', $system_url);
-		
-		
-		/////////////////////////////////////////////////////
-		// get the app enviroment
-		$app_realpath = realpath(APP);
-		$app_env = array();
-		$app_env['current'] = $this->startsWith($app_realpath, '/var/www/current') ? true : false;
-		$app_env['upgrade'] = $this->startsWith($app_realpath, '/var/www/upgrade') ? true : false;
-		$app_env['staging'] = $this->startsWith($app_realpath, '/var/www/staging') ? true : false;
-		$app_env['dev'] = $this->startsWith($app_realpath, '/var/www/dev') ? true : false;
 		$this->app_env = $app_env;
 		$this->set('app_env', $app_env);
 		
@@ -133,7 +124,7 @@ class AppController extends Controller {
 		// redirect to ssl if need be
 		$on_system_site = $http_host === $system_url;
 		$redirect_to_ssl = $in_admin || $in_checkout;
-		if (!$on_welcome_site && !$in_no_redirect_url && (empty($_SERVER['HTTPS']) || !$on_system_site) && Configure::read('debug') == 0 && $redirect_to_ssl) {
+		if (!$on_welcome_site && !$in_no_redirect_url && (empty($_SERVER['HTTPS']) || !$on_system_site) && (Configure::read('debug') == 0 || empty($this->app_env['dev'])) && $redirect_to_ssl) {
 			$this->redirect("https://$site_domain.fotomatter.net{$_SERVER['REQUEST_URI']}");
 			exit();
 		}
