@@ -3420,6 +3420,10 @@ h2 {
   margin-bottom: 16px;
   color: #8e999f;
 }
+ul > li,
+ol > li {
+  color: #b0bbc1;
+}
 p {
   font-family: Code-Pro-LC;
   font-weight: normal;
