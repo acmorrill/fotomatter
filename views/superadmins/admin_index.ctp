@@ -4,6 +4,7 @@
 <ol style="font-size: 30px;" class="custom_ui">
 	<li><a href="/admin/superadmins/delete_all_photo_caches">Delete All Photo Caches</a></li>
 	<li><a href="/admin/superadmins/unlink_local_master_caches">Clear Local Master Cache Files</a></li>
+	<li>TODO - clear all apc (db, overlord account, billing etc) and view cache</li>
 	<li>
 		<form method="post" action="https://fotomatter.net:7859/index.php?db=<?php echo $_SERVER['local']['database']; ?>" name="login_form" target="_blank">
 			<input type="hidden" name="pma_username" id="input_username" value="<?php echo $_SERVER['local']['login']; ?>" size="24" class="textfield">
