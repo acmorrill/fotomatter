@@ -3193,7 +3193,7 @@ table.list > tfoot td .table_summary .payment_item.strike .value {
   text-decoration: line-through;
 }
 .dynamic_list {
-  z-index: 100;
+  z-index: 99;
   position: fixed;
   left: 0px;
   top: 0px;
@@ -3292,6 +3292,7 @@ table.list > tfoot td .table_summary .payment_item.strike .value {
 }
 .dynamic_list .table_container table.list tbody > tr > td > table > tbody > tr > td.last > span {
   margin-bottom: 3px;
+  cursor: pointer;
 }
 .dynamic_list .table_container table.list tbody > tr > td > table > tbody > tr > td > span {
   display: inline-block;
@@ -3426,6 +3427,10 @@ h2 {
   margin-bottom: 16px;
   color: #8e999f;
 }
+ul > li,
+ol > li {
+  color: #b0bbc1;
+}
 p {
   font-family: Code-Pro-LC;
   font-weight: normal;
@@ -3480,6 +3485,9 @@ img {
 }
 img:-moz-loading {
   visibility: hidden;
+}
+.custom_progress.ui-widget-content {
+  border: 0px;
 }
 .generic_palette_container {
   background: url(/img/admin/general/box_transparent_bg_bottom.png) bottom left repeat-x;
@@ -5456,10 +5464,12 @@ body {
 }
 #theme_chooser_container .theme_item_container .theme_item_outer_container .theme_item_inner_container .container_rectangular_box table .choose_theme_button {
   width: 220px;
+  height: 44px;
 }
 #theme_chooser_container .theme_item_container .theme_item_outer_container .theme_item_inner_container .container_rectangular_box table .choose_theme_button > * {
   margin-right: 15px;
   float: right;
+  margin-bottom: 0px;
 }
 #theme_chooser_container .theme_item_container .theme_item_outer_container .theme_item_inner_container .container_rectangular_box table .choose_theme_button .icon-Success-01 {
   color: #2ac0de;
@@ -5507,7 +5517,6 @@ body {
   display: none;
 }
 #theme_chooser_container .theme_item_container .icon-Success-01 {
-  height: 44px;
   display: none;
 }
 #theme_chooser_container .theme_item_container .progress {

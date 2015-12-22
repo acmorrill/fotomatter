@@ -22,6 +22,71 @@ class PhotoCache extends AppModel {
 		return true;
 	}
 	
+	public function delete_all_photo_caches($delete_admin_caches = false, $count_only = false) {
+		$block_photo_cache_ids = array();
+		if ($delete_admin_caches == false) {
+			$this->PhotoPrebuildCacheSize = ClassRegistry::init('PhotoPrebuildCacheSize');
+			$block_photo_cache_ids = $this->PhotoPrebuildCacheSize->find_matching_photo_cache_ids();
+		}
+		
+		$all_photo_caches = $this->find('all', array(
+			'conditions' => array(
+				'NOT' => array(
+					'PhotoCache.id' => $block_photo_cache_ids
+				)
+			),
+			'contain' => false,
+		));
+		
+		if ($count_only == false) {
+			foreach($all_photo_caches as $all_photo_cache) {
+				$this->delete($all_photo_cache['PhotoCache']['id']);
+			}
+		} else {
+			return count($all_photo_caches);
+		}
+	}
+	
+	public function delete_photo_caches_by_theme_id($theme_id, $count_only = false) {
+		$this->PhotoPrebuildCacheSize = ClassRegistry::init('PhotoPrebuildCacheSize');
+		$block_photo_cache_ids = $this->PhotoPrebuildCacheSize->find_matching_photo_cache_ids();
+		$this->ThemePrebuildCacheSize = ClassRegistry::init('ThemePrebuildCacheSize');
+		$photo_cache_ids = $this->ThemePrebuildCacheSize->find_matching_photo_cache_ids($theme_id);
+		
+		$all_photo_caches = $this->find('all', array(
+			'conditions' => array(
+				'PhotoCache.id' => $photo_cache_ids,
+				'NOT' => array(
+					'PhotoCache.id' => $block_photo_cache_ids,
+				),
+			),
+			'contain' => false,
+		));
+		
+		if ($count_only == false) {
+			foreach($all_photo_caches as $all_photo_cache) {
+				$this->delete($all_photo_cache['PhotoCache']['id']);
+			}
+		} else {
+			return count($all_photo_caches);
+		}
+	}
+	
+	
+	
+	public function unlink_local_master_caches() {
+		$local_smaller_master_cache_files = scandir(LOCAL_SMALLER_MASTER_CACHE);
+		foreach ($local_smaller_master_cache_files as $local_smaller_master_cache_file) {
+			if ($local_smaller_master_cache_file == '.' || $local_smaller_master_cache_file == '..' || $local_smaller_master_cache_file == 'empty') { continue; }
+			unlink(LOCAL_SMALLER_MASTER_CACHE . DS . $local_smaller_master_cache_file);
+		}
+		$local_master_cache_files = scandir(LOCAL_MASTER_CACHE);
+		foreach ($local_master_cache_files as $local_master_cache_file) {
+			if ($local_master_cache_file == '.' || $local_master_cache_file == '..' || $local_master_cache_file == 'empty') { continue; }
+			unlink(LOCAL_MASTER_CACHE . DS . $local_master_cache_file);
+		}
+	}
+	
 	
 	public function get_dummy_error_image_path($height, $width, $direct_output = false, $return_tag_attributes = false, $crop = false) {
 		$image_name = 'photo_404.jpg';
@@ -103,9 +168,9 @@ class PhotoCache extends AppModel {
 		$url_image_path = $url_cache_path.DS.$folder.DS.$image_name;
 		
 		if (!file_exists($image_path)) {
-			if (!is_dir($cache_path.DS.$folder)) {
-				mkdir($cache_path.DS.$folder, 0775);
-			}
+//			if (!is_dir($cache_path.DS.$folder)) {
+//				mkdir($cache_path.DS.$folder, 0775);
+//			}
 			
 			if ($this->convert($dummy_image_path, $image_path, $width, $height, true, null, $crop) == false) {
 				$this->major_error('failed to create dummy image cache in get_dummy_image_path', array($dummy_image_path, $image_path, $width, $height));

@@ -66,8 +66,6 @@
 			<table class="list" ui-sortable="gallerySortableOptions" data-step="1" data-intro="<?php echo __ ('Here you can view all of the galleries currently created. Edit the titles, manage the photos, or delete the gallery completely.', true); ?>" data-position="top">
 				<thead>
 					<tr> 
-						<?php /* <?php if ($this->Paginator->sortKey('Photo') == 'Photo.id'): ?> curr <?php echo $sort_dir; ?><?php endif; ?> */ ?>
-						<?php /* <?php echo $this->Paginator->sort(__('Photo ID', true), 'Photo.id'); ?> */ ?>
 						<th class="first">
 						</th> 
 						<th class="last">
@@ -75,24 +73,6 @@
 								<?php echo __('Display Name', true); ?>
 							</div>
 						</th> 
-						<?php /*
-						<th class="mobile_hide">
-							<div class="content one_line">
-								<?php echo __('Description', true); ?>
-							</div>
-						</th> 
-						 * 
-						 */ ?>
-	<!--					<th class="mobile_hide">
-							<div class="content one_line">
-								<?php echo __('Gallery Type', true); ?>
-							</div>
-						</th> -->
-						<?php /*<th class="last">
-							<div class="content one_line">
-								<?php echo __('Actions', true); ?>
-							</div>
-						</th> */ ?>
 					</tr> 
 				</thead>
 				<tbody>
@@ -112,10 +92,6 @@
 
 
 					<tr ng-repeat="photo_gallery in photo_galleries" ng-class="{'sortable': true, 'current': last_open_gallery_id == photo_gallery.PhotoGallery.id}" gallery_id="{{photo_gallery.PhotoGallery.id}}">
-						<?php /*<td class="gallery_id first">
-							<div class="rightborder"></div>
-							<div class="reorder_gallery_grabber reorder_grabber icon-position-01" />
-						</td> */ ?>
 						<td class="gallery_name gallery_id first last">
 							<table>
 								<tbody>
@@ -124,7 +100,7 @@
 											<div class="reorder_gallery_grabber reorder_grabber icon-position-01" />
 										</td>
 										<td class="last">
-											<span>{{photo_gallery.PhotoGallery.display_name}}</span>
+											<span ng-click="view_gallery(photo_gallery.PhotoGallery.id, 0, photo_gallery.PhotoGallery.type)">{{photo_gallery.PhotoGallery.display_name}}</span>
 										</td>
 									</tr>
 									<tr>

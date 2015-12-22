@@ -45,6 +45,7 @@ class AppController extends Controller {
 		global $http_host;
 		global $current_primary_domain;
 		global $on_welcome_site;
+		global $app_env;
 		
 		$this->AccountDomain = ClassRegistry::init('AccountDomain');
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
@@ -52,6 +53,8 @@ class AppController extends Controller {
 		$system_url = "$site_domain.fotomatter.net";
 		$this->set('site_domain', $site_domain);
 		$this->set('system_url', $system_url);
+		$this->app_env = $app_env;
+		$this->set('app_env', $app_env);
 		
 		
 		//////////////////////////////////////////////////////
@@ -121,7 +124,7 @@ class AppController extends Controller {
 		// redirect to ssl if need be
 		$on_system_site = $http_host === $system_url;
 		$redirect_to_ssl = $in_admin || $in_checkout;
-		if (!$on_welcome_site && !$in_no_redirect_url && (empty($_SERVER['HTTPS']) || !$on_system_site) && Configure::read('debug') == 0 && $redirect_to_ssl) {
+		if (!$on_welcome_site && !$in_no_redirect_url && (empty($_SERVER['HTTPS']) || !$on_system_site) && (Configure::read('debug') == 0 || empty($this->app_env['dev'])) && $redirect_to_ssl) {
 			$this->redirect("https://$site_domain.fotomatter.net{$_SERVER['REQUEST_URI']}");
 			exit();
 		}
@@ -142,6 +145,7 @@ class AppController extends Controller {
 				'ThemeLogo',
 				'Theme',
 				'Photo',
+				'PhotoCache',
 				'Gallery',
 				'Ecommerce',
 				'Cart',
@@ -203,7 +207,7 @@ class AppController extends Controller {
 
 
 		// recompile less css if a get param is set or debug is set to 2
-		if (Configure::read('debug') > 0 || isset($this->params['url']['lesscss']) || $this->Session->check('recompile_css') ) {
+		if ((Configure::read('debug') > 0 && $this->app_env['dev'] === true) || isset($this->params['url']['lesscss']) || $this->Session->check('recompile_css') ) {
 			if (isset($this->params['url']['lesscss'])) {
 				$this->Session->write('recompile_css', true);
 			}
@@ -211,7 +215,7 @@ class AppController extends Controller {
 		}
 		
 		// recompile php_closure js if a get param is set or debug is set to 2
-		if (Configure::read('debug') > 0 || isset($this->params['url']['php_closure']) || $this->Session->check('php_closure')) {
+		if ((Configure::read('debug') > 0 && $this->app_env['dev'] === true) || isset($this->params['url']['php_closure']) || $this->Session->check('php_closure')) {
 			if (isset($this->params['url']['php_closure'])) {
 				$this->Session->write('php_closure', true);
 			}
@@ -242,6 +246,7 @@ class AppController extends Controller {
 		//Pass auth component data over to view files
 		$user_data = $this->Auth->user();
 		$this->set('Auth', $user_data);
+		$this->set('user_data', $user_data);
 		
 		
 		//////////////////////////////////////////////////////////////
@@ -320,6 +325,13 @@ class AppController extends Controller {
 		$overlord_account_info = $this->FotomatterBilling->get_account_info();
 		$this->overlord_account_info = $overlord_account_info;
 		$this->set('overlord_account_info', $overlord_account_info);
+	}
+	
+	public function validate_superadmin() {
+		if (empty($this->Auth->user()['User']['superadmin'])) {
+			http_response_code(404);
+			die();
+		}
 	}
 	
 	public function validatePaymentProfile() {

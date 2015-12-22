@@ -45,94 +45,94 @@ class PhotoGalleriesController extends AppController {
 		$this->ThemeRenderer->render($this);
 	}
 	
-//	public function view_gallery($gallery_id = null) {
-//		$this->setup_front_end_view_cache($this);
-//		
-//		$custom_settings = $this->viewVars['theme_config']['admin_config']['theme_avail_custom_settings']['settings'];
-//		$gallery_listing_config = $this->viewVars['theme_config']['admin_config']['theme_gallery_listing_config'];
-//		
-//		$conditions = array();
-//		if (isset($gallery_id)) {
-//			$conditions = array(
-//				'PhotoGallery.id' => $gallery_id
-//			);
-//		}
-//		
-//		// find the gallery
-//		$curr_gallery = $this->PhotoGallery->find('first', array(
-//			'conditions' => $conditions,
-//			'limit' => 1,
-//			'contain' => false
-//		));
-//
-//		$photos = array();
-//		$limit = $gallery_listing_config['default_images_per_page'];
-//		if (!empty($gallery_listing_config['based_on_theme_option']) && !empty($custom_settings[$gallery_listing_config['based_on_theme_option']]['current_value'])) {
-//			$limit = $custom_settings[$gallery_listing_config['based_on_theme_option']]['current_value'];
-//		}
-//		if ($this->is_mobile === true) {
-//			$limit = 1000; // DREW TODO - maybe we need to change this
-//		}
-//		if ($curr_gallery['PhotoGallery']['type'] == 'smart') {
-//			$smart_settings = $curr_gallery['PhotoGallery']['smart_settings'];
-//			
-//			$found_photo_ids = $this->PhotoGallery->get_smart_gallery_photo_ids($smart_settings);
-//			
-//			// do the final find with pagination
-//			$this->paginate = array(
-//				'Photo' => array(
-//					'conditions' => array(
-//						'Photo.id' => $found_photo_ids
-//					),
-//					'limit' => $limit,
-//					'contain' => false,
-//					'order' => "Photo.{$smart_settings['order_by']} {$smart_settings['order_direction']}"
-//				)
-//			);
-//			$photos = $this->paginate('Photo');      
-//			
-//		} else {
-//			$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
-//			$max_photo_extra_condition = '';
-//			if (!empty($max_photo_id)) {
-//				$max_photo_extra_condition = "PhotoGalleriesPhoto.photo_id <= $max_photo_id";
+	public function view_gallery($gallery_id = null) {
+		$this->setup_front_end_view_cache($this);
+		
+		$custom_settings = $this->viewVars['theme_config']['admin_config']['theme_avail_custom_settings']['settings'];
+		$gallery_listing_config = $this->viewVars['theme_config']['admin_config']['theme_gallery_listing_config'];
+		
+		$conditions = array();
+		if (isset($gallery_id)) {
+			$conditions = array(
+				'PhotoGallery.id' => $gallery_id
+			);
+		}
+		
+		// find the gallery
+		$curr_gallery = $this->PhotoGallery->find('first', array(
+			'conditions' => $conditions,
+			'limit' => 1,
+			'contain' => false
+		));
+
+		$photos = array();
+		$limit = $gallery_listing_config['default_images_per_page'];
+		if (!empty($gallery_listing_config['based_on_theme_option']) && !empty($custom_settings[$gallery_listing_config['based_on_theme_option']]['current_value'])) {
+			$limit = $custom_settings[$gallery_listing_config['based_on_theme_option']]['current_value'];
+		}
+		if ($this->is_mobile === true) {
+			$limit = 1000; // DREW TODO - maybe we need to change this
+		}
+		if ($curr_gallery['PhotoGallery']['type'] == 'smart') {
+			$smart_settings = $curr_gallery['PhotoGallery']['smart_settings'];
+			
+			$found_photo_ids = $this->PhotoGallery->get_smart_gallery_photo_ids($smart_settings);
+			
+			// do the final find with pagination
+			$this->paginate = array(
+				'Photo' => array(
+					'conditions' => array(
+						'Photo.id' => $found_photo_ids
+					),
+					'limit' => $limit,
+					'contain' => false,
+					'order' => "Photo.{$smart_settings['order_by']} {$smart_settings['order_direction']}"
+				)
+			);
+			$photos = $this->paginate('Photo');      
+			
+		} else {
+			$max_photo_id = $this->Photo->get_last_photo_id_based_on_limit();
+			$max_photo_extra_condition = '';
+			if (!empty($max_photo_id)) {
+				$max_photo_extra_condition = "PhotoGalleriesPhoto.photo_id <= $max_photo_id";
+			}
+			
+			$this->paginate = array(
+				'PhotoGalleriesPhoto' => array(
+					'conditions' => array(
+						'PhotoGalleriesPhoto.photo_gallery_id' => $gallery_id,
+						$max_photo_extra_condition,
+					),
+					'limit' => $limit,
+					'contain' => array(
+						'Photo'
+					),
+					'order' => 'PhotoGalleriesPhoto.photo_order'
+				)
+			);
+			$photos = $this->paginate('PhotoGalleriesPhoto');    
+		}
+		
+		
+		// add in photo format using best performance
+		$this->Photo->add_photo_format($photos);
+		
+		foreach ($photos as &$photo) {
+			// make sure all photos have at least untitled as a title
+//			if (empty($photo['Photo']['display_title'])) {
+//				$photo['Photo']['display_title'] = 'Untitled';
 //			}
-//			
-//			$this->paginate = array(
-//				'PhotoGalleriesPhoto' => array(
-//					'conditions' => array(
-//						'PhotoGalleriesPhoto.photo_gallery_id' => $gallery_id,
-//						$max_photo_extra_condition,
-//					),
-//					'limit' => $limit,
-//					'contain' => array(
-//						'Photo'
-//					),
-//					'order' => 'PhotoGalleriesPhoto.photo_order'
-//				)
-//			);
-//			$photos = $this->paginate('PhotoGalleriesPhoto');    
-//		}
-//		
-//		
-//		// add in photo format using best performance
-//		$this->Photo->add_photo_format($photos);
-//		
-//		foreach ($photos as &$photo) {
-//			// make sure all photos have at least untitled as a title
-////			if (empty($photo['Photo']['display_title'])) {
-////				$photo['Photo']['display_title'] = 'Untitled';
-////			}
-//			
-//			// unset date taken if use_data_taken empty
-//			if (empty($photo['Photo']['use_date_taken'])) {
-//				unset($photo['Photo']['date_taken']);
-//			}
-//		}
-//		$this->set(compact('curr_gallery', 'photos', 'gallery_id', 'smart_settings'));
-//		
-//		$this->ThemeRenderer->render($this);
-//	}
+			
+			// unset date taken if use_data_taken empty
+			if (empty($photo['Photo']['use_date_taken'])) {
+				unset($photo['Photo']['date_taken']);
+			}
+		}
+		$this->set(compact('curr_gallery', 'photos', 'gallery_id', 'smart_settings'));
+		
+		$this->ThemeRenderer->render($this);
+	}
 
 	public function admin_index() {
 //		, (SELECT count(*) FROM photo_galleries_photos WHERE photo_gallery_id = PhotoGallery.id) as photos_count

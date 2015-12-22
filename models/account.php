@@ -37,7 +37,7 @@ class Account extends AppModel {
 		// -- this is set in account.php - set_item_checked
 		// -- this is basically the items that are pending add (deletes happen on reload)
 		$account_info = $this->Session->read('account_info');
-		$this->log($account_info, 'new_account_info');
+//		$this->log($account_info, 'new_account_info');
 		$account_changes = $this->Session->read('account_line_items');
 		
 

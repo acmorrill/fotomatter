@@ -4,10 +4,6 @@ class TagsController extends AppController {
 
 	public $layout = 'admin/sidebar_less';
 
-//	public function admin_test() {
-//		die('came into test 6');
-//	}
-
 	public function admin_manage_tags() {
 		$curr_page = 'site_settings';
 		$curr_sub_page = 'manage_tags';

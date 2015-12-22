@@ -112,6 +112,7 @@ $GLOBALS['in_admin'] = false;
 $GLOBALS['http_host'] = '';
 $GLOBALS['current_primary_domain'] = '';
 $GLOBALS['on_welcome_site'] = false;
+$GLOBALS['app_env'] = array();
 if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'db')) {
 	// get the current primary domain
 	$GLOBALS['current_primary_domain'] = get_primary_domain();
@@ -124,6 +125,15 @@ if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'd
 //		$GLOBALS['http_host'] = substr($_SERVER["HTTP_HOST"], strlen($prefix)); 
 //	}
 
+	
+	/////////////////////////////////////////////////////
+	// get the app enviroment
+	$app_realpath = realpath(APP);
+	$GLOBALS['app_env']['current'] = $app_realpath == '/var/www/current' ? true : false;
+	$GLOBALS['app_env']['upgrade'] = $app_realpath == '/var/www/upgrade' ? true : false;
+	$GLOBALS['app_env']['staging'] = $app_realpath == '/var/www/staging' ? true : false;
+	$GLOBALS['app_env']['dev'] = $app_realpath == '/var/www/dev' ? true : false;
+	
 	
 	// figure out if we are in the admin
 	$GLOBALS['in_admin'] = startsWith($_SERVER['REQUEST_URI'], '/admin');
@@ -204,7 +214,8 @@ if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'd
 		// 3) primary is not expired (if is purchased type domain)
 		// 4) if don't need to redirect to ssl
 		$redirect_to_ssl = $GLOBALS['in_admin'] || $GLOBALS['in_checkout'];
-		if (!$GLOBALS['in_no_redirect_url'] && !$GLOBALS['on_welcome_site'] && Configure::read('debug') == 0 && !$redirect_to_ssl && ($GLOBALS['http_host'] != $GLOBALS['current_primary_domain'] || !empty($_SERVER['HTTPS'])) ) {
+		$redirect_to_primary_domain = !$GLOBALS['in_no_redirect_url'] && !$GLOBALS['on_welcome_site'] && (Configure::read('debug') == 0 || empty($GLOBALS['app_env']['dev'])) && !$redirect_to_ssl && ($GLOBALS['http_host'] != $GLOBALS['current_primary_domain'] || !empty($_SERVER['HTTPS']));
+		if ($redirect_to_primary_domain) {
 			header("Location: http://{$GLOBALS['current_primary_domain']}{$_SERVER['REQUEST_URI']}");
 			die();
 		}
