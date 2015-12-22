@@ -22,15 +22,57 @@ class PhotoCache extends AppModel {
 		return true;
 	}
 	
-	public function delete_all_photo_caches() {
+	public function delete_all_photo_caches($delete_admin_caches = false, $count_only = false) {
+		$block_photo_cache_ids = array();
+		if ($delete_admin_caches == false) {
+			$this->PhotoPrebuildCacheSize = ClassRegistry::init('PhotoPrebuildCacheSize');
+			$block_photo_cache_ids = $this->PhotoPrebuildCacheSize->find_matching_photo_cache_ids();
+		}
+		
 		$all_photo_caches = $this->find('all', array(
+			'conditions' => array(
+				'NOT' => array(
+					'PhotoCache.id' => $block_photo_cache_ids
+				)
+			),
 			'contain' => false,
 		));
 		
-		foreach($all_photo_caches as $all_photo_cache) {
-			$this->delete($all_photo_cache['PhotoCache']['id']);
+		if ($count_only == false) {
+			foreach($all_photo_caches as $all_photo_cache) {
+				$this->delete($all_photo_cache['PhotoCache']['id']);
+			}
+		} else {
+			return count($all_photo_caches);
 		}
 	}
+	
+	public function delete_photo_caches_by_theme_id($theme_id, $count_only = false) {
+		$this->PhotoPrebuildCacheSize = ClassRegistry::init('PhotoPrebuildCacheSize');
+		$block_photo_cache_ids = $this->PhotoPrebuildCacheSize->find_matching_photo_cache_ids();
+		$this->ThemePrebuildCacheSize = ClassRegistry::init('ThemePrebuildCacheSize');
+		$photo_cache_ids = $this->ThemePrebuildCacheSize->find_matching_photo_cache_ids($theme_id);
+		
+		$all_photo_caches = $this->find('all', array(
+			'conditions' => array(
+				'PhotoCache.id' => $photo_cache_ids,
+				'NOT' => array(
+					'PhotoCache.id' => $block_photo_cache_ids,
+				),
+			),
+			'contain' => false,
+		));
+		
+		if ($count_only == false) {
+			foreach($all_photo_caches as $all_photo_cache) {
+				$this->delete($all_photo_cache['PhotoCache']['id']);
+			}
+		} else {
+			return count($all_photo_caches);
+		}
+	}
+	
+	
 	
 	public function unlink_local_master_caches() {
 		$local_smaller_master_cache_files = scandir(LOCAL_SMALLER_MASTER_CACHE);

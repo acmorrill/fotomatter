@@ -6,6 +6,36 @@ class ThemePrebuildCacheSize extends AppModel {
 	public $belongsTo = array('Theme');
 	
 	
+	public function find_matching_photo_cache_ids($theme_id = null) {
+		$this->PhotoCache = ClassRegistry::init('PhotoCache');
+		$conditions = array();
+		if (!empty($theme_id)) {
+			$conditions = array(
+				'ThemePrebuildCacheSize.theme_id' => $theme_id
+			);
+		}
+		$prebuild_cache_sizes = $this->find('all', array(
+			'conditions' => $conditions,
+			'contain' => false,
+		));
+		$block_photo_cache_ids = array();
+		foreach ($prebuild_cache_sizes as $prebuild_cache_size) {
+			$block_photo_caches = $this->PhotoCache->find('all', array(
+				'conditions' => array(
+					'PhotoCache.max_width' => $prebuild_cache_size['ThemePrebuildCacheSize']['max_width'],
+					'PhotoCache.max_height' => $prebuild_cache_size['ThemePrebuildCacheSize']['max_height'],
+					'PhotoCache.unsharp_amount' => $prebuild_cache_size['ThemePrebuildCacheSize']['unsharp'],
+					'PhotoCache.crop' => $prebuild_cache_size['ThemePrebuildCacheSize']['crop'],
+				),
+				'contain' => false
+			));
+			$block_photo_cache_ids += Set::combine($block_photo_caches, '{n}.PhotoCache.id', '{n}.PhotoCache.id');
+		}
+		
+		return $block_photo_cache_ids;
+	}
+	
+	
 	public function get_prebuild_cache_sizes_current_theme() {
 		$theme_id = $this->Theme->get_current_theme_id();
 		$all_data_apc_key = "all_prebuild_cache_sizes_$theme_id";

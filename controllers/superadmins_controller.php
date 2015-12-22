@@ -25,6 +25,15 @@ class SuperadminsController extends AppController {
 		$this->redirect('/admin/superadmins');
 	}
 	
+	public function admin_delete_photo_caches_by_theme($theme_id) {
+		$this->PhotoCache->delete_photo_caches_by_theme_id($theme_id);
+		$this->Session->setFlash(
+			"All cache for theme id($theme_id) was deleted", 
+			'admin/flashMessage/success'
+		);
+		$this->redirect('/admin/superadmins');
+	}
+	
 	public function admin_unlink_local_master_caches() {
 		$this->PhotoCache->unlink_local_master_caches();
 		$this->Session->setFlash(

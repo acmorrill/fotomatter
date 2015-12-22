@@ -1,8 +1,23 @@
 <h1><?php echo __('Super Admin Tools', true); ?></h1>
 <p><?php echo __("Don't break anything OR ELSE!!!!", true); ?></p>
 
+<?php 
+	$all_themes = $this->Theme->get_all_available_themes(); 
+?>
 <ol style="font-size: 30px;" class="custom_ui">
-	<li><a href="/admin/superadmins/delete_all_photo_caches">Delete All Photo Caches</a></li>
+	<li>Photo Caches
+		<ol>
+			<li><a href="/admin/superadmins/delete_all_photo_caches">Delete All Photo Caches (except admin sizes) (<?php echo $this->PhotoCache->delete_all_photo_caches(false, true); ?>)</a></li>
+			
+			<ol>
+				<?php foreach ($all_themes as $all_theme): ?>
+					<li>
+						<a href="/admin/superadmins/delete_photo_caches_by_theme/<?php echo $all_theme['Theme']['id']; ?>">Delete <?php echo $all_theme['Theme']['display_name']; ?> cache <img src="<?php echo $this->Util->global_cdn($all_theme['Theme']['ref_name'].'_small.jpg'); ?>" width="40" /> (<?php echo $this->PhotoCache->delete_photo_caches_by_theme_id($all_theme['Theme']['id'], true); ?>)</a>
+					</li>
+				<?php endforeach; ?>
+			</ol>
+		</ol>
+	</li>
 	<li><a href="/admin/superadmins/unlink_local_master_caches">Clear Local Master Cache Files</a></li>
 	<li>TODO - clear all apc (db, overlord account, billing etc) and view cache</li>
 	<li>

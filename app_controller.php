@@ -145,6 +145,7 @@ class AppController extends Controller {
 				'ThemeLogo',
 				'Theme',
 				'Photo',
+				'PhotoCache',
 				'Gallery',
 				'Ecommerce',
 				'Cart',
