@@ -3479,6 +3479,9 @@ img {
 img:-moz-loading {
   visibility: hidden;
 }
+.custom_progress.ui-widget-content {
+  border: 0px;
+}
 .generic_palette_container {
   background: url(/img/admin/general/box_transparent_bg_bottom.png) bottom left repeat-x;
   padding-left: 20px;
