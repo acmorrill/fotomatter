@@ -543,14 +543,14 @@ class Photo extends AppModel {
 		$limit = 500;
 		$query = "SELECT `photo_id`, min(`photo_order`) as `photo_order` FROM `photo_galleries_photos` $where `photo_order` <= $gallery_limit GROUP BY `photo_id` ORDER BY `photo_order` LIMIT $limit";
 		$photos = $this->query($query);
-		$this->log($photos, 'photos_create_theme_photo_caches');
+//		$this->log($photos, 'photos_create_theme_photo_caches');
 //		
 //		return;
 
 		// get theme cache sizes
 		$this->ThemePrebuildCacheSize = Classregistry::init('ThemePrebuildCacheSize');
 		$theme_cache_sizes = $this->ThemePrebuildCacheSize->get_prebuild_cache_sizes_current_theme();
-		$this->log($theme_cache_sizes, 'sizes_create_theme_photo_caches');
+//		$this->log($theme_cache_sizes, 'sizes_create_theme_photo_caches');
 
 		$minute_limit = 15;
 		$time_start = new DateTime();

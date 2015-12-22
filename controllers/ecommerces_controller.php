@@ -1054,8 +1054,6 @@ class EcommercesController extends AppController {
 	}
 	
 	public function remove_cart_item_by_key($cart_key) {
-		print_r($cart_key);
-		die('holy sucka');
 		$this->Cart->remove_cart_item_by_key($cart_key);
 		$this->redirect('/ecommerces/view_cart/');
 	}

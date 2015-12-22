@@ -220,9 +220,9 @@ class NameComComponent extends Object {
 			'Api-Token: ' . $this->_api_token
 		));
 		$api_result_json = curl_exec($ch);
-		$this->log($api_call, 'send_request');
-		$this->log($request_args, 'send_request');
-		$this->log($api_result_json, 'send_request');
+//		$this->log($api_call, 'send_request');
+//		$this->log($request_args, 'send_request');
+//		$this->log($api_result_json, 'send_request');
 		
 		
 		if ($api_result_json === false) {

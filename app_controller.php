@@ -329,7 +329,7 @@ class AppController extends Controller {
 	public function validate_superadmin() {
 		if (empty($this->Auth->user()['User']['superadmin'])) {
 			http_response_code(404);
-			die('suckit hacker');
+			die();
 		}
 	}
 	
