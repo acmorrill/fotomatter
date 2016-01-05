@@ -29,7 +29,7 @@ class EcommercesController extends AppController {
 		// limit ecommerce
 		if (in_array($this->action, array(
 			'admin_manage_print_sizes',
-			'admin_manage_print_types_and_pricing',
+			'admin_angular_manage_print_types_and_pricing',
 			'admin_order_management',
 			'admin_get_paid',
 			'admin_index',
@@ -265,7 +265,7 @@ class EcommercesController extends AppController {
 		$this->set(compact('photo_avail_sizes', 'photo_formats'));
 	}
 
-	public function admin_manage_print_types_and_pricing() {
+	public function admin_angular_manage_print_types_and_pricing() {
 		$this->HashUtil->set_new_hash('ecommerce');
 		
 		$photo_print_types = $this->PhotoPrintType->find('all', array(
@@ -392,7 +392,7 @@ class EcommercesController extends AppController {
 			$this->major_error('Failed to delete photo print type.', compact('photo_print_type_id'));
 		}
 		
-		$this->redirect('/admin/ecommerces/manage_print_types_and_pricing');
+//		$this->redirect('/admin/ecommerces/manage_print_types_and_pricing'); // DREW TODO - change this
 	}
 		
 	
@@ -406,7 +406,7 @@ class EcommercesController extends AppController {
 		$print_type_ids_vaild = !empty($this->overlord_account_info['print_fulfillers_indexed'][$print_fulfiller_id]['PrintFulfillerPrintType'][$print_fulfiller_print_type_id]['type']);
 		if ($is_autofulfillment_print_type !== true || $print_type_ids_vaild !== true) {
 			$this->Session->setFlash("Trying to add automatic print type incorrectly. $print_fulfiller_id - $print_fulfiller_print_type_id", 'admin/flashMessage/error');
-			$this->redirect('/admin/ecommerces/manage_print_types_and_pricing/');
+//			$this->redirect('/admin/ecommerces/manage_print_types_and_pricing/'); // DREW TODO - change this
 		}
 		
 		

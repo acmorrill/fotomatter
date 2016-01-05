@@ -33,9 +33,9 @@
 		
 		jQuery('#choose_print_fulfiller').change(function() {
 			var selected_printer_id = jQuery(this).val();
-			console.log('=================================');
-			console.log(selected_printer_id);
-			console.log('=================================');
+//			console.log('=================================');
+//			console.log(selected_printer_id);
+//			console.log('=================================');
 			if (selected_printer_id != '') {
 				var print_type_selector = jQuery('select.printer_print_type[data-print_fulfiller_id=' + selected_printer_id + ']' );
 				jQuery('select.printer_print_type').removeClass('current');
