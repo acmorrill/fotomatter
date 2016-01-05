@@ -1,5 +1,5 @@
 <script src="/js/angular_1.2.22/app/js/app.js"></script>
-<script src="/js/angular_1.2.22/app/js/controllers.js"></script>
+<script src="/js/angular_1.2.22/app/js/controllers/galleries.js"></script>
 <script src="/js/angular_1.2.22/app/js/services.js"></script>
 <script src="/js/angular_1.2.22/app/js/directives.js"></script>
 <!--<script src="/js/angular_1.2.22/bower_components/checklist-model/checklist-model.js"></script>-->

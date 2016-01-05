@@ -275,6 +275,7 @@ class EcommercesController extends AppController {
 			'contain' => false
 		));
 		
+		$this->layout = 'admin/generic_angular_with_nav';
 		$this->set(compact('photo_print_types'));
 	}
 	
