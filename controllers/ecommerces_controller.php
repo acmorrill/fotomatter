@@ -267,7 +267,10 @@ class EcommercesController extends AppController {
 
 	public function admin_angular_manage_print_types_and_pricing() {
 		$this->HashUtil->set_new_hash('ecommerce');
-		
+		$this->layout = 'admin/generic_angular_with_nav';
+	}
+	
+	public function admin_angular_list_print_types() {
 		$photo_print_types = $this->PhotoPrintType->find('all', array(
 			'order' => array(
 				'PhotoPrintType.order ASC'
@@ -275,8 +278,7 @@ class EcommercesController extends AppController {
 			'contain' => false
 		));
 		
-		$this->layout = 'admin/generic_angular_with_nav';
-		$this->set(compact('photo_print_types'));
+		$this->return_angular_json(true, '', $photo_print_types);
 	}
 	
 	public function admin_order_management() {
@@ -368,20 +370,15 @@ class EcommercesController extends AppController {
 		$this->redirect('/admin/ecommerces/fulfill_order/'.$authnet_order_id);
 	}
 	
-	public function admin_ajax_set_print_type_order($photo_print_type_id, $new_order) {
+	public function admin_angular_set_print_type_order($photo_print_type_id, $new_order) {
 		$this->HashUtil->set_new_hash('ecommerce');
 		
 		$returnArr = array();
-		
 		if ($this->PhotoPrintType->moveto($photo_print_type_id, $new_order)) {
-			$returnArr['code'] = 1;
-			$returnArr['message'] = 'photo print type order changed successfully';
+			$this->return_angular_json(true, 'photo print type order changed successfully');
 		} else {
-			$returnArr['code'] = -1;
-			$returnArr['message'] = $this->PhotoPrintType->major_error('failed to change photo print type order', compact('photo_print_type_id', 'new_order'));
+			$this->return_angular_json(false, $this->PhotoPrintType->major_error('failed to change photo print type order', compact('photo_print_type_id', 'new_order')));
 		}
-		
-		$this->return_json($returnArr);
 	}
 	
 	public function admin_delete_print_type($photo_print_type_id) {

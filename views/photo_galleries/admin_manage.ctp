@@ -64,20 +64,8 @@
 		</div>
 		<div id="photo_gallery_list" class="table_container">
 			<table class="list" ui-sortable="gallerySortableOptions" data-step="1" data-intro="<?php echo __ ('Here you can view all of the galleries currently created. Edit the titles, manage the photos, or delete the gallery completely.', true); ?>" data-position="top">
-				<thead>
-					<tr> 
-						<th class="first">
-						</th> 
-						<th class="last">
-							<div class="content one_line">
-								<?php echo __('Display Name', true); ?>
-							</div>
-						</th> 
-					</tr> 
-				</thead>
 				<tbody>
 					<tr class="spacer"><td colspan="1"></td></tr>
-
 					<tr class="first last ng-hide" ng-show="loading == true">
 						<td class="first last" colspan="1" style="text-align: center;">
 							<span>LOADING</span>

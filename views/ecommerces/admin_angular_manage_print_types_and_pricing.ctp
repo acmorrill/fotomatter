@@ -1,5 +1,10 @@
-<script type="text/javascript">
-//	jQuery(document).ready(function() {
+<script src="/js/angular_1.2.22/app/js/app.js"></script>
+<script src="/js/angular_1.2.22/app/js/controllers/avail_print_types.js"></script>
+<script src="/js/angular_1.2.22/app/js/services.js"></script>
+<script src="/js/angular_1.2.22/app/js/directives.js"></script>
+
+<script>
+	jQuery(document).ready(function() {
 //		jQuery('#print_types_list tbody').sortable({
 //			items: 'tr.photo_print_type_item',
 //			handle : '.reorder_print_type_grabber',
@@ -30,55 +35,219 @@
 //				});
 //			}
 //		}).disableSelection();
-//	});
+		
+		jQuery('#choose_print_fulfiller').change(function() {
+			var selected_printer_id = jQuery(this).val();
+//			console.log('=================================');
+//			console.log(selected_printer_id);
+//			console.log('=================================');
+			if (selected_printer_id != '') {
+				var print_type_selector = jQuery('select.printer_print_type[data-print_fulfiller_id=' + selected_printer_id + ']' );
+				jQuery('select.printer_print_type').removeClass('current');
+				if (print_type_selector.length > 0) {
+					print_type_selector.addClass('current');
+				} else {
+					console.log('failed!');
+				}
+			}
+		});
+		
+		jQuery('#add_print_type_button').click(function() {
+			var selected_printer_id = jQuery('#choose_print_fulfiller').val();
+			var selected_print_type_id = '';
+			if (selected_printer_id != '') {
+				selected_print_type_id = jQuery('select.printer_print_type[data-print_fulfiller_id=' + selected_printer_id + ']' ).val();
+				if (typeof selected_print_type_id == 'undefined') {
+					selected_print_type_id = '';
+				}
+			}
+			
+			
+			/////////////////////////////////////////////////////////////////////////////////////////////////
+			// error checking - to see if they chose valid options
+			if (selected_printer_id == '') {
+				jQuery.foto('alert', '<?php echo __('Before you can create a print type choose an automatic (dropship) printer or choose to process orders for this print type yourself.', true); ?>');
+				return false;
+			}
+			if (selected_printer_id != 'self' && selected_print_type_id == '') {
+				jQuery.foto('alert', '<?php echo __('Choose a print type for the selected automatic (dropship) printer.', true); ?>');
+				return false;
+			}
+			
+
+			///////////////////////////////////////////////////////////////////////////////
+			// actually go to the add print type page
+			if (selected_printer_id == 'self') {
+				window.location = '/admin/ecommerces/add_print_type_and_pricing/';
+			} else {
+				window.location = '/admin/ecommerces/add_automatic_print_type_and_pricing/' + selected_printer_id + '/' + selected_print_type_id + '/'
+			}
+			
+			
+			return true;
+		});
+	});
 </script>
-<script src="/js/angular_1.2.22/app/js/app.js"></script>
-<script src="/js/angular_1.2.22/app/js/controllers/avail_print_types.js"></script>
-<script src="/js/angular_1.2.22/app/js/services.js"></script>
-<script src="/js/angular_1.2.22/app/js/directives.js"></script>
 
 
 <div ng-app="fotomatterApp" ng-controller="AvailPrintTypesCtrl">
 	<h1><?php echo __('Available Print Types', true); ?>
-		<?php //echo $this->Element('/admin/get_help_button'); ?>
+		<div class="custom_ui right">
+			<a href="/admin/ecommerces/manage_print_sizes">
+				<div class="add_button">
+					<div class="content"><?php echo __('Manage Default Print Sizes', true); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div>
+				</div>
+			</a>
+		</div>
 	</h1>
 	<p><?php echo __('The print types are the names of the kinds of prints you offer (e.g. canvas wrap, wood mount, aluminum, framed, poster, Fuji Crystal Archive paper, etc). You can have multiple print types per image if you offer more than one option.', true); ?></p>
+	<?php 
+	//	print_r($overlord_account_info['print_fulfillers']);
+	//	die();
+	?>
+
+
+
+
 	<div class="right">
-		<div class="add_gallery_element custom_ui" style="margin: 5px; margin-bottom: 15px;">
-			<script type="text/javascript">
-				jQuery(document).ready(function() {
-					jQuery('#add_new_print_type_button').click(function() {
-						jQuery(this).closest('form').submit();
-					});
-				});
-			</script>
-			<form action="/admin/ecommerces/add_print_type_and_pricing/" method="get" style="float: right;">
-				<div id="add_new_print_type_button" class="add_button" data-step="2" data-intro="<?php echo __('This button will enable you to create a print type.', true); ?>" data-position="bottom"><div class="content"><?php echo __('Add New Print Type', true); ?></div>
-					<div class="plus_icon_lines icon-_button-01"><div class="one"></div><div class="two"></div></div>
-				</div>
-			</form>
-	<!--		<form id="reset_printsize_form" action="/admin/ecommerces/reset_print_sizes/" method="get" style="float: right;">
-				<input id="reset_printsize_button" class="add_button ui-button ui-widget ui-state-default ui-corner-all" type="submit" value="Restore Defaults" role="button" aria-disabled="false" />
-			</form>-->
+		<div class="add_gallery_element add_element custom_ui" style="margin: 5px; margin-bottom: 15px;">
+			<select id="choose_print_fulfiller">
+				<optgroup label="Manual Printing">
+					<option value="self" style="margin-bottom: 20px !important;"><?php echo __('Process Orders Manually', true); ?></option>
+				</optgroup>
+				<optgroup label="Automatic Printing Labs"></optgroup>
+				<?php foreach ($overlord_account_info['print_fulfillers'] as $section => $print_fulfiller): ?>
+					<?php if ($section == 'preferred'): ?>
+						<?php if (!empty($print_fulfiller)): ?>
+							<optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;<?php echo __('Preferred', true); ?>">
+						<?php endif; ?>
+							<?php $count = 0; foreach($print_fulfiller as $printer_data): ?>
+								<?php echo $this->Element('admin/ecommerce/print_fulfiller_option',  array(
+									'printer_data' => $printer_data,
+									'prefix' => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+									'selected' => ($count == 0)
+								)); ?>
+							<?php $count++; endforeach; ?>
+						<?php if (!empty($print_fulfiller)): ?>
+							</optgroup>
+						<?php endif; ?>
+					<?php else: ?>
+							<?php foreach($print_fulfiller as $state => $state_printers): ?>
+								<?php $state_string = $state == 'no_state' ? '' : $state; ?>
+								<optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $section; ?> <?php echo $state_string; ?>">
+									<?php foreach($state_printers as $printer_data): ?>
+										<?php echo $this->Element('admin/ecommerce/print_fulfiller_option',  array(
+											'printer_data' => $printer_data,
+											'prefix' => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+										)); ?>
+									<?php endforeach; ?>
+								</optgroup>
+							<?php endforeach; ?>
+					<?php endif; ?>
+				<?php endforeach; ?>
+			</select>
+
+			<?php foreach ($overlord_account_info['print_fulfillers'] as $type_section => $type_print_fulfiller): ?>
+				<?php if ($type_section == 'preferred'): ?>
+					<?php //print_r($type_print_fulfiller);  die('suckit'); ?>
+					<?php foreach ($type_print_fulfiller as $printer_data): ?>
+						<?php if (!empty($printer_data['PrintFulfillerPrintType'])): ?>
+							<select class="printer_print_type" data-print_fulfiller_id="<?php echo $printer_data['PrintFulfiller']['id']; ?>">
+								<?php foreach($printer_data['PrintFulfillerPrintType'] as $printer_print_type): ?>
+									<option value="<?php echo $printer_print_type['id']; ?>"><?php echo $printer_print_type['name']; ?> Print</option>
+								<?php endforeach; ?>
+							</select>
+						<?php endif; ?>
+					<?php endforeach; ?>
+				<?php else: ?>
+					<?php foreach($type_print_fulfiller as $type_printer_data): ?>
+						<?php foreach ($type_printer_data as $printer_data): ?>
+							<?php if (!empty($printer_data['PrintFulfillerPrintType'])): ?>
+								<select class="printer_print_type" data-print_fulfiller_id="<?php echo $printer_data['PrintFulfiller']['id']; ?>">
+									<?php foreach($printer_data['PrintFulfillerPrintType'] as $printer_print_type): ?>
+										<option value="<?php echo $printer_print_type['id']; ?>"><?php echo $printer_print_type['name']; ?> Print</option>
+									<?php endforeach; ?>
+								</select>
+							<?php endif; ?>
+						<?php endforeach; ?>
+					<?php endforeach; ?>
+				<?php endif; ?>
+			<?php endforeach; ?>
+
+			<div id="add_print_type_button" class="add_button">
+				<div class="content"><?php echo __('Go', true); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div>
+			</div>
 			<div style="clear: both;"></div>
 		</div>
 	</div>
+	
+	
 	<div class="clear"></div>
 	<div class="dynamic_list">
 		<div class="table_container" data-step="1" data-intro="<?php echo __('This area shows all the print types that have been created.', true); ?>" data-position="top">
 			<div class="fade_background_top"></div>
 			<div class="table_top"></div>
-			<table id="print_types_list" class="list">
-				<thead>
-					<tr> 
-						<th class="" colspan="2">
-							<div class="content one_line">
-								<?php echo __('Print Types', true); ?>
-							</div>
-						</th> 
-						<th class="last actions_call"></th>
-					</tr> 
-				</thead>
+			<table id="print_types_list" class="list" ui-sortable="printTypeSortableOptions">
+				<tbody>
+					<tr class="spacer"><td colspan="1"></td></tr>
+					<tr class="first last ng-hide" ng-show="photo_print_types == undefined">
+						<td class="first last" colspan="1" style="text-align: center;">
+							<span>LOADING</span>
+						</td>
+					</tr>
+
+					<tr class="first last ng-hide" ng-show="photo_print_types.length == 0">
+						<td class="first last" colspan="1">
+							<span>You don't have any print types</span>
+						</td>
+					</tr>
+					
+					<tr ng-repeat="photo_print_type in photo_print_types" class="sortable" <?php /* ng-class="{'current': last_open_gallery_id == photo_gallery.PhotoGallery.id}" */ ?> item_id="{{photo_print_type.PhotoPrintType.id}}">
+						<td class="gallery_name gallery_id first last">
+							<table>
+								<tbody>
+									<tr>
+										<td class="first">
+											<div class="reorder_grabber icon-position-01" />
+										</td>
+										<td class="last">
+											<span>{{photo_print_type.PhotoPrintType.print_name}}</span>
+											<?php /*<span ng-click="view_gallery(photo_gallery.PhotoGallery.id, 0, photo_gallery.PhotoGallery.type)">{{photo_gallery.PhotoGallery.display_name}}</span>*/ ?>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="2">
+											<span class="custom_ui">
+												<div 
+													<?php /*ng-class="{'selected': last_open_gallery_id == photo_gallery.PhotoGallery.id && (upload_to_gallery == null || upload_to_gallery == 'empty'), 'disabled': uploading_photos == true}" */ ?>
+													class="add_button icon" 
+													<?php /*ng-click="view_gallery(photo_gallery.PhotoGallery.id, 0, photo_gallery.PhotoGallery.type)" */ ?>
+												>
+													<div class="content icon-managePhotos-01 ng-hide" <?php /*ng-show="photo_gallery.PhotoGallery.type == 'standard'"*/ ?>></div>
+												</div>
+												<span <?php /*ng-class="{'disabled': uploading_photos == true}"*/ ?>>
+													<span 
+														<?php /*ng-click="delete_gallery(photo_gallery)"
+														confirm-delete confirm-message="Do you really want to delete the gallery?" 
+														confirm-title="Really delete gallery?" 
+														confirm-button-title="Delete"
+														 * 
+														 */ ?>
+													>
+														<div class="add_button icon icon_close"><div class="content icon-close-01"></div></div>
+													</span>
+												</span>
+											</span>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</td>
+					</tr>
+				</tbody>
+				
+				
+				<?php /*
 				<tbody>
 					<tr class="spacer"><td colspan="3"></td></tr>
 
@@ -107,6 +276,9 @@
 						</tr>
 					<?php endforeach; ?> 
 				</tbody>
+				*/ ?>
+				
+				
 			</table>
 		</div>
 	</div>
