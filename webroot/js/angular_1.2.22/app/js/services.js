@@ -105,8 +105,10 @@ fotomatterServices.factory('PhotoGalleries', ['$resource', function($resource) {
 fotomatterServices.factory('PrintTypes', ['$resource', function($resource) {
 	return $resource('/admin/ecommerces/:id.json', {}, {
 		'list': { url: '/admin/ecommerces/angular_list_print_types', method: 'GET' },
-		'reorder': { url: '/admin/ecommerces/angular_set_print_type_order/:photo_print_type_id/:new_order', method: 'GET' }
+		'reorder': { url: '/admin/ecommerces/angular_set_print_type_order/:photo_print_type_id/:new_order', method: 'GET' },
+		'delete': { url: '/admin/ecommerces/angular_delete_print_type/:photo_print_type_id', method: 'GET' },
+		'edit': { url: '/admin/ecommerces/angular_add_print_type_and_pricing/:photo_print_type_id', method: 'GET' }
+//		'get_avail_sizes': { url: '/admin/ecommerces/angular_get_photo_avail_sizes', method: 'GET' }
 	});
 }]);
 
-// need to make this rego

@@ -29,7 +29,7 @@ class EcommercesController extends AppController {
 		// limit ecommerce
 		if (in_array($this->action, array(
 			'admin_manage_print_sizes',
-			'admin_angular_manage_print_types_and_pricing',
+			'admin_manage_print_types_and_pricing',
 			'admin_order_management',
 			'admin_get_paid',
 			'admin_index',
@@ -265,8 +265,10 @@ class EcommercesController extends AppController {
 		$this->set(compact('photo_avail_sizes', 'photo_formats'));
 	}
 
-	public function admin_angular_manage_print_types_and_pricing() {
+	public function admin_manage_print_types_and_pricing() {
 		$this->HashUtil->set_new_hash('ecommerce');
+		$curr_page = 'sell';
+		$this->set(compact('curr_page'));
 		$this->layout = 'admin/generic_angular_with_nav';
 	}
 	
@@ -381,16 +383,16 @@ class EcommercesController extends AppController {
 		}
 	}
 	
-	public function admin_delete_print_type($photo_print_type_id) {
+	public function admin_angular_delete_print_type($photo_print_type_id) {
 		
 		$this->HashUtil->set_new_hash('ecommerce');
 		
 		if (!$this->PhotoPrintType->delete($photo_print_type_id)) {
-			$this->Session->setFlash(__('Failed to delete photo print type.', true), 'admin/flashMessage/error');
+			$this->return_angular_json(false, __('Failed to delete photo print type.', true));
 			$this->major_error('Failed to delete photo print type.', compact('photo_print_type_id'));
 		}
 		
-//		$this->redirect('/admin/ecommerces/manage_print_types_and_pricing'); // DREW TODO - change this
+		$this->return_angular_json(true, 'Print Type deleted.');
 	}
 		
 	
@@ -431,15 +433,18 @@ class EcommercesController extends AppController {
 		$this->render("admin_add_auto{$print_fulfiller_print_type_type}_print_type_and_pricing");
 	}
 	
-	public function admin_add_print_type_and_pricing($photo_print_type_id = 0) {
+//	public function admin_angular_get_photo_avail_sizes($photo_print_type_id) {
+//		$photo_avail_sizes = $this->PhotoAvailSize->get_photo_avail_sizes($photo_print_type_id);
+//		$this->return_angular_json(true, '', compact('photo_avail_sizes'));
+//	}
+	
+	public function admin_angular_add_print_type_and_pricing($photo_print_type_id = 0) {
 		$this->HashUtil->set_new_hash('ecommerce');
-		
 		
 		if (empty($photo_print_type_id)) {
 			$new_id = $this->PhotoPrintType->create_new_photo_print_type('self');
-			$this->redirect("/admin/ecommerces/add_print_type_and_pricing/$new_id/");
+			$photo_print_type_id = $new_id;
 		}
-		
 		
 		$photo_avail_sizes = $this->PhotoAvailSize->get_photo_avail_sizes($photo_print_type_id);
 		
@@ -450,8 +455,7 @@ class EcommercesController extends AppController {
 			'contain' => false
 		));
 		
-		
-		$this->set(compact('photo_avail_sizes', 'photo_print_type'));
+		$this->return_angular_json(true, '', compact('photo_avail_sizes', 'photo_print_type'));
 	}
 	
 	public function admin_ajax_save_print_type_and_pricing($photo_print_type_id = 0) {

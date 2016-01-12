@@ -9,7 +9,7 @@
 <div id="main" class="shorter">
 	<div id="header">
 		<?php echo $this->Element('admin/logo'); ?>
-		<?php echo $this->Element('admin/menu', array( 'curr_page' => 'galleries' )); ?>
+		<?php echo $this->Element('admin/menu', array( 'curr_page' => $curr_page )); ?>
 	</div>
 	<div id="middle" class="rounded-corners shorter">
 		<?php echo $content_for_layout; ?>
