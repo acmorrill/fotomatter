@@ -2,7 +2,7 @@
 	$prefix_str = '';
 	if (!empty($prefix)) { $prefix_str = $prefix; }
 	$selected_str = '';
-	if ($selected == true) {
+	if (isset($selected) && $selected == true) {
 		$selected_str = 'SELECTED="SELECTED"';
 	}
 ?>

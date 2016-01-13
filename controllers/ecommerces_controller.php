@@ -458,21 +458,23 @@ class EcommercesController extends AppController {
 		$this->return_angular_json(true, '', compact('photo_avail_sizes', 'photo_print_type'));
 	}
 	
-	public function admin_ajax_save_print_type_and_pricing($photo_print_type_id = 0) {
+	public function admin_angular_save_print_type_and_pricing() {
+		$this->parse_angular_json($this);
 		$return_data = array();
 		$return_data['success'] = true;
+		
+		$this->log($this->data, 'ajax_save_print_type_and_pricing');
 		
 		if (!empty($this->data)) {
 			$result = $this->PhotoPrintType->validate_and_save_print_type($this->data);
 			if (!is_array($result)) {
-				$return_data['success'] = false;
-				$return_data['message'] = $result;
+				$this->return_angular_json(false, $result);
 			} else {
-				$return_data['data'] = $result;
+				$this->return_angular_json(true, 'photo_print_type saved', $result);
 			}
 		}
 		
-		$this->return_json($return_data);
+		$this->return_angular_json(false);
 	}
 	
 	public function add_to_cart() {

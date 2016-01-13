@@ -63,7 +63,12 @@ class PhotoPrintType extends AppModel {
 			$this->major_error('Failed to save photo print type', compact('new_photo_type'));
 			return __("Failed to save photo print type.", true);
 		} else {
-			$return_data['photo_print_type_id'] = $this->id;
+			$new_photo_type = $this->find('first', array(
+				'conditions' => array(
+					'PhotoPrintType.id' => $this->id,
+				),
+				'contain' => false
+			));
 			
 			// add into the PhotoPrintSizesPhotoPrintType join table
 			if (!empty($data['PhotoAvailSizesPhotoPrintType'])) {
@@ -84,9 +89,13 @@ class PhotoPrintType extends AppModel {
 				}
 				if (empty($curr_join_data['non_pano_available'])) {
 					$curr_join_data['non_pano_available'] = 0;
+				} else {
+					$curr_join_data['non_pano_available'] = 1;
 				}
 				if (empty($curr_join_data['pano_available'])) {
 					$curr_join_data['pano_available'] = 0;
+				} else {
+					$curr_join_data['pano_available'] = 1;
 				}
 				
 				
@@ -103,33 +112,21 @@ class PhotoPrintType extends AppModel {
 					$new_join_table_data['id'] = $curr_join_data['id'];
 					$new_join_table_data['photo_avail_size_id'] = $curr_join_data['photo_avail_size_id'];
 					$new_join_table_data['photo_print_type_id'] = $this->id;
-					$new_join_table_data['non_pano_available'] = isset($curr_join_data['non_pano_available']) ? 1 : 0;
+					$new_join_table_data['non_pano_available'] = $curr_join_data['non_pano_available'];
 					if ($new_join_table_data['non_pano_available'] === 1) {
 						$new_join_table_data['non_pano_price'] = !empty($curr_join_data['non_pano_price']) ? $curr_join_data['non_pano_price'] : '0.00';
 						$new_join_table_data['non_pano_shipping_price'] = !empty($curr_join_data['non_pano_shipping_price']) ? $curr_join_data['non_pano_shipping_price'] : '0.00';
 						$new_join_table_data['non_pano_custom_turnaround'] = !empty($curr_join_data['non_pano_custom_turnaround']) ? $curr_join_data['non_pano_custom_turnaround'] : '';
 						$new_join_table_data['non_pano_global_default'] = isset($curr_join_data['non_pano_global_default']) ? 1 : 0;
 						$new_join_table_data['non_pano_force_settings'] = isset($curr_join_data['non_pano_force_settings']) ? 1 : 0;
-					} else {
-						$new_join_table_data['non_pano_price'] = '0.00';
-						$new_join_table_data['non_pano_shipping_price'] = '0.00';
-						$new_join_table_data['non_pano_custom_turnaround'] = '';
-						$new_join_table_data['non_pano_global_default'] = 0;
-						$new_join_table_data['non_pano_force_settings'] = 0;
 					}
-					$new_join_table_data['pano_available'] = isset($curr_join_data['pano_available']) ? 1 : 0;
+					$new_join_table_data['pano_available'] = $curr_join_data['pano_available'];
 					if ($new_join_table_data['pano_available'] === 1) {
 						$new_join_table_data['pano_price'] = !empty($curr_join_data['pano_price']) ? $curr_join_data['pano_price'] : '0.00';
 						$new_join_table_data['pano_shipping_price'] = !empty($curr_join_data['pano_shipping_price']) ? $curr_join_data['pano_shipping_price'] : '0.00';
 						$new_join_table_data['pano_custom_turnaround'] = !empty($curr_join_data['pano_custom_turnaround']) ? $curr_join_data['pano_custom_turnaround'] : '';
 						$new_join_table_data['pano_global_default'] = isset($curr_join_data['pano_global_default']) ? 1 : 0;
 						$new_join_table_data['pano_force_settings'] = isset($curr_join_data['pano_force_settings']) ? 1 : 0;
-					} else {
-						$new_join_table_data['pano_price'] = '0.00';
-						$new_join_table_data['pano_shipping_price'] = '0.00';
-						$new_join_table_data['pano_custom_turnaround'] = '';
-						$new_join_table_data['pano_global_default'] = 0;
-						$new_join_table_data['pano_force_settings'] = 0;
 					}
 					$new_join_table_data_save['PhotoAvailSizesPhotoPrintType'] = $new_join_table_data;
 
@@ -141,12 +138,18 @@ class PhotoPrintType extends AppModel {
 						return __("Failed to connect photo print type to photo print size.", true);
 					} 
 
-					$return_data['photo_avail_sizes_photo_print_type_id'] = $this->PhotoAvailSizesPhotoPrintType->id;
+					$new_photo_avail_size = $this->PhotoAvailSizesPhotoPrintType->find('first', array(
+						'conditions' => array(
+							'PhotoAvailSizesPhotoPrintType.id' => $this->PhotoAvailSizesPhotoPrintType->id
+						),
+						'contain' => false
+					));
+					$new_photo_type['PhotoAvailSizesPhotoPrintType'] = $new_photo_avail_size['PhotoAvailSizesPhotoPrintType'];
 				}
 			}
 		}
 		
 		
-		return $return_data; // means no errors - return string means error
+		return $new_photo_type; // means no errors - return string means error
 	}
 }

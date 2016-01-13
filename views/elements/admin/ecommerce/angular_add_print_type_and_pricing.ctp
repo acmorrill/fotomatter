@@ -3,18 +3,7 @@
 </div>
 
 <script type="text/javascript">
-	/*function setup_available_checkbox(checkbox) {
-		var parent_tr = jQuery(checkbox).closest('tr');
-		var disablable = parent_tr.find('.disablable');
-
-		if (jQuery(checkbox).is(':checked')) {
-			disablable.removeAttr('disabled');
-			disablable.removeClass('disabled');
-		} else {
-			disablable.attr('disabled', 'disabled');
-			disablable.addClass('disabled');
-		}
-	}
+	/*
 
 	function get_print_type_settings() {
 		var print_type_data = {};
@@ -166,7 +155,7 @@
 			<div class="basic_setting_cont no_border">
 				<label><?php echo __('Name of Print Type', true); ?></label>
 				<div class="theme_setting_inputs_container">
-					<input type="text" name="data[PhotoPrintType][print_name]" value="{{open_print_type.photo_print_type.PhotoPrintType.print_name}}" />
+					<input type="text" value="{{open_print_type.photo_print_type.PhotoPrintType.print_name}}" />
 				</div>
 				<div class="theme_setting_description">
 					<?php echo __('The name of the type of print you are selling. Examples: canvas wrap, wood mount, aluminum, framed, poster, Fuji Crystal Archive paper, etc.', true); ?> 
@@ -176,7 +165,7 @@
 				<label><?php echo __('Estimated Turnaround Time', true); ?></label>
 				<div class="theme_setting_inputs_container">
 					<?php //$print_type_turnaround_time = (!empty($photo_print_type['PhotoPrintType']['turnaround_time'])) ? $photo_print_type['PhotoPrintType']['turnaround_time'] : ''; ?>
-					<input id="print_type_turnaround_time" type="text" name="data[PhotoPrintType][turnaround_time]" prev_value="{{open_print_type.photo_print_type.PhotoPrintType.turnaround_time}}" value="{{open_print_type.photo_print_type.PhotoPrintType.turnaround_time}}" />
+					<input id="print_type_turnaround_time" type="text" prev_value="{{open_print_type.photo_print_type.PhotoPrintType.turnaround_time}}" value="{{open_print_type.photo_print_type.PhotoPrintType.turnaround_time}}" />
 				</div>
 				<div class="theme_setting_description">
 					<?php echo __('The amount of time it takes you to fulfill an order (to receive the funds, order the print, and to ship.) Example: 3 weeks, 5 days, etc. Note: some themes currently don\'t list this anywhere. ', true); ?>
@@ -234,10 +223,18 @@
 					<tr ng-if="0" ng-repeat-start="photo_avail_size in open_print_type.photo_avail_sizes"></tr>
 						<tr ng-if="photo_avail_size.PhotoAvailSize.has_non_pano == true">
 							<td class="first">
-								<input class="available_checkbox" type="checkbox" name="data[PhotoAvailSizesPhotoPrintType][non_pano_available]"  ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_available" ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }" ng-change="savePrintType(photo_avail_size)" /><br />
+								<input 
+									class="available_checkbox" 
+									type="checkbox" 
+									ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_available" 
+									ng-change="savePrintType(photo_avail_size, $index)" 
+								/><br />
 							</td>
 							<td>
-								<input class="disablable" type="hidden" ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.photo_avail_size_id" ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }" ng-change="savePrintType(photo_avail_size)" name="data[PhotoAvailSizesPhotoPrintType][photo_avail_size_id]" />
+								<?php /*<input 
+									type="hidden"
+									ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.photo_avail_size_id"
+								/>*/ ?>
 								{{photo_avail_size.PhotoAvailSize.short_side_length}}&Prime; x long-side&Prime;
 								<br />
 								<span style="font-size: 15px; margin-left: 0px; border-left: 0px; margin-top: 15px;">(<?php echo __('Non-Panoramic', true); ?>)</span>
@@ -245,24 +242,69 @@
 							<td class="price_width">
 								<span class="subitem_container">
 									<label><?php echo __('Price', true); ?></label><br />
-									<span><span>$</span><input class="disablable money_format" type="text" name="data[PhotoAvailSizesPhotoPrintType][non_pano_price]" ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_price" ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }" ng-change="savePrintType(photo_avail_size)" /></span>
+									<span>
+										<span>$</span>
+										<input
+											class="money_format"
+											type="text"
+											ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_price"
+											ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }"
+											ng-change="savePrintType(photo_avail_size, $index)"
+											ng-class="{'disabled': photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true}"
+											ng-disabled="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true"
+										/>
+									</span>
 								</span>
 								<span class="subitem_container">
 									<label><?php echo __('Shipping Price', true); ?></label><br />
-									<span><span>$</span><input class="disablable money_format" type="text" name="data[PhotoAvailSizesPhotoPrintType][non_pano_shipping_price]" ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_shipping_price" ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }" ng-change="savePrintType(photo_avail_size)" /></span>
+									<span>
+										<span>$</span>
+										<input 
+											class="money_format"
+											type="text"
+											ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_shipping_price"
+											ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }"
+											ng-change="savePrintType(photo_avail_size, $index)" 
+											ng-class="{'disabled': photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true}"
+											ng-disabled="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true"
+										/>
+									</span>
 								</span>
 							</td>
 							<td class="last" ng-if-end >
 								<span class="subitem_container">
 									<label><?php echo __('Turnaround Time', true); ?></label><br />
-									&nbsp;&nbsp;<input class="default_turnaround_time disablable" type="text" name="data[PhotoAvailSizesPhotoPrintType][non_pano_custom_turnaround]" ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_custom_turnaround" ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }" ng-change="savePrintType(photo_avail_size)" /><br />
+									&nbsp;&nbsp;
+									<input
+										class="default_turnaround_time" 
+										type="text"
+										ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_custom_turnaround"
+										ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }"
+										ng-change="savePrintType(photo_avail_size, $index)" 
+										ng-class="{'disabled': photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true}"
+										ng-disabled="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true"
+									/><br />
 								</span>
 								<span class="subitem_container">
-									<input class="disablable" type="checkbox" name="data[PhotoAvailSizesPhotoPrintType][non_pano_global_default]" ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_global_default" ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }" ng-change="savePrintType(photo_avail_size)" />
+									<input 
+										type="checkbox" 
+										ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_global_default" 
+										ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }" 
+										ng-change="savePrintType(photo_avail_size, $index)" 
+										ng-class="{'disabled': photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true}"
+										ng-disabled="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true"
+									/>
 									<label><?php echo __('Use on Photos by Default?', true); ?></label>
 								</span>
 								<span class="subitem_container">
-									<input class="disablable" type="checkbox" name="data[PhotoAvailSizesPhotoPrintType][non_pano_force_settings]" ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_force_settings" ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }" ng-change="savePrintType(photo_avail_size)" />
+									<input 
+										type="checkbox" 
+										ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_force_settings" 
+										ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }" 
+										ng-change="savePrintType(photo_avail_size, $index)" 
+										ng-class="{'disabled': photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true}"
+										ng-disabled="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true"
+									/>
 									<label><?php echo __('Force Settings on All Photos?', true); ?></label>
 								</span>
 							</td>
@@ -270,10 +312,18 @@
 						
 						<tr ng-if="photo_avail_size.PhotoAvailSize.has_pano == true">
 							<td class="first" ng-if-start="photo_avail_size.PhotoAvailSize.has_pano == true" >
-								<input class="available_checkbox" type="checkbox" name="data[PhotoAvailSizesPhotoPrintType][pano_available]"  ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_available" ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }" ng-change="savePrintType(photo_avail_size)" /><br />
+								<input 
+									class="available_checkbox" 
+									type="checkbox" 
+									ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_available" 
+									ng-change="savePrintType(photo_avail_size, $index)" 
+								/><br />
 							</td>
 							<td>
-								<input class="disablable" type="hidden" ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.photo_avail_size_id" ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }" ng-change="savePrintType(photo_avail_size)" name="data[PhotoAvailSizesPhotoPrintType][photo_avail_size_id]" />
+								<?php /*<input 
+									type="hidden"
+									ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.photo_avail_size_id"
+								/>*/ ?>
 								{{photo_avail_size.PhotoAvailSize.short_side_length}}&Prime; x long-side&Prime;
 								<br />
 								<span style="font-size: 15px; margin-left: 0px; border-left: 0px; margin-top: 15px;">(<?php echo __('Panoramic', true); ?>)</span>
@@ -281,24 +331,69 @@
 							<td class="price_width">
 								<span class="subitem_container">
 									<label><?php echo __('Price', true); ?></label><br />
-									<span><span>$</span><input class="disablable money_format" type="text" name="data[PhotoAvailSizesPhotoPrintType][pano_price]" ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_price" ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }" ng-change="savePrintType(photo_avail_size)" /></span>
+									<span>
+										<span>$</span>
+										<input 
+											class="money_format" 
+											type="text" 
+											ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_price" 
+											ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }" 
+											ng-change="savePrintType(photo_avail_size, $index)" 
+											ng-class="{'disabled': photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_available != true}"
+											ng-disabled="photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_available != true"
+										/>
+									</span>
 								</span>
 								<span class="subitem_container">
 									<label><?php echo __('Shipping Price', true); ?></label><br />
-									<span><span>$</span><input class="disablable money_format" type="text" name="data[PhotoAvailSizesPhotoPrintType][pano_shipping_price]" ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_shipping_price" ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }" ng-change="savePrintType(photo_avail_size)" /></span>
+									<span>
+										<span>$</span>
+										<input 
+											class="money_format" 
+											type="text" 
+											ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_shipping_price" 
+											ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }" 
+											ng-change="savePrintType(photo_avail_size, $index)" 
+											ng-class="{'disabled': photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_available != true}"
+											ng-disabled="photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_available != true"
+										/>
+									</span>
 								</span>
 							</td>
 							<td class="last" ng-if-end >
 								<span class="subitem_container">
 									<label><?php echo __('Turnaround Time', true); ?></label><br />
-									&nbsp;&nbsp;<input class="default_turnaround_time disablable" type="text" name="data[PhotoAvailSizesPhotoPrintType][pano_custom_turnaround]" ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_custom_turnaround" ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }" ng-change="savePrintType(photo_avail_size)" /><br />
+									&nbsp;&nbsp;
+									<input 
+										class="default_turnaround_time" 
+										type="text" 
+										ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_custom_turnaround" 
+										ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }" 
+										ng-change="savePrintType(photo_avail_size, $index)" 
+										ng-class="{'disabled': photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_available != true}"
+										ng-disabled="photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_available != true"
+									/><br />
 								</span>
 								<span class="subitem_container">
-									<input class="disablable" type="checkbox" name="data[PhotoAvailSizesPhotoPrintType][pano_global_default]" ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_global_default" ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }" ng-change="savePrintType(photo_avail_size)" />
+									<input 
+										type="checkbox" 
+										ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_global_default" 
+										ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }" 
+										ng-change="savePrintType(photo_avail_size, $index)" 
+										ng-class="{'disabled': photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_available != true}"
+										ng-disabled="photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_available != true"
+									/>
 									<label><?php echo __('Use on Photos by Default?', true); ?></label>
 								</span>
 								<span class="subitem_container">
-									<input class="disablable" type="checkbox" name="data[PhotoAvailSizesPhotoPrintType][pano_force_settings]" ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_force_settings" ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }" ng-change="savePrintType(photo_avail_size)" />
+									<input 
+										type="checkbox" 
+										ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_force_settings" 
+										ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }" 
+										ng-change="savePrintType(photo_avail_size, $index)" 
+										ng-class="{'disabled': photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_available != true}"
+										ng-disabled="photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_available != true"
+									/>
 									<label><?php echo __('Force Settings on All Photos?', true); ?></label>
 								</span>
 							</td>
