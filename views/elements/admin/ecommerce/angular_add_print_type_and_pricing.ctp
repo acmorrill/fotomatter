@@ -155,7 +155,11 @@
 			<div class="basic_setting_cont no_border">
 				<label><?php echo __('Name of Print Type', true); ?></label>
 				<div class="theme_setting_inputs_container">
-					<input type="text" value="{{open_print_type.photo_print_type.PhotoPrintType.print_name}}" />
+					<input 
+						type="text" 
+						ng-model="open_print_type.photo_print_type.PhotoPrintType.print_name"
+						ng-change="savePrintTypeSetting(open_print_type.photo_print_type)" 
+					/>
 				</div>
 				<div class="theme_setting_description">
 					<?php echo __('The name of the type of print you are selling. Examples: canvas wrap, wood mount, aluminum, framed, poster, Fuji Crystal Archive paper, etc.', true); ?> 
@@ -164,8 +168,12 @@
 			<div class="basic_setting_cont no_border">
 				<label><?php echo __('Estimated Turnaround Time', true); ?></label>
 				<div class="theme_setting_inputs_container">
-					<?php //$print_type_turnaround_time = (!empty($photo_print_type['PhotoPrintType']['turnaround_time'])) ? $photo_print_type['PhotoPrintType']['turnaround_time'] : ''; ?>
-					<input id="print_type_turnaround_time" type="text" prev_value="{{open_print_type.photo_print_type.PhotoPrintType.turnaround_time}}" value="{{open_print_type.photo_print_type.PhotoPrintType.turnaround_time}}" />
+					<input 
+						id="print_type_turnaround_time" 
+						type="text"
+						ng-model="open_print_type.photo_print_type.PhotoPrintType.turnaround_time"
+						ng-change="savePrintTypeSetting(open_print_type.photo_print_type, '{{open_print_type.photo_print_type.PhotoPrintType.turnaround_time}}')" 
+					/>
 				</div>
 				<div class="theme_setting_description">
 					<?php echo __('The amount of time it takes you to fulfill an order (to receive the funds, order the print, and to ship.) Example: 3 weeks, 5 days, etc. Note: some themes currently don\'t list this anywhere. ', true); ?>
@@ -228,6 +236,7 @@
 									type="checkbox" 
 									ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_available" 
 									ng-change="savePrintType(photo_avail_size, $index)" 
+									ng-model-options="{}"
 								/><br />
 							</td>
 							<td>
@@ -248,7 +257,6 @@
 											class="money_format"
 											type="text"
 											ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_price"
-											ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }"
 											ng-change="savePrintType(photo_avail_size, $index)"
 											ng-class="{'disabled': photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true}"
 											ng-disabled="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true"
@@ -262,9 +270,8 @@
 										<input 
 											class="money_format"
 											type="text"
-											ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_shipping_price"
-											ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }"
 											ng-change="savePrintType(photo_avail_size, $index)" 
+											ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_shipping_price"
 											ng-class="{'disabled': photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true}"
 											ng-disabled="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true"
 										/>
@@ -278,9 +285,8 @@
 									<input
 										class="default_turnaround_time" 
 										type="text"
-										ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_custom_turnaround"
-										ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }"
 										ng-change="savePrintType(photo_avail_size, $index)" 
+										ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_custom_turnaround"
 										ng-class="{'disabled': photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true}"
 										ng-disabled="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true"
 									/><br />
@@ -288,9 +294,8 @@
 								<span class="subitem_container">
 									<input 
 										type="checkbox" 
-										ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_global_default" 
-										ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }" 
 										ng-change="savePrintType(photo_avail_size, $index)" 
+										ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_global_default" 
 										ng-class="{'disabled': photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true}"
 										ng-disabled="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true"
 									/>
@@ -299,9 +304,8 @@
 								<span class="subitem_container">
 									<input 
 										type="checkbox" 
-										ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_force_settings" 
-										ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }" 
 										ng-change="savePrintType(photo_avail_size, $index)" 
+										ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_force_settings" 
 										ng-class="{'disabled': photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true}"
 										ng-disabled="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true"
 									/>
@@ -317,6 +321,7 @@
 									type="checkbox" 
 									ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_available" 
 									ng-change="savePrintType(photo_avail_size, $index)" 
+									ng-model-options="{}"
 								/><br />
 							</td>
 							<td>
@@ -337,7 +342,6 @@
 											class="money_format" 
 											type="text" 
 											ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_price" 
-											ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }" 
 											ng-change="savePrintType(photo_avail_size, $index)" 
 											ng-class="{'disabled': photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_available != true}"
 											ng-disabled="photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_available != true"
@@ -352,7 +356,6 @@
 											class="money_format" 
 											type="text" 
 											ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_shipping_price" 
-											ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }" 
 											ng-change="savePrintType(photo_avail_size, $index)" 
 											ng-class="{'disabled': photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_available != true}"
 											ng-disabled="photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_available != true"
@@ -368,7 +371,6 @@
 										class="default_turnaround_time" 
 										type="text" 
 										ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_custom_turnaround" 
-										ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }" 
 										ng-change="savePrintType(photo_avail_size, $index)" 
 										ng-class="{'disabled': photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_available != true}"
 										ng-disabled="photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_available != true"
@@ -378,7 +380,6 @@
 									<input 
 										type="checkbox" 
 										ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_global_default" 
-										ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }" 
 										ng-change="savePrintType(photo_avail_size, $index)" 
 										ng-class="{'disabled': photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_available != true}"
 										ng-disabled="photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_available != true"
@@ -389,7 +390,6 @@
 									<input 
 										type="checkbox" 
 										ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_force_settings" 
-										ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }" 
 										ng-change="savePrintType(photo_avail_size, $index)" 
 										ng-class="{'disabled': photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_available != true}"
 										ng-disabled="photo_avail_size.PhotoAvailSizesPhotoPrintType.pano_available != true"

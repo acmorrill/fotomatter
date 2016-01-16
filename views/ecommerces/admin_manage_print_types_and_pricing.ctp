@@ -90,7 +90,7 @@
 </script>
 
 
-<div ng-app="fotomatterApp" ng-controller="AvailPrintTypesCtrl">
+<div ng-app="fotomatterApp" ng-controller="AvailPrintTypesCtrl" ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }">
 	<h1><?php echo __('Add/Edit Print Types', true); ?>
 		<div id="help_tour_button" class="custom_ui"><?php //echo $this->Element('/admin/get_help_button'); ?></div>
 		<div class="custom_ui right">

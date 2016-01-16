@@ -463,8 +463,6 @@ class EcommercesController extends AppController {
 		$return_data = array();
 		$return_data['success'] = true;
 		
-		$this->log($this->data, 'ajax_save_print_type_and_pricing');
-		
 		if (!empty($this->data)) {
 			$result = $this->PhotoPrintType->validate_and_save_print_type($this->data);
 			if (!is_array($result)) {

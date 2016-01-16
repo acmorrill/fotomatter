@@ -67,12 +67,7 @@ fotomatterControllers.controller('AvailPrintTypesCtrl', ['$scope',  '$timeout', 
 		var edit_print_type_promise = PrintTypes.edit({photo_print_type_id: print_type.PhotoPrintType.id}).$promise;
 		edit_print_type_promise.then(function(result) {
 			for (var index in result.data.photo_avail_sizes) {
-				if (result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType']['non_pano_force_settings'] == true) { result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType']['non_pano_force_settings'] = true; }
-				if (result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType']['non_pano_global_default'] == true) { result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType']['non_pano_global_default'] = true; }
-				if (result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType']['pano_force_settings'] == true) { result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType']['pano_force_settings'] = true; }
-				if (result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType']['pano_global_default'] == true) { result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType']['pano_global_default'] = true; }
-				if (result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType']['non_pano_available'] == true) { result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType']['non_pano_available'] = true; }
-				if (result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType']['pano_available'] == true) { result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType']['pano_available'] = true; }
+				result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType'] = $scope.helpers.phpToJs(result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType']);
 				if (result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType']['pano_custom_turnaround'] == '') { result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType']['pano_custom_turnaround'] = print_type.PhotoPrintType.turnaround_time; }
 				if (result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType']['non_pano_custom_turnaround'] == '') { result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType']['non_pano_custom_turnaround'] = print_type.PhotoPrintType.turnaround_time; }
 			}
@@ -86,27 +81,51 @@ fotomatterControllers.controller('AvailPrintTypesCtrl', ['$scope',  '$timeout', 
 	};
 	
 	$scope.savePrintType = function(print_type_data, index) {
-		console.log('------------------------------------------------------------');
-		console.log(print_type_data);
-		console.log(index);
-		console.log($scope.open_print_type.photo_avail_sizes[index]);
-		console.log('------------------------------------------------------------');
-		
 		show_universal_save();
-		print_type_data.PhotoPrintType = $scope.open_print_type.photo_print_type.PhotoPrintType;
-		print_type_data.PhotoAvailSizesPhotoPrintType.photo_avail_size_id = print_type_data.PhotoAvailSize.id;
-		print_type_data.PhotoAvailSizesPhotoPrintType.photo_print_type_id = print_type_data.PhotoPrintType.id;
-		var save_print_type_promise = PrintTypes.save({}, print_type_data).$promise;
+		var save_data = print_type_data;
+		
+		save_data.PhotoPrintType = $scope.open_print_type.photo_print_type.PhotoPrintType;
+		save_data.PhotoAvailSizesPhotoPrintType.photo_avail_size_id = save_data.PhotoAvailSize.id;
+		save_data.PhotoAvailSizesPhotoPrintType.photo_print_type_id = save_data.PhotoPrintType.id;
+		
+		var save_print_type_promise = PrintTypes.save({}, save_data).$promise;
 		save_print_type_promise.then(function(result) {
-			console.log('++++++++++++++++++++++++++');
-			console.log(result);
-			console.log('++++++++++++++++++++++++++');
-//			open_print_type.photo_avail_sizes[index]
-			
+			result.data.PhotoAvailSizesPhotoPrintType = $scope.helpers.phpToJs(result.data.PhotoAvailSizesPhotoPrintType);
+			if (result.data.PhotoAvailSizesPhotoPrintType['pano_custom_turnaround'] == '') { result.data.PhotoAvailSizesPhotoPrintType['pano_custom_turnaround'] = $scope.open_print_type.photo_print_type.PhotoPrintType.turnaround_time; }
+			if (result.data.PhotoAvailSizesPhotoPrintType['non_pano_custom_turnaround'] == '') { result.data.PhotoAvailSizesPhotoPrintType['non_pano_custom_turnaround'] = $scope.open_print_type.photo_print_type.PhotoPrintType.turnaround_time; }
+			$scope.open_print_type.photo_avail_sizes[index].PhotoAvailSizesPhotoPrintType = result.data.PhotoAvailSizesPhotoPrintType;
 			
 			hide_universal_save();
 		}).catch(function(result) {
 			hide_universal_save();
+		});
+	};
+	
+	var saving_print_type_settings = false;
+	$scope.savePrintTypeSetting = function(print_type_data, old_turnaround_time) {
+		if (saving_print_type_settings == true) {
+			return;
+		}
+		saving_print_type_settings = true;
+		show_universal_save();
+		var save_print_type_promise = PrintTypes.save({}, print_type_data).$promise;
+		save_print_type_promise.then(function(result) {
+			$scope.helpers.updateArrItem($scope.photo_print_types, 'PhotoPrintType', 'print_name', result.data.PhotoPrintType.id, result.data.PhotoPrintType.print_name);
+			if (result.data.PhotoPrintType.turnaround_time != old_turnaround_time) {
+				for (var q in $scope.open_print_type.photo_avail_sizes) {
+					if ($scope.open_print_type.photo_avail_sizes[q].PhotoAvailSizesPhotoPrintType.non_pano_custom_turnaround == old_turnaround_time) {
+						$scope.open_print_type.photo_avail_sizes[q].PhotoAvailSizesPhotoPrintType.non_pano_custom_turnaround = result.data.PhotoPrintType.turnaround_time;
+					}
+					if ($scope.open_print_type.photo_avail_sizes[q].PhotoAvailSizesPhotoPrintType.pano_custom_turnaround == old_turnaround_time) {
+						$scope.open_print_type.photo_avail_sizes[q].PhotoAvailSizesPhotoPrintType.pano_custom_turnaround = result.data.PhotoPrintType.turnaround_time;
+					}
+				}
+			}
+			hide_universal_save();
+			saving_print_type_settings = false;
+		}).catch(function(result) {
+			hide_universal_save();
+			saving_print_type_settings = false;
 		});
 	};
 }]);
