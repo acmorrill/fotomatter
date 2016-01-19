@@ -73,7 +73,6 @@ class PhotoPrintType extends AppModel {
 			// add into the PhotoPrintSizesPhotoPrintType join table
 			if (!empty($data['PhotoAvailSizesPhotoPrintType'])) {
 				$curr_join_data = $data['PhotoAvailSizesPhotoPrintType'];
-				$this->log($curr_join_data, 'curr_join_data');
 				
 				////////////////////////////////////////
 				// validate data
@@ -99,6 +98,8 @@ class PhotoPrintType extends AppModel {
 				} else {
 					$curr_join_data['pano_available'] = 1;
 				}
+				if ($curr_join_data['non_pano_custom_turnaround'] == $turnaround_time) { unset($curr_join_data['non_pano_custom_turnaround']); }
+				if ($curr_join_data['pano_custom_turnaround'] == $turnaround_time) { unset($curr_join_data['pano_custom_turnaround']); }
 				
 				
 				if (!isset($curr_join_data['photo_avail_size_id']) || ($curr_join_data['non_pano_available'] != 1 && $curr_join_data['pano_available'] != 1) ) { // means we need to remove the join table entry instead
@@ -121,6 +122,12 @@ class PhotoPrintType extends AppModel {
 						$new_join_table_data['non_pano_custom_turnaround'] = (!empty($curr_join_data['non_pano_custom_turnaround']) && $curr_join_data['non_pano_custom_turnaround'] != $turnaround_time) ? $curr_join_data['non_pano_custom_turnaround'] : '';
 						$new_join_table_data['non_pano_global_default'] = !empty($curr_join_data['non_pano_global_default']) ? 1 : 0;
 						$new_join_table_data['non_pano_force_settings'] = !empty($curr_join_data['non_pano_force_settings']) ? 1 : 0;
+					} else {
+						$new_join_table_data['non_pano_price'] = '0.00';
+						$new_join_table_data['non_pano_shipping_price'] = '0.00';
+						$new_join_table_data['non_pano_custom_turnaround'] = '';
+						$new_join_table_data['non_pano_global_default'] = 1;
+						$new_join_table_data['non_pano_force_settings'] = 1;
 					}
 					$new_join_table_data['pano_available'] = $curr_join_data['pano_available'];
 					if ($new_join_table_data['pano_available'] === 1) {
@@ -129,13 +136,18 @@ class PhotoPrintType extends AppModel {
 						$new_join_table_data['pano_custom_turnaround'] = (!empty($curr_join_data['pano_custom_turnaround']) && $curr_join_data['pano_custom_turnaround'] != $turnaround_time) ? $curr_join_data['pano_custom_turnaround'] : '';
 						$new_join_table_data['pano_global_default'] = !empty($curr_join_data['pano_global_default']) ? 1 : 0;
 						$new_join_table_data['pano_force_settings'] = !empty($curr_join_data['pano_force_settings']) ? 1 : 0;
+					} else {
+						$new_join_table_data['pano_price'] = '0.00';
+						$new_join_table_data['pano_shipping_price'] = '0.00';
+						$new_join_table_data['pano_custom_turnaround'] = '';
+						$new_join_table_data['pano_global_default'] = 1;
+						$new_join_table_data['pano_force_settings'] = 1;
 					}
 					$new_join_table_data_save['PhotoAvailSizesPhotoPrintType'] = $new_join_table_data;
 
 
 
 					$this->PhotoAvailSizesPhotoPrintType->create();
-					$this->log($new_join_table_data_save, 'curr_join_data');
 					if (!$this->PhotoAvailSizesPhotoPrintType->save($new_join_table_data_save)) {
 						$this->major_error('Failed to connect photo print type to photo print size', compact('new_join_table_data'));
 						return __("Failed to connect photo print type to photo print size.", true);

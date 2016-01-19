@@ -51,13 +51,13 @@
 		<?php echo $this->Element('admin/limit_views/unlimited_photos'); ?>
 	</div>
 	<div class="dynamic_list">
-		<div id="gallery_list_tools">
-			<div id="gallery_list_tools_inner" class="custom_ui">
+		<div id="list_tools">
+			<div id="list_tools_inner" class="custom_ui">
 				<select id="add_gallery_type">
 					<option value="standard"><?php echo __('Standard', true); ?></option>
 					<option value="smart"><?php echo __('Smart', true); ?></option>
 				</select>
-				<div ng-class="{'disabled': uploading_photos == true}" class="add_button icon" ng-click="create_gallery()">
+				<div ng-class="{'disabled': uploading_photos == true}" class="add_button gallery icon" ng-click="create_gallery()">
 					<div class="icon-_button-01"></div>
 				</div>
 			</div>

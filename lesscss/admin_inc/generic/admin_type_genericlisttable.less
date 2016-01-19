@@ -321,7 +321,7 @@ table.list {
 }
 
 .dynamic_list {
-	#gallery_list_tools {
+	#list_tools {
 		width: 229px;
 		height: 62px;
 		position: absolute;
@@ -332,15 +332,15 @@ table.list {
 		border-bottom: 1px solid @table_and_button_outline;
 		border-top: 1px solid @table_and_button_outline;
 		border-right: 1px solid @body_content_top_bg - 8;
-		#gallery_list_tools_inner {
+		#list_tools_inner {
 			margin-top: 11px;
-			select {
+			select#add_gallery_type {
 				padding-left: 5px;
 				width: 158px;
 				margin-left: 7px;
 				margin-right: 6px;
 			}
-			&.custom_ui .add_button {
+			&.custom_ui .add_button.gallery {
 				font-size: 43px;
 				height: 40px;
 				padding-left: 0px;
@@ -349,6 +349,10 @@ table.list {
 				> div {
 					margin-top: -1px;
 				}
+			}
+			&.custom_ui .add_button.print_type {
+				margin-left: 5px;
+				width: 173px;
 			}
 		}
 	}

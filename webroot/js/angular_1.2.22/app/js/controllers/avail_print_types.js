@@ -2,7 +2,7 @@
 
 var fotomatterControllers = angular.module('fotomatterControllers', []);
 
-fotomatterControllers.controller('AvailPrintTypesCtrl', ['$scope',  '$timeout', 'PrintTypes', function($scope, $timeout, PrintTypes) {
+fotomatterControllers.controller('AvailPrintTypesCtrl', ['$scope',  '$timeout', '$uibModal', 'PrintTypes', function($scope, $timeout, $uibModal, PrintTypes) {
 	var photo_print_types_promise = PrintTypes.list().$promise;
 	photo_print_types_promise.then(function(result) {
 		$scope.photo_print_types = result.data;
@@ -127,5 +127,40 @@ fotomatterControllers.controller('AvailPrintTypesCtrl', ['$scope',  '$timeout', 
 			hide_universal_save();
 			saving_print_type_settings = false;
 		});
+	};
+	
+	
+	$scope.addNewPrintType = function() {
+		console.log('suckit');
+		var uibModalInstance = $uibModal.open({
+			templateUrl: 'myModalContent.html',
+			backdrop: true,
+			windowClass : 'ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable',
+			controller : 'ModalInstanceCtrl',
+			resolve: {
+//				domain: function() {
+//					return validated_external_domain;
+//				},
+//				is_renew: function() {
+//					return false;
+//				}
+			}
+		});
+	};
+}]);
+
+fotomatterControllers.controller('ModalInstanceCtrl', ['$scope', '$uibModalInstance', 'items', function($scope, $uibModalInstance, items) {
+
+	$scope.items = items;
+	$scope.selected = {
+		item: $scope.items[0]
+	};
+
+	$scope.ok = function() {
+		$uibModalInstance.close($scope.selected.item);
+	};
+
+	$scope.cancel = function() {
+		$uibModalInstance.dismiss('cancel');
 	};
 }]);

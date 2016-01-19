@@ -3201,7 +3201,7 @@ table.list > tfoot td .table_summary .payment_item.strike .value {
   width: 230px;
   padding: 0px;
 }
-.dynamic_list #gallery_list_tools {
+.dynamic_list #list_tools {
   width: 229px;
   height: 62px;
   position: absolute;
@@ -3213,24 +3213,28 @@ table.list > tfoot td .table_summary .payment_item.strike .value {
   border-top: 1px solid #43484c;
   border-right: 1px solid #1e2021;
 }
-.dynamic_list #gallery_list_tools #gallery_list_tools_inner {
+.dynamic_list #list_tools #list_tools_inner {
   margin-top: 11px;
 }
-.dynamic_list #gallery_list_tools #gallery_list_tools_inner select {
+.dynamic_list #list_tools #list_tools_inner select#add_gallery_type {
   padding-left: 5px;
   width: 158px;
   margin-left: 7px;
   margin-right: 6px;
 }
-.dynamic_list #gallery_list_tools #gallery_list_tools_inner.custom_ui .add_button {
+.dynamic_list #list_tools #list_tools_inner.custom_ui .add_button.gallery {
   font-size: 43px;
   height: 40px;
   padding-left: 0px;
   padding-right: 0px;
   margin-bottom: 0px;
 }
-.dynamic_list #gallery_list_tools #gallery_list_tools_inner.custom_ui .add_button > div {
+.dynamic_list #list_tools #list_tools_inner.custom_ui .add_button.gallery > div {
   margin-top: -1px;
+}
+.dynamic_list #list_tools #list_tools_inner.custom_ui .add_button.print_type {
+  margin-left: 5px;
+  width: 173px;
 }
 .dynamic_list .table_container {
   background: none;
