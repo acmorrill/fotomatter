@@ -57,6 +57,8 @@ fotomatterControllers.controller('AvailPrintTypesCtrl', ['$scope',  '$timeout', 
 			hide_universal_save();
 		});
 		
+		// DREW TODO - make it so this checks to see if the current one was deleted
+		
 		return delete_print_type_promise;
 	};
 	
@@ -131,36 +133,64 @@ fotomatterControllers.controller('AvailPrintTypesCtrl', ['$scope',  '$timeout', 
 	
 	
 	$scope.addNewPrintType = function() {
-		console.log('suckit');
 		var uibModalInstance = $uibModal.open({
 			templateUrl: 'myModalContent.html',
 			backdrop: true,
 			windowClass : 'ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable',
-			controller : 'ModalInstanceCtrl',
-			resolve: {
-//				domain: function() {
-//					return validated_external_domain;
-//				},
-//				is_renew: function() {
-//					return false;
-//				}
-			}
+			controller : 'ModalInstanceCtrl'
 		});
 	};
 }]);
 
-fotomatterControllers.controller('ModalInstanceCtrl', ['$scope', '$uibModalInstance', 'items', function($scope, $uibModalInstance, items) {
+fotomatterControllers.controller('ModalInstanceCtrl', ['$scope', '$uibModalInstance', 'PrintTypes', function($scope, $uibModalInstance, PrintTypes) {
+	$scope.print_fulfiller_id = 'self';
 
-	$scope.items = items;
-	$scope.selected = {
-		item: $scope.items[0]
-	};
-
-	$scope.ok = function() {
-		$uibModalInstance.close($scope.selected.item);
+	$scope.create_print_type = function() {
+		var print_type_id;
+		if (typeof $scope.printer_print_types[$scope.print_fulfiller_id] == 'object') {
+			print_type_id = $scope.printer_print_types[$scope.print_fulfiller_id].id;
+		}
+		
+		if ($scope.print_fulfiller_id == 'self' || typeof print_type_id != 'undefined') {
+			delete $scope.open_print_type;
+			show_universal_save();
+			if ($scope.print_fulfiller_id == 'self') {
+				var create_self_print_type = PrintTypes.add_self().$promise;
+				create_self_print_type.then(function(result) {
+					for (var index in result.data.photo_avail_sizes) {
+						result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType'] = $scope.helpers.phpToJs(result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType']);
+						if (result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType']['pano_custom_turnaround'] == '') { result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType']['pano_custom_turnaround'] = print_type.PhotoPrintType.turnaround_time; }
+						if (result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType']['non_pano_custom_turnaround'] == '') { result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType']['non_pano_custom_turnaround'] = print_type.PhotoPrintType.turnaround_time; }
+					}
+					$scope.$parent.open_print_type = result.data;
+					console.log('succuss');
+					console.log('============================');
+					console.log(result);
+					console.log('============================');
+					hide_universal_save();
+				}).catch(function(result) {
+					console.log('fail');
+					console.log('============================');
+					console.log(result);
+					console.log('============================');
+					hide_universal_save();
+				});
+			} else {
+				console.log('adding automatic print type');
+			}
+		}
+		
+		$uibModalInstance.close();
 	};
 
 	$scope.cancel = function() {
 		$uibModalInstance.dismiss('cancel');
 	};
+	
+	$scope.choose_print_fulfiller = function() {
+		console.log('this thing was changed!');
+		console.log($scope.print_fulfiller_id);
+	};
+	
+	
 }]);

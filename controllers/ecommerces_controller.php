@@ -396,7 +396,7 @@ class EcommercesController extends AppController {
 	}
 		
 	
-	public function admin_add_automatic_print_type_and_pricing($print_fulfiller_id, $print_fulfiller_print_type_id, $photo_print_type_id = 0) {
+	public function admin_angular_add_automatic_print_type_and_pricing($print_fulfiller_id, $print_fulfiller_print_type_id, $photo_print_type_id = 0) {
 		$this->HashUtil->set_new_hash('ecommerce');
 		
 		

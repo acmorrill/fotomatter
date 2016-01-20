@@ -6,7 +6,7 @@ var fotomatterApp = angular.module('fotomatterApp', [
 	'xeditable',
 	'ngCookies',
 	'ui.sortable',
-	'ui.bootstrap.modal'
+	'ui.bootstrap'
 ]).factory('helperMethods', function() {
 	return {
 		objectToArr: function(obj) {

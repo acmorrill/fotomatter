@@ -108,7 +108,10 @@ fotomatterServices.factory('PrintTypes', ['$resource', function($resource) {
 		'reorder': { url: '/admin/ecommerces/angular_set_print_type_order/:photo_print_type_id/:new_order', method: 'GET' },
 		'delete': { url: '/admin/ecommerces/angular_delete_print_type/:photo_print_type_id', method: 'GET' },
 		'edit': { url: '/admin/ecommerces/angular_add_print_type_and_pricing/:photo_print_type_id', method: 'GET' },
-		'save': { url: '/admin/ecommerces/angular_save_print_type_and_pricing', method: 'POST' }
+		'save': { url: '/admin/ecommerces/angular_save_print_type_and_pricing', method: 'POST' },
+		'add_self': { url: '/admin/ecommerces/angular_add_print_type_and_pricing', method: 'GET' },
+		'add_automatic': { url: '/admin/ecommerces/angular_add_automatic_print_type_and_pricing/:print_fulfiller_id/:print_fulfiller_print_type_id', method: 'GET' }
+		// ($print_fulfiller_id, $print_fulfiller_print_type_id, $photo_print_type_id = 0)
 //		'get_avail_sizes': { url: '/admin/ecommerces/angular_get_photo_avail_sizes', method: 'GET' }
 	});
 }]);

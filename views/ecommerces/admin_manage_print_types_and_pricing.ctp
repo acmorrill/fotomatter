@@ -26,25 +26,37 @@
 	<div class="clear"></div>
 	<div class="dynamic_list">
 		<div id="list_tools">
-			<div id="list_tools_inner" class="custom_ui" ng-controller="ModalInstanceCtrl">
+			<div id="list_tools_inner" class="custom_ui" <?php /*ng-controller="ModalInstanceCtrl"*/ ?>>
 				<script type="text/ng-template" id="myModalContent.html">
-					<div class="modal-header">
-						<h3 class="modal-title">I'm a modal!</h3>
-					</div>
-					<div class="modal-body">
-						<ul>
-							<li ng-repeat="item in items">
-								<a href="#" ng-click="$event.preventDefault(); selected.item = item">{{ item }}</a>
-							</li>
-						</ul>
-						Selected: <b>{{ selected.item }}</b>
-					</div>
-					<div class="modal-footer">
-						<button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
-						<button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
-					</div>
+					<section>
+						<div class="fade_background_top"></div>
+						<div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-draggable-handle">
+							<span id="ui-id-1" class="ui-dialog-title"><?php echo __('Add Print Type', true); ?></span>
+							<button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close" role="button" title="Close" ng-click="cancel()">
+								<span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>
+								<span class="ui-button-text"><?php echo __('Close', true); ?></span>
+							</button>
+						</div>
+
+						<div id="error_and_content_cont" class="error_and_content_cont">
+							<p ng-show="errorMessage != undefined &amp;&amp; errorMessage != ''" class="warning flashMessage" style="display: none;"><i class="icon-warning-01"></i><span class="ng-binding"></span></p>
+							<div class="ui-dialog-content ui-widget-content fotomatter_form short" style="width: auto; min-height: 0px;">
+								<?php echo $this->Element('admin/ecommerce/angular_add_print_type', array('print_fulfillers' => $overlord_account_info['print_fulfillers'])); ?>
+							</div> 
+						</div>
+
+						<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+							<div class="ui-dialog-buttonset">
+								<button ng-click="cancel()" type="button" class="ui-button ui-widget ui-state-default ui-corner-all ng-scope ui-button-text-only" role="button" aria-disabled="false">
+									<span class="ui-button-text"><?php echo __('Cancel' , true); ?></span>
+								</button>
+								<button ng-click="create_print_type()" type="button" class="ui-button ui-widget ui-state-default ui-corner-all ng-scope ui-button-text-only" role="button" aria-disabled="false">
+									<span class="ui-button-text"><?php echo __('Add Print Type', true); ?></span>
+								</button>
+							</div>
+						</div>
+					</section>
 				</script>
-				<?php echo $this->Element('admin/ecommerce/angular_add_print_type', array('print_fulfillers' => $overlord_account_info['print_fulfillers'])); ?>
 				<div class="add_button print_type" ng-click="addNewPrintType()">
 					<div class="content"><?php echo __('Add Print Type', true); ?></div>
 					<div class="plus_icon_lines icon-_button-01"><div class="one"></div><div class="two"></div></div>

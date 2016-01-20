@@ -1,35 +1,5 @@
 <?php /*<script>
 	jQuery(document).ready(function() {
-//		jQuery('#print_types_list tbody').sortable({
-//			items: 'tr.photo_print_type_item',
-//			handle : '.reorder_print_type_grabber',
-//			update : function(event, ui) {
-//				var context = this;
-//				jQuery(context).sortable('disable');
-//				
-//				// figure the the new position of the dragged element
-//				var photo_print_type_id = jQuery(ui.item).attr('photo_print_type_id');
-//				var newPosition = position_of_element_among_siblings(jQuery('.photo_print_type_item', this), jQuery(ui.item));
-//				
-//				jQuery.ajax({
-//					type: 'post',
-//					url: '/admin/ecommerces/ajax_set_print_type_order/'+photo_print_type_id+'/'+newPosition+'/',
-//					data: {},
-//					success: function(data) {
-//						if (data.code != 1) {
-//							// DREW TODO - maybe revert the draggable back to its start position here
-//						}
-//					},
-//					complete: function() {
-//						jQuery(context).sortable('enable');
-//					},
-//					error: function() {
-//						//console.log ("this is where an error would occure");
-//					},
-//					dataType: 'json'
-//				});
-//			}
-//		}).disableSelection();
 		
 		jQuery('#choose_print_fulfiller').change(function() {
 			var selected_printer_id = jQuery(this).val();
@@ -87,7 +57,9 @@
  * 
  */ ?>
 
-	<select id="choose_print_fulfiller">
+<div class="select">
+	<label for="billing_firstname">Choose a Printing Method</label>
+	<select id="choose_print_fulfiller" ng-change="choose_print_fulfiller()" ng-model="print_fulfiller_id" style="margin-left: 15px;">
 		<optgroup label="Manual Printing">
 			<option value="self" style="margin-bottom: 20px !important;"><?php echo __('Process Orders Manually', true); ?></option>
 		</optgroup>
@@ -122,13 +94,21 @@
 			<?php endif; ?>
 		<?php endforeach; ?>
 	</select>
-
+</div>
+<div class="select ng-hide" ng-show="print_fulfiller_id!='self'">
+	<label for="billing_firstname">Choose a Print Type</label>
 	<?php foreach ($print_fulfillers as $type_section => $type_print_fulfiller): ?>
 		<?php if ($type_section == 'preferred'): ?>
-			<?php //print_r($type_print_fulfiller);  die('suckit'); ?>
 			<?php foreach ($type_print_fulfiller as $printer_data): ?>
 				<?php if (!empty($printer_data['PrintFulfillerPrintType'])): ?>
-					<select class="printer_print_type" data-print_fulfiller_id="<?php echo $printer_data['PrintFulfiller']['id']; ?>">
+					<select 
+						class="printer_print_type ng-hide" 
+						ng-show="print_fulfiller_id=='<?php echo $printer_data['PrintFulfiller']['id']; ?>'" 
+						style="margin-left: 15px;"
+						ng-init="printer_print_types[<?php echo $printer_data['PrintFulfiller']['id']; ?>].id='<?php echo array_values($printer_data['PrintFulfillerPrintType'])[0]['id']; ?>'" 
+						ng-model="printer_print_types[<?php echo $printer_data['PrintFulfiller']['id']; ?>].id"
+						ng-change="choose_print_type()"
+					>
 						<?php foreach($printer_data['PrintFulfillerPrintType'] as $printer_print_type): ?>
 							<option value="<?php echo $printer_print_type['id']; ?>"><?php echo $printer_print_type['name']; ?> Print</option>
 						<?php endforeach; ?>
@@ -139,7 +119,14 @@
 			<?php foreach($type_print_fulfiller as $type_printer_data): ?>
 				<?php foreach ($type_printer_data as $printer_data): ?>
 					<?php if (!empty($printer_data['PrintFulfillerPrintType'])): ?>
-						<select class="printer_print_type" data-print_fulfiller_id="<?php echo $printer_data['PrintFulfiller']['id']; ?>">
+						<select 
+							class="printer_print_type ng-hide" 
+							ng-show="print_fulfiller_id=='<?php echo $printer_data['PrintFulfiller']['id']; ?>'" 
+							style="margin-left: 15px;" 
+							ng-init="printer_print_types[<?php echo $printer_data['PrintFulfiller']['id']; ?>].id='<?php echo array_values($printer_data['PrintFulfillerPrintType'])[0]['id']; ?>'" 
+							ng-model="printer_print_types[<?php echo $printer_data['PrintFulfiller']['id']; ?>].id"
+							ng-change="choose_print_type()"
+						>
 							<?php foreach($printer_data['PrintFulfillerPrintType'] as $printer_print_type): ?>
 								<option value="<?php echo $printer_print_type['id']; ?>"><?php echo $printer_print_type['name']; ?> Print</option>
 							<?php endforeach; ?>
@@ -149,3 +136,4 @@
 			<?php endforeach; ?>
 		<?php endif; ?>
 	<?php endforeach; ?>
+</div>
