@@ -59,7 +59,11 @@
 
 <div class="select">
 	<label for="billing_firstname">Choose a Printing Method</label>
-	<select id="choose_print_fulfiller" ng-change="choose_print_fulfiller()" ng-model="print_fulfiller_id" style="margin-left: 15px;">
+	<select 
+		id="choose_print_fulfiller"
+		ng-model="print_fulfiller_id"
+		style="margin-left: 15px;"
+	>
 		<optgroup label="Manual Printing">
 			<option value="self" style="margin-bottom: 20px !important;"><?php echo __('Process Orders Manually', true); ?></option>
 		</optgroup>

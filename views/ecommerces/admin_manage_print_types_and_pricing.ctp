@@ -1,23 +1,31 @@
 <script src="/js/angular_1.2.22/app/js/app.js"></script>
 <script src="/js/angular_1.2.22/app/js/controllers/avail_print_types.js"></script>
 <script src="/js/angular_1.2.22/app/js/services.js"></script>
+<script src="/js/angular_1.2.22/app/js/services/print_types_service.js"></script>
 <script src="/js/angular_1.2.22/app/js/directives.js"></script>
 
 <div ng-app="fotomatterApp" ng-controller="AvailPrintTypesCtrl" ng-model-options="{ debounce: { 'default': 750, 'blur': 0 } }">
-	<h1><?php echo __('Add/Edit Print Types', true); ?>
+	<div class="custom_ui right">
+		<a href="/admin/ecommerces/manage_print_sizes">
+			<div class="add_button">
+				<div class="content"><?php echo __('Manage Default Print Sizes', true); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div>
+			</div>
+		</a>
+	</div>
+	<?php /*<h1><?php echo __('Add/Edit Print Types', true); ?>
 		<div id="help_tour_button" class="custom_ui"><?php //echo $this->Element('/admin/get_help_button'); ?></div>
-		<div class="custom_ui right">
-			<a href="/admin/ecommerces/manage_print_sizes">
-				<div class="add_button">
-					<div class="content"><?php echo __('Manage Default Print Sizes', true); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div>
-				</div>
-			</a>
-		</div>
-	</h1>
-	<p><?php echo __('Create print types, add sizes available to those print types, and set default pricing and shipping. To change pricing from the default structure on one specific photo, go to &ldquo;Pricing Override&rdquo; under the Photos tab.', true); ?></p>
+	</h1>*/ ?>
+	<?php /*<p><?php echo __('Create print types, add sizes available to those print types, and set default pricing and shipping. To change pricing from the default structure on one specific photo, go to &ldquo;Pricing Override&rdquo; under the Photos tab.', true); ?></p>*/ ?>
 
 	
 	<br /><br /><br />
+	<div class="gallery_view ng-hide" ng-show="open_print_type == undefined" style="position: relative; min-height: 500px;">
+		<div class="empty_help_content" style="display: block;">
+			&#9668;&nbsp;<?php echo __('Choose a Print Type at Left', true); ?>
+			<br /><span class="help_para"><?php echo __('Create print types, add sizes available to those print types, and set default pricing and shipping. To change pricing from the default structure on one specific photo, go to &ldquo;Pricing Override&rdquo; under the Photos tab.', true); ?></span>
+		</div>
+	</div>
+	
 	<div class="ng-hide" ng-show="open_print_type != undefined">
 		<?php echo $this->Element('admin/ecommerce/angular_add_print_type_and_pricing'); ?>
 	</div>
@@ -82,7 +90,7 @@
 						</td>
 					</tr>
 					
-					<tr ng-repeat="photo_print_type in photo_print_types" class="sortable" <?php /* ng-class="{'current': last_open_gallery_id == photo_gallery.PhotoGallery.id}" */ ?> item_id="{{photo_print_type.PhotoPrintType.id}}">
+					<tr ng-repeat="photo_print_type in photo_print_types" class="sortable" ng-class="{'current': open_print_type.photo_print_type.PhotoPrintType.id == photo_print_type.PhotoPrintType.id}" item_id="{{photo_print_type.PhotoPrintType.id}}">
 						<td class="gallery_name gallery_id first last">
 							<table>
 								<tbody>
@@ -98,14 +106,13 @@
 										<td colspan="2">
 											<span class="custom_ui">
 												<div 
-													<?php /*ng-class="{'selected': last_open_gallery_id == photo_gallery.PhotoGallery.id && (upload_to_gallery == null || upload_to_gallery == 'empty'), 'disabled': uploading_photos == true}" */ ?>
+													ng-class="{'selected': open_print_type.photo_print_type.PhotoPrintType.id == photo_print_type.PhotoPrintType.id }"
 													class="add_button icon" 
 													ng-click="editPrintType(photo_print_type)"
-													<?php /*ng-click="view_gallery(photo_gallery.PhotoGallery.id, 0, photo_gallery.PhotoGallery.type)" */ ?>
 												>
-													<div class="content icon-cogWheel" <?php /*ng-show="photo_gallery.PhotoGallery.type == 'standard'"*/ ?>></div>
+													<div class="content icon-cogWheel"></div>
 												</div>
-												<span <?php /*ng-class="{'disabled': uploading_photos == true}"*/ ?>>
+												<span>
 													<span 
 														ng-click="deletePrintType(photo_print_type)"
 														confirm-delete confirm-message="Do you really want to delete the print type?" 
@@ -123,40 +130,6 @@
 						</td>
 					</tr>
 				</tbody>
-				
-				
-				<?php /*
-				<tbody>
-					<tr class="spacer"><td colspan="3"></td></tr>
-
-					<?php if (empty($photo_print_types)): ?>
-						<tr class="first last">
-							<td class="first last" colspan="3">
-								<div class="rightborder"></div>
-								<span><?php echo __('You have not added any print types yet.', true); ?></span>
-							</td>
-						</tr>
-					<?php endif; ?>
-					<?php // KENT TODO - fix the below as they are in a foreach ?>
-					<?php foreach($photo_print_types as $photo_print_type): ?> 
-						<tr class="photo_print_type_item" photo_print_type_id=" <?php echo $photo_print_type['PhotoPrintType']['id']; ?>">
-							<td class="print_type_id first table_width_reorder_icon"><div class="reorder_print_type_grabber reorder_grabber icon-position-01"/> </td> 
-							<td class="print_type">
-								<div class="rightborder"></div>
-								<span><?php echo $photo_print_type['PhotoPrintType']['print_name']; ?></span>
-							</td>
-							<td class="table_actions last">
-								<span class="custom_ui">
-										<a href="/admin/ecommerces/add_print_type_and_pricing/<?php echo $photo_print_type['PhotoPrintType']['id']; ?>/"><div class="add_button"><div class="content"><?php echo __('Edit', true); ?></div><div class="right_arrow_lines icon-arrow-01"><div></div></div></div></a>
-									<a class="delete_link" href="/admin/ecommerces/delete_print_type/<?php echo $photo_print_type['PhotoPrintType']['id']; ?>/"><div class="add_button icon icon_close"><div class="content icon-close-01"></div></div></a>
-								</span>
-							</td>
-						</tr>
-					<?php endforeach; ?> 
-				</tbody>
-				*/ ?>
-				
-				
 			</table>
 		</div>
 	</div>

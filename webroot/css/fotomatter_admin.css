@@ -3956,6 +3956,12 @@ fieldset input[type="checkbox"] {
   text-align: center;
   overflow: hidden;
 }
+.empty_help_content .help_para {
+  font-size: 28px;
+  text-align: left;
+  display: inline-block;
+  margin-top: 40px;
+}
 .generic_inner_container {
   padding-bottom: 45px;
 }
