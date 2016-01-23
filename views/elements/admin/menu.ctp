@@ -83,6 +83,28 @@
 						</tbody>
 					</table>
 				</li>
+				<li class="<?php if ($curr_sub_page == 'surveys'): ?> selected<?php endif; ?>">
+					<div class="subnav_bg"></div>
+					<table>
+						<tbody>
+							<tr>
+								<td class="first" onclick="">
+									<i class="icon-Clipboard-01-01"></i>
+								</td>
+								<td class="second">
+									<a href="/admin/surveys">
+										<div>
+											<p><?php echo __('Surveys', true); ?></p>
+										</div>
+									</a>
+								</td>
+								<td class="third">
+									<span class="circle"></span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</li>
 				<?php if (!empty($user_data['User']['superadmin'])): ?>
 					<li class="<?php if ($curr_sub_page == 'superadmin'): ?> selected<?php endif; ?>">
 						<div class="subnav_bg"></div>
