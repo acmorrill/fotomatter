@@ -3,9 +3,8 @@
 /**
  * Description of domains_controller
  *
- * @author aholsinger
  */
-class DomainsController extends Appcontroller {
+class DomainsController extends AppController {
 
 	public $uses = array('GlobalCountry', 'AccountDomain', 'MajorError');
 	public $layout = 'admin/sidebar_less';
