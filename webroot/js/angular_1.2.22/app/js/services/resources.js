@@ -1,11 +1,11 @@
 'use strict';
 
 
-var fotomatterServices = angular.module('fotomatterServices', ['ngResource']);
+var fotomatterResources = angular.module('fotomatterResources', ['ngResource']);
 
 
 
-fotomatterServices.factory('Tags', ['$resource', function($resource) {
+fotomatterResources.factory('Tags', ['$resource', function($resource) {
 	return $resource('/tags/:id.json', {}, {
 		'index': { url: '/admin/tags/index', method: 'GET', isArray: true },
 		'index_no_count': { url: '/admin/tags/index/false', method: 'GET', isArray: true },
@@ -15,7 +15,7 @@ fotomatterServices.factory('Tags', ['$resource', function($resource) {
 	});
 }]);
 
-fotomatterServices.factory('PhotoGalleries', ['$resource', function($resource) {
+fotomatterResources.factory('PhotoGalleries', ['$resource', function($resource) {
 	return $resource('/photo_galleries/:id.json', {}, {
 		'index': { url: '/admin/photo_galleries/index', method: 'GET', isArray: true },
 		'view': { 
@@ -102,17 +102,19 @@ fotomatterServices.factory('PhotoGalleries', ['$resource', function($resource) {
 }]);
 
 
-fotomatterServices.factory('PrintTypes', ['$resource', function($resource) {
+fotomatterResources.factory('PrintTypes', ['$resource', function($resource) {
 	return $resource('/admin/ecommerces/:id.json', {}, {
 		'list': { url: '/admin/ecommerces/angular_list_print_types', method: 'GET' },
 		'reorder': { url: '/admin/ecommerces/angular_set_print_type_order/:photo_print_type_id/:new_order', method: 'GET' },
 		'delete': { url: '/admin/ecommerces/angular_delete_print_type/:photo_print_type_id', method: 'GET' },
 		'edit': { url: '/admin/ecommerces/angular_add_print_type_and_pricing/:photo_print_type_id', method: 'GET' },
+		'edit_automatic': { url: '/admin/ecommerces/angular_add_automatic_print_type_and_pricing/:photo_print_type_id', method: 'GET' },
 		'save': { url: '/admin/ecommerces/angular_save_print_type_and_pricing', method: 'POST' },
 		'add_self': { url: '/admin/ecommerces/angular_add_print_type_and_pricing', method: 'GET' },
-		'add_automatic': { url: '/admin/ecommerces/angular_add_automatic_print_type_and_pricing/:print_fulfiller_id/:print_fulfiller_print_type_id', method: 'GET' }
+		'add_automatic': { url: '/admin/ecommerces/angular_add_automatic_print_type_and_pricing/0/:print_fulfiller_id/:print_fulfiller_print_type_id', method: 'GET' }
 		// ($print_fulfiller_id, $print_fulfiller_print_type_id, $photo_print_type_id = 0)
 //		'get_avail_sizes': { url: '/admin/ecommerces/angular_get_photo_avail_sizes', method: 'GET' }
 	});
 }]);
+
 

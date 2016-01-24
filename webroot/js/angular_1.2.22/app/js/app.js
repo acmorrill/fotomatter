@@ -2,6 +2,7 @@
 
 var fotomatterApp = angular.module('fotomatterApp', [
 	'fotomatterControllers',
+	'fotomatterResources',
 	'fotomatterServices',
 	'xeditable',
 	'ngCookies',

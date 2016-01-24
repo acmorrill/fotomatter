@@ -396,22 +396,21 @@ class EcommercesController extends AppController {
 	}
 		
 	
-	public function admin_angular_add_automatic_print_type_and_pricing($print_fulfiller_id, $print_fulfiller_print_type_id, $photo_print_type_id = 0) {
+	public function admin_angular_add_automatic_print_type_and_pricing($photo_print_type_id = 0, $print_fulfiller_id = null, $print_fulfiller_print_type_id = null) {
 		$this->HashUtil->set_new_hash('ecommerce');
 		
-		////////////////////////////////////////////////////////////////////////////////////////
-		// validate for auto fulfillment
-		$is_autofulfillment_print_type = !empty($print_fulfiller_id) && !empty($print_fulfiller_print_type_id);
-		$print_type_ids_vaild = !empty($this->overlord_account_info['print_fulfillers_indexed'][$print_fulfiller_id]['PrintFulfillerPrintType'][$print_fulfiller_print_type_id]['type']);
-		if ($is_autofulfillment_print_type !== true || $print_type_ids_vaild !== true) {
-			$this->return_angular_json(false, "Trying to add automatic print type incorrectly. $print_fulfiller_id - $print_fulfiller_print_type_id");
-		}
-		
-		
-		// actually create the print type if not done yet
-		$print_fulfiller_print_type = $this->overlord_account_info['print_fulfillers_indexed'][$print_fulfiller_id]['PrintFulfillerPrintType'][$print_fulfiller_print_type_id];
-		$print_fulfiller_print_type_type = $print_fulfiller_print_type['type'];
 		if (empty($photo_print_type_id)) {
+			////////////////////////////////////////////////////////////////////////////////////////
+			// validate for auto fulfillment
+			$is_autofulfillment_print_type = !empty($print_fulfiller_id) && !empty($print_fulfiller_print_type_id);
+			$print_type_ids_vaild = !empty($this->overlord_account_info['print_fulfillers_indexed'][$print_fulfiller_id]['PrintFulfillerPrintType'][$print_fulfiller_print_type_id]['type']);
+			if ($is_autofulfillment_print_type !== true || $print_type_ids_vaild !== true) {
+				$this->return_angular_json(false, "Trying to add automatic print type incorrectly. $print_fulfiller_id - $print_fulfiller_print_type_id");
+			}
+
+			// actually create the print type if not done yet
+			$print_fulfiller_print_type = $this->overlord_account_info['print_fulfillers_indexed'][$print_fulfiller_id]['PrintFulfillerPrintType'][$print_fulfiller_print_type_id];
+			$print_fulfiller_print_type_type = $print_fulfiller_print_type['type'];
 			$photo_print_type_id = $this->PhotoPrintType->create_new_photo_print_type("auto$print_fulfiller_print_type_type", $print_fulfiller_id, $print_fulfiller_print_type_id);
 		}
 		
@@ -424,8 +423,15 @@ class EcommercesController extends AppController {
 			),
 			'contain' => false
 		));
+		$print_fulfiller_print_type = array();
+		$print_fulfiller = array();
+		if (!empty($this->overlord_account_info['print_fulfillers_indexed'])) {
+			$print_fulfiller_print_type = $this->overlord_account_info['print_fulfillers_indexed'][$photo_print_type['PhotoPrintType']['print_fulfiller_id']]['PrintFulfillerPrintType'][$photo_print_type['PhotoPrintType']['print_fulfiller_print_type_id']];
+			$print_fulfiller = $this->overlord_account_info['print_fulfillers_indexed'][$photo_print_type['PhotoPrintType']['print_fulfiller_id']];
+			unset($print_fulfiller['PrintFulfillerPrintType']);
+		}
 		
-		$this->return_angular_json(true, "Automatic Print Type Created", compact('photo_avail_sizes', 'photo_print_type', 'print_fulfiller_print_type_type'));
+		$this->return_angular_json(true, "Automatic Print Type Created", compact('photo_avail_sizes', 'photo_print_type', 'print_fulfiller_print_type', 'print_fulfiller'));
 	}
 	
 	
@@ -445,9 +451,8 @@ class EcommercesController extends AppController {
 			),
 			'contain' => false
 		));
-		$print_fulfiller_print_type_type = 'self';
 		
-		$this->return_angular_json(true, '', compact('photo_avail_sizes', 'photo_print_type', 'print_fulfiller_print_type_type'));
+		$this->return_angular_json(true, '', compact('photo_avail_sizes', 'photo_print_type'));
 	}
 	
 	public function admin_angular_save_print_type_and_pricing() {

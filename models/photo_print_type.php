@@ -43,6 +43,7 @@ class PhotoPrintType extends AppModel {
 		$print_type_id = !empty($data['PhotoPrintType']['id']) ? $data['PhotoPrintType']['id'] : null ;
 		$print_name = !empty($data['PhotoPrintType']['print_name']) ? $data['PhotoPrintType']['print_name'] : null ;
 		$turnaround_time = !empty($data['PhotoPrintType']['turnaround_time']) ? $data['PhotoPrintType']['turnaround_time'] : '' ;
+		$print_fulfillment_type = !empty($data['PhotoPrintType']['print_fulfillment_type']) ? $data['PhotoPrintType']['print_fulfillment_type'] : '' ;
 
 		if (!isset($print_name)) {
 			$print_name = "New Print Type";
@@ -58,6 +59,7 @@ class PhotoPrintType extends AppModel {
 		$new_photo_type['PhotoPrintType']['id'] = $print_type_id;
 		$new_photo_type['PhotoPrintType']['print_name'] = $print_name;
 		$new_photo_type['PhotoPrintType']['turnaround_time'] = $turnaround_time;
+		$new_photo_type['PhotoPrintType']['print_fulfillment_type'] = $print_fulfillment_type;
 		$this->create();
 		if (!$this->save($new_photo_type)) {
 			$this->major_error('Failed to save photo print type', compact('new_photo_type'));
