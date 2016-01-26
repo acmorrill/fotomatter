@@ -1,6 +1,12 @@
 <h1><?php echo __('Surveys', true); ?>
 </h1>
 
+<script language="javascript" type="text/javascript">
+	document.domain = 'fotomatter.net';
+	function resizeIframe(obj) {
+		obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+	}
+</script>
 <div id="photo_mass_upload_outer_wrapper">
 	<div class="files_ready_to_upload_cont">
 		<div class='files_ready_to_upload_inner_cont'>
@@ -15,7 +21,7 @@
 				<div class="fade_background_top"></div>
 				<div class="generic_inner_container">
 					<div class="generic_dark_cont">
-						<iframe src="//survey.fotomatter.net/index.php/927366?site=dev" height="500" width="100%"></iframe>
+						<iframe src="//survey.fotomatter.net/index.php/927366?site=dev" width="100%" scrolling="no" onload="resizeIframe(this)"></iframe>
 					</div>
 				</div>
 			</div>
