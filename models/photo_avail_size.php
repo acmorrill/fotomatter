@@ -50,7 +50,38 @@ class PhotoAvailSize extends AppModel {
 		}
 		
 		
-		return $photo_avail_sizes;
+		// split results for items that have both pano and non pano sizes
+		$final_sizes = array();
+		foreach ($photo_avail_sizes as $photo_avail_size) {
+			if ($this->print_size_has_non_pano($photo_avail_size) && $this->print_size_has_pano($photo_avail_size)) {
+				$non_pano_avail_size = $photo_avail_size;
+				$pano_avail_size = $photo_avail_size;
+				$non_pano_avail_size['PhotoAvailSizesPhotoPrintType']['pano_available'] = '';
+				$non_pano_avail_size['PhotoAvailSizesPhotoPrintType']['pano_price'] = '';
+				$non_pano_avail_size['PhotoAvailSizesPhotoPrintType']['pano_shipping_price'] = '';
+				$non_pano_avail_size['PhotoAvailSizesPhotoPrintType']['pano_custom_turnaround'] = '';
+				$non_pano_avail_size['PhotoAvailSizesPhotoPrintType']['pano_global_default'] = '';
+				$non_pano_avail_size['PhotoAvailSizesPhotoPrintType']['pano_force_settings'] = '';
+				$pano_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_available'] = '';
+				$pano_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_price'] = '';
+				$pano_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_shipping_price'] = '';
+				$pano_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_custom_turnaround'] = '';
+				$pano_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_global_default'] = '';
+				$pano_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_force_settings'] = '';
+				$non_pano_avail_size['display_type'] = 'dynamic_non_pano';
+				$pano_avail_size['display_type'] = 'dynamic_pano';
+				$final_sizes[] = $non_pano_avail_size;
+				$final_sizes[] = $pano_avail_size;
+			} else {
+				if ($photo_avail_size['PhotoAvailSize']['has_pano']) { $photo_avail_size['display_type'] = 'dynamic_pano'; }
+				if ($photo_avail_size['PhotoAvailSize']['has_non_pano']) { $photo_avail_size['display_type'] = 'dynamic_non_pano'; }
+				$final_sizes[] = $photo_avail_size;
+			}
+		}
+		
+		
+		return $final_sizes;
+//		return $photo_avail_sizes;
 	}
 	
 	

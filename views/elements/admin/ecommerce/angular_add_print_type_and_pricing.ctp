@@ -2,6 +2,7 @@
 	<h2 class="ng-hide" ng-show="open_print_type.photo_print_type.PhotoPrintType.print_fulfillment_type == 'self'"><?php echo __('Manually Processed Print Settings', true); ?></h2>
 	<h2 class="ng-hide" ng-show="open_print_type.photo_print_type.PhotoPrintType.print_fulfillment_type == 'autofixed'">Settings | {{open_print_type.print_fulfiller.lab_name}} | {{open_print_type.print_fulfiller_print_type.name}}</h2>
 	<h2 class="ng-hide" ng-show="open_print_type.photo_print_type.PhotoPrintType.print_fulfillment_type == 'autodynamic'"><?php echo __('Dynamic Settings', true); ?></h2>
+	<h2 class="ng-hide" ng-show="open_print_type.photo_print_type.PhotoPrintType.print_fulfillment_type == 'autofixeddynamic'"><?php echo __('Fixed Dynamic Settings', true); ?></h2>
 	<h2 class="ng-hide" ng-show="open_print_type.photo_print_type.PhotoPrintType.print_fulfillment_type == 'automisc'"><?php echo __('Misc Settings', true); ?></h2>
 </div>
 
@@ -43,8 +44,7 @@
 			</div>
 		</div>
 		
-		<section ng-switch on="open_print_type.photo_print_type.PhotoPrintType.print_fulfillment_type">
-			<div class="table_container" ng-switch-when="autofixed" style="margin-top: 40px;">
+			<div class="table_container" ng-if="open_print_type.photo_print_type.PhotoPrintType.print_fulfillment_type == 'autofixed' || open_print_type.photo_print_type.PhotoPrintType.print_fulfillment_type == 'autodynamic' || open_print_type.photo_print_type.PhotoPrintType.print_fulfillment_type == 'autofixeddynamic'" style="margin-top: 40px;">
 				<div class="fade_background_top"></div>
 				<div class="table_top"></div>
 				<table id="print_type_price_list" class="list">
@@ -75,7 +75,7 @@
 					<tbody>
 						<tr class="spacer"><td colspan="8"></td></tr>
 
-						<tr ng-repeat="print_type_fixed_size in open_print_type.print_fulfiller_print_type.PrintFulfillerPrintTypeFixedSize">
+						<tr ng-repeat="autofulfillment_print_size in open_print_type.autofulfillment_print_list">
 							<td class="first">
 								<input 
 									class="available_checkbox" 
@@ -85,11 +85,21 @@
 									ng-model-options="{}" */ ?>
 								/><br />
 							</td>
-							<td>
-								{{print_type_fixed_size.short_side_inches}}&Prime; x {{print_type_fixed_size.long_side_inches}}&Prime;
+							<td ng-if="autofulfillment_print_size.display_type == 'fixed'">
+								{{autofulfillment_print_size.short_side_inches}}&Prime; x {{autofulfillment_print_size.long_side_inches}}&Prime; &mdash; Standard
 								<br />
 								<br />
-								${{print_type_fixed_size.cost}}
+								${{autofulfillment_print_size.cost}}
+							</td>
+							<td ng-if="autofulfillment_print_size.display_type == 'dynamic_non_pano'">
+								{{autofulfillment_print_size.PhotoAvailSize.short_side_length}}&Prime; x long-side&Prime; &mdash; Custom
+								<br />
+								<span style="font-size: 15px; margin-left: 0px; border-left: 0px; margin-top: 15px;">(<?php echo __('Non-Panoramic', true); ?>)</span>
+							</td>
+							<td ng-if="autofulfillment_print_size.display_type == 'dynamic_pano'">
+								{{autofulfillment_print_size.PhotoAvailSize.short_side_length}}&Prime; x long-side&Prime; &mdash; Custom
+								<br />
+								<span style="font-size: 15px; margin-left: 0px; border-left: 0px; margin-top: 15px;">(<?php echo __('Panoramic', true); ?>)</span>
 							</td>
 							<td class="price_width">
 								<span class="subitem_container">
@@ -159,7 +169,7 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="table_container" ng-switch-when="self" style="margin-top: 40px;">
+			<div class="table_container" ng-if="open_print_type.photo_print_type.PhotoPrintType.print_fulfillment_type == 'self'" style="margin-top: 40px;">
 				<div class="fade_background_top"></div>
 				<div class="table_top"></div>
 				<table id="print_type_price_list" class="list">

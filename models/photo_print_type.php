@@ -19,6 +19,48 @@ class PhotoPrintType extends AppModel {
 	}
 	
 	
+	public function combine_autofulfillment_print_list($print_fulfiller_print_type, $photo_avail_sizes) {
+		switch($print_fulfiller_print_type['type']) {
+			case 'fixed':
+				foreach ($print_fulfiller_print_type['PrintFulfillerPrintTypeFixedSize'] as &$fixed_size) {
+					$fixed_size['display_type'] = 'fixed';
+				}
+				return $print_fulfiller_print_type['PrintFulfillerPrintTypeFixedSize'];
+			case 'dynamic':
+				return $photo_avail_sizes;
+			case 'fixeddynamic':
+				$merged_arrays = array_merge($print_fulfiller_print_type['PrintFulfillerPrintTypeFixedSize'], $photo_avail_sizes);
+				foreach ($merged_arrays as &$merged_array) {
+					if (isset($merged_array['short_side_inches'])) {
+						$merged_array['display_type'] = 'fixed';
+					}
+				}
+				usort($merged_arrays, array($this, 'sort_autofulfillment_array'));
+				return $merged_arrays;
+		}
+		
+	}
+	private function sort_autofulfillment_array($a, $b) {
+		$a_value;
+		if (isset($a['PhotoAvailSize']['short_side_length'])) { $a_value = $a['PhotoAvailSize']['short_side_length']; }
+		if (isset($a['short_side_inches'])) { $a_value = $a['short_side_inches']; }
+		
+		$b_value;
+		if (isset($b['PhotoAvailSize']['short_side_length'])) { $b_value = $b['PhotoAvailSize']['short_side_length']; }
+		if (isset($b['short_side_inches'])) { $b_value = $b['short_side_inches']; }
+		
+		if ($a_value == $b_value) {
+			if (isset($a['PhotoAvailSize']['short_side_length']) && isset($b['PhotoAvailSize']['short_side_length'])) {
+				return 0;
+			} elseif (isset($a['short_side_inches']) && isset($b['short_side_inches'])) {
+				return 0;
+			} else {
+				return isset($b['PhotoAvailSize']['short_side_length']) ? -1 : 1;
+			}
+		}
+		return ($a_value < $b_value) ? -1 : 1;
+	}
+	
 	public function create_new_photo_print_type($type, $print_fulfiller_id = null, $print_fulfiller_print_type_id = null, $is_dynamic = null) {
 		$data = array();
 		$data['PhotoPrintType']['print_name'] = 'New Print';
