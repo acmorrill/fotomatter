@@ -19,7 +19,7 @@ class PhotoPrintType extends AppModel {
 	}
 	
 	
-	public function create_new_photo_print_type($type, $print_fulfiller_id = null, $print_fulfiller_print_type_id = null) {
+	public function create_new_photo_print_type($type, $print_fulfiller_id = null, $print_fulfiller_print_type_id = null, $is_dynamic = null) {
 		$data = array();
 		$data['PhotoPrintType']['print_name'] = 'New Print';
 		$data['PhotoPrintType']['turnaround_time'] = '3 Weeks';
