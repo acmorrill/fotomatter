@@ -5,6 +5,7 @@
 	document.domain = 'fotomatter.net';
 	function resizeIframe(obj) {
 		obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+		window.scrollTo(0, 0);
 	}
 </script>
 <div id="photo_mass_upload_outer_wrapper">
