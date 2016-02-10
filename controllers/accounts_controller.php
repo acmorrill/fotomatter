@@ -13,6 +13,13 @@ class AccountsController extends AppController {
 	);
 	
 	
+	public function admin_test_notice_email() {
+		$this->NoticeEmail = ClassRegistry::init('NoticeEmail');
+		$this->NoticeEmail->send_all_unsent_notice_emails();
+		
+		die('made it here sucka');
+	}
+	
 //	public function admin_decide_photo_trip() {
 //		$rating_schema = array(
 //			'newness' => .8, // how cool it would be to see something new
