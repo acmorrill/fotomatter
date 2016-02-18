@@ -9,13 +9,13 @@ class AccountsController extends AppController {
 		'FotomatterBilling',
 		'Session',
 		'Validation',
-		'FotomatterEmail'
+		'FotomatterEmail',
+		'FotomatterNoticeEmail'
 	);
 	
 	
 	public function admin_test_notice_email() {
-		$this->NoticeEmail = ClassRegistry::init('NoticeEmail');
-		$this->NoticeEmail->send_all_unsent_notice_emails();
+		$this->FotomatterNoticeEmail->send_all_unsent_notice_emails($this);
 		
 		die('made it here sucka');
 	}
