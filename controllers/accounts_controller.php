@@ -9,16 +9,9 @@ class AccountsController extends AppController {
 		'FotomatterBilling',
 		'Session',
 		'Validation',
-		'FotomatterEmail',
-		'FotomatterNoticeEmail'
+		'FotomatterEmail'
 	);
 	
-	
-	public function admin_test_notice_email() {
-		$this->FotomatterNoticeEmail->send_all_unsent_notice_emails($this);
-		
-		die('made it here sucka');
-	}
 	
 //	public function admin_decide_photo_trip() {
 //		$rating_schema = array(

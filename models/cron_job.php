@@ -60,6 +60,9 @@ class CronJob extends AppModel {
 				App::import('Core', 'Controller'); 
 				App::import('Controller','Accounts');
 				$this->AccountsController = new AccountsController();
+				$this->AccountsController->components = array(
+					$class_name
+				);
 				$this->AccountsController->constructClasses();
 				$this->AccountsController->Postmark->initialize($this->AccountsController);
 				$function_args = func_get_args();

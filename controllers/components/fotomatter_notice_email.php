@@ -4,16 +4,80 @@ class FotomatterNoticeEmailComponent extends Object {
 	
 	public $from_email = FOTOMATTER_SUPPORT_EMAIL_REPLYTO;
 	
-	public function startsWith($haystack, $needle) {
-		$length = strlen($needle);
-		return (substr($haystack, 0, $length) === $needle);
-	}
-
-	public function endsWith($haystack, $needle) {
-		$length = strlen($needle);
-		$start  = $length * -1; //negative
-		return (substr($haystack, $start) === $needle);
-	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// ACTUAL NOTICE EMAILS
+	// example format: 
+	//	private function email_MM_DD_YYYY_HH_II_descriptionofemail(&$controller) {}
+	//--------------------------------------------------------------------------------------------------------------------------------------------
+//	private function email_02_20_2016_19_15_going_out_of_beta_email(&$controller) { // DREW TODO - finish this email
+//		$controller->Postmark->subject = 'This is a test email 2';
+//		$testing_var = 'something cooler 2';
+//		$controller->set(compact('testing_var'));
+//		$controller->Postmark->template = 'test_notice_email';
+//		return compact('testing_var');
+//	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// HELPER FUNCTIONS
+	//--------------------------------------------------------------------------------------------------------------------------------------------
+	public function startsWith($haystack, $needle) { $length = strlen($needle); return (substr($haystack, 0, $length) === $needle); }
 	
 	public function send_all_unsent_notice_emails(&$controller) {
 		$class_methods = get_class_methods($this);
@@ -40,7 +104,6 @@ class FotomatterNoticeEmailComponent extends Object {
 				$timestamp = mktime($email_hours, $email_mins, 0, $email_month, $email_day, $email_year);
 				$datetime = date('Y-m-d H:i:s', $timestamp);
 				
-
 				$parsed_class_methods[$timestamp]['function'] = $class_method;
 				$parsed_class_methods[$timestamp]['email_description'] = $email_description;
 				$parsed_class_methods[$timestamp]['datetime'] = $datetime;
@@ -51,30 +114,35 @@ class FotomatterNoticeEmailComponent extends Object {
 		
 		$this->AccountEmailNotice = ClassRegistry::init('AccountEmailNotice');
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
-		$time_built = $this->SiteSetting->getVal('time_built', false); // TODO - fail here if need be
-		$time_built_timestamp = strtotime($time_built);
-		$sent_emails = $this->AccountEmailNotice->get_already_sent_notice_emails($time_built); // TODO - fail here if need be
-		
-		foreach ($parsed_class_methods as $timestamp => $parsed_class_method) {
-			if ($timestamp > $time_built_timestamp && $timestamp < time() && empty($sent_emails[$parsed_class_method['function']])) {
-				// send the email
-				$notice_data = $this->send_actual_email($controller, $parsed_class_method['function']);
-				
-//				// save the email in the db
-				if ($notice_data !== false) {
-					$new_email_notice = array();
-					$new_email_notice['AccountEmailNotice']['email_key'] = $parsed_class_method['function'];
-					$new_email_notice['AccountEmailNotice']['to_send_date'] = $parsed_class_method['datetime'];
-					$new_email_notice['AccountEmailNotice']['sent_date'] = date('Y-m-d H:i:s');
-					$new_email_notice['AccountEmailNotice']['email_data'] = print_r($notice_data, true);
-					$this->log($new_email_notice, 'new_email_notice');
-					$this->AccountEmailNotice->create();
-					$this->AccountEmailNotice->save($new_email_notice);
-				} else {
-					// record a major error here
+		$time_built = $this->SiteSetting->getVal('time_built', false);
+		if ($time_built !== false) {
+			$time_built_timestamp = strtotime($time_built);
+			$sent_emails = $this->AccountEmailNotice->get_already_sent_notice_emails($time_built);
+
+			foreach ($parsed_class_methods as $timestamp => $parsed_class_method) {
+				if ($timestamp > $time_built_timestamp && $timestamp < time() && empty($sent_emails[$parsed_class_method['function']])) {
+					// send the email
+					$notice_data = $this->send_actual_email($controller, $parsed_class_method['function']);
+
+	//				// save the email in the db
+					if ($notice_data !== false) {
+						$new_email_notice = array();
+						$new_email_notice['AccountEmailNotice']['email_key'] = $parsed_class_method['function'];
+						$new_email_notice['AccountEmailNotice']['to_send_date'] = $parsed_class_method['datetime'];
+						$new_email_notice['AccountEmailNotice']['sent_date'] = date('Y-m-d H:i:s');
+						$new_email_notice['AccountEmailNotice']['email_data'] = print_r($notice_data, true);
+						$this->AccountEmailNotice->create();
+						$this->AccountEmailNotice->save($new_email_notice);
+					} else {
+						$this->SiteSetting->major_error('failed to send actual email in fotomatter notice emails');
+						return false;
+					}
+					break;
 				}
-				break;
 			}
+		} else {
+			$this->SiteSetting->major_error('time_build not set for fotomatter notice emails');
+			return false;
 		}
 		
 		
@@ -91,26 +159,12 @@ class FotomatterNoticeEmailComponent extends Object {
 		$controller->Postmark->to = "<$account_email>";
 		$controller->Postmark->sendAs = 'html'; // because we like to send pretty mail
 		$controller->Postmark->tag = $function;
-		return $this->$function($controller);
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// email function format
-//	private function email_MM_DD_YYYY_HH_II_descriptionofemail(&$controller) {}
-	
-//	private function email_02_09_2016_16_30_name_of_email3($email) {
-//		
-//	}
-//	private function email_02_07_2016_16_30_name_of_email3($email) {
-//		
-//	}
-	private function email_02_05_2016_16_30_name_of_email3(&$controller) {
-		$controller->Postmark->subject = 'This is a test email';
-		$testing_var = 'something cool';
-		$controller->set(compact('testing_var'));
-		$controller->Postmark->template = 'test_notice_email';
 		$result = $controller->Postmark->send();
-		return compact('testing_var');
+		if (!isset($result['ErrorCode']) || $result['ErrorCode'] != 0) {
+			$controller->major_error('failed to send notice email', compact('function'));
+			return false;
+		}
+		return $this->$function($controller);
 	}
 	
 }

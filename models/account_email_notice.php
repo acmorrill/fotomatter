@@ -9,9 +9,12 @@ class AccountEmailNotice extends AppModel {
 			WHERE to_send_date > '$time_built'
 		";
 		$sent_emails = $this->query($query);
+		$final_sent_emails = array();
+		foreach ($sent_emails as &$sent_email) {
+			$final_sent_emails[$sent_email['account_email_notices']['email_key']] = $sent_email['account_email_notices'];
+		}
 		
-		$this->log($sent_emails);
-		return $sent_emails;
+		return $final_sent_emails;
 	}
 	
 
