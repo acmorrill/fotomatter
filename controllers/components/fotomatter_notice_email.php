@@ -98,12 +98,12 @@ class FotomatterNoticeEmailComponent extends Object {
 	// email function format
 //	private function email_MM_DD_YYYY_HH_II_descriptionofemail(&$controller) {}
 	
-	private function email_02_09_2016_16_30_name_of_email3($email) {
-		
-	}
-	private function email_02_07_2016_16_30_name_of_email3($email) {
-		
-	}
+//	private function email_02_09_2016_16_30_name_of_email3($email) {
+//		
+//	}
+//	private function email_02_07_2016_16_30_name_of_email3($email) {
+//		
+//	}
 	private function email_02_05_2016_16_30_name_of_email3(&$controller) {
 		$controller->Postmark->subject = 'This is a test email';
 		$testing_var = 'something cool';

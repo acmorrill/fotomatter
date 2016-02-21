@@ -57,15 +57,14 @@ class CronJob extends AppModel {
 				return $this->$class_name->$method_name($extra_data);
 				break;
 			case 'component':
-				// START HERE TOMORROW
 				App::import('Core', 'Controller'); 
-				App::import('Controller','Domains');
-				$this->DomainsController = new DomainsController();
-				$this->DomainsController->constructClasses();
-				$this->DomainsController->Postmark->initialize($this->DomainsController);
+				App::import('Controller','Accounts');
+				$this->AccountsController = new AccountsController();
+				$this->AccountsController->constructClasses();
+				$this->AccountsController->Postmark->initialize($this->AccountsController);
 				$function_args = func_get_args();
-				$function_args[0] = &$this->DomainsController;
-				call_user_func_array(array($this->DomainsController->FotomatterEmail, $function_name), $function_args);
+				$function_args[0] = &$this->AccountsController;
+				call_user_func_array(array($this->AccountsController->$class_name, $method_name), $function_args);
 		}
 
 		return true;
