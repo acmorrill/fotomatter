@@ -1,5 +1,4 @@
-<h1><?php echo __('Surveys', true); ?>
-</h1>
+<h1><?php echo __('Surveys', true); ?></h1>
 
 <script language="javascript" type="text/javascript">
 	document.domain = 'fotomatter.net';
