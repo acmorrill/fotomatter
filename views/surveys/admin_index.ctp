@@ -4,6 +4,7 @@
 <script language="javascript" type="text/javascript">
 	document.domain = 'fotomatter.net';
 	function resizeIframe(obj) {
+		obj.style.height = '0px';
 		obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
 		window.scrollTo(0, 0);
 	}
@@ -22,7 +23,7 @@
 				<div class="fade_background_top"></div>
 				<div class="generic_inner_container">
 					<div class="generic_dark_cont">
-						<iframe src="//survey.fotomatter.net/index.php/927366?site=dev" width="100%" scrolling="no" onload="resizeIframe(this)"></iframe>
+						<iframe src="//survey.fotomatter.net/index.php/927366?newtest=Y&accountid=<?php echo $account_id; ?>" width="100%" scrolling="no" onload="resizeIframe(this)"></iframe>
 					</div>
 				</div>
 			</div>
