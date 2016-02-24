@@ -29,7 +29,6 @@ class FotomatterOverlordApi extends Object {
 		));
 		$json_response = curl_exec($ch);
 		
-		
 		if ($json_response === false) {
 			$curl_error = curl_error($ch);
 			$curl_getinfo = curl_getinfo($ch);

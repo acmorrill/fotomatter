@@ -92,18 +92,14 @@ class FotomatterBillingComponent extends FotomatterOverlordApi {
 	}
 	
 	public function get_survey_info($params = array()) {
-		if (apc_exists($this->account_survey_apc_key)) {
-			return apc_fetch($this->account_survey_apc_key);
-		}
-
-		$result_of_find = $this->send_api_request('api_survey/get_survey_details', $params);
+		$result_of_find = $this->send_api_request('api_billing/get_survey_data', $params);
 		if($result_of_find['code']) {
 			apc_store($this->account_survey_apc_key, $result_of_find['payload'], 10800); // 3 hours
 			return $result_of_find['payload'];
 		}
 
 		$this->MajorError = ClassRegistry::init("MajorError");
-		$this->MajorError->major_error('Remote find from overlord returned with error.', compact('params', 'result_of_find'));
+		$this->MajorError->major_error('Remote find from overlord returned with error for survey.', compact('params', 'result_of_find'));
 		return false;
 	}
 

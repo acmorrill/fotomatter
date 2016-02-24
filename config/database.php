@@ -78,7 +78,7 @@ class DATABASE_CONFIG {
 
 	var $default = array(
 		'driver' => 'mysql',
-		'persistent' => false,
+		'persistent' => true,
 		'host' => 'localhost',
 		'login' => '',
 		'password' => '',
@@ -99,7 +99,7 @@ class DATABASE_CONFIG {
 	
 	var $server_global = array(
 		'driver' => 'mysql',
-		'persistent' => false,
+		'persistent' => true,
 		'host' => 'localhost',
 		'login' => '',
 		'password' => '',
