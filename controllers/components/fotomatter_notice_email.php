@@ -12,7 +12,7 @@ class FotomatterNoticeEmailComponent extends Object {
 	//	public function email_MM_DD_YYYY_HH_II_descriptionofemail(&$controller) {}
 	//	whatever is returned gets logged
 	//--------------------------------------------------------------------------------------------------------------------------------------------
-	public function email_02_22_2016_20_15_going_out_of_beta_email(&$controller) {
+	public function email_03_01_2016_12_30_going_out_of_beta_email(&$controller) {
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
 		$first_name = $this->SiteSetting->getVal('first_name', '');
 		$site_domain = $this->SiteSetting->getVal('site_domain');
