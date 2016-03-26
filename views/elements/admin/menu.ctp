@@ -10,7 +10,7 @@
 			<a href="/admin/users/logout"><i class="icon-power"></i>Log Out</a>
 		</li>
 		<li class="<?php if ($curr_page == 'site_settings'): ?> active<?php endif; ?>">
-			<a href="" class="submenu"><i class="icon-cogWheel"></i><?php echo __('Site Settings', true); ?></a>
+			<a href="" class="submenu"><i class="icon-cogWheel"></i><?php echo __('More', true); ?></a>
 			<ul>
 				<?php 
 					if (empty($curr_sub_page)) {
