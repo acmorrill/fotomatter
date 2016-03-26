@@ -91,7 +91,6 @@ class FotomatterNoticeEmailComponent extends Object {
 		}
 		
 		$parsed_class_methods_apc_key = 'notice_emails_parsed_class_methods_apc_key';
-		apc_delete($parsed_class_methods_apc_key); // DREW TODO - get rid of this
 		if (apc_exists($parsed_class_methods_apc_key)) {
 			$parsed_class_methods = apc_fetch($parsed_class_methods_apc_key);
 		} else {

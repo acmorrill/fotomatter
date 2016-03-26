@@ -105,6 +105,28 @@
 						</tbody>
 					</table>
 				</li>
+				<li class="<?php if ($curr_sub_page == 'fotomatter_support'): ?> selected<?php endif; ?>">
+					<div class="subnav_bg"></div>
+					<table>
+						<tbody>
+							<tr>
+								<td class="first" onclick="">
+									<i class="icon-emailSupport-01"></i>
+								</td>
+								<td class="second">
+									<a href="/admin/accounts/fotomatter_support">
+										<div>
+											<p><?php echo __('Fotomatter Support', true); ?></p>
+										</div>
+									</a>	
+								</td>
+								<td class="third">
+									<span class="circle"></span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</li>
 				<?php if (!empty($user_data['User']['superadmin'])): ?>
 					<li class="<?php if ($curr_sub_page == 'superadmin'): ?> selected<?php endif; ?>">
 						<div class="subnav_bg"></div>

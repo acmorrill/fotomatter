@@ -6921,6 +6921,16 @@ table.list > tbody > tr.active td div {
 table.list > tbody > tr.active td .feature_on {
   display: block;
 }
+table.list > tbody > tr.active td .feature_on > span {
+  display: inline-block;
+  vertical-align: top;
+  color: rgba(244,249,245,0.65);
+}
+table.list > tbody > tr.active td .feature_on span.icon-Success-01 {
+  color: #2ac0de;
+  font-size: 20px;
+  margin-top: -3px;
+}
 table.list > tbody > tr.active td .feature_pending {
   display: none;
 }

@@ -188,7 +188,19 @@ table.list {
 				td {
 					background-color: @table_hover;
 					&, div { color: @top_white; }
-					.feature_on { display: block; }
+					.feature_on { 
+						display: block;
+						> span {
+							display: inline-block;
+							vertical-align: top;
+							color: @top_white_high;
+						}
+						span.icon-Success-01 {
+							color: @tab2_on_color;
+							font-size: 20px;
+							margin-top: -3px;
+						}
+					}
 					.feature_pending { display: none; }
 					.cancel_pending { display: none; }
 					.cost { display: none; }

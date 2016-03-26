@@ -155,4 +155,28 @@ class FotomatterEmailComponent extends Object {
 			$controller->major_error('failed to send domain_renewal reminder email', compact('result', 'change_password_user', 'return_link'));
 		}
 	}
+	
+	public function send_create_support_ticket_email(&$controller, $subject, $issue) {
+		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+		$account_email = $this->SiteSetting->getVal('account_email', false);
+		$first_name = $this->SiteSetting->getVal('first_name', '');
+		$last_name = $this->SiteSetting->getVal('last_name', '');
+		$site_domain = $this->SiteSetting->getVal('site_domain', '');
+		
+		$controller->set(compact('account_email', 'site_domain', 'first_name', 'last_name', 'issue'));
+		
+		$controller->Postmark->delivery = 'postmark';
+		$controller->Postmark->from = $this->from_email;
+		$controller->Postmark->replyTo = $account_email;
+		$controller->Postmark->to = "<support+livechat@fotomatter.net>";
+		$controller->Postmark->subject = $subject;
+		$controller->Postmark->template = 'support_create_ticket';
+		$controller->Postmark->sendAs = 'text';
+		$controller->Postmark->tag = 'support_create_ticket';
+		$result = $controller->Postmark->send();
+		
+		if (!isset($result['ErrorCode']) || $result['ErrorCode'] != 0) {
+			$controller->major_error('failed to send support_create_ticket reminder email', compact('account_email', 'site_domain', 'first_name', 'last_name'));
+		}
+	}
 }

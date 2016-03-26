@@ -61,7 +61,6 @@ class AccountsController extends AppController {
 	
 	
 	
-	
 	public function  beforeFilter() {
 		if ($this->action == 'clear_billing_cache') {
 			$this->is_mobile = false;
@@ -72,6 +71,21 @@ class AccountsController extends AppController {
 		}
 	}
 	
+	public function admin_fotomatter_support() {
+		$curr_page = 'site_settings';
+		$curr_sub_page = 'fotomatter_support';
+		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+		$account_email = $this->SiteSetting->getVal('account_email');
+		
+		$ticket_created = '';
+		if (!empty($this->data['Support']['issue']) && !empty($this->data['Support']['subject'])) {
+			$this->FotomatterEmail->send_create_support_ticket_email($this, $this->data['Support']['subject'], $this->data['Support']['issue']);
+			$ticket_created = 'Your support ticket was created. We will get back to you as soon as possible via email, but please allow up to 12 hours for a response. Thank You!';
+		}
+
+		$this->set(compact('curr_page', 'curr_sub_page', 'account_email', 'ticket_created'));
+		$this->FeatureLimiter->limit_view($this, 'email_chat_support', 'email_chat_support');
+	}
 	
 	public function clear_billing_cache() {
 		$this->FotomatterBilling->clear_billing_apc();

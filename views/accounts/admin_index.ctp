@@ -7,7 +7,7 @@
 	}
 	
 	function format_numbers() {
-		$(".line_item .cost > span").each(function() {
+		$(".line_item .cost > span, .line_item .feature_on > span > span").each(function() {
 			$(this).html(accounting.formatMoney($(this).html()));
 		});
 		
@@ -288,7 +288,7 @@
 									$help_text = 'data-step="' . $step_count++ . '" data-intro="' . __("Our logo automatically appears at the bottom of the sites we host unless you choose to remove it.", true) . '" data-position="top"';
 									$icon_css = 'icon-noBranding-01';
 									break;
-								case 'email_support':
+								case 'email_chat_support':
 									$icon_css = 'icon-emailSupport-01';
 									break;
 							}
@@ -319,7 +319,7 @@
 							<td>
 								<div class="rightborder"></div>
 								<div class="cost <?php if (!empty($overlord_account_info['is_free_account'])): ?> strike <?php endif; ?> "><?php echo sprintf(__('<span>%s</span> / month', true), $line_item['AccountLineItem']['current_cost']); ?></div>
-								<div class="feature_on"><?php echo __('Active', true); ?></div>
+								<div class="feature_on"><span class="icon-Success-01">&nbsp;</span>&nbsp;<?php echo sprintf(__('<span>(<span>%s</span> / month)</span>', true), $line_item['AccountLineItem']['current_cost']); ?></div>
 								<div class="cancel_pending"><?php echo __('Cancel Pending', true); ?></div>
 							</td>
 							<td class="last table_actions custom_ui">
