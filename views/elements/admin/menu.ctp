@@ -105,7 +105,7 @@
 						</tbody>
 					</table>
 				</li>
-				<?php /*<li class="<?php if ($curr_sub_page == 'fotomatter_support'): ?> selected<?php endif; ?>">
+				<li class="<?php if ($curr_sub_page == 'fotomatter_support'): ?> selected<?php endif; ?>">
 					<div class="subnav_bg"></div>
 					<table>
 						<tbody>
@@ -126,7 +126,7 @@
 							</tr>
 						</tbody>
 					</table>
-				</li>*/ ?>
+				</li>
 				<?php if (!empty($user_data['User']['superadmin'])): ?>
 					<li class="<?php if ($curr_sub_page == 'superadmin'): ?> selected<?php endif; ?>">
 						<div class="subnav_bg"></div>

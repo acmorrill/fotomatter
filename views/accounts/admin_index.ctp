@@ -270,7 +270,7 @@
 							'basic_shopping_cart' => 1,
 							'page_builder' => 1,
 							'remove_fotomatter_branding' => 1,
-//							'email_chat_support' => 1,
+							'email_chat_support' => 1,
 						);
 					?>
 					<?php $count = 1; $step_count = 1; foreach ($overlord_account_info['items'] as $line_item): ?>
