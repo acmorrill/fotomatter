@@ -263,9 +263,22 @@
 		<div class='table_cont'>
 			<table class="list">
 				<tbody>
-					<?php $items_length = count($overlord_account_info['items']); ?>
+					<?php 
+						$items_length = count($overlord_account_info['items']); 
+						$features_that_are_on = array(
+							'unlimited_photos' => 1,
+							'basic_shopping_cart' => 1,
+							'page_builder' => 1,
+							'remove_fotomatter_branding' => 1,
+//							'email_chat_support' => 1,
+						);
+					?>
 					<?php $count = 1; $step_count = 1; foreach ($overlord_account_info['items'] as $line_item): ?>
 						<?php 
+							if (empty($features_that_are_on[$line_item['AccountLineItem']['ref_name']])) {
+								continue;
+							}
+							
 							$icon_css = '';
 							$help_text = '';
 							switch ($line_item['AccountLineItem']['ref_name']) {
