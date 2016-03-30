@@ -264,6 +264,7 @@
 			<table class="list">
 				<tbody>
 					<?php 
+						//$this->Util->preprint($overlord_account_info);
 						$items_length = count($overlord_account_info['items']); 
 						$features_that_are_on = array(
 							'unlimited_photos' => 1,
@@ -332,7 +333,7 @@
 							<td>
 								<div class="rightborder"></div>
 								<div class="cost <?php if (!empty($overlord_account_info['is_free_account'])): ?> strike <?php endif; ?> "><?php echo sprintf(__('<span>%s</span> / month', true), $line_item['AccountLineItem']['current_cost']); ?></div>
-								<div class="feature_on"><span class="icon-Success-01">&nbsp;</span>&nbsp;<?php echo sprintf(__('<span>(<span>%s</span> / month)</span>', true), $line_item['AccountLineItem']['current_cost']); ?></div>
+								<div class="feature_on"><span class="icon-Success-01">&nbsp;</span>&nbsp;<?php echo sprintf(__('<span>(<span>%s</span> / month)</span>', true), $line_item['AccountLineItem']['customer_cost']); ?></div>
 								<div class="cancel_pending"><?php echo __('Cancel Pending', true); ?></div>
 							</td>
 							<td class="last table_actions custom_ui">
