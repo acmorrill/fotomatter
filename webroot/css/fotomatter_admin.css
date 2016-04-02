@@ -6818,6 +6818,14 @@ body.no_overflow {
 #account-details .details .detail.strike .info {
   text-decoration: line-through;
 }
+#account-details .details .detail.update_credit_card {
+  margin-bottom: 0px;
+  text-align: center;
+  margin-top: 25px;
+}
+#account-details .details .detail.update_credit_card .add_button {
+  margin-bottom: 0px;
+}
 #account-details .new_bill {
   display: none;
 }

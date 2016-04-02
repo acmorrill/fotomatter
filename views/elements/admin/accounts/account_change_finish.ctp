@@ -101,6 +101,7 @@
 							<div class='payment_item due_today'>
 								<label><?php echo __('Due Today', true); ?></label>
 								<span class='value'><?php echo $this->Number->currency($bill_today); ?></span>
+								<!-- <?php print_r($bill_today_data); ?> -->
 							</div>
 							<?php if (!empty($bill_today_promo)): ?>
 								<div class='payment_item due_today_promo'>

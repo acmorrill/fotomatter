@@ -288,7 +288,7 @@ function do_features_popup_call(url) {
 function open_add_profile_popup() {
 	do_features_popup_call('/admin/accounts/ajax_update_payment/closeWhenDone:false');
 }
-function open_add_profile_popup_clone_when_done() {
+function open_add_profile_popup_close_when_done() {
 	do_features_popup_call('/admin/accounts/ajax_update_payment/closeWhenDone:true');
 }
 function open_finish_account_change() {

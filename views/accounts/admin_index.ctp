@@ -76,7 +76,7 @@
 
 			var line_item_id = $(this).attr('data_id');
 			jQuery.foto('confirm', {
-				message: '<?php echo __('This feature will remain on your account until the next billing cycle.', true); ?><br /><br /><?php echo __('Are you sure you want to remove this item?'); ?>',
+				message: '<?php echo __('This feature will remain on your account until the next billing cycle.', true); ?><br /><br /><?php echo __('If you add this feature again in the future you could lose your current price if prices change.', true); ?><br /><br /><?php echo __('Are you sure you want to remove this item?'); ?>',
 				onConfirm: function() {
 					inAjaxCall = true;
 					jQuery.ajax({
@@ -229,6 +229,13 @@
 			<div class='detail current_credit <?php if ($overlord_account_info['Account']['promo_credit_balance'] > 0): ?> green <?php endif; ?>'>
 				<span class='title'><?php echo __('Fotomatter Credit', true); ?></span>
 				<span class='info'><?php echo $overlord_account_info['Account']['promo_credit_balance']; ?></span>
+			</div>
+			
+			<div class='detail update_credit_card custom_ui' onclick="open_add_profile_popup_close_when_done()">
+				<div class="add_button">
+					<div class="content"><?php echo __('Update Billing Info', true); ?></div>
+					<div class="right_arrow_lines icon-arrow-01"><div></div></div>
+				</div>
 			</div>
 		</div>
 	</div>
