@@ -116,6 +116,7 @@ class Account extends AppModel {
 
 		
 		$return_data = array();
+		// DREW TODO - START HERE TOMORROW - figure out why customer_cost is not being used
 		$return_data = $controller->element('admin/accounts/account_change_finish', array(
 			'current_bill' => $current_bill,
 			'account_changes' => $account_changes,

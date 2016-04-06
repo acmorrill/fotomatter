@@ -44,6 +44,10 @@
 	$(document).ready(function() {
 		reload_buttons();
 		format_numbers();
+		
+		<?php if (!empty($update_billing)): ?>
+			open_add_profile_popup_close_when_done();
+		<?php endif; ?>
 
 		$("#line_item_cont .line_item .cancel_remove").click(function(e) {
 			e.preventDefault();
@@ -327,7 +331,7 @@
 						?>
 						<tr
 							class="line_item <?php echo $first_last_class; ?> <?php if ($line_item['AccountLineItem']['removed_scheduled']): ?> remove_pending <?php endif; ?> <?php if (!empty($line_item['AccountLineItem']['active'])): ?> active <?php endif; ?> <?php echo ($start_queued == false && $line_item['AccountLineItem']['addable'] || $line_item['AccountLineItem']['removed_scheduled']) ? 'line_not_added' : ''; ?> "
-							data-customer_cost="<?php echo $line_item['AccountLineItem']['current_cost']; ?>" 
+							data-customer_cost="<?php echo empty($line_item['AccountLineItem']['customer_cost']) ? $line_item['AccountLineItem']['current_cost'] : $line_item['AccountLineItem']['customer_cost']; ?>" 
 						>
 							<?php /*<td class="first last" colspan="3">
 								<div class="rightborder"></div>
@@ -339,7 +343,13 @@
 							</td>
 							<td>
 								<div class="rightborder"></div>
-								<div class="cost <?php if (!empty($overlord_account_info['is_free_account'])): ?> strike <?php endif; ?> "><?php echo sprintf(__('<span>%s</span> / month', true), $line_item['AccountLineItem']['current_cost']); ?></div>
+								<div class="cost <?php if (!empty($overlord_account_info['is_free_account'])): ?> strike <?php endif; ?> ">
+									<?php if (!empty($line_item['AccountLineItem']['customer_cost']) && empty($overlord_account_info['is_free_account'])): ?>
+										<?php echo sprintf(__('<span class="strike">%s</span>&nbsp;<span>%s</span> / month', true), $line_item['AccountLineItem']['current_cost'], $line_item['AccountLineItem']['customer_cost']); ?>
+									<?php else: ?>
+										<?php echo sprintf(__('<span>%s</span> / month', true), $line_item['AccountLineItem']['current_cost']); ?>
+									<?php endif; ?>
+								</div>
 								<div class="feature_on"><span class="icon-Success-01">&nbsp;</span>&nbsp;<?php echo sprintf(__('<span>(<span>%s</span> / month)</span>', true), $line_item['AccountLineItem']['customer_cost']); ?></div>
 								<div class="cancel_pending"><?php echo __('Cancel Pending', true); ?></div>
 							</td>

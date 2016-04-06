@@ -6913,7 +6913,8 @@ table.list > tbody > tr > td .cancel_pending {
 table.list > tbody > tr > td .cost {
   display: block;
 }
-table.list > tbody > tr > td .cost.strike {
+table.list > tbody > tr > td .cost.strike,
+table.list > tbody > tr > td .cost span.strike {
   text-decoration: line-through;
 }
 table.list > tbody > tr > td.table_actions {
