@@ -350,7 +350,13 @@
 										<?php echo sprintf(__('<span>%s</span> / month', true), $line_item['AccountLineItem']['current_cost']); ?>
 									<?php endif; ?>
 								</div>
-								<div class="feature_on"><span class="icon-Success-01">&nbsp;</span>&nbsp;<?php echo sprintf(__('<span>(<span>%s</span> / month)</span>', true), $line_item['AccountLineItem']['customer_cost']); ?></div>
+								<div class="feature_on">
+									<?php if (!empty($line_item['AccountLineItem']['customer_cost'])): ?>
+										<span class="icon-Success-01">&nbsp;</span>&nbsp;<?php echo sprintf(__('<span>(<span>%s</span> / month)</span>', true), $line_item['AccountLineItem']['customer_cost']); ?>
+									<?php else: ?>
+										<span class="icon-Success-01">&nbsp;</span>&nbsp;<?php echo sprintf(__('<span>(<span>%s</span> / month)</span>', true), $line_item['AccountLineItem']['current_cost']); ?>
+									<?php endif; ?>
+								</div>
 								<div class="cancel_pending"><?php echo __('Cancel Pending', true); ?></div>
 							</td>
 							<td class="last table_actions custom_ui">
