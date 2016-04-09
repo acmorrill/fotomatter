@@ -201,7 +201,6 @@
 </h1>
 <p><?php echo __('All of fotomatter.net’s features are offered a la carte. Choose the features you need now. You can add or delete features whenever you want. Many more features are currently underway.', true); ?></p>
 <p><?php echo __('When you check out, you will be charged a prorated amount based on your new features.', true); ?></p>
-<p><?php echo __('While we are in Beta, we will give you $10 in fotomatter credit each month so you can try all of our paid features for free! (You will get an email every time credit is added.)', true); ?></p>
 
 <?php //debug($overlord_account_info['Account']['next_bill_date']); ?>
 <div id="account-details" class="<?php if (!empty($add_feature_ref_name)): ?> finish-shown <?php endif; ?> generic_photo_gallery_cont" data-step="5" data-intro="<?php echo __('After you’ve added features, your projected monthly bill will be displayed here. When you check out, you will be charged a prorated amount based on your new features.', true); ?>" data-position="bottom">

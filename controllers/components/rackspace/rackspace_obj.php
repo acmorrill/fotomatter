@@ -66,22 +66,35 @@ class RackspaceObj extends Object {
 		}
 
 		if (preg_match("/^HTTP\//", $response)) {
+			$matches = array();
 			preg_match("/X-Auth-Token: (.*)/", $response, $matches);
-			$this->_access_token = $matches[1];
+			if (!empty($matches[1])) {
+				$this->_access_token = $matches[1];
+			}
 
+			$matches = array();
 			preg_match("/X-Server-Management-Url: (.*)/", $response, $matches);
 			if (!empty($matches[1])) {
 				$this->_apiEndPoint['server'] = $matches[1];
 			}
 
+			$matches = array();
 			preg_match("/X-Storage-Url: (.*)/", $response, $matches);
-			$this->_apiEndPoint['storage'] = $matches[1];
+			if (!empty($matches[1])) {
+				$this->_apiEndPoint['storage'] = $matches[1];
+			}
 
+			$matches = array();
 			preg_match("/X-Storage-Token: (.*)/", $response, $matches);
-			$this->_storage_token = $matches[1];
+			if (!empty($matches[1])) {
+				$this->_storage_token = $matches[1];
+			}
 
+			$matches = array();
 			preg_match("/X-CDN-Management-Url: (.*)/", $response, $matches);
-			$this->_apiEndPoint['cdn'] = $matches[1];
+			if (!empty($matches[1])) {
+				$this->_apiEndPoint['cdn'] = $matches[1];
+			}
 		}
 
 		return true;
