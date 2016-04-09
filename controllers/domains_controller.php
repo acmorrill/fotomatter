@@ -371,7 +371,7 @@ class DomainsController extends AppController {
 
 		$overlord_domain_charge_result = $this->FotomatterDomainManagement->charge_for_domain($domain_to_buy);
 		if ($overlord_domain_charge_result['code'] == -2) {
-			$this->major_error('failed to charge for domain on overlord', compact('inputFromClient'), 'high');
+			$this->major_error('failed to charge for domain on overlord', compact('inputFromClient', 'overlord_domain_charge_result'), 'high');
 			$this->system_domain_fail_generic();
 			exit();
 		} elseif ($overlord_domain_charge_result['code'] == -1) {
