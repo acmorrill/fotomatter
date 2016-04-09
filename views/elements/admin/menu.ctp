@@ -127,6 +127,28 @@
 						</tbody>
 					</table>
 				</li>
+				<li class="<?php if ($curr_sub_page == 'fotomatter_feedback'): ?> selected<?php endif; ?>">
+					<div class="subnav_bg"></div>
+					<table>
+						<tbody>
+							<tr>
+								<td class="first" onclick="">
+									<i class="icon-Success-01"></i>
+								</td>
+								<td class="second">
+									<a href="/admin/accounts/fotomatter_feedback">
+										<div>
+											<p><?php echo __('Send Feedback', true); ?></p>
+										</div>
+									</a>	
+								</td>
+								<td class="third">
+									<span class="circle"></span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</li>
 				<?php if (!empty($user_data['User']['superadmin'])): ?>
 					<li class="<?php if ($curr_sub_page == 'superadmin'): ?> selected<?php endif; ?>">
 						<div class="subnav_bg"></div>

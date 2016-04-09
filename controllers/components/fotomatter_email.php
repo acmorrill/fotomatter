@@ -179,4 +179,29 @@ class FotomatterEmailComponent extends Object {
 			$controller->major_error('failed to send support_create_ticket reminder email', compact('account_email', 'site_domain', 'first_name', 'last_name'));
 		}
 	}
+	
+	
+	public function send_feedback_email(&$controller, $subject, $issue, $url) {
+		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+		$account_email = $this->SiteSetting->getVal('account_email', false);
+		$first_name = $this->SiteSetting->getVal('first_name', '');
+		$last_name = $this->SiteSetting->getVal('last_name', '');
+		$site_domain = $this->SiteSetting->getVal('site_domain', '');
+		
+		$controller->set(compact('account_email', 'site_domain', 'first_name', 'last_name', 'issue', 'url'));
+		
+		$controller->Postmark->delivery = 'postmark';
+		$controller->Postmark->from = $this->from_email;
+		$controller->Postmark->replyTo = $account_email;
+		$controller->Postmark->to = "<support+feedback@fotomatter.net>";
+		$controller->Postmark->subject = "FM Feedback: $subject";
+		$controller->Postmark->template = 'support_feedback';
+		$controller->Postmark->sendAs = 'text';
+		$controller->Postmark->tag = 'support_feedback';
+		$result = $controller->Postmark->send();
+		
+		if (!isset($result['ErrorCode']) || $result['ErrorCode'] != 0) {
+			$controller->major_error('failed to send support_feedback email', compact('account_email', 'site_domain', 'first_name', 'last_name'));
+		}
+	}
 }

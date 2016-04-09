@@ -1,5 +1,5 @@
 <!-- Start of LiveChat (www.livechatinc.com) code -->
-<script type="text/javascript">
+<?php /*<script type="text/javascript">
 window.__lc = window.__lc || {};
 window.__lc.license = 7203911;
 (function() {
@@ -7,7 +7,7 @@ window.__lc.license = 7203911;
   lc.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.livechatinc.com/tracking.js';
   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
 })();
-</script>
+</script>*/ ?>
 <!-- End of LiveChat code -->
 
 <h2><?php echo __('Fotomatter.net Support', true); ?></h2>

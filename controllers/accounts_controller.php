@@ -31,12 +31,29 @@ class AccountsController extends AppController {
 		
 		$ticket_created = '';
 		if (!empty($this->data['Support']['issue']) && !empty($this->data['Support']['subject'])) {
+			$this->FeatureLimiter->limit_function($this, 'email_chat_support');
 			$this->FotomatterEmail->send_create_support_ticket_email($this, $this->data['Support']['subject'], $this->data['Support']['issue']);
 			$ticket_created = 'Your support ticket was created. We will get back to you as soon as possible via email, but please allow up to 12 hours for a response. Thank You!';
 		}
 
 		$this->set(compact('curr_page', 'curr_sub_page', 'account_email', 'ticket_created'));
 		$this->FeatureLimiter->limit_view($this, 'email_chat_support', 'email_chat_support');
+	}
+	
+	
+	public function admin_fotomatter_feedback() {
+		$curr_page = 'site_settings';
+		$curr_sub_page = 'fotomatter_feeback';
+		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+		$account_email = $this->SiteSetting->getVal('account_email');
+		
+		$feedback_created = '';
+		if (!empty($this->data['Feedback']['issue']) && isset($this->data['Feedback']['subject']) && isset($this->data['Feedback']['url'])) {
+			$this->FotomatterEmail->send_feedback_email($this, $this->data['Feedback']['subject'], $this->data['Feedback']['issue'], $this->data['Feedback']['url']);
+			$feedback_created = 'Your feedback has been sent. Thank You!';
+		}
+
+		$this->set(compact('curr_page', 'curr_sub_page', 'account_email', 'feedback_created'));
 	}
 	
 	public function clear_billing_cache() {
