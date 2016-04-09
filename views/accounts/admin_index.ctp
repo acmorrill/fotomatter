@@ -344,7 +344,7 @@
 							<td>
 								<div class="rightborder"></div>
 								<div class="cost <?php if (!empty($overlord_account_info['is_free_account'])): ?> strike <?php endif; ?> ">
-									<?php if (!empty($line_item['AccountLineItem']['customer_cost']) && empty($overlord_account_info['is_free_account'])): ?>
+									<?php if (!empty($line_item['AccountLineItem']['customer_cost']) && $line_item['AccountLineItem']['current_cost'] != $line_item['AccountLineItem']['customer_cost'] && empty($overlord_account_info['is_free_account'])): ?>
 										<?php echo sprintf(__('<span class="strike">%s</span>&nbsp;<span>%s</span> / month', true), $line_item['AccountLineItem']['current_cost'], $line_item['AccountLineItem']['customer_cost']); ?>
 									<?php else: ?>
 										<?php echo sprintf(__('<span>%s</span> / month', true), $line_item['AccountLineItem']['current_cost']); ?>
