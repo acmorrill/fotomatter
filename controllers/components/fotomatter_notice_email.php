@@ -22,6 +22,16 @@ class FotomatterNoticeEmailComponent extends Object {
 		return compact('first_name', 'site_domain');
 	}
 	
+	public function email_04_08_2016_12_30_actually_out_of_beta(&$controller) {
+		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+		$first_name = $this->SiteSetting->getVal('first_name', '');
+		$site_domain = $this->SiteSetting->getVal('site_domain');
+		$controller->Postmark->subject = 'Fotomatter.net Out of BETA!';
+		$controller->set(compact('first_name', 'site_domain'));
+		$controller->Postmark->template = 'notice_emails/actually_going_out_of_beta';
+		return compact('first_name', 'site_domain');
+	}
+	
 	
 	
 	

@@ -4389,17 +4389,6 @@ body {
   width: 100px;
   height: 100px;
 }
-#header .logo #beta_icon {
-  font-family: Code-Pro-Bold-LC;
-  font-weight: normal;
-  font-style: normal;
-  display: inline-block;
-  vertical-align: top;
-  position: absolute;
-  color: #25C1DD;
-  right: 0px;
-  bottom: 27px;
-}
 #header #top-navigation {
   font-family: Code-Pro-LC;
   font-weight: normal;
@@ -7145,9 +7134,6 @@ table.list > tbody > tr.remove_pending td .cost {
   #header .logo {
     left: 13px;
   }
-  #header .logo #beta_icon {
-    bottom: 24px;
-  }
   #header #top-navigation {
     left: 228px;
   }
@@ -7248,12 +7234,6 @@ table.list > tbody > tr.remove_pending td .cost {
     left: initial;
     width: 100%;
     text-align: center;
-  }
-  #main #header .logo #beta_icon {
-    display: none;
-    left: 30%;
-    bottom: 0px;
-    right: initial;
   }
   #main #header .logo td {
     vertical-align: middle;
