@@ -170,9 +170,10 @@ class AuthnetProfile extends CakeAuthnetAppModel {
 		try {
 			//   debug($data_to_save); die();
 			$authnet->updateCustomerPaymentProfileRequest($data_to_save);
+			$parsed_response = $authnet->get_parsed_response();
 			if ($authnet->isError()) {
 				$returnArr['success'] = false;
-				$returnArr['code'] = $authnet->get_code();
+				$returnArr['code'] = $parsed_response['response_code'];
 				$returnArr['message'] = $authnet->get_message();
 				$this->authnet_error("api request failed CIM profile edit", $authnet->get_response());
 				return $returnArr;
@@ -246,11 +247,16 @@ class AuthnetProfile extends CakeAuthnetAppModel {
 		$returnArr = array();
 		try {
 			$authnet->createCustomerProfileRequest($data_to_save);
+			$parsed_response = $authnet->get_parsed_response();
 			if ($authnet->isError()) {
 				$returnArr['success'] = false;
-				$returnArr['code'] = $authnet->get_code();
+				if (isset($parsed_response['response_code'])) {
+					$returnArr['code'] = $parsed_response['response_code'];
+				} else {
+					$returnArr['code'] = 3; // error code
+				}
 				$returnArr['message'] = $authnet->get_message();
-				$this->authnet_error("api request failed CIM profile creation", $authnet->get_response());
+				$this->authnet_error("api request failed CIM profile creation", compact('parsed_response'));
 				return $returnArr;
 			}
 

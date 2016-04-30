@@ -712,6 +712,10 @@ class EcommercesController extends AppController {
 		
 		$logged_in = $this->is_logged_in_frontend();
 		if ($logged_in) {
+			$logged_in_user = $this->Auth->user();
+			 $this->Cart->prepopulate_cart_by_user($logged_in_user);
+		
+			
 			if (!$this->Cart->has_cart_shipping_address_data()) {
 				$this->redirect('/ecommerces/checkout_get_address/');
 			}
@@ -726,10 +730,6 @@ class EcommercesController extends AppController {
 		if ($this->Cart->cart_empty()) {
 			$this->cart_empty_redirect();
 		}
-		
-//		if ($logged_in) { // DREW TODO
-			// get logged in user info to popuplate the cart address data with
-//		}
 		
 		
 		if (!empty($this->data)) {
@@ -782,6 +782,7 @@ class EcommercesController extends AppController {
 		
 		$this->ThemeRenderer->render($this);
 	}
+	
 	
 	public function checkout_finalize_payment() {
 		if ($this->Cart->cart_empty()) {
@@ -935,10 +936,14 @@ class EcommercesController extends AppController {
 				
 
 				$this->AuthnetProfile->create();
-				if (isset($authnet_data['AuthnetProfile']['id'])) {
-					$authnet_result = $this->AuthnetProfile->save_profile($authnet_data);
+				if ($logged_in === false || !empty($authnet_data['AuthnetProfile']['payment_cardNumber'])) { // create or update profile if not logged in or have card to update
+					if (isset($authnet_data['AuthnetProfile']['id'])) {
+						$authnet_result = $this->AuthnetProfile->save_profile($authnet_data);
+					} else {
+						$authnet_result = $this->AuthnetProfile->process_new_profile($authnet_data);
+					}
 				} else {
-					$authnet_result = $this->AuthnetProfile->process_new_profile($authnet_data);
+					$authnet_result['success'] = true;
 				}
 
 				if ($authnet_result === false || (is_array($authnet_result) && isset($authnet_result['success']) && $authnet_result['success'] === false) )  {
@@ -948,16 +953,18 @@ class EcommercesController extends AppController {
 					}
 					
 					
-					if (isset($authnet_result['code']) && $authnet_result['code'] == 'E00027') {
+					if (isset($authnet_result['code']) && $authnet_result['code'] == 2) {
 						$this->Session->setFlash(__('Your credit card was declined.', true), 'admin/flashMessage/error');
 					} else {
-						$this->Session->setFlash(__('Failed to create credit card profile.', true), 'admin/flashMessage/error');
-						$this->major_error('Failed to save credit card info. Please contact Fotomatter support.', compact('authnet_result'), 'low');
+						$this->Session->setFlash(__($authnet_result['message'], true), 'admin/flashMessage/error');
+						$this->major_error('Failed to save credit card info 75.', compact('authnet_result'), 'low');
 					}
 					$this->ThemeRenderer->render($this);
 					return;
 				}
-				$authnet_data['AuthnetProfile']['id'] = $this->AuthnetProfile->id;
+				if (empty($authnet_data['AuthnetProfile']['id']) && property_exists($this->AuthnetProfile, 'id')) {
+					$authnet_data['AuthnetProfile']['id'] = $this->AuthnetProfile->id;
+				}
 
 
 				// actually charge for the order
@@ -984,11 +991,6 @@ class EcommercesController extends AppController {
 				////////////////////////////////////////////////////
 				// everything worked so login the new user
 				$this->Auth->login($new_user);
-				
-				
-				// this means that the purchase was a success so we need to empty the cart now
-				$this->Cart->destroy_cart();
-				$this->redirect('/ecommerces/checkout_thankyou');
 			} else {
 				$authnet_data = array();
 				
@@ -1028,11 +1030,15 @@ class EcommercesController extends AppController {
 					$this->ThemeRenderer->render($this);
 					return;
 				} 
-				
-				// this means that the purchase was a success so we need to empty the cart now
-				$this->Cart->destroy_cart();
-				$this->redirect('/ecommerces/checkout_thankyou');
 			}
+			
+			// checkout was successful
+			$last_order_id = 0;
+			if (property_exists($this->AuthnetOrder, 'id')) {
+				$last_order_id = $this->AuthnetOrder->id;
+			}
+			$shipping_address = $this->Cart->get_cart_shipping_address();
+			$this->after_checkout_successful($last_order_id, $shipping_address);
 		}
 		
 		// setup the data variable based on the cart
@@ -1045,6 +1051,43 @@ class EcommercesController extends AppController {
 		}
 		
 		$this->ThemeRenderer->render($this);
+	}
+	
+	private function after_checkout_successful($last_order_id, $shipping_address) { 
+		$last_order = array();
+		if (!empty($last_order_id)) {
+			$last_order = $this->AuthnetOrder->find('first', array(
+				'conditions' => array(
+					'AuthnetOrder.id' => $last_order_id
+				),
+				'contain' => false
+			));
+		}
+		if (!empty($last_order['AuthnetOrder']['id'])) {
+			$save_order = array();
+			$save_order['AuthnetOrder']['id'] = $last_order['AuthnetOrder']['id'];
+			foreach ($shipping_address as $key => $curr_address_field) {
+				if ($key == 'same_as_billing') { continue; }
+				$save_order['AuthnetOrder']["shipping_$key"] = $curr_address_field;
+			}
+			if (!$this->AuthnetOrder->save($save_order)) {
+				$this->major_error('failed to save address into the last order 1', compact('last_order', 'save_order', 'shipping_address'), 'high');
+			}
+		} else {
+			$this->major_error('failed to save address into the last order 2', compact('last_order_id', 'shipping_address'), 'high');
+		}
+		
+		
+		//////////////////////////////////////////////////////////////////////////////////////////////////////
+		// send email to photographer about order
+		// send email to us so we know an order happened
+		$this->FotomatterEmail->send_new_frontend_order_email($this);
+		$this->FotomatterEmail->send_hooray_email($this, "a user got an order on their frontend site!");
+		
+		
+		// this means that the purchase was a success so we need to empty the cart now
+		$this->Cart->destroy_cart();
+		$this->redirect('/ecommerces/checkout_thankyou');
 	}
 	
 	

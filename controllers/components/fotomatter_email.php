@@ -204,4 +204,54 @@ class FotomatterEmailComponent extends Object {
 			$controller->major_error('failed to send support_feedback email', compact('account_email', 'site_domain', 'first_name', 'last_name'));
 		}
 	}
+	
+	public function send_new_frontend_order_email(&$controller) {
+		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+		$account_email = $this->SiteSetting->getVal('account_email', false);
+		$site_domain = $this->SiteSetting->getVal('site_domain', '');
+		
+		$controller->set(compact('account_email', 'site_domain'));
+		
+		$controller->Postmark->delivery = 'postmark';
+		$controller->Postmark->from = $this->from_email;
+		$controller->Postmark->replyTo = $this->from_email;
+		$controller->Postmark->to = "<$account_email>";
+		$controller->Postmark->subject = "You have a new order from $site_domain.fotomatter.net!";
+		$controller->Postmark->template = 'new_frontend_printorder';
+		$controller->Postmark->sendAs = 'html';
+		$controller->Postmark->tag = 'new_frontend_printorder';
+		$result = $controller->Postmark->send();
+		
+		if (!isset($result['ErrorCode']) || $result['ErrorCode'] != 0) {
+			$controller->major_error('failed to send send_new_frontendorder_email email', compact('account_email', 'site_domain', 'first_name', 'last_name'));
+		}
+	}
+	
+	// acmorrill+fotomatter000055@gmail.com
+	public function send_hooray_email(&$controller, $message, $data = array()) {
+		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+		$account_email = $this->SiteSetting->getVal('account_email', false);
+		$site_domain = $this->SiteSetting->getVal('site_domain', '');
+		
+		$controller->set(compact('account_email', 'site_domain', 'data', 'message'));
+		
+		$controller->Postmark->delivery = 'postmark';
+		$controller->Postmark->from = $this->from_email;
+		$controller->Postmark->replyTo = $this->from_email;
+		$controller->Postmark->to = array(
+			'andrew@fotomatter.net',
+			'kent@fotomatter.net',
+			'jennmorrill@gmail.com',
+			'josh.d.rees@gmail.com',
+		);
+		$controller->Postmark->subject = "Hooray!!!";
+		$controller->Postmark->template = 'app_hooray';
+		$controller->Postmark->sendAs = 'html';
+		$controller->Postmark->tag = 'app_hooray';
+		$result = $controller->Postmark->send();
+		
+		if (!isset($result['ErrorCode']) || $result['ErrorCode'] != 0) {
+			$controller->major_error('failed to send send_new_frontendorder_email email', compact('account_email', 'site_domain', 'first_name', 'last_name'));
+		}
+	}
 }
