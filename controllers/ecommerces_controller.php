@@ -1090,6 +1090,10 @@ class EcommercesController extends AppController {
 		$this->redirect('/ecommerces/checkout_thankyou');
 	}
 	
+	public function destroy_cart() {
+		$this->Cart->destroy_cart;
+	}
+	
 	
 	public function remove_cart_item_by_index($i) {
 		$this->Cart->remove_cart_item_by_index($i);

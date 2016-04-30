@@ -48,6 +48,7 @@ class AppController extends Controller {
 		global $app_env;
 		
 		$this->AccountDomain = ClassRegistry::init('AccountDomain');
+		$this->AccountDomain->set_session($this->Session);
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
 		$site_domain = $this->SiteSetting->getVal('site_domain');
 		$system_url = "$site_domain.fotomatter.net";

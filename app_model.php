@@ -102,6 +102,10 @@ class AppModel extends LazyModel { // a change - even more change
 		return $this->Session;
 	}
 	
+	public function set_session($session) {
+		$this->Session = $session;
+	}
+	
 	
 	public function get_insult() {
 		$insults = array();
