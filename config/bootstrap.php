@@ -147,6 +147,8 @@ if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'd
 		'/ecommerces/add_to_cart' => true,
 		'/ecommerces/update_cart_qty' => true,
 		'/ecommerces/remove_cart_item_by_index' => true,
+		'/ecommerces/checkout_thankyou' => true,
+		'/ecommerces/destroy_cart' => true,
 	);
 	$url_not_in_checkout = false;
 	foreach ($not_checkout_urls as $url => $foo) {

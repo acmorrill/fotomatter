@@ -1092,6 +1092,7 @@ class EcommercesController extends AppController {
 	
 	public function destroy_cart() {
 		$this->Cart->destroy_cart;
+		$this->redirect('/ecommerces/view_cart');
 	}
 	
 	
