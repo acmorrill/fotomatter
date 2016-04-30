@@ -22,7 +22,7 @@ class EcommercesController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 
-		$this->Auth->allow(array('view_cart', 'add_to_cart', 'checkout_login_or_guest', 'checkout_get_address', 'get_available_states_for_country_options', 'checkout_finalize_payment', 'change_fe_password', 'checkout_thankyou', 'check_frontend_cart', 'remove_from_cart', 'remove_cart_item_by_index', 'remove_cart_item_by_key', 'update_cart_qty'));
+		$this->Auth->allow(array('view_cart', 'add_to_cart', 'checkout_login_or_guest', 'checkout_get_address', 'get_available_states_for_country_options', 'checkout_finalize_payment', 'change_fe_password', 'checkout_thankyou', 'check_frontend_cart', 'remove_from_cart', 'remove_cart_item_by_index', 'remove_cart_item_by_key', 'update_cart_qty', 'destroy_cart'));
 
 		
 		/////////////////////////////////////////////
