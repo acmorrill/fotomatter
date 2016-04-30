@@ -472,4 +472,5 @@ class Cart extends AppModel {
 		$this->Session->delete('Cart');
 	}
 	
+	
 }

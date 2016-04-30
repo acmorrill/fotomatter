@@ -1087,11 +1087,12 @@ class EcommercesController extends AppController {
 		
 		// this means that the purchase was a success so we need to empty the cart now
 		$this->Cart->destroy_cart();
-		$this->redirect('/ecommerces/checkout_thankyou');
+		global $current_primary_domain;
+		$this->redirect("http://{$current_primary_domain}/ecommerces/checkout_thankyou");
 	}
 	
 	public function destroy_cart() {
-		$this->Cart->destroy_cart;
+		$this->Cart->destroy_cart();
 		$this->redirect('/ecommerces/view_cart');
 	}
 	
