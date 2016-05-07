@@ -39,12 +39,12 @@ class AppController extends Controller {
 	 */
 	function beforeFilter() {
 		// these vars are all defined in bootstrap (mostly because we need them even in view cache scenarios)
-		global $in_no_redirect_url;
-		global $in_checkout;
+//		global $in_no_redirect_url;
+//		global $in_checkout;
 		global $in_admin;
 		global $http_host;
 		global $current_primary_domain;
-		global $on_welcome_site;
+//		global $on_welcome_site;
 		global $app_env;
 		
 		

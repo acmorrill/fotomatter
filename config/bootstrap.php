@@ -229,11 +229,12 @@ if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'd
 	
 	//////////////////////////////////////////////////////////////////////
 	// redirect to ssl if need be
-		$on_system_site = $http_host === $system_url;
+		$site_domain = get_site_domain();
+		$system_url = "$site_domain.fotomatter.net";
+		$on_system_site = $GLOBALS['http_host'] === $system_url;
 		$need_to_redirect_to_system = $not_on_ssl || !$on_system_site;
 		$redirect_to_system = $can_redirect && $need_to_redirect_to_system && $is_not_dev_or_debug && $redirect_to_ssl;
 		if ($redirect_to_system) {
-			$site_domain = get_site_domain();
 			header("Location: https://$site_domain.fotomatter.net{$_SERVER['REQUEST_URI']}");
 			die();
 		}
