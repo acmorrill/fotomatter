@@ -595,3 +595,9 @@
 #contact_us_container .submit {
   margin-top: 15px;
 }
+#contact_us_container .submit .g-recaptcha {
+  display: inline-block;
+  vertical-align: top;
+  clear: both;
+  margin-bottom: 15px;
+}

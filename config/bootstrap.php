@@ -157,7 +157,7 @@ if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'd
 			break;
 		}
 	}
-	if (startsWith($_SERVER['REQUEST_URI'], '/ecommerces') && $url_not_in_checkout === false) {
+	if ( (startsWith($_SERVER['REQUEST_URI'], '/ecommerces') || startsWith($_SERVER['REQUEST_URI'], '/site_pages/contact_us')) && $url_not_in_checkout === false) {
 		$GLOBALS['in_checkout'] = true;
 	}
 	//-----------------------------------------------

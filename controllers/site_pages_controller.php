@@ -85,6 +85,7 @@ class SitePagesController extends AppController {
 		$this->set(compact('site_page_id', 'site_page'));
 		$this->ThemeRenderer->render($this);
 	}
+	
 	public function send_contact_us_email($site_page_id) {
 		//check input
 		try {
@@ -92,6 +93,36 @@ class SitePagesController extends AppController {
 			$this->Validation->validate('not_empty', $this->data['SitePage'], 'contact_us_email', __('You must provide an email address', true));
 			$this->Validation->validate('valid_email', $this->data['SitePage'], 'contact_us_email', __('Email address invalid', true));
 			$this->Validation->validate('not_empty', $this->data['SitePage'], 'contact_us_content', __('You must provide a message', true));
+			
+			if (!empty($_POST['g-recaptcha-response'])) {
+				$ipaddress = $this->SitePage->get_client_ip_address();
+				$recaptcha_post = array(
+					'secret' => '6Le4SB8TAAAAAMjVtGEBUSFzGQzcp_aKh07S5972',
+					'response' => $_POST['g-recaptcha-response'],
+				);
+				if ($ipaddress != 'UNKNOWN') {
+					$recaptcha_post['remoteip'] = $ipaddress;
+				}
+				
+				$ch = curl_init(); 
+				curl_setopt($ch, CURLOPT_URL, 'https://www.google.com/recaptcha/api/siteverify'); 
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+				curl_setopt($ch, CURLOPT_POST, true); 
+				curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($recaptcha_post));
+				$output = curl_exec($ch);
+				curl_close($ch);
+				
+				if ($output === false) {
+					throw new Exception('Recaptcha value was not correct.');
+				}
+				
+				$output_data = json_decode($output, true);
+				if (empty($output_data['success']) || $output_data['success'] != true) {
+					throw new Exception('Recaptcha value was not correct.');
+				}
+			} else {
+				throw new Exception('Recaptcha value was not correct.');
+			}
 		} catch (Exception $e) {
 			$this->Session->setFlash($e->getMessage(), 'admin/flashMessage/error');
 			$this->redirect("/site_pages/contact_us/$site_page_id");
@@ -111,6 +142,7 @@ class SitePagesController extends AppController {
 		$this->Session->setFlash(__("Email sent", true), 'admin/flashMessage/success');
 		$this->redirect("/site_pages/contact_us/$site_page_id");
 	}
+	
 
 	public function admin_index() {
 		$this->HashUtil->set_new_hash('site_pages');

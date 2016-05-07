@@ -1,3 +1,4 @@
+<script src='https://www.google.com/recaptcha/api.js'></script>
 <div id="contact_us_container">
 	<?php echo $this->Session->flash(); ?>
 	<?php if (!empty($site_page['SitePage']['contact_header'])): ?>
@@ -21,6 +22,8 @@
 			<textarea name="data[SitePage][contact_us_content]" cols="30" rows="6" id="ContactUsContent"></textarea>
 		</div>
 		<div class="submit">
+			<label>&nbsp;</label>
+			<div class="g-recaptcha" data-sitekey="6Le4SB8TAAAAAHOkFfontMvzMZvLntZNd9wPD0_3"></div><br />
 			<label>&nbsp;</label>
 			<div class="frontend_form_submit_button submit_button"><span class="content"><?php echo __('Send', true); ?></span><span class="extra"></span></div>
 		</div>
