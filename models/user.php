@@ -35,7 +35,7 @@ class User extends AppModel {
 				$data['User']['id'] = $exists['User']['id'];
 			}
 		} else {
-			$data['User']['password'] = '';
+			$data['User']['password'] = 'a';
 			$data['User']['facebook'] = $facebook;
 			$exists = $this->find('first', array(
 				'conditions' => array('User.facebook' => $facebook),
@@ -57,7 +57,7 @@ class User extends AppModel {
 		if ($this->save($data)) {
 			return $this->id;
 		} else {
-			$this->major_error('failed to create a user', compact('email_address', 'password', 'is_admin'));
+			$this->major_error('failed to create a user', compact('email_address', 'password', 'is_admin', 'facebook'));
 			return false;
 		}
 	}
