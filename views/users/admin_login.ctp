@@ -39,6 +39,16 @@
 			<div class="hide_submit">
 				<input type="submit" value="login user" />
 			</div>
+			<?php if ($facebook_url): ?>
+			<div class="custom_ui facebook">
+				<a href="<?php echo $facebook_url; ?>">
+				<div class="add_button ">
+					<div class="content"><?php echo __('Sign In With Facebook', true); ?></div>
+					<div class="icon-facebook2"></div>
+				</div>
+				</a>
+			</div>
+			<?php endif; ?>
 		</fieldset>
 	</form>
 

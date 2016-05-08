@@ -72,7 +72,9 @@ class WelcomeController extends AppController {
 			$this->Session->setFlash(__('An error occured during site build. Please contact support.', true), 'admin/flashMessage/error');
 		}
 		
-		
+		$facebook = $this->SiteSetting->getVal('facebook', 0);
+		$this->set(compact('facebook'));
+
 		$industry_types = $this->FotomatterBilling->get_industry_types();
 		$this->set(compact('industry_types'));
 		
@@ -85,10 +87,12 @@ class WelcomeController extends AppController {
 				$this->Validation->validate('not_empty', $this->data, 'last_name', __('You must provide your last name. This is only used for default text on your website.', true));
 				$this->Validation->validate('not_empty', $this->data, 'company_or_tagline', __('You must provide your company or tagline. This is only used for default text on your website.', true));
 				$this->Validation->validate('not_empty', $this->data, 'industry_type_id', __('You must choose your primary focus.', true));
-				$this->Validation->validate('not_empty', $this->data, 'password', __('The password must be at least 8 characters long.', true));
-				$this->Validation->validate('not_empty', $this->data, 'confirm_password', __('The passwords must match.', true));
-				$this->Validation->validate('account_valid_password', $this->data, 'password', __('The password must be at least 8 characters long.', true));
-				$this->Validation->validate('password_match', $this->data['password'], $this->data['confirm_password'], __('The passwords must match.', true));
+				if (!$facebook) {
+					$this->Validation->validate('not_empty', $this->data, 'password', __('The password must be at least 8 characters long.', true));
+					$this->Validation->validate('not_empty', $this->data, 'confirm_password', __('The passwords must match.', true));
+					$this->Validation->validate('account_valid_password', $this->data, 'password', __('The password must be at least 8 characters long.', true));
+					$this->Validation->validate('password_match', $this->data['password'], $this->data['confirm_password'], __('The passwords must match.', true));
+				}
 			} catch (Exception $e) {
 				$this->Session->setFlash($e->getMessage(), 'admin/flashMessage/error', array(), 'auth');
 				return;
@@ -96,7 +100,7 @@ class WelcomeController extends AppController {
 
 
 			$this->User = ClassRegistry::init('User');
-			if (($new_user_id = $this->User->create_user($account_email, $this->data['password'], true)) === false) {
+			if (($new_user_id = $this->User->create_user($account_email, $this->data['password'], true, $facebook)) === false) {
 				// failed to create user
 				$data = $this->data;
 				$this->User->major_error('Failed to create the initial user!', compact('account_email', 'data'), 'high');
