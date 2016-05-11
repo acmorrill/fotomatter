@@ -7,7 +7,7 @@
 	}
 	
 	function format_numbers() {
-		$(".line_item .cost > span").each(function() {
+		$(".line_item .cost > span, .line_item .feature_on > span > span").each(function() {
 			$(this).html(accounting.formatMoney($(this).html()));
 		});
 		
@@ -44,6 +44,10 @@
 	$(document).ready(function() {
 		reload_buttons();
 		format_numbers();
+		
+		<?php if (!empty($update_billing)): ?>
+			open_add_profile_popup_close_when_done();
+		<?php endif; ?>
 
 		$("#line_item_cont .line_item .cancel_remove").click(function(e) {
 			e.preventDefault();
@@ -76,7 +80,7 @@
 
 			var line_item_id = $(this).attr('data_id');
 			jQuery.foto('confirm', {
-				message: '<?php echo __('This feature will remain on your account until the next billing cycle.', true); ?><br /><br /><?php echo __('Are you sure you want to remove this item?'); ?>',
+				message: '<?php echo __('This feature will remain on your account until the next billing cycle.', true); ?><br /><br /><?php echo __('If you add this feature again in the future you could lose your current price if prices change.', true); ?><br /><br /><?php echo __('Are you sure you want to remove this item?'); ?>',
 				onConfirm: function() {
 					inAjaxCall = true;
 					jQuery.ajax({
@@ -197,8 +201,6 @@
 </h1>
 <p><?php echo __('All of fotomatter.net’s features are offered a la carte. Choose the features you need now. You can add or delete features whenever you want. Many more features are currently underway.', true); ?></p>
 <p><?php echo __('When you check out, you will be charged a prorated amount based on your new features.', true); ?></p>
-<p><?php echo __('While we are in Beta, we will give you $10 in fotomatter credit each month so you can try all of our paid features for free! (You will get an email every time credit is added.)', true); ?></p>
-<br />
 
 <?php //debug($overlord_account_info['Account']['next_bill_date']); ?>
 <div id="account-details" class="<?php if (!empty($add_feature_ref_name)): ?> finish-shown <?php endif; ?> generic_photo_gallery_cont" data-step="5" data-intro="<?php echo __('After you’ve added features, your projected monthly bill will be displayed here. When you check out, you will be charged a prorated amount based on your new features.', true); ?>" data-position="bottom">
@@ -230,6 +232,13 @@
 			<div class='detail current_credit <?php if ($overlord_account_info['Account']['promo_credit_balance'] > 0): ?> green <?php endif; ?>'>
 				<span class='title'><?php echo __('Fotomatter Credit', true); ?></span>
 				<span class='info'><?php echo $overlord_account_info['Account']['promo_credit_balance']; ?></span>
+			</div>
+			
+			<div class='detail update_credit_card custom_ui' onclick="open_add_profile_popup_close_when_done()">
+				<div class="add_button">
+					<div class="content"><?php echo __('Update Billing Info', true); ?></div>
+					<div class="right_arrow_lines icon-arrow-01"><div></div></div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -266,9 +275,23 @@
 		<div class='table_cont'>
 			<table class="list">
 				<tbody>
-					<?php $items_length = count($overlord_account_info['items']); ?>
+					<?php 
+						//$this->Util->preprint($overlord_account_info);
+						$items_length = count($overlord_account_info['items']); 
+						$features_that_are_on = array(
+							'unlimited_photos' => 1,
+							'basic_shopping_cart' => 1,
+							'page_builder' => 1,
+							'remove_fotomatter_branding' => 1,
+							'email_chat_support' => 1,
+						);
+					?>
 					<?php $count = 1; $step_count = 1; foreach ($overlord_account_info['items'] as $line_item): ?>
 						<?php 
+							if (empty($features_that_are_on[$line_item['AccountLineItem']['ref_name']])) {
+								continue;
+							}
+							
 							$icon_css = '';
 							$help_text = '';
 							switch ($line_item['AccountLineItem']['ref_name']) {
@@ -299,7 +322,7 @@
 									$help_text = 'data-step="' . $step_count++ . '" data-intro="' . __("Our logo automatically appears at the bottom of the sites we host unless you choose to remove it.", true) . '" data-position="top"';
 									$icon_css = 'icon-noBranding-01';
 									break;
-								case 'email_support':
+								case 'email_chat_support':
 									$icon_css = 'icon-emailSupport-01';
 									break;
 							}
@@ -317,7 +340,7 @@
 						?>
 						<tr
 							class="line_item <?php echo $first_last_class; ?> <?php if ($line_item['AccountLineItem']['removed_scheduled']): ?> remove_pending <?php endif; ?> <?php if (!empty($line_item['AccountLineItem']['active'])): ?> active <?php endif; ?> <?php echo ($start_queued == false && $line_item['AccountLineItem']['addable'] || $line_item['AccountLineItem']['removed_scheduled']) ? 'line_not_added' : ''; ?> "
-							data-customer_cost="<?php echo $line_item['AccountLineItem']['current_cost']; ?>" 
+							data-customer_cost="<?php echo empty($line_item['AccountLineItem']['customer_cost']) ? $line_item['AccountLineItem']['current_cost'] : $line_item['AccountLineItem']['customer_cost']; ?>" 
 						>
 							<?php /*<td class="first last" colspan="3">
 								<div class="rightborder"></div>
@@ -329,8 +352,20 @@
 							</td>
 							<td>
 								<div class="rightborder"></div>
-								<div class="cost <?php if (!empty($overlord_account_info['is_free_account'])): ?> strike <?php endif; ?> "><?php echo sprintf(__('<span>%s</span> / month', true), $line_item['AccountLineItem']['current_cost']); ?></div>
-								<div class="feature_on"><?php echo __('Active', true); ?></div>
+								<div class="cost <?php if (!empty($overlord_account_info['is_free_account'])): ?> strike <?php endif; ?> ">
+									<?php if (!empty($line_item['AccountLineItem']['customer_cost']) && $line_item['AccountLineItem']['current_cost'] != $line_item['AccountLineItem']['customer_cost'] && empty($overlord_account_info['is_free_account'])): ?>
+										<?php echo sprintf(__('<span class="strike">%s</span>&nbsp;<span>%s</span> / month', true), $line_item['AccountLineItem']['current_cost'], $line_item['AccountLineItem']['customer_cost']); ?>
+									<?php else: ?>
+										<?php echo sprintf(__('<span>%s</span> / month', true), $line_item['AccountLineItem']['current_cost']); ?>
+									<?php endif; ?>
+								</div>
+								<div class="feature_on">
+									<?php if (!empty($line_item['AccountLineItem']['customer_cost'])): ?>
+										<span class="icon-Success-01">&nbsp;</span>&nbsp;<?php echo sprintf(__('<span>(<span>%s</span> / month)</span>', true), $line_item['AccountLineItem']['customer_cost']); ?>
+									<?php else: ?>
+										<span class="icon-Success-01">&nbsp;</span>&nbsp;<?php echo sprintf(__('<span>(<span>%s</span> / month)</span>', true), $line_item['AccountLineItem']['current_cost']); ?>
+									<?php endif; ?>
+								</div>
 								<div class="cancel_pending"><?php echo __('Cancel Pending', true); ?></div>
 							</td>
 							<td class="last table_actions custom_ui">

@@ -29,14 +29,16 @@
 						<?php endforeach; ?>
 					</select>
 				</div>
-				<div class="input password">
-					<label for="UserPassword"><?php echo __('Create Password', true); ?></label>
-					<input  autocorrect="off" autocapitalize="off" type="password" name="data[password]" class="text" id="UserPassword">
-				</div>
-				<div class="input password">
-					<label for="ConfirmUserPassword"><?php echo __('Confirm Password', true); ?></label>
-					<input  autocorrect="off" autocapitalize="off" type="password" name="data[confirm_password]" class="text" id="ConfirmUserPassword">
-				</div>
+				<?php if (!$facebook): ?>
+					<div class="input password">
+						<label for="UserPassword"><?php echo __('Create Password', true); ?></label>
+						<input  autocorrect="off" autocapitalize="off" type="password" name="data[password]" class="text" id="UserPassword">
+					</div>
+					<div class="input password">
+						<label for="ConfirmUserPassword"><?php echo __('Confirm Password', true); ?></label>
+						<input  autocorrect="off" autocapitalize="off" type="password" name="data[confirm_password]" class="text" id="ConfirmUserPassword">
+					</div>
+				<?php endif; ?>
 				<div class="submit custom_ui">
 					<div class="add_button javascript_submit">
 						<div class="content"><?php echo __('Continue', true); ?></div>

@@ -9,15 +9,28 @@ class FotomatterNoticeEmailComponent extends Object {
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// ACTUAL NOTICE EMAILS
 	// example format: 
-	//	private function email_MM_DD_YYYY_HH_II_descriptionofemail(&$controller) {}
+	//	public function email_MM_DD_YYYY_HH_II_descriptionofemail(&$controller) {}
+	//	whatever is returned gets logged
 	//--------------------------------------------------------------------------------------------------------------------------------------------
-//	private function email_02_20_2016_19_15_going_out_of_beta_email(&$controller) { // DREW TODO - finish this email
-//		$controller->Postmark->subject = 'This is a test email 2';
-//		$testing_var = 'something cooler 2';
-//		$controller->set(compact('testing_var'));
-//		$controller->Postmark->template = 'test_notice_email';
-//		return compact('testing_var');
-//	}
+	public function email_03_01_2016_12_30_going_out_of_beta_email(&$controller) {
+		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+		$first_name = $this->SiteSetting->getVal('first_name', '');
+		$site_domain = $this->SiteSetting->getVal('site_domain');
+		$controller->Postmark->subject = 'Fotomatter.net Beta Survey!';
+		$controller->set(compact('first_name', 'site_domain'));
+		$controller->Postmark->template = 'notice_emails/going_out_of_beta_survey';
+		return compact('first_name', 'site_domain');
+	}
+	
+	public function email_04_08_2016_12_30_actually_out_of_beta(&$controller) {
+		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+		$first_name = $this->SiteSetting->getVal('first_name', '');
+		$site_domain = $this->SiteSetting->getVal('site_domain');
+		$controller->Postmark->subject = 'Fotomatter.net Out of BETA!';
+		$controller->set(compact('first_name', 'site_domain'));
+		$controller->Postmark->template = 'notice_emails/actually_going_out_of_beta';
+		return compact('first_name', 'site_domain');
+	}
 	
 	
 	
@@ -88,7 +101,6 @@ class FotomatterNoticeEmailComponent extends Object {
 		}
 		
 		$parsed_class_methods_apc_key = 'notice_emails_parsed_class_methods_apc_key';
-		apc_delete($parsed_class_methods_apc_key); // DREW TODO - get rid of this
 		if (apc_exists($parsed_class_methods_apc_key)) {
 			$parsed_class_methods = apc_fetch($parsed_class_methods_apc_key);
 		} else {
@@ -150,7 +162,7 @@ class FotomatterNoticeEmailComponent extends Object {
 	}
 	
 	
-	private function send_actual_email(&$controller, $function) {
+	public function send_actual_email(&$controller, $function) {
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
 		$account_email = $this->SiteSetting->getVal('account_email', false);
 		$controller->Postmark->delivery = 'postmark';
@@ -159,12 +171,13 @@ class FotomatterNoticeEmailComponent extends Object {
 		$controller->Postmark->to = "<$account_email>";
 		$controller->Postmark->sendAs = 'html'; // because we like to send pretty mail
 		$controller->Postmark->tag = $function;
+		$return_values = $this->$function($controller);
 		$result = $controller->Postmark->send();
 		if (!isset($result['ErrorCode']) || $result['ErrorCode'] != 0) {
-			$controller->major_error('failed to send notice email', compact('function'));
+			$controller->major_error('failed to send notice email', compact('function', 'result'));
 			return false;
 		}
-		return $this->$function($controller);
+		return $return_values;
 	}
 	
 }

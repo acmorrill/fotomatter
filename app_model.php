@@ -27,6 +27,27 @@ class AppModel extends LazyModel { // a change - even more change
 		clearCache();
 	}
 	
+	public function get_client_ip_address() {
+		$ipaddress = '';
+		if (isset($_SERVER['HTTP_CLIENT_IP']) && $_SERVER['HTTP_CLIENT_IP'] != '127.0.0.1') {
+			$ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+		} else if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $_SERVER['HTTP_X_FORWARDED_FOR'] != '127.0.0.1') {
+			$ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+		} else if (isset($_SERVER['HTTP_X_FORWARDED']) && $_SERVER['HTTP_X_FORWARDED'] != '127.0.0.1') {
+			$ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+		} else if (isset($_SERVER['HTTP_FORWARDED_FOR']) && $_SERVER['HTTP_FORWARDED_FOR'] != '127.0.0.1') {
+			$ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+		} else if (isset($_SERVER['HTTP_FORWARDED']) && $_SERVER['HTTP_FORWARDED'] != '127.0.0.1') {
+			$ipaddress = $_SERVER['HTTP_FORWARDED'];
+		} else if (isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] != '127.0.0.1') {
+			$ipaddress = $_SERVER['REMOTE_ADDR'];
+		} else {
+			$ipaddress = 'UNKNOWN';
+		}
+		
+		return $ipaddress;
+	}
+	
 	public function recursive_remove_directory($directory, $empty=FALSE) {
 		// if the path has a slash at the end we remove it here
 		if(substr($directory,-1) == '/')
@@ -100,6 +121,10 @@ class AppModel extends LazyModel { // a change - even more change
 		}
 		
 		return $this->Session;
+	}
+	
+	public function set_session($session) {
+		$this->Session = $session;
 	}
 	
 	

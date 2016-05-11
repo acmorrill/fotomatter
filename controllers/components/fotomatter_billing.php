@@ -4,12 +4,14 @@ class FotomatterBillingComponent extends FotomatterOverlordApi {
 	public $account_details_apc_key;
 	public $account_info_apc_key;
 	public $account_payment_profile_apc_key;
+	public $account_survey_apc_key;
     
 	public function __construct() {
 		$this->server_url = 'https://'.Configure::read('OVERLORD_URL');
 		$this->account_details_apc_key =  'account_details_'.$_SERVER['local']['database'];
 		$this->account_info_apc_key =  'account_info_'.$_SERVER['local']['database'];
 		$this->account_payment_profile_apc_key =  'account_payment_profile_'.$_SERVER['local']['database'];
+		$this->account_survey_apc_key = 'account_survey_'.$_SERVER['local']['database'];
 	}
 	
 	
@@ -91,7 +93,18 @@ class FotomatterBillingComponent extends FotomatterOverlordApi {
 		return false;
 	}
 	
-	
+	public function get_survey_info($params = array()) {
+		$result_of_find = $this->send_api_request('api_billing/get_survey_data', $params);
+		if($result_of_find['code']) {
+			apc_store($this->account_survey_apc_key, $result_of_find['payload'], 10800); // 3 hours
+			return $result_of_find['payload'];
+		}
+
+		$this->MajorError = ClassRegistry::init("MajorError");
+		$this->MajorError->major_error('Remote find from overlord returned with error for survey.', compact('params', 'result_of_find'));
+		return false;
+	}
+
 	public function get_current_on_off_features() {
 		$account_info = $this->get_account_info();
 		if ($account_info === false) {

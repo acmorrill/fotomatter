@@ -45,6 +45,24 @@ a * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.o
 require('welcome_db.php');
 
 
+$site_domain = '';
+function get_site_domain() {
+	if (!empty($site_domain)) {
+		return $site_domain;
+	}
+	
+	$local_db = get_local_db_handle(false);
+	
+	// so need to grab the system domain
+	$sql = "
+		SELECT value FROM site_settings
+		WHERE name = 'site_domain'
+	";
+	$result = mysql_query($sql, $local_db);
+	$site_domain = mysql_result($result, 0);
+	return $site_domain;
+}
+
 function get_primary_domain() {
 	// grab the account_id
 	$local_db = get_local_db_handle(false);
@@ -82,13 +100,7 @@ function get_primary_domain() {
 	}
 	
 	if (empty($primary_domain)) {
-		// so need to grab the system domain
-		$sql = "
-			SELECT value FROM site_settings
-			WHERE name = 'site_domain'
-		";
-		$result = mysql_query($sql, $local_db);
-		$site_domain = mysql_result($result, 0);
+		$site_domain = get_site_domain();
 		if (!empty($site_domain)) {
 			$primary_domain = "$site_domain.fotomatter.net";
 		}
@@ -147,6 +159,8 @@ if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'd
 		'/ecommerces/add_to_cart' => true,
 		'/ecommerces/update_cart_qty' => true,
 		'/ecommerces/remove_cart_item_by_index' => true,
+		'/ecommerces/checkout_thankyou' => true,
+		'/ecommerces/destroy_cart' => true,
 	);
 	$url_not_in_checkout = false;
 	foreach ($not_checkout_urls as $url => $foo) {
@@ -155,8 +169,9 @@ if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'd
 			break;
 		}
 	}
-	if (startsWith($_SERVER['REQUEST_URI'], '/ecommerces') && $url_not_in_checkout === false) {
-		$GLOBALS['in_checkout'] = true;
+	$is_in_checkout = startsWith($_SERVER['REQUEST_URI'], '/ecommerces') || startsWith($_SERVER['REQUEST_URI'], '/site_pages/contact_us') || startsWith($_SERVER['REQUEST_URI'], '/site_pages/send_contact_us_email');
+	if ( $is_in_checkout && $url_not_in_checkout === false) {
+		$GLOBALS['in_checkout'] = true; // DREW TODO _ figure out why won't redirect sometimes
 	}
 	//-----------------------------------------------
 
@@ -203,6 +218,26 @@ if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'd
 	}
 	
 	
+	///////////////////////////////////////////////////////////////////////////////
+	// useful redirect vars
+		$redirect_to_ssl = $GLOBALS['in_admin'] || $GLOBALS['in_checkout'];
+		$can_redirect = !$GLOBALS['in_no_redirect_url'] && !$GLOBALS['on_welcome_site'];
+		$not_on_ssl = empty($_SERVER['HTTPS']);
+		$on_ssl = !$not_on_ssl;
+		$is_not_dev_or_debug = Configure::read('debug') == 0 || empty($GLOBALS['app_env']['dev']);
+	
+	
+	//////////////////////////////////////////////////////////////////////
+	// redirect to ssl if need be
+		$site_domain = get_site_domain();
+		$system_url = "$site_domain.fotomatter.net";
+		$on_system_site = $GLOBALS['http_host'] === $system_url;
+		$need_to_redirect_to_system = $not_on_ssl || !$on_system_site;
+		$redirect_to_system = $can_redirect && $need_to_redirect_to_system && $is_not_dev_or_debug && $redirect_to_ssl;
+		if ($redirect_to_system) {
+			header("Location: https://$site_domain.fotomatter.net{$_SERVER['REQUEST_URI']}");
+			die();
+		}
 	
 	//////////////////////////////////////////////////////////////////
 	// check to see if we need to redirect to primary domain
@@ -213,8 +248,9 @@ if (PHP_SAPI !== 'cli' && (!isset($_SERVER['argv']) || $_SERVER['argv'][3] != 'd
 		// 2) not on welcome_site
 		// 3) primary is not expired (if is purchased type domain)
 		// 4) if don't need to redirect to ssl
-		$redirect_to_ssl = $GLOBALS['in_admin'] || $GLOBALS['in_checkout'];
-		$redirect_to_primary_domain = !$GLOBALS['in_no_redirect_url'] && !$GLOBALS['on_welcome_site'] && (Configure::read('debug') == 0 || empty($GLOBALS['app_env']['dev'])) && !$redirect_to_ssl && ($GLOBALS['http_host'] != $GLOBALS['current_primary_domain'] || !empty($_SERVER['HTTPS']));
+		$not_on_primary_domain = $GLOBALS['http_host'] != $GLOBALS['current_primary_domain'];
+		$need_to_redirect_to_primary = $not_on_primary_domain || $on_ssl;
+		$redirect_to_primary_domain = $can_redirect && $is_not_dev_or_debug && !$redirect_to_ssl && $need_to_redirect_to_primary;
 		if ($redirect_to_primary_domain) {
 			header("Location: http://{$GLOBALS['current_primary_domain']}{$_SERVER['REQUEST_URI']}");
 			die();
@@ -329,26 +365,59 @@ Configure::write('SHOW_FAKE_BILLING_DATA', false);
 // path to fonts
 define("GLOBAL_TTF_FONT_PATH", $root_path.DS.APP_DIR.DS.'webroot'.DS.'fonts');
 
-
+$dbs = array();
 function get_local_db_handle($global_db = true) {
 	if ($global_db) {
+		if (!empty($dbs['global_db'])) {
+			return $dbs['global_db'];
+		}
+		
 		$db_data = $_SERVER['global'];
-	} else {
-		$db_data = $_SERVER['local'];
-	}
-	
-	$local_db = mysql_connect($db_data['host'], $db_data['login'], $db_data['password'], true);
-	if (mysql_error($local_db)) {
-		echo ("Cannot connect to local db. Check config, and try again.");
-		return;
-	}
+		$dbs['global_db'] = mysql_connect($db_data['host'], $db_data['login'], $db_data['password'], true);
+		if (mysql_error($dbs['global_db'])) {
+			echo ("Cannot connect to local db. Check config, and try again.");
+			return;
+		}
 
-	mysql_select_db($db_data['database'], $local_db);
-	if (mysql_error($local_db)) {
-		echo ("Cannot select local db. Check config, and try again.");
-		return;
+		mysql_select_db($db_data['database'], $dbs['global_db']);
+		if (mysql_error($dbs['global_db'])) {
+			echo ("Cannot select local db. Check config, and try again.");
+			return;
+		}
+		
+		return $dbs['global_db'];
+	} else {
+		if (!empty($dbs['local_db'])) {
+			return $dbs['local_db'];
+		}
+		
+		$db_data = $_SERVER['local'];
+		$dbs['local_db'] = mysql_connect($db_data['host'], $db_data['login'], $db_data['password'], true);
+		if (mysql_error($dbs['local_db'])) {
+			echo ("Cannot connect to local db. Check config, and try again.");
+			return;
+		}
+
+		mysql_select_db($db_data['database'], $dbs['local_db']);
+		if (mysql_error($dbs['local_db'])) {
+			echo ("Cannot select local db. Check config, and try again.");
+			return;
+		}
+		
+		return $dbs['local_db'];
 	}
-	return $local_db;
+}
+
+function close_db_handle($global_db = true) {
+	if ($global_db) {
+		if (!empty($dbs['global_db'])) {
+			mysql_close($dbs['global_db']);
+		}
+	} else {
+		if (!empty($dbs['local_db'])) {
+			mysql_close($dbs['local_db']);
+		}
+	}
 }
 
 

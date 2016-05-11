@@ -58,12 +58,12 @@
 								<?php __('Turnaround Time'); ?>
 							</div>
 						</th>
-						<th>
+<!--						<th>
 							<div class="content one_line">
 								<div class="direction_arrow"></div>
 								<?php __('Action Items'); ?>
 							</div>
-						</th>
+						</th>-->
 						<th class="last">
 							<div class="content one_line">
 								<div class="direction_arrow"></div>
@@ -107,10 +107,10 @@
 								<div class="rightborder"></div>
 								<span><?php echo $order_item_data['extra_data']['CurrentPrintData']['custom_turnaround']; ?></span>
 							</td>
-							<td>
+<!--							<td>
 								<div class="rightborder"></div>
 								<span>cropping etc</span>
-							</td>
+							</td>-->
 							<td class="last">
 								<div class="rightborder"></div>
 								<span><?php echo $this->Number->currency($this->Cart->get_cart_line_total($order_item_data['quantity'], $order_item_data['unit_cost'])); ?></span>
@@ -159,6 +159,17 @@
 							<?php else: ?>
 								This order was APPROVED
 								<?php // DREW TODO - setup the after approved options (mark shipped etc)  ?>
+							<?php endif; ?>
+								
+							<?php if (!empty($authnet_order['AuthnetOrder']['shipping_address1'])): ?>
+								<br /><br /><h2><?php echo __('Order Details', true); ?></h2>
+								<p>
+									<?php echo $this->Util->get_not_empty_or($authnet_order['AuthnetOrder'], 'shipping_firstname', ''); ?> <?php echo $this->Util->get_not_empty_or($authnet_order['AuthnetOrder'], 'shipping_lastname', ''); ?><br />
+									<?php echo $this->Util->get_not_empty_or($authnet_order['AuthnetOrder'], 'shipping_address1', ''); ?><br />
+									<?php echo !empty($authnet_order['AuthnetOrder']['shipping_address2']) ? $authnet_order['AuthnetOrder']['shipping_address2'] . "<br />" : '';  ?>
+									<?php echo $this->Util->get_not_empty_or($authnet_order['AuthnetOrder'], 'shipping_city', ''); ?> <?php echo $this->Util->get_not_empty_or($authnet_order['AuthnetOrder'], 'shipping_state_name', ''); ?>, <?php echo $this->Util->get_not_empty_or($authnet_order['AuthnetOrder'], 'shipping_zip', ''); ?><br />
+									<?php echo $this->Util->get_not_empty_or($authnet_order['AuthnetOrder'], 'shipping_country_name', ''); ?><br />
+								</p>
 							<?php endif; ?>
 						</td>
 						<td colspan="5" style="text-align: right;">

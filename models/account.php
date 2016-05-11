@@ -124,6 +124,7 @@ class Account extends AppModel {
 			'bill_today_promo' => $bill_today_data['promo_total'], // the amount of promo being used
 			'total' => $bill_today_data['total'], // the actual total you have to pay
 			'payment_profile' => $payment_profile,
+			'bill_today_data' => $bill_today_data
 		));
 		return $return_data;
 	}

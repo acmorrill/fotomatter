@@ -13,55 +13,6 @@ class AccountsController extends AppController {
 	);
 	
 	
-//	public function admin_decide_photo_trip() {
-//		$rating_schema = array(
-//			'newness' => .8, // how cool it would be to see something new
-//			'uniqueness' => .8, // how unique the places is (so can get unique pictures)
-//			'sellable' => .8, // how easily it will be to sell pictures from the location
-//			'opportunity' => .9, // how easy will it be to get new pictures quickly
-//			'cost' => .3, // cost of the trip
-//			'efficiency' => .4, // if I can do multiple spots on the same trip
-//			'planning' => .3, // how much pre trip work it could take
-//			'feeling' => .7, // just my gut feeling
-//		);
-//		$rating_schema_keys = array_keys($rating_schema);
-//		
-//		
-//		$places = array(
-//			'antelope_canyon' => array(7, 5, 9, 4, 4, 7, 4, 6),
-//			'the_wave' => array(7, 6, 9, 7, 4, 7, 3, 7),
-//			'monument_valley' => array(7, 5, 7, 5, 5, 8, 6, 6),
-//			'green_river_area' => array(5, 5, 5, 4, 8, 8, 9, 5),
-//			'remote_slot_canyons' => array(9, 8, 7, 8, 6, 6, 4, 8),
-//			'robbers_roost_area' => array(9, 9, 6, 5, 8, 7, 7, 7),
-//			'buckskin_gulch' => array(9, 9, 7, 7, 5, 7, 7, 4),
-//			'coyote_gulch' => array(4, 8, 8, 5, 7, 8, 9, 7),
-//			'moab_area' => array(4, 8, 8, 8, 7, 8, 9, 7),
-//		);
-//		
-//		
-//		
-//		$results = array();
-//		foreach ($places as $place_name => $place_ratings) {
-//			$results[$place_name] = 0;
-//			$count = 0; 
-//			foreach ($place_ratings as $place_rating) {
-//				$rating_schema_value = $rating_schema[$rating_schema_keys[$count]];
-//				$results[$place_name] += $place_rating * $rating_schema_value;
-//				
-//				$count++;
-//			}
-//		}
-//		
-//		arsort($results);
-//		
-//		print("<pre>" . print_r($results, true) . "</pre>");
-//		die();
-//	}
-	
-	
-	
-	
 	public function  beforeFilter() {
 		if ($this->action == 'clear_billing_cache') {
 			$this->is_mobile = false;
@@ -72,6 +23,38 @@ class AccountsController extends AppController {
 		}
 	}
 	
+	public function admin_fotomatter_support() {
+		$curr_page = 'site_settings';
+		$curr_sub_page = 'fotomatter_support';
+		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+		$account_email = $this->SiteSetting->getVal('account_email');
+		
+		$ticket_created = '';
+		if (!empty($this->data['Support']['issue']) && !empty($this->data['Support']['subject'])) {
+			$this->FeatureLimiter->limit_function($this, 'email_chat_support');
+			$this->FotomatterEmail->send_create_support_ticket_email($this, $this->data['Support']['subject'], $this->data['Support']['issue']);
+			$ticket_created = 'Your support ticket was created. We will get back to you as soon as possible via email, but please allow up to 12 hours for a response. Thank You!';
+		}
+
+		$this->set(compact('curr_page', 'curr_sub_page', 'account_email', 'ticket_created'));
+		$this->FeatureLimiter->limit_view($this, 'email_chat_support', 'email_chat_support');
+	}
+	
+	
+	public function admin_fotomatter_feedback() {
+		$curr_page = 'site_settings';
+		$curr_sub_page = 'fotomatter_feeback';
+		$this->SiteSetting = ClassRegistry::init('SiteSetting');
+		$account_email = $this->SiteSetting->getVal('account_email');
+		
+		$feedback_created = '';
+		if (!empty($this->data['Feedback']['issue']) && isset($this->data['Feedback']['subject']) && isset($this->data['Feedback']['url'])) {
+			$this->FotomatterEmail->send_feedback_email($this, $this->data['Feedback']['subject'], $this->data['Feedback']['issue'], $this->data['Feedback']['url']);
+			$feedback_created = 'Your feedback has been sent. Thank You!';
+		}
+
+		$this->set(compact('curr_page', 'curr_sub_page', 'account_email', 'feedback_created'));
+	}
 	
 	public function clear_billing_cache() {
 		$this->FotomatterBilling->clear_billing_apc();
@@ -107,6 +90,11 @@ class AccountsController extends AppController {
 	* action for the page to add/remove line items. 
 	*/
 	public function admin_index($add_feature_ref_name = null) {
+		$update_billing = false;
+		if (!empty($_GET['update_billing'])) {
+			$update_billing = true;
+		}
+		
 		$this->FotomatterBilling->clear_billing_apc();
 		$overlord_account_info = $this->FotomatterBilling->get_account_info();
 		
@@ -129,7 +117,7 @@ class AccountsController extends AppController {
 		}
 		
 		$curr_page = 'add_features';
-		$this->set(compact(array('overlord_account_info', 'add_feature_ref_name', 'add_feature_ref_name_popup_html', 'curr_page')));
+		$this->set(compact(array('overlord_account_info', 'add_feature_ref_name', 'add_feature_ref_name_popup_html', 'curr_page', 'update_billing')));
 		
 		$this->layout = 'admin/manage_features';
 		$this->render('/accounts/admin_index'); // required to overcome the element calls in finish_line_changes

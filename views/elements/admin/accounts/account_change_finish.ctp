@@ -49,7 +49,13 @@
 			<?php $amount_to_add = 0; ?>
 			<?php //debug($account_info['is_free_account']); ?>
 			<?php foreach ($account_changes['checked'] as $id => $change): ?>
-				<?php $amount_to_add += $account_info['items'][$id]['AccountLineItem']['current_cost']; ?>
+				<?php 
+					if (!empty($account_info['items'][$id]['AccountLineItem']['customer_cost'])) {
+						$amount_to_add += $account_info['items'][$id]['AccountLineItem']['customer_cost'];
+					} else {
+						$amount_to_add += $account_info['items'][$id]['AccountLineItem']['current_cost'];
+					}
+				?>
 				<tr>
 					<td class="first">
 						<div class="rightborder"></div>
@@ -57,7 +63,11 @@
 					</td>
 					<td class="last table_actions">
 						<div class="rightborder"></div>
-						<span><?php echo $this->Number->currency($account_info['items'][$id]['AccountLineItem']['current_cost']); ?></span>
+						<?php if (!empty($account_info['items'][$id]['AccountLineItem']['customer_cost'])): ?>
+							<span><?php echo $this->Number->currency($account_info['items'][$id]['AccountLineItem']['customer_cost']); ?></span>
+						<?php else: ?>
+							<span><?php echo $this->Number->currency($account_info['items'][$id]['AccountLineItem']['current_cost']); ?></span>
+						<?php endif; ?>
 					</td>
 				</tr>
 			<?php endforeach; ?>
@@ -101,6 +111,7 @@
 							<div class='payment_item due_today'>
 								<label><?php echo __('Due Today', true); ?></label>
 								<span class='value'><?php echo $this->Number->currency($bill_today); ?></span>
+								<!-- <?php print_r($bill_today_data); ?> -->
 							</div>
 							<?php if (!empty($bill_today_promo)): ?>
 								<div class='payment_item due_today_promo'>

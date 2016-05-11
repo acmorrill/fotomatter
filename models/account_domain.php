@@ -20,7 +20,7 @@ class AccountDomain extends AppModel {
 			),
 			'contain' => false,
 		));
-
+		
 		return $this->set_as_primary($system_domain['AccountDomain']['id']);
 	}
 	
@@ -43,8 +43,7 @@ class AccountDomain extends AppModel {
 			$this->major_error('Failed remove all domains primary', compact('new_primary_domain', 'primary_domain_id'));
 			return false;
 		}
-
-
+		
 
 		$new_primary_domain['AccountDomain']['is_primary'] = 1;
 		$this->create();
@@ -114,6 +113,13 @@ class AccountDomain extends AppModel {
 	
 	public function beforeSave($options = array()) {
 		parent::beforeSave($options);
+		apc_delete($this->primary_domain_apc_key);
+		
+		return true;
+	}
+	
+	public function beforeDelete() {
+		parent::beforeDelete();
 		apc_delete($this->primary_domain_apc_key);
 		
 		return true;

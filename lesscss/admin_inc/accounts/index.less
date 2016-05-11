@@ -64,6 +64,14 @@
 					text-decoration: line-through;
 				}
 			}
+			&.update_credit_card {
+				margin-bottom: 0px; 
+				text-align: center;
+				margin-top: 25px;
+				.add_button {
+					margin-bottom: 0px;
+				}
+			}
 		}
 	}
 	.new_bill {
@@ -178,7 +186,7 @@ table.list {
 				.cancel_pending { display: none; }
 				.cost { 
 					display: block; 
-					&.strike { text-decoration: line-through; }
+					&.strike, span.strike { text-decoration: line-through; }
 				}
 				&.table_actions {
 					width: 300px;
@@ -188,7 +196,19 @@ table.list {
 				td {
 					background-color: @table_hover;
 					&, div { color: @top_white; }
-					.feature_on { display: block; }
+					.feature_on { 
+						display: block;
+						> span {
+							display: inline-block;
+							vertical-align: top;
+							color: @top_white_high;
+						}
+						span.icon-Success-01 {
+							color: @tab2_on_color;
+							font-size: 20px;
+							margin-top: -3px;
+						}
+					}
 					.feature_pending { display: none; }
 					.cancel_pending { display: none; }
 					.cost { display: none; }

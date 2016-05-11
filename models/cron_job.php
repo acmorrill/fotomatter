@@ -68,6 +68,7 @@ class CronJob extends AppModel {
 				$function_args = func_get_args();
 				$function_args[0] = &$this->AccountsController;
 				call_user_func_array(array($this->AccountsController->$class_name, $method_name), $function_args);
+				break;
 		}
 
 		return true;

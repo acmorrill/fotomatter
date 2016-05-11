@@ -39,15 +39,17 @@ class AppController extends Controller {
 	 */
 	function beforeFilter() {
 		// these vars are all defined in bootstrap (mostly because we need them even in view cache scenarios)
-		global $in_no_redirect_url;
-		global $in_checkout;
+//		global $in_no_redirect_url;
+//		global $in_checkout;
 		global $in_admin;
 		global $http_host;
 		global $current_primary_domain;
-		global $on_welcome_site;
+//		global $on_welcome_site;
 		global $app_env;
 		
+		
 		$this->AccountDomain = ClassRegistry::init('AccountDomain');
+		$this->AccountDomain->set_session($this->Session);
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
 		$site_domain = $this->SiteSetting->getVal('site_domain');
 		$system_url = "$site_domain.fotomatter.net";
@@ -120,17 +122,6 @@ class AppController extends Controller {
 		
 		
 		
-		//////////////////////////////////////////////////////////////////////
-		// redirect to ssl if need be
-		$on_system_site = $http_host === $system_url;
-		$redirect_to_ssl = $in_admin || $in_checkout;
-		if (!$on_welcome_site && !$in_no_redirect_url && (empty($_SERVER['HTTPS']) || !$on_system_site) && (Configure::read('debug') == 0 || empty($this->app_env['dev'])) && $redirect_to_ssl) {
-			$this->redirect("https://$site_domain.fotomatter.net{$_SERVER['REQUEST_URI']}");
-			exit();
-		}
-		
-		
-		
 		//////////////////////////////////////////////////////////////////////////
 		$this->set('current_primary_domain', $current_primary_domain);
 		
@@ -172,12 +163,12 @@ class AppController extends Controller {
 
 
 		// DREW TODO - for testing only!
-		if (Configure::read('debug') > 0 && !$this->Session->check('Message.flash') && rand(1, 100) == 5 ) {
-			$this->Session->setFlash(
-				'If you do not see this on a page that page is not outputting any flash messages and there also is no flash message to display. For testing only.', 
-				'admin/flashMessage/success'
-			);
-		}
+//		if (Configure::read('debug') > 0 && !$this->Session->check('Message.flash') && rand(1, 100) == 5 ) {
+//			$this->Session->setFlash(
+//				'If you do not see this on a page that page is not outputting any flash messages and there also is no flash message to display. For testing only.', 
+//				'admin/flashMessage/success'
+//			);
+//		}
 
 
 		

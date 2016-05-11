@@ -2909,7 +2909,7 @@ table.list {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0px;
-  margin-bottom: 200px;
+  margin-bottom: 40px;
 }
 table.list,
 table.list div,
@@ -4411,17 +4411,6 @@ body {
   display: none;
   width: 100px;
   height: 100px;
-}
-#header .logo #beta_icon {
-  font-family: Code-Pro-Bold-LC;
-  font-weight: normal;
-  font-style: normal;
-  display: inline-block;
-  vertical-align: top;
-  position: absolute;
-  color: #25C1DD;
-  right: 0px;
-  bottom: 27px;
 }
 #header #top-navigation {
   font-family: Code-Pro-LC;
@@ -6841,6 +6830,14 @@ body.no_overflow {
 #account-details .details .detail.strike .info {
   text-decoration: line-through;
 }
+#account-details .details .detail.update_credit_card {
+  margin-bottom: 0px;
+  text-align: center;
+  margin-top: 25px;
+}
+#account-details .details .detail.update_credit_card .add_button {
+  margin-bottom: 0px;
+}
 #account-details .new_bill {
   display: none;
 }
@@ -6928,7 +6925,8 @@ table.list > tbody > tr > td .cancel_pending {
 table.list > tbody > tr > td .cost {
   display: block;
 }
-table.list > tbody > tr > td .cost.strike {
+table.list > tbody > tr > td .cost.strike,
+table.list > tbody > tr > td .cost span.strike {
   text-decoration: line-through;
 }
 table.list > tbody > tr > td.table_actions {
@@ -6943,6 +6941,16 @@ table.list > tbody > tr.active td div {
 }
 table.list > tbody > tr.active td .feature_on {
   display: block;
+}
+table.list > tbody > tr.active td .feature_on > span {
+  display: inline-block;
+  vertical-align: top;
+  color: rgba(244,249,245,0.65);
+}
+table.list > tbody > tr.active td .feature_on span.icon-Success-01 {
+  color: #2ac0de;
+  font-size: 20px;
+  margin-top: -3px;
 }
 table.list > tbody > tr.active td .feature_pending {
   display: none;
@@ -7149,9 +7157,6 @@ table.list > tbody > tr.remove_pending td .cost {
   #header .logo {
     left: 13px;
   }
-  #header .logo #beta_icon {
-    bottom: 24px;
-  }
   #header #top-navigation {
     left: 228px;
   }
@@ -7252,12 +7257,6 @@ table.list > tbody > tr.remove_pending td .cost {
     left: initial;
     width: 100%;
     text-align: center;
-  }
-  #main #header .logo #beta_icon {
-    display: none;
-    left: 30%;
-    bottom: 0px;
-    right: initial;
   }
   #main #header .logo td {
     vertical-align: middle;

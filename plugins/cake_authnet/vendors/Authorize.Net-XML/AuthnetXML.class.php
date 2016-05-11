@@ -265,10 +265,8 @@ class AuthnetXML {
 		return $result;
 	}
 
-	public function get_parsed_response() {
-		$direct_response = (string) $this->get_response()->directResponse;
-		$direct_response_values = explode(',', $direct_response);
-
+	public function parse_direct_data($direct_data_string) {
+		$direct_response_values = explode(',', $direct_data_string);
 		$result = array();
 		$result['full_response_string'] = print_r($direct_response_values, true);
 		// response code
@@ -329,8 +327,43 @@ class AuthnetXML {
 		$result['last_four'] = $direct_response_values[50];
 		$result['card_type'] = $direct_response_values[51];
 
-
 		return $result;
+	}
+	
+	
+	public function get_parsed_response() {
+		$raw_response = $this->get_raw_response();
+		$parsed_response = array();
+		
+		
+		// for createCustomerProfileRequest 
+		$matches = array();
+		preg_match('/<validationDirectResponseList>[\S\s]*<string>([\S\s]*)<\/string>[\S\s]*<\/validation/', $raw_response, $matches);
+		if (!empty($matches[1])) {
+			$parsed_response = $this->parse_direct_data($matches[1]);
+		}
+		
+		// for updateCustomerPaymentProfileRequest
+		if (empty($parsed_response)) {
+			$matches = array();
+			preg_match('/<validationDirectResponse>([\S\s]*)<\/validation/', $raw_response, $matches);
+			if (!empty($matches[1])) {
+				$parsed_response = $this->parse_direct_data($matches[1]);
+			}
+		}
+		
+		
+		// createCustomerProfileTransactionRequest
+		if (empty($parsed_response)) {
+			$matches = array();
+			preg_match('/<directResponse>([\S\s]*)<\/direct/', $raw_response, $matches);
+			if (!empty($matches[1])) {
+				$parsed_response = $this->parse_direct_data($matches[1]);
+			}
+		}
+		
+		
+		return $parsed_response;
 	}
 
 }

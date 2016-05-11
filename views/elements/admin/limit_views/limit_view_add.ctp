@@ -1,3 +1,7 @@
+<?php 
+//	print_r("<pre>" . print_r($current_feature_prices, true) . "</pre>"); 
+//	print_r("<pre>" . print_r($feature_ref_name, true) . "</pre>"); 
+?>
 <div class="buy_now_box">
 	<div class="page_content_header">
 		<h2><?php echo $feature_name; ?> is available month to month. Use it when you need it.</h2>

@@ -8,7 +8,7 @@
 
 
 <div class="logo">
-	<span id="beta_icon">BETA</span>
+	<?php /*<span id="beta_icon">BETA</span>*/ ?>
 	<table>
 		<tbody>
 			<tr>

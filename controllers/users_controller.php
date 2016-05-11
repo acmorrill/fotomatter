@@ -8,12 +8,69 @@ class UsersController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow(array('request_admin_password_change', 'change_admin_password'));
+		$this->Auth->allow(array('fb_callback', 'request_admin_password_change', 'change_admin_password'));
+		require_once(ROOT.'/app/vendors/facebook-php-sdk-v4-5.0.0/src/Facebook/autoload.php');
+	}
+
+	public function fb_callback() {
+		$fb = new Facebook\Facebook([
+			'app_id' => '360914430736815',
+			'app_secret' => 'de3419a89b4423f82f690e5909876928',
+			'default_graph_version' => 'v2.5',
+		]);
+		$helper = $fb->getRedirectLoginHelper();
+		try {
+			$accessToken = $helper->getAccessToken();
+		} catch(Facebook\Exceptions\FacebookResponseException $e) {
+			// When Graph returns an error
+			$this->User->major_error('Graph returned an error', array($e->getMessage()));
+			$this->Session->setFlash(__('An error occured with the Facebook login.', true), 'admin/flashMessage/warning', array(), 'auth');
+			$this->redirect('/admin/users/login');
+			return;
+		} catch(Facebook\Exceptions\FacebookSDKException $e) {
+			// When validation fails or other local issues
+			$this->User->major_error('Facebook SDK returned an error', array($e->getMessage()));
+			$this->Session->setFlash(__('An error occured with the Facebook login.', true), 'admin/flashMessage/warning', array(), 'auth');
+			$this->redirect('/admin/users/login');
+			return;
+		}
+		if (!isset($accessToken)) {
+			if ($helper->getError()) {
+				$this->User->major_error('Facebook returned an error', array($helper->getError(),$helper->getErrorCode(),$helper->getErrorReason(),$helper->getErrorDescription()));
+			} else {
+				$this->User->major_error('Facebook returned an error', array('accessToken not set for unkown reason'));
+			}
+			$this->Session->setFlash(__('An error occured with the Facebook login.', true), 'admin/flashMessage/warning', array(), 'auth');
+			$this->redirect('/admin/users/login');
+			return;
+		}
+		$oAuth2Client = $fb->getOAuth2Client();
+
+		// Get the access token metadata from /debug_token
+		$tokenMetadata = $oAuth2Client->debugToken($accessToken);
+		$tokenMetadata->validateAppId('360914430736815');
+
+		$user = $this->User->find('first', array(
+			'conditions' => array(
+				'User.facebook' => $tokenMetadata->getField('user_id'),
+				'User.admin' => true,
+				'User.active' => true,
+			),
+			'contains' => false,
+		));
+		if (isset($user['User']['id'])) {
+			$this->Auth->login($user['User']['id']);
+			$this->redirect('/admin/theme_centers/choose_theme');
+		} else {
+			$this->Session->setFlash(__('No user is connected to that Facebook account.', true), 'admin/flashMessage/warning', array(), 'auth');
+			$this->redirect('/admin/users/login');
+		}
 	}
 
 	function admin_login() {
 		$email = '';
-		
+		$facebook_url = $this->User->fb_login_url();
+
 		if (isset($_GET['email'])) {
 			$email = $_GET['email'];
 		}
@@ -21,8 +78,8 @@ class UsersController extends AppController {
 		if (!empty($this->data['User']['email_address'])) {
 			$email = $this->data['User']['email_address'];
 		}
-		
-		$this->set(compact('email'));
+
+		$this->set(compact('email', 'facebook_url'));
 	}
 
 	function request_admin_password_change() {

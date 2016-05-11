@@ -161,4 +161,8 @@ class UtilHelper extends AppHelper {
 		
 		return $exists;
 	}
+	
+	public function preprint($data) {
+		print_r("<pre>" . print_r($data, true) . "</pre>");
+	}
 }

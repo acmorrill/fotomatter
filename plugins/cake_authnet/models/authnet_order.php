@@ -742,10 +742,11 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		$authnet->createTransactionRequest($charge_data);
 		$one_time_response = $authnet->get_one_time_parsed_response();
 		
-		if ($authnet->isError()) {
+		
+		if ($authnet->isError()) { // note - declined is also checked down below
 			$return_arr['code'] = $authnet->messages->message->code[0];
 			$error_response = $authnet->get_response();
-			if ($authnet->messages->message->code[0] == 'I00002') {
+			if (isset($one_time_response['response_code']) && $one_time_response['response_code'] == 2) { // note - declined is also checked down below
 				$return_arr['declined'] = true;
 			} else {
 				$this->major_error('Authorize.net one time charge failed', compact('charge_data', 'return_arr', 'error_response'), 'high');
@@ -827,7 +828,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			//		[test_request] => 0
 			//		[account_number] => XXXX3135
 			//		[account_type] => Visa
-			$order_save_db['AuthnetOrder']['full_response'] = print_r($one_time_response, true);
+			$order_save_db['AuthnetOrder']['full_parsed_response'] = print_r($one_time_response, true);
 			if (isset($one_time_response['transaction_id'])) {
 				$order_save_db['AuthnetOrder']['transaction_id'] = $one_time_response['transaction_id'];
 			}
@@ -916,7 +917,8 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			),
 			'contain' => false,
 		));
-
+		
+		
 		if (empty($profile)) {
 			// DREW TODO - put in major error here
 			return false;
@@ -1045,12 +1047,15 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			if ($createCIMProfile === true) {
 				$authnet = $this->get_authnet_instance();
 				$authnet->createCustomerProfileTransactionRequest($data_to_send);
+				$full_parsed_result = $authnet->get_parsed_response();
 				if ($authnet->isError()) { // this will fire on declined also
-					$parsed_result = $authnet->get_response();
-					$this->authnet_error("Authorize CIM create failed", compact('parsed_result'));
+					$this->authnet_error("Authorize CIM create failed", compact('full_parsed_result'));
 					return false;
 				}
-				$full_parsed_result = $authnet->get_parsed_response();
+				if (isset($full_parsed_result['response_code']) && $full_parsed_result['response_code'] != 1) {
+					$this->authnet_error("Authorize CIM create failed", compact('full_parsed_result'));
+					return false;
+				}
 			}
 			
 			
@@ -1081,7 +1086,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			//		[test_request] => 0
 			//		[account_number] => XXXX3135
 			//		[account_type] => Visa
-			$order_save_db['AuthnetOrder']['full_response'] = isset($full_parsed_result) ? print_r($full_parsed_result, true) : '';
+			$order_save_db['AuthnetOrder']['full_parsed_response'] = isset($full_parsed_result) ? print_r($full_parsed_result, true) : '';
 			$order_save_db['AuthnetOrder']['transaction_id'] = isset($full_parsed_result['transaction_id']) ? $full_parsed_result['transaction_id'] : 0;
 			if (isset($one_time_data['transaction_id'])) {
 				$order_save_db['AuthnetOrder']['transaction_id'] = $one_time_data['transaction_id'];
@@ -1104,8 +1109,9 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 				$this->authnet_error('Could not save order', compact('order_save_db'));
 				return false;
 			}
+			
+			
 			$this->AuthnetLineItem = ClassRegistry::init("AuthnetLineItem");
-
 			foreach ($order['line_items'] as $item) {
 				$item_save['AuthnetLineItem']['unit_cost'] = $item['unit_cost'];
 				$item_save['AuthnetLineItem']['name'] = $item['name'];

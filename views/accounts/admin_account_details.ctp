@@ -2,7 +2,7 @@
     $(document).ready(function() {
 		inAjaxCall = false;
 		$("#edit-billing").click(function() {
-			open_add_profile_popup_clone_when_done();
+			open_add_profile_popup_close_when_done();
 		});
     });
 </script>
@@ -76,7 +76,7 @@
 		</div>
 		<?php if (empty($accountDetails['AuthnetProfile']) == false && $accountDetails['Account']['next_bill_date'] != null): ?>
 			<div id='edit-billing' class="submit save_button add_button">
-				<div class="content"><?php echo __('Edit Billing Details', true); ?></div>
+				<div class="content"><?php echo __('Update Billing Info', true); ?></div>
 				<div class="right_arrow_lines icon-arrow-01"><div></div></div>
 			</div>
 		<?php endif; ?>
