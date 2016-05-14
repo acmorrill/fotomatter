@@ -3,6 +3,7 @@
 		"vendor-dir": "vendors"
 	},
 	"require": {
-		"paypal/sdk-core-php": "2.4.*"
+		"paypal/sdk-core-php": "2.4.*",
+        "gabrielbull/ups-api": "^0.7.6"
 	}
 }

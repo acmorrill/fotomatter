@@ -21,14 +21,17 @@ class PhotoPrintType extends AppModel {
 	
 	public function combine_autofulfillment_print_list($print_fulfiller_print_type, $photo_avail_sizes) {
 		switch($print_fulfiller_print_type['type']) {
-			case 'fixed':
+			case 'fixed': // means sizes only chosen by the user (avail print sizes)
+				// just set the display type as fixed
 				foreach ($print_fulfiller_print_type['PrintFulfillerPrintTypeFixedSize'] as &$fixed_size) {
 					$fixed_size['display_type'] = 'fixed';
 				}
 				return $print_fulfiller_print_type['PrintFulfillerPrintTypeFixedSize'];
-			case 'dynamic':
+			case 'dynamic': // means sizes only chosen by end user
+				// display type already set to dynamic
 				return $photo_avail_sizes;
-			case 'fixeddynamic':
+			case 'fixeddynamic': // fixed dynamic means that there are both fixed (chosen by the printer) and dynamic (determined by the avail print sizes)
+				// merge both 
 				$merged_arrays = array_merge($print_fulfiller_print_type['PrintFulfillerPrintTypeFixedSize'], $photo_avail_sizes);
 				foreach ($merged_arrays as &$merged_array) {
 					if (isset($merged_array['short_side_inches'])) {
@@ -38,8 +41,8 @@ class PhotoPrintType extends AppModel {
 				usort($merged_arrays, array($this, 'sort_autofulfillment_array'));
 				return $merged_arrays;
 		}
-		
 	}
+	
 	private function sort_autofulfillment_array($a, $b) {
 		$a_value;
 		if (isset($a['PhotoAvailSize']['short_side_length'])) { $a_value = $a['PhotoAvailSize']['short_side_length']; }

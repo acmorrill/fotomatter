@@ -89,7 +89,18 @@
 								{{autofulfillment_print_size.short_side_inches}}&Prime; x {{autofulfillment_print_size.long_side_inches}}&Prime; &mdash; Standard
 								<br />
 								<br />
-								${{autofulfillment_print_size.cost}}
+								<label style="margin-left: 0px; margin-bottom: 6px;"><?php echo __('Cost', true); ?></label><br />
+								<span>
+									<span>$</span>
+									{{autofulfillment_print_size.cost}}
+								</span>
+								<br />
+								<label style="margin-left: 0px; margin-bottom: 6px;"><?php echo __('Estimated Shipping', true); ?></label><br />
+								<span>
+									<span>$</span>
+									{{autofulfillment_print_size.cost}}
+								</span>
+								<br />
 							</td>
 							<td ng-if="autofulfillment_print_size.display_type == 'dynamic_non_pano'">
 								{{autofulfillment_print_size.PhotoAvailSize.short_side_length}}&Prime; x long-side&Prime; &mdash; Custom

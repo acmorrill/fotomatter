@@ -40,7 +40,7 @@ fotomatterControllers.controller('AvailPrintTypesCtrl', ['$scope',  '$timeout', 
 			var item_id = jQuery(ui.item).attr('item_id');
 			var new_position = position_of_element_among_siblings(jQuery("table.list > tbody > tr.sortable"), jQuery(ui.item));
 
-			// figure the the now position of the dragged element
+			// figure the the new position of the dragged element
 			var reorder_data = {
 				photo_print_type_id: item_id,
 				new_order: new_position

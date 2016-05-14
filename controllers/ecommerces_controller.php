@@ -1,4 +1,6 @@
 <?php
+require_once(ROOT.'/app/vendors/ShippingEstimator.php');
+
 class EcommercesController extends AppController {
 	public $name = 'Ecommerces';
 	public $uses = array('PhotoAvailSize', 'PhotoFormat', 'PhotoPrintType', 'PhotoAvailSizesPhotoPrintType', 'Cart', 'Photo', 'User', 'cake_authnet.AuthnetProfile', 'cake_authnet.AuthnetOrder', 'GlobalCountryState', 'GlobalCountry');
@@ -41,6 +43,12 @@ class EcommercesController extends AppController {
 		
 		
 //		$this->front_end_auth = array('checkout_get_address');
+	}
+	
+	public function admin_test_check_address() {
+		$shipping_estimator = new \Ups\ShippingEstimator();
+		$shipping_estimator->check_address();
+		die('made it to here');
 	}
 
 	public function check_frontend_cart() {
@@ -430,9 +438,10 @@ class EcommercesController extends AppController {
 			$print_fulfiller = $this->overlord_account_info['print_fulfillers_indexed'][$photo_print_type['PhotoPrintType']['print_fulfiller_id']];
 			unset($print_fulfiller['PrintFulfillerPrintType']);
 		}
+//		$this->log(count($print_fulfiller_print_type), 'list');
+//		$this->log(count($photo_avail_sizes), 'list');
 		$autofulfillment_print_list = $this->PhotoPrintType->combine_autofulfillment_print_list($print_fulfiller_print_type, $photo_avail_sizes);
-		$this->log($photo_avail_sizes, 'list');
-		$this->log($autofulfillment_print_list, 'list');
+//		$this->log(count($autofulfillment_print_list), 'list');
 		
 		
 		
