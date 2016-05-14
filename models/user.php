@@ -35,7 +35,7 @@ class User extends AppModel {
 				$data['User']['id'] = $exists['User']['id'];
 			}
 		} else {
-			$data['User']['password'] = 'a';
+			$data['User']['password'] = 'this_is_not_a_password';
 			$data['User']['facebook'] = $facebook;
 			$exists = $this->find('first', array(
 				'conditions' => array('User.facebook' => $facebook),
