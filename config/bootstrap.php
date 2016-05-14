@@ -353,6 +353,10 @@ define('MAX_UPLOAD_SIZE_MEGS', 50);
 define('FREE_MAX_RES', 4000);
 define("USE_CACHE_SPEED", true);
 
+// facebook settings
+define("FACEBOOK_APP_ID", '360914430736815');
+define("FACEBOOK_APP_SECRET", 'de3419a89b4423f82f690e5909876928');
+define("FACEBOOK_GRAPH_VERSION", 'v2.5');
 
 //path to overlord. (so it can change for development)
 Configure::write('OVERLORD_URL', 'builds.fotomatter.net');

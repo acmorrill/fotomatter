@@ -71,9 +71,9 @@ class User extends AppModel {
 		}
 		$site_domain = $this->SiteSetting->getVal('site_domain');
 		$fb = new Facebook\Facebook([
-			'app_id' => '360914430736815',
-			'app_secret' => 'de3419a89b4423f82f690e5909876928',
-			'default_graph_version' => 'v2.5',
+			'app_id' => FACEBOOK_APP_ID,
+			'app_secret' => FACEBOOK_APP_SECRET,
+			'default_graph_version' => FACEBOOK_GRAPH_VERSION,
 		]);
 		$helper = $fb->getRedirectLoginHelper();
 		$loginUrl = $helper->getLoginUrl("http://$site_domain.fotomatter.net/users/fb_callback", $permissions);
