@@ -1,4 +1,5 @@
 <?php
+require_once(ROOT.'/app/vendors/ShippingEstimator.php');
 
 class Cart extends AppModel {
 	public $useTable = false;
@@ -472,5 +473,10 @@ class Cart extends AppModel {
 		$this->Session->delete('Cart');
 	}
 	
+	public function get_cart_shipping_estimate() { 
+		$cart_data = $this->get_cart_data();
+		
+		print_r($cart_data);
+	}
 	
 }

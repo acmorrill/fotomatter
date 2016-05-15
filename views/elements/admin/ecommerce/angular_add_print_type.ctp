@@ -1,3 +1,11 @@
+<div class="input">
+	<label for="print_type_name">Choose a Print Name (ie glossy, matted and framed etc)</label>
+	<input 
+		style="margin-left: 15px;"
+		id="print_type_name"
+		ng-model="print_type_name"
+	/>
+</div>
 <div class="select">
 	<label for="billing_firstname">Choose a Printing Method</label>
 	<select 

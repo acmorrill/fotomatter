@@ -148,10 +148,10 @@ fotomatterControllers.controller('AvailPrintTypesCtrl', ['$scope',  '$timeout', 
 				delete $scope.open_print_type;
 				for (var index in result.data.photo_avail_sizes) {
 					result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType'] = $scope.helpers.phpToJs(result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType']);
-					if (result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType']['pano_custom_turnaround'] == '') { result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType']['pano_custom_turnaround'] = print_type.PhotoPrintType.turnaround_time; }
-					if (result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType']['non_pano_custom_turnaround'] == '') { result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType']['non_pano_custom_turnaround'] = print_type.PhotoPrintType.turnaround_time; }
+					if (result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType']['pano_custom_turnaround'] == '') { result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType']['pano_custom_turnaround'] = result.data.photo_print_type.PhotoPrintType.turnaround_time; }
+					if (result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType']['non_pano_custom_turnaround'] == '') { result.data.photo_avail_sizes[index]['PhotoAvailSizesPhotoPrintType']['non_pano_custom_turnaround'] = result.data.photo_print_type.PhotoPrintType.turnaround_time; }
 				}
-				$cookies.put('last_open_print_type_id', result.data.photo_print_type.PhotoPrintType.id);
+				$cookies.put('last_open_print_type_id', result.data.photo_print_type.PhotoPrintType.id + "|" + result.data.photo_print_type.PhotoPrintType.print_fulfillment_type);
 				$scope.open_print_type = result.data;
 				$scope.photo_print_types.push(result.data.photo_print_type);
 				hide_universal_save();
@@ -163,6 +163,7 @@ fotomatterControllers.controller('AvailPrintTypesCtrl', ['$scope',  '$timeout', 
 
 fotomatterControllers.controller('ModalInstanceCtrl', ['$scope', '$uibModalInstance', 'PrintTypes', function($scope, $uibModalInstance, PrintTypes) {
 	$scope.print_fulfiller_id = 'self';
+	$scope.print_type_name = 'New Print';
 
 	$scope.create_print_type = function() {
 		var print_type_id;
@@ -173,12 +174,16 @@ fotomatterControllers.controller('ModalInstanceCtrl', ['$scope', '$uibModalInsta
 		if ($scope.print_fulfiller_id == 'self' || typeof print_type_id != 'undefined') {
 			show_universal_save();
 			if ($scope.print_fulfiller_id == 'self') {
-				var create_self_print_type_promise = PrintTypes.add_self().$promise;
+				var self_data = {
+					print_type_name: $scope.print_type_name
+				};
+				var create_self_print_type_promise = PrintTypes.add_self(self_data).$promise;
 				$uibModalInstance.close(create_self_print_type_promise);
 			} else {
 				var automatic_data = {
 					print_fulfiller_id: $scope.print_fulfiller_id,
-					print_fulfiller_print_type_id: print_type_id
+					print_fulfiller_print_type_id: print_type_id,
+					print_fulfiller_print_type_name: $scope.print_type_name
 				};
 				var create_automatic_print_type_promise = PrintTypes.add_automatic(automatic_data).$promise;
 				$uibModalInstance.close(create_automatic_print_type_promise);

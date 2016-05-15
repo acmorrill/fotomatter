@@ -110,8 +110,8 @@ fotomatterResources.factory('PrintTypes', ['$resource', function($resource) {
 		'edit': { url: '/admin/ecommerces/angular_add_print_type_and_pricing/:photo_print_type_id', method: 'GET' },
 		'edit_automatic': { url: '/admin/ecommerces/angular_add_automatic_print_type_and_pricing/:photo_print_type_id', method: 'GET' },
 		'save': { url: '/admin/ecommerces/angular_save_print_type_and_pricing', method: 'POST' },
-		'add_self': { url: '/admin/ecommerces/angular_add_print_type_and_pricing', method: 'GET' },
-		'add_automatic': { url: '/admin/ecommerces/angular_add_automatic_print_type_and_pricing/0/:print_fulfiller_id/:print_fulfiller_print_type_id', method: 'GET' }
+		'add_self': { url: '/admin/ecommerces/angular_add_print_type_and_pricing/0/:print_type_name', method: 'GET' },
+		'add_automatic': { url: '/admin/ecommerces/angular_add_automatic_print_type_and_pricing/0/:print_fulfiller_id/:print_fulfiller_print_type_id/:print_fulfiller_print_type_name', method: 'GET' }
 		// ($print_fulfiller_id, $print_fulfiller_print_type_id, $photo_print_type_id = 0)
 //		'get_avail_sizes': { url: '/admin/ecommerces/angular_get_photo_avail_sizes', method: 'GET' }
 	});

@@ -47,6 +47,11 @@
 						<form id="update_cart_button_form" action="/ecommerces/update_cart_qty" method="post">
 							<div id="update_cart_button" class="submit_button"><span class='content'><?php echo __('Update', true); ?></span><span class='extra'></span></div>
 						</form>
+						
+						<?php 
+							$this->Cart->get_cart_shipping_estimate(); 
+						?>
+					
 					<?php endif; ?>
 				</td>
 				<td colspan="4" style="text-align: right;">

@@ -31,4 +31,8 @@ class ShippingEstimator {
 		
 		print_r($response);
 	}
+	
+	public function get_shipping_price() {
+		
+	}
 }

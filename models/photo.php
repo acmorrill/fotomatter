@@ -966,6 +966,7 @@ class Photo extends AppModel {
 
 	public function get_extra_print_data($photo_id, $photo_print_type_id, $short_side_inches) {
 		$sellable_print_sizes = $this->get_sellable_print_sizes_by_id($photo_id, $photo_print_type_id);
+//		$this->log($sellable_print_sizes, 'sellable_print_sizes');
 
 		$extra_print_data = array();
 		foreach ($sellable_print_sizes as $key => $sellable_print_size) {

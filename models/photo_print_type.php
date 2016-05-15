@@ -22,6 +22,15 @@ class PhotoPrintType extends AppModel {
 	public function combine_autofulfillment_print_list($print_fulfiller_print_type, $photo_avail_sizes) {
 		switch($print_fulfiller_print_type['type']) {
 			case 'fixed': // means sizes only chosen by the user (avail print sizes)
+				if (!empty($print_fulfiller_print_type['PhotoAvailSizesPhotoPrintType'])) {
+					foreach ($print_fulfiller_print_type['PhotoAvailSizesPhotoPrintType'] as $curr_print_avail_print_type) {
+						if (isset($print_fulfiller_print_type['PrintFulfillerPrintTypeFixedSize'][$curr_print_avail_print_type['print_fulfiller_print_type_fixed_size_id']])) {
+							$print_fulfiller_print_type['PrintFulfillerPrintTypeFixedSize'][$curr_print_avail_print_type['print_fulfiller_print_type_fixed_size_id']]['PhotoAvailSizesPhotoPrintType'] = $curr_print_avail_print_type;
+						}
+						
+					}
+				}
+			
 				// just set the display type as fixed
 				foreach ($print_fulfiller_print_type['PrintFulfillerPrintTypeFixedSize'] as &$fixed_size) {
 					$fixed_size['display_type'] = 'fixed';
@@ -31,6 +40,15 @@ class PhotoPrintType extends AppModel {
 				// display type already set to dynamic
 				return $photo_avail_sizes;
 			case 'fixeddynamic': // fixed dynamic means that there are both fixed (chosen by the printer) and dynamic (determined by the avail print sizes)
+				if (!empty($print_fulfiller_print_type['PhotoAvailSizesPhotoPrintType'])) {
+					foreach ($print_fulfiller_print_type['PhotoAvailSizesPhotoPrintType'] as $curr_print_avail_print_type) {
+						if (isset($print_fulfiller_print_type['PrintFulfillerPrintTypeFixedSize'][$curr_print_avail_print_type['print_fulfiller_print_type_fixed_size_id']])) {
+							$print_fulfiller_print_type['PrintFulfillerPrintTypeFixedSize'][$curr_print_avail_print_type['print_fulfiller_print_type_fixed_size_id']]['PhotoAvailSizesPhotoPrintType'] = $curr_print_avail_print_type;
+						}
+						
+					}
+				}
+			
 				// merge both 
 				$merged_arrays = array_merge($print_fulfiller_print_type['PrintFulfillerPrintTypeFixedSize'], $photo_avail_sizes);
 				foreach ($merged_arrays as &$merged_array) {
@@ -64,16 +82,34 @@ class PhotoPrintType extends AppModel {
 		return ($a_value < $b_value) ? -1 : 1;
 	}
 	
-	public function create_new_photo_print_type($type, $print_fulfiller_id = null, $print_fulfiller_print_type_id = null, $is_dynamic = null) {
+	public function create_new_photo_print_type($type, $print_fulfiller_id = null, $print_fulfiller_print_type_id = null, $print_fulfiller_print_type = array(), $print_name = 'New Print') {
 		$data = array();
-		$data['PhotoPrintType']['print_name'] = 'New Print';
+		$data['PhotoPrintType']['print_name'] = $print_name;
 		$data['PhotoPrintType']['turnaround_time'] = '3 Weeks';
 		$data['PhotoPrintType']['print_fulfillment_type'] = $type;
 		$data['PhotoPrintType']['print_fulfiller_id'] = $print_fulfiller_id;
 		$data['PhotoPrintType']['print_fulfiller_print_type_id'] = $print_fulfiller_print_type_id;
 		
+		
 		$this->create();
 		$this->save($data);
+		
+		if (!empty($print_fulfiller_print_type['PrintFulfillerPrintTypeFixedSize'])) {
+			foreach ($print_fulfiller_print_type['PrintFulfillerPrintTypeFixedSize'] as $fixed_size_id => $fixed_size) {
+				$photo_avail_sizes_photo_print_type = array();
+				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['photo_avail_size_id'] = 0;
+				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['print_fulfiller_print_type_fixed_size_id'] = $fixed_size_id;
+				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['photo_print_type_id'] = $this->id;
+				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['fixed_available'] = 0;
+				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['fixed_price_increase_percent'] = 1;
+				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['fixed_price_handling_price'] = 0;
+				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['fixed_custom_turnaround'] = 14;
+				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['fixed_global_default'] = 1;
+				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['fixed_force_settings'] = 1;
+				$this->PhotoAvailSizesPhotoPrintType->create();
+				$this->PhotoAvailSizesPhotoPrintType->save($photo_avail_sizes_photo_print_type);
+			}
+		}
 		
 		return $this->id;
 	}
