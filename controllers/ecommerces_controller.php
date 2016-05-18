@@ -437,8 +437,25 @@ class EcommercesController extends AppController {
 			$print_fulfiller = $this->overlord_account_info['print_fulfillers_indexed'][$photo_print_type['PhotoPrintType']['print_fulfiller_id']];
 			unset($print_fulfiller['PrintFulfillerPrintType']);
 		}
+		
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// if the print type is dynamic we need to go though and set the predicted cost for each avail print size
+		// - also - we need to remove any sizes that are to big for the printer
+		if ($print_fulfiller_print_type['type'] == 'fixeddynamic' || $print_fulfiller_print_type['type'] == 'dynamic' && !empty($print_fulfiller_print_type['dynamic_cost_sq_foot'])) {
+			foreach ($photo_avail_sizes as $key => &$photo_avail_size) {
+				// unset any sizes that are too big for the printer
+				if ($photo_avail_size['PhotoAvailSize']['short_side_length'] > $print_fulfiller_print_type['dynamic_max_short_side_inches']) { unset($photo_avail_sizes[$key]); }
+				
+				// get the estimated cost to the photographer
+				$photo_avail_size['PhotoAvailSize']['min_est_cost'] = $photo_avail_size['PhotoAvailSize']['min_sq_inches'] * $print_fulfiller_print_type['dynamic_cost_sq_foot'];
+				$photo_avail_size['PhotoAvailSize']['max_est_cost'] = $photo_avail_size['PhotoAvailSize']['max_sq_inches'] * $print_fulfiller_print_type['dynamic_cost_sq_foot'];
+				$photo_avail_size['PhotoAvailSize']['avg_est_cost'] = $photo_avail_size['PhotoAvailSize']['avg_sq_inches'] * $print_fulfiller_print_type['dynamic_cost_sq_foot'];
+				$photo_avail_size['PhotoAvailSize']['min_est_cost_display'] = number_format($photo_avail_size['PhotoAvailSize']['min_est_cost'], 2);
+				$photo_avail_size['PhotoAvailSize']['max_est_cost_display'] = number_format($photo_avail_size['PhotoAvailSize']['max_est_cost'], 2);
+				$photo_avail_size['PhotoAvailSize']['avg_est_cost_display'] = number_format($photo_avail_size['PhotoAvailSize']['avg_sq_inches'] * $print_fulfiller_print_type['dynamic_cost_sq_foot'], 2);
+			}
+		}
 		$autofulfillment_print_list = $this->PhotoPrintType->combine_autofulfillment_print_list($print_fulfiller_print_type, $photo_avail_sizes);
-		$this->log($autofulfillment_print_list, 'photo_avail_sizes');
 		
 		
 		$this->return_angular_json(true, "Automatic Print Type Created", compact('photo_print_type', 'print_fulfiller_print_type', 'print_fulfiller', 'autofulfillment_print_list'));

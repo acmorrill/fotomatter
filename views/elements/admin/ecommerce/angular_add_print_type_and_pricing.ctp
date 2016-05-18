@@ -104,20 +104,6 @@
 							</td>
 							<td ng-if="autofulfillment_print_size.display_type == 'fixed'">
 								{{autofulfillment_print_size.short_side_inches}}&Prime; x {{autofulfillment_print_size.long_side_inches}}&Prime; &mdash; Standard
-								<br />
-								<br />
-								<label style="margin-left: 0px; margin-bottom: 6px;"><?php echo __('Cost', true); ?></label><br />
-								<span>
-									<span>$</span>
-									{{autofulfillment_print_size.cost}}
-								</span>
-								<br />
-								<label style="margin-left: 0px; margin-bottom: 6px;"><?php echo __('Estimated Shipping', true); ?></label><br />
-								<span>
-									<span>$</span>
-									{{autofulfillment_print_size.cost}}
-								</span>
-								<br />
 							</td>
 							<td ng-if="autofulfillment_print_size.display_type == 'dynamic_non_pano'">
 								{{autofulfillment_print_size.PhotoAvailSize.short_side_length}}&Prime; x long-side&Prime; &mdash; Custom
@@ -131,8 +117,30 @@
 							</td>
 							<td class="price_width">
 								<span class="subitem_container">
+									<label><?php echo __('Your Cost', true); ?></label><br />
+									<span>
+										<span ng-if="autofulfillment_print_size.display_type == 'fixed'">${{autofulfillment_print_size.cost}}</span>
+										<span ng-if="autofulfillment_print_size.display_type == 'dynamic_non_pano' || autofulfillment_print_size.display_type == 'dynamic_pano'">
+											${{autofulfillment_print_size.PhotoAvailSize.min_est_cost_display}} &mdash; ${{autofulfillment_print_size.PhotoAvailSize.max_est_cost_display}}
+										</span>
+									</span>
+								</span>
+								<span class="subitem_container">
+									<label><?php echo __('Retail Price', true); ?></label><br />
+									<span>
+										<span>$</span>
+										<input
+											class="money_format"
+											type="text"
+											<?php /*ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_price"
+											ng-change="savePrintType(photo_avail_size, $index)"
+											ng-class="{'disabled': photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true}"
+											ng-disabled="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true" */ ?>
+										/>
+									</span>
+								</span>
+								<span class="subitem_container">
 									<label><?php echo __('Price', true); ?></label><br />
-									// DREW TODO - START HERE TOMORROW
 									<span>
 										<span>$</span>
 										<input

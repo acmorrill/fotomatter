@@ -7,7 +7,6 @@ class PhotoAvailSize extends AppModel {
 		'PhotoAvailSizesPhotoPrintType'
 	);
 	
-	
 	public function get_photo_avail_sizes($photo_print_type_id) {
 		$photo_avail_sizes_query = "
 			SELECT * FROM photo_avail_sizes AS PhotoAvailSize
@@ -62,12 +61,14 @@ class PhotoAvailSize extends AppModel {
 				$non_pano_avail_size['PhotoAvailSizesPhotoPrintType']['pano_custom_turnaround'] = '';
 				$non_pano_avail_size['PhotoAvailSizesPhotoPrintType']['pano_global_default'] = '';
 				$non_pano_avail_size['PhotoAvailSizesPhotoPrintType']['pano_force_settings'] = '';
+				$non_pano_avail_size['PhotoAvailSize']['has_pano'] = false;
 				$pano_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_available'] = '';
 				$pano_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_price'] = '';
 				$pano_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_shipping_price'] = '';
 				$pano_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_custom_turnaround'] = '';
 				$pano_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_global_default'] = '';
 				$pano_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_force_settings'] = '';
+				$pano_avail_size['PhotoAvailSize']['has_non_pano'] = false;
 				$non_pano_avail_size['display_type'] = 'dynamic_non_pano';
 				$pano_avail_size['display_type'] = 'dynamic_pano';
 				$final_sizes[] = $non_pano_avail_size;
@@ -79,9 +80,30 @@ class PhotoAvailSize extends AppModel {
 			}
 		}
 		
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// add in the predicted long size depending on format, short side and square inches
+		foreach ($final_sizes as &$final_size) {
+			$this->set_predicted_size_by_format($final_size['PhotoAvailSize']);
+		}
 		
 		return $final_sizes;
-//		return $photo_avail_sizes;
+	}
+	
+	public function set_predicted_size_by_format(&$photo_avail_size) {
+		if ($photo_avail_size['has_pano'] == true) {
+			$photo_avail_size['min_long_side_length'] = $photo_avail_size['short_side_length'] * 2;
+			$photo_avail_size['max_long_side_length'] = $photo_avail_size['short_side_length'] * 4;
+		} else {
+			$photo_avail_size['min_long_side_length'] = $photo_avail_size['short_side_length'];
+			$photo_avail_size['max_long_side_length'] = $photo_avail_size['short_side_length'] * 2;
+		}
+		
+		$photo_avail_size['min_sq_inches'] = $photo_avail_size['short_side_length'] * $photo_avail_size['min_long_side_length'];
+		$photo_avail_size['max_sq_inches'] = $photo_avail_size['short_side_length'] * $photo_avail_size['max_long_side_length'];
+		$photo_avail_size['avg_long_side_length'] = ($photo_avail_size['min_long_side_length'] + $photo_avail_size['max_long_side_length']) / 2;
+		$photo_avail_size['avg_sq_inches'] = ($photo_avail_size['min_sq_inches'] + $photo_avail_size['max_sq_inches']) / 2;
+		
+		return $photo_avail_size;
 	}
 	
 	
@@ -97,7 +119,9 @@ class PhotoAvailSize extends AppModel {
 	
 	public function restore_avail_photo_size_defaults() {
 		$defaults = array(
+			array('short_size' => 2,),
 			array('short_size' => 2.5,),
+			array('short_size' => 3,),
 			array('short_size' => 3.5,),
 			array('short_size' => 4,),
 			array('short_size' => 5,),
@@ -170,7 +194,9 @@ class PhotoAvailSize extends AppModel {
 	
 	public function valid_short_side_values() {
 		$valid_sides = array(
+			2,
 			2.5,
+			3,
 			3.5,
 		);
 		for ($i = 4; $i <= 96; $i++) {
