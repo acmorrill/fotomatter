@@ -217,6 +217,12 @@ jQuery(document).ready(function() {
 		} 
 		newtab = window.open(live_site_url, live_site_url);
 	});
+	
+	
+	// setup the help tooltips
+	jQuery('.icon-info').qtip({
+		content: 'My content'
+	});
 });
 
 /****************************************************************************

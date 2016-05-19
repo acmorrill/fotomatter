@@ -441,18 +441,35 @@ class EcommercesController extends AppController {
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// if the print type is dynamic we need to go though and set the predicted cost for each avail print size
 		// - also - we need to remove any sizes that are to big for the printer
-		if ($print_fulfiller_print_type['type'] == 'fixeddynamic' || $print_fulfiller_print_type['type'] == 'dynamic' && !empty($print_fulfiller_print_type['dynamic_cost_sq_foot'])) {
+		if ($print_fulfiller_print_type['type'] == 'fixeddynamic' || $print_fulfiller_print_type['type'] == 'dynamic' && !empty($print_fulfiller_print_type['dynamic_cost_sq_inch'])) {
 			foreach ($photo_avail_sizes as $key => &$photo_avail_size) {
 				// unset any sizes that are too big for the printer
 				if ($photo_avail_size['PhotoAvailSize']['short_side_length'] > $print_fulfiller_print_type['dynamic_max_short_side_inches']) { unset($photo_avail_sizes[$key]); }
 				
+				// DREW TODO start here tomorrow
+				// put the below into overlord sql update
+				// ALTER TABLE `print_fulfiller_print_types` CHANGE `dynamic_cost_sq_foot` `dynamic_cost_sq_inch` DECIMAL( 10, 2 ) NULL DEFAULT NULL COMMENT 'The price per square unit if this is a dynamic type print';
+				
 				// get the estimated cost to the photographer
-				$photo_avail_size['PhotoAvailSize']['min_est_cost'] = $photo_avail_size['PhotoAvailSize']['min_sq_inches'] * $print_fulfiller_print_type['dynamic_cost_sq_foot'];
-				$photo_avail_size['PhotoAvailSize']['max_est_cost'] = $photo_avail_size['PhotoAvailSize']['max_sq_inches'] * $print_fulfiller_print_type['dynamic_cost_sq_foot'];
-				$photo_avail_size['PhotoAvailSize']['avg_est_cost'] = $photo_avail_size['PhotoAvailSize']['avg_sq_inches'] * $print_fulfiller_print_type['dynamic_cost_sq_foot'];
+				$photo_avail_size['PhotoAvailSize']['min_est_cost'] = $photo_avail_size['PhotoAvailSize']['min_sq_inches'] * $print_fulfiller_print_type['dynamic_cost_sq_inch'];
+				$photo_avail_size['PhotoAvailSize']['max_est_cost'] = $photo_avail_size['PhotoAvailSize']['max_sq_inches'] * $print_fulfiller_print_type['dynamic_cost_sq_inch'];
+				$photo_avail_size['PhotoAvailSize']['avg_est_cost'] = $photo_avail_size['PhotoAvailSize']['avg_sq_inches'] * $print_fulfiller_print_type['dynamic_cost_sq_inch'];
 				$photo_avail_size['PhotoAvailSize']['min_est_cost_display'] = number_format($photo_avail_size['PhotoAvailSize']['min_est_cost'], 2);
 				$photo_avail_size['PhotoAvailSize']['max_est_cost_display'] = number_format($photo_avail_size['PhotoAvailSize']['max_est_cost'], 2);
-				$photo_avail_size['PhotoAvailSize']['avg_est_cost_display'] = number_format($photo_avail_size['PhotoAvailSize']['avg_sq_inches'] * $print_fulfiller_print_type['dynamic_cost_sq_foot'], 2);
+				$photo_avail_size['PhotoAvailSize']['avg_est_cost_display'] = number_format($photo_avail_size['PhotoAvailSize']['avg_sq_inches'] * $print_fulfiller_print_type['dynamic_cost_sq_inch'], 2);
+				$photo_avail_size['PhotoAvailSize']['dynamic_cost_sq_inch'] = $print_fulfiller_print_type['dynamic_cost_sq_inch'] + 0;
+//				$this->log($photo_avail_size, 'photo_avail_size');
+				if ($photo_avail_size['PhotoAvailSize']['has_pano']) {
+					if ($photo_avail_size['PhotoAvailSizesPhotoPrintType']['pano_price'] == 0) {
+						$this->log($photo_avail_size['PhotoAvailSize']['max_est_cost'] * 2, 'testing');
+						$photo_avail_size['PhotoAvailSizesPhotoPrintType']['pano_price'] = $photo_avail_size['PhotoAvailSize']['max_est_cost'] * 2;
+					}
+				} else if ($photo_avail_size['PhotoAvailSize']['has_non_pano']) {
+					if ($photo_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_price'] == 0) {
+						$this->log($photo_avail_size['PhotoAvailSize']['max_est_cost'] * 2, 'testing2');
+						$photo_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_price'] = $photo_avail_size['PhotoAvailSize']['max_est_cost'] * 2;
+					}
+				}
 			}
 		}
 		$autofulfillment_print_list = $this->PhotoPrintType->combine_autofulfillment_print_list($print_fulfiller_print_type, $photo_avail_sizes);

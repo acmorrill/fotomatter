@@ -15,5 +15,6 @@ $sqls[] = "ALTER TABLE `photo_avail_sizes_photo_print_types` CHANGE `fixed_shipp
 $sqls[] = "ALTER TABLE `photo_avail_sizes_photo_print_types` CHANGE `fixed_price` `fixed_price_increase_percent` FLOAT NOT NULL ;";
 $sqls[] = "ALTER TABLE `photo_avail_sizes_photo_print_types` CHANGE `fixed_custom_turnaround` `fixed_custom_turnaround` INT NOT NULL COMMENT 'measured in days';";
 $sqls[] = "ALTER TABLE `photo_avail_sizes_photo_print_types` ADD `print_fulfiller_print_type_fixed_size_id` INT NOT NULL AFTER `photo_print_type_id` ;";
+$sqls[] = "ALTER TABLE `photo_avail_sizes_photo_print_types` CHANGE `fixed_price_increase_percent` `fixed_price` DECIMAL( 10, 2 ) NOT NULL ;";
 
 

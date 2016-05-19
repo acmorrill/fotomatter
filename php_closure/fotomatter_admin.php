@@ -10,6 +10,7 @@ $php_closure[] = 'js/tinymce/jscripts/tiny_mce/jquery.tinymce.js';
 $php_closure[] = 'js/money_format/accounting.min.js';
 $php_closure[] = 'js/chosen_v1.1.0/chosen.jquery.min.js';
 $php_closure[] = 'js/perfect-scrollbar/js/min/perfect-scrollbar.jquery.min.js';
+$php_closure[] = 'js/jquery.qtip.custom/jquery.qtip.min.js';
 $php_closure[] = 'js/global_js.js';
 $php_closure[] = 'js/jquery.endless-scroll.js';
 $php_closure[] = 'js/jquery_price_format/jquery.price_format.min.js'; // DREW TODO - need to check if this is used

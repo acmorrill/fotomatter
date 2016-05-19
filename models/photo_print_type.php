@@ -101,8 +101,8 @@ class PhotoPrintType extends AppModel {
 				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['print_fulfiller_print_type_fixed_size_id'] = $fixed_size_id;
 				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['photo_print_type_id'] = $this->id;
 				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['fixed_available'] = 0;
-				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['fixed_price_increase_percent'] = 1;
-				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['fixed_price_handling_price'] = 0;
+				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['fixed_price'] = 0;
+				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['fixed_handling_price'] = 0;
 				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['fixed_custom_turnaround'] = 14;
 				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['fixed_global_default'] = 1;
 				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['fixed_force_settings'] = 1;

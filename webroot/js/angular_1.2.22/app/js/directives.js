@@ -35,6 +35,29 @@ fotomatterApp.directive("confirmDelete", ["$interval", function($interval) {
 	};
 }]);
 
+fotomatterApp.directive('initToolbar', function($http, $compile, $templateCache) {
+	function link(scope, element, attrs) {
+		jQuery(element).qtip({
+			content: attrs.initToolbar,
+			position: {
+				my: 'bottom left',
+				at: 'top right',
+				target: $(element)
+			},
+			hide: {
+				fixed : true,
+				delay : 500
+			},
+			style: { classes: 'qtip-dark' }
+		});
+	}
+
+	return {
+		restrict: 'A',
+		link: link
+	};
+});
+
 
 //fotomatterApp.directive("ngTagsChooser", ["$interval", function($interval) {
 //	return {
