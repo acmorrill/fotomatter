@@ -446,9 +446,6 @@ class EcommercesController extends AppController {
 				// unset any sizes that are too big for the printer
 				if ($photo_avail_size['PhotoAvailSize']['short_side_length'] > $print_fulfiller_print_type['dynamic_max_short_side_inches']) { unset($photo_avail_sizes[$key]); }
 				
-				// DREW TODO start here tomorrow
-				// put the below into overlord sql update
-				// ALTER TABLE `print_fulfiller_print_types` CHANGE `dynamic_cost_sq_foot` `dynamic_cost_sq_inch` DECIMAL( 10, 2 ) NULL DEFAULT NULL COMMENT 'The price per square unit if this is a dynamic type print';
 				
 				// get the estimated cost to the photographer
 				$photo_avail_size['PhotoAvailSize']['min_est_cost'] = $photo_avail_size['PhotoAvailSize']['min_sq_inches'] * $print_fulfiller_print_type['dynamic_cost_sq_inch'];
