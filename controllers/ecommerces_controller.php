@@ -204,12 +204,10 @@ class EcommercesController extends AppController {
 		
 		if (!empty($this->data)) {
 			if ( !isset($this->data['PhotoAvailSize']['photo_format_ids']) ) {
-				$this->Session->setFlash(__('Please choose photo orientations to apply the print size to.', true), 'admin/flashMessage/error');
+				$this->Session->setFlash(__('Please choose a photo orientation to apply the print size to.', true), 'admin/flashMessage/error');
 			} else if ( !isset($this->data['PhotoAvailSize']['short_side_length']) ) {
 				$this->Session->setFlash(__('Please choose a short side length.', true), 'admin/flashMessage/error');
 			} else {
-				$this->data['PhotoAvailSize']['photo_format_ids'] = implode(',', $this->data['PhotoAvailSize']['photo_format_ids']);
-
 				$this->PhotoAvailSize->create();
 				if (!$this->PhotoAvailSize->save($this->data)) {
 					$this->Session->setFlash(__('Failed to add available photo size.', true), 'admin/flashMessage/success');
@@ -232,7 +230,12 @@ class EcommercesController extends AppController {
 		
 		$used_short_side_dimensions = $this->PhotoAvailSize->get_used_short_side_values();
 		if (isset($this->data['PhotoAvailSize']['short_side_length'])) {
-			unset($used_short_side_dimensions[$this->data['PhotoAvailSize']['short_side_length']]);
+			if ($this->data['PhotoAvailSize']['photo_format_ids'] == '1,2,3') {
+				unset($used_short_side_dimensions['short_side_used'][$this->data['PhotoAvailSize']['short_side_length']]['non_pano']);
+			}
+			if ($this->data['PhotoAvailSize']['photo_format_ids'] == '4,5') {
+				unset($used_short_side_dimensions['short_side_used'][$this->data['PhotoAvailSize']['short_side_length']]['pano']);
+			}
 		}
 
 		$short_side_values = $this->PhotoAvailSize->valid_short_side_values();
@@ -446,7 +449,6 @@ class EcommercesController extends AppController {
 				// unset any sizes that are too big for the printer
 				if ($photo_avail_size['PhotoAvailSize']['short_side_length'] > $print_fulfiller_print_type['dynamic_max_short_side_inches']) { unset($photo_avail_sizes[$key]); }
 				
-				
 				// get the estimated cost to the photographer
 				$photo_avail_size['PhotoAvailSize']['min_est_cost'] = $photo_avail_size['PhotoAvailSize']['min_sq_inches'] * $print_fulfiller_print_type['dynamic_cost_sq_inch'];
 				$photo_avail_size['PhotoAvailSize']['max_est_cost'] = $photo_avail_size['PhotoAvailSize']['max_sq_inches'] * $print_fulfiller_print_type['dynamic_cost_sq_inch'];
@@ -455,20 +457,11 @@ class EcommercesController extends AppController {
 				$photo_avail_size['PhotoAvailSize']['max_est_cost_display'] = number_format($photo_avail_size['PhotoAvailSize']['max_est_cost'], 2);
 				$photo_avail_size['PhotoAvailSize']['avg_est_cost_display'] = number_format($photo_avail_size['PhotoAvailSize']['avg_sq_inches'] * $print_fulfiller_print_type['dynamic_cost_sq_inch'], 2);
 				$photo_avail_size['PhotoAvailSize']['dynamic_cost_sq_inch'] = $print_fulfiller_print_type['dynamic_cost_sq_inch'] + 0;
-//				$this->log($photo_avail_size, 'photo_avail_size');
-				if ($photo_avail_size['PhotoAvailSize']['has_pano']) {
-					if ($photo_avail_size['PhotoAvailSizesPhotoPrintType']['pano_price'] == 0) {
-						$this->log($photo_avail_size['PhotoAvailSize']['max_est_cost'] * 2, 'testing');
-						$photo_avail_size['PhotoAvailSizesPhotoPrintType']['pano_price'] = $photo_avail_size['PhotoAvailSize']['max_est_cost'] * 2;
-					}
-				} else if ($photo_avail_size['PhotoAvailSize']['has_non_pano']) {
-					if ($photo_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_price'] == 0) {
-						$this->log($photo_avail_size['PhotoAvailSize']['max_est_cost'] * 2, 'testing2');
-						$photo_avail_size['PhotoAvailSizesPhotoPrintType']['non_pano_price'] = $photo_avail_size['PhotoAvailSize']['max_est_cost'] * 2;
-					}
-				}
+				$photo_avail_size['PhotoAvailSizesPhotoPrintType']['price'] = $photo_avail_size['PhotoAvailSize']['max_est_cost'] * 2;
 			}
 		}
+		$this->log($print_fulfiller_print_type, "print_fulfiller_print_type");
+		$this->log($photo_avail_sizes, "print_fulfiller_print_type");
 		$autofulfillment_print_list = $this->PhotoPrintType->combine_autofulfillment_print_list($print_fulfiller_print_type, $photo_avail_sizes);
 		
 		
@@ -500,9 +493,11 @@ class EcommercesController extends AppController {
 		$this->parse_angular_json($this);
 		$return_data = array();
 		$return_data['success'] = true;
+//		$this->log($this->data, 'angular_save_print_type_and_pricing');
 		
 		if (!empty($this->data)) {
 			$result = $this->PhotoPrintType->validate_and_save_print_type($this->data);
+//			$this->log($result, 'angular_save_print_type_and_pricing');
 			if (!is_array($result)) {
 				$this->return_angular_json(false, $result);
 			} else {

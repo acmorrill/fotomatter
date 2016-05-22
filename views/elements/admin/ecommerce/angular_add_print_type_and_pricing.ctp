@@ -77,51 +77,37 @@
 						<tr ng-repeat="autofulfillment_print_size in open_print_type.autofulfillment_print_list">
 							<td class="first">
 								<input 
-									ng-if="autofulfillment_print_size.display_type == 'fixed'"
 									class="available_checkbox" 
 									type="checkbox" 
-									ng-model="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.fixed_available" 
+									ng-model="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.available" 
 									ng-change="savePrintType(autofulfillment_print_size, $index)" 
 									ng-model-options="{}"
 								/>
-								<input 
-									ng-if="autofulfillment_print_size.display_type == 'dynamic_non_pano'"
-									class="available_checkbox" 
-									type="checkbox" 
-									ng-model="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.non_pano_available" 
-									ng-change="savePrintType(autofulfillment_print_size, $index)" 
-									ng-model-options="{}"
-								/><br />
-								<input 
-									ng-if="autofulfillment_print_size.display_type == 'dynamic_pano'"
-									class="available_checkbox" 
-									type="checkbox" 
-									ng-model="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.pano_available" 
-									ng-change="savePrintType(autofulfillment_print_size, $index)" 
-									ng-model-options="{}"
-								/><br />
+								<br />
 							</td>
 							<td ng-if="autofulfillment_print_size.display_type == 'fixed'">
 								{{autofulfillment_print_size.short_side_inches}}&Prime; x {{autofulfillment_print_size.long_side_inches}}&Prime; &mdash; Standard
 							</td>
-							<td ng-if="autofulfillment_print_size.display_type == 'dynamic_non_pano'">
+							<td ng-if="autofulfillment_print_size.display_type == 'dynamic'">
 								{{autofulfillment_print_size.PhotoAvailSize.short_side_length}}&Prime; x long-side&Prime; &mdash; Custom
 								<br />
-								<span style="font-size: 15px; margin-left: 0px; border-left: 0px; margin-top: 15px;">(<?php echo __('Non-Panoramic', true); ?>)</span>
-							</td>
-							<td ng-if="autofulfillment_print_size.display_type == 'dynamic_pano'">
-								{{autofulfillment_print_size.PhotoAvailSize.short_side_length}}&Prime; x long-side&Prime; &mdash; Custom
-								<br />
-								<span style="font-size: 15px; margin-left: 0px; border-left: 0px; margin-top: 15px;">(<?php echo __('Panoramic', true); ?>)</span>
+								<span 
+									ng-if='autofulfillment_print_size.PhotoAvailSize.has_non_pano == true'
+									style="font-size: 15px; margin-left: 0px; border-left: 0px; margin-top: 15px;"
+								>(<?php echo __('Non-Panoramic', true); ?>)</span>
+								<span 
+									ng-if='autofulfillment_print_size.PhotoAvailSize.has_pano == true'
+									style="font-size: 15px; margin-left: 0px; border-left: 0px; margin-top: 15px;"
+								>(<?php echo __('Panoramic', true); ?>)</span>
 							</td>
 							<td class="price_width">
 								<span class="subitem_container">
 									<label ng-if="autofulfillment_print_size.display_type == 'fixed'"><?php echo __('Your Cost', true); ?></label>
-									<label ng-if="autofulfillment_print_size.display_type == 'dynamic_non_pano' || autofulfillment_print_size.display_type == 'dynamic_pano'"><?php echo __('Your Cost', true); ?> ( ${{autofulfillment_print_size.PhotoAvailSize.dynamic_cost_sq_inch}} / in&sup2; )<span class="icon-info" init-toolbar="The real cost depends on the actual demensions of the image."></span></label>
+									<label ng-if="autofulfillment_print_size.display_type == 'dynamic'"><?php echo __('Your Cost', true); ?> ( ${{autofulfillment_print_size.PhotoAvailSize.dynamic_cost_sq_inch}} / in&sup2; )<span class="icon-info" init-toolbar="The real cost depends on the actual demensions of the image."></span></label>
 									<br />
 									<span>
 										<span ng-if="autofulfillment_print_size.display_type == 'fixed'">${{autofulfillment_print_size.cost}}</span>
-										<span ng-if="autofulfillment_print_size.display_type == 'dynamic_non_pano' || autofulfillment_print_size.display_type == 'dynamic_pano'">
+										<span ng-if="autofulfillment_print_size.display_type == 'dynamic'">
 											${{autofulfillment_print_size.PhotoAvailSize.min_est_cost_display}} &mdash; ${{autofulfillment_print_size.PhotoAvailSize.max_est_cost_display}}
 										</span>
 									</span>
@@ -130,49 +116,39 @@
 									<label><?php echo __('Price', true); ?></label><br />
 									<span>
 										<span 
-											ng-if="autofulfillment_print_size.display_type == 'fixed'" 
 											onbeforesave="savePrintType(autofulfillment_print_size, $index)" 
-											editable-text="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.fixed_price"
-											ng-class="{'disabled': autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.fixed_available != true}"
-										>${{autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.fixed_price}}</span>
-										<span 
-											ng-if="autofulfillment_print_size.display_type == 'dynamic_non_pano'"
-											onbeforesave="savePrintType(autofulfillment_print_size, $index)" 
-											editable-text="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.non_pano_price"
-											ng-class="{'disabled': autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true}"
-										>${{autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.non_pano_price}}</span>
-										<span 
-											ng-if="autofulfillment_print_size.display_type == 'dynamic_pano'" 
-											onbeforesave="savePrintType(autofulfillment_print_size, $index)" 
-											editable-text="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.pano_price"
-											ng-class="{'disabled': autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.pano_available != true}"
-										>${{autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.pano_price}}</span>
+											editable-text="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.price"
+											e-form="price"
+											ng-click="show_editable(fixed_price, !!autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.available == true)"
+											ng-class="{'disabled': !!autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.available != true}"
+											class="editable editable-click"
+										>${{autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.price}}</span>
 										<?php /*<input
 											class="money_format"
 											ng-if="autofulfillment_print_size.display_type == 'fixed'"
 											type="text"
 											ng-model="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.fixed_price"
 											ng-change="savePrintType(autofulfillment_print_size, $index)"
-											ng-class="{'disabled': autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.fixed_available != true}"
-											ng-disabled="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.fixed_available != true"
+											ng-class="{'disabled': !!autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.fixed_available != true}"
+											ng-disabled="!!autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.fixed_available != true"-
 										/>
 										<input
 											class="money_format"
-											ng-if="autofulfillment_print_size.display_type == 'dynamic_non_pano'"
+											ng-if="autofulfillment_print_size.display_type == 'dynamic'"
 											type="text"
 											ng-model="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.non_pano_price"
 											ng-change="savePrintType(autofulfillment_print_size, $index)"
-											ng-class="{'disabled': autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true}"
-											ng-disabled="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true"
+											ng-class="{'disabled': !!autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true}"
+											ng-disabled="!!autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true"
 										/>
 										<input
 											class="money_format"
-											ng-if="autofulfillment_print_size.display_type == 'dynamic_pano'"
+											ng-if="autofulfillment_print_size.display_type == 'dynamic'"
 											type="text"
 											ng-model="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.pano_price"
 											ng-change="savePrintType(autofulfillment_print_size, $index)"
-											ng-class="{'disabled': autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.pano_available != true}"
-											ng-disabled="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.pano_available != true"
+											ng-class="{'disabled': !!autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.pano_available != true}"
+											ng-disabled="!!autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.pano_available != true"
 										/>*/ ?>
 									</span>
 								</span>
@@ -191,66 +167,41 @@
 								<span class="subitem_container">
 									<label><?php echo __('Turnaround Time', true); ?></label><br />
 									&nbsp;&nbsp;
-									<input
+									<span 
+										onaftersave="savePrintType(autofulfillment_print_size, $index, true)" 
+										editable-select="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.custom_turnaround"
+										e-form="custom_turnaround"
+										ng-click="show_editable(fixed_custom_turnaround, !!autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.available == true)"
+										class="editable editable-click"
+										ng-class="{'disabled': !!autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.available != true}"
+										e-ng-options="s.value as s.text for s in turnaround_days"
+									>{{ show_turnaround(autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.custom_turnaround) }}</span>
+									<?php /*<input
 										class="default_turnaround_time" 
 										type="text"
-										<?php /*ng-change="savePrintType(photo_avail_size, $index)" 
+										ng-change="savePrintType(photo_avail_size, $index)" 
 										ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_custom_turnaround"
 										ng-class="{'disabled': photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true}"
-										ng-disabled="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true"*/ ?>
-									/><br />
+										ng-disabled="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true"
+									/>*/ ?><br />
 								</span>
 								<span class="subitem_container">
 									<input 
-										ng-if="autofulfillment_print_size.display_type == 'fixed'"
 										type="checkbox" 
 										ng-change="savePrintType(autofulfillment_print_size, $index)" 
-										ng-model="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.fixed_global_default" 
-										ng-class="{'disabled': autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.fixed_available != true}"
-										ng-disabled="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.fixed_available != true"
-									/>
-									<input 
-										ng-if="autofulfillment_print_size.display_type == 'dynamic_non_pano'"
-										type="checkbox" 
-										ng-change="savePrintType(autofulfillment_print_size, $index)" 
-										ng-model="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.non_pano_global_default" 
-										ng-class="{'disabled': autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true}"
-										ng-disabled="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true"
-									/>
-									<input 
-										ng-if="autofulfillment_print_size.display_type == 'dynamic_pano'"
-										type="checkbox" 
-										ng-change="savePrintType(autofulfillment_print_size, $index)" 
-										ng-model="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.pano_global_default" 
-										ng-class="{'disabled': autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.pano_available != true}"
-										ng-disabled="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.pano_available != true"
+										ng-model="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.global_default" 
+										ng-class="{'disabled': !!autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.available != true}"
+										ng-disabled="!!autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.available != true"
 									/>
 									<label><?php echo __('Use on Photos by Default?', true); ?></label>
 								</span>
 								<span class="subitem_container">
 									<input 
-										ng-if="autofulfillment_print_size.display_type == 'fixed'"
 										type="checkbox" 
 										ng-change="savePrintType(autofulfillment_print_size, $index)" 
-										ng-model="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.fixed_force_settings" 
-										ng-class="{'disabled': autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.fixed_available != true}"
-										ng-disabled="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.fixed_available != true"
-									/>
-									<input 
-										ng-if="autofulfillment_print_size.display_type == 'dynamic_non_pano'"
-										type="checkbox" 
-										ng-change="savePrintType(autofulfillment_print_size, $index)" 
-										ng-model="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.non_pano_force_settings" 
-										ng-class="{'disabled': autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true}"
-										ng-disabled="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true"
-									/>
-									<input 
-										ng-if="autofulfillment_print_size.display_type == 'dynamic_pano'"
-										type="checkbox" 
-										ng-change="savePrintType(autofulfillment_print_size, $index)" 
-										ng-model="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.pano_force_settings" 
-										ng-class="{'disabled': autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.pano_available != true}"
-										ng-disabled="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.pano_available != true"
+										ng-model="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.force_settings" 
+										ng-class="{'disabled': !!autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.available != true}"
+										ng-disabled="!!autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.available != true"
 									/>
 									<label><?php echo __('Force Settings on All Photos?', true); ?></label>
 								</span>
@@ -434,3 +385,7 @@
 				</table>
 			</div>
 		</switch>
+		
+		
+		
+		

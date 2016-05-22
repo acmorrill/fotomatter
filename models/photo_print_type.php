@@ -45,7 +45,6 @@ class PhotoPrintType extends AppModel {
 						if (isset($print_fulfiller_print_type['PrintFulfillerPrintTypeFixedSize'][$curr_print_avail_print_type['print_fulfiller_print_type_fixed_size_id']])) {
 							$print_fulfiller_print_type['PrintFulfillerPrintTypeFixedSize'][$curr_print_avail_print_type['print_fulfiller_print_type_fixed_size_id']]['PhotoAvailSizesPhotoPrintType'] = $curr_print_avail_print_type;
 						}
-						
 					}
 				}
 			
@@ -54,6 +53,8 @@ class PhotoPrintType extends AppModel {
 				foreach ($merged_arrays as &$merged_array) {
 					if (isset($merged_array['short_side_inches'])) {
 						$merged_array['display_type'] = 'fixed';
+					} else {
+						$merged_array['display_type'] = 'dynamic';
 					}
 				}
 				usort($merged_arrays, array($this, 'sort_autofulfillment_array'));
@@ -100,12 +101,13 @@ class PhotoPrintType extends AppModel {
 				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['photo_avail_size_id'] = 0;
 				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['print_fulfiller_print_type_fixed_size_id'] = $fixed_size_id;
 				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['photo_print_type_id'] = $this->id;
-				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['fixed_available'] = 0;
-				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['fixed_price'] = 0;
-				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['fixed_handling_price'] = 0;
-				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['fixed_custom_turnaround'] = 14;
-				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['fixed_global_default'] = 1;
-				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['fixed_force_settings'] = 1;
+				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['available'] = 0;
+				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['price'] = 0;
+				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['handling_price'] = 0;
+				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['custom_turnaround'] = 14;
+				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['global_default'] = 1;
+				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['force_settings'] = 1;
+				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['photo_print_type'] = $type;
 				$this->PhotoAvailSizesPhotoPrintType->create();
 				$this->PhotoAvailSizesPhotoPrintType->save($photo_avail_sizes_photo_print_type);
 			}
@@ -171,18 +173,18 @@ class PhotoPrintType extends AppModel {
 				if (isset($curr_join_data['pano_shipping_price']) && !is_numeric($curr_join_data['pano_shipping_price'])) {
 					unset($curr_join_data['pano_shipping_price']);
 				}
-				if (empty($curr_join_data['non_pano_available'])) {
-					$curr_join_data['non_pano_available'] = 0;
-				} else {
-					$curr_join_data['non_pano_available'] = 1;
-				}
-				if (empty($curr_join_data['pano_available'])) {
-					$curr_join_data['pano_available'] = 0;
-				} else {
-					$curr_join_data['pano_available'] = 1;
-				}
-				if ($curr_join_data['non_pano_custom_turnaround'] == $turnaround_time) { unset($curr_join_data['non_pano_custom_turnaround']); }
-				if ($curr_join_data['pano_custom_turnaround'] == $turnaround_time) { unset($curr_join_data['pano_custom_turnaround']); }
+//				if (empty($curr_join_data['non_pano_available'])) {
+//					$curr_join_data['non_pano_available'] = 0;
+//				} else {
+//					$curr_join_data['non_pano_available'] = 1;
+//				}
+//				if (empty($curr_join_data['pano_available'])) {
+//					$curr_join_data['pano_available'] = 0;
+//				} else {
+//					$curr_join_data['pano_available'] = 1;
+//				}
+//				if ($curr_join_data['non_pano_custom_turnaround'] == $turnaround_time) { unset($curr_join_data['non_pano_custom_turnaround']); }
+//				if ($curr_join_data['pano_custom_turnaround'] == $turnaround_time) { unset($curr_join_data['pano_custom_turnaround']); }
 				
 				
 				if (!isset($curr_join_data['photo_avail_size_id']) || ($curr_join_data['non_pano_available'] != 1 && $curr_join_data['pano_available'] != 1) ) { // means we need to remove the join table entry instead

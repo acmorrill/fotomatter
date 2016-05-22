@@ -6449,6 +6449,7 @@ a.editable-click {
   text-decoration: none;
   color: #2ac0de;
   border-bottom: dashed 1px #2ac0de;
+  cursor: pointer;
 }
 .editable-click:hover,
 a.editable-click:hover {

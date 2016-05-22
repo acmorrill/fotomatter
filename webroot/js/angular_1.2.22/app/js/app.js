@@ -57,17 +57,7 @@ var fotomatterApp = angular.module('fotomatterApp', [
 					}
 				}
 			}
-		},
-		phpToJs: function (data) {
-			for (var x in data) {
-				if (data[x] === "1" || data[x] === 1) {
-					data[x] = true;
-				} else if (data[x] === "0" || data[x] === 0) {
-					data[x] = false;
-				}
-			}
-			return data;
-		}		
+		}
 	};
 });
 
