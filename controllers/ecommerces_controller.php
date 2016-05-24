@@ -460,9 +460,8 @@ class EcommercesController extends AppController {
 				$photo_avail_size['PhotoAvailSizesPhotoPrintType']['price'] = $photo_avail_size['PhotoAvailSize']['max_est_cost'] * 2;
 			}
 		}
-		$this->log($print_fulfiller_print_type, "print_fulfiller_print_type");
-		$this->log($photo_avail_sizes, "print_fulfiller_print_type");
 		$autofulfillment_print_list = $this->PhotoPrintType->combine_autofulfillment_print_list($print_fulfiller_print_type, $photo_avail_sizes);
+		unset($photo_print_type['PhotoAvailSizesPhotoPrintType']);
 		
 		
 		$this->return_angular_json(true, "Automatic Print Type Created", compact('photo_print_type', 'print_fulfiller_print_type', 'print_fulfiller', 'autofulfillment_print_list'));

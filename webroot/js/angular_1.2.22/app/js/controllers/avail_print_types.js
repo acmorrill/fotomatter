@@ -10,36 +10,62 @@ fotomatterControllers.controller('AvailPrintTypesCtrl', ['$scope',  '$timeout', 
 //		console.log(result);
 	});
 	
+	
 	///////////////////////////////////////////////////////////////////
 	// turnaround time options
-	$scope.turnaround_days = [];
-	$scope.turnaround_days.push({
-		'value': "0",
-		'text': 'Default'
-	});
-	$scope.turnaround_days.push({
-		'value': "1",
-		'text': '1 day'
-	});
-	for (var i = 2; i <= 100; i++) {
+		$scope.global_turnaround_days = [];
+		$scope.global_turnaround_days[1] = {
+			id: 1,
+			'text': '1 day'
+		};
+		for (var i = 2; i <= 100; i++) {
+			$scope.global_turnaround_days[i] = {
+				id: i,
+				'text': i + ' days'
+			};
+		}
+
+		$scope.turnaround_days = [];
 		$scope.turnaround_days.push({
-			'value': i.toString(),
-			'text': i + ' days'
+			'value': "0",
+			'text': 'Default'
 		});
-	}
-	$scope.show_editable = function(form, show_or_not) {
-		if (show_or_not) {
-			form.$show();
+		$scope.turnaround_days.push({
+			'value': "1",
+			'text': '1 day'
+		});
+		for (var i = 2; i <= 100; i++) {
+			$scope.turnaround_days.push({
+				'value': i.toString(),
+				'text': i + ' days'
+			});
 		}
-	};
-	$scope.show_turnaround = function(custom_turnaround) {
-		custom_turnaround = parseInt(custom_turnaround);
-		if (!isNaN(custom_turnaround) &&  typeof custom_turnaround == 'number' && custom_turnaround != 0) {
-			return custom_turnaround + ' days';
-		}
-		return $scope.open_print_type.photo_print_type.PhotoPrintType.turnaround_time;
-	};
+		$scope.show_editable = function(form, show_or_not) {
+			if (show_or_not) {
+				form.$show();
+			}
+		};
+		$scope.show_turnaround = function(custom_turnaround) {
+			custom_turnaround = parseInt(custom_turnaround);
+			if (!isNaN(custom_turnaround) &&  typeof custom_turnaround == 'number' && custom_turnaround != 0) {
+				return custom_turnaround + ' days';
+			}
+			return $scope.open_print_type.photo_print_type.PhotoPrintType.turnaround_time + ' day(s)';
+		};
 	// end turnaround time
+	
+	
+	
+	var load_the_print_type = function(print_type) {
+		var print_type_data_promise = PrintTypesService.load_print_type(start_print_type);
+		print_type_data_promise.then(
+			function(print_type_data) {
+				$scope.open_print_type = print_type_data;
+				$scope.myModel = 2;
+			},
+			function(reason) {}
+		);
+	};
 	
 	var last_open_print_type_id = $cookies.get('last_open_print_type_id');
 	if (typeof last_open_print_type_id != "undefined") {
@@ -50,18 +76,9 @@ fotomatterControllers.controller('AvailPrintTypesCtrl', ['$scope',  '$timeout', 
 				print_fulfillment_type: print_type_data[1]
 			}
 		};
-		var print_type_data_promise = PrintTypesService.load_print_type(start_print_type);
-		print_type_data_promise.then(
-			function(print_type_data) {
-				console.log('============================');
-				console.log(print_type_data);
-				console.log('============================');
-				$scope.open_print_type = print_type_data;
-			},
-			function(reason) {}
-		);
-		// DREW TODO - scroll to the newly opened one
+		load_the_print_type(start_print_type);
 	}
+	
 	
 	
 	$scope.printTypeSortableOptions = {
@@ -114,14 +131,7 @@ fotomatterControllers.controller('AvailPrintTypesCtrl', ['$scope',  '$timeout', 
 	
 	$scope.editPrintType = function(print_type) {
 		if (typeof $scope.open_print_type == "undefined" || $scope.open_print_type.photo_print_type.PhotoPrintType.id != print_type.PhotoPrintType.id) { // so if you click the one you are on it will just unselect
-			var print_type_data_promise = PrintTypesService.load_print_type(print_type);
-			print_type_data_promise.then(
-				function(print_type_data) {
-					delete $scope.open_print_type;
-					$scope.open_print_type = print_type_data;
-				},
-				function(reason) {}
-			);
+			load_the_print_type(print_type);
 		} else {
 			$cookies.remove('last_open_print_type_id');
 			delete $scope.open_print_type;

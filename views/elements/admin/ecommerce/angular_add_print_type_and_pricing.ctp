@@ -30,12 +30,11 @@
 			<div class="basic_setting_cont no_border">
 				<label><?php echo __('Estimated Turnaround Time', true); ?></label>
 				<div class="theme_setting_inputs_container">
-					<input 
-						id="print_type_turnaround_time" 
-						type="text"
+					<select 
 						ng-model="open_print_type.photo_print_type.PhotoPrintType.turnaround_time"
+						ng-options="key as value.text for (key, value) in global_turnaround_days"
 						ng-change="savePrintTypeSetting(open_print_type.photo_print_type, '{{open_print_type.photo_print_type.PhotoPrintType.turnaround_time}}')" 
-					/>
+					></select>
 				</div>
 				<div class="theme_setting_description">
 					<?php echo __('The amount of time it takes you to fulfill an order (to receive the funds, order the print, and to ship.) Example: 3 weeks, 5 days, etc. Note: some themes currently don\'t list this anywhere. ', true); ?>
@@ -80,7 +79,7 @@
 									class="available_checkbox" 
 									type="checkbox" 
 									ng-model="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.available" 
-									ng-change="savePrintType(autofulfillment_print_size, $index)" 
+									ng-change="savePrintType(autofulfillment_print_size, $index, true)" 
 									ng-model-options="{}"
 								/>
 								<br />
@@ -116,7 +115,7 @@
 									<label><?php echo __('Price', true); ?></label><br />
 									<span>
 										<span 
-											onbeforesave="savePrintType(autofulfillment_print_size, $index)" 
+											onbeforesave="savePrintType(autofulfillment_print_size, $index, true)" 
 											editable-text="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.price"
 											e-form="price"
 											ng-click="show_editable(fixed_price, !!autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.available == true)"
@@ -176,19 +175,12 @@
 										ng-class="{'disabled': !!autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.available != true}"
 										e-ng-options="s.value as s.text for s in turnaround_days"
 									>{{ show_turnaround(autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.custom_turnaround) }}</span>
-									<?php /*<input
-										class="default_turnaround_time" 
-										type="text"
-										ng-change="savePrintType(photo_avail_size, $index)" 
-										ng-model="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_custom_turnaround"
-										ng-class="{'disabled': photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true}"
-										ng-disabled="photo_avail_size.PhotoAvailSizesPhotoPrintType.non_pano_available != true"
-									/>*/ ?><br />
+									<br />
 								</span>
 								<span class="subitem_container">
 									<input 
 										type="checkbox" 
-										ng-change="savePrintType(autofulfillment_print_size, $index)" 
+										ng-change="savePrintType(autofulfillment_print_size, $index, true)" 
 										ng-model="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.global_default" 
 										ng-class="{'disabled': !!autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.available != true}"
 										ng-disabled="!!autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.available != true"
@@ -198,7 +190,7 @@
 								<span class="subitem_container">
 									<input 
 										type="checkbox" 
-										ng-change="savePrintType(autofulfillment_print_size, $index)" 
+										ng-change="savePrintType(autofulfillment_print_size, $index, true)" 
 										ng-model="autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.force_settings" 
 										ng-class="{'disabled': !!autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.available != true}"
 										ng-disabled="!!autofulfillment_print_size.PhotoAvailSizesPhotoPrintType.available != true"

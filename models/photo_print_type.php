@@ -121,6 +121,8 @@ class PhotoPrintType extends AppModel {
 	 * returns true or string on error
 	 */
 	public function validate_and_save_print_type($data, $is_self_fulfillment = true) {
+		$this->log($data, 'data');
+		
 		///////////////////////////////////////////////
 		// do validation on the data
 		$print_type_id = !empty($data['PhotoPrintType']['id']) ? $data['PhotoPrintType']['id'] : null ;
@@ -161,33 +163,15 @@ class PhotoPrintType extends AppModel {
 				
 				////////////////////////////////////////
 				// validate data
-				if (isset($curr_join_data['non_pano_price']) && !is_numeric($curr_join_data['non_pano_price'])) {
-					unset($curr_join_data['non_pano_price']);
+				if (isset($curr_join_data['price']) && !is_numeric($curr_join_data['price'])) {
+					unset($curr_join_data['price']);
 				}
-				if (isset($curr_join_data['non_pano_shipping_price']) && !is_numeric($curr_join_data['non_pano_shipping_price'])) {
-					unset($curr_join_data['non_pano_shipping_price']);
+				if (isset($curr_join_data['shipping_price']) && !is_numeric($curr_join_data['shipping_price'])) {
+					unset($curr_join_data['shipping_price']);
 				}
-				if (isset($curr_join_data['pano_price']) && !is_numeric($curr_join_data['pano_price'])) {
-					unset($curr_join_data['pano_price']);
-				}
-				if (isset($curr_join_data['pano_shipping_price']) && !is_numeric($curr_join_data['pano_shipping_price'])) {
-					unset($curr_join_data['pano_shipping_price']);
-				}
-//				if (empty($curr_join_data['non_pano_available'])) {
-//					$curr_join_data['non_pano_available'] = 0;
-//				} else {
-//					$curr_join_data['non_pano_available'] = 1;
-//				}
-//				if (empty($curr_join_data['pano_available'])) {
-//					$curr_join_data['pano_available'] = 0;
-//				} else {
-//					$curr_join_data['pano_available'] = 1;
-//				}
-//				if ($curr_join_data['non_pano_custom_turnaround'] == $turnaround_time) { unset($curr_join_data['non_pano_custom_turnaround']); }
-//				if ($curr_join_data['pano_custom_turnaround'] == $turnaround_time) { unset($curr_join_data['pano_custom_turnaround']); }
 				
 				
-				if (!isset($curr_join_data['photo_avail_size_id']) || ($curr_join_data['non_pano_available'] != 1 && $curr_join_data['pano_available'] != 1) ) { // means we need to remove the join table entry instead
+				if ( !isset($curr_join_data['photo_avail_size_id']) || $curr_join_data['available'] != 1 ) { // means we need to remove the join table entry instead
 					$this->PhotoAvailSizesPhotoPrintType->deleteAll(array(
 						'PhotoAvailSizesPhotoPrintType.id' => $curr_join_data['id']
 					), true, true);
@@ -200,34 +184,12 @@ class PhotoPrintType extends AppModel {
 					$new_join_table_data['id'] = $curr_join_data['id'];
 					$new_join_table_data['photo_avail_size_id'] = $curr_join_data['photo_avail_size_id'];
 					$new_join_table_data['photo_print_type_id'] = $this->id;
-					$new_join_table_data['non_pano_available'] = $curr_join_data['non_pano_available'];
-					if ($new_join_table_data['non_pano_available'] === 1) {
-						$new_join_table_data['non_pano_price'] = !empty($curr_join_data['non_pano_price']) ? $curr_join_data['non_pano_price'] : '0.00';
-						$new_join_table_data['non_pano_shipping_price'] = !empty($curr_join_data['non_pano_shipping_price']) ? $curr_join_data['non_pano_shipping_price'] : '0.00';
-						$new_join_table_data['non_pano_custom_turnaround'] = (!empty($curr_join_data['non_pano_custom_turnaround']) && $curr_join_data['non_pano_custom_turnaround'] != $turnaround_time) ? $curr_join_data['non_pano_custom_turnaround'] : '';
-						$new_join_table_data['non_pano_global_default'] = !empty($curr_join_data['non_pano_global_default']) ? 1 : 0;
-						$new_join_table_data['non_pano_force_settings'] = !empty($curr_join_data['non_pano_force_settings']) ? 1 : 0;
-					} else {
-						$new_join_table_data['non_pano_price'] = '0.00';
-						$new_join_table_data['non_pano_shipping_price'] = '0.00';
-						$new_join_table_data['non_pano_custom_turnaround'] = '';
-						$new_join_table_data['non_pano_global_default'] = 1;
-						$new_join_table_data['non_pano_force_settings'] = 1;
-					}
-					$new_join_table_data['pano_available'] = $curr_join_data['pano_available'];
-					if ($new_join_table_data['pano_available'] === 1) {
-						$new_join_table_data['pano_price'] = !empty($curr_join_data['pano_price']) ? $curr_join_data['pano_price'] : '0.00';
-						$new_join_table_data['pano_shipping_price'] = !empty($curr_join_data['pano_shipping_price']) ? $curr_join_data['pano_shipping_price'] : '0.00';
-						$new_join_table_data['pano_custom_turnaround'] = (!empty($curr_join_data['pano_custom_turnaround']) && $curr_join_data['pano_custom_turnaround'] != $turnaround_time) ? $curr_join_data['pano_custom_turnaround'] : '';
-						$new_join_table_data['pano_global_default'] = !empty($curr_join_data['pano_global_default']) ? 1 : 0;
-						$new_join_table_data['pano_force_settings'] = !empty($curr_join_data['pano_force_settings']) ? 1 : 0;
-					} else {
-						$new_join_table_data['pano_price'] = '0.00';
-						$new_join_table_data['pano_shipping_price'] = '0.00';
-						$new_join_table_data['pano_custom_turnaround'] = '';
-						$new_join_table_data['pano_global_default'] = 1;
-						$new_join_table_data['pano_force_settings'] = 1;
-					}
+					$new_join_table_data['available'] = $curr_join_data['available'];
+					$new_join_table_data['price'] = '0.00';
+					$new_join_table_data['shipping_price'] = '0.00';
+					$new_join_table_data['custom_turnaround'] = 0;
+					$new_join_table_data['global_default'] = 1;
+					$new_join_table_data['force_settings'] = 1;
 					$new_join_table_data_save['PhotoAvailSizesPhotoPrintType'] = $new_join_table_data;
 
 
