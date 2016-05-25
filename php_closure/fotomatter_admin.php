@@ -22,6 +22,7 @@ $php_closure[] = 'js/angular_1.2.22/bower_components/angular-xeditable/dist/js/x
 $php_closure[] = 'js/angular_1.2.22/bower_components/angular-cookies/angular-cookies.min.js';
 $php_closure[] = 'js/angular_1.2.22/bower_components/angular-ui-sortable/sortable.js';
 $php_closure[] = 'js/angular_1.2.22/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js';
+$php_closure[] = 'js/angular_1.2.22/bower_components/angular-toggle-switch/angular-toggle-switch.min.js';
 //$php_closure[] = 'js/angular_1.2.22/bower_components/checklist-model/checklist-model.js';
 //$php_closure[] = 'js/angular_1.2.22/bower_components/ngInfiniteScroll/build/ng-infinite-scroll.min.js';
 //$php_closure[] = 'js/angular_1.2.22/bower_components/angular-ui-sortable/sortable.min.js';

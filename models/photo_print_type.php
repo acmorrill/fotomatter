@@ -37,7 +37,9 @@ class PhotoPrintType extends AppModel {
 				}
 				return $print_fulfiller_print_type['PrintFulfillerPrintTypeFixedSize'];
 			case 'dynamic': // means sizes only chosen by end user
-				// display type already set to dynamic
+				foreach ($photo_avail_sizes as &$photo_avail_size) {
+					$photo_avail_size['display_type'] = 'dynamic';
+				}
 				return $photo_avail_sizes;
 			case 'fixeddynamic': // fixed dynamic means that there are both fixed (chosen by the printer) and dynamic (determined by the avail print sizes)
 				if (!empty($print_fulfiller_print_type['PhotoAvailSizesPhotoPrintType'])) {
@@ -53,6 +55,10 @@ class PhotoPrintType extends AppModel {
 				foreach ($merged_arrays as &$merged_array) {
 					if (isset($merged_array['short_side_inches'])) {
 						$merged_array['display_type'] = 'fixed';
+//						$this->log($merged_array, 'merged_array');
+						if ($merged_array['PhotoAvailSizesPhotoPrintType']['price'] <= $merged_array['cost']) {
+							$merged_array['PhotoAvailSizesPhotoPrintType']['price'] = $merged_array['cost'] * 2;
+						}
 					} else {
 						$merged_array['display_type'] = 'dynamic';
 					}
@@ -86,7 +92,7 @@ class PhotoPrintType extends AppModel {
 	public function create_new_photo_print_type($type, $print_fulfiller_id = null, $print_fulfiller_print_type_id = null, $print_fulfiller_print_type = array(), $print_name = 'New Print') {
 		$data = array();
 		$data['PhotoPrintType']['print_name'] = $print_name;
-		$data['PhotoPrintType']['turnaround_time'] = '3 Weeks';
+		$data['PhotoPrintType']['turnaround_time'] = 14;
 		$data['PhotoPrintType']['print_fulfillment_type'] = $type;
 		$data['PhotoPrintType']['print_fulfiller_id'] = $print_fulfiller_id;
 		$data['PhotoPrintType']['print_fulfiller_print_type_id'] = $print_fulfiller_print_type_id;
@@ -102,12 +108,12 @@ class PhotoPrintType extends AppModel {
 				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['print_fulfiller_print_type_fixed_size_id'] = $fixed_size_id;
 				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['photo_print_type_id'] = $this->id;
 				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['available'] = 0;
-				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['price'] = 0;
+				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['price'] = $fixed_size['cost'] * 2;
 				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['handling_price'] = 0;
-				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['custom_turnaround'] = 14;
+				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['custom_turnaround'] = 0; // means that the global turnaround time is used by default
 				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['global_default'] = 1;
 				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['force_settings'] = 1;
-				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['photo_print_type'] = $type;
+				$photo_avail_sizes_photo_print_type['PhotoAvailSizesPhotoPrintType']['photo_print_type'] = 'autofixed';
 				$this->PhotoAvailSizesPhotoPrintType->create();
 				$this->PhotoAvailSizesPhotoPrintType->save($photo_avail_sizes_photo_print_type);
 			}
@@ -121,8 +127,6 @@ class PhotoPrintType extends AppModel {
 	 * returns true or string on error
 	 */
 	public function validate_and_save_print_type($data, $is_self_fulfillment = true) {
-		$this->log($data, 'data');
-		
 		///////////////////////////////////////////////
 		// do validation on the data
 		$print_type_id = !empty($data['PhotoPrintType']['id']) ? $data['PhotoPrintType']['id'] : null ;
@@ -134,7 +138,7 @@ class PhotoPrintType extends AppModel {
 			$print_name = "New Print Type";
 		}
 		if (empty($turnaround_time)) {
-			$turnaround_time = '3 Weeks';
+			$turnaround_time = 14;
 		}
 
 		$return_data = array();
@@ -171,7 +175,7 @@ class PhotoPrintType extends AppModel {
 				}
 				
 				
-				if ( !isset($curr_join_data['photo_avail_size_id']) || $curr_join_data['available'] != 1 ) { // means we need to remove the join table entry instead
+				if ( !isset($curr_join_data['photo_avail_size_id']) || $curr_join_data['available'] != 1 && $curr_join_data['photo_print_type'] != 'autofixed') { // means we need to remove the join table entry instead
 					$this->PhotoAvailSizesPhotoPrintType->deleteAll(array(
 						'PhotoAvailSizesPhotoPrintType.id' => $curr_join_data['id']
 					), true, true);
@@ -180,16 +184,23 @@ class PhotoPrintType extends AppModel {
 					$new_join_table_data = array();
 					if (empty($curr_join_data['id'])) {
 						$curr_join_data['id'] = null;
+						$curr_join_data['global_default'] = 1;
+						$curr_join_data['force_settings'] = 1;
 					}
 					$new_join_table_data['id'] = $curr_join_data['id'];
 					$new_join_table_data['photo_avail_size_id'] = $curr_join_data['photo_avail_size_id'];
 					$new_join_table_data['photo_print_type_id'] = $this->id;
 					$new_join_table_data['available'] = $curr_join_data['available'];
-					$new_join_table_data['price'] = '0.00';
-					$new_join_table_data['shipping_price'] = '0.00';
-					$new_join_table_data['custom_turnaround'] = 0;
-					$new_join_table_data['global_default'] = 1;
-					$new_join_table_data['force_settings'] = 1;
+					
+					$new_join_table_data['price'] = !empty($curr_join_data['price']) ? $curr_join_data['price'] : '0.00';
+					$new_join_table_data['shipping_price'] = !empty($curr_join_data['shipping_price']) ? $curr_join_data['shipping_price'] : '0.00';
+					$new_join_table_data['custom_turnaround'] = isset($curr_join_data['custom_turnaround']) ? $curr_join_data['custom_turnaround'] : 0;
+					$new_join_table_data['global_default'] = isset($curr_join_data['global_default']) ? $curr_join_data['global_default'] : 1;
+					$new_join_table_data['force_settings'] = isset($curr_join_data['force_settings']) ? $curr_join_data['force_settings'] : 1;
+					$new_join_table_data['photo_print_type'] = isset($curr_join_data['photo_print_type']) ? $curr_join_data['photo_print_type'] : '';
+					$this->log($curr_join_data, 'new_join_table_data');
+					$this->log($new_join_table_data, 'new_join_table_data');
+					
 					$new_join_table_data_save['PhotoAvailSizesPhotoPrintType'] = $new_join_table_data;
 
 

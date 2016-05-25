@@ -457,14 +457,29 @@ class EcommercesController extends AppController {
 				$photo_avail_size['PhotoAvailSize']['max_est_cost_display'] = number_format($photo_avail_size['PhotoAvailSize']['max_est_cost'], 2);
 				$photo_avail_size['PhotoAvailSize']['avg_est_cost_display'] = number_format($photo_avail_size['PhotoAvailSize']['avg_sq_inches'] * $print_fulfiller_print_type['dynamic_cost_sq_inch'], 2);
 				$photo_avail_size['PhotoAvailSize']['dynamic_cost_sq_inch'] = $print_fulfiller_print_type['dynamic_cost_sq_inch'] + 0;
-				$photo_avail_size['PhotoAvailSizesPhotoPrintType']['price'] = $photo_avail_size['PhotoAvailSize']['max_est_cost'] * 2;
+				$photo_avail_size['PhotoAvailSizesPhotoPrintType']['photo_print_type'] = 'autodynamic';
+				if (!isset($photo_avail_size['PhotoAvailSizesPhotoPrintType']['price']) || $photo_avail_size['PhotoAvailSizesPhotoPrintType']['price'] < $photo_avail_size['PhotoAvailSize']['max_est_cost']) {
+					$photo_avail_size['PhotoAvailSizesPhotoPrintType']['price'] = number_format($photo_avail_size['PhotoAvailSize']['max_est_cost'] * 2, 2);
+				}
 			}
 		}
-		$autofulfillment_print_list = $this->PhotoPrintType->combine_autofulfillment_print_list($print_fulfiller_print_type, $photo_avail_sizes);
+		
+		
+		
+		$print_sizes_list = $this->PhotoPrintType->combine_autofulfillment_print_list($print_fulfiller_print_type, $photo_avail_sizes);
+		foreach ($print_sizes_list as $key => &$print_list) {
+			if (empty($print_list['PhotoAvailSizesPhotoPrintType']['id'])) {
+				$print_list['PhotoAvailSizesPhotoPrintType']['global_default'] = 1;
+				$print_list['PhotoAvailSizesPhotoPrintType']['force_settings'] = 1;
+				$print_list['PhotoAvailSizesPhotoPrintType']['custom_turnaround'] = "0";
+			}
+		}
 		unset($photo_print_type['PhotoAvailSizesPhotoPrintType']);
 		
+//		$this->log($print_sizes_list, "print_sizes_list");
 		
-		$this->return_angular_json(true, "Automatic Print Type Created", compact('photo_print_type', 'print_fulfiller_print_type', 'print_fulfiller', 'autofulfillment_print_list'));
+		
+		$this->return_angular_json(true, "Automatic Print Type Created", compact('photo_print_type', 'print_fulfiller_print_type', 'print_fulfiller', 'print_sizes_list'));
 	}
 	
 	
@@ -476,7 +491,7 @@ class EcommercesController extends AppController {
 			$photo_print_type_id = $new_id;
 		}
 		
-		$photo_avail_sizes = $this->PhotoAvailSize->get_photo_avail_sizes($photo_print_type_id);
+		$print_sizes_list = $this->PhotoAvailSize->get_photo_avail_sizes($photo_print_type_id);
 		
 		$photo_print_type = $this->PhotoPrintType->find('first', array(
 			'conditions' => array(
@@ -485,7 +500,21 @@ class EcommercesController extends AppController {
 			'contain' => false
 		));
 		
-		$this->return_angular_json(true, '', compact('photo_avail_sizes', 'photo_print_type'));
+		$this->log($print_sizes_list, "print_sizes_list");
+		
+		foreach ($print_sizes_list as $key => &$curr_list_item) {
+			if (empty($curr_list_item['PhotoAvailSizesPhotoPrintType']['id'])) {
+				$curr_list_item['PhotoAvailSizesPhotoPrintType']['price'] = 0;
+				$curr_list_item['PhotoAvailSizesPhotoPrintType']['handling_price'] = 0;
+				$curr_list_item['PhotoAvailSizesPhotoPrintType']['custom_turnaround'] = "0"; // means uses the global turnaround default
+				$curr_list_item['PhotoAvailSizesPhotoPrintType']['global_default'] = 1;
+				$curr_list_item['PhotoAvailSizesPhotoPrintType']['force_settings'] = 1;
+				$curr_list_item['PhotoAvailSizesPhotoPrintType']['photo_print_type'] = 'self';
+			}
+			$curr_list_item['display_type'] = 'self';
+		}
+		
+		$this->return_angular_json(true, '', compact('print_sizes_list', 'photo_print_type'));
 	}
 	
 	public function admin_angular_save_print_type_and_pricing() {

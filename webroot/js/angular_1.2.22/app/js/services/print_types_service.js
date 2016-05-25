@@ -5,10 +5,15 @@ fotomatterServices.factory('PrintTypesService', ['PrintTypes', '$cookies', '$q',
 
 	service.reformat_print_type_result = function(list) {
 		for (var index in list) {
-			list[index]['PhotoAvailSizesPhotoPrintType']['global_default'] = !!list[index]['PhotoAvailSizesPhotoPrintType']['global_default'];
-			list[index]['PhotoAvailSizesPhotoPrintType']['force_settings'] = !!list[index]['PhotoAvailSizesPhotoPrintType']['force_settings'];
-			list[index]['PhotoAvailSizesPhotoPrintType']['available'] = !!list[index]['PhotoAvailSizesPhotoPrintType']['available'];
+			list[index]['PhotoAvailSizesPhotoPrintType']['global_default'] = !!parseInt(list[index]['PhotoAvailSizesPhotoPrintType']['global_default']);
+			list[index]['PhotoAvailSizesPhotoPrintType']['force_settings'] = !!parseInt(list[index]['PhotoAvailSizesPhotoPrintType']['force_settings']);
+			list[index]['PhotoAvailSizesPhotoPrintType']['available'] = !!parseInt(list[index]['PhotoAvailSizesPhotoPrintType']['available']);
 		}
+	};
+	service.reformat_print_type_save_result = function(data) {
+		data['PhotoAvailSizesPhotoPrintType']['global_default'] = !!parseInt(data['PhotoAvailSizesPhotoPrintType']['global_default']);
+		data['PhotoAvailSizesPhotoPrintType']['force_settings'] = !!parseInt(data['PhotoAvailSizesPhotoPrintType']['force_settings']);
+		data['PhotoAvailSizesPhotoPrintType']['available'] = !!parseInt(data['PhotoAvailSizesPhotoPrintType']['available']);
 	};
 	
 	service.reformat_print_type_post_data = function(data) {
@@ -26,6 +31,7 @@ fotomatterServices.factory('PrintTypesService', ['PrintTypes', '$cookies', '$q',
 		if (print_type.PhotoPrintType.print_fulfillment_type == 'self') {
 			edit_print_type_promise = PrintTypes.edit({photo_print_type_id: print_type.PhotoPrintType.id}).$promise;
 			edit_print_type_promise.then(function(result) {
+				service.reformat_print_type_result(result.data.print_sizes_list);
 				$cookies.put('last_open_print_type_id', print_type.PhotoPrintType.id + "|" + print_type.PhotoPrintType.print_fulfillment_type);
 				hide_universal_load();
 				deferred.resolve(result.data);
@@ -33,7 +39,7 @@ fotomatterServices.factory('PrintTypesService', ['PrintTypes', '$cookies', '$q',
 		} else {
 			edit_print_type_promise = PrintTypes.edit_automatic({photo_print_type_id: print_type.PhotoPrintType.id}).$promise;
 			edit_print_type_promise.then(function(result) {
-				service.reformat_print_type_result(result.data.autofulfillment_print_list);
+				service.reformat_print_type_result(result.data.print_sizes_list);
 				$cookies.put('last_open_print_type_id', print_type.PhotoPrintType.id + "|" + print_type.PhotoPrintType.print_fulfillment_type);
 				hide_universal_load();
 				deferred.resolve(result.data);
