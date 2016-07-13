@@ -840,6 +840,7 @@ class Photo extends AppModel {
 
 
 		$sellable_datas = $this->get_sellable_print_sizes_by_id($photo_id);
+//                $this->log($sellable_datas, 'sellable_datas');
 
 
 		$combined_data = array();
@@ -892,66 +893,50 @@ class Photo extends AppModel {
 	 * @return type
 	 */
 	public function get_sellable_print_sizes($photo, $photo_print_type_id = null) {
-		$join_format_requirment = 'non_pano';
-		if ($this->photo_has_pano_format($photo)) {
-			$join_format_requirment = 'pano';
-		}
 		$where_clause = "
-			WHERE 
-				PrintTypeJoin.{$join_format_requirment}_available = 1
+                    WHERE 
+                        PrintTypeJoin.available = 1
 		";
 		if (isset($photo_print_type_id)) {
-			$photo_print_type_id = (int) $photo_print_type_id;
-			$where_clause .= "
-				AND PhotoPrintType.id = :photo_print_type_id
-			";
+                    $photo_print_type_id = (int) $photo_print_type_id;
+                    $where_clause .= "
+                            AND PhotoPrintType.id = :photo_print_type_id
+                    ";
 		}
 		$photo_sellable_print_query = "
-			SELECT * FROM photo_avail_sizes_photo_print_types AS PrintTypeJoin
-				LEFT JOIN photo_print_types AS PhotoPrintType
-					ON (PhotoPrintType.id = PrintTypeJoin.photo_print_type_id)
-				LEFT JOIN photo_avail_sizes AS PhotoAvailSize
-					ON (PhotoAvailSize.id = PrintTypeJoin.photo_avail_size_id)
-				LEFT JOIN photo_sellable_prints AS PhotoSellablePrint
-					ON (PhotoSellablePrint.photo_avail_sizes_photo_print_type_id = PrintTypeJoin.id AND PhotoSellablePrint.photo_id = :photo_id)
-				$where_clause
-			ORDER BY PhotoPrintType.order, PhotoAvailSize.short_side_length
+                    SELECT * FROM photo_avail_sizes_photo_print_types AS PrintTypeJoin
+                            LEFT JOIN photo_print_types AS PhotoPrintType
+                                    ON (PhotoPrintType.id = PrintTypeJoin.photo_print_type_id)
+                            LEFT JOIN photo_avail_sizes AS PhotoAvailSize
+                                    ON (PhotoAvailSize.id = PrintTypeJoin.photo_avail_size_id)
+                            LEFT JOIN photo_sellable_prints AS PhotoSellablePrint
+                                    ON (PhotoSellablePrint.photo_avail_sizes_photo_print_type_id = PrintTypeJoin.id AND PhotoSellablePrint.photo_id = :photo_id)
+                            $where_clause
+                    ORDER BY PhotoPrintType.order, PhotoAvailSize.short_side_length
 		";
 		$this->PhotoAvailSizesPhotoPrintType = ClassRegistry::init('PhotoAvailSizesPhotoPrintType');
 		$photo_sellable_prints = $this->PhotoAvailSizesPhotoPrintType->query($photo_sellable_print_query, array(
-			'photo_id' => $photo['Photo']['id'],
-			'photo_print_type_id' => $photo_print_type_id,
+                    'photo_id' => $photo['Photo']['id'],
+                    'photo_print_type_id' => $photo_print_type_id,
 		));
 
-
-
-		/////////////////////////////////////
-		// set the default data
-		foreach ($photo_sellable_prints as &$photo_sellable_print) {
-			$photo_sellable_print['DefaultPrintData'] = $this->get_long_side_length($photo, $photo_sellable_print['PhotoAvailSize']['short_side_length']);
-			$photo_sellable_print['DefaultPrintData']['default_available'] = $photo_sellable_print['PrintTypeJoin']["{$join_format_requirment}_global_default"];
-			$photo_sellable_print['DefaultPrintData']['price'] = $photo_sellable_print['PrintTypeJoin']["{$join_format_requirment}_price"];
-			$photo_sellable_print['DefaultPrintData']['shipping_price'] = $photo_sellable_print['PrintTypeJoin']["{$join_format_requirment}_shipping_price"];
-			$photo_sellable_print['DefaultPrintData']['custom_turnaround'] = $photo_sellable_print['PrintTypeJoin']["{$join_format_requirment}_custom_turnaround"];
-			$photo_sellable_print['DefaultPrintData']['force_defaults'] = $photo_sellable_print['PrintTypeJoin']["{$join_format_requirment}_force_settings"];
-		}
-
+                // START HERE TOMORROW - NEED TO FIGURE OUT PRICE BASED ON TYPES OF DYNAMIC, FIXED DYNAMIC, FIXED, AND SELF
 
 		/////////////////////////////////////
 		// set the current values
 		foreach ($photo_sellable_prints as &$photo_sellable_print) {
 			$photo_sellable_print['CurrentPrintData'] = $this->get_long_side_length($photo, $photo_sellable_print['PhotoAvailSize']['short_side_length']);
-			if (!empty($photo_sellable_print['PhotoSellablePrint']['override_for_photo']) && $photo_sellable_print['DefaultPrintData']['force_defaults'] !== '1') {
+			if (!empty($photo_sellable_print['PhotoSellablePrint']['override_for_photo']) && $photo_sellable_print['PrintTypeJoin']['force_defaults'] !== '1') {
 				$photo_sellable_print['CurrentPrintData']['available'] = isset($photo_sellable_print['PhotoSellablePrint']['available']) ? $photo_sellable_print['PhotoSellablePrint']['available'] : $photo_sellable_print['DefaultPrintData']['default_available'];
 				$photo_sellable_print['CurrentPrintData']['price'] = isset($photo_sellable_print['PhotoSellablePrint']['price']) ? $photo_sellable_print['PhotoSellablePrint']['price'] : $photo_sellable_print['DefaultPrintData']['price'];
 				$photo_sellable_print['CurrentPrintData']['shipping_price'] = isset($photo_sellable_print['PhotoSellablePrint']['shipping_price']) ? $photo_sellable_print['PhotoSellablePrint']['shipping_price'] : $photo_sellable_print['DefaultPrintData']['shipping_price'];
 				$photo_sellable_print['CurrentPrintData']['custom_turnaround'] = (isset($photo_sellable_print['PhotoSellablePrint']['custom_turnaround']) && $photo_sellable_print['PhotoSellablePrint']['custom_turnaround'] != '') ? $photo_sellable_print['PhotoSellablePrint']['custom_turnaround'] : $photo_sellable_print['DefaultPrintData']['custom_turnaround'];
 				$photo_sellable_print['CurrentPrintData']['override_for_photo'] = '1';
 			} else {
-				$photo_sellable_print['CurrentPrintData']['available'] = $photo_sellable_print['DefaultPrintData']['default_available'];
-				$photo_sellable_print['CurrentPrintData']['price'] = $photo_sellable_print['DefaultPrintData']['price'];
-				$photo_sellable_print['CurrentPrintData']['shipping_price'] = $photo_sellable_print['DefaultPrintData']['shipping_price'];
-				$photo_sellable_print['CurrentPrintData']['custom_turnaround'] = $photo_sellable_print['DefaultPrintData']['custom_turnaround'];
+				$photo_sellable_print['CurrentPrintData']['available'] = $photo_sellable_print['PrintTypeJoin']["global_default"];
+				$photo_sellable_print['CurrentPrintData']['price'] = $photo_sellable_print['PrintTypeJoin']["price"];
+				$photo_sellable_print['CurrentPrintData']['handling_price'] = $photo_sellable_print['PrintTypeJoin']["handling_price"];
+				$photo_sellable_print['CurrentPrintData']['custom_turnaround'] = $photo_sellable_print['PrintTypeJoin']["custom_turnaround"];
 				$photo_sellable_print['CurrentPrintData']['override_for_photo'] = '0';
 			}
 

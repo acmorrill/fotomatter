@@ -1,11 +1,11 @@
 <?php if (!empty($current_on_off_features['basic_shopping_cart'])): ?>
 	<?php
-		if (empty($photo_sellable_prints)) {
-			$photo_sellable_prints = $this->Photo->get_enabled_photo_sellable_prints($photo_id);
-		}
-		if (empty($beforeHtml)) {
-			$beforeHtml = '';
-		}
+            if (empty($photo_sellable_prints)) {
+                    $photo_sellable_prints = $this->Photo->get_enabled_photo_sellable_prints($photo_id);
+            }
+            if (empty($beforeHtml)) {
+                    $beforeHtml = '';
+            }
 	?>
 	<div class="compact_add_to_cart_buttons_cont">
 		<?php if (empty($photo_sellable_prints)): ?>

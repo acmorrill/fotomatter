@@ -2571,7 +2571,6 @@ body .ui-tooltip {
 .toggle-switch {
   display: inline-block;
   cursor: pointer;
-  border-radius: 4px;
   border: 1px solid;
   border-color: #cccccc;
   position: relative;
@@ -2594,7 +2593,7 @@ body .ui-tooltip {
 }
 .toggle-switch .switch-left {
   color: #fff;
-  background: #428bca;
+  background: #2ac0de;
 }
 .toggle-switch .switch-right {
   color: #000;
@@ -2633,9 +2632,8 @@ body .ui-tooltip {
 }
 .toggle-switch .knob {
   background: red;
-  border-left: 1px solid #ccc;
   border-right: 1px solid #ccc;
-  background-color: #f5f5f5;
+  background-color: #3d3e3f;
   width: 34%;
   z-index: 100;
 }
@@ -2651,11 +2649,11 @@ body .ui-tooltip {
 }
 .toggle-switch .switch-left {
   color: #fff;
-  background: #005fcc;
+  background: #2ac0de;
 }
 .toggle-switch .switch-right {
-  color: #333;
-  background: #f0f0f0;
+  color: #ffffff;
+  background: #292929;
 }
 .toggle-switch-animate {
   transition: left 0.5s;

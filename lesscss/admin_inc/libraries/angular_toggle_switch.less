@@ -1,7 +1,7 @@
 .toggle-switch {
     display: inline-block;
     cursor: pointer;
-    border-radius: 4px;
+    /*border-radius: 4px;*/
     border: 1px solid;
     border-color: #cccccc;
     position: relative;
@@ -26,7 +26,7 @@
 
 .toggle-switch .switch-left {
     color: #fff;
-    background: #428bca;
+    background: @tab2_on_color;
 }
 
 .toggle-switch .switch-right {
@@ -73,9 +73,9 @@
 
 .toggle-switch .knob {
     background: red;
-    border-left: 1px solid #ccc;
+    /*border-left: 1px solid #ccc;*/
     border-right: 1px solid #ccc;
-    background-color: #f5f5f5;
+    background-color: @table_hover;
     width: 34%;
     z-index: 100;
 }
@@ -94,12 +94,12 @@
 
 .toggle-switch .switch-left {
     color: #fff;
-    background: #005fcc;
+    background: @tab2_on_color;
 }
 
 .toggle-switch .switch-right {
-    color: #333;
-    background: #f0f0f0;
+    color: @white;
+    background: @off_black + @button_bg_increase;
 }
 
 .toggle-switch-animate {
