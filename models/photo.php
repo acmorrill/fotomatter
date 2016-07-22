@@ -919,35 +919,102 @@ class Photo extends AppModel {
                     'photo_id' => $photo['Photo']['id'],
                     'photo_print_type_id' => $photo_print_type_id,
 		));
-
-                // START HERE TOMORROW - NEED TO FIGURE OUT PRICE BASED ON TYPES OF DYNAMIC, FIXED DYNAMIC, FIXED, AND SELF
+                
+                
+                
+                
 
 		/////////////////////////////////////
 		// set the current values
 		foreach ($photo_sellable_prints as &$photo_sellable_print) {
-			$photo_sellable_print['CurrentPrintData'] = $this->get_long_side_length($photo, $photo_sellable_print['PhotoAvailSize']['short_side_length']);
-			if (!empty($photo_sellable_print['PhotoSellablePrint']['override_for_photo']) && $photo_sellable_print['PrintTypeJoin']['force_defaults'] !== '1') {
-				$photo_sellable_print['CurrentPrintData']['available'] = isset($photo_sellable_print['PhotoSellablePrint']['available']) ? $photo_sellable_print['PhotoSellablePrint']['available'] : $photo_sellable_print['DefaultPrintData']['default_available'];
-				$photo_sellable_print['CurrentPrintData']['price'] = isset($photo_sellable_print['PhotoSellablePrint']['price']) ? $photo_sellable_print['PhotoSellablePrint']['price'] : $photo_sellable_print['DefaultPrintData']['price'];
-				$photo_sellable_print['CurrentPrintData']['shipping_price'] = isset($photo_sellable_print['PhotoSellablePrint']['shipping_price']) ? $photo_sellable_print['PhotoSellablePrint']['shipping_price'] : $photo_sellable_print['DefaultPrintData']['shipping_price'];
-				$photo_sellable_print['CurrentPrintData']['custom_turnaround'] = (isset($photo_sellable_print['PhotoSellablePrint']['custom_turnaround']) && $photo_sellable_print['PhotoSellablePrint']['custom_turnaround'] != '') ? $photo_sellable_print['PhotoSellablePrint']['custom_turnaround'] : $photo_sellable_print['DefaultPrintData']['custom_turnaround'];
-				$photo_sellable_print['CurrentPrintData']['override_for_photo'] = '1';
-			} else {
-				$photo_sellable_print['CurrentPrintData']['available'] = $photo_sellable_print['PrintTypeJoin']["global_default"];
-				$photo_sellable_print['CurrentPrintData']['price'] = $photo_sellable_print['PrintTypeJoin']["price"];
-				$photo_sellable_print['CurrentPrintData']['handling_price'] = $photo_sellable_print['PrintTypeJoin']["handling_price"];
-				$photo_sellable_print['CurrentPrintData']['custom_turnaround'] = $photo_sellable_print['PrintTypeJoin']["custom_turnaround"];
-				$photo_sellable_print['CurrentPrintData']['override_for_photo'] = '0';
-			}
+                    $photo_sellable_print['CurrentPrintData'] = array();
+                    
+                    //////////////////////////////////////////////////////
+                    // add in the overlord print fulfiller data
+                    if ($photo_sellable_print['PhotoPrintType']['print_fulfillment_type'] != 'self') {
+                        $photo_sellable_print['CurrentPrintData']['print_fulfiller'] = $this->overlord_account_info['print_fulfillers_indexed'][$photo_sellable_print['PhotoPrintType']['print_fulfiller_id']];
+                        $photo_sellable_print['CurrentPrintData']['print_fulfiller_print_type'] = $photo_sellable_print['CurrentPrintData']['print_fulfiller']['PrintFulfillerPrintType'][$photo_sellable_print['PhotoPrintType']['print_fulfiller_print_type_id']];
+                        if (!empty($photo_sellable_print['PrintTypeJoin']['print_fulfiller_print_type_fixed_size_id'])) {
+                            $photo_sellable_print['CurrentPrintData']['print_fulfiller_print_type_fixed_size'] = $photo_sellable_print['CurrentPrintData']['print_fulfiller_print_type']['PrintFulfillerPrintTypeFixedSize'][$photo_sellable_print['PrintTypeJoin']['print_fulfiller_print_type_fixed_size_id']];
+                        }
+                        unset($photo_sellable_print['CurrentPrintData']['print_fulfiller_print_type']['PrintFulfillerPrintTypeFixedSize']);
+                        unset($photo_sellable_print['CurrentPrintData']['print_fulfiller']['PrintFulfillerPrintType']);
+                    }
+                    
+                    //////////////////////////////////////////////////////////////////////////////////////
+                    // decide if the photo should use overridden settings or the global settings
+                    $use_photo_override = !empty($photo_sellable_print['PhotoSellablePrint']['override_for_photo']) && $photo_sellable_print['PrintTypeJoin']['force_defaults'] !== '1';
+                    
+                    
+                    ////////////////////////////////////////////////////////
+                    // add in data based on the fixed, dynamic, self
+                    //   ie - price, cost, short_side_length, long_side_length
+                    //      - sq_inches
+                    $photo_sellable_print['CurrentPrintData'] += $this->get_extra_current_print_data($photo_sellable_print, $photo, $use_photo_override);
+                    
+                    
+                    $this->log($photo_sellable_print['CurrentPrintData'], 'CurrentPrintData');
+                    
+                    
+                    
+                    /////////////////////////////////////////////////////////////////////////
+                    // if the settings are overridden for the current photo and force settings for size are not set
+                    //    -- use the overridden values
+                    // otherwise
+                    //    -- use the settings for the print size
+                    if ($use_photo_override) {
+                        $photo_sellable_print['CurrentPrintData']['available'] = isset($photo_sellable_print['PhotoSellablePrint']['available']) ? $photo_sellable_print['PhotoSellablePrint']['available'] : $photo_sellable_print['PrintTypeJoin']['default_available'];
+                        $photo_sellable_print['CurrentPrintData']['handling_price'] = isset($photo_sellable_print['PhotoSellablePrint']['shipping_price']) ? $photo_sellable_print['PhotoSellablePrint']['shipping_price'] : $photo_sellable_print['PrintTypeJoin']['shipping_price'];
+                        $photo_sellable_print['CurrentPrintData']['custom_turnaround'] = (isset($photo_sellable_print['PhotoSellablePrint']['custom_turnaround']) && $photo_sellable_print['PhotoSellablePrint']['custom_turnaround'] != '') ? $photo_sellable_print['PhotoSellablePrint']['custom_turnaround'] : $photo_sellable_print['PrintTypeJoin']['custom_turnaround'];
+                        $photo_sellable_print['CurrentPrintData']['override_for_photo'] = '1';
+                    } else {
+                        $photo_sellable_print['CurrentPrintData']['available'] = $photo_sellable_print['PrintTypeJoin']["global_default"];
+                        $photo_sellable_print['CurrentPrintData']['handling_price'] = $photo_sellable_print['PrintTypeJoin']["handling_price"];
+                        $photo_sellable_print['CurrentPrintData']['custom_turnaround'] = $photo_sellable_print['PrintTypeJoin']["custom_turnaround"];
+                        $photo_sellable_print['CurrentPrintData']['override_for_photo'] = '0';
+                    }
 
-			if (empty($photo_sellable_print['CurrentPrintData']['custom_turnaround'])) {
-				$photo_sellable_print['CurrentPrintData']['custom_turnaround'] = $photo_sellable_print['PhotoPrintType']['turnaround_time'];
-			}
+                    if (empty($photo_sellable_print['CurrentPrintData']['custom_turnaround'])) {
+                        $photo_sellable_print['CurrentPrintData']['custom_turnaround'] = $photo_sellable_print['PhotoPrintType']['turnaround_time'];
+                    }
 		}
 
 
 		return $photo_sellable_prints;
 	}
+        
+        public function get_extra_current_print_data($photo_sellable_print, $photo, $photo_override = false) {
+            if ($photo_override) {
+                $price = $photo_sellable_print['PrintTypeJoin']["price"];
+            } else {
+                $price = isset($photo_sellable_print['PhotoSellablePrint']['price']) ? $photo_sellable_print['PhotoSellablePrint']['price'] : $photo_sellable_print['PrintTypeJoin']["price"];
+            }
+            
+            switch($photo_sellable_print['PrintTypeJoin']['photo_print_type']) {
+                case "autofixed":
+                    $short_side_inches = $photo_sellable_print['CurrentPrintData']['print_fulfiller_print_type_fixed_size']['short_side_inches'];
+                    $long_side_inches = $photo_sellable_print['CurrentPrintData']['print_fulfiller_print_type_fixed_size']['long_side_inches'];
+                    $sq_inches = $short_side_inches * $long_side_inches;
+                    $cost = $photo_sellable_print['CurrentPrintData']['print_fulfiller_print_type_fixed_size']['cost'];
+                    break;
+                case "autodynamic":
+                    $short_side_inches = $photo_sellable_print['PhotoAvailSize']['short_side_length'];
+                    $long_side_inches = $this->get_long_side_length($photo, $photo_sellable_print['PhotoAvailSize']['short_side_length']);
+                    $sq_inches = $short_side_inches * $long_side_inches;
+                    $cost = $sq_inches * $photo_sellable_print['CurrentPrintData']['print_fulfiller_print_type']['dynamic_cost_sq_inch'];
+                    break;
+                case "self":
+                    $short_side_inches = $photo_sellable_print['PhotoAvailSize']['short_side_length'];
+                    $long_side_inches = $this->get_long_side_length($photo, $photo_sellable_print['PhotoAvailSize']['short_side_length']);
+                    $sq_inches = $short_side_inches * $long_side_inches;
+                    $cost = 0;
+                    break;
+            }
+            
+            $long_side_feet_inches = $this->decimalToFraction($long_side_inches);
+            
+            return compact('price', 'cost', 'short_side_inches', 'long_side_inches', 'long_side_feet_inches', 'sq_inches');
+        }
 
 	public function get_extra_print_data($photo_id, $photo_print_type_id, $short_side_inches) {
 		$sellable_print_sizes = $this->get_sellable_print_sizes_by_id($photo_id, $photo_print_type_id);
@@ -963,7 +1030,7 @@ class Photo extends AppModel {
 
 		return $extra_print_data;
 	}
-
+        
 	public function get_long_side_length($photo, $short_side_length) {
 		$width = $photo['Photo']['pixel_width'];
 		$height = $photo['Photo']['pixel_height'];
@@ -981,9 +1048,7 @@ class Photo extends AppModel {
 		$short_side_inches = $short_side_length;
 		$long_side_inches = ( $short_side_length * $start_long_side ) / $start_short_side;
 
-		$long_side_feet_inches = $this->decimalToFraction($long_side_inches);
-
-		return compact('short_side_inches', 'long_side_inches', 'long_side_feet_inches');
+		return $long_side_inches;
 
 		// DREW TODO - also add a conversion from inches to meters and centimeters
 //		$this->log('============================', 'get_long_side_length');

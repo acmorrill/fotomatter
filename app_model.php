@@ -7,9 +7,15 @@ App::import('Lib', 'LazyModel.LazyModel');
  * @package Precious
  */
 class AppModel extends LazyModel { // a change - even more change
+        public $overlord_account_info;
+    
 	public $actsAs = array(
 		'Containable'
 	);
+        
+        public function set_account_info($overlord_account_info) {
+            $this->overlord_account_info = $overlord_account_info;
+        }
 	
 	public function invalidate_and_clear_view_cache() {
 		// invalide the view cache opcaches

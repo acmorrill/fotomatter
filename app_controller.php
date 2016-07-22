@@ -314,6 +314,8 @@ class AppController extends Controller {
 		
 		
 		$overlord_account_info = $this->FotomatterBilling->get_account_info();
+                $this->Photo = ClassRegistry::init('Photo');
+                $this->Photo->set_account_info($overlord_account_info);
 		$this->overlord_account_info = $overlord_account_info;
 		$this->set('overlord_account_info', $overlord_account_info);
 	}
