@@ -103,6 +103,7 @@
 	<div style="clear: both;"></div>
 	<?php
 		echo $this->Form->create('Photo', array('enctype' => 'multipart/form-data'));
+                echo $this->Form->hidden('override_pricing');
 		echo $this->Element('admin/sub_submenu', array(
 			'tabs' => array(
 				'Image Details' => 'admin/photo/photo_details_image_edit',

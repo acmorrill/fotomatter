@@ -28,7 +28,7 @@
 			<input type="hidden" name="data[Photo][long_side_inches]" value="<?php //echo $print_type_sizes['long_side_feet_inches']; ?>" />-->
 			<select class='sizes_avail_for_print_type' name="data[Photo][short_side_inches]" style='width:200px' tabindex='1'>
 				<?php foreach ($print_type_sizes['items'] as $print_type_size): ?>
-					<option value="<?php echo $print_type_size['short_side_inches']; ?>"><?php echo $print_type_size['short_side_inches']; ?> x <?php echo $print_type_size['long_side_feet_inches']; ?> --- <?php echo $this->Number->currency($print_type_size['price']); ?></option>  
+					<option value="<?php echo $print_type_size['short_side_inches']; ?>"><?php echo $print_type_size['short_side_feet_inches']; ?> x <?php echo $print_type_size['long_side_feet_inches']; ?> --- <?php echo $this->Number->currency($print_type_size['price']); ?></option>  
 				<?php endforeach; ?>
 			</select> 
 			<div class="submit_button_cont">

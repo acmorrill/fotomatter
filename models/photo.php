@@ -912,7 +912,6 @@ class Photo extends AppModel {
                             LEFT JOIN photo_sellable_prints AS PhotoSellablePrint
                                     ON (PhotoSellablePrint.photo_avail_sizes_photo_print_type_id = PrintTypeJoin.id AND PhotoSellablePrint.photo_id = :photo_id)
                             $where_clause
-                    ORDER BY PhotoPrintType.order, PhotoAvailSize.short_side_length
 		";
 		$this->PhotoAvailSizesPhotoPrintType = ClassRegistry::init('PhotoAvailSizesPhotoPrintType');
 		$photo_sellable_prints = $this->PhotoAvailSizesPhotoPrintType->query($photo_sellable_print_query, array(
@@ -922,8 +921,6 @@ class Photo extends AppModel {
                 
                 
                 
-                
-
 		/////////////////////////////////////
 		// set the current values
 		foreach ($photo_sellable_prints as &$photo_sellable_print) {
@@ -943,7 +940,7 @@ class Photo extends AppModel {
                     
                     //////////////////////////////////////////////////////////////////////////////////////
                     // decide if the photo should use overridden settings or the global settings
-                    $use_photo_override = !empty($photo_sellable_print['PhotoSellablePrint']['override_for_photo']) && $photo_sellable_print['PrintTypeJoin']['force_defaults'] !== '1';
+                    $use_photo_override = !empty($photo_sellable_print['PhotoSellablePrint']['override_for_photo']) && $photo_sellable_print['PrintTypeJoin']['force_settings'] !== '1';
                     
                     
                     ////////////////////////////////////////////////////////
@@ -951,9 +948,6 @@ class Photo extends AppModel {
                     //   ie - price, cost, short_side_length, long_side_length
                     //      - sq_inches
                     $photo_sellable_print['CurrentPrintData'] += $this->get_extra_current_print_data($photo_sellable_print, $photo, $use_photo_override);
-                    
-                    
-                    $this->log($photo_sellable_print['CurrentPrintData'], 'CurrentPrintData');
                     
                     
                     
@@ -964,7 +958,7 @@ class Photo extends AppModel {
                     //    -- use the settings for the print size
                     if ($use_photo_override) {
                         $photo_sellable_print['CurrentPrintData']['available'] = isset($photo_sellable_print['PhotoSellablePrint']['available']) ? $photo_sellable_print['PhotoSellablePrint']['available'] : $photo_sellable_print['PrintTypeJoin']['default_available'];
-                        $photo_sellable_print['CurrentPrintData']['handling_price'] = isset($photo_sellable_print['PhotoSellablePrint']['shipping_price']) ? $photo_sellable_print['PhotoSellablePrint']['shipping_price'] : $photo_sellable_print['PrintTypeJoin']['shipping_price'];
+                        $photo_sellable_print['CurrentPrintData']['handling_price'] = isset($photo_sellable_print['PhotoSellablePrint']['handling_price']) ? $photo_sellable_print['PhotoSellablePrint']['handling_price'] : $photo_sellable_print['PrintTypeJoin']['handling_price'];
                         $photo_sellable_print['CurrentPrintData']['custom_turnaround'] = (isset($photo_sellable_print['PhotoSellablePrint']['custom_turnaround']) && $photo_sellable_print['PhotoSellablePrint']['custom_turnaround'] != '') ? $photo_sellable_print['PhotoSellablePrint']['custom_turnaround'] : $photo_sellable_print['PrintTypeJoin']['custom_turnaround'];
                         $photo_sellable_print['CurrentPrintData']['override_for_photo'] = '1';
                     } else {
@@ -978,16 +972,32 @@ class Photo extends AppModel {
                         $photo_sellable_print['CurrentPrintData']['custom_turnaround'] = $photo_sellable_print['PhotoPrintType']['turnaround_time'];
                     }
 		}
+                
+                
+                ///////////////////////////////////////////////////
+                // order the results so that prints are listed by
+                // print type order (set by user)
+                // short side length
+                usort($photo_sellable_prints, function ($a, $b) {
+                    if ($a['PhotoPrintType']['order'] == $b['PhotoPrintType']['order']) {
+                        if ($a['CurrentPrintData']['short_side_inches'] == $b['CurrentPrintData']['short_side_inches']) {
+                            return 0;
+                        }
+                        return ($a['CurrentPrintData']['short_side_inches'] < $b['CurrentPrintData']['short_side_inches']) ? -1 : 1;
+                    }
+                    return ($a['PhotoPrintType']['order'] < $b['PhotoPrintType']['order']) ? -1 : 1;
+                });
 
 
 		return $photo_sellable_prints;
 	}
         
+        
         public function get_extra_current_print_data($photo_sellable_print, $photo, $photo_override = false) {
             if ($photo_override) {
-                $price = $photo_sellable_print['PrintTypeJoin']["price"];
-            } else {
                 $price = isset($photo_sellable_print['PhotoSellablePrint']['price']) ? $photo_sellable_print['PhotoSellablePrint']['price'] : $photo_sellable_print['PrintTypeJoin']["price"];
+            } else {
+                $price = $photo_sellable_print['PrintTypeJoin']["price"];
             }
             
             switch($photo_sellable_print['PrintTypeJoin']['photo_print_type']) {
@@ -1012,8 +1022,9 @@ class Photo extends AppModel {
             }
             
             $long_side_feet_inches = $this->decimalToFraction($long_side_inches);
+            $short_side_feet_inches = $this->decimalToFraction($short_side_inches);
             
-            return compact('price', 'cost', 'short_side_inches', 'long_side_inches', 'long_side_feet_inches', 'sq_inches');
+            return compact('price', 'cost', 'short_side_inches', 'long_side_inches', 'long_side_feet_inches', 'short_side_feet_inches', 'sq_inches');
         }
 
 	public function get_extra_print_data($photo_id, $photo_print_type_id, $short_side_inches) {
