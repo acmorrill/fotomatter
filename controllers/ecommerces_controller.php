@@ -540,7 +540,7 @@ class EcommercesController extends AppController {
 		
 		///////////////////////////////////////////////
 		// make sure ids are valid
-			if (!isset($this->data['PhotoPrintType']['id']) || !isset($this->data['Photo']['id']) || !isset($this->data['Photo']['short_side_inches'])) {
+			if (!isset($this->data['PhotoPrintType']['id']) || !isset($this->data['Photo']['id']) || !isset($this->data['Photo']['chosen_size_data'])) {
 				$this->major_error("photo_print_type_id or photo_id or short_side_inches not set in add to cart", array('data' => $this->data, 'params' => $this->params));
 				$this->Session->setFlash(__('Error adding item to cart.', true), 'admin/flashMessage/error');
 				$this->redirect($this->referer());
@@ -549,7 +549,10 @@ class EcommercesController extends AppController {
 
 			$photo_print_type_id = $this->data['PhotoPrintType']['id'];
 			$photo_id = $this->data['Photo']['id'];
-			$short_side_inches = $this->data['Photo']['short_side_inches'];
+			$chosen_size_data_arr = explode('|', $this->data['Photo']['chosen_size_data']);
+                        $short_side_inches = $chosen_size_data_arr[0];
+                        $print_type = $chosen_size_data_arr[1];
+                        
 			
 			
 			////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -588,16 +591,6 @@ class EcommercesController extends AppController {
 				exit();
 			}
 			
-			// DREW TODO - validate the short side inches 
-			// $short_side_inches
-			
-			// DREW TODO - validate the long side inches
-			
-			
-			// DREW TODO - add in the price to the calculation
-			// validate the price againts the print type and size
-			
-			
 			$qty = 1;
 			if (!empty($this->data['qty'])) {
 				$qty = $this->data['qty'];
@@ -606,7 +599,7 @@ class EcommercesController extends AppController {
 		
 			
 			
-		$this->Cart->add_to_cart($photo_id, $photo_print_type_id, $short_side_inches, $qty);
+		$this->Cart->add_to_cart($photo_id, $photo_print_type_id, $short_side_inches, $print_type, $qty);
 		if (empty($this->data['redirect_url'])) {
 			$this->redirect('/ecommerces/view_cart/');
 		} else {
