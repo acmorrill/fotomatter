@@ -482,11 +482,7 @@ class Cart extends AppModel {
         
         // get shipping rates
         $shipping_estimate = $shipping_estimator->get_shipping_price();
-        $this->log($shipping_estimate, 'shipping_estimate');
-        
-        
-
-        print_r($cart_data);
+        $this->log($shipping_estimate, 'rate_data');
     }
 
 }
