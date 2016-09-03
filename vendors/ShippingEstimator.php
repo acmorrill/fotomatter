@@ -10,7 +10,9 @@ class ShippingEstimator {
 	public $userId = 'acmorrill';
 	public $password = 'AVnYDDF2d7MjcYpbIYOu';
 	private $package_padding = 2;
-	private $max_package_prints = 15;
+	private $max_package_prints = 50;
+	private $by_itself_lbs_per_cuin = .00333;
+	private $loose_prints_lbs_per_cuin = .00347;
 
 	public function check_address() {
 		$address = new \Ups\Entity\Address();
@@ -51,7 +53,8 @@ class ShippingEstimator {
 					'long_side_inches' => 10,
 					'is_pano' => false,
 					'print_type_ships_by_itself' => false,
-					'print_type_can_be_rolled' => false
+					'print_type_can_be_rolled' => false,
+					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
 				],
 				'key2' => [
 					'qty' => 10,
@@ -59,7 +62,8 @@ class ShippingEstimator {
 					'long_side_inches' => 14,
 					'is_pano' => false,
 					'print_type_ships_by_itself' => false,
-					'print_type_can_be_rolled' => false
+					'print_type_can_be_rolled' => false,
+					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
 				],
 				'key3' => [
 					'qty' => 25,
@@ -67,7 +71,8 @@ class ShippingEstimator {
 					'long_side_inches' => 30.75,
 					'is_pano' => false,
 					'print_type_ships_by_itself' => false,
-					'print_type_can_be_rolled' => true
+					'print_type_can_be_rolled' => true,
+					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
 				],
 				'key4' => [
 					'qty' => 10,
@@ -75,7 +80,8 @@ class ShippingEstimator {
 					'long_side_inches' => 24,
 					'is_pano' => false,
 					'print_type_ships_by_itself' => false,
-					'print_type_can_be_rolled' => true
+					'print_type_can_be_rolled' => true,
+					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
 				],
 				'key5' => [
 					'qty' => 10,
@@ -83,7 +89,8 @@ class ShippingEstimator {
 					'long_side_inches' => 40,
 					'is_pano' => true,
 					'print_type_ships_by_itself' => false,
-					'print_type_can_be_rolled' => true
+					'print_type_can_be_rolled' => true,
+					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
 				],
 				'key6' => [
 					'qty' => 10,
@@ -91,7 +98,8 @@ class ShippingEstimator {
 					'long_side_inches' => 40,
 					'is_pano' => true,
 					'print_type_ships_by_itself' => false,
-					'print_type_can_be_rolled' => true
+					'print_type_can_be_rolled' => true,
+					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
 				],
 				'key7' => [
 					'qty' => 10,
@@ -99,7 +107,8 @@ class ShippingEstimator {
 					'long_side_inches' => 40,
 					'is_pano' => true,
 					'print_type_ships_by_itself' => false,
-					'print_type_can_be_rolled' => true
+					'print_type_can_be_rolled' => true,
+					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
 				],
 				'key8' => [
 					'qty' => 10,
@@ -107,7 +116,8 @@ class ShippingEstimator {
 					'long_side_inches' => 40,
 					'is_pano' => true,
 					'print_type_ships_by_itself' => false,
-					'print_type_can_be_rolled' => false
+					'print_type_can_be_rolled' => false,
+					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
 				],
 				'key9' => [
 					'qty' => 10,
@@ -115,7 +125,8 @@ class ShippingEstimator {
 					'long_side_inches' => 40,
 					'is_pano' => true,
 					'print_type_ships_by_itself' => false,
-					'print_type_can_be_rolled' => false
+					'print_type_can_be_rolled' => false,
+					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
 				],
 				'key10' => [
 					'qty' => 3,
@@ -123,66 +134,146 @@ class ShippingEstimator {
 					'long_side_inches' => 50,
 					'is_pano' => false,
 					'print_type_ships_by_itself' => true,
-					'print_type_can_be_rolled' => false
+					'print_type_can_be_rolled' => false,
+					'ship_from_address_id' => 'self_fulfillment|84660|account_id:1'
 				]
+			],
+			'shipping_address' => [
+				'firstname' => 'Josh',
+				'lastname' => 'Posh',
+				'address1' => '517 Eagle Dr.',
+				'city' => 'Anaheim',
+				'zip' => '92804',
+				'country_code' => 'US', // need to add this
+				'state_code' => 'CA', // need to add this
+				'country_id' => 223,
+				'state_id' => 3671
+			],
+			'ship_from_addresses' => [
+				'automatic_fulfillment|84663|print_fulfillers_id:1' => [
+					'name' => 'Snelson Photocolor Lab',
+					'country_code' => 'US',
+					'state_code' => 'UT',
+					'city' => 'Springville',
+					'zip' => '84663',
+				],
+				'self_fulfillment|84660|account_id:1' => [
+					'name' => 'Andrew Morrill Photography',
+					'country_code' => 'US',
+					'state_code' => 'UT',
+					'city' => 'Spanish Fork',
+					'zip' => '84660',
+				],
 			]
 		];
+		$ship_from_addresses = $cart_data['ship_from_addresses'];
+		$ship_to_address = $cart_data['shipping_address'];
 		$items = $this->prepare_cart_items_for_packaging($cart_data['items']);
-		$packages = $this->breakup_packages($items);
+		$this->sort_cart_items($items);
+		$items_by_shipper = $this->breakup_items_by_shipper($items);
+		$packages = [];
+		foreach ($items_by_shipper as $ship_from_address_id => $brokenup_items) {
+			$packages[$ship_from_address_id] = $this->breakup_packages($brokenup_items, $ship_from_address_id);
+		}
 
 		
 		// DREW TODO - START HERE TOMORROW
-		// - need to split packages by zip code (from shipper)
-		// - need to calculate package weight based size of package
+		// - figure out package padding based on percentage instead (and round up)
+		// - figure out the use of small flat boxes for small prints (figure out at package level - if package is small enough and goes flat then use the smaller options)
+		//	- UPS Express Box - flat and less than 12.5" x 18" on both dimensions
+		//	- UPS Express Pak - flat and less than 8.5" x 11" on both dimensions
+		//	- UPS Express Tube - rolled and length less than 38" on short side
+		//	- change rules for flat vs rolled based on above
 		// - use actual data from the cart
+		// - update enter shipping address page to validate from api
+		// - return good errors
 
+		
+		$return_arr = $this->get_shipments_and_rates_by_packages($packages, $ship_to_address, $ship_from_addresses);
+
+		return $return_arr;
+	}
+	
+	private function get_shipments_and_rates_by_packages(&$packages, &$ship_to_address, &$ship_from_addresses) {
 		$rate = new \Ups\Rate(
 				$this->accessKey, $this->userId, $this->password
 		);
 
+		$return_arr = [
+			'total_cost' => 0,
+			'total_packages' => 0,
+			'shipments' => [],
+			'ship_to_address' => $ship_to_address
+		];
 		try {
-			$shipment = new \Ups\Entity\Shipment();
+			foreach ($packages as $ship_from_address_id => $shipment_packages) {
+				$shipment_ship_from_address = $ship_from_addresses[$ship_from_address_id];
 
-			$shipperAddress = $shipment->getShipper()->getAddress();
-			$shipperAddress->setPostalCode('99205');
-
-			$address = new \Ups\Entity\Address();
-			$address->setPostalCode('99205');
-			$shipFrom = new \Ups\Entity\ShipFrom();
-			$shipFrom->setAddress($address);
-
-			$shipment->setShipFrom($shipFrom);
-
-			$shipTo = $shipment->getShipTo();
-			$shipTo->setCompanyName('Test Ship To');
-			$shipToAddress = $shipTo->getAddress();
-			$shipToAddress->setPostalCode('99205');
-
-			foreach ($packages as $curr_package) {
-				$package = new \Ups\Entity\Package();
-				$package->getPackagingType()->setCode(\Ups\Entity\PackagingType::PT_PACKAGE);
-				$package->getPackageWeight()->setWeight(10);
-
-				$dimensions = new \Ups\Entity\Dimensions();
-				$dimensions->setHeight($curr_package['package_width']);
-				$dimensions->setLength($curr_package['package_length']);
-				$dimensions->setWidth(6);
-
-				$unit = new \Ups\Entity\UnitOfMeasurement;
-				$unit->setCode(\Ups\Entity\UnitOfMeasurement::UOM_IN);
-
-				$dimensions->setUnitOfMeasurement($unit);
-				$package->setDimensions($dimensions);
+				// setup ship from address
+				$shipment = new \Ups\Entity\Shipment();
+				$shipperAddress = $shipment->getShipper()->getAddress();
+				$shipperAddress->setPostalCode($shipment_ship_from_address['zip']);
+				$address = new \Ups\Entity\Address();
+				$address->setPostalCode($shipment_ship_from_address['zip']);
+				$shipFrom = new \Ups\Entity\ShipFrom();
+				$shipFrom->setAddress($address);
+				$shipment->setShipFrom($shipFrom);
+				
+				// setup ship to address
+				$shipTo = $shipment->getShipTo();
+				$shipTo->setCompanyName("{$ship_to_address['firstname']} {$ship_to_address['lastname']}");
+				$shipToAddress = $shipTo->getAddress();
+				$shipToAddress->setPostalCode($ship_to_address['zip']);
+				
+				// add packages to shipment
+				foreach ($shipment_packages as $curr_package) {
+					$package = $this->create_ups_package($curr_package);
+					$shipment->addPackage($package);
+				}
+				
+				// get the rate for current shipment
+				$rate_data = $rate->getRate($shipment);
+				
+				
+				// check for errors - DREW TODO
+				
+				
+				// compile return data
+				$return_arr['shipments'][] = [
+					'cost' => $rate_data->RatedShipment[0]->TotalCharges->MonetaryValue,
+					'packages_count' => count($shipment_packages),
+					'cost_currency' => $rate_data->RatedShipment[0]->TotalCharges->CurrencyCode,
+					'ship_from_address' => $shipment_ship_from_address
+				];
+				// DREW TODO - make sure always returns USD - otherwise need to error
+				$return_arr['total_cost'] += $rate_data->RatedShipment[0]->TotalCharges->MonetaryValue;
+				$return_arr['total_packages'] += count($shipment_packages);
 			}
-
-			$shipment->addPackage($package);
-
-			$rate_data = $rate->getRate($shipment);
 		} catch (Exception $e) {
+			// DREW TODO - need to smartly error here
 //            var_dump($e);
 		}
+		
+		return $return_arr;
+	}
+	
+	private function create_ups_package(&$curr_package) {
+		$package = new \Ups\Entity\Package();
+		$package->getPackagingType()->setCode(\Ups\Entity\PackagingType::PT_PACKAGE);
+		$package->getPackageWeight()->setWeight($curr_package['weight_estimate']);
 
-		return $rate_data;
+		$dimensions = new \Ups\Entity\Dimensions();
+		$dimensions->setLength($curr_package['length']);
+		$dimensions->setWidth($curr_package['width']);
+		$dimensions->setHeight($curr_package['height']);
+
+		$unit = new \Ups\Entity\UnitOfMeasurement;
+		$unit->setCode(\Ups\Entity\UnitOfMeasurement::UOM_IN);
+
+		$dimensions->setUnitOfMeasurement($unit);
+		$package->setDimensions($dimensions);
+		
+		return $package;
 	}
 	
 	private function prepare_cart_items_for_packaging($items) {
@@ -201,29 +292,55 @@ class ShippingEstimator {
 			}
 		}
 		
-		
-		// sort items
-		usort($items, function($a, $b) {
-			if ($a['print_type_ships_by_itself'] === $b['print_type_ships_by_itself']) {
-				if ($a['is_pano'] === $b['is_pano']) {
-					if ($a['print_type_can_be_rolled'] === $b['print_type_can_be_rolled']) {
-						if ($a['short_side_inches'] === $b['short_side_inches']) {
-							return 0;
-						}
-						return ($a['short_side_inches'] < $b['short_side_inches']) ? 1 : -1;
-					}
-					return $a['print_type_can_be_rolled'] ? -1 : 1;
-				}
-				return $a['is_pano'] ? 1 : -1;
-			}
-			return $a['print_type_ships_by_itself'] ? 1 : -1;
-		});
-		
-		
 		return $items;
 	}
+	
+	private function sort_cart_items(&$items) {
+		// sort items
+		usort($items, function($a, $b) {
+			if ($a['ship_from_address_id'] === $b['ship_from_address_id']) {
+				if ($a['print_type_ships_by_itself'] === $b['print_type_ships_by_itself']) {
+					if ($a['is_pano'] === $b['is_pano']) {
+						if ($a['print_type_can_be_rolled'] === $b['print_type_can_be_rolled']) {
+							if ($a['short_side_inches'] === $b['short_side_inches']) {
+								return 0;
+							}
+							return ($a['short_side_inches'] < $b['short_side_inches']) ? 1 : -1;
+						}
+						return $a['print_type_can_be_rolled'] ? -1 : 1;
+					}
+					return $a['is_pano'] ? 1 : -1;
+				}
+				return $a['print_type_ships_by_itself'] ? 1 : -1;
+			}
+			return ($a['ship_from_address_id'] < $b['ship_from_address_id']) ? 1 : -1;
+		});
+	}
+	
+	private function breakup_items_by_shipper($items) {
+		$broken_up_items = [];
+		foreach ($items as &$item) {
+			$broken_up_items[$item['ship_from_address_id']][] = $item;
+		}
+		
+		return $broken_up_items;
+	}
 
-	private function breakup_packages($items) {
+	
+	/**
+	 * NOTES about l x w x h
+	 * Length = always the longest side of the package
+	 * Width = the side opposite the length (parallel to length)
+	 * Height = how tall the package is
+	 * good info: http://www.wikihow.com/Measure-the-Length-x-Width-x-Height-of-Shipping-Boxes
+	 * 
+	 * Weight = L x W x H / 166 (if dimensions in inches then estimates the lbs)
+	 * 
+	 * @param type $items
+	 * @param type $ship_from_address_id
+	 * @return int
+	 */
+	private function breakup_packages(&$items, $ship_from_address_id) {
 		$packages = [];
 		
 		$can_be_rolled = [];
@@ -262,25 +379,24 @@ class ShippingEstimator {
 						}
 					}
 				} else {
-					$by_itself_packages[] = [
-						'items' => [
-							$key => $item
-						],
-						'package_width' => ceil($item['short_side_inches']) + $this->package_padding,
-						'package_length' => ceil($item['long_side_inches']) + $this->package_padding,
-						'package_qty' => 1,
-						'print_type_can_be_rolled' => false,
-						'is_pano' => $item['is_pano']
+					$package_data = $this->get_package_dimensions_weight($item['long_side_inches'], $item['short_side_inches'], 10, $this->by_itself_lbs_per_cuin);
+					$package_data['items'] = [
+						$key => $item
 					];
+					$package_data['package_qty'] = 1;
+					$package_data['print_type_can_be_rolled'] = false;
+					$package_data['is_pano'] = $item['is_pano'];
+					$package_data['ship_from_address_id'] = $ship_from_address_id;
+					$by_itself_packages[] = $package_data;
 					$item['package_qty'] = 1;
 				}
 			}
 		}
 
-		$this->add_package_by_type($packages, $can_be_rolled, true, false);
-		$this->add_package_by_type($packages, $cannot_be_rolled, false, false);
-		$this->add_package_by_type($packages, $can_be_rolled_pano, true, true);
-		$this->add_package_by_type($packages, $cannot_be_rolled_pano, false, true);
+		$this->add_package_by_type($packages, $can_be_rolled, true, false, $ship_from_address_id);
+		$this->add_package_by_type($packages, $cannot_be_rolled, false, false, $ship_from_address_id);
+		$this->add_package_by_type($packages, $can_be_rolled_pano, true, true, $ship_from_address_id);
+		$this->add_package_by_type($packages, $cannot_be_rolled_pano, false, true, $ship_from_address_id);
 		foreach ($by_itself_packages as $by_itself_package) {
 			$packages[] = $by_itself_package;
 		}
@@ -288,31 +404,42 @@ class ShippingEstimator {
 		return $packages;
 	}
 	
-	private function add_package_by_type(&$packages, $array, $can_be_rolled, $is_pano) {
+	private function get_package_dimensions_weight($long_side_inches, $short_side_inches, $height_inches, $lbs_per_cu_inch) {
+		$data['length'] = ceil($long_side_inches) + $this->package_padding;
+		$data['width'] = ceil($short_side_inches) + $this->package_padding;
+		$data['height'] = $height_inches;
+		$data['girth'] = (2 * $data['width']) + (2 * $data['height']);
+		$data['size'] = $data['length'] + $data['girth'];
+		$data['cu_in'] = $data['length'] * $data['width'] * $data['height'];
+		$data['dimensional_weight'] = $data['cu_in'] / 166;
+		$data['weight_estimate'] = $data['cu_in'] * $lbs_per_cu_inch;
+		return $data;
+	}
+	
+	private function add_package_by_type(&$packages, $array, $can_be_rolled, $is_pano, $ship_from_address_id) {
 		if (!empty($array)) {
 			foreach ($array as $curr) {
-				$packages[] = [
-					'items' => $curr['items'],
-					'package_width' => $curr['package_width'] + $this->package_padding,
-					'package_length' => $curr['package_length'] + $this->package_padding,
-					'package_qty' => $curr['package_qty'],
-					'print_type_can_be_rolled' => $can_be_rolled,
-					'is_pano' => $is_pano,
-				];
+				$package_data = $this->get_package_dimensions_weight($curr['length'], $curr['width'], 6, $this->loose_prints_lbs_per_cuin);
+				$package_data['items'] = $curr['items'];
+				$package_data['package_qty'] = $curr['package_qty'];
+				$package_data['print_type_can_be_rolled'] = $can_be_rolled;
+				$package_data['is_pano'] = $is_pano;
+				$package_data['ship_from_address_id'] = $ship_from_address_id;
+				$packages[] = $package_data;
 			}
 		}
 	}
 	
 	private function figure_package_data(&$array, &$package_count, &$current_count, &$item, &$key) {
-		if (empty($array[$package_count]['package_length'])) {
-			$array[$package_count]['package_length'] = ceil($item['long_side_inches']);
-		} else if (ceil($item['long_side_inches']) > $array[$package_count]['package_length']) {
-			$array[$package_count]['package_length'] = ceil($item['long_side_inches']);
+		if (empty($array[$package_count]['length'])) {
+			$array[$package_count]['length'] = ceil($item['long_side_inches']);
+		} else if (ceil($item['long_side_inches']) > $array[$package_count]['length']) {
+			$array[$package_count]['length'] = ceil($item['long_side_inches']);
 		}
-		if (empty($array[$package_count]['package_width'])) {
-			$array[$package_count]['package_width'] = ceil($item['short_side_inches']);
-		} else if (ceil($item['short_side_inches']) > $array[$package_count]['package_width']) {
-			$array[$package_count]['package_width'] = ceil($item['short_side_inches']);
+		if (empty($array[$package_count]['width'])) {
+			$array[$package_count]['width'] = ceil($item['short_side_inches']);
+		} else if (ceil($item['short_side_inches']) > $array[$package_count]['width']) {
+			$array[$package_count]['width'] = ceil($item['short_side_inches']);
 		}
 		if (empty($array[$package_count]['package_qty'])) {
 			$array[$package_count]['package_qty'] = 1;

@@ -471,6 +471,7 @@ class Cart extends AppModel {
 
     public function get_cart_shipping_estimate() {
         $cart_data = $this->get_cart_data();
+		$this->log($cart_data, 'cart_data');
         
         $shipping_estimator = new \Ups\ShippingEstimator();
         
@@ -482,7 +483,7 @@ class Cart extends AppModel {
         
         // get shipping rates
         $shipping_estimate = $shipping_estimator->get_shipping_price();
-        $this->log($shipping_estimate, 'rate_data');
+        $this->log($shipping_estimate, 'shipping_estimate');
     }
 
 }
