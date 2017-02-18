@@ -373,7 +373,7 @@ function get_local_db_handle($global_db = true) {
 		}
 		
 		$db_data = $_SERVER['global'];
-		$dbs['global_db'] = mysql_connect($db_data['host'], $db_data['login'], $db_data['password'], true);
+		$dbs['global_db'] = mysql_connect($db_data['host'] . ':3306', $db_data['login'], $db_data['password'], true);
 		if (mysql_error($dbs['global_db'])) {
 			echo ("Cannot connect to local db. Check config, and try again.");
 			return;
@@ -392,7 +392,7 @@ function get_local_db_handle($global_db = true) {
 		}
 		
 		$db_data = $_SERVER['local'];
-		$dbs['local_db'] = mysql_connect($db_data['host'], $db_data['login'], $db_data['password'], true);
+		$dbs['local_db'] = mysql_connect($db_data['host'] . ':3306', $db_data['login'], $db_data['password'], true);
 		if (mysql_error($dbs['local_db'])) {
 			echo ("Cannot connect to local db. Check config, and try again.");
 			return;
