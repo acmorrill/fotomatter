@@ -82,6 +82,7 @@
 									ng-change="savePrintType(print_size, $index, true)" 
 									ng-model-options="{}"
 								/>*/ ?>
+                                {{print_size.PhotoAvailSizesPhotoPrintType.available}}
 								<toggle-switch
 									ng-model="print_size.PhotoAvailSizesPhotoPrintType.available" 
 									ng-change="savePrintType(print_size, $index, true)" 

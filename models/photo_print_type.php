@@ -198,18 +198,24 @@ class PhotoPrintType extends AppModel {
 					$new_join_table_data['global_default'] = isset($curr_join_data['global_default']) ? $curr_join_data['global_default'] : 1;
 					$new_join_table_data['force_settings'] = isset($curr_join_data['force_settings']) ? $curr_join_data['force_settings'] : 1;
 					$new_join_table_data['photo_print_type'] = isset($curr_join_data['photo_print_type']) ? $curr_join_data['photo_print_type'] : '';
-					$this->log($curr_join_data, 'new_join_table_data');
-					$this->log($new_join_table_data, 'new_join_table_data');
-					
+
+
 					$new_join_table_data_save['PhotoAvailSizesPhotoPrintType'] = $new_join_table_data;
+//					$this->log($curr_join_data, 'new_join_table_data');
+                    // START HERE TOMORROW - for some reason the available = 1 is not saving in the db! - need to figure out why!
+					$this->log(gettype($new_join_table_data_save['PhotoAvailSizesPhotoPrintType']['available']), 'new_join_table_data_save');
+					$this->log($new_join_table_data_save, 'new_join_table_data_save');
 
 
 
 					$this->PhotoAvailSizesPhotoPrintType->create();
-					if (!$this->PhotoAvailSizesPhotoPrintType->save($new_join_table_data_save)) {
+					$save_result = $this->PhotoAvailSizesPhotoPrintType->save($new_join_table_data_save);
+					if (!$save_result) {
+                        $this->log('failed to save!', 'new_join_table_data_save');
 						$this->major_error('Failed to connect photo print type to photo print size', compact('new_join_table_data'));
 						return __("Failed to connect photo print type to photo print size.", true);
-					} 
+					}
+					$this->log($this->PhotoAvailSizesPhotoPrintType->id, 'new_join_table_data_save');
 					$new_join_table_data['id'] = $this->PhotoAvailSizesPhotoPrintType->id;
 					$new_photo_type['PhotoAvailSizesPhotoPrintType'] = $new_join_table_data;
 				}

@@ -46,11 +46,14 @@ fotomatterControllers.controller('AvailPrintTypesCtrl', ['$scope',  '$timeout', 
 			}
 		};
 		$scope.show_turnaround = function(custom_turnaround) {
-			custom_turnaround = parseInt(custom_turnaround);
-			if (!isNaN(custom_turnaround) &&  typeof custom_turnaround == 'number' && custom_turnaround != 0) {
-				return custom_turnaround + ' days';
+			if ($scope.open_print_type.photo_print_type) {
+				custom_turnaround = parseInt(custom_turnaround);
+				if (!isNaN(custom_turnaround) &&  typeof custom_turnaround == 'number' && custom_turnaround != 0) {
+					return custom_turnaround + ' days';
+				}
+				return $scope.open_print_type.photo_print_type.PhotoPrintType.turnaround_time + ' day(s)';
 			}
-			return $scope.open_print_type.photo_print_type.PhotoPrintType.turnaround_time + ' day(s)';
+			return '';
 		};
 	// end turnaround time
 	
@@ -157,17 +160,17 @@ fotomatterControllers.controller('AvailPrintTypesCtrl', ['$scope',  '$timeout', 
 		}
 		save_data.PhotoAvailSizesPhotoPrintType.photo_print_type_id = save_data.PhotoPrintType.id;
 		PrintTypesService.reformat_print_type_post_data(save_data);
-//		console.log('========================================');
-//		console.log(save_data);
-//		console.log('========================================');
+		// console.log('========================================');
+		// console.log(save_data);
+		// console.log('========================================');
 		
 		
 		var save_print_type_promise = PrintTypes.save({}, save_data).$promise;
 		save_print_type_promise.then(function(result) {
 			if (typeof result.data.PhotoAvailSizesPhotoPrintType != 'undefined') {
-//				console.log('++++++++++++++++++++++++++++++++++');
-//				console.log(result.data);
-//				console.log('++++++++++++++++++++++++++++++++++');
+				// console.log('++++++++++++++++++++++++++++++++++');
+				// console.log(result.data);
+				// console.log('++++++++++++++++++++++++++++++++++');
 				PrintTypesService.reformat_print_type_save_result(result.data);
 				if (is_auto === true) {
 					$scope.open_print_type.print_sizes_list[index].PhotoAvailSizesPhotoPrintType = result.data.PhotoAvailSizesPhotoPrintType;

@@ -19,14 +19,14 @@
 
 	
 	<br /><br /><br />
-	<div class="gallery_view ng-hide" ng-show="open_print_type == undefined" style="position: relative; min-height: 500px;">
+	<div class="gallery_view ng-hide" ng-show="open_print_type.photo_print_type == false" style="position: relative; min-height: 500px;">
 		<div class="empty_help_content" style="display: block;">
 			&#9668;&nbsp;<?php echo __('Choose a Print Type at Left', true); ?>
 			<br /><span class="help_para"><?php echo __('Create print types, add sizes available to those print types, and set default pricing and shipping. To change pricing from the default structure on one specific photo, go to &ldquo;Pricing Override&rdquo; under the Photos tab.', true); ?></span>
 		</div>
 	</div>
 	
-	<div class="ng-hide" ng-show="open_print_type != undefined">
+	<div class="ng-hide" ng-show="open_print_type.photo_print_type != false">
 		<?php echo $this->Element('admin/ecommerce/angular_add_print_type_and_pricing'); ?>
 	</div>
 	
