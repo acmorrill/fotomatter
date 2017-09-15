@@ -54,9 +54,9 @@
                                             </form>
 					<?php endif; ?>
                                         
-                                        <?php
-                                            $this->Cart->get_cart_shipping_estimate();
-                                        ?>
+                    <?php
+//                        $this->Cart->get_cart_shipping_estimate();
+                    ?>
 				</td>
 			</tr>
 		</tfoot>

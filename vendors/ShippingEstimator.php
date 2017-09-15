@@ -44,137 +44,137 @@ class ShippingEstimator {
 	 * 
 	 * @return type
 	 */
-	public function get_shipping_price() {
-		$cart_data = [
-			'items' => [
-				'key0' => [
-					'qty' => 50,
-					'short_side_inches' => 5,
-					'long_side_inches' => 7,
-					'is_pano' => false,
-					'print_type_ships_by_itself' => false,
-					'print_type_can_be_rolled' => false,
-					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
-				],
-				'key1' => [
-					'qty' => 10,
-					'short_side_inches' => 8,
-					'long_side_inches' => 10,
-					'is_pano' => false,
-					'print_type_ships_by_itself' => false,
-					'print_type_can_be_rolled' => false,
-					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
-				],
-				'key2' => [
-					'qty' => 10,
-					'short_side_inches' => 11,
-					'long_side_inches' => 14,
-					'is_pano' => false,
-					'print_type_ships_by_itself' => false,
-					'print_type_can_be_rolled' => false,
-					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
-				],
-				'key3' => [
-					'qty' => 25,
-					'short_side_inches' => 24,
-					'long_side_inches' => 30.75,
-					'is_pano' => false,
-					'print_type_ships_by_itself' => false,
-					'print_type_can_be_rolled' => true,
-					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
-				],
-				'key4' => [
-					'qty' => 10,
-					'short_side_inches' => 20,
-					'long_side_inches' => 24,
-					'is_pano' => false,
-					'print_type_ships_by_itself' => false,
-					'print_type_can_be_rolled' => true,
-					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
-				],
-//				'key5' => [
-//					'qty' => 10,
-//					'short_side_inches' => 10,
-//					'long_side_inches' => 40,
-//					'is_pano' => true,
-//					'print_type_ships_by_itself' => false,
-//					'print_type_can_be_rolled' => true,
-//					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
-//				],
-//				'key6' => [
-//					'qty' => 10,
-//					'short_side_inches' => 8,
-//					'long_side_inches' => 40,
-//					'is_pano' => true,
-//					'print_type_ships_by_itself' => false,
-//					'print_type_can_be_rolled' => true,
-//					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
-//				],
-//				'key7' => [
-//					'qty' => 10,
-//					'short_side_inches' => 12,
-//					'long_side_inches' => 40,
-//					'is_pano' => true,
-//					'print_type_ships_by_itself' => false,
-//					'print_type_can_be_rolled' => true,
-//					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
-//				],
-//				'key8' => [
-//					'qty' => 10,
-//					'short_side_inches' => 8,
-//					'long_side_inches' => 40,
-//					'is_pano' => true,
-//					'print_type_ships_by_itself' => false,
-//					'print_type_can_be_rolled' => false,
-//					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
-//				],
-//				'key9' => [
-//					'qty' => 10,
-//					'short_side_inches' => 12,
-//					'long_side_inches' => 40,
-//					'is_pano' => true,
-//					'print_type_ships_by_itself' => false,
-//					'print_type_can_be_rolled' => false,
-//					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
-//				],
-//				'key10' => [
-//					'qty' => 3,
-//					'short_side_inches' => 40,
-//					'long_side_inches' => 50,
+	public function get_shipping_price($cart_data) {
+//		$cart_data = [
+//			'items' => [
+//				'key0' => [
+//					'qty' => 50,
+//					'short_side_inches' => 5,
+//					'long_side_inches' => 7,
 //					'is_pano' => false,
-//					'print_type_ships_by_itself' => true,
+//					'print_type_ships_by_itself' => false,
 //					'print_type_can_be_rolled' => false,
-//					'ship_from_address_id' => 'self_fulfillment|84660|account_id:1'
-//				]
-			],
-			'shipping_address' => [
-				'firstname' => 'Josh',
-				'lastname' => 'Posh',
-				'address1' => '517 Eagle Dr.',
-				'city' => 'Anaheim',
-				'zip' => '92804',
-				'country_code' => 'US', // need to add this
-				'state_code' => 'CA', // need to add this
-				'country_id' => 223,
-				'state_id' => 3671
-			],
-			'ship_from_addresses' => [
-				'automatic_fulfillment|84663|print_fulfillers_id:1' => [
-					'name' => 'Snelson Photocolor Lab',
-					'country_code' => 'US',
-					'state_code' => 'UT',
-					'city' => 'Springville',
-					'zip' => '84663',
-				],
-				'self_fulfillment|84660|account_id:1' => [
-					'name' => 'Andrew Morrill Photography',
-					'country_code' => 'US',
-					'state_code' => 'UT',
-					'city' => 'Spanish Fork',
-					'zip' => '84660',
-				],
-			]
-		];
+//					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
+//				],
+//				'key1' => [
+//					'qty' => 10,
+//					'short_side_inches' => 8,
+//					'long_side_inches' => 10,
+//					'is_pano' => false,
+//					'print_type_ships_by_itself' => false,
+//					'print_type_can_be_rolled' => false,
+//					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
+//				],
+//				'key2' => [
+//					'qty' => 10,
+//					'short_side_inches' => 11,
+//					'long_side_inches' => 14,
+//					'is_pano' => false,
+//					'print_type_ships_by_itself' => false,
+//					'print_type_can_be_rolled' => false,
+//					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
+//				],
+//				'key3' => [
+//					'qty' => 25,
+//					'short_side_inches' => 24,
+//					'long_side_inches' => 30.75,
+//					'is_pano' => false,
+//					'print_type_ships_by_itself' => false,
+//					'print_type_can_be_rolled' => true,
+//					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
+//				],
+//				'key4' => [
+//					'qty' => 10,
+//					'short_side_inches' => 20,
+//					'long_side_inches' => 24,
+//					'is_pano' => false,
+//					'print_type_ships_by_itself' => false,
+//					'print_type_can_be_rolled' => true,
+//					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
+//				],
+////				'key5' => [
+////					'qty' => 10,
+////					'short_side_inches' => 10,
+////					'long_side_inches' => 40,
+////					'is_pano' => true,
+////					'print_type_ships_by_itself' => false,
+////					'print_type_can_be_rolled' => true,
+////					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
+////				],
+////				'key6' => [
+////					'qty' => 10,
+////					'short_side_inches' => 8,
+////					'long_side_inches' => 40,
+////					'is_pano' => true,
+////					'print_type_ships_by_itself' => false,
+////					'print_type_can_be_rolled' => true,
+////					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
+////				],
+////				'key7' => [
+////					'qty' => 10,
+////					'short_side_inches' => 12,
+////					'long_side_inches' => 40,
+////					'is_pano' => true,
+////					'print_type_ships_by_itself' => false,
+////					'print_type_can_be_rolled' => true,
+////					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
+////				],
+////				'key8' => [
+////					'qty' => 10,
+////					'short_side_inches' => 8,
+////					'long_side_inches' => 40,
+////					'is_pano' => true,
+////					'print_type_ships_by_itself' => false,
+////					'print_type_can_be_rolled' => false,
+////					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
+////				],
+////				'key9' => [
+////					'qty' => 10,
+////					'short_side_inches' => 12,
+////					'long_side_inches' => 40,
+////					'is_pano' => true,
+////					'print_type_ships_by_itself' => false,
+////					'print_type_can_be_rolled' => false,
+////					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
+////				],
+////				'key10' => [
+////					'qty' => 3,
+////					'short_side_inches' => 40,
+////					'long_side_inches' => 50,
+////					'is_pano' => false,
+////					'print_type_ships_by_itself' => true,
+////					'print_type_can_be_rolled' => false,
+////					'ship_from_address_id' => 'self_fulfillment|84660|account_id:1'
+////				]
+//			],
+//			'shipping_address' => [
+//				'firstname' => 'Josh',
+//				'lastname' => 'Posh',
+//				'address1' => '517 Eagle Dr.',
+//				'city' => 'Anaheim',
+//				'zip' => '92804',
+//				'country_code' => 'US', // need to add this
+//				'state_code' => 'CA', // need to add this
+//				'country_id' => 223,
+//				'state_id' => 3671
+//			],
+//			'ship_from_addresses' => [
+//				'automatic_fulfillment|84663|print_fulfillers_id:1' => [
+//					'name' => 'Snelson Photocolor Lab',
+//					'country_code' => 'US',
+//					'state_code' => 'UT',
+//					'city' => 'Springville',
+//					'zip' => '84663',
+//				],
+//				'self_fulfillment|84660|account_id:1' => [
+//					'name' => 'Andrew Morrill Photography',
+//					'country_code' => 'US',
+//					'state_code' => 'UT',
+//					'city' => 'Spanish Fork',
+//					'zip' => '84660',
+//				],
+//			]
+//		];
 		$items = $this->prepare_cart_items_for_packaging($cart_data['items']);
 		$this->sort_cart_items($items);
 		$items_by_shipper = $this->breakup_items_by_shipper($items);
@@ -183,7 +183,7 @@ class ShippingEstimator {
 			$packages[$ship_from_address_id] = $this->breakup_packages($brokenup_items, $ship_from_address_id);
 		}
 		
-		// DREW TODO - START HERE TOMORROW
+		// DREW TODO - START HERE TOMORROW!
 		// - use actual data from the cart
 		// - update enter shipping address page to validate from api
 		// - return good errors

@@ -210,10 +210,12 @@ class Cart extends AppModel {
             $cart_items = $this->get_cart_items();
         }
 
+        $shipping_estimate_data = $this->get_cart_shipping_estimate();
+        $this->log($shipping_estimate_data, '$shipping_estimate_data');
         $shipping_total = 0;
-        foreach ($cart_items as $cart_item) {
-            $shipping_total += $cart_item['qty'] * $cart_item['handling_price'];
-        }
+//        foreach ($cart_items as $cart_item) {
+//            $shipping_total += $cart_item['qty'] * $cart_item['handling_price'];
+//        }
 
         return $shipping_total;
     }
@@ -472,18 +474,15 @@ class Cart extends AppModel {
     public function get_cart_shipping_estimate() {
         $cart_data = $this->get_cart_data();
 		$this->log($cart_data, 'cart_data');
-        
         $shipping_estimator = new \Ups\ShippingEstimator();
-        
         
         // validate an address
 //        $address_validation = $shipping_estimator->check_address();
 //        $this->log($address_validation, "address_validation");
-        
-        
+
         // get shipping rates
-        $shipping_estimate = $shipping_estimator->get_shipping_price();
-        $this->log($shipping_estimate, 'shipping_estimate');
+        $shipping_estimate = $shipping_estimator->get_shipping_price($cart_data);
+        return $shipping_estimate;
     }
 
 }
