@@ -100,7 +100,7 @@ class WelcomeController extends AppController {
 
 
 			$this->User = ClassRegistry::init('User');
-			if (($new_user_id = $this->User->create_user($account_email, $this->data['password'], true, $facebook)) === false) {
+			if (($new_user_id = $this->User->create_user($account_email, isset($this->data['password'])?$this->data['password']:NULL, true, $facebook)) === false) {
 				// failed to create user
 				$data = $this->data;
 				$this->User->major_error('Failed to create the initial user!', compact('account_email', 'data'), 'high');

@@ -357,6 +357,10 @@ define('FREE_MAX_RES', 4000);
 define('MAX_PAID_MEGAPIXELS', 150);
 define("USE_CACHE_SPEED", true);
 
+// facebook settings
+define("FACEBOOK_APP_ID", '360914430736815');
+define("FACEBOOK_APP_SECRET", 'de3419a89b4423f82f690e5909876928');
+define("FACEBOOK_GRAPH_VERSION", 'v2.5');
 
 //path to overlord. (so it can change for development)
 Configure::write('OVERLORD_URL', 'builds.fotomatter.net');
@@ -373,7 +377,7 @@ function get_local_db_handle($global_db = true) {
 		}
 		
 		$db_data = $_SERVER['global'];
-		$dbs['global_db'] = mysql_connect($db_data['host'], $db_data['login'], $db_data['password'], true);
+		$dbs['global_db'] = mysql_connect($db_data['host'] . ':3306', $db_data['login'], $db_data['password'], true);
 		if (mysql_error($dbs['global_db'])) {
 			echo ("Cannot connect to local db. Check config, and try again.");
 			return;
@@ -392,7 +396,7 @@ function get_local_db_handle($global_db = true) {
 		}
 		
 		$db_data = $_SERVER['local'];
-		$dbs['local_db'] = mysql_connect($db_data['host'], $db_data['login'], $db_data['password'], true);
+		$dbs['local_db'] = mysql_connect($db_data['host'] . ':3306', $db_data['login'], $db_data['password'], true);
 		if (mysql_error($dbs['local_db'])) {
 			echo ("Cannot connect to local db. Check config, and try again.");
 			return;
