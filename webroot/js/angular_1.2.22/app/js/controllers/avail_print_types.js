@@ -160,10 +160,7 @@ fotomatterControllers.controller('AvailPrintTypesCtrl', ['$scope',  '$timeout', 
 		}
 		save_data.PhotoAvailSizesPhotoPrintType.photo_print_type_id = save_data.PhotoPrintType.id;
 		PrintTypesService.reformat_print_type_post_data(save_data);
-		// console.log('========================================');
-		// console.log(save_data);
-		// console.log('========================================');
-		
+
 		
 		var save_print_type_promise = PrintTypes.save({}, save_data).$promise;
 		save_print_type_promise.then(function(result) {

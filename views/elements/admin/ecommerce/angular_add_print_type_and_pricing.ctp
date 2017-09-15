@@ -75,14 +75,6 @@
 
 						<tr ng-repeat="print_size in open_print_type.print_sizes_list">
 							<td class="first">
-								<?php /*<input 
-									class="available_checkbox" 
-									type="checkbox" 
-									ng-model="print_size.PhotoAvailSizesPhotoPrintType.available" 
-									ng-change="savePrintType(print_size, $index, true)" 
-									ng-model-options="{}"
-								/>*/ ?>
-                                {{print_size.PhotoAvailSizesPhotoPrintType.available}}
 								<toggle-switch
 									ng-model="print_size.PhotoAvailSizesPhotoPrintType.available" 
 									ng-change="savePrintType(print_size, $index, true)" 

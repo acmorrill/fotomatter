@@ -128,7 +128,6 @@ class EcommercesController extends AppController {
 //			print_r($logged_in_user);
 //			print_r($payable_order_ids);
 			$send_payment_result = $this->AuthnetOrder->send_photographer_payment_via_paypal($order_total_data['total'], $logged_in_user, $payable_order_ids);
-//			$this->log($send_payment_result, 'send_payment_result'); // START HERE TOMORROW TO TEST PAYPAY GET PAID
 			if ($send_payment_result === false) {
 				$this->AuthnetOrder->set_orders_pay_out_status($payable_order_ids, 'not_paid'); // DREW TODO - maybe mark as error?
 				$this->major_error('Failed to reimmburse for orders', compact('logged_in_user', 'payable_order_ids', 'amount'), 'high');
@@ -476,9 +475,7 @@ class EcommercesController extends AppController {
 		}
 		unset($photo_print_type['PhotoAvailSizesPhotoPrintType']);
 		
-//		$this->log($print_sizes_list, "print_sizes_list");
-		
-		
+
 		$this->return_angular_json(true, "Automatic Print Type Created", compact('photo_print_type', 'print_fulfiller_print_type', 'print_fulfiller', 'print_sizes_list'));
 	}
 	
@@ -500,8 +497,6 @@ class EcommercesController extends AppController {
 			'contain' => false
 		));
 		
-		$this->log($print_sizes_list, "print_sizes_list");
-		
 		foreach ($print_sizes_list as $key => &$curr_list_item) {
 			if (empty($curr_list_item['PhotoAvailSizesPhotoPrintType']['id'])) {
 				$curr_list_item['PhotoAvailSizesPhotoPrintType']['price'] = 0;
@@ -521,11 +516,9 @@ class EcommercesController extends AppController {
 		$this->parse_angular_json($this);
 		$return_data = array();
 		$return_data['success'] = true;
-//		$this->log($this->data, 'angular_save_print_type_and_pricing');
-		
+
 		if (!empty($this->data)) {
 			$result = $this->PhotoPrintType->validate_and_save_print_type($this->data);
-//			$this->log($result, 'angular_save_print_type_and_pricing');
 			if (!is_array($result)) {
 				$this->return_angular_json(false, $result);
 			} else {
@@ -817,7 +810,6 @@ class EcommercesController extends AppController {
 		}
 		
 		
-//		$this->log($this->Session->read('Cart'), 'checkout_finalize_payment');
 		if (!$this->Cart->has_cart_shipping_address_data()) {
 			$this->redirect('/ecommerces/checkout_get_address/');
 		}

@@ -55,7 +55,6 @@ class PhotoPrintType extends AppModel {
 				foreach ($merged_arrays as &$merged_array) {
 					if (isset($merged_array['short_side_inches'])) {
 						$merged_array['display_type'] = 'fixed';
-//						$this->log($merged_array, 'merged_array');
 						if ($merged_array['PhotoAvailSizesPhotoPrintType']['price'] <= $merged_array['cost']) {
 							$merged_array['PhotoAvailSizesPhotoPrintType']['price'] = $merged_array['cost'] * 2;
 						}
@@ -201,21 +200,17 @@ class PhotoPrintType extends AppModel {
 
 
 					$new_join_table_data_save['PhotoAvailSizesPhotoPrintType'] = $new_join_table_data;
-//					$this->log($curr_join_data, 'new_join_table_data');
-                    // START HERE TOMORROW - for some reason the available = 1 is not saving in the db! - need to figure out why!
-					$this->log(gettype($new_join_table_data_save['PhotoAvailSizesPhotoPrintType']['available']), 'new_join_table_data_save');
-					$this->log($new_join_table_data_save, 'new_join_table_data_save');
+//					$this->log(gettype($new_join_table_data_save['PhotoAvailSizesPhotoPrintType']['available']), 'new_join_table_data_save');
+//					$this->log($new_join_table_data_save, 'new_join_table_data_save');
 
 
 
 					$this->PhotoAvailSizesPhotoPrintType->create();
 					$save_result = $this->PhotoAvailSizesPhotoPrintType->save($new_join_table_data_save);
 					if (!$save_result) {
-                        $this->log('failed to save!', 'new_join_table_data_save');
 						$this->major_error('Failed to connect photo print type to photo print size', compact('new_join_table_data'));
 						return __("Failed to connect photo print type to photo print size.", true);
 					}
-					$this->log($this->PhotoAvailSizesPhotoPrintType->id, 'new_join_table_data_save');
 					$new_join_table_data['id'] = $this->PhotoAvailSizesPhotoPrintType->id;
 					$new_photo_type['PhotoAvailSizesPhotoPrintType'] = $new_join_table_data;
 				}
