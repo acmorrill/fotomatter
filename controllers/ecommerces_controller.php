@@ -53,6 +53,11 @@ class EcommercesController extends AppController {
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
 		if (!empty($this->data)) {
 			try {
+                if (!empty($this->data['site_zipcode'])) {
+                    $this->SiteSetting->setVal('site_zipcode', $this->data['site_zipcode']);
+                } else {
+                    $this->SiteSetting->clearVal('site_zipcode');
+                }
 				if (!empty($this->data['site_country_id'])) {
 					$this->SiteSetting->setVal('site_country_id', $this->data['site_country_id']);
 				} else {
@@ -77,6 +82,7 @@ class EcommercesController extends AppController {
 		}
 		
 		
+		$this->data['site_zipcode'] = $this->SiteSetting->getVal('site_zipcode', false);
 		$this->data['site_country_id'] = $this->SiteSetting->getVal('site_country_id', false);
 		$this->data['site_state_id'] = $this->SiteSetting->getVal('site_state_id', false);
 		$this->data['site_sales_tax_percentage'] = $this->SiteSetting->getVal('site_sales_tax_percentage', false);

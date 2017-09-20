@@ -49,14 +49,10 @@
 					<label>Total</label> <span class='price_summary_item'><?php echo $this->Number->currency($this->Cart->get_cart_total()); ?></span><br />
 					
 					<?php if (!isset($hide_checkout) || $hide_checkout !== true): ?>
-                                            <form id="standard_checkout_form" action="/ecommerces/checkout_login_or_guest" method="post">
-                                                    <button id="standard_checkout_button">Checkout</button>
-                                            </form>
+                        <form id="standard_checkout_form" action="/ecommerces/checkout_login_or_guest" method="post">
+                                <button id="standard_checkout_button">Checkout</button>
+                        </form>
 					<?php endif; ?>
-                                        
-                    <?php
-//                        $this->Cart->get_cart_shipping_estimate();
-                    ?>
 				</td>
 			</tr>
 		</tfoot>

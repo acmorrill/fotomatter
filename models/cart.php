@@ -77,6 +77,41 @@ class Cart extends AppModel {
         $photo_print_type_name = $extra_print_data['PhotoPrintType']['print_name'];
 
 
+        // add the current print type ship from address
+
+        if (!$this->Session->check('Cart.ship_from_addresses')) {
+            $this->Session->write('Cart.ship_from_addresses', array());
+        }
+
+        $this->log($type, 'type');
+        $this->log($this->Session->read('Cart.ship_from_addresses'), 'ship_from_addresses');
+        $this->log($extra_print_data, 'extra_print_data');
+        $ship_from_addresses = $this->Session->read('Cart.ship_from_addresses');
+        $new_item_address_key = '';
+        if ($type == 'self') {
+            $self_fulfillment_address = array();
+            $this->SiteSetting = ClassRegistry::init('SiteSetting');
+            $account_id = $this->SiteSetting->getVal('account_id', false);
+            $site_zipcode = $this->SiteSetting->getVal('site_zipcode', '');
+            if (!empty($site_zipcode) && !empty($account_id)) {
+                $new_item_address_key = "self_fulfillment|" . $site_zipcode . "|account_id:" . $account_id;
+                $ship_from_addresses[$new_item_address_key] = [
+                    'zip' => $site_zipcode
+                ];
+            }
+        } else {
+            // START HERE TOMORROW
+            $print_fulfiller_address = [ // TODO - need to pull real data here
+                'zip' => 84660
+            ];
+            if ($extra_print_data['CurrentPrintData']['print_fulfiller']['id']) {
+                $new_item_address_key = "automatic_fulfillment|" . $print_fulfiller_address['zip'] . "|print_fulfiller_id:" . $extra_print_data['CurrentPrintData']['print_fulfiller']['id'];
+                $ship_from_addresses[$new_item_address_key] = $print_fulfiller_address;
+            }
+        }
+        $this->Session->write('Cart.ship_from_addresses', $ship_from_addresses);
+
+
         // get data for the new cart item
         $key = $this->get_cart_key($photo_id, $photo_print_type_id, $short_side_inches, $type);
 
@@ -91,6 +126,9 @@ class Cart extends AppModel {
         } else {
             $cart_items[$key]['qty'] = $qty;
         }
+        if ($new_item_address_key) {
+            $cart_items[$key]['ship_from_address_key'] = $new_item_address_key;
+        }
         $cart_items[$key]['photo_id'] = $photo_id;
         $cart_items[$key]['photo_print_type_id'] = $photo_print_type_id;
         $cart_items[$key]['print_type'] = $type;
@@ -100,6 +138,7 @@ class Cart extends AppModel {
         $cart_items[$key]['handling_price'] = $handling_price;
         $cart_items[$key]['photo_print_type_name'] = $photo_print_type_name;
         $this->Session->write('Cart.items', $cart_items);
+        $this->log($this->Session->read('Cart'), 'all cart data');
     }
 
     public function create_fake_cart_items() {
@@ -210,8 +249,9 @@ class Cart extends AppModel {
             $cart_items = $this->get_cart_items();
         }
 
-        $shipping_estimate_data = $this->get_cart_shipping_estimate();
-        $this->log($shipping_estimate_data, '$shipping_estimate_data');
+        // TODO - turn this back on
+//        $shipping_estimate_data = $this->get_cart_shipping_estimate();
+//        $this->log($shipping_estimate_data, '$shipping_estimate_data');
         $shipping_total = 0;
 //        foreach ($cart_items as $cart_item) {
 //            $shipping_total += $cart_item['qty'] * $cart_item['handling_price'];

@@ -54,7 +54,7 @@ class ShippingEstimator {
 //					'is_pano' => false,
 //					'print_type_ships_by_itself' => false,
 //					'print_type_can_be_rolled' => false,
-//					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
+//					'ship_from_address_key' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
 //				],
 //				'key1' => [
 //					'qty' => 10,
@@ -63,7 +63,7 @@ class ShippingEstimator {
 //					'is_pano' => false,
 //					'print_type_ships_by_itself' => false,
 //					'print_type_can_be_rolled' => false,
-//					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
+//					'ship_from_address_key' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
 //				],
 //				'key2' => [
 //					'qty' => 10,
@@ -72,7 +72,7 @@ class ShippingEstimator {
 //					'is_pano' => false,
 //					'print_type_ships_by_itself' => false,
 //					'print_type_can_be_rolled' => false,
-//					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
+//					'ship_from_address_key' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
 //				],
 //				'key3' => [
 //					'qty' => 25,
@@ -81,7 +81,7 @@ class ShippingEstimator {
 //					'is_pano' => false,
 //					'print_type_ships_by_itself' => false,
 //					'print_type_can_be_rolled' => true,
-//					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
+//					'ship_from_address_key' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
 //				],
 //				'key4' => [
 //					'qty' => 10,
@@ -90,7 +90,7 @@ class ShippingEstimator {
 //					'is_pano' => false,
 //					'print_type_ships_by_itself' => false,
 //					'print_type_can_be_rolled' => true,
-//					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
+//					'ship_from_address_key' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
 //				],
 ////				'key5' => [
 ////					'qty' => 10,
@@ -99,7 +99,7 @@ class ShippingEstimator {
 ////					'is_pano' => true,
 ////					'print_type_ships_by_itself' => false,
 ////					'print_type_can_be_rolled' => true,
-////					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
+////					'ship_from_address_key' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
 ////				],
 ////				'key6' => [
 ////					'qty' => 10,
@@ -108,7 +108,7 @@ class ShippingEstimator {
 ////					'is_pano' => true,
 ////					'print_type_ships_by_itself' => false,
 ////					'print_type_can_be_rolled' => true,
-////					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
+////					'ship_from_address_key' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
 ////				],
 ////				'key7' => [
 ////					'qty' => 10,
@@ -117,7 +117,7 @@ class ShippingEstimator {
 ////					'is_pano' => true,
 ////					'print_type_ships_by_itself' => false,
 ////					'print_type_can_be_rolled' => true,
-////					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
+////					'ship_from_address_key' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
 ////				],
 ////				'key8' => [
 ////					'qty' => 10,
@@ -126,7 +126,7 @@ class ShippingEstimator {
 ////					'is_pano' => true,
 ////					'print_type_ships_by_itself' => false,
 ////					'print_type_can_be_rolled' => false,
-////					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
+////					'ship_from_address_key' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
 ////				],
 ////				'key9' => [
 ////					'qty' => 10,
@@ -135,7 +135,7 @@ class ShippingEstimator {
 ////					'is_pano' => true,
 ////					'print_type_ships_by_itself' => false,
 ////					'print_type_can_be_rolled' => false,
-////					'ship_from_address_id' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
+////					'ship_from_address_key' => 'automatic_fulfillment|84663|print_fulfillers_id:1'
 ////				],
 ////				'key10' => [
 ////					'qty' => 3,
@@ -144,7 +144,7 @@ class ShippingEstimator {
 ////					'is_pano' => false,
 ////					'print_type_ships_by_itself' => true,
 ////					'print_type_can_be_rolled' => false,
-////					'ship_from_address_id' => 'self_fulfillment|84660|account_id:1'
+////					'ship_from_address_key' => 'self_fulfillment|84660|account_id:1'
 ////				]
 //			],
 //			'shipping_address' => [
@@ -179,8 +179,8 @@ class ShippingEstimator {
 		$this->sort_cart_items($items);
 		$items_by_shipper = $this->breakup_items_by_shipper($items);
 		$packages = [];
-		foreach ($items_by_shipper as $ship_from_address_id => $brokenup_items) {
-			$packages[$ship_from_address_id] = $this->breakup_packages($brokenup_items, $ship_from_address_id);
+		foreach ($items_by_shipper as $ship_from_address_key => $brokenup_items) {
+			$packages[$ship_from_address_key] = $this->breakup_packages($brokenup_items, $ship_from_address_key);
 		}
 		
 		// DREW TODO - START HERE TOMORROW!
@@ -206,8 +206,8 @@ class ShippingEstimator {
 			'ship_to_address' => $ship_to_address
 		];
 		try {
-			foreach ($packages as $ship_from_address_id => &$shipment_packages) {
-				$shipment_ship_from_address = $ship_from_addresses[$ship_from_address_id];
+			foreach ($packages as $ship_from_address_key => &$shipment_packages) {
+				$shipment_ship_from_address = $ship_from_addresses[$ship_from_address_key];
 
 				// setup ship from address
 				$shipment = new \Ups\Entity\Shipment();
@@ -334,7 +334,7 @@ class ShippingEstimator {
 	private function sort_cart_items(&$items) {
 		// sort items
 		usort($items, function($a, $b) {
-			if ($a['ship_from_address_id'] === $b['ship_from_address_id']) {
+			if ($a['ship_from_address_key'] === $b['ship_from_address_key']) {
 				if ($a['print_type_ships_by_itself'] === $b['print_type_ships_by_itself']) {
 					if ($a['is_pano'] === $b['is_pano']) {
 						if ($a['print_type_can_be_rolled'] === $b['print_type_can_be_rolled']) {
@@ -349,14 +349,14 @@ class ShippingEstimator {
 				}
 				return $a['print_type_ships_by_itself'] ? 1 : -1;
 			}
-			return ($a['ship_from_address_id'] < $b['ship_from_address_id']) ? 1 : -1;
+			return ($a['ship_from_address_key'] < $b['ship_from_address_key']) ? 1 : -1;
 		});
 	}
 	
 	private function breakup_items_by_shipper($items) {
 		$broken_up_items = [];
 		foreach ($items as &$item) {
-			$broken_up_items[$item['ship_from_address_id']][] = $item;
+			$broken_up_items[$item['ship_from_address_key']][] = $item;
 		}
 		
 		return $broken_up_items;
@@ -373,10 +373,10 @@ class ShippingEstimator {
 	 * Weight = L x W x H / 166 (if dimensions in inches then estimates the lbs)
 	 * 
 	 * @param type $items
-	 * @param type $ship_from_address_id
+	 * @param type $ship_from_address_key
 	 * @return int
 	 */
-	private function breakup_packages(&$items, $ship_from_address_id) {
+	private function breakup_packages(&$items, $ship_from_address_key) {
 		$packages = [];
 		
 		$can_be_rolled = [];
@@ -422,17 +422,17 @@ class ShippingEstimator {
 					$package_data['package_qty'] = 1;
 					$package_data['print_type_can_be_rolled'] = false;
 					$package_data['is_pano'] = $item['is_pano'];
-					$package_data['ship_from_address_id'] = $ship_from_address_id;
+					$package_data['ship_from_address_key'] = $ship_from_address_key;
 					$by_itself_packages[] = $package_data;
 					$item['package_qty'] = 1;
 				}
 			}
 		}
 
-		$this->add_package_by_type($packages, $can_be_rolled, true, false, $ship_from_address_id);
-		$this->add_package_by_type($packages, $cannot_be_rolled, false, false, $ship_from_address_id);
-		$this->add_package_by_type($packages, $can_be_rolled_pano, true, true, $ship_from_address_id);
-		$this->add_package_by_type($packages, $cannot_be_rolled_pano, false, true, $ship_from_address_id);
+		$this->add_package_by_type($packages, $can_be_rolled, true, false, $ship_from_address_key);
+		$this->add_package_by_type($packages, $cannot_be_rolled, false, false, $ship_from_address_key);
+		$this->add_package_by_type($packages, $can_be_rolled_pano, true, true, $ship_from_address_key);
+		$this->add_package_by_type($packages, $cannot_be_rolled_pano, false, true, $ship_from_address_key);
 		foreach ($by_itself_packages as $by_itself_package) {
 			$packages[] = $by_itself_package;
 		}
@@ -452,7 +452,7 @@ class ShippingEstimator {
 		return $data;
 	}
 	
-	private function add_package_by_type(&$packages, $array, $can_be_rolled, $is_pano, $ship_from_address_id) {
+	private function add_package_by_type(&$packages, $array, $can_be_rolled, $is_pano, $ship_from_address_key) {
 		if (!empty($array)) {
 			foreach ($array as $curr) {
 				$package_data = $this->get_package_dimensions_weight($curr['length'], $curr['width'], 2, $this->loose_prints_lbs_per_cuin);
@@ -460,7 +460,7 @@ class ShippingEstimator {
 				$package_data['package_qty'] = $curr['package_qty'];
 				$package_data['print_type_can_be_rolled'] = $can_be_rolled;
 				$package_data['is_pano'] = $is_pano;
-				$package_data['ship_from_address_id'] = $ship_from_address_id;
+				$package_data['ship_from_address_key'] = $ship_from_address_key;
 				$packages[] = $package_data;
 			}
 		}
