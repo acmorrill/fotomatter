@@ -2,7 +2,6 @@
     <?php
         if (empty($photo_sellable_prints)) {
             $photo_sellable_prints = $this->Photo->get_enabled_photo_sellable_prints($photo_id);
-            $this->log($photo_sellable_prints, '$photo_sellable_prints');
         }
         if (empty($beforeHtml)) {
             $beforeHtml = '';

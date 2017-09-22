@@ -627,7 +627,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 				'description' => 'The calculated sales tax',
 			),
 			'shipping' => array(
-				'amount' => $this->Cart->get_cart_shipping_total(),
+				'amount' => $this->Cart->get_cart_handling_total(),
 				'name' => '',
 				'description' => '',
 			),
@@ -697,7 +697,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 //					'description' => 'duty description',
 //				),
 				'shipping' => array(
-					'amount' => $this->Cart->get_cart_shipping_total(),
+					'amount' => $this->Cart->get_cart_handling_total(),
 					'name' => '',
 					'description' => '',
 				),
@@ -936,7 +936,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 				'description' => 'The calculated sales tax',
 			),
 			'shipping' => array(
-				'amount' => $this->Cart->get_cart_shipping_total(),
+				'amount' => $this->Cart->get_cart_handling_total(),
 				'name' => '',
 				'description' => '',
 			),

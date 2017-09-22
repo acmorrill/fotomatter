@@ -39,12 +39,14 @@ class ShippingEstimator {
 
 	/**
 	 * Logic:
-	 * 
-	 * 
-	 * 
+	 *
+	 *
+	 *
 	 * @return type
 	 */
 	public function get_shipping_price($cart_data) {
+        error_reporting(E_ALL);
+        ini_set('display_errors', 1);
 //		$cart_data = [
 //			'items' => [
 //				'key0' => [
@@ -313,6 +315,7 @@ class ShippingEstimator {
 	}
 	
 	private function prepare_cart_items_for_packaging($items) {
+	    // START HERE TOMORROW - need to add print_type_can_be_rolled, print_type_ships_by_itself, is_pano to items
 		foreach ($items as &$item) {
 			if ($item['print_type_can_be_rolled'] === true && $item['long_side_inches'] <= 20) {
 				$item['print_type_can_be_rolled'] = false;

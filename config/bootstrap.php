@@ -491,8 +491,8 @@ function myErrorHandler($errno, $errstr, $errfile, $errline) {
 	}
 	
 	$log_data = compact('errno', 'errstr', 'errfile', 'errline');
-	$errstr = mysql_escape_string($errstr);
-	$errline = mysql_escape_string($errline);
+	$errstr = mysql_real_escape_string($errstr);
+	$errline = mysql_real_escape_string($errline);
 	$description = "An error recorded by myErrorHandler in bootstrap.php: $errstr on line $errline in file $errfile";
 	
 	

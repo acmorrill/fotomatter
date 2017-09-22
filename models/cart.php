@@ -83,9 +83,6 @@ class Cart extends AppModel {
             $this->Session->write('Cart.ship_from_addresses', array());
         }
 
-        $this->log($type, 'type');
-        $this->log($this->Session->read('Cart.ship_from_addresses'), 'ship_from_addresses');
-        $this->log($extra_print_data, 'extra_print_data');
         $ship_from_addresses = $this->Session->read('Cart.ship_from_addresses');
         $new_item_address_key = '';
         if ($type == 'self') {
@@ -96,16 +93,13 @@ class Cart extends AppModel {
             if (!empty($site_zipcode) && !empty($account_id)) {
                 $new_item_address_key = "self_fulfillment|" . $site_zipcode . "|account_id:" . $account_id;
                 $ship_from_addresses[$new_item_address_key] = [
-                    'zip' => $site_zipcode
+                    'zipcode' => $site_zipcode
                 ];
             }
         } else {
-            // START HERE TOMORROW
-            $print_fulfiller_address = [ // TODO - need to pull real data here
-                'zip' => 84660
-            ];
             if ($extra_print_data['CurrentPrintData']['print_fulfiller']['id']) {
-                $new_item_address_key = "automatic_fulfillment|" . $print_fulfiller_address['zip'] . "|print_fulfiller_id:" . $extra_print_data['CurrentPrintData']['print_fulfiller']['id'];
+                $print_fulfiller_address = $extra_print_data['CurrentPrintData']['print_fulfiller'];
+                $new_item_address_key = "automatic_fulfillment|" . $print_fulfiller_address['zipcode'] . "|print_fulfiller_id:" . $extra_print_data['CurrentPrintData']['print_fulfiller']['id'];
                 $ship_from_addresses[$new_item_address_key] = $print_fulfiller_address;
             }
         }
@@ -138,7 +132,6 @@ class Cart extends AppModel {
         $cart_items[$key]['handling_price'] = $handling_price;
         $cart_items[$key]['photo_print_type_name'] = $photo_print_type_name;
         $this->Session->write('Cart.items', $cart_items);
-        $this->log($this->Session->read('Cart'), 'all cart data');
     }
 
     public function create_fake_cart_items() {
@@ -193,7 +186,7 @@ class Cart extends AppModel {
         $total = 0;
         $subtotal = $this->get_cart_subtotal($cart_items);
         $total += $subtotal;
-        $total += $this->get_cart_shipping_total($cart_items);
+        $total += $this->get_cart_handling_total($cart_items);
         $total += $this->get_cart_tax($subtotal, $cart_items);
 
         return $total;
@@ -244,20 +237,36 @@ class Cart extends AppModel {
         return $tax;
     }
 
-    public function get_cart_shipping_total($cart_items = null) {
+    public function get_cart_handling_total($cart_items = null) {
         if (!isset($cart_items)) {
             $cart_items = $this->get_cart_items();
         }
 
-        // TODO - turn this back on
-//        $shipping_estimate_data = $this->get_cart_shipping_estimate();
-//        $this->log($shipping_estimate_data, '$shipping_estimate_data');
         $shipping_total = 0;
-//        foreach ($cart_items as $cart_item) {
-//            $shipping_total += $cart_item['qty'] * $cart_item['handling_price'];
-//        }
+        foreach ($cart_items as $cart_item) {
+            $shipping_total += $cart_item['qty'] * $cart_item['handling_price'];
+        }
 
         return $shipping_total;
+    }
+
+    public function get_cart_shipping_estimate() {
+        $cart_data = $this->get_cart_data();
+        $this->log($cart_data, 'cart_data');
+        $shipping_estimator = new \Ups\ShippingEstimator();
+
+        // validate an address
+//        $address_validation = $shipping_estimator->check_address();
+//        $this->log($address_validation, "address_validation");
+
+        // get shipping rates
+        $shipping_estimate = $shipping_estimator->get_shipping_price($cart_data);
+        $this->log($shipping_estimate, '$shipping_estimate');
+        return 0;
+    }
+
+    public function get_cart_shipping_and_handling_total() {
+        return $this->get_cart_handling_total() + $this->get_cart_shipping_estimate();
     }
 
     public function get_cart_items_total($cart_items = null) {
@@ -510,19 +519,4 @@ class Cart extends AppModel {
 
         $this->Session->delete('Cart');
     }
-
-    public function get_cart_shipping_estimate() {
-        $cart_data = $this->get_cart_data();
-		$this->log($cart_data, 'cart_data');
-        $shipping_estimator = new \Ups\ShippingEstimator();
-        
-        // validate an address
-//        $address_validation = $shipping_estimator->check_address();
-//        $this->log($address_validation, "address_validation");
-
-        // get shipping rates
-        $shipping_estimate = $shipping_estimator->get_shipping_price($cart_data);
-        return $shipping_estimate;
-    }
-
 }

@@ -53,7 +53,7 @@
             </td>
             <td colspan="4" style="text-align: right;">
                 <label>Items</label> <span class='price_summary_item'><?php echo $this->Number->currency($this->Cart->get_cart_subtotal()); ?></span><br />
-                <label>Handling</label> <span class='price_summary_item'><?php echo $this->Number->currency($this->Cart->get_cart_shipping_total()); ?></span><br />
+                <label>Handling</label> <span class='price_summary_item'><?php echo $this->Number->currency($this->Cart->get_cart_handling_total()); ?></span><br />
                 <?php $cart_tax = $this->Cart->get_cart_tax(); ?>
                 <?php if (!empty($cart_tax)): ?>
                     <label>Tax</label> <span class='price_summary_item'><?php echo $this->Number->currency($cart_tax); ?></span><br />

@@ -44,7 +44,7 @@
 			<tr>
 				<td colspan="5" style="text-align: right;">
 					<label>Items</label> <span class='price_summary_item'><?php echo $this->Number->currency($this->Cart->get_cart_subtotal()); ?></span><br />
-					<label>Shipping & Handling</label> <span class='price_summary_item'><?php echo $this->Number->currency($this->Cart->get_cart_shipping_total()); ?></span><br />
+					<label>Shipping & Handling</label> <span class='price_summary_item'><?php echo $this->Number->currency($this->Cart->get_cart_shipping_and_handling_total()); ?></span><br />
 					<label>Tax</label> <span class='price_summary_item'><?php echo $this->Number->currency($this->Cart->get_cart_tax()); ?></span><br />
 					<label>Total</label> <span class='price_summary_item'><?php echo $this->Number->currency($this->Cart->get_cart_total()); ?></span><br />
 					
