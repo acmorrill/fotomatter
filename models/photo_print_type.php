@@ -92,6 +92,10 @@ class PhotoPrintType extends AppModel {
 		$data = array();
 		$data['PhotoPrintType']['print_name'] = $print_name;
 		$data['PhotoPrintType']['turnaround_time'] = 14;
+		if ($type == 'self') {
+            $data['PhotoPrintType']['print_type_ships_by_itself'] = 1;
+            $data['PhotoPrintType']['print_type_can_be_rolled'] = 0;
+        }
 		$data['PhotoPrintType']['print_fulfillment_type'] = $type;
 		$data['PhotoPrintType']['print_fulfiller_id'] = $print_fulfiller_id;
 		$data['PhotoPrintType']['print_fulfiller_print_type_id'] = $print_fulfiller_print_type_id;
@@ -133,6 +137,7 @@ class PhotoPrintType extends AppModel {
 		$turnaround_time = !empty($data['PhotoPrintType']['turnaround_time']) ? $data['PhotoPrintType']['turnaround_time'] : '' ;
 		$print_fulfillment_type = !empty($data['PhotoPrintType']['print_fulfillment_type']) ? $data['PhotoPrintType']['print_fulfillment_type'] : '' ;
 
+
 		if (!isset($print_name)) {
 			$print_name = "New Print Type";
 		}
@@ -143,7 +148,7 @@ class PhotoPrintType extends AppModel {
 		$return_data = array();
 
 		// create the new photo type
-		$new_photo_type = array();
+		$new_photo_type = $data;
 		$new_photo_type['PhotoPrintType']['id'] = $print_type_id;
 		$new_photo_type['PhotoPrintType']['print_name'] = $print_name;
 		$new_photo_type['PhotoPrintType']['turnaround_time'] = $turnaround_time;

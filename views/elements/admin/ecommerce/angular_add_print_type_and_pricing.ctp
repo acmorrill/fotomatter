@@ -40,6 +40,32 @@
 					<?php echo __('The amount of time it takes you to fulfill an order (to receive the funds, order the print, and to ship.) Example: 3 weeks, 5 days, etc. Note: some themes currently don\'t list this anywhere. ', true); ?>
 				</div>
 			</div>
+            <div ng-if="open_print_type.photo_print_type.PhotoPrintType.print_fulfillment_type == 'self'" class="basic_setting_cont no_border">
+                <label><?php echo __('Print Type Ships by Itself?', true); ?></label>
+                <div class="theme_setting_inputs_container">
+                    <select
+                            ng-model="open_print_type.photo_print_type.PhotoPrintType.print_type_ships_by_itself"
+                            ng-options="key as value.text for (key, value) in yes_no_options"
+                            ng-change="savePrintTypeSetting(open_print_type.photo_print_type, '{{open_print_type.photo_print_type.PhotoPrintType.print_type_ships_by_itself}}')"
+                    ></select>
+                </div>
+                <div class="theme_setting_description">
+                    <?php echo __('Used for estimating the shipping cost of this print type in the shopping cart.', true); ?>
+                </div>
+            </div>
+			<div ng-if="open_print_type.photo_print_type.PhotoPrintType.print_fulfillment_type == 'self'" class="basic_setting_cont no_border">
+				<label><?php echo __('Print Type Can Be Rolled?', true); ?></label>
+				<div class="theme_setting_inputs_container">
+					<select
+							ng-model="open_print_type.photo_print_type.PhotoPrintType.print_type_can_be_rolled"
+							ng-options="key as value.text for (key, value) in yes_no_options"
+							ng-change="savePrintTypeSetting(open_print_type.photo_print_type, '{{open_print_type.photo_print_type.PhotoPrintType.print_type_can_be_rolled}}')"
+					></select>
+				</div>
+				<div class="theme_setting_description">
+					<?php echo __('Used for estimating the shipping cost of this print type in the shopping cart.', true); ?>
+				</div>
+			</div>
 		</div>
 		
 			<div class="table_container" <?php /*ng-if="open_print_type.photo_print_type.PhotoPrintType.print_fulfillment_type == 'autofixed' || open_print_type.photo_print_type.PhotoPrintType.print_fulfillment_type == 'autodynamic' || open_print_type.photo_print_type.PhotoPrintType.print_fulfillment_type == 'autofixeddynamic'"*/ ?> style="margin-top: 40px;">

@@ -68,6 +68,10 @@ class Cart extends AppModel {
         $this->Session = $this->get_session();
 
 
+        // START HERE TOMORROW - need to add print_type_ships_by_itself and print_type_can_be_rolled to item added to cart
+		// add in get_sellable_print_sizes in photo model
+
+
         $this->Photo = ClassRegistry::init('Photo');
 
         $extra_print_data = $this->Photo->get_extra_print_data($photo_id, $photo_print_type_id, $short_side_inches, $type);

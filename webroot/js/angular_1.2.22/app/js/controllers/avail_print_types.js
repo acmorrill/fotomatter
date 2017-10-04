@@ -56,7 +56,19 @@ fotomatterControllers.controller('AvailPrintTypesCtrl', ['$scope',  '$timeout', 
 			return '';
 		};
 	// end turnaround time
-	
+
+	//////////////////////////////////////////////
+	// Yes/No options
+    $scope.yes_no_options = [];
+    $scope.yes_no_options.push({
+        'value': 0,
+        'text': 'No'
+    });
+    $scope.yes_no_options.push({
+        'value': 1,
+        'text': 'Yes'
+    });
+
 	
 	
 	var load_the_print_type = function(print_type) {
@@ -184,6 +196,7 @@ fotomatterControllers.controller('AvailPrintTypesCtrl', ['$scope',  '$timeout', 
 	
 	$scope.savePrintTypeSetting = function(print_type_data, old_turnaround_time) {
 		show_universal_save();
+		console.log('print_type_data', print_type_data);
 		var save_print_type_promise = PrintTypes.save({}, print_type_data).$promise;
 		save_print_type_promise.then(function(result) {
 			$scope.helpers.updateArrItem($scope.photo_print_types, 'PhotoPrintType', 'print_name', result.data.PhotoPrintType.id, result.data.PhotoPrintType.print_name);
