@@ -3,6 +3,7 @@ if (!window.console) {
 }
 
 jQuery(document).ready(function() {
+	console.warn('BRETT TEST');
 	// code for the menu hover
 	jQuery('#main_nav li.main_menu_item').mouseover(function() {
 		jQuery('#main_nav li.main_menu_item').removeClass('hover');
