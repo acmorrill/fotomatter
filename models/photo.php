@@ -1040,7 +1040,18 @@ class Photo extends AppModel {
                 break;
             }
         }
-        
+
+		$photo = $this->find('first', array(
+			'conditions' => array(
+				'Photo.id' => $photo_id
+			),
+			'contain' => false
+		));
+		$this->add_photo_format($photo);
+		$photo['Photo']['is_pano'] = $this->photo_has_pano_format($photo);
+		$extra_print_data['Photo'] = $photo['Photo'];
+
+
         return $extra_print_data;
     }
 

@@ -29,7 +29,7 @@
 						<img src="<?php echo $cart_img_data['url']; ?>" <?php echo $cart_img_data['tag_attributes']; ?> alt="" />
 						<div id='cart_photo_item_data_container'>
 							<h2><?php echo $cart_data['photo_print_type_name']; ?></h2>
-							<span><?php echo $cart_data['short_side_inches']; ?> x <?php echo $cart_data['long_side_inches']; ?></span>
+							<span><?php echo $cart_data['short_side_inches']; ?> x <?php echo $cart_data['long_side_feet_inches']; ?></span>
 						</div>
 					</td>
 					<td>

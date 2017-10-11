@@ -67,18 +67,17 @@ class Cart extends AppModel {
     public function add_to_cart($photo_id, $photo_print_type_id, $short_side_inches, $type, $qty = 1) {
         $this->Session = $this->get_session();
 
-
-        // START HERE TOMORROW - need to add print_type_ships_by_itself and print_type_can_be_rolled to item added to cart
-		// add in get_sellable_print_sizes in photo model
-
-
         $this->Photo = ClassRegistry::init('Photo');
 
         $extra_print_data = $this->Photo->get_extra_print_data($photo_id, $photo_print_type_id, $short_side_inches, $type);
-        $long_side_inches = $extra_print_data['CurrentPrintData']['long_side_feet_inches'];
+        $long_side_inches = $extra_print_data['CurrentPrintData']['long_side_inches'];
+        $long_side_feet_inches = $extra_print_data['CurrentPrintData']['long_side_feet_inches'];
         $price = $extra_print_data['CurrentPrintData']['price'];
         $handling_price = $extra_print_data['CurrentPrintData']['handling_price'];
         $photo_print_type_name = $extra_print_data['PhotoPrintType']['print_name'];
+        $is_pano = $extra_print_data['Photo']['is_pano'];
+        $print_type_ships_by_itself = '';
+		$print_type_can_be_rolled = '';
 
 
         // add the current print type ship from address
@@ -94,16 +93,20 @@ class Cart extends AppModel {
             $this->SiteSetting = ClassRegistry::init('SiteSetting');
             $account_id = $this->SiteSetting->getVal('account_id', false);
             $site_zipcode = $this->SiteSetting->getVal('site_zipcode', '');
+			$print_type_ships_by_itself = $extra_print_data['PhotoPrintType']['print_type_ships_by_itself'];
+			$print_type_can_be_rolled = $extra_print_data['PhotoPrintType']['print_type_can_be_rolled'];
             if (!empty($site_zipcode) && !empty($account_id)) {
                 $new_item_address_key = "self_fulfillment|" . $site_zipcode . "|account_id:" . $account_id;
                 $ship_from_addresses[$new_item_address_key] = [
-                    'zipcode' => $site_zipcode
+                    'zip' => $site_zipcode
                 ];
             }
         } else {
             if ($extra_print_data['CurrentPrintData']['print_fulfiller']['id']) {
+				$print_type_ships_by_itself = $extra_print_data['CurrentPrintData']['print_fulfiller_print_type']['print_type_ships_by_itself'];
+				$print_type_can_be_rolled = $extra_print_data['CurrentPrintData']['print_fulfiller_print_type']['print_type_can_be_rolled'];
                 $print_fulfiller_address = $extra_print_data['CurrentPrintData']['print_fulfiller'];
-                $new_item_address_key = "automatic_fulfillment|" . $print_fulfiller_address['zipcode'] . "|print_fulfiller_id:" . $extra_print_data['CurrentPrintData']['print_fulfiller']['id'];
+                $new_item_address_key = "automatic_fulfillment|" . $print_fulfiller_address['zip'] . "|print_fulfiller_id:" . $extra_print_data['CurrentPrintData']['print_fulfiller']['id'];
                 $ship_from_addresses[$new_item_address_key] = $print_fulfiller_address;
             }
         }
@@ -132,9 +135,22 @@ class Cart extends AppModel {
         $cart_items[$key]['print_type'] = $type;
         $cart_items[$key]['short_side_inches'] = $short_side_inches;
         $cart_items[$key]['long_side_inches'] = $long_side_inches;
+        $cart_items[$key]['long_side_feet_inches'] = $long_side_feet_inches;
         $cart_items[$key]['price'] = $price;
         $cart_items[$key]['handling_price'] = $handling_price;
         $cart_items[$key]['photo_print_type_name'] = $photo_print_type_name;
+        $cart_items[$key]['is_pano'] = $is_pano;
+
+        // for print estimation
+		if (gettype($print_type_ships_by_itself) == 'NULL') {
+			$print_type_ships_by_itself = 1;
+		}
+		if (gettype($print_type_can_be_rolled) == 'NULL') {
+			$print_type_can_be_rolled = 0;
+		}
+        $cart_items[$key]['print_type_ships_by_itself'] = $print_type_ships_by_itself;
+        $cart_items[$key]['print_type_can_be_rolled'] = $print_type_can_be_rolled;
+
         $this->Session->write('Cart.items', $cart_items);
     }
 
@@ -265,6 +281,7 @@ class Cart extends AppModel {
 
         // get shipping rates
         $shipping_estimate = $shipping_estimator->get_shipping_price($cart_data);
+        // START HERE TOMORROW - use $shipping_estimate in the actual cart!
         $this->log($shipping_estimate, '$shipping_estimate');
         return 0;
     }
