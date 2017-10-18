@@ -1,13 +1,13 @@
 @font-face {
   font-family: 'icomoon';
-  src: url('/fonts/icomoon_frontend/fonts/icomoon.eot?-lzz66b');
-  src: url('/fonts/icomoon_frontend/fonts/icomoon.eot?#iefix-lzz66b') format('embedded-opentype'), url('/fonts/icomoon_frontend/fonts/icomoon.woff?-lzz66b') format('woff'), url('/fonts/icomoon_frontend/fonts/icomoon.ttf?-lzz66b') format('truetype'), url('/fonts/icomoon_frontend/fonts/icomoon.svg?-lzz66b#icomoon') format('svg');
+  src: url('/fonts/icomoon_frontend/fonts/icomoon.eot?xf6w8a');
+  src: url('/fonts/icomoon_frontend/fonts/icomoon.eot?xf6w8a#iefix') format('embedded-opentype'), url('/fonts/icomoon_frontend/fonts/icomoon.ttf?xf6w8a') format('truetype'), url('/fonts/icomoon_frontend/fonts/icomoon.woff?xf6w8a') format('woff'), url('/fonts/icomoon_frontend/fonts/icomoon.svg?xf6w8a#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 [class^="icon-"],
 [class*=" icon-"] {
-  font-family: 'icomoon';
+  font-family: 'icomoon' !important;
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -16,6 +16,10 @@
   line-height: 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+.icon-brand:before {
+  content: "\e900";
+  color: #2e9fff;
 }
 .icon-cart:before {
   content: "\e93a";
@@ -43,6 +47,64 @@
 }
 .icon-pinterest2:before {
   content: "\ead1";
+}
+.icon-bubbles4:before {
+  content: "\e970";
+}
+.icon-enlarge:before {
+  content: "\e989";
+}
+.icon-shrink:before {
+  content: "\e98a";
+}
+.icon-enlarge2:before {
+  content: "\e98b";
+}
+.icon-star-empty:before {
+  content: "\e9d7";
+}
+.icon-info:before {
+  content: "\ea0c";
+}
+.icon-circle-right:before {
+  content: "\ea42";
+}
+.icon-circle-left:before {
+  content: "\ea44";
+}
+#imageActions {
+  display: none;
+  background: rgba(0,0,0,0.25);
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  text-align: right;
+  font-size: 26px;
+  height: 50px;
+  line-height: 50px;
+  vertical-align: middle;
+  color: #ffffff;
+}
+#imageActions .actionIcons a {
+  color: #ffffff;
+}
+#imageActions .actionIcons a span {
+  padding: 5px;
+}
+.fullScreen:-webkit-full-screen img {
+  width: 100% !important;
+  height: auto !important;
+  margin: auto !important;
+}
+.fullScreen:-moz-full-screen img {
+  width: 100% !important;
+  height: auto !important;
+  margin: auto !important;
+}
+.fullScreen:-ms-fullscreen img {
+  width: 100% !important;
+  height: auto !important;
+  margin: auto !important;
 }
 .flashMessage {
   margin-top: 20px;

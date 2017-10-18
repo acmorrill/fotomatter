@@ -48,7 +48,7 @@
 					<br/><br/><br/>
 				</div>
 				<br />
-				<img src="/images/misc/horiz_gradientline.png" alt="" />
+				<img src="/images/misc/horiz_gradientline.png" alt="" />asdfasdf
 				<?php echo $this->Element('global_theme_footer_copyright'); ?>
 			</div>
 		</div>

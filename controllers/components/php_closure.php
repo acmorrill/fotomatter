@@ -14,6 +14,9 @@ class PhpClosureComponent extends Object {
 		$webroot_js_path = WEBROOT_ABS . DS . 'js' . DS . 'php_closure' . DS;
 		$php_closure_root_path = PHP_CLOSURE_ROOT;
 		$this->compile_js_fromdir_todir($php_closure_root_path, $webroot_js_path, array( WEBROOT_ABS ));
+		
+		//TODO remove for prod, but useful during dev
+		//unlink($webroot_js_path . "theme_global.min.js");
 
 
 		///////////////////////////////////////////
