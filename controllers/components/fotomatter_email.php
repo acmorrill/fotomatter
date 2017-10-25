@@ -243,7 +243,7 @@ class FotomatterEmailComponent extends Object {
 			'andrew@fotomatter.net',
 			'kent@fotomatter.net',
 			'jennmorrill@gmail.com',
-			'josh.d.rees@gmail.com',
+			'brettsker@gmail.com',
 		);
 		$controller->Postmark->subject = "Hooray!!!";
 		$controller->Postmark->template = 'app_hooray';
