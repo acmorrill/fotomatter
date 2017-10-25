@@ -168,7 +168,8 @@ class FotomatterEmailComponent extends Object {
 		$controller->Postmark->delivery = 'postmark';
 		$controller->Postmark->from = $this->from_email;
 		$controller->Postmark->replyTo = $account_email;
-		$controller->Postmark->to = "<support+livechat@fotomatter.net>";
+//		$controller->Postmark->to = "<support+livechat@fotomatter.net>"; // DREW TODO - TURN THIS BACK WHEN WE WANT TO USE LIVECHAT FOR SUPPORT TICKETS AGAIN
+		$controller->Postmark->to = "<support@fotomatter.net>";
 		$controller->Postmark->subject = $subject;
 		$controller->Postmark->template = 'support_create_ticket';
 		$controller->Postmark->sendAs = 'text';

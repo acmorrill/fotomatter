@@ -55,14 +55,10 @@ class ShippingEstimator {
 			$packages[$ship_from_address_key] = $this->breakup_packages($brokenup_items, $ship_from_address_key);
 		}
 		
-		// DREW TODO - START HERE TOMORROW!
-		// - use the actual shipping estimate in the final page of the cart
-		// - return good errors
 
-		
-		$return_arr = $this->get_shipments_and_rates_by_packages($packages, $cart_data['shipping_address'], $cart_data['ship_from_addresses']);
+		$shipping_estimate_data = $this->get_shipments_and_rates_by_packages($packages, $cart_data['shipping_address'], $cart_data['ship_from_addresses']);
 
-		return $return_arr;
+		return $shipping_estimate_data;
 	}
 	
 	private function get_shipments_and_rates_by_packages(&$packages, &$ship_to_address, &$ship_from_addresses) {
@@ -184,9 +180,6 @@ class ShippingEstimator {
 	}
 	
 	private function prepare_cart_items_for_packaging($items) {
-	    // START HERE TOMORROW - need to add print_type_can_be_rolled, print_type_ships_by_itself, is_pano to items
-        // print_type_can_be_rolled - just needs to be general about the print type (not size)
-        // print_type_ships_by_itself - just needs to be general about the print type (not size)
 		foreach ($items as &$item) {
 			if ($item['print_type_can_be_rolled'] == true && $item['long_side_inches'] <= 20) {
 				$item['print_type_can_be_rolled'] = false;

@@ -148,6 +148,19 @@
 										>{{ display_price(print_size.PhotoAvailSizesPhotoPrintType.price) }}</span>
 									</span>
 								</span>
+								<span class="subitem_container">
+									<label><?php echo __('Handling Charge', true); ?></label><br />
+									<span>
+										<span
+												onaftersave="savePrintType(print_size, $index, true)"
+												editable-text="print_size.PhotoAvailSizesPhotoPrintType.handling_price"
+												e-form="handling_price"
+												ng-click="show_editable(handling_price, !!print_size.PhotoAvailSizesPhotoPrintType.available == true)"
+												ng-class="{'disabled': !!print_size.PhotoAvailSizesPhotoPrintType.available != true}"
+												class="editable editable-click"
+										>{{ display_price(print_size.PhotoAvailSizesPhotoPrintType.handling_price) }}</span>
+									</span>
+								</span>
 								<?php /*<span class="subitem_container">
 									<label><?php echo __('Shipping Price', true); ?></label><br />
 									<span>

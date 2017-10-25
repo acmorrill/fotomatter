@@ -81,7 +81,6 @@ class Cart extends AppModel {
 
 
         // add the current print type ship from address
-
         if (!$this->Session->check('Cart.ship_from_addresses')) {
             $this->Session->write('Cart.ship_from_addresses', array());
         }
@@ -272,7 +271,6 @@ class Cart extends AppModel {
 
     public function get_cart_shipping_estimate() {
         $cart_data = $this->get_cart_data();
-        $this->log($cart_data, 'cart_data');
         $shipping_estimator = new \Ups\ShippingEstimator();
 
         // validate an address
@@ -281,9 +279,12 @@ class Cart extends AppModel {
 
         // get shipping rates
         $shipping_estimate = $shipping_estimator->get_shipping_price($cart_data);
-        // START HERE TOMORROW - use $shipping_estimate in the actual cart!
-        $this->log($shipping_estimate, '$shipping_estimate');
-        return 0;
+        if (empty($shipping_estimate['total_cost'])) {
+			$this->major_error('the shipping estimator failed to estimate a shipping cost', compact('shipping_estimate'));
+			return 0;
+		} else {
+			return $shipping_estimate['total_cost'];
+		}
     }
 
     public function get_cart_shipping_and_handling_total() {
