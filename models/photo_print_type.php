@@ -174,8 +174,8 @@ class PhotoPrintType extends AppModel {
 				if (isset($curr_join_data['price']) && !is_numeric($curr_join_data['price'])) {
 					unset($curr_join_data['price']);
 				}
-				if (isset($curr_join_data['shipping_price']) && !is_numeric($curr_join_data['shipping_price'])) {
-					unset($curr_join_data['shipping_price']);
+				if (isset($curr_join_data['handling_price']) && !is_numeric($curr_join_data['handling_price'])) {
+					unset($curr_join_data['handling_price']);
 				}
 				
 				
@@ -197,7 +197,7 @@ class PhotoPrintType extends AppModel {
 					$new_join_table_data['available'] = $curr_join_data['available'];
 					
 					$new_join_table_data['price'] = !empty($curr_join_data['price']) ? $curr_join_data['price'] : '0.00';
-					$new_join_table_data['shipping_price'] = !empty($curr_join_data['shipping_price']) ? $curr_join_data['shipping_price'] : '0.00';
+					$new_join_table_data['handling_price'] = !empty($curr_join_data['handling_price']) ? $curr_join_data['handling_price'] : '0.00';
 					$new_join_table_data['custom_turnaround'] = isset($curr_join_data['custom_turnaround']) ? $curr_join_data['custom_turnaround'] : 0;
 					$new_join_table_data['global_default'] = isset($curr_join_data['global_default']) ? $curr_join_data['global_default'] : 1;
 					$new_join_table_data['force_settings'] = isset($curr_join_data['force_settings']) ? $curr_join_data['force_settings'] : 1;

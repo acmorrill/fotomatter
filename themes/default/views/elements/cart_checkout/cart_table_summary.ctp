@@ -43,14 +43,17 @@
 		<tfoot>
 			<tr>
 				<td colspan="5" style="text-align: right;">
-					<label>Items</label> <span class='price_summary_item'><?php echo $this->Number->currency($this->Cart->get_cart_subtotal()); ?></span><br />
-					<label>Shipping & Handling</label> <span class='price_summary_item'><?php echo $this->Number->currency($this->Cart->get_cart_shipping_and_handling_total()); ?></span><br />
-					<label>Tax</label> <span class='price_summary_item'><?php echo $this->Number->currency($this->Cart->get_cart_tax()); ?></span><br />
-					<label>Total</label> <span class='price_summary_item'><?php echo $this->Number->currency($this->Cart->get_cart_total()); ?></span><br />
+					<label><?php echo __('Items', true); ?></label> <span class='price_summary_item'><?php echo $this->Number->currency($this->Cart->get_cart_subtotal()); ?></span><br />
+					<label><?php echo __('Shipping & Handling', true); ?></label> <span class='price_summary_item'><?php echo $this->Number->currency($this->Cart->get_cart_shipping_and_handling_total()); ?></span><br />
+					<?php $cart_tax = $this->Cart->get_cart_tax(); ?>
+					<?php if(!empty($cart_tax)): ?>
+						<label><?php echo __('Tax', true); ?></label> <span class='price_summary_item'><?php echo $this->Number->currency($this->Cart->get_cart_tax()); ?></span><br />
+					<?php endif; ?>
+					<label><?php echo __('Total', true); ?></label> <span class='price_summary_item'><?php echo $this->Number->currency($this->Cart->get_cart_finalize_checkout_total()); ?></span><br />
 					
 					<?php if (!isset($hide_checkout) || $hide_checkout !== true): ?>
                         <form id="standard_checkout_form" action="/ecommerces/checkout_login_or_guest" method="post">
-                                <button id="standard_checkout_button">Checkout</button>
+                                <button id="standard_checkout_button"><?php echo __('Checkout', true); ?></button>
                         </form>
 					<?php endif; ?>
 				</td>

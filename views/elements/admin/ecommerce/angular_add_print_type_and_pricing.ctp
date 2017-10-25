@@ -148,7 +148,7 @@
 										>{{ display_price(print_size.PhotoAvailSizesPhotoPrintType.price) }}</span>
 									</span>
 								</span>
-								<span class="subitem_container">
+								<span class="subitem_container" ng-if="print_size.display_type == 'self'">
 									<label><?php echo __('Handling Charge', true); ?></label><br />
 									<span>
 										<span

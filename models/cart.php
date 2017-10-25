@@ -211,6 +211,20 @@ class Cart extends AppModel {
         return $total;
     }
 
+    public function get_cart_finalize_checkout_total($cart_items = null) {
+        if (!isset($cart_items)) {
+            $cart_items = $this->get_cart_items();
+        }
+
+        $total = 0;
+        $subtotal = $this->get_cart_subtotal($cart_items);
+        $total += $subtotal;
+		$total += $this->get_cart_shipping_and_handling_total($cart_items);
+        $total += $this->get_cart_tax($subtotal, $cart_items);
+
+        return $total;
+    }
+
     public function get_cart_subtotal($cart_items = null) {
         if (!isset($cart_items)) {
             $cart_items = $this->get_cart_items();

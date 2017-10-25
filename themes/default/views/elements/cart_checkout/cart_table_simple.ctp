@@ -52,11 +52,14 @@
                 <?php endif; ?>
             </td>
             <td colspan="4" style="text-align: right;">
-                <label>Items</label> <span class='price_summary_item'><?php echo $this->Number->currency($this->Cart->get_cart_subtotal()); ?></span><br />
-                <label>Handling</label> <span class='price_summary_item'><?php echo $this->Number->currency($this->Cart->get_cart_handling_total()); ?></span><br />
+                <label><?php echo __('Items', true); ?></label> <span class='price_summary_item'><?php echo $this->Number->currency($this->Cart->get_cart_subtotal()); ?></span><br />
+				<?php $cart_handling_total = $this->Cart->get_cart_handling_total(); ?>
+				<?php if (!empty($cart_handling_total)): ?>
+					<label><?php echo __('Handling', true); ?></label> <span class='price_summary_item'><?php echo $this->Number->currency($cart_handling_total); ?></span><br />
+				<?php endif; ?>
                 <?php $cart_tax = $this->Cart->get_cart_tax(); ?>
                 <?php if (!empty($cart_tax)): ?>
-                    <label>Tax</label> <span class='price_summary_item'><?php echo $this->Number->currency($cart_tax); ?></span><br />
+                    <label><?php echo __('Tax', true); ?></label> <span class='price_summary_item'><?php echo $this->Number->currency($cart_tax); ?></span><br />
                 <?php endif; ?>
                 <label class='cart_total'>Total</label> <span class='price_summary_item cart_total'><?php echo $this->Number->currency($this->Cart->get_cart_total()); ?></span><br />
                     <?php if (!empty($cart_items)): ?>

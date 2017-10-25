@@ -1026,7 +1026,13 @@ class EcommercesController extends AppController {
 				$authnet_data['AuthnetProfile']['shipping_country'] = $shipping_address['country_name'];
 				$authnet_data['AuthnetProfile']['payment_cc_last_four'] = substr($this->data['Payment']['card_number'], -4, 4);
 				$authnet_data['AuthnetProfile']['payment_method'] = $this->data['Payment']['credit_card_method'];
-				
+
+
+				// START HERE TOMORROW
+				// after make one_time_charge - need to connect authnet_line_items to print_type_id and photo_id (belongs to)
+				// need to create the correctly sized image (and pass the path to overlord)
+				// 
+				// need to send call to overlord to store the order (so can show the order to the printer)
 				$result_data = $this->AuthnetOrder->one_time_charge($authnet_data);
 				
 				

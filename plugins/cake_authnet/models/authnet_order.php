@@ -618,7 +618,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		$order = array(
 			'authnet_profile_id' => 0,
 			'one_time_charge' => 1,
-			'total' => $this->Cart->get_cart_total(),
+			'total' => $this->Cart->get_cart_finalize_checkout_total(),
 			'foreign_model' => 'User',
 			'foreign_key' => 0,
 			'tax' => array(
@@ -627,7 +627,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 				'description' => 'The calculated sales tax',
 			),
 			'shipping' => array(
-				'amount' => $this->Cart->get_cart_handling_total(),
+				'amount' => $this->Cart->get_cart_shipping_and_handling_total(),
 				'name' => '',
 				'description' => '',
 			),
@@ -656,7 +656,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			'refId' => $this->id,
 			'transactionRequest' => array(
 				'transactionType' => 'authCaptureTransaction',
-				'amount' => $this->Cart->get_cart_total(),
+				'amount' => $this->Cart->get_cart_finalize_checkout_total(),
 				'payment' => array(
 					'creditCard' => array(
 						'cardNumber' => $authnet_data['AuthnetProfile']['payment_cardNumber'],
@@ -697,7 +697,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 //					'description' => 'duty description',
 //				),
 				'shipping' => array(
-					'amount' => $this->Cart->get_cart_handling_total(),
+					'amount' => $this->Cart->get_cart_shipping_and_handling_total(),
 					'name' => '',
 					'description' => '',
 				),
@@ -927,7 +927,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 
 		$order = array(
 			'authnet_profile_id' => $authnet_profile_id,
-			'total' => $this->Cart->get_cart_total(),
+			'total' => $this->Cart->get_cart_finalize_checkout_total(),
 			'foreign_model' => 'User',
 			'foreign_key' => $profile['AuthnetProfile']['user_id'],
 			'tax' => array(
@@ -936,7 +936,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 				'description' => 'The calculated sales tax',
 			),
 			'shipping' => array(
-				'amount' => $this->Cart->get_cart_handling_total(),
+				'amount' => $this->Cart->get_cart_shipping_and_handling_total(),
 				'name' => '',
 				'description' => '',
 			),
