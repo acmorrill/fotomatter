@@ -9,6 +9,7 @@ class PhpClosureComponent extends Object {
 	}
 
 	public function recompile_javascript() {
+		return true;
 		///////////////////////////////////////////
 		// recompile admin js
 		$webroot_js_path = WEBROOT_ABS . DS . 'js' . DS . 'php_closure' . DS;
@@ -35,7 +36,7 @@ class PhpClosureComponent extends Object {
 			$theme_webroot_js_path = $theme_webroot . DS . 'js' . DS . 'php_closure' . DS;
 			$theme_php_closure_root_path = PATH_TO_THEMES . DS . $curr_top_level_dir . DS . 'php_closure';
 			if (is_dir($theme_webroot_js_path) && is_dir($theme_php_closure_root_path) && is_dir($theme_webroot)) {
-				$this->compile_js_fromdir_todir($theme_php_closure_root_path, $theme_webroot_js_path, array( $theme_webroot, DEFAULT_THEME_WEBROOT_ABS, WEBROOT_ABS )/*, $mixin_path, WEBROOT_ABS*/); // DREW TODO - add mixin path to compile in if wanted
+				$this->compile_js_fromdir_todir($theme_php_closure_root_path, $theme_webroot_js_path, array( $theme_webroot, DEFAULT_THEME_WEBROOT_ABS, WEBROOT_ABS ), $mixin_path/*, WEBROOT_ABS*/); // DREW TODO - add mixin path to compile in if wanted
 			}
 
 			// recompile theme subtheme js
@@ -52,7 +53,7 @@ class PhpClosureComponent extends Object {
 					$sub_theme_webroot_js_path = $sub_theme_webroot . DS . 'js' . DS . 'php_closure' . DS;
 					$sub_theme_php_closure_root_path = $sub_theme_dir . DS . 'php_closure';
 					if (is_dir($sub_theme_webroot_js_path) && is_dir($sub_theme_php_closure_root_path) && is_dir($sub_theme_webroot)) {
-						$this->compile_js_fromdir_todir($sub_theme_php_closure_root_path, $sub_theme_webroot_js_path, array( $sub_theme_webroot, $theme_webroot, DEFAULT_THEME_WEBROOT_ABS, WEBROOT_ABS )/*, $mixin_path, WEBROOT_ABS*/); // DREW TODO - add mixin path to compile in if wanted
+						$this->compile_js_fromdir_todir($sub_theme_php_closure_root_path, $sub_theme_webroot_js_path, array( $sub_theme_webroot, $theme_webroot, DEFAULT_THEME_WEBROOT_ABS, WEBROOT_ABS ), $mixin_path/*, WEBROOT_ABS*/); // DREW TODO - add mixin path to compile in if wanted
 					}
 				}
 			}

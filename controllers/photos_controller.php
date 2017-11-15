@@ -49,6 +49,89 @@ class PhotosController extends AppController {
 		$this->redirect('/admin/photos/');
 	}
 
+	//ajax get photo by id
+
+	/*
+"Photo" => array(
+	"id" => "1",
+	"override_pricing" => "0",
+	"is_globally_shared" => "1",
+	"date_taken" => "2014-07-25",
+	"use_date_taken" => "0",
+	"cdn-filename" => "Bow-Tie.jpg",
+	"cdn-filename-forcache" => "Bow-Tie-forcache.jpg",
+	"cdn-filename-smaller-forcache" => "Bow-Tie-smaller-forcache.jpg",
+	"display_title" => "(Example Image) Bow Tie",
+	"display_subtitle" => "",
+	"description" => "",
+	"alt_text" => "",
+	"enabled" => "1",
+	"photo_format_id" => "1",
+	"file_size" => "0",
+	"megapixels" => "0",
+	"pixel_width" => "3130",
+	"pixel_height" => "2075",
+	"forcache_pixel_width" => "1500",
+	"forcache_pixel_height" => "994",
+	"smaller_forcache_pixel_width" => "250",
+	"smaller_forcache_pixel_height" => "166",
+	"tag_attributes" => "width=&quot;3130&quot; height=&quot;2075&quot;",
+	"created" => "2014-07-25 17:30:33",
+	"modified" => "2014-07-25 17:30:33"
+),
+	"PhotoFormat" => array(
+	"id" => "1",
+	"display_name" => "Landscape",
+	"ref_name" => "landscape"
+)
+	*/
+	public function ajax_get_photo_details() {
+		$conditions = array();
+		$returnArray = array();
+		$height = $_POST['height'];
+		$width = $_POST['width'];
+		$photo_id = $_POST['photo_id'];
+		$conditions = array(
+			'Photo.id' => $photo_id
+		);
+
+		$curr_photo = $this->Photo->find('first', array(
+			'conditions' => $conditions,
+			'contain' => array(
+				'PhotoFormat'
+			)
+		));
+		if(!$height) $height = $curr_photo['Photo']['pixel_height'];
+		if(!$width) $height = $curr_photo['Photo']['pixel_width'];
+		$photo_url = $this->Photo->get_photo_path($photo_id, $height, $width, 0, false, false);
+
+		if (empty($curr_photo) || empty($curr_photo['Photo']['enabled'])) {
+			$returnArray['error'] = true;
+			$returnArray['code'] = 404;
+			$this->return_json($returnArray);
+			
+		} else {
+			$returnArray['code'] = 200;
+			$returnArray['filename'] = $curr_photo['Photo']['cdn-filename'];
+			$returnArray['url'] = $photo_url;
+			
+			//accommodate square image for widescreens
+			if($curr_photo['Photo']['pixel_width'] === $curr_photo['Photo']['pixel_height']) {
+				$returnArray['widthStyle'] = 'auto';
+				$returnArray['heightStyle'] = '100%';
+			} else if($curr_photo['Photo']['pixel_width'] >= $curr_photo['Photo']['pixel_height']) {//wide image
+				$returnArray['widthStyle'] = '100%';
+				$returnArray['heightStyle'] = 'auto';
+			} else {//tall image
+				$returnArray['widthStyle'] = 'auto';
+				$returnArray['heightStyle'] = '100%';
+			}
+			//$returnArray['widthStyle'] = $curr_photo['Photo']['pixel_width'] >= $curr_photo['Photo']['pixel_height'] ? '100%' : 'auto';
+			//$returnArray['heightStyle'] = $curr_photo['Photo']['pixel_width'] >= $curr_photo['Photo']['pixel_height'] ? 'auto' : '100%';
+			$this->return_json($returnArray);
+		}
+	}
+	
 	public function view_photo($photo_id = null) {
 		$total_photos = $this->Photo->count_total_photos(true);
 //		if ($total_photos <= 100) { // only do photo view caching on sites with less than 100 photos // DREW TODO - maybe make this based on the free limit

@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?xf6w8a');
-  src:  url('fonts/icomoon.eot?xf6w8a#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?xf6w8a') format('truetype'),
-    url('fonts/icomoon.woff?xf6w8a') format('woff'),
-    url('fonts/icomoon.svg?xf6w8a#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?5kn0q0');
+  src:  url('fonts/icomoon.eot?5kn0q0#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?5kn0q0') format('truetype'),
+    url('fonts/icomoon.woff?5kn0q0') format('woff'),
+    url('fonts/icomoon.svg?5kn0q0#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,6 +24,39 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-chat:before {
+  content: "\e0b7";
+}
+.icon-chat_bubble:before {
+  content: "\e0ca";
+}
+.icon-chat_bubble_outline:before {
+  content: "\e0cb";
+}
+.icon-check:before {
+  content: "\e5ca";
+}
+.icon-fullscreen:before {
+  content: "\e5d0";
+}
+.icon-fullscreen_exit:before {
+  content: "\e5d1";
+}
+.icon-keyboard_arrow_down:before {
+  content: "\e313";
+}
+.icon-keyboard_arrow_left:before {
+  content: "\e314";
+}
+.icon-keyboard_arrow_right:before {
+  content: "\e315";
+}
+.icon-keyboard_arrow_up:before {
+  content: "\e316";
+}
+.icon-message:before {
+  content: "\e0c9";
+}
 .icon-brand:before {
   content: "\e900";
   color: #2e9fff;

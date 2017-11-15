@@ -479,6 +479,7 @@ class AppController extends Controller {
 	}
 
 	public function return_json($data) {
+		header('Content-Type: application/json');
 		echo json_encode($data);
 		exit();
 	}
