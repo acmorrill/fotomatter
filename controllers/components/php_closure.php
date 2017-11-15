@@ -9,7 +9,6 @@ class PhpClosureComponent extends Object {
 	}
 
 	public function recompile_javascript() {
-		return true;
 		///////////////////////////////////////////
 		// recompile admin js
 		$webroot_js_path = WEBROOT_ABS . DS . 'js' . DS . 'php_closure' . DS;
