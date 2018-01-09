@@ -894,6 +894,7 @@ class EcommercesController extends AppController {
 			// also create a CIM account for the user - and charge
 			// amount to CIM account
 			// otherwise just charge straight to authorize.net
+			$charge_result_data = null;
 			if (!empty($this->data['CreateAccount']['email_address']) || $logged_in === true) {
 				$new_user = array();
 				if ($logged_in === true) {
@@ -978,7 +979,8 @@ class EcommercesController extends AppController {
 
 
 				// actually charge for the order
-				if (!$this->AuthnetOrder->charge_cart_to_cim($authnet_data['AuthnetProfile']['id'])) {
+				$charge_result_data = $this->AuthnetOrder->charge_cart_to_cim($authnet_data['AuthnetProfile']['id']);
+				if ($charge_result_data === false) {
 					///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 					// failed to create charge authnet profile so we need to delete the user we created above if it was a new user
 					// also we need to delete the authnet profile we created above
@@ -996,8 +998,7 @@ class EcommercesController extends AppController {
 					$this->ThemeRenderer->render($this);
 					return;
 				}
-				
-				
+
 				////////////////////////////////////////////////////
 				// everything worked so login the new user
 				$this->Auth->login($new_user);
@@ -1028,16 +1029,11 @@ class EcommercesController extends AppController {
 				$authnet_data['AuthnetProfile']['payment_method'] = $this->data['Payment']['credit_card_method'];
 
 
-				// START HERE TOMORROW
-				// after make one_time_charge - need to connect authnet_line_items to print_type_id and photo_id (belongs to)
-				// need to create the correctly sized image (and pass the path to overlord)
-				// 
-				// need to send call to overlord to store the order (so can show the order to the printer)
-				$result_data = $this->AuthnetOrder->one_time_charge($authnet_data);
-				
-				
-				if (empty($result_data) || (isset($result_data['success']) && $result_data['success'] !== true)) {
-					if (isset($result_data['declined']) && $result_data['declined'] === true) {
+
+				$charge_result_data = $this->AuthnetOrder->one_time_charge($authnet_data);
+
+				if (empty($charge_result_data) || (isset($charge_result_data['success']) && $charge_result_data['success'] !== true)) {
+					if (isset($charge_result_data['declined']) && $charge_result_data['declined'] === true) {
 						$this->Session->setFlash(__('Transaction declined.', true), 'admin/flashMessage/error');
 					} else {
 						$this->Session->setFlash(__('An unknown error occured processing the transaction.', true), 'admin/flashMessage/error');
@@ -1047,6 +1043,16 @@ class EcommercesController extends AppController {
 					return;
 				} 
 			}
+
+
+			/***********************************************************************************************
+			 Checkout worked so now we need to prepare the fullsize image data for autofulfillment!
+			***********************************************************************************************/
+			if ($charge_result_data) {
+				$parsed_authnet_order_data = $this->AuthnetOrder->get_parsed_authnet_order_data($charge_result_data['order_save_db']['AuthnetOrder']['id']);
+				$this->FotomatterBilling->push_autofulfillment_order_information($parsed_authnet_order_data);
+			}
+
 			
 			// checkout was successful
 			$last_order_id = 0;
