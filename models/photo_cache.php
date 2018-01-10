@@ -592,15 +592,6 @@ class PhotoCache extends AppModel {
 		return $photoCache;
 	}
 	
-	private function get_cloud_file() {
-		if (!isset($this->CloudFiles)) {
-			App::import('Component','CloudFiles');
-			$this->CloudFiles = new CloudFilesComponent();
-		}
-		
-		return $this->CloudFiles;
-	}
-	
 	public function convert($old_image_url, $new_image_path, $max_width, $max_height, $enlarge = true, $unsharp_amount = 0, $crop = false) {
 		/*App::import('Component', 'ImageVersion');
 		$email = new ImageVersionComponent();

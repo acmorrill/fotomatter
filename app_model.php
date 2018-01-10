@@ -8,15 +8,15 @@ App::import('Lib', 'LazyModel.LazyModel');
  */
 class AppModel extends LazyModel { // a change - even more change
         public $overlord_account_info;
-    
+
 	public $actsAs = array(
 		'Containable'
 	);
-        
+
         public function set_account_info($overlord_account_info) {
             $this->overlord_account_info = $overlord_account_info;
         }
-	
+
 	public function invalidate_and_clear_view_cache() {
 		// invalide the view cache opcaches
 		$dirp = opendir(VIEW_CACHE_PATH);
@@ -32,7 +32,7 @@ class AppModel extends LazyModel { // a change - even more change
 		// clear cake view cache for site
 		clearCache();
 	}
-	
+
 	public function get_client_ip_address() {
 		$ipaddress = '';
 		if (isset($_SERVER['HTTP_CLIENT_IP']) && $_SERVER['HTTP_CLIENT_IP'] != '127.0.0.1') {
@@ -50,10 +50,10 @@ class AppModel extends LazyModel { // a change - even more change
 		} else {
 			$ipaddress = 'UNKNOWN';
 		}
-		
+
 		return $ipaddress;
 	}
-	
+
 	public function recursive_remove_directory($directory, $empty=FALSE) {
 		// if the path has a slash at the end we remove it here
 		if(substr($directory,-1) == '/')
@@ -90,7 +90,7 @@ class AppModel extends LazyModel { // a change - even more change
 					$path = $directory.'/'.$item;
 
 					// if the new path is a directory
-					if(is_dir($path)) 
+					if(is_dir($path))
 					{
 						// we call this function with the new path
 						recursive_remove_directory($path);
@@ -119,35 +119,35 @@ class AppModel extends LazyModel { // a change - even more change
 			return TRUE;
 		}
 	}
-	
+
 	public function get_session() {
 		if (!isset($this->Session)) {
-			App::import('Component', 'SessionComponent'); 
-			$this->Session = new SessionComponent(); 
+			App::import('Component', 'SessionComponent');
+			$this->Session = new SessionComponent();
 		}
-		
+
 		return $this->Session;
 	}
-	
+
 	public function set_session($session) {
 		$this->Session = $session;
 	}
-	
-	
+
+
 	public function get_insult() {
 		$insults = array();
-		
+
 		$insults[] = 'You really suck!';
 		$insults[] = 'Maybe you should just kill yourself';
 		$insults[] = 'A day late and a dollar short';
 		$insults[] = 'A donut short of being a cop';
 		$insults[] = 'Made a career out of a midlife crisis';
-		
+
 		return $insults[rand(0, count($insults)-1)];
 	}
-	
+
 	public function send_fotomatter_email($function_name) {
-		App::import('Core', 'Controller'); 
+		App::import('Core', 'Controller');
 		App::import('Controller','Domains');
 		$this->DomainsController = new DomainsController();
 		$this->DomainsController->constructClasses();
@@ -156,7 +156,7 @@ class AppModel extends LazyModel { // a change - even more change
 		$function_args[0] = &$this->DomainsController;
 		call_user_func_array(array($this->DomainsController->FotomatterEmail, $function_name), $function_args);
 	}
-	
+
 	/*public function beforeFind($conditions) {
 		if ( !isset($conditions['contain']) ) {
 			$conditions['contain'] = false;
@@ -165,8 +165,8 @@ class AppModel extends LazyModel { // a change - even more change
 		
 		return $conditions;
 	}*/
-	
-	
+
+
 	/**
 	 *
 	 * @param type $description
@@ -175,11 +175,11 @@ class AppModel extends LazyModel { // a change - even more change
 	 */
 	public function major_error($description, $extra_data = null, $severity = 'normal') { // low, normal, high
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
-		
+
 		$stackTrace = debug_backtrace(false);
-		
+
 		$majorError = ClassRegistry::init("MajorError");
-		
+
 		$data['MajorError']['account_id'] = $this->SiteSetting->getVal('account_id');
 		$location = '';
 		if (isset($stackTrace[1]['class'])) {
@@ -197,19 +197,19 @@ class AppModel extends LazyModel { // a change - even more change
 		$data['MajorError']['severity'] = $severity;
 		$majorError->create();
 		$majorError->save($data);
-		
+
 		return $description;
 	}
-	
-	
+
+
 	/*********************************************************
 	 * HELPER FUNCTIONS
-	 * 
+	 *
 	 */
 	protected function random_num($n=5) {
 		return rand(0, pow(10, $n));
 	}
-	
+
 	public function startsWith($haystack, $needle) {
 		$length = strlen($needle);
 		return (substr($haystack, 0, $length) === $needle);
@@ -220,12 +220,12 @@ class AppModel extends LazyModel { // a change - even more change
 		$start  = $length * -1; //negative
 		return (substr($haystack, $start) === $needle);
 	}
-	
+
 	protected function number_pad($number,$n) {
 		return str_pad((int) $number,$n,"0",STR_PAD_LEFT);
 	}
-	
-	
+
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// locking functions
 	//-----------------------------------------------------------------------------------------------------------
@@ -236,7 +236,7 @@ class AppModel extends LazyModel { // a change - even more change
 			return $this->get_apc_lock($lock_name, $wait_time, $do_sleep);
 		}
 	}
-	
+
 	public function release_lock($lock_name) {
 		if (php_sapi_name() == 'cli') {
 			return $this->release_file_lock($lock_name);
@@ -244,10 +244,10 @@ class AppModel extends LazyModel { // a change - even more change
 			return $this->release_apc_lock($lock_name);
 		}
 	}
-	
+
 	private function get_file_lock($lock_name, $wait_time, $do_sleep = false) {
 		$time_left = $wait_time;
-		
+
 		while ($time_left > 0) {
 			$file_name = APP . "locks/" . $this->get_lock_key($lock_name) . ".lock";
 			if ( file_exists($file_name) ) {
@@ -274,20 +274,20 @@ class AppModel extends LazyModel { // a change - even more change
 				break;
 			}
 		}
-		
+
 		shell_exec("touch $file_name");
-		
+
 		return true;
 	}
 	private function release_file_lock($lock_name) {
 		$file_name = APP . "locks/" . $this->get_lock_key($lock_name) . ".lock";
 		@unlink($file_name);
 	}
-	
+
 	private function get_apc_lock($lock_name, $wait_time, $do_sleep = false) {
 		$time_left = $wait_time;
 		$apc_key = $this->get_lock_key($lock_name);
-		
+
 		while ($time_left > 0) {
 			if (apc_exists($apc_key)) {
 				if ($do_sleep === true) {
@@ -304,7 +304,7 @@ class AppModel extends LazyModel { // a change - even more change
 			}
 		}
 		apc_store($apc_key, true, $wait_time);
-		
+
 		return true;
 	}
 
@@ -312,34 +312,34 @@ class AppModel extends LazyModel { // a change - even more change
 		$apc_key = $this->get_lock_key($lock_name);
 		apc_delete($apc_key);
 	}
-	
+
 	private function get_lock_key($lock_name) {
 		return "fmapp_lock_$lock_name";
 	}
-	
+
 	public function get_website_disabled_key() {
 		return "disabled_site_{$_SERVER['local']['database']}";
 	}
-	
+
 	public function disable_website() {
 		$apc_key = $this->get_website_disabled_key();
 		apc_store($apc_key, true, 600);
 	}
-	
+
 	public function enable_website() {
 		$apc_key = $this->get_website_disabled_key();
 		apc_delete($apc_key);
 	}
-	
+
 	public function get_photo_cache_disabled_key() {
 		return "disabled_photo_cache_{$_SERVER['local']['database']}";
 	}
-	
+
 	public function is_photo_cache_disabled() {
 		$apc_key = $this->get_photo_cache_disabled_key();
 		return apc_exists($apc_key);
 	}
-	
+
 	public function get_disabled_photo_cache_percent() {
 		$apc_key = $this->get_photo_cache_disabled_key();
 		if (apc_exists($apc_key) === false) {
@@ -347,7 +347,7 @@ class AppModel extends LazyModel { // a change - even more change
 		}
 		return apc_fetch($apc_key);
 	}
-	
+
 	public function disable_photo_cache($percent_done) {
 		$apc_key = $this->get_photo_cache_disabled_key();
 		if ($percent_done < 0) {
@@ -360,10 +360,19 @@ class AppModel extends LazyModel { // a change - even more change
 			apc_store($apc_key, $percent_done, 600);
 		}
 	}
-	
+
 	public function enable_photo_cache() {
 		$apc_key = $this->get_photo_cache_disabled_key();
 		apc_delete($apc_key);
 	}
-	
+
+	public function get_cloud_file() {
+		if (!isset($this->CloudFiles)) {
+			App::import('Component', 'CloudFiles');
+			$this->CloudFiles = new CloudFilesComponent();
+		}
+
+		return $this->CloudFiles;
+	}
+
 }

@@ -130,7 +130,8 @@ class CloudFilesComponent extends RackspaceObj {
 		}
 
 		$url = "/" . $container . "/" . $object_name;
-		//the postdata option in this case in extra curl optons needed for the tranfer
+		///////////////////////////////////////////////////////////////////////////////////////
+		//the postdata option in this case in extra curl options needed for the transfer
 		$file_size = filesize($file_path);
 		$options = array(
 			CURLOPT_INFILE => fopen($file_path, 'r'),
@@ -145,6 +146,43 @@ class CloudFilesComponent extends RackspaceObj {
 		);
 
 		$this->_makeApiCall('storage', $url, $options, 'PUT', $http_headers, true);
+		if (in_array($this->lastResponseStatus, array('201'))) {
+			return true;
+		}
+		return false;
+		//response codes
+		//201 successful write
+		//412 length required
+		//422 checksum error
+	}
+
+	public function copy_object($old_object_name, $new_object_name, $container = false) {
+		if ($container === false) {
+			$container = $this->_getContainerName();
+			if ($container === false)
+				return false;
+		}
+
+		$url = "/" . $container . "/" . $old_object_name;
+		$copyToPath = "/" . $container . "/" . $new_object_name;
+		///////////////////////////////////////////////////////////////////////////////////////
+		//the postdata options in this case in extra curl options needed for the transfer
+//		$file_size = filesize($file_path);
+		$options = array(
+//			CURLOPT_INFILE => fopen($file_path, 'r'),
+//			CURLOPT_INFILESIZE => $file_size,
+//			CURLOPT_CONNECTTIMEOUT => 200
+		);
+		$http_headers = array(
+			//	'ETag: '.md5_file($file_path),
+			//	"Content-Length: {$file_size}",
+			//	"Content-Type: {$mime_type}",
+			//	"X-Object-Meta-created-date: ".date("y-m-d H:i:s")
+			"Destination: " . $copyToPath
+		);
+
+		$jsonResponse = $this->_makeApiCall('storage', $url, $options, 'COPY', $http_headers, true);
+		$this->log($jsonResponse, 'jsonResponse');
 		if (in_array($this->lastResponseStatus, array('201'))) {
 			return true;
 		}

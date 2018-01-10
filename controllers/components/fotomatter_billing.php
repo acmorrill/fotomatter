@@ -42,6 +42,19 @@ class FotomatterBillingComponent extends FotomatterOverlordApi {
 		$this->log($parsed_authnet_order_data, 'parsed_authnet_order_data');
 		$this->log($result, 'push_autofulfillment_order_information');
 
+
+
+		// stuff that needs to be stored on overlord
+		// -- user_id
+		// for each line item
+		// -- authnet_order_id
+		// -- photo_id
+		// -- print_type_id
+		// -- print_fulfiller_id
+
+		// need to sort by order
+
+
 //		$this->MajorError = ClassRegistry::init("MajorError");
 //		$this->MajorError->major_error('Remote find from overlord returned with error.', compact('params', 'result_of_find'));
 //		return false;

@@ -36,7 +36,8 @@ class SiteSetting extends AppModel {
 		
 		return rtrim(preg_replace(array('/\s/','/\n/'), '', $imageContainerUrl), '/').'/';
 	}
-	
+
+
 	public function clearVal($name) {
 		apc_delete($this->get_apc_key($name));
 		$this->query("DELETE FROM site_settings WHERE name = '$name'");

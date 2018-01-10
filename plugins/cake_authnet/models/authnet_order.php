@@ -1148,6 +1148,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 				'AuthnetOrder.id' => $authnet_order_id
 			),
 			'contain' => array(
+				'AuthnetProfile',
 				'AuthnetLineItem'
 			),
 		));
@@ -1167,26 +1168,34 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		return $authnet_order;
 	}
 
-	public function approve_order($authnet_order_id) {
-		$authnet_order = $this->find('first', array(
-			'conditions' => array(
-				'AuthnetOrder.id' => $authnet_order_id,
-			),
-			'contain' => array(
-				'AuthnetProfile',
-				'AuthnetLineItem',
-			),
-		));
-
+	public function get_parsed_autofulfillment_authnet_data_with_full_cdn_path($authnet_order_id) {
 		$this->Photo = ClassRegistry::init('Photo');
-		foreach ($authnet_order['AuthnetLineItem'] as &$line_item) {
-			$extra_data = explode("|", $line_item['name']);
-			$line_item['photo_id'] = $extra_data[0];
-			$line_item['print_type_id'] = $extra_data[1];
-			$line_item['short_side_inches'] = $extra_data[2];
-			$line_item['print_type'] = $extra_data[3];
-			$line_item['extra_data'] = $this->Photo->get_extra_print_data($line_item['photo_id'], $line_item['print_type_id'], $line_item['short_side_inches'], $line_item['print_type']);
+		$authnet_order = $this->get_parsed_authnet_order_data($authnet_order_id);
+
+		$autoFulfillmentLineItems = array();
+		foreach ($authnet_order['AuthnetLineItem'] as &$currAuthnetLineItem) {
+			if ($currAuthnetLineItem['print_type'] != 'self') {
+//				$currAuthnetLineItem['full_path'] = $this->Photo->get_full_path($currAuthnetLineItem['photo_id']);
+				$this->CloudFiles = $this->get_cloud_file();
+				$container = false;
+				$this->log($currAuthnetLineItem, 'currAuthnetLineItem');
+				if ($currAuthnetLineItem['extra_data']['Photo']['is_globally_shared'] == 1) {
+					$container = SITE_DEFAULT_CONTAINER_NAME;
+				}
+				// DREW TODO - get the copy object actually working (with folder if possible)
+				$this->CloudFiles->copy_object($currAuthnetLineItem['extra_data']['Photo']['cdn-filename'], "autofulfillment/" . $currAuthnetLineItem['extra_data']['Photo']['cdn-filename'], $container); // DREW TODO - make the path and filename smart (so not collisions with other printers or types)
+
+				$autoFulfillmentLineItems[] = $currAuthnetLineItem;
+			}
 		}
+
+		$authnet_order['AuthnetLineItem'] = $autoFulfillmentLineItems;
+
+		return $authnet_order;
+	}
+
+	public function approve_order($authnet_order_id) {
+		$authnet_order = $this->get_parsed_authnet_order_data($authnet_order_id);
 
 
 		//////////////////////////////////////////////////////////

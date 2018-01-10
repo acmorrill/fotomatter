@@ -797,15 +797,6 @@ class Photo extends AppModel {
         return $name;
     }
 
-    private function get_cloud_file() {
-        if (!isset($this->CloudFiles)) {
-            App::import('Component', 'CloudFiles');
-            $this->CloudFiles = new CloudFilesComponent();
-        }
-
-        return $this->CloudFiles;
-    }
-
     public function photo_has_pano_format($photo) {
         $format_ref_name = isset($photo['PhotoFormat']['ref_name']) ? $photo['PhotoFormat']['ref_name'] : (isset($photo['Photo']['PhotoFormat']['ref_name']) ? $photo['Photo']['PhotoFormat']['ref_name'] : '' );
         if ($format_ref_name === 'panoramic' || $format_ref_name === 'vertical_panoramic') {
