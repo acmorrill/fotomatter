@@ -16,7 +16,7 @@
 				<div style="display:none;">
 					<input type="hidden" name="_method" value="PUT">
 				</div>
-				
+
 				<div class="select country">
 					<?php $countries = $this->Ecommerce->get_available_countries(); ?>
 					<label for="EcommerceHomeCountry"><?php echo __('Your Home Country', true); ?></label>
@@ -34,15 +34,20 @@
 						<option value="no_state">&nbsp;</option>
 					</select>
 				</div>
+
+                <div class="input text">
+                    <label for="EcommercSalesTax"><?php __('Your Zip Code (used for shipping estimation)'); ?></label>
+                    <input name="data[site_zipcode]" type="text" maxlength="20" value="<?php if (!empty($this->data['site_zipcode'])) { echo $this->data['site_zipcode']; } ?>" id="EcommercZipcode" data-step="3" data-intro="Your zipcode - this is used for estimating shipping in the cart." data-position="right">
+                </div>
 				
 				<div class="input text">
 					<label for="EcommercSalesTax"><?php __('Sales Tax Percentage (as a decimal between 0 and 1)'); ?></label>
-					<input name="data[site_sales_tax_percentage]" type="text" maxlength="100" value="<?php if (!empty($this->data['site_sales_tax_percentage'])) { echo $this->data['site_sales_tax_percentage']; } ?>" id="EcommercSalesTax" data-step="3" data-intro="After selecting your home country and state from the dropdown list, enter the amount of sales tax your state charges. Enter it in decimal form between 0 and 1. For example, Utah’s state sales tax is 4.70%; it would be entered .047. " data-position="right">
+					<input name="data[site_sales_tax_percentage]" type="text" maxlength="100" value="<?php if (!empty($this->data['site_sales_tax_percentage'])) { echo $this->data['site_sales_tax_percentage']; } ?>" id="EcommercSalesTax" data-step="4" data-intro="After selecting your home country and state from the dropdown list, enter the amount of sales tax your state charges. Enter it in decimal form between 0 and 1. For example, Utah’s state sales tax is 4.70%; it would be entered .047. " data-position="right">
 				</div>
 				
 			</div>
 		</div>
-		<div class="submit save_button javascript_submit" data-step="4" data-intro="Don’t forget to save. " data-position="right">
+		<div class="submit save_button javascript_submit" data-step="5" data-intro="Don’t forget to save. " data-position="right">
 			<div class="content"><?php echo __('Save', true); ?></div>
 		</div>
 	</form>

@@ -51,7 +51,7 @@
 				</th> 
 				<th class="format_col"data-step="5" data-intro="<?php echo __('Format(s) is the type of image orientaion. Such as landscape, portrait, square and so on.', true); ?>" data-position="right">
 					<div class="content one_line">
-						<?php echo __('Format(s)', true); ?>
+						<?php echo __('Formats', true); ?>
 					</div>
 				</th> 
 				<th class="last actions_call">

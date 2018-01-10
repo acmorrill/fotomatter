@@ -1,4 +1,5 @@
 <?php
+
 class EcommercesController extends AppController {
 	public $name = 'Ecommerces';
 	public $uses = array('PhotoAvailSize', 'PhotoFormat', 'PhotoPrintType', 'PhotoAvailSizesPhotoPrintType', 'Cart', 'Photo', 'User', 'cake_authnet.AuthnetProfile', 'cake_authnet.AuthnetOrder', 'GlobalCountryState', 'GlobalCountry');
@@ -42,6 +43,7 @@ class EcommercesController extends AppController {
 		
 //		$this->front_end_auth = array('checkout_get_address');
 	}
+	
 
 	public function check_frontend_cart() {
 		$this->return_json($this->Cart->count_items_in_cart());
@@ -51,6 +53,11 @@ class EcommercesController extends AppController {
 		$this->SiteSetting = ClassRegistry::init('SiteSetting');
 		if (!empty($this->data)) {
 			try {
+                if (!empty($this->data['site_zipcode'])) {
+                    $this->SiteSetting->setVal('site_zipcode', $this->data['site_zipcode']);
+                } else {
+                    $this->SiteSetting->clearVal('site_zipcode');
+                }
 				if (!empty($this->data['site_country_id'])) {
 					$this->SiteSetting->setVal('site_country_id', $this->data['site_country_id']);
 				} else {
@@ -75,6 +82,7 @@ class EcommercesController extends AppController {
 		}
 		
 		
+		$this->data['site_zipcode'] = $this->SiteSetting->getVal('site_zipcode', false);
 		$this->data['site_country_id'] = $this->SiteSetting->getVal('site_country_id', false);
 		$this->data['site_state_id'] = $this->SiteSetting->getVal('site_state_id', false);
 		$this->data['site_sales_tax_percentage'] = $this->SiteSetting->getVal('site_sales_tax_percentage', false);
@@ -126,7 +134,6 @@ class EcommercesController extends AppController {
 //			print_r($logged_in_user);
 //			print_r($payable_order_ids);
 			$send_payment_result = $this->AuthnetOrder->send_photographer_payment_via_paypal($order_total_data['total'], $logged_in_user, $payable_order_ids);
-//			$this->log($send_payment_result, 'send_payment_result'); // START HERE TOMORROW TO TEST PAYPAY GET PAID
 			if ($send_payment_result === false) {
 				$this->AuthnetOrder->set_orders_pay_out_status($payable_order_ids, 'not_paid'); // DREW TODO - maybe mark as error?
 				$this->major_error('Failed to reimmburse for orders', compact('logged_in_user', 'payable_order_ids', 'amount'), 'high');
@@ -202,12 +209,10 @@ class EcommercesController extends AppController {
 		
 		if (!empty($this->data)) {
 			if ( !isset($this->data['PhotoAvailSize']['photo_format_ids']) ) {
-				$this->Session->setFlash(__('Please choose photo orientations to apply the print size to.', true), 'admin/flashMessage/error');
+				$this->Session->setFlash(__('Please choose a photo orientation to apply the print size to.', true), 'admin/flashMessage/error');
 			} else if ( !isset($this->data['PhotoAvailSize']['short_side_length']) ) {
 				$this->Session->setFlash(__('Please choose a short side length.', true), 'admin/flashMessage/error');
 			} else {
-				$this->data['PhotoAvailSize']['photo_format_ids'] = implode(',', $this->data['PhotoAvailSize']['photo_format_ids']);
-
 				$this->PhotoAvailSize->create();
 				if (!$this->PhotoAvailSize->save($this->data)) {
 					$this->Session->setFlash(__('Failed to add available photo size.', true), 'admin/flashMessage/success');
@@ -230,7 +235,12 @@ class EcommercesController extends AppController {
 		
 		$used_short_side_dimensions = $this->PhotoAvailSize->get_used_short_side_values();
 		if (isset($this->data['PhotoAvailSize']['short_side_length'])) {
-			unset($used_short_side_dimensions[$this->data['PhotoAvailSize']['short_side_length']]);
+			if ($this->data['PhotoAvailSize']['photo_format_ids'] == '1,2,3') {
+				unset($used_short_side_dimensions['short_side_used'][$this->data['PhotoAvailSize']['short_side_length']]['non_pano']);
+			}
+			if ($this->data['PhotoAvailSize']['photo_format_ids'] == '4,5') {
+				unset($used_short_side_dimensions['short_side_used'][$this->data['PhotoAvailSize']['short_side_length']]['pano']);
+			}
 		}
 
 		$short_side_values = $this->PhotoAvailSize->valid_short_side_values();
@@ -267,7 +277,12 @@ class EcommercesController extends AppController {
 
 	public function admin_manage_print_types_and_pricing() {
 		$this->HashUtil->set_new_hash('ecommerce');
-		
+		$curr_page = 'sell';
+		$this->set(compact('curr_page'));
+		$this->layout = 'admin/generic_angular_with_nav';
+	}
+	
+	public function admin_angular_list_print_types() {
 		$photo_print_types = $this->PhotoPrintType->find('all', array(
 			'order' => array(
 				'PhotoPrintType.order ASC'
@@ -275,7 +290,7 @@ class EcommercesController extends AppController {
 			'contain' => false
 		));
 		
-		$this->set(compact('photo_print_types'));
+		$this->return_angular_json(true, '', $photo_print_types);
 	}
 	
 	public function admin_order_management() {
@@ -367,143 +382,119 @@ class EcommercesController extends AppController {
 		$this->redirect('/admin/ecommerces/fulfill_order/'.$authnet_order_id);
 	}
 	
-	public function admin_ajax_set_print_type_order($photo_print_type_id, $new_order) {
+	public function admin_angular_set_print_type_order($photo_print_type_id, $new_order) {
 		$this->HashUtil->set_new_hash('ecommerce');
 		
 		$returnArr = array();
-		
 		if ($this->PhotoPrintType->moveto($photo_print_type_id, $new_order)) {
-			$returnArr['code'] = 1;
-			$returnArr['message'] = 'photo print type order changed successfully';
+			$this->return_angular_json(true, 'photo print type order changed successfully');
 		} else {
-			$returnArr['code'] = -1;
-			$returnArr['message'] = $this->PhotoPrintType->major_error('failed to change photo print type order', compact('photo_print_type_id', 'new_order'));
+			$this->return_angular_json(false, $this->PhotoPrintType->major_error('failed to change photo print type order', compact('photo_print_type_id', 'new_order')));
 		}
-		
-		$this->return_json($returnArr);
 	}
 	
-	public function admin_delete_print_type($photo_print_type_id) {
+	public function admin_angular_delete_print_type($photo_print_type_id) {
 		
 		$this->HashUtil->set_new_hash('ecommerce');
 		
 		if (!$this->PhotoPrintType->delete($photo_print_type_id)) {
-			$this->Session->setFlash(__('Failed to delete photo print type.', true), 'admin/flashMessage/error');
+			$this->return_angular_json(false, __('Failed to delete photo print type.', true));
 			$this->major_error('Failed to delete photo print type.', compact('photo_print_type_id'));
 		}
 		
-		$this->redirect('/admin/ecommerces/manage_print_types_and_pricing');
+		$this->return_angular_json(true, 'Print Type deleted.');
 	}
 		
 	
-	public function admin_add_print_type_and_pricing($photo_print_type_id = 0) {
+	public function admin_angular_add_automatic_print_type_and_pricing($photo_print_type_id = 0, $print_fulfiller_id = null, $print_fulfiller_print_type_id = null, $print_fulfiller_print_type_name = 'New Print') {
 		$this->HashUtil->set_new_hash('ecommerce');
 		
-		if (!empty($this->data)) { 
-			///////////////////////////////////////////////
-			// do validation on the data
-			$passed_validation = true;
-			$print_type_id = !empty($this->data['PhotoPrintType']['id']) ? $this->data['PhotoPrintType']['id'] : null ;
-			$print_name = !empty($this->data['PhotoPrintType']['print_name']) ? $this->data['PhotoPrintType']['print_name'] : null ;
-			$turnaround_time = !empty($this->data['PhotoPrintType']['turnaround_time']) ? $this->data['PhotoPrintType']['turnaround_time'] : '' ;
-			
-			if ($passed_validation && !isset($print_name)) {
-				$this->Session->setFlash(__("Print name must be set.", true), 'admin/flashMessage/error');
-				$passed_validation = false;
+		if (empty($photo_print_type_id)) {
+			////////////////////////////////////////////////////////////////////////////////////////
+			// validate for auto fulfillment
+			$is_autofulfillment_print_type = !empty($print_fulfiller_id) && !empty($print_fulfiller_print_type_id);
+			$print_type_ids_vaild = !empty($this->overlord_account_info['print_fulfillers_indexed'][$print_fulfiller_id]['PrintFulfillerPrintType'][$print_fulfiller_print_type_id]['type']);
+			if ($is_autofulfillment_print_type !== true || $print_type_ids_vaild !== true) {
+				$this->return_angular_json(false, "Trying to add automatic print type incorrectly. $print_fulfiller_id - $print_fulfiller_print_type_id");
 			}
-			
 
-			if ($passed_validation) {
-				// create the new photo type
-				$new_photo_type = array();
-				$new_photo_type['PhotoPrintType']['id'] = $print_type_id;
-				$new_photo_type['PhotoPrintType']['print_name'] = $print_name;
-				$new_photo_type['PhotoPrintType']['turnaround_time'] = $turnaround_time;
-				$this->PhotoPrintType->create();
-				if (!$this->PhotoPrintType->save($new_photo_type)) {
-					$this->Session->setFlash(__("Failed to save photo print type.", true), 'admin/flashMessage/error');
-					$this->PhotoPrintType->major_error('Failed to save photo print type', compact('new_photo_type'));
-				} else {
-					// add into the PhotoPrintSizesPhotoPrintType join table
-					$save_error = false; 
-					if (!empty($this->data['PhotoAvailSizesPhotoPrintType'])) {
-						foreach ($this->data['PhotoAvailSizesPhotoPrintType'] as $count => $curr_join_data) {
-//							$this->log($curr_join_data, 'curr_join_data');
-							
-							if (!isset($curr_join_data['photo_avail_size_id'])) { // means we need to remove the join table entry instead
-								$this->PhotoAvailSizesPhotoPrintType->deleteAll(array(
-									'PhotoAvailSizesPhotoPrintType.id' => $curr_join_data['id']
-								), true, true);
-							} else { // save the join table entry
-								$new_join_table_data = array();
-								if (empty($curr_join_data['id'])) {
-									$curr_join_data['id'] = null;
-								}
-								$new_join_table_data['id'] = $curr_join_data['id'];
-								$new_join_table_data['photo_avail_size_id'] = $curr_join_data['photo_avail_size_id'];
-								$new_join_table_data['photo_print_type_id'] = $this->PhotoPrintType->id;
-								$new_join_table_data['non_pano_available'] = isset($curr_join_data['non_pano_available']) ? 1 : 0;
-								if ($new_join_table_data['non_pano_available'] === 1) {
-									$new_join_table_data['non_pano_price'] = !empty($curr_join_data['non_pano_price']) ? $curr_join_data['non_pano_price'] : '0.00';
-									$new_join_table_data['non_pano_shipping_price'] = !empty($curr_join_data['non_pano_shipping_price']) ? $curr_join_data['non_pano_shipping_price'] : '0.00';
-									$new_join_table_data['non_pano_custom_turnaround'] = !empty($curr_join_data['non_pano_custom_turnaround']) ? $curr_join_data['non_pano_custom_turnaround'] : '';
-									$new_join_table_data['non_pano_global_default'] = isset($curr_join_data['non_pano_global_default']) ? 1 : 0;
-									$new_join_table_data['non_pano_force_settings'] = isset($curr_join_data['non_pano_force_settings']) ? 1 : 0;
-								} else {
-									$new_join_table_data['non_pano_price'] = '0.00';
-									$new_join_table_data['non_pano_shipping_price'] = '0.00';
-									$new_join_table_data['non_pano_custom_turnaround'] = '';
-									$new_join_table_data['non_pano_global_default'] = 0;
-									$new_join_table_data['non_pano_force_settings'] = 0;
-								}
-								$new_join_table_data['pano_available'] = isset($curr_join_data['pano_available']) ? 1 : 0;
-								if ($new_join_table_data['pano_available'] === 1) {
-									$new_join_table_data['pano_price'] = !empty($curr_join_data['pano_price']) ? $curr_join_data['pano_price'] : '0.00';
-									$new_join_table_data['pano_shipping_price'] = !empty($curr_join_data['pano_shipping_price']) ? $curr_join_data['pano_shipping_price'] : '0.00';
-									$new_join_table_data['pano_custom_turnaround'] = !empty($curr_join_data['pano_custom_turnaround']) ? $curr_join_data['pano_custom_turnaround'] : '';
-									$new_join_table_data['pano_global_default'] = isset($curr_join_data['pano_global_default']) ? 1 : 0;
-									$new_join_table_data['pano_force_settings'] = isset($curr_join_data['pano_force_settings']) ? 1 : 0;
-								} else {
-									$new_join_table_data['pano_price'] = '0.00';
-									$new_join_table_data['pano_shipping_price'] = '0.00';
-									$new_join_table_data['pano_custom_turnaround'] = '';
-									$new_join_table_data['pano_global_default'] = 0;
-									$new_join_table_data['pano_force_settings'] = 0;
-								}
-
-
-								$this->PhotoAvailSizesPhotoPrintType->create();
-								if (!$this->PhotoAvailSizesPhotoPrintType->save($new_join_table_data)) {
-									$this->Session->setFlash(__("Failed to connect photo print type to photo print size.", true), 'admin/flashMessage/error');
-									$this->PhotoPrintType->major_error('Failed to connect photo print type to photo print size', compact('new_join_table_data'));
-									$save_error = true;
-									break;
-								} 
-							}
-						}
-					}
-					if ($save_error === false) {
-						$this->redirect('/admin/ecommerces/manage_print_types_and_pricing/');
-					}
-				}
-			}
-			
-			
-			
+			// actually create the print type if not done yet
+			$print_fulfiller_print_type = $this->overlord_account_info['print_fulfillers_indexed'][$print_fulfiller_id]['PrintFulfillerPrintType'][$print_fulfiller_print_type_id];
+			$print_fulfiller_print_type_type = $print_fulfiller_print_type['type'];
+			$photo_print_type_id = $this->PhotoPrintType->create_new_photo_print_type("auto$print_fulfiller_print_type_type", $print_fulfiller_id, $print_fulfiller_print_type_id, $print_fulfiller_print_type, $print_fulfiller_print_type_name);
 		}
 		
 		
-		$photo_avail_sizes_query = "
-			SELECT * FROM photo_avail_sizes AS PhotoAvailSize
-				LEFT JOIN photo_avail_sizes_photo_print_types AS PhotoAvailSizesPhotoPrintType
-					ON (PhotoAvailSizesPhotoPrintType.photo_avail_size_id = PhotoAvailSize.id AND PhotoAvailSizesPhotoPrintType.photo_print_type_id = :photo_print_type_id )
-			ORDER BY PhotoAvailSize.short_side_length ASC
-		";
+		$photo_avail_sizes = $this->PhotoAvailSize->get_photo_avail_sizes($photo_print_type_id);
 		
-		
-		$photo_avail_sizes = $this->PhotoAvailSize->query($photo_avail_sizes_query, array(
-			'photo_print_type_id' => $photo_print_type_id
+		$photo_print_type = $this->PhotoPrintType->find('first', array(
+			'conditions' => array(
+				'PhotoPrintType.id' => $photo_print_type_id
+			),
+			'contain' => 'PhotoAvailSizesPhotoPrintType'
 		));
+		
+		
+		$print_fulfiller_print_type = array();
+		$print_fulfiller = array();
+		if (!empty($this->overlord_account_info['print_fulfillers_indexed'])) {
+			$print_fulfiller_print_type = $this->overlord_account_info['print_fulfillers_indexed'][$photo_print_type['PhotoPrintType']['print_fulfiller_id']]['PrintFulfillerPrintType'][$photo_print_type['PhotoPrintType']['print_fulfiller_print_type_id']];
+			if (!empty($photo_print_type['PhotoAvailSizesPhotoPrintType'])) {
+				$print_fulfiller_print_type['PhotoAvailSizesPhotoPrintType'] = $photo_print_type['PhotoAvailSizesPhotoPrintType'];
+			}
+			$print_fulfiller = $this->overlord_account_info['print_fulfillers_indexed'][$photo_print_type['PhotoPrintType']['print_fulfiller_id']];
+			unset($print_fulfiller['PrintFulfillerPrintType']);
+		}
+		
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// if the print type is dynamic we need to go though and set the predicted cost for each avail print size
+		// - also - we need to remove any sizes that are to big for the printer
+		if ($print_fulfiller_print_type['type'] == 'fixeddynamic' || $print_fulfiller_print_type['type'] == 'dynamic' && !empty($print_fulfiller_print_type['dynamic_cost_sq_inch'])) {
+			foreach ($photo_avail_sizes as $key => &$photo_avail_size) {
+				// unset any sizes that are too big for the printer
+				if ($photo_avail_size['PhotoAvailSize']['short_side_length'] > $print_fulfiller_print_type['dynamic_max_short_side_inches']) { unset($photo_avail_sizes[$key]); }
+				
+				// get the estimated cost to the photographer
+				$photo_avail_size['PhotoAvailSize']['min_est_cost'] = $photo_avail_size['PhotoAvailSize']['min_sq_inches'] * $print_fulfiller_print_type['dynamic_cost_sq_inch'];
+				$photo_avail_size['PhotoAvailSize']['max_est_cost'] = $photo_avail_size['PhotoAvailSize']['max_sq_inches'] * $print_fulfiller_print_type['dynamic_cost_sq_inch'];
+				$photo_avail_size['PhotoAvailSize']['avg_est_cost'] = $photo_avail_size['PhotoAvailSize']['avg_sq_inches'] * $print_fulfiller_print_type['dynamic_cost_sq_inch'];
+				$photo_avail_size['PhotoAvailSize']['min_est_cost_display'] = number_format($photo_avail_size['PhotoAvailSize']['min_est_cost'], 2);
+				$photo_avail_size['PhotoAvailSize']['max_est_cost_display'] = number_format($photo_avail_size['PhotoAvailSize']['max_est_cost'], 2);
+				$photo_avail_size['PhotoAvailSize']['avg_est_cost_display'] = number_format($photo_avail_size['PhotoAvailSize']['avg_sq_inches'] * $print_fulfiller_print_type['dynamic_cost_sq_inch'], 2);
+				$photo_avail_size['PhotoAvailSize']['dynamic_cost_sq_inch'] = $print_fulfiller_print_type['dynamic_cost_sq_inch'] + 0;
+				$photo_avail_size['PhotoAvailSizesPhotoPrintType']['photo_print_type'] = 'autodynamic';
+				if (!isset($photo_avail_size['PhotoAvailSizesPhotoPrintType']['price']) || $photo_avail_size['PhotoAvailSizesPhotoPrintType']['price'] < $photo_avail_size['PhotoAvailSize']['max_est_cost']) {
+					$photo_avail_size['PhotoAvailSizesPhotoPrintType']['price'] = number_format($photo_avail_size['PhotoAvailSize']['max_est_cost'] * 2, 2);
+				}
+			}
+		}
+		
+		
+		
+		$print_sizes_list = $this->PhotoPrintType->combine_autofulfillment_print_list($print_fulfiller_print_type, $photo_avail_sizes);
+		foreach ($print_sizes_list as $key => &$print_list) {
+			if (empty($print_list['PhotoAvailSizesPhotoPrintType']['id'])) {
+				$print_list['PhotoAvailSizesPhotoPrintType']['global_default'] = 1;
+				$print_list['PhotoAvailSizesPhotoPrintType']['force_settings'] = 1;
+				$print_list['PhotoAvailSizesPhotoPrintType']['custom_turnaround'] = "0";
+			}
+		}
+		unset($photo_print_type['PhotoAvailSizesPhotoPrintType']);
+		
+
+		$this->return_angular_json(true, "Automatic Print Type Created", compact('photo_print_type', 'print_fulfiller_print_type', 'print_fulfiller', 'print_sizes_list'));
+	}
+	
+	
+	public function admin_angular_add_print_type_and_pricing($photo_print_type_id = 0, $print_type_name = 'New Print') {
+		$this->HashUtil->set_new_hash('ecommerce');
+		
+		if (empty($photo_print_type_id)) {
+			$new_id = $this->PhotoPrintType->create_new_photo_print_type('self', null, null, array(), $print_type_name);
+			$photo_print_type_id = $new_id;
+		}
+		
+		$print_sizes_list = $this->PhotoAvailSize->get_photo_avail_sizes($photo_print_type_id);
 		
 		$photo_print_type = $this->PhotoPrintType->find('first', array(
 			'conditions' => array(
@@ -512,16 +503,43 @@ class EcommercesController extends AppController {
 			'contain' => false
 		));
 		
+		foreach ($print_sizes_list as $key => &$curr_list_item) {
+			if (empty($curr_list_item['PhotoAvailSizesPhotoPrintType']['id'])) {
+				$curr_list_item['PhotoAvailSizesPhotoPrintType']['price'] = 0;
+				$curr_list_item['PhotoAvailSizesPhotoPrintType']['handling_price'] = 0;
+				$curr_list_item['PhotoAvailSizesPhotoPrintType']['custom_turnaround'] = "0"; // means uses the global turnaround default
+				$curr_list_item['PhotoAvailSizesPhotoPrintType']['global_default'] = 1;
+				$curr_list_item['PhotoAvailSizesPhotoPrintType']['force_settings'] = 1;
+				$curr_list_item['PhotoAvailSizesPhotoPrintType']['photo_print_type'] = 'self';
+			}
+			$curr_list_item['display_type'] = 'self';
+		}
 		
+		$this->return_angular_json(true, '', compact('print_sizes_list', 'photo_print_type'));
+	}
+	
+	public function admin_angular_save_print_type_and_pricing() {
+		$this->parse_angular_json($this);
+		$return_data = array();
+		$return_data['success'] = true;
+
+		if (!empty($this->data)) {
+			$result = $this->PhotoPrintType->validate_and_save_print_type($this->data);
+			if (!is_array($result)) {
+				$this->return_angular_json(false, $result);
+			} else {
+				$this->return_angular_json(true, 'photo_print_type saved', $result);
+			}
+		}
 		
-		$this->set(compact('photo_avail_sizes', 'photo_print_type'));
+		$this->return_angular_json(false);
 	}
 	
 	public function add_to_cart() {
 		
 		///////////////////////////////////////////////
 		// make sure ids are valid
-			if (!isset($this->data['PhotoPrintType']['id']) || !isset($this->data['Photo']['id']) || !isset($this->data['Photo']['short_side_inches'])) {
+			if (!isset($this->data['PhotoPrintType']['id']) || !isset($this->data['Photo']['id']) || !isset($this->data['Photo']['chosen_size_data'])) {
 				$this->major_error("photo_print_type_id or photo_id or short_side_inches not set in add to cart", array('data' => $this->data, 'params' => $this->params));
 				$this->Session->setFlash(__('Error adding item to cart.', true), 'admin/flashMessage/error');
 				$this->redirect($this->referer());
@@ -530,7 +548,10 @@ class EcommercesController extends AppController {
 
 			$photo_print_type_id = $this->data['PhotoPrintType']['id'];
 			$photo_id = $this->data['Photo']['id'];
-			$short_side_inches = $this->data['Photo']['short_side_inches'];
+			$chosen_size_data_arr = explode('|', $this->data['Photo']['chosen_size_data']);
+                        $short_side_inches = $chosen_size_data_arr[0];
+                        $print_type = $chosen_size_data_arr[1];
+                        
 			
 			
 			////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -569,16 +590,6 @@ class EcommercesController extends AppController {
 				exit();
 			}
 			
-			// DREW TODO - validate the short side inches 
-			// $short_side_inches
-			
-			// DREW TODO - validate the long side inches
-			
-			
-			// DREW TODO - add in the price to the calculation
-			// validate the price againts the print type and size
-			
-			
 			$qty = 1;
 			if (!empty($this->data['qty'])) {
 				$qty = $this->data['qty'];
@@ -587,7 +598,7 @@ class EcommercesController extends AppController {
 		
 			
 			
-		$this->Cart->add_to_cart($photo_id, $photo_print_type_id, $short_side_inches, $qty);
+		$this->Cart->add_to_cart($photo_id, $photo_print_type_id, $short_side_inches, $print_type, $qty);
 		if (empty($this->data['redirect_url'])) {
 			$this->redirect('/ecommerces/view_cart/');
 		} else {
@@ -805,7 +816,6 @@ class EcommercesController extends AppController {
 		}
 		
 		
-//		$this->log($this->Session->read('Cart'), 'checkout_finalize_payment');
 		if (!$this->Cart->has_cart_shipping_address_data()) {
 			$this->redirect('/ecommerces/checkout_get_address/');
 		}
@@ -884,6 +894,7 @@ class EcommercesController extends AppController {
 			// also create a CIM account for the user - and charge
 			// amount to CIM account
 			// otherwise just charge straight to authorize.net
+			$charge_result_data = null;
 			if (!empty($this->data['CreateAccount']['email_address']) || $logged_in === true) {
 				$new_user = array();
 				if ($logged_in === true) {
@@ -968,7 +979,8 @@ class EcommercesController extends AppController {
 
 
 				// actually charge for the order
-				if (!$this->AuthnetOrder->charge_cart_to_cim($authnet_data['AuthnetProfile']['id'])) {
+				$charge_result_data = $this->AuthnetOrder->charge_cart_to_cim($authnet_data['AuthnetProfile']['id']);
+				if ($charge_result_data === false) {
 					///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 					// failed to create charge authnet profile so we need to delete the user we created above if it was a new user
 					// also we need to delete the authnet profile we created above
@@ -986,8 +998,7 @@ class EcommercesController extends AppController {
 					$this->ThemeRenderer->render($this);
 					return;
 				}
-				
-				
+
 				////////////////////////////////////////////////////
 				// everything worked so login the new user
 				$this->Auth->login($new_user);
@@ -1016,12 +1027,13 @@ class EcommercesController extends AppController {
 				$authnet_data['AuthnetProfile']['shipping_country'] = $shipping_address['country_name'];
 				$authnet_data['AuthnetProfile']['payment_cc_last_four'] = substr($this->data['Payment']['card_number'], -4, 4);
 				$authnet_data['AuthnetProfile']['payment_method'] = $this->data['Payment']['credit_card_method'];
-				
-				$result_data = $this->AuthnetOrder->one_time_charge($authnet_data);
-				
-				
-				if (empty($result_data) || (isset($result_data['success']) && $result_data['success'] !== true)) {
-					if (isset($result_data['declined']) && $result_data['declined'] === true) {
+
+
+
+				$charge_result_data = $this->AuthnetOrder->one_time_charge($authnet_data);
+
+				if (empty($charge_result_data) || (isset($charge_result_data['success']) && $charge_result_data['success'] !== true)) {
+					if (isset($charge_result_data['declined']) && $charge_result_data['declined'] === true) {
 						$this->Session->setFlash(__('Transaction declined.', true), 'admin/flashMessage/error');
 					} else {
 						$this->Session->setFlash(__('An unknown error occured processing the transaction.', true), 'admin/flashMessage/error');
@@ -1031,6 +1043,16 @@ class EcommercesController extends AppController {
 					return;
 				} 
 			}
+
+
+			/***********************************************************************************************
+			 Checkout worked so now we need to prepare the fullsize image data for autofulfillment!
+			***********************************************************************************************/
+			if ($charge_result_data) {
+				$parsed_authnet_order_data = $this->AuthnetOrder->get_parsed_authnet_order_data($charge_result_data['order_save_db']['AuthnetOrder']['id']);
+				$this->FotomatterBilling->push_autofulfillment_order_information($parsed_authnet_order_data);
+			}
+
 			
 			// checkout was successful
 			$last_order_id = 0;

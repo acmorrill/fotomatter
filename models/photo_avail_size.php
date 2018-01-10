@@ -7,10 +7,67 @@ class PhotoAvailSize extends AppModel {
 		'PhotoAvailSizesPhotoPrintType'
 	);
 	
+	public function get_photo_avail_sizes($photo_print_type_id) {
+		$photo_avail_sizes_query = "
+			SELECT * FROM photo_avail_sizes AS PhotoAvailSize
+				LEFT JOIN photo_avail_sizes_photo_print_types AS PhotoAvailSizesPhotoPrintType
+					ON (PhotoAvailSizesPhotoPrintType.photo_avail_size_id = PhotoAvailSize.id AND PhotoAvailSizesPhotoPrintType.photo_print_type_id = :photo_print_type_id )
+			ORDER BY PhotoAvailSize.short_side_length ASC
+		";
+		$photo_avail_sizes = $this->query($photo_avail_sizes_query, array(
+			'photo_print_type_id' => $photo_print_type_id
+		));
+		
+		
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// add in the predicted long size depending on format, short side and square inches
+		foreach ($photo_avail_sizes as &$final_size) {
+			if ($final_size['PhotoAvailSize']['photo_format_ids'] == '1,2,3') {
+				$final_size['PhotoAvailSize']['has_non_pano'] = true;
+				$final_size['PhotoAvailSize']['has_pano'] = false;
+			} else {
+				$final_size['PhotoAvailSize']['has_non_pano'] = false;
+				$final_size['PhotoAvailSize']['has_pano'] = true;
+			}
+			$this->set_predicted_size_by_format($final_size['PhotoAvailSize']);
+		}
+		
+		return $photo_avail_sizes;
+	}
+	
+	public function set_predicted_size_by_format(&$photo_avail_size) {
+		if ($photo_avail_size['has_pano'] == true) {
+			$photo_avail_size['min_long_side_length'] = $photo_avail_size['short_side_length'] * 2;
+			$photo_avail_size['max_long_side_length'] = $photo_avail_size['short_side_length'] * 4;
+		} else {
+			$photo_avail_size['min_long_side_length'] = $photo_avail_size['short_side_length'];
+			$photo_avail_size['max_long_side_length'] = $photo_avail_size['short_side_length'] * 2;
+		}
+		
+		$photo_avail_size['min_sq_inches'] = $photo_avail_size['short_side_length'] * $photo_avail_size['min_long_side_length'];
+		$photo_avail_size['max_sq_inches'] = $photo_avail_size['short_side_length'] * $photo_avail_size['max_long_side_length'];
+		$photo_avail_size['avg_long_side_length'] = ($photo_avail_size['min_long_side_length'] + $photo_avail_size['max_long_side_length']) / 2;
+		$photo_avail_size['avg_sq_inches'] = ($photo_avail_size['min_sq_inches'] + $photo_avail_size['max_sq_inches']) / 2;
+		
+		return $photo_avail_size;
+	}
+	
+	
+	public function print_size_has_non_pano($print_type) {
+		return (isset($print_type['PhotoAvailSize']['photo_format_ids']) && strpos($print_type['PhotoAvailSize']['photo_format_ids'], '1,2,3') !== false);
+	}
+	
+	public function print_size_has_pano($print_type) {
+		return (isset($print_type['PhotoAvailSize']['photo_format_ids']) && strpos($print_type['PhotoAvailSize']['photo_format_ids'], '4,5') !== false);
+	}
+	
+	
 	
 	public function restore_avail_photo_size_defaults() {
 		$defaults = array(
+			array('short_size' => 2,),
 			array('short_size' => 2.5,),
+			array('short_size' => 3,),
 			array('short_size' => 3.5,),
 			array('short_size' => 4,),
 			array('short_size' => 5,),
@@ -52,14 +109,16 @@ class PhotoAvailSize extends AppModel {
 		foreach ($defaults as $default) {
 			$new_photo_avail_size = array();
 			$new_photo_avail_size['short_side_length'] = $default['short_size'];
-			if (isset($default['add_pano'])) {
-				$new_photo_avail_size['photo_format_ids'] = implode(',', $reg_format_ids) . ',' . implode(',', $pano_format_ids);
-			} else {
-				$new_photo_avail_size['photo_format_ids'] = implode(',', $reg_format_ids);
-			}
-			
+			$new_photo_avail_size['photo_format_ids'] = implode(',', $reg_format_ids);
 			$this->create();
 			$this->save($new_photo_avail_size);
+			
+			if (isset($default['add_pano'])) {
+				$new_photo_avail_size['photo_format_ids'] = implode(',', $pano_format_ids);
+				$this->create();
+				$this->save($new_photo_avail_size);
+			}
+			
 		}
 		
 		
@@ -78,12 +137,27 @@ class PhotoAvailSize extends AppModel {
 			'contain' => false
 		));
 		
-		return Set::combine($all_values, '/PhotoAvailSize/short_side_length', '/PhotoAvailSize/short_side_length');
+		$short_side_used = array();
+		$format_used = array();
+		foreach ($all_values as $key => $value) {
+			if ($value['PhotoAvailSize']['photo_format_ids'] == '1,2,3') {
+				$short_side_used[$value['PhotoAvailSize']['short_side_length']]['non_pano'] = true;
+				$format_used['non_pano'][$value['PhotoAvailSize']['short_side_length']] = true;
+			}
+			if ($value['PhotoAvailSize']['photo_format_ids'] == '4,5') {
+				$short_side_used[$value['PhotoAvailSize']['short_side_length']]['pano'] = true;
+				$format_used['pano'][$value['PhotoAvailSize']['short_side_length']] = true;
+			}
+		}
+		
+		return compact('short_side_used', 'format_used');
 	}
 	
 	public function valid_short_side_values() {
 		$valid_sides = array(
+			2,
 			2.5,
+			3,
 			3.5,
 		);
 		for ($i = 4; $i <= 96; $i++) {

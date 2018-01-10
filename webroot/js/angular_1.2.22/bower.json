@@ -1,15 +1,16 @@
 {
-	"name": "angular-fotomatter",
-	"description": "Fotomatter angular project",
-	"version": "0.0.0",
-	"homepage": "fotomatter.net",
-	"license": "MIT",
-	"private": true,
-	"dependencies": {
-		"angular": "1.4.x",
-		"angular-route": "~1.4.x",
-		"angular-resource": "~1.4.x",
-		"angular-animate": "~1.4.x",
-		"angular-xeditable": "~0.1.8"
-	}
+  "name": "angular-fotomatter",
+  "description": "Fotomatter angular project",
+  "version": "0.0.0",
+  "homepage": "fotomatter.net",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angular": "1.4.x",
+    "angular-route": "~1.4.x",
+    "angular-resource": "~1.4.x",
+    "angular-animate": "~1.4.x",
+    "angular-xeditable": "~0.1.8",
+    "angular-toggle-switch": "^1.3.0"
+  }
 }

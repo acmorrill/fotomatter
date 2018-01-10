@@ -618,7 +618,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		$order = array(
 			'authnet_profile_id' => 0,
 			'one_time_charge' => 1,
-			'total' => $this->Cart->get_cart_total(),
+			'total' => $this->Cart->get_cart_finalize_checkout_total(),
 			'foreign_model' => 'User',
 			'foreign_key' => 0,
 			'tax' => array(
@@ -627,7 +627,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 				'description' => 'The calculated sales tax',
 			),
 			'shipping' => array(
-				'amount' => $this->Cart->get_cart_shipping_total(),
+				'amount' => $this->Cart->get_cart_shipping_and_handling_total(),
 				'name' => '',
 				'description' => '',
 			),
@@ -637,7 +637,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		foreach ($items as $key => $item) {
 			$order['line_items'][] = array(
 				'unit_cost' => $item['price'],
-				'name' => $item['photo_id'] . '|' . $item['photo_print_type_id'] . '|' . $item['short_side_inches'],
+				'name' => $item['photo_id'] . '|' . $item['photo_print_type_id'] . '|' . $item['short_side_inches'] . '|' . $item['print_type'],
 				'description' => $key,
 				'quantity' => $item['qty'],
 				'foreign_model' => 'Photo',
@@ -656,7 +656,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			'refId' => $this->id,
 			'transactionRequest' => array(
 				'transactionType' => 'authCaptureTransaction',
-				'amount' => $this->Cart->get_cart_total(),
+				'amount' => $this->Cart->get_cart_finalize_checkout_total(),
 				'payment' => array(
 					'creditCard' => array(
 						'cardNumber' => $authnet_data['AuthnetProfile']['payment_cardNumber'],
@@ -697,7 +697,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 //					'description' => 'duty description',
 //				),
 				'shipping' => array(
-					'amount' => $this->Cart->get_cart_shipping_total(),
+					'amount' => $this->Cart->get_cart_shipping_and_handling_total(),
 					'name' => '',
 					'description' => '',
 				),
@@ -757,7 +757,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		}
 
 
-		// add the one time order trasaction_id to the order
+		// add the one time order transaction_id to the order
 		$one_time_response['expiration_date'] = date('mY', strtotime($authnet_data['AuthnetProfile']['payment_expirationDate']));
 //		$this->log($response, 'get_one_time_parsed_response');
 //		[response_code] => 1
@@ -893,6 +893,9 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 					return $return_arr;
 				}
 			}
+
+			$order_save_db['AuthnetOrder']['id'] = $this->id;
+			$return_arr['order_save_db'] = $order_save_db;
 		} catch (Exception $e) {
 			$this->authnet_error('an exception has occurred', $e->getMessage());
 			$return_arr['success'] = false;
@@ -927,7 +930,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 
 		$order = array(
 			'authnet_profile_id' => $authnet_profile_id,
-			'total' => $this->Cart->get_cart_total(),
+			'total' => $this->Cart->get_cart_finalize_checkout_total(),
 			'foreign_model' => 'User',
 			'foreign_key' => $profile['AuthnetProfile']['user_id'],
 			'tax' => array(
@@ -936,7 +939,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 				'description' => 'The calculated sales tax',
 			),
 			'shipping' => array(
-				'amount' => $this->Cart->get_cart_shipping_total(),
+				'amount' => $this->Cart->get_cart_shipping_and_handling_total(),
 				'name' => '',
 				'description' => '',
 			),
@@ -946,7 +949,7 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		foreach ($items as $key => $item) {
 			$order['line_items'][] = array(
 				'unit_cost' => $item['price'],
-				'name' => $item['photo_id'] . '|' . $item['photo_print_type_id'] . '|' . $item['short_side_inches'],
+				'name' => $item['photo_id'] . '|' . $item['photo_print_type_id'] . '|' . $item['short_side_inches'] . '|' . $item['print_type'],
 				'description' => $key,
 				'quantity' => $item['qty'],
 				'foreign_model' => 'Photo',
@@ -1109,8 +1112,9 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 				$this->authnet_error('Could not save order', compact('order_save_db'));
 				return false;
 			}
-			
-			
+			$order_save_db['AuthnetOrder']['id'] = $this->id;
+
+
 			$this->AuthnetLineItem = ClassRegistry::init("AuthnetLineItem");
 			foreach ($order['line_items'] as $item) {
 				$item_save['AuthnetLineItem']['unit_cost'] = $item['unit_cost'];
@@ -1128,11 +1132,39 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 				}
 			}
 
-			return true;
+			$return_arr = array();
+			$return_arr['order_save_db'] = $order_save_db;
+			return $return_arr;
 		} catch (Exception $e) {
 			$this->authnet_error('an exception has occurred', $e->getMessage());
 			return false;
 		}
+	}
+
+	public function get_parsed_authnet_order_data($authnet_order_id) {
+		$this->Photo = ClassRegistry::init('Photo');
+		$authnet_order = $this->find('first', array(
+			'conditions' => array(
+				'AuthnetOrder.id' => $authnet_order_id
+			),
+			'contain' => array(
+				'AuthnetLineItem'
+			),
+		));
+
+
+		$this->Photo = ClassRegistry::init('Photo');
+		foreach ($authnet_order['AuthnetLineItem'] as &$line_item) {
+			$extra_data = explode("|", $line_item['name']);
+			$line_item['photo_id'] = $extra_data[0];
+			$line_item['print_type_id'] = $extra_data[1];
+			$line_item['short_side_inches'] = $extra_data[2];
+			$line_item['print_type'] = $extra_data[3];
+			$line_item['extra_data'] = $this->Photo->get_extra_print_data($line_item['photo_id'], $line_item['print_type_id'], $line_item['short_side_inches'], $line_item['print_type']);
+		}
+
+
+		return $authnet_order;
 	}
 
 	public function approve_order($authnet_order_id) {
@@ -1152,7 +1184,8 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 			$line_item['photo_id'] = $extra_data[0];
 			$line_item['print_type_id'] = $extra_data[1];
 			$line_item['short_side_inches'] = $extra_data[2];
-			$line_item['extra_data'] = $this->Photo->get_extra_print_data($line_item['photo_id'], $line_item['print_type_id'], $line_item['short_side_inches']);
+			$line_item['print_type'] = $extra_data[3];
+			$line_item['extra_data'] = $this->Photo->get_extra_print_data($line_item['photo_id'], $line_item['print_type_id'], $line_item['short_side_inches'], $line_item['print_type']);
 		}
 
 

@@ -1,6 +1,7 @@
 <script src="/js/angular_1.2.22/app/js/app.js"></script>
-<script src="/js/angular_1.2.22/app/js/controllers.js"></script>
-<script src="/js/angular_1.2.22/app/js/services.js"></script>
+<script src="/js/angular_1.2.22/app/js/controllers/galleries.js"></script>
+<script src="/js/angular_1.2.22/app/js/services/resources.js"></script>
+<script src="/js/angular_1.2.22/app/js/services/print_types_service.js"></script>
 <script src="/js/angular_1.2.22/app/js/directives.js"></script>
 <!--<script src="/js/angular_1.2.22/bower_components/checklist-model/checklist-model.js"></script>-->
 
@@ -51,33 +52,21 @@
 		<?php echo $this->Element('admin/limit_views/unlimited_photos'); ?>
 	</div>
 	<div class="dynamic_list">
-		<div id="gallery_list_tools">
-			<div id="gallery_list_tools_inner" class="custom_ui">
+		<div id="list_tools">
+			<div id="list_tools_inner" class="custom_ui">
 				<select id="add_gallery_type">
 					<option value="standard"><?php echo __('Standard', true); ?></option>
 					<option value="smart"><?php echo __('Smart', true); ?></option>
 				</select>
-				<div ng-class="{'disabled': uploading_photos == true}" class="add_button icon" ng-click="create_gallery()">
+				<div ng-class="{'disabled': uploading_photos == true}" class="add_button gallery icon" ng-click="create_gallery()">
 					<div class="icon-_button-01"></div>
 				</div>
 			</div>
 		</div>
 		<div id="photo_gallery_list" class="table_container">
 			<table class="list" ui-sortable="gallerySortableOptions" data-step="1" data-intro="<?php echo __ ('Here you can view all of the galleries currently created. Edit the titles, manage the photos, or delete the gallery completely.', true); ?>" data-position="top">
-				<thead>
-					<tr> 
-						<th class="first">
-						</th> 
-						<th class="last">
-							<div class="content one_line">
-								<?php echo __('Display Name', true); ?>
-							</div>
-						</th> 
-					</tr> 
-				</thead>
 				<tbody>
 					<tr class="spacer"><td colspan="1"></td></tr>
-
 					<tr class="first last ng-hide" ng-show="loading == true">
 						<td class="first last" colspan="1" style="text-align: center;">
 							<span>LOADING</span>

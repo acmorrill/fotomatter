@@ -17,4 +17,5 @@ class PhotoAvailSizesPhotoPrintType extends AppModel {
 			'PhotoSellablePrint.photo_avail_sizes_photo_print_type_id' => $this->id
 		), true, true);
 	}
+	
 }

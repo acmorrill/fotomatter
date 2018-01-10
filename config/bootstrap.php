@@ -350,7 +350,11 @@ define("SMALLER_MASTER_CACHE_PREFIX", 'mastercache_smaller_');
 define("LARGE_MASTER_CACHE_SIZE", 1500);
 define("SMALL_MASTER_CACHE_SIZE", 250);
 define('MAX_UPLOAD_SIZE_MEGS', 50);
+define('MAX_PAID_UPLOAD_SIZE_MEGS', 100);
+define('MAX_MEGEBYTES_SPACE', 50000); // 50 gigs limit
+define('MAX_UPPER_LIMIT_MEGEBYTES_SPACE', 250000); // 250 gigabyte limit
 define('FREE_MAX_RES', 4000);
+define('MAX_PAID_MEGAPIXELS', 150);
 define("USE_CACHE_SPEED", true);
 
 // facebook settings
@@ -487,8 +491,8 @@ function myErrorHandler($errno, $errstr, $errfile, $errline) {
 	}
 	
 	$log_data = compact('errno', 'errstr', 'errfile', 'errline');
-	$errstr = mysql_escape_string($errstr);
-	$errline = mysql_escape_string($errline);
+	$errstr = mysql_real_escape_string($errstr);
+	$errline = mysql_real_escape_string($errline);
 	$description = "An error recorded by myErrorHandler in bootstrap.php: $errstr on line $errline in file $errfile";
 	
 	

@@ -34,6 +34,18 @@ class FotomatterBillingComponent extends FotomatterOverlordApi {
 		
 		return $result;
 	}
+
+	public function push_autofulfillment_order_information($parsed_authnet_order_data) {
+		$result = $this->send_api_request('api_billing/push_autofulfillment_order_information', array());
+
+		// TODO - START HERE TOMORROW - need to finished putting in the auto fulfillment information
+		$this->log($parsed_authnet_order_data, 'parsed_authnet_order_data');
+		$this->log($result, 'push_autofulfillment_order_information');
+
+//		$this->MajorError = ClassRegistry::init("MajorError");
+//		$this->MajorError->major_error('Remote find from overlord returned with error.', compact('params', 'result_of_find'));
+//		return false;
+	}
 	
 	
 	public function get_industry_types() {
@@ -76,9 +88,11 @@ class FotomatterBillingComponent extends FotomatterOverlordApi {
 			return $this->get_fake_account_info();
 		}
 		
+		
 		if (apc_exists($this->account_info_apc_key)) {
 			return apc_fetch($this->account_info_apc_key);
 		}
+		
 		
 		$result_of_find = $this->send_api_request('api_billing/get_account_info', $params);
 		if($result_of_find['code']) {

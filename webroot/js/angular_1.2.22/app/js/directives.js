@@ -35,6 +35,43 @@ fotomatterApp.directive("confirmDelete", ["$interval", function($interval) {
 	};
 }]);
 
+fotomatterApp.directive('initToolbar', function($http, $compile, $templateCache) {
+	function link(scope, element, attrs) {
+		jQuery(element).qtip({
+			content: attrs.initToolbar,
+			position: {
+				my: 'bottom left',
+				at: 'top right',
+				target: $(element)
+			},
+			hide: {
+				fixed : true,
+				delay : 500
+			},
+			style: { classes: 'qtip-dark' }
+		});
+	}
+
+	return {
+		restrict: 'A',
+		link: link
+	};
+});
+
+fotomatterApp.directive('convertToNumber', function() {
+	return {
+		require: 'ngModel',
+		link: function(scope, element, attrs, ngModel) {
+			ngModel.$parsers.push(function(val) {
+				return val ? parseInt(val, 10) : null;
+			});
+			ngModel.$formatters.push(function(val) {
+				return val ? '' + val : null;
+			});
+		}
+	};
+});
+
 
 //fotomatterApp.directive("ngTagsChooser", ["$interval", function($interval) {
 //	return {

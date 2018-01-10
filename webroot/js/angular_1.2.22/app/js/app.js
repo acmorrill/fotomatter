@@ -2,10 +2,13 @@
 
 var fotomatterApp = angular.module('fotomatterApp', [
 	'fotomatterControllers',
+	'fotomatterResources',
 	'fotomatterServices',
 	'xeditable',
 	'ngCookies',
-	'ui.sortable'
+	'ui.sortable',
+	'ui.bootstrap',
+	'toggle-switch'
 ]).factory('helperMethods', function() {
 	return {
 		objectToArr: function(obj) {
@@ -56,7 +59,6 @@ var fotomatterApp = angular.module('fotomatterApp', [
 				}
 			}
 		}
-		
 	};
 });
 

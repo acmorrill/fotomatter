@@ -314,6 +314,9 @@ class AppController extends Controller {
 		
 		
 		$overlord_account_info = $this->FotomatterBilling->get_account_info();
+                $this->Photo = ClassRegistry::init('Photo');
+                $this->Photo->set_account_info($overlord_account_info);
+		$this->overlord_account_info = $overlord_account_info;
 		$this->set('overlord_account_info', $overlord_account_info);
 	}
 	
@@ -489,6 +492,9 @@ class AppController extends Controller {
 			'data' => $data
 		);
 		
+		if ($success !== true) {
+			http_response_code(500);
+		}
 		echo json_encode($returnArr);
 		exit();
 	}
@@ -498,7 +504,7 @@ class AppController extends Controller {
 		$controller->data = $data;
 		return $data;
 	}
-
+	
 	public function major_error($description, $extra_data = null, $severity = 'normal') {
 		$this->MajorError = ClassRegistry::init("MajorError");
 		$this->MajorError->major_error($description, $extra_data, $severity);

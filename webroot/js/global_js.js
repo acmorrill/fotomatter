@@ -217,6 +217,22 @@ jQuery(document).ready(function() {
 		} 
 		newtab = window.open(live_site_url, live_site_url);
 	});
+	
+	
+	// turn this on when needed on non angular page
+	// setup the help tooltips
+//	jQuery('.icon-info.qtip').qtip({
+//		content: 'The content',
+//		position: {
+//			my: 'bottom left',
+//			at: 'top right',
+//		},
+//		hide: {
+//			fixed : true,
+//			delay : 500
+//		},
+//		style: { classes: 'qtip-dark' }
+//	});
 });
 
 /****************************************************************************

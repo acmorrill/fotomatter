@@ -196,7 +196,7 @@
 		<?php echo $add_feature_ref_name_popup_html; ?>
 	</div>
 <?php endif; ?>
-<h1><?php echo __('Manage Features', true); ?>
+<h1><?php echo __('Manage Features', true); ?> ( <a href="#what_comes_free"><?php echo __('free features?', true); ?></a> )
 	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 </h1>
 <p><?php echo __('All of fotomatter.net’s features are offered a la carte. Choose the features you need now. You can add or delete features whenever you want. Many more features are currently underway.', true); ?></p>
@@ -243,6 +243,8 @@
 		</div>
 	</div>
 </div>
+
+
 
 
 
@@ -297,8 +299,16 @@
 									$help_text = 'data-step="' . $step_count++ . '" data-intro="' . sprintf(__("Every fotomatter.net customer gets %s photos free. If you need more than that, add unlimited photos here.", true), LIMIT_MAX_FREE_PHOTOS) . '" data-position="top"';
 									$icon_css = 'icon-unlimitedPhotos-01';
 									break;
+								case 'unlimited_storage':
+									$help_text = 'data-step="' . $step_count++ . '" data-intro="' . sprintf(__("Every fotomatter.net customer gets %s gigabytes free. If you need more than that, add unlimited storage here.", true), 100) . '" data-position="top"';
+									$icon_css = 'icon-unlimitedPhotos-01';
+									break;
 								case 'basic_shopping_cart':
 									$help_text = 'data-step="' . $step_count++ . '" data-intro="' . __("To easily sell your photos, add e-commerce to your site.", true) . '" data-position="top"';
+									$icon_css = 'icon-shoppingCart-01';
+									break;
+								case 'auto_fulfillment':
+									$help_text = 'data-step="' . $step_count++ . '" data-intro="' . __("Sell photos to clients without all the hassle of working with printers and shipping prints!", true) . '" data-position="top"';
 									$icon_css = 'icon-shoppingCart-01';
 									break;
 								case 'page_builder':
@@ -421,6 +431,17 @@
 			</table>
 		</div>
 	</div>
+	<br />
+	<br />
+	<br />
+	<a name="what_comes_free" class="anchor_tag"></a>
+	<h1><?php echo __('What Comes With Your Free Account?', true); ?></h1>
+	<p><?php echo __('<b>&bull;&nbsp;&nbsp; Theme and Website Tools</b> &nbsp;&mdash;&nbsp; choose from any of our amazing themes, upload your logo, create a website menu etc. Essentially a photography website for free!', true); ?></p>
+	<p><?php echo sprintf(__('<b>&bull;&nbsp;&nbsp; %s GB Free</b> &nbsp;&mdash;&nbsp; use up to %s GB of space for free!', true), 100, 100); ?></p>
+	<p><?php echo sprintf(__('<b>&bull;&nbsp;&nbsp; %s Free Photos</b> &nbsp;&mdash;&nbsp; upload up to %s photos in your free account.', true), LIMIT_MAX_FREE_PHOTOS, LIMIT_MAX_FREE_PHOTOS); ?></p>
+	<p><?php echo __('<b>&bull;&nbsp;&nbsp; Unlimited Galleries</b> &nbsp;&mdash;&nbsp; create as many galleries as you need.', true); ?></p>
+	<p><?php echo __('<b>&bull;&nbsp;&nbsp; Domains</b> &nbsp;&mdash;&nbsp; register a custom domain for your website.', true); ?></p>
+	<br />
 	
 	<?php /*
     <div class="body_container">   

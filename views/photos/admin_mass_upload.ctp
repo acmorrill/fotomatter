@@ -1,6 +1,14 @@
 <h1><?php echo __('Add Photos', true); ?>
 	<div id="help_tour_button" class="custom_ui"><?php echo $this->Element('/admin/get_help_button'); ?></div>
 </h1>
+<p><b style="font-weight: bold;"><?php echo __('Usage', true); ?></b> &nbsp;&mdash;&nbsp;
+	<?php if (!empty($current_on_off_features['unlimited_photos'])): ?>
+		<?php echo $total_photos; ?> total <?php echo __('photos', true); ?>
+	<?php else: ?>
+		<?php echo $total_photos; ?> of <?php echo LIMIT_MAX_FREE_PHOTOS; ?> <?php echo __('photos', true); ?>
+	<?php endif; ?>
+	, <?php echo round($total_used_space_megabytes, 2) . " MB of " . number_format($max_used_space_megabytes) . " MB"; ?>
+</p>
 <p><?php echo __('Timesaver Tip: Before uploading new photos, first select the gallery you want the photos to go in. If you haven’t created the gallery yet, select the Galleries tab above to get started. Or, you may begin uploading photos and organize into galleries after. The recommended .jpg size is 4000px or less on the long side.', true); ?></p>
 
 <script>
@@ -17,7 +25,11 @@
 			previewMaxWidth: 100,
 			previewMaxHeight: 100,
 			acceptFileTypes: /(\.|\/)(jpe?g)$/i,
-			maxFileSize: <?php echo MAX_UPLOAD_SIZE_MEGS * 1000000; ?>,
+			<?php if (empty($current_on_off_features['auto_fulfillment'])): ?>
+				maxFileSize: <?php echo MAX_UPLOAD_SIZE_MEGS * 1000000; ?>,
+			<?php else: ?>
+				maxFileSize: <?php echo MAX_PAID_UPLOAD_SIZE_MEGS * 1000000; ?>,
+			<?php endif; ?>
 			process: function (e, data) {
 				var file_tr = jQuery('.files_ready_to_upload_inner_cont table.list tbody:nth-child(' + (1 + data.index) + ')');
 				jQuery('.custom_progress', file_tr).progressbar({ value: 0 });
