@@ -156,15 +156,20 @@ class CloudFilesComponent extends RackspaceObj {
 		//422 checksum error
 	}
 
-	public function copy_object($old_object_name, $new_object_name, $container = false) {
-		if ($container === false) {
-			$container = $this->_getContainerName();
-			if ($container === false)
+	public function copy_object($old_object_name, $new_object_name, $old_container = false, $new_container = false) {
+		if ($old_container === false) {
+			$old_container = $this->_getContainerName();
+			if ($old_container === false)
+				return false;
+		}
+		if ($new_container === false) {
+			$new_container = $this->_getContainerName();
+			if ($new_container === false)
 				return false;
 		}
 
-		$url = "/" . $container . "/" . $old_object_name;
-		$copyToPath = "/" . $container . "/" . $new_object_name;
+		$url = "/" . $old_container . "/" . $old_object_name;
+		$copyToPath = "/" . $new_container . "/" . $new_object_name;
 		///////////////////////////////////////////////////////////////////////////////////////
 		//the postdata options in this case in extra curl options needed for the transfer
 //		$file_size = filesize($file_path);
@@ -182,7 +187,6 @@ class CloudFilesComponent extends RackspaceObj {
 		);
 
 		$jsonResponse = $this->_makeApiCall('storage', $url, $options, 'COPY', $http_headers, true);
-		$this->log($jsonResponse, 'jsonResponse');
 		if (in_array($this->lastResponseStatus, array('201'))) {
 			return true;
 		}

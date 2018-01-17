@@ -413,7 +413,7 @@ class PhotoCache extends AppModel {
 		// after this point need to reset the photo cache status on fail of anything
 		
 		
-		// TODO - these may not be necessary anymore (cus height and width are both requered to be set)
+		// TODO - these may not be necessary anymore (cus height and width are both required to be set)
 		$max_height_set = isset($photoCache['PhotoCache']['max_height']);
 		$max_width_set = isset($photoCache['PhotoCache']['max_width']);
 		$max_height = isset($photoCache['PhotoCache']['max_height']) ? $photoCache['PhotoCache']['max_height'] : 0;

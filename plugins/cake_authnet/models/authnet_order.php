@@ -1176,14 +1176,31 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 		foreach ($authnet_order['AuthnetLineItem'] as &$currAuthnetLineItem) {
 			if ($currAuthnetLineItem['print_type'] != 'self') {
 //				$currAuthnetLineItem['full_path'] = $this->Photo->get_full_path($currAuthnetLineItem['photo_id']);
+
+
+				////////////////////////////////////////////////////////////
+				// the below should be moved somewhere else
+
+				///////////////////////////////////////////////////////
+				// copy fullsize image into the correct location
 				$this->CloudFiles = $this->get_cloud_file();
-				$container = false;
+				$old_container = false;
 				$this->log($currAuthnetLineItem, 'currAuthnetLineItem');
 				if ($currAuthnetLineItem['extra_data']['Photo']['is_globally_shared'] == 1) {
-					$container = SITE_DEFAULT_CONTAINER_NAME;
+					$old_container = SITE_DEFAULT_CONTAINER_NAME;
 				}
-				// DREW TODO - get the copy object actually working (with folder if possible)
-				$this->CloudFiles->copy_object($currAuthnetLineItem['extra_data']['Photo']['cdn-filename'], "autofulfillment/" . $currAuthnetLineItem['extra_data']['Photo']['cdn-filename'], $container); // DREW TODO - make the path and filename smart (so not collisions with other printers or types)
+				$fullsize_autofulfillment_filename_fullpath = "autofulfillment/" . $currAuthnetLineItem['name'] . "/" . "fullsize_" . $currAuthnetLineItem['extra_data']['Photo']['cdn-filename'];
+				$this->CloudFiles->copy_object($currAuthnetLineItem['extra_data']['Photo']['cdn-filename'], $fullsize_autofulfillment_filename_fullpath, $old_container);
+
+				////////////////////////////////////////////////////////////////
+				// we now need to create the actually sized image for print
+				// START HERE TOMORROW
+
+				// -- maybe this should be done on a cron?
+				// -- copy the fullsize image into local
+				// -- resize the fullsize image (maybe add ability to upload fullsize and sharpened image for each possible size - https://trello.com/c/jtVmUbKD/164-add-ability-to-upload-sized-and-sharpened-images-that-are-fully-ready-to-print-to-autofulfillment-perhaps-this-could-be-done-bef)
+				// -- upload the resized image to cloudfiles
+				// --
 
 				$autoFulfillmentLineItems[] = $currAuthnetLineItem;
 			}

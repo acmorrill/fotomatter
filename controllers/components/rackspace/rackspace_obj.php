@@ -172,7 +172,7 @@ class RackspaceObj extends Object {
 			}
 		}
 		$jsonUrl = trim($this->_apiEndPoint[$apiEndpointType]) . $url;
-		if (($apiEndpointType == 'storage' || $apiEndpointType == 'cdn') && $method != 'PUT') {
+		if (($apiEndpointType == 'storage' || $apiEndpointType == 'cdn') && $method != 'PUT' && $method != 'COPY') {
 			$jsonUrl .= "?format=json";
 		}
 		$httpHeaders = array(
@@ -204,6 +204,8 @@ class RackspaceObj extends Object {
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 
 		$jsonResponse = curl_exec($ch);
+		$request_info = curl_getinfo($ch); /// full curl info about the request
+//		$this->log(compact('request_info', 'jsonResponse', 'httpHeaders', 'method', 'postData'), 'request_info');
 		curl_close($ch);
 
 		if ($raw_output) {
