@@ -1202,6 +1202,20 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 				// -- upload the resized image to cloudfiles
 				// --
 
+				$container_url = ClassRegistry::init("SiteSetting")->getImageContainerUrl();
+				if ($currAuthnetLineItem['extra_data']['Photo']['is_globally_shared'] == 1) {
+					$container_url = ClassRegistry::init("SiteSetting")->get_site_default_container_url();
+				}
+				$cdn_filename_fullsize_original_image = $container_url.$currAuthnetLineItem['extra_data']['Photo']['cdn-filename'];
+				$local_fullsize_temp_path = LOCAL_FULLSIZE_TEMP.DS.$currAuthnetLineItem['extra_data']['Photo']['cdn-filename'] . "_" . mt_rand(100000, 999999);
+
+				if (copy( // from cloud files to local
+						$cdn_filename_fullsize_original_image,
+						$local_fullsize_temp_path
+					) !== true) {
+					$this->major_error('failed to copy fullsize image from cdn to local_fullsize_temp', compact('cdn_filename_fullsize_original_image',  'local_fullsize_temp_path'));
+				}
+
 				$autoFulfillmentLineItems[] = $currAuthnetLineItem;
 			}
 		}

@@ -162,6 +162,7 @@ class UtilShell extends Shell {
 			'parent_theme_webroot' => array('p' => "$default_user:$default_user"),
 			'themes' => array('p' => "$default_user:$default_user"),
 			'image_tmp' => array('r' => "$default_user:$default_user"),
+			'local_fullsize_temp' => array('r' => "$default_user:$default_user"),
 			'local_master_cache' => array('r' => "$default_user:$default_user"),
 			'local_smaller_master_cache' => array('r' => "$default_user:$default_user"),
 			'site_background' => array('r' => "$default_user:$default_user"),

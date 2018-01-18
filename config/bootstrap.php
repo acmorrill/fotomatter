@@ -341,6 +341,7 @@ define("GLOBAL_SCHEMA_PATH", $root_path.DS.APP_DIR.DS.'config'.DS.'versioning'.D
 define("TEMP_IMAGE_PATH", $root_path.DS.'image_tmp');
 define("TEMP_IMAGE_VAULT", $root_path.DS.'image_vault');
 define("TEMP_IMAGE_UNIT", $root_path.DS.'unit_test_cache');
+define("LOCAL_FULLSIZE_TEMP", $root_path.DS.'local_fullsize_temp');
 define("LOCAL_MASTER_CACHE", $root_path.DS.'local_master_cache');
 define("LOCAL_SMALLER_MASTER_CACHE", $root_path.DS.'local_smaller_master_cache');
 
