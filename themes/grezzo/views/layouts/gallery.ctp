@@ -10,7 +10,7 @@
 
 <!--		<script src="/js/scrollto/jquery.scrollTo.min.js"></script>
 		<script src="/js/jquery.endless-scroll_horizontal.js"></script>-->
-		<script src="/js/php_closure/grezzo.min.js"></script>
+		<?php $this->Util->replace_php_closure_includes('themes/grezzo/php_closure/grezzo.php'); ?>
 	</head>
 	<?php $background_color = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'background_color'); ?>
 	<body class="<?php echo $background_color; ?>">

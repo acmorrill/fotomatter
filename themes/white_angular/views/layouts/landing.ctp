@@ -4,8 +4,8 @@
 		<title><?php echo $this->Theme->get_frontend_html_title(); ?></title>
 		<?php echo $this->Element('theme_global_includes'); ?>
 		<link rel="stylesheet" type="text/css" href="/css/white_angular_style.css" />
-		<script src="/js/php_closure/white_angular.min.js"></script>
-		<?php 
+		<?php $this->Util->replace_php_closure_includes('themes/white_angular/php_closure/white_angular.php'); ?>
+		<?php
 			$landing_page_slideshow_interval_time = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'landing_page_slideshow_interval_time'); 
 			$landing_page_slideshow_transition_time = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'landing_page_slideshow_transition_time'); 
 			$landing_page_slideshow_max_images = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'landing_page_slideshow_max_images'); 

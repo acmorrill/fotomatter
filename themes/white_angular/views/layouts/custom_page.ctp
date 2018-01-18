@@ -4,7 +4,7 @@
 		<title><?php echo $this->Theme->get_frontend_html_title(); ?></title>
 		<?php echo $this->Element('theme_global_includes'); ?>
 		<link rel="stylesheet" type="text/css" href="/css/white_angular_style.css" />
-		<script src="/js/php_closure/white_angular.min.js"></script>
+		<?php $this->Util->replace_php_closure_includes('themes/white_angular/php_closure/white_angular.php'); ?>
 	</head>
 	<body>
 <!--		<div style="width: 650px; height: 100px; z-index: 3000; position: fixed; outline: 1px solid orange;"></div>-->
