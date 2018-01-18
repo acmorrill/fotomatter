@@ -1194,20 +1194,13 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 
 				////////////////////////////////////////////////////////////////
 				// we now need to create the actually sized image for print
-				// START HERE TOMORROW
-
-				// -- maybe this should be done on a cron?
-				// -- copy the fullsize image into local
-				// -- resize the fullsize image (maybe add ability to upload fullsize and sharpened image for each possible size - https://trello.com/c/jtVmUbKD/164-add-ability-to-upload-sized-and-sharpened-images-that-are-fully-ready-to-print-to-autofulfillment-perhaps-this-could-be-done-bef)
-				// -- upload the resized image to cloudfiles
-				// --
 
 				$container_url = ClassRegistry::init("SiteSetting")->getImageContainerUrl();
 				if ($currAuthnetLineItem['extra_data']['Photo']['is_globally_shared'] == 1) {
 					$container_url = ClassRegistry::init("SiteSetting")->get_site_default_container_url();
 				}
 				$cdn_filename_fullsize_original_image = $container_url.$currAuthnetLineItem['extra_data']['Photo']['cdn-filename'];
-				$local_fullsize_temp_path = LOCAL_FULLSIZE_TEMP.DS.$currAuthnetLineItem['extra_data']['Photo']['cdn-filename'] . "_" . mt_rand(100000, 999999);
+				$local_fullsize_temp_path = LOCAL_FULLSIZE_TEMP.DS.mt_rand(100000, 999999).'_'.$currAuthnetLineItem['extra_data']['Photo']['cdn-filename'];
 
 				if (copy( // from cloud files to local
 						$cdn_filename_fullsize_original_image,
@@ -1215,6 +1208,12 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 					) !== true) {
 					$this->major_error('failed to copy fullsize image from cdn to local_fullsize_temp', compact('cdn_filename_fullsize_original_image',  'local_fullsize_temp_path'));
 				}
+
+				// START HERE TOMORROW
+				// -- maybe this should be done on a cron?
+				// -- resize the fullsize image (maybe add ability to upload fullsize and sharpened image for each possible size - https://trello.com/c/jtVmUbKD/164-add-ability-to-upload-sized-and-sharpened-images-that-are-fully-ready-to-print-to-autofulfillment-perhaps-this-could-be-done-bef)
+				// -- upload the resized image to cloudfiles
+				// --
 
 				$autoFulfillmentLineItems[] = $currAuthnetLineItem;
 			}
