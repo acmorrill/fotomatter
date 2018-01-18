@@ -4,8 +4,8 @@
 	<title><?php echo $curr_gallery['PhotoGallery']['display_name']; ?> &mdash; <?php echo $this->Theme->get_frontend_html_title(); ?></title>
 	<?php echo $this->Element('theme_global_includes'); ?>
 	<link rel="stylesheet" type="text/css" href="/css/white_slider_subone.css" />
-	
-	<script src="/js/php_closure/white_slider_subone.min.js"></script>
+
+	<?php $this->Util->replace_php_closure_includes('themes/white_slider/subthemes/white_slider_subone/php_closure/white_slider_subone.php'); ?>
 </head>
 <body>
 	<?php $max_gallery_images = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'max_gallery_images'); ?>

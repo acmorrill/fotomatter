@@ -5,8 +5,8 @@
 	<?php echo $this->Element('theme_global_includes'); ?>
 	<link rel="stylesheet" type="text/css" href="/css/white_slider_style.css" />
 	<link href='//fonts.googleapis.com/css?family=PT+Sans:400italic,400' rel='stylesheet' type='text/css' />
-	
-	<script src="/js/php_closure/white_slider.min.js"></script>
+
+	<?php $this->Util->replace_php_closure_includes('themes/white_slider/php_closure/white_slider.php'); ?>
 </head>
 <body>
 	<?php $max_gallery_images = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'max_gallery_images'); ?>

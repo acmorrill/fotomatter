@@ -5,8 +5,8 @@
 	<?php echo $this->Element('theme_global_includes'); ?>
 	<link rel="stylesheet" type="text/css" href="/css/white_slider_subone.css" />
 	<link href='//fonts.googleapis.com/css?family=PT+Sans:400italic,400' rel='stylesheet' type='text/css' />
-	
-	<script src="/js/php_closure/white_slider_subone.min.js"></script>
+
+	<?php $this->Util->replace_php_closure_includes('themes/white_slider/subthemes/white_slider_subone/php_closure/white_slider_subone.php'); ?>
 </head>
 <body>
 	<?php

@@ -22,8 +22,7 @@
 </script>
 
 
-
-<script type="text/javascript" src="/js/php_closure/fotomatter_admin.min.js"></script>
+<?php $this->Util->replace_php_closure_includes('php_closure' . DS . 'fotomatter_admin.php'); ?>
 
 <script type="text/javascript">
 	/****************************************************************************

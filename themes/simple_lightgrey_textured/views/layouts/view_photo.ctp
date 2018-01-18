@@ -3,7 +3,6 @@
 	<head>
 		<title><?php echo $this->Theme->get_frontend_html_title(); ?></title>
 		<?php echo $this->Element('theme_global_includes'); ?>
-		<!--<script type='text/javascript' src='/js/php_closure/simple_lightgrey_textured.min.js'></script>-->
 		<link href="/css/simple_lightgrey_textured_style.css" rel="stylesheet" type="text/css" />
 		<?php echo $this->Theme->get_theme_dynamic_background_style($theme_config); ?>
 		<?php $show_white_border = $this->Util->get_not_empty_theme_setting_or($theme_custom_settings, 'show_white_border', 'off'); ?>

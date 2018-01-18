@@ -206,12 +206,13 @@ class AppController extends Controller {
 		}
 		
 		// recompile php_closure js if a get param is set or debug is set to 2
-		if ((Configure::read('debug') > 0 && $this->app_env['dev'] === true) || isset($this->params['url']['php_closure']) || $this->Session->check('php_closure')) {
-			if (isset($this->params['url']['php_closure'])) {
-				$this->Session->write('php_closure', true);
-			}
-			$this->PhpClosure->recompile_javascript();
-		}
+		// turning this off for now cus php_closure sucks ballz
+//		if ((Configure::read('debug') > 0 && $this->app_env['dev'] === true) || isset($this->params['url']['php_closure']) || $this->Session->check('php_closure')) {
+//			if (isset($this->params['url']['php_closure'])) {
+//				$this->Session->write('php_closure', true);
+//			}
+//			$this->PhpClosure->recompile_javascript();
+//		}
 
 
 		// ajax redirect code

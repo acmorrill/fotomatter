@@ -165,4 +165,11 @@ class UtilHelper extends AppHelper {
 	public function preprint($data) {
 		print_r("<pre>" . print_r($data, true) . "</pre>");
 	}
+
+	public function replace_php_closure_includes($closure_phpfile_path_under_app) {
+		require(realpath(ROOT . DS . 'app'. DS . $closure_phpfile_path_under_app));
+		foreach($php_closure as $closure_key => $closure_value) {
+			print('<script type="text/javascript" src="' . DS . $closure_value . '"></script>');
+		}
+	}
 }
