@@ -1185,11 +1185,11 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 				// copy fullsize image into the correct location
 				$this->CloudFiles = $this->get_cloud_file();
 				$old_container = false;
-				$this->log($currAuthnetLineItem, 'currAuthnetLineItem');
 				if ($currAuthnetLineItem['extra_data']['Photo']['is_globally_shared'] == 1) {
 					$old_container = SITE_DEFAULT_CONTAINER_NAME;
 				}
 				$fullsize_autofulfillment_filename_fullpath = "autofulfillment/" . $currAuthnetLineItem['name'] . "/" . "fullsize_" . $currAuthnetLineItem['extra_data']['Photo']['cdn-filename'];
+				$resized_fullsize_autofulfillment_filename_fullpath = "autofulfillment/" . $currAuthnetLineItem['name'] . "/" . "resized_" . $currAuthnetLineItem['extra_data']['Photo']['cdn-filename'];
 				$this->CloudFiles->copy_object($currAuthnetLineItem['extra_data']['Photo']['cdn-filename'], $fullsize_autofulfillment_filename_fullpath, $old_container);
 
 				////////////////////////////////////////////////////////////////
@@ -1200,7 +1200,8 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 					$container_url = ClassRegistry::init("SiteSetting")->get_site_default_container_url();
 				}
 				$cdn_filename_fullsize_original_image = $container_url.$currAuthnetLineItem['extra_data']['Photo']['cdn-filename'];
-				$local_fullsize_temp_path = LOCAL_FULLSIZE_TEMP.DS.mt_rand(100000, 999999).'_'.$currAuthnetLineItem['extra_data']['Photo']['cdn-filename'];
+				$local_fullsize_temp_path = LOCAL_FULLSIZE_TEMP.DS.$currAuthnetLineItem['name'].'_fullsize_'.$currAuthnetLineItem['extra_data']['Photo']['cdn-filename'];
+				$local_resized_fullsize_temp_path = LOCAL_FULLSIZE_TEMP.DS.$currAuthnetLineItem['name'].'_resized_'.$currAuthnetLineItem['extra_data']['Photo']['cdn-filename'];
 
 				if (copy( // from cloud files to local
 						$cdn_filename_fullsize_original_image,
@@ -1209,11 +1210,21 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 					$this->major_error('failed to copy fullsize image from cdn to local_fullsize_temp', compact('cdn_filename_fullsize_original_image',  'local_fullsize_temp_path'));
 				}
 
+
+				$print_dpi = 300;
+				$max_width = $currAuthnetLineItem['extra_data']['CurrentPrintData']['short_side_inches'] * $print_dpi;
+				$max_height = null;
+				$enlarge = true;
+				$unsharp_amount = .2;
+				$crop = false;
+				$this->convert($local_fullsize_temp_path, $local_resized_fullsize_temp_path, $max_width, $max_height, $enlarge, $unsharp_amount, $crop);
+
 				// START HERE TOMORROW
 				// -- maybe this should be done on a cron?
-				// -- resize the fullsize image (maybe add ability to upload fullsize and sharpened image for each possible size - https://trello.com/c/jtVmUbKD/164-add-ability-to-upload-sized-and-sharpened-images-that-are-fully-ready-to-print-to-autofulfillment-perhaps-this-could-be-done-bef)
-				// -- upload the resized image to cloudfiles
-				// --
+				// -- upload the resized image to cloudfiles // upload did not work to cloudfiles with a very large image
+				// -- react to failures from the convert function
+
+				$this->CloudFiles->put_object($resized_fullsize_autofulfillment_filename_fullpath, $local_resized_fullsize_temp_path, 'image/jpeg');
 
 				$autoFulfillmentLineItems[] = $currAuthnetLineItem;
 			}
