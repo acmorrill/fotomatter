@@ -1217,14 +1217,31 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 				$enlarge = true;
 				$unsharp_amount = .2;
 				$crop = false;
-				$this->convert($local_fullsize_temp_path, $local_resized_fullsize_temp_path, $max_width, $max_height, $enlarge, $unsharp_amount, $crop);
+				$resize_fullsize_autofulfillment = $this->convert($local_fullsize_temp_path, $local_resized_fullsize_temp_path, $max_width, $max_height, $enlarge, $unsharp_amount, $crop);
+				if (!$resize_fullsize_autofulfillment) {
+					$this->major_error('failed to resize local image for autofulfillment upload', compact(
+						'local_resized_fullsize_temp_path',
+						'local_fullsize_temp_path',
+						'max_width',
+						'max_height',
+						'enlarge',
+						'unsharp_amount',
+						'crop'
+					));
+				}
 
 				// START HERE TOMORROW
 				// -- maybe this should be done on a cron?
-				// -- upload the resized image to cloudfiles // upload did not work to cloudfiles with a very large image
 				// -- react to failures from the convert function
+				// -- ups package failure with max size exceded - need to fix
 
-				$this->CloudFiles->put_object($resized_fullsize_autofulfillment_filename_fullpath, $local_resized_fullsize_temp_path, 'image/jpeg');
+				$upload_resized_file_result = $this->CloudFiles->put_object($resized_fullsize_autofulfillment_filename_fullpath, $local_resized_fullsize_temp_path, 'image/jpeg', false, $this);
+				if (!$upload_resized_file_result) {
+					$this->major_error('failed to upload resized image from local to cdn for autofulfillment', compact(
+						'resized_fullsize_autofulfillment_filename_fullpath',
+						'local_resized_fullsize_temp_path'
+					));
+				}
 
 				$autoFulfillmentLineItems[] = $currAuthnetLineItem;
 			}

@@ -202,10 +202,26 @@ class RackspaceObj extends Object {
 		curl_setopt($ch, CURLOPT_ENCODING, 'gzip,deflate');
 		curl_setopt($ch, CURLOPT_TIMEOUT, 30);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0); // no timeout for connection
+		curl_setopt($ch, CURLOPT_TIMEOUT, 600); // 10 minute timeout for request
 
 		$jsonResponse = curl_exec($ch);
-		$request_info = curl_getinfo($ch); /// full curl info about the request
-//		$this->log(compact('request_info', 'jsonResponse', 'httpHeaders', 'method', 'postData'), 'request_info');
+		if  ($jsonResponse === false) {
+			$request_info = curl_getinfo($ch); /// full curl info about the request
+			$curl_error = curl_error($ch);
+//			$this->major_error('rackspace_obj from app _makeApiCall failure', compact(
+//		'url',
+//				'request_info',
+//				'curl_error',
+//				'jsonResponse',
+//				'httpHeaders',
+//				'method',
+//				'postData'
+//			));
+			if (Configure::read('debug') > 0) {
+				$this->log(compact('request_info', 'curl_error','jsonResponse', 'httpHeaders', 'method', 'postData'), 'rackspace_obj_makeApiCall');
+			}
+		}
 		curl_close($ch);
 
 		if ($raw_output) {
