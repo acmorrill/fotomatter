@@ -59,6 +59,45 @@ class FotomatterBillingComponent extends FotomatterOverlordApi {
 //		$this->MajorError->major_error('Remote find from overlord returned with error.', compact('params', 'result_of_find'));
 //		return false;
 	}
+
+
+	/**
+	 * This is run on the cron only
+	 * - grab all finished orders and process them for sending to overlord and then send them
+	 */
+	public function process_authnet_orders_to_overlord() {
+		$this->AuthnetOrder = ClassRegistry::init('AuthnetOrder');
+
+
+		$authnet_orders = $this->AuthnetOrder->find('all', array(
+			'conditions' => array(
+				'AuthnetOrder.processing_to_overlord' => 0,
+				'AuthnetOrder.processed_to_overlord' => 0
+			),
+			'limit' => 3,
+			'order'=>'created desc',
+			'contain' => false
+		));
+		$this->log($authnet_orders, 'cron!');
+
+
+		foreach ($authnet_orders as $curr_authnet_order) {
+			$curr_authnet_order['AuthnetOrder']['processing_to_overlord'] = 1;
+			$this->AuthnetOrder->save($curr_authnet_order);
+		}
+
+		foreach ($authnet_orders as $curr_authnet_order) {
+			$parsed_authnet_order_data = $this->AuthnetOrder->get_parsed_autofulfillment_authnet_data_with_full_cdn_path($curr_authnet_order['AuthnetOrder']['id']);
+			$this->log($parsed_authnet_order_data, 'cron2');
+
+			// DREW TODO - START HERE TOMORROW - need to finish sending the data over to overlord below
+			// -- react to failures from the convert function
+			
+	//		$this->FotomatterBilling->push_autofulfillment_order_information($parsed_authnet_order_data);
+		}
+
+
+	}
 	
 	
 	public function get_industry_types() {

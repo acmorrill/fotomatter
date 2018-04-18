@@ -1047,10 +1047,10 @@ class EcommercesController extends AppController {
 
 			/***********************************************************************************************
 			 Checkout worked so now we need to prepare the fullsize image data for autofulfillment!
+			 * this is now done on a cron
 			***********************************************************************************************/
 			if ($charge_result_data) {
-				$parsed_authnet_order_data = $this->AuthnetOrder->get_parsed_autofulfillment_authnet_data_with_full_cdn_path($charge_result_data['order_save_db']['AuthnetOrder']['id']);
-				$this->FotomatterBilling->push_autofulfillment_order_information($parsed_authnet_order_data);
+				// DREW TODO - need to record a fail here
 			}
 
 			

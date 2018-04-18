@@ -1178,9 +1178,6 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 //				$currAuthnetLineItem['full_path'] = $this->Photo->get_full_path($currAuthnetLineItem['photo_id']);
 
 
-				////////////////////////////////////////////////////////////
-				// the below should be moved somewhere else
-
 				///////////////////////////////////////////////////////
 				// copy fullsize image into the correct location
 				$this->CloudFiles = $this->get_cloud_file();
@@ -1194,7 +1191,6 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 
 				////////////////////////////////////////////////////////////////
 				// we now need to create the actually sized image for print
-
 				$container_url = ClassRegistry::init("SiteSetting")->getImageContainerUrl();
 				if ($currAuthnetLineItem['extra_data']['Photo']['is_globally_shared'] == 1) {
 					$container_url = ClassRegistry::init("SiteSetting")->get_site_default_container_url();
@@ -1230,10 +1226,6 @@ class AuthnetOrder extends CakeAuthnetAppModel {
 					));
 				}
 
-				// START HERE TOMORROW
-				// -- maybe this should be done on a cron?
-				// -- react to failures from the convert function
-				// -- ups package failure with max size exceded - need to fix
 
 				$upload_resized_file_result = $this->CloudFiles->put_object($resized_fullsize_autofulfillment_filename_fullpath, $local_resized_fullsize_temp_path, 'image/jpeg', false, $this);
 				if (!$upload_resized_file_result) {

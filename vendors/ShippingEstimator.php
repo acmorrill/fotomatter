@@ -313,9 +313,20 @@ class ShippingEstimator {
 		$data['height'] = $height_inches;
 		$data['girth'] = (2 * $data['width']) + (2 * $data['height']);
 		$data['size'] = $data['length'] + $data['girth'];
+
+		// means we are trying to estimate a package that is bigger than the maximum size allowed so need to force it down for the estimate
+		if ($data['size'] > 164) {
+			$data['length'] = 83;
+			$data['width'] = 20;
+			$data['height'] = 20;
+			$data['girth'] = (2 * $data['width']) + (2 * $data['height']);
+			$data['size'] = $data['length'] + $data['girth'];
+		}
+
 		$data['cu_in'] = $data['length'] * $data['width'] * $data['height'];
 		$data['dimensional_weight'] = $data['cu_in'] / 166;
 		$data['weight_estimate'] = $data['cu_in'] * $lbs_per_cu_inch;
+
 		return $data;
 	}
 	
